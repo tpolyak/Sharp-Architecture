@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Northwind.Core" namespace="Northwind.Core">
+  <class name="Customer" table="Customers" lazy="false">
+    <id name="ID" column="CustomerID">
+      <generator class="assigned" />
+    </id>
+
+    <property name="CompanyName" column="CompanyName" />
+    <property name="ContactName" column="ContactName" />
+    <property name="Country" column="Country" />
+    <property name="Fax" column="Fax" />
+
+    <bag name="Orders" inverse="true">
+      <key column="CustomerID" />
+      <one-to-many class="Order" />
+    </bag>
+  </class>
+</hibernate-mapping>

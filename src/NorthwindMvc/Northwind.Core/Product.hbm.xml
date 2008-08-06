@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Northwind.Core" namespace="Northwind.Core">
+	<class name="Product" table="Products">
+		<id name="ID" column="ProductID" unsaved-value="0">
+			<generator class="identity" />
+		</id>
+
+		<property name="Name" column="ProductName" />
+
+		<many-to-one name="Supplier" column="SupplierID"
+		  class="Supplier" />
+		<many-to-one name="Category" column="CategoryID"
+		  class="Category" />
+	</class>
+</hibernate-mapping>
