@@ -1,1 +1,0 @@
-Building in release mode will output all output to ./release
