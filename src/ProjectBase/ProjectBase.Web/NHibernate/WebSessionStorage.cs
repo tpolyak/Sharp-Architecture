@@ -8,35 +8,36 @@ using ProjectBase.Data.NHibernate;
 
 namespace ProjectBase.Web.NHibernate
 {
-	public class WebSessionStorage : ISessionStorage
-	{
-		private const string CurrentSessionKey = "nhibernate.current_session";
+    public class WebSessionStorage : ISessionStorage
+    {
+        private const string CurrentSessionKey = "nhibernate.current_session";
 
-		public ISession Session {
-			get {
-				HttpContext context = HttpContext.Current;
-				ISession session = context.Items[CurrentSessionKey] as ISession;
-				
-                if (session == null) {
-					context.ApplicationInstance.EndRequest += new EventHandler(ApplicationInstance_EndRequest);
-				}
+        public WebSessionStorage(HttpApplication app) {
+            app.EndRequest += new EventHandler(Application_EndRequest);
+        }
 
+        public ISession Session {
+            get {
+                HttpContext context = HttpContext.Current;
+                ISession session = context.Items[CurrentSessionKey] as ISession;
                 return session;
-			}
-			set {
-				HttpContext context = HttpContext.Current;
-				context.Items[CurrentSessionKey] = value;
-			}
-		}
+            }
+            set {
+                HttpContext context = HttpContext.Current;
+                context.Items[CurrentSessionKey] = value;
+            }
+        }
 
-		void ApplicationInstance_EndRequest(object sender, EventArgs e) {
-			ISession session = Session;
+        void Application_EndRequest(object sender, EventArgs e) {
+            ISession session = Session;
 
             if (session != null) {
-				session.Close();
-				HttpContext context = HttpContext.Current;
-				context.Items.Remove(CurrentSessionKey);
-			}
-		}
-	}
+                session.Flush();
+                session.Close();
+                HttpContext context = HttpContext.Current;
+                context.Items.Remove(CurrentSessionKey);
+            }
+        }
+    } 
+
 }

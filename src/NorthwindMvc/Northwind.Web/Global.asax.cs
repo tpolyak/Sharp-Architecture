@@ -14,10 +14,15 @@ namespace Northwind.Web
     public class GlobalApplication : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e) {
-            NHibernateSession.Init(new WebSessionStorage(), null);
             ControllerBuilder.Current.SetControllerFactory(typeof(ControllerFactory));
 
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        public override void Init() {
+            base.Init();
+
+            NHibernateSession.Init(new WebSessionStorage(this), null);
         }
 
         public void RegisterRoutes(RouteCollection routes) {
