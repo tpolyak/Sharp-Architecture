@@ -32,7 +32,6 @@ namespace ProjectBase.Web.NHibernate
             ISession session = Session;
 
             if (session != null) {
-                session.Flush();
                 session.Close();
                 HttpContext context = HttpContext.Current;
                 context.Items.Remove(CurrentSessionKey);
