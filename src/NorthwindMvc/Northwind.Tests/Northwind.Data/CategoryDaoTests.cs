@@ -25,6 +25,13 @@ namespace Tests.Northwind.Data
             Assert.That(categories, Is.Not.Empty);
         }
 
+        [Test]
+        public void CanGetCategoryById() {
+            Category category = categoryDao.Load(1);
+
+            Assert.That(category.Name, Is.EqualTo("Beverages"));
+        }
+
         private IDao<Category> categoryDao = new GenericDao<Category>();
     }
 }
