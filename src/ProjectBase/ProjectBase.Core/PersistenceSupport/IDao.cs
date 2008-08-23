@@ -11,10 +11,8 @@ namespace ProjectBase.Core.PersistenceSupport
     /// object with a type other than int, such as string, then use 
     /// <see cref="IDaoWithTypedId" />.
     /// </summary>
-    [ConcreteType("ProjectBase.Data.NHibernate.GenericDao`1, ProjectBase.Data")]
     public interface IDao<T> : IDaoWithTypedId<T, int> { }
 
-    [ConcreteType("ProjectBase.Data.NHibernate.GenericDaoWithTypedId`2, ProjectBase.Data")]
     public interface IDaoWithTypedId<T, IdT>
     {
         T Load(IdT id);

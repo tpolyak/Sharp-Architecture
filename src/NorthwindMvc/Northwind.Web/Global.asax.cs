@@ -1,22 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MvcContrib.Ninject;
+using Northwind.Web.NinjectModules;
 using ProjectBase.Data.NHibernate;
 using ProjectBase.Web.NHibernate;
-using ProjectBase.Web;
 using System.Reflection;
+using ProjectBase.Web.Ninject;
 
 namespace Northwind.Web
 {
     public class GlobalApplication : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e) {
-            ControllerBuilder.Current.SetControllerFactory(typeof(ControllerFactory));
-
+            InitializeNinject();
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        private void InitializeNinject() {
+            NinjectKernel.Initialize(new ControllersAutoBindModule("Northwind.Controllers"), new DataModule());
+            ControllerBuilder.Current.SetControllerFactory(typeof(MvcContrib.Ninject.NinjectControllerFactory));
         }
 
         public override void Init() {

@@ -7,7 +7,6 @@ using ProjectBase.Core;
 
 namespace Northwind.Core.DataInterfaces
 {
-    [ConcreteType("Northwind.Data.SupplierDao, Northwind.Data")]
     public interface ISupplierDao : IDao<Supplier>
     {
         List<Supplier> LoadSuppliersBy(string productCategoryName);

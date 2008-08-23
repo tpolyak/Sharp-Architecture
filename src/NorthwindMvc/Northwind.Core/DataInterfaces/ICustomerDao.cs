@@ -7,7 +7,6 @@ using ProjectBase.Core;
 
 namespace Northwind.Core.DataInterfaces
 {
-    [ConcreteType("Northwind.Data.CustomerDao, Northwind.Data")]
     public interface ICustomerDao : IDaoWithTypedId<Customer, string>
     {
         List<Customer> FindByCountry(string countryName);

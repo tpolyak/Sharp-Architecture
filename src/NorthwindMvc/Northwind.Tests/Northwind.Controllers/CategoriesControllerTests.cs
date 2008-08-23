@@ -68,7 +68,7 @@ namespace Tests.Northwind.Controllers
         private IDao<Category> CreateMockCategoryDao() {
             MockRepository mocks = new MockRepository();
 
-            IDao<Category> mockedDao = mocks.CreateMock<IDao<Category>>();
+            IDao<Category> mockedDao = mocks.StrictMock<IDao<Category>>();
             Expect.Call(mockedDao.LoadAll())
                 .Return(CreateCategories());
             Expect.Call(mockedDao.Load(1)).IgnoreArguments()

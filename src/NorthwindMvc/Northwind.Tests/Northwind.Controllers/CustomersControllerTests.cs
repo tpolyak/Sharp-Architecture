@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using MvcContrib.TestHelper;
-using Northwind.Controllers;
 using ProjectBase.Core.PersistenceSupport;
 using Northwind.Core;
 using Rhino.Mocks;
@@ -39,7 +38,7 @@ namespace Tests.Northwind.Controllers
         public ICustomerDao CreateMockCustomerDao() {
             MockRepository mocks = new MockRepository();
 
-            ICustomerDao mockedCustomerDao = mocks.CreateMock<ICustomerDao>();
+            ICustomerDao mockedCustomerDao = mocks.StrictMock<ICustomerDao>();
             Expect.Call(mockedCustomerDao.FindByCountry(null)).IgnoreArguments()
                 .Return(CreateCustomers());
             mocks.Replay(mockedCustomerDao);
