@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConcreteTypeAttribute.cs" />
     <Compile Include="EnumDescription.cs" />
     <Compile Include="PersistenceSupport\IDao.cs" />
     <Compile Include="DesignByContract.cs" />
