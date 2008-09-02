@@ -17,12 +17,14 @@ namespace ProjectBase.Core.PersistenceSupport
     /// object with a type other than int, such as string, then use 
     /// <see cref="PersistentObjectwithTypedId" />.
     /// </summary>
-    public abstract class PersistentObject : PersistentObjectWithTypedId<int> {}
+    [Serializable]
+    public abstract class PersistentObject : PersistentObjectWithTypedId<int> { }
 
     /// <summary>
     /// For a discussion of this object, see 
     /// http://devlicio.us/blogs/billy_mccafferty/archive/2007/04/25/using-equals-gethashcode-effectively.aspx
     /// </summary>
+    [Serializable]
     [JsonObject(MemberSerialization.OptIn)]
     public abstract class PersistentObjectWithTypedId<IdT>
     {
