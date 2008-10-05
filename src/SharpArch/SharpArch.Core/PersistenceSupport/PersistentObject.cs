@@ -43,13 +43,17 @@ namespace SharpArch.Core.PersistenceSupport
         public override bool Equals(object obj) {
             PersistentObjectWithTypedId<IdT> compareTo = obj as PersistentObjectWithTypedId<IdT>;
 
-            return compareTo != null &&
-                   (HasSameNonDefaultIdAs(compareTo) ||
-                    // Since the IDs aren't the same, both of them must be transient to 
-                    // compare business value signatures.  If one is transient and the other is
-                    // a persisted entity, then they cannot be the same object.
-                    (((IsTransient()) && compareTo.IsTransient()) &&
-                     GetHashCode().Equals(compareTo.GetHashCode())));
+            if (compareTo == null)
+                return false;
+
+            if (HasSameNonDefaultIdAs(compareTo))
+                return true;
+
+            // Since the IDs aren't the same, both of them must be transient to 
+            // compare business value signatures.  If one is transient and the other is
+            // a persisted entity, then they cannot be the same object.
+            return IsTransient() && compareTo.IsTransient() &&
+                GetHashCode().Equals(compareTo.GetHashCode());
         }
 
         /// <summary>

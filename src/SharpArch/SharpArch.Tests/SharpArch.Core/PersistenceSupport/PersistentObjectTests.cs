@@ -80,5 +80,136 @@ namespace Tests.SharpArch.Core.PersistenceSupport
                 ID = assignedId;
             }
         }
+
+        #region Comprehensive unit tests provided by Brian Nicoloff
+
+        [SetUp]
+        public void Setup() {
+            _obj = new MockPersistentDomainObjectWithDefaultId {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = "testus...@mail.com"
+            };
+            _sameObj = new MockPersistentDomainObjectWithDefaultId {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = "testus...@mail.com"
+            };
+            _diffObj = new MockPersistentDomainObjectWithDefaultId {
+                FirstName = "FName2",
+                LastName = "LName2",
+                Email = "testuse...@mail.com"
+            };
+            _objWithId = new MockPersistentDomainObjectWithSetId {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = "testus...@mail.com"
+            };
+            _sameObjWithId = new MockPersistentDomainObjectWithSetId {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = "testus...@mail.com"
+            };
+            _diffObjWithId = new MockPersistentDomainObjectWithSetId {
+                FirstName = "FName2",
+                LastName = "LName2",
+                Email = "testuse...@mail.com"
+            };
+        }
+
+        [TearDown]
+        public void Teardown() {
+            _obj = null;
+            _sameObj = null;
+            _diffObj = null;
+        }
+
+        [Test]
+        public void DoesDefaultPersistentObjectEqualsOverrideWorkWhenNoIdIsAssigned() {
+            Assert.That(_obj.Equals(_sameObj));
+            Assert.That(!_obj.Equals(_diffObj));
+            Assert.That(!_obj.Equals(new MockPersistentDomainObjectWithDefaultId()));
+        }
+
+        [Test]
+        public void DoEqualDefaultPersistentObjectsWithNoIdsGenerateSameHashCodes() {
+            Assert.That(_obj.GetHashCode().Equals(_sameObj.GetHashCode()));
+        }
+
+        [Test]
+        public void DoEqualDefaultPersistentObjectsWithMatchingIdsGenerateDifferentHashCodes() {
+            Assert.That(!_obj.GetHashCode().Equals(_diffObj.GetHashCode()));
+        }
+
+        [Test]
+        public void DoDefaultPersistentObjectEqualsOverrideWorkWhenIdIsAssigned() {
+            _obj.SetAssignedIdTo(1);
+            _diffObj.SetAssignedIdTo(1);
+            Assert.That(_obj.Equals(_diffObj));
+        }
+
+        [Test]
+        public void DoesPersistentObjectEqualsOverrideWorkWhenNoIdIsAssigned() {
+            Assert.That(_objWithId.Equals(_sameObjWithId));
+            Assert.That(!_objWithId.Equals(_diffObjWithId));
+            Assert.That(!_objWithId.Equals(new MockPersistentDomainObjectWithSetId()));
+        }
+
+        [Test]
+        public void DoEqualPersistentObjectsWithNoIdsGenerateSameHashCodes() {
+            Assert.That(_objWithId.GetHashCode().Equals(_sameObjWithId.GetHashCode()));
+        }
+
+        [Test]
+        public void DoEqualPersistentObjectsWithMatchingIdsGenerateDifferentHashCodes() {
+            Assert.That(!_objWithId.GetHashCode().Equals(_diffObjWithId.GetHashCode()));
+        }
+
+        [Test]
+        public void DoPersistentObjectEqualsOverrideWorkWhenIdIsAssigned() {
+            _objWithId.SetAssignedIdTo("1");
+            _diffObjWithId.SetAssignedIdTo("1");
+            Assert.That(_objWithId.Equals(_diffObjWithId));
+        }
+
+        private class MockPersistentDomainObjectWithSetId :
+            MockPersistentDomainObjectBase<string>, IHasAssignedId<string>
+        {
+            public void SetAssignedIdTo(string assignedId) {
+                ID = assignedId;
+            }
+        }
+
+        private class MockPersistentDomainObjectWithDefaultId :
+            MockPersistentDomainObjectBase, IHasAssignedId<int>
+        {
+            public void SetAssignedIdTo(int assignedId) {
+                ID = assignedId;
+            }
+        }
+
+        private class MockPersistentDomainObjectBase :
+            MockPersistentDomainObjectBase<int> { }
+
+        public class MockPersistentDomainObjectBase<T> :
+            PersistentObjectWithTypedId<T>
+        {
+            [DomainSignature]
+            public string FirstName { get; set; }
+
+            [DomainSignature]
+            public string LastName { get; set; }
+
+            public string Email { get; set; }
+        }
+
+        private MockPersistentDomainObjectWithDefaultId _obj;
+        private MockPersistentDomainObjectWithDefaultId _sameObj;
+        private MockPersistentDomainObjectWithDefaultId _diffObj;
+        private MockPersistentDomainObjectWithSetId _objWithId;
+        private MockPersistentDomainObjectWithSetId _sameObjWithId;
+        private MockPersistentDomainObjectWithSetId _diffObjWithId;
+
+        #endregion
     }
 }
