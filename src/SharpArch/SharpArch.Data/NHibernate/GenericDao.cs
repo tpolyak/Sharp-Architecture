@@ -3,6 +3,7 @@ using NHibernate;
 using System.Reflection;
 using SharpArch.Core;
 using SharpArch.Core.PersistenceSupport;
+using NHibernate.Criterion;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -57,6 +58,40 @@ namespace SharpArch.Data.NHibernate
 			ICriteria criteria = Session.CreateCriteria(typeof(T));
             return criteria.List<T>() as List<T>;
 		}
+
+        /// <summary>
+        /// Looks for zero or more instances using the example provided.
+        /// </summary>
+        public List<T> GetByExample(T exampleInstance, params string[] propertiesToExclude) {
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+            Example example = Example.Create(exampleInstance);
+
+            foreach (string propertyToExclude in propertiesToExclude) {
+                example.ExcludeProperty(propertyToExclude);
+            }
+
+            criteria.Add(example);
+
+            return criteria.List<T>() as List<T>;
+        }
+
+        /// <summary>
+        /// Looks for a single instance using the example provided.
+        /// </summary>
+        /// <exception cref="NonUniqueResultException" />
+        public T GetUniqueByExample(T exampleInstance, params string[] propertiesToExclude) {
+            List<T> foundList = GetByExample(exampleInstance, propertiesToExclude);
+
+            if (foundList.Count > 1) {
+                throw new NonUniqueResultException(foundList.Count);
+            }
+
+            if (foundList.Count > 0) {
+                return foundList[0];
+            }
+
+            return default(T);
+        }
 
         /// <summary>
         /// For entities that have assigned ID's, you must explicitly call Save to add a new one.
