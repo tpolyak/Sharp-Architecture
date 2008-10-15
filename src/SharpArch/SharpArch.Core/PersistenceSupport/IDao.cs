@@ -17,6 +17,8 @@ namespace SharpArch.Core.PersistenceSupport
         T Load(IdT id);
         T Load(IdT id, Enums.LockMode lockMode);
         List<T> LoadAll();
+        List<T> GetByExample(T exampleInstance, params string[] propertiesToExclude);
+        T GetUniqueByExample(T exampleInstance, params string[] propertiesToExclude);
         T Save(T entity);
         T Update(T entity);
         T SaveOrUpdate(T entity);
