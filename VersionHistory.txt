@@ -1,0 +1,16 @@
+Pending on Trunk
+----------------------------------------------
+
+Roadmap for next Release:
+* Add examaple usage of NHibernate.Validator along with unit tests of capabilities
+
+New Capabilities:
+* Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
+
+Breaking Changes:
+* None
+
+0.8.1 - MVC Preview 5, NH 2.0.1 and Ninject 1.0
+----------------------------------------------
+
+Baseline history record
