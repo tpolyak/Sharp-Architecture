@@ -1,5 +1,7 @@
 ﻿using NHibernate;
 using NHibernate.Cfg;
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Cfg;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -15,19 +17,40 @@ namespace SharpArch.Data.NHibernate
 
 	public static class NHibernateSession
 	{
-		public static void Init(ISessionStorage storage, string cfgFile) {
-			Configuration cfg = new Configuration();
+        public static void Init(ISessionStorage storage, string cfgFile) {
+            Init(storage, cfgFile, null);
+        }
 
-            if (cfgFile == null)
-				cfg = cfg.Configure();
-			else
-				cfg = cfg.Configure(cfgFile);
+        public static void Init(ISessionStorage storage, string cfgFile, string validatorCfgFile) {
+            Configuration cfg = ConfigureNHibernate(cfgFile);
+            ConfigureNHibernateValidator(cfg, validatorCfgFile);
 
-			SessionFactory = cfg.BuildSessionFactory();
-			Storage = storage;
-		}
+ 			SessionFactory = cfg.BuildSessionFactory();
+ 			Storage = storage;
+ 		}
 
-		public static ISessionFactory SessionFactory { get; set; }
+        private static Configuration ConfigureNHibernate(string cfgFile) {
+            Configuration cfg = new Configuration();
+
+            if (string.IsNullOrEmpty(cfgFile))
+                return cfg.Configure();
+            else
+                return cfg.Configure(cfgFile);
+        }
+
+        private static void ConfigureNHibernateValidator(Configuration cfg, string validatorCfgFile) {
+            ValidatorEngine engine = new ValidatorEngine();
+
+            if (string.IsNullOrEmpty(validatorCfgFile))
+                engine.Configure();
+            else
+                engine.Configure(validatorCfgFile);
+
+            // Register validation listeners with the current NHib configuration
+            ValidatorInitializer.Initialize(cfg, engine);
+        }
+
+        public static ISessionFactory SessionFactory { get; set; }
 		public static ISessionStorage Storage { get; set; }
 
 		public static ISession Current {
