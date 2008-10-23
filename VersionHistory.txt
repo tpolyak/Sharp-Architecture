@@ -1,14 +1,27 @@
+Roadmap for next Release
+----------------------------------------------
+
+* Add examaple usage of NHibernate.Validator along with unit tests of capabilities
+
 Pending on Trunk
 ----------------------------------------------
 
-Roadmap for next Release:
-* Add examaple usage of NHibernate.Validator along with unit tests of capabilities
-
-New Capabilities:
-* Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
-
 Breaking Changes:
 * None
+
+Modifications to SharpArch:
+* Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
+
+Modifications to Northwind sample:
+* Added a many-to-many example; specifically:
+  - Northwind.Core
+    * Employee has a many-to-many relationship to Territory objects.
+    * Territory has a many-to-many relationship back to Employee objects.  This is the inverse side of the relationship.
+    * Region has a one-to-many relationship to Territory; the relationship is defined in the Territory HBM.
+
+  - Northwind.Tests
+    * Northwind.Core/RegionTests.cs, TerritoryTests.cs, and EmployeeTests.cs test the domain model of the new classes.
+    * Northwind.Data/EmployeeDaoTests.cs and TerritoryDaoTests.cs test the many-to-many relationships in the database along with the many-to-one from Territory to Region.
 
 0.8.1 - MVC Preview 5, NH 2.0.1 and Ninject 1.0
 ----------------------------------------------
