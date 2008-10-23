@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Northwind.Core" namespace="Northwind.Core">
+	<!-- This seems to be a reference type in Northwind, so let's make it immutable -->
+	<class name="Region" table="Region" mutable="false">
+		<id name="ID" column="RegionID" unsaved-value="0">
+			<generator class="increment" />
+		</id>
+
+		<property name="Description" column="RegionDescription" />
+	</class>
+</hibernate-mapping>

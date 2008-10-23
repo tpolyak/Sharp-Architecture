@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
 using Northwind.Data;
@@ -11,6 +7,8 @@ using SharpArch.Core;
 using NUnit.Framework.SyntaxHelpers;
 using Northwind.Core.DataInterfaces;
 using SharpArch.Data.NHibernate;
+using System.Collections.Generic;
+using System;
 
 namespace Tests.Northwind.Data
 {

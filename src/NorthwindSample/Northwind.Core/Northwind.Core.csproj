@@ -50,11 +50,14 @@
     <Compile Include="Customer.cs" />
     <Compile Include="DataInterfaces\ICustomerDao.cs" />
     <Compile Include="DataInterfaces\ISupplierDao.cs" />
+    <Compile Include="Employee.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrdersExtensions.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Region.cs" />
     <Compile Include="Supplier.cs" />
+    <Compile Include="Territory.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Customer.hbm.xml" />
@@ -68,6 +71,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Product.hbm.xml" />
     <EmbeddedResource Include="Supplier.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Region.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Territory.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Employee.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

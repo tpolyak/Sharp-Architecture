@@ -84,11 +84,17 @@
     <Compile Include="Northwind.Controllers\CategoriesControllerTests.cs" />
     <Compile Include="Northwind.Controllers\CustomersControllerTests.cs" />
     <Compile Include="Northwind.Core\CategoryTests.cs" />
+    <Compile Include="Northwind.Core\EmployeeTests.cs" />
     <Compile Include="Northwind.Core\OrdersTests.cs" />
     <Compile Include="Northwind.Core\ProductTests.cs" />
+    <Compile Include="Northwind.Core\RegionTests.cs" />
+    <Compile Include="Northwind.Core\RegionWithPublicConstructor.cs" />
     <Compile Include="Northwind.Core\SupplierTests.cs" />
+    <Compile Include="Northwind.Core\TerritoryTests.cs" />
     <Compile Include="Northwind.Data\CategoryDaoTests.cs" />
+    <Compile Include="Northwind.Data\EmployeeDaoTests.cs" />
     <Compile Include="Northwind.Data\SupplierDaoTests.cs" />
+    <Compile Include="Northwind.Data\TerritoryDaoTests.cs" />
     <Compile Include="PersistentObjectIdSetter.cs" />
     <Compile Include="Northwind.Core\CustomerTests.cs" />
     <Compile Include="Northwind.Data\CustomerDaoTests.cs" />

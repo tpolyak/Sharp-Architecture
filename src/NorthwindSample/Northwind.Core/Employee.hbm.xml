@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Northwind.Core" namespace="Northwind.Core">
+	<class name="Employee" table="Employees">
+		<id name="ID" column="EmployeeID" unsaved-value="0">
+			<generator class="identity" />
+		</id>
+
+		<!-- No need to specify column when it's the same as the property name -->
+		<property name="LastName" />
+		<property name="FirstName" />
+
+		<bag name="Territories" table="EmployeeTerritories">
+			<key column="EmployeeID" />
+			<many-to-many class="Territory" column="TerritoryID" />
+		</bag>
+	</class>
+</hibernate-mapping>
