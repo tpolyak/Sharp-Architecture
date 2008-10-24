@@ -11,6 +11,7 @@ namespace SharpArch.Core
     /// Facilitates indicating which property(s) of a class describe the unique signature of a 
     /// business object.  See PersistentObject.GetDomainObjectSignature for how this is leveraged.
     /// </summary>
+    [Serializable]
     public class DomainSignatureAttribute : Attribute { }
 
     /// <summary>
@@ -20,6 +21,7 @@ namespace SharpArch.Core
     /// For a discussion of this object, see 
     /// http://devlicio.us/blogs/billy_mccafferty/archive/2007/04/25/using-equals-gethashcode-effectively.aspx
     /// </summary>
+    [Serializable]
     public abstract class DomainSignatureComparable
     {
         public override bool Equals(object obj) {
