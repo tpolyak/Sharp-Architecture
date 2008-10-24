@@ -11,6 +11,7 @@ Breaking Changes:
 
 Modifications to SharpArch:
 * Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
+* Marked both DomainSignatureAttribute and DomainSignatureComparable as Serializable (thanks athmer!)
 
 Modifications to Northwind sample:
 * Added a many-to-many example; specifically:
