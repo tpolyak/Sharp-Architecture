@@ -11,6 +11,7 @@ using SharpArch.Web.NHibernate;
 
 namespace Northwind.Controllers
 {
+    [HandleError]
     public class CustomersController : Controller
     {
         public CustomersController(ICustomerDao customerDao) {

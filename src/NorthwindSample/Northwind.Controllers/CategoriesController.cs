@@ -10,6 +10,7 @@ using SharpArch.Web.NHibernate;
 
 namespace Northwind.Controllers
 {
+    [HandleError]
     public class CategoriesController : Controller
     {
         public CategoriesController(IDao<Category> categoryDao) {
