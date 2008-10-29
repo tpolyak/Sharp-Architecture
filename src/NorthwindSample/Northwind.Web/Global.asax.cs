@@ -11,9 +11,12 @@ using SharpArch.Web.Ninject;
 
 namespace Northwind.Web
 {
-    public class GlobalApplication : HttpApplication
+    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    // visit http://go.microsoft.com/?LinkId=9394801
+
+    public class MvcApplication : System.Web.HttpApplication
     {
-        protected void Application_Start(object sender, EventArgs e) {
+        protected void Application_Start() {
             InitializeNinject();
             RegisterRoutes(RouteTable.Routes);
         }
@@ -29,12 +32,12 @@ namespace Northwind.Web
             NHibernateSession.Init(new WebSessionStorage(this), null);
         }
 
-        public void RegisterRoutes(RouteCollection routes) {
+        public static void RegisterRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
                 "Default",                                              // Route name
-                "{controller}.mvc/{action}/{id}",                       // URL with parameters
+                "{controller}/{action}/{id}",                           // URL with parameters
                 new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
             );
         }

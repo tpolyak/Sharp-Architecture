@@ -38,14 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\MvcContrib.Ninject.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=2.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solution Items\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Conditions, Version=1.0.0.82, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Solution Items\Ninject.Conditions.dll</HintPath>
-    </Reference>
     <Reference Include="Ninject.Core, Version=1.0.0.82, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\Ninject.Core.dll</HintPath>
@@ -69,12 +61,6 @@
     </Reference>
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.ServiceModel">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -101,6 +87,10 @@
     <Reference Include="System.Web.Mobile" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -148,6 +138,13 @@
     <Compile Include="Views\Home\Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Views\Shared\Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Shared\Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Views\Shared\Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -164,9 +161,16 @@
     <Content Include="Views\Categories\List.aspx" />
     <Content Include="Views\Customers\Create.aspx" />
     <Content Include="Views\Customers\List.aspx" />
+    <Content Include="Views\Home\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
-    <Content Include="Views\Home\Index.aspx" />
+    <Content Include="Scripts\jquery-1.2.6.js" />
+    <Content Include="Scripts\jquery-1.2.6.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
@@ -182,10 +186,6 @@
     <ProjectReference Include="..\Northwind.Data\Northwind.Data.csproj">
       <Project>{AAB1B13C-653C-4764-9360-4DA67F4CC959}</Project>
       <Name>Northwind.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Northwind.Wcf\Northwind.Wcf.csproj">
-      <Project>{D772060C-5271-40D3-89E6-DFCFF6B0D6B8}</Project>
-      <Name>Northwind.Wcf</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -203,7 +203,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1660</DevelopmentServerPort>
+          <DevelopmentServerPort>1062</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
