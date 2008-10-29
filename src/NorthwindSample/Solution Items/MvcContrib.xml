@@ -72,6 +72,61 @@
             The object to be serialized to XML.
             </summary>
         </member>
+        <member name="F:MvcContrib.Attributes.RequestStore.QueryString">
+            <summary>
+             Sets paramter values from Request.QueryString
+            </summary>
+        </member>
+        <member name="F:MvcContrib.Attributes.RequestStore.Form">
+            <summary>
+             Sets parameter values from Request.Form
+            </summary>
+        </member>
+        <member name="F:MvcContrib.Attributes.RequestStore.Params">
+            <summary>
+             Sets parameter values from all of the above locations in the above order
+             If a parameter value is found in more than one location, they will be returned in comma separated form in the above order
+             e.g. QueryString = 4, Form = 6 "4,6"
+            </summary>
+        </member>
+        <member name="F:MvcContrib.Attributes.RequestStore.TempData">
+            <summary>
+             Sets parameter values from Controller.TempData only
+            </summary>
+        </member>
+        <member name="F:MvcContrib.Attributes.RequestStore.All">
+            <summary>
+             Sets parameter values from all fo the above locations in the above order
+             If a parameter value is found in more than one location, they will be returned in comma separated form in the above order
+             e.g. QueryString = 4, Form = 6, TempData = 2, RouteData = 1 "4,6,3,2"
+            </summary>
+        </member>
+        <member name="T:MvcContrib.Attributes.AcceptGetAttribute">
+            <summary>
+            Ensures that an action is not executed unless it is accessed through an HTTP GET.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Attributes.AcceptGetAttribute.IsValidForRequest(System.Web.Mvc.ControllerContext,System.Reflection.MethodInfo)">
+            <summary>
+            Ensures that the action decorated by this attribute is only valid if the HTTP method is a GET.
+            </summary>
+            <param name="controllerContext">The current controller context</param>
+            <param name="methodInfo">The current action method</param>
+            <returns>True if the action is being accessed via an HTTP GET</returns>
+        </member>
+        <member name="T:MvcContrib.Attributes.AcceptPostAttribute">
+            <summary>
+            Ensures that an action is not executed unless it is accessed through an HTTP POST.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Attributes.AcceptPostAttribute.IsValidForRequest(System.Web.Mvc.ControllerContext,System.Reflection.MethodInfo)">
+            <summary>
+            Ensures that the action decorated by this attribute is only valid if the HTTP method is a POST.
+            </summary>
+            <param name="controllerContext">The current controller context</param>
+            <param name="methodInfo">The current action method</param>
+            <returns>True if the action is being accessed via an HTTP POST</returns>
+        </member>
         <member name="T:MvcContrib.Attributes.DefaultActionAttribute">
             <summary>
             The action marked with this attribute will be called if the specified action cannot be found.
@@ -86,18 +141,73 @@
             ]]>
             </example>
         </member>
+        <member name="T:MvcContrib.Binders.SubControllerBinder">
+            <summary>
+             Binder that creates SubControllers that are needed for an action method
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Binders.SubControllerBinder.CreateSubController(System.Type)">
+            <summary>
+             Creates the subcontroller given its type.  Override this method to wire into an IoC container
+            </summary>
+            <param name="destinationType">The type of subcontroller</param>
+            <returns>an object instance</returns>
+        </member>
+        <member name="T:MvcContrib.EnumerableExtensions.EnumerableExtensions">
+            <summary>
+            Extension methods on IEnumerable.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.EnumerableExtensions.EnumerableExtensions.ToSelectList``2(System.Collections.Generic.IEnumerable{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            Converts an enumerable into a SelectList.
+            </summary>
+            <typeparam name="T">Type of item in the collection</typeparam>
+            <typeparam name="TValueField">Type of the value field</typeparam>
+            <param name="items">Items to convert into a select list</param>
+            <param name="valueFieldSelector">Expression used to identify the data value field</param>
+            <param name="textFieldSelector">Expression used to identify the data text field</param>
+            <returns>A populated SelectList</returns>
+        </member>
+        <member name="M:MvcContrib.EnumerableExtensions.EnumerableExtensions.ToSelectList``2(System.Collections.Generic.IEnumerable{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Linq.Expressions.Expression{System.Func{``0,System.Object}},``1)">
+            <summary>
+            Converts an enumerable into a SelectList.
+            </summary>
+            <typeparam name="T">Type of item in the collection</typeparam>
+            <typeparam name="TValueField">Type of the value field</typeparam>
+            <param name="items">Items to convert into a select list</param>
+            <param name="valueFieldSelector">Expression used to identify the data value field</param>
+            <param name="textFieldSelector">Expression used to identify the data text field</param>
+            <param name="selectedValue">The selected value</param>
+            <returns>A populated SelectList</returns>
+        </member>
+        <member name="M:MvcContrib.EnumerableExtensions.EnumerableExtensions.ToSelectList``2(System.Collections.Generic.IEnumerable{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Func{``0,System.Boolean})">
+            <summary>
+            Converts an enumerable into a SelectList.
+            </summary>
+            <typeparam name="T">Type of item in the collection</typeparam>
+            <typeparam name="TValueField">Type of the value field</typeparam>
+            <param name="items">Items to convert into a select list</param>
+            <param name="valueFieldSelector">Expression used to identify the data value field</param>
+            <param name="textFieldSelector">Expression used to identify the data text field</param>
+            <param name="selectedValueSelector">A predicate that can be used to specify which values should be selected</param>
+            <returns>A populated SelectList</returns>
+        </member>
         <member name="T:MvcContrib.Filters.LayoutAttribute">
             <summary>
             Decorates a controller class to denote the default layout for all actions on the controller.
             Use:  define a layout at the class level (without an extension) and omit the layout from each return View() call.
-            An explicit layout specified in the return View() will override the layout attribute.
+            This will override the masterName selection from your individual actions.  To override this attribute at the action level, 
+            apply the attribute to that action.
+            
+            To specify no layout, use [Layout(null)] or [Layout("")].
             </summary>
         </member>
         <member name="M:MvcContrib.Filters.LayoutAttribute.#ctor(System.String)">
             <summary>
             Creates a LayoutAttribute.
             </summary>
-            <param name="layout">The default layotu to use.  Do not specify the extension.</param>
+            <param name="layout">The default layout to use.  Do not specify the extension.</param>
         </member>
         <member name="M:MvcContrib.Filters.LayoutAttribute.OnResultExecuting(System.Web.Mvc.ResultExecutingContext)">
             <summary>
@@ -108,6 +218,46 @@
         <member name="P:MvcContrib.Filters.LayoutAttribute.Layout">
             <summary>
             The default layout.  Do not specify the extension.
+            </summary>
+        </member>
+        <member name="T:MvcContrib.Filters.ModelStateToTempDataAttribute">
+            <summary>
+            When a RedirectToRouteResult is returned from an action, anything in the ViewData.ModelState dictionary will be copied into TempData.
+            When a ViewResult is returned from an action, any ModelState entries that were previously copied to TempData will be copied back to the ModelState dictionary.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Filters.ModelStateToTempDataAttribute.OnActionExecuted(System.Web.Mvc.ActionExecutedContext)">
+            <summary>
+            When a RedirectToRouteResult is returned from an action, anything in the ViewData.ModelState dictionary will be copied into TempData.
+            When a ViewResult is returned from an action, any ModelState entries that were previously copied to TempData will be copied back to the ModelState dictionary.
+            </summary>
+            <param name="filterContext"></param>
+        </member>
+        <member name="T:MvcContrib.Filters.ModelStateToTempDataAttribute.ModelStateSerializable">
+            <summary>
+            Temporarily stores ModelStat entries so they can be serialized to SessionState.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Filters.ModelStateToTempDataAttribute.ModelStateSerializable.#ctor(System.Web.Mvc.ModelState)">
+            <summary>
+            Creates a new instance of the ModelStateSerializable class.
+            </summary>
+            <param name="value">The ModelState entry to wrap</param>
+        </member>
+        <member name="M:MvcContrib.Filters.ModelStateToTempDataAttribute.ModelStateSerializable.ToModelState">
+            <summary>
+            Converts back to a ModelState instance.
+            </summary>
+            <returns>A reconstructed ModelState instance</returns>
+        </member>
+        <member name="P:MvcContrib.Filters.ModelStateToTempDataAttribute.ModelStateSerializable.Errors">
+            <summary>
+            The errors from the ModelCollection
+            </summary>
+        </member>
+        <member name="P:MvcContrib.Filters.ModelStateToTempDataAttribute.ModelStateSerializable.AttemptedValue">
+            <summary>
+            The attempted value
             </summary>
         </member>
         <member name="T:MvcContrib.Filters.RescueAttribute">
@@ -357,6 +507,28 @@
             or regular expression does not match RouteData key value
             </summary>
         </member>
+        <member name="T:MvcContrib.Filters.SubControllerActionToViewDataAttribute">
+            <summary>
+             Takes the System.Action from GetResult of subcontrollers and adds it to ViewData using the key that is equal to the action parameter name for the subcontroller.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Filters.SubControllerActionToViewDataAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
+            <summary>
+             Adds to ViewData before the Action executes.
+            </summary>
+            <param name="filterContext"></param>
+        </member>
+        <member name="T:MvcContrib.Filters.TempDataToViewDataAttribute">
+            <summary>
+            Action filter that copies the contents of TempData into ViewData if a ViewResult is returned by a controller action.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Filters.TempDataToViewDataAttribute.OnActionExecuted(System.Web.Mvc.ActionExecutedContext)">
+            <summary>
+            If a ViewResult is returned by a Controller Action, the contents of the TempData dictionary is copied to the ViewData dictionary.
+            </summary>
+            <param name="filterContext">The ActionExecutedContext</param>
+        </member>
         <member name="T:MvcContrib.Hash">
             <summary>
             Untyped, case insensitive dictionary that can be initialised using lambdas.
@@ -393,6 +565,36 @@
             <param name="dict"></param>
             <param name="hash">The key / value pairs to add to the dictionary.</param>
             <returns>The the dictionary.</returns>
+        </member>
+        <member name="M:MvcContrib.DictionaryExtensions.AnonymousObjectToCaseSensitiveDictionary(System.Object)">
+            <summary>
+            Takes an anonymous object and converts it to a <see cref="T:System.Collections.Generic.Dictionary`2"/>
+            </summary>
+            <param name="objectToConvert">The object to convert</param>
+            <returns>A generic dictionary</returns>
+        </member>
+        <member name="T:MvcContrib.ISubController">
+            <summary>
+             Interface that represents a subcontroller
+            </summary>
+        </member>
+        <member name="M:MvcContrib.ISubController.GetResult(System.Web.Mvc.ControllerBase)">
+            <summary>
+             Gets and action that can later be invoked to produce the behavior of the subcontroller
+            </summary>
+            <param name="parentController">The controller depending on the subcontroller.  The subcontroller uses the ControllerContext of the parent to create a new RequestContext.</param>
+            <returns>System.Action</returns>
+        </member>
+        <member name="T:MvcContrib.ISubController`1">
+            <summary>
+             SubController with typed Model property for parameter passing from a parent controller.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:MvcContrib.ISubController`1.Model">
+            <summary>
+             Gets and sets a model object that matches the generic type.
+            </summary>
         </member>
         <member name="T:MvcContrib.Pagination.IPagination">
             <summary>
@@ -516,6 +718,57 @@
             Route handler that ensures all requestes are routed to the DebugHttpHandler.
             </summary>
         </member>
+        <member name="T:MvcContrib.Routing.MvcRoute">
+            <summary>
+             Use this class to define url->controller action mappings
+            </summary>
+        </member>
+        <member name="M:MvcContrib.Routing.MvcRoute.MappUrl(System.String)">
+            <summary>
+             Fluent interface start method
+            </summary>
+            <param name="url">The url pattern</param>
+        </member>
+        <member name="M:MvcContrib.Routing.MvcRoute.ToDefaultAction``1(System.Linq.Expressions.Expression{System.Func{``0,System.Web.Mvc.ActionResult}},System.Object)">
+            <summary>
+             Sets the default controller, action and parameters via a lambda method, you can also 
+             specify additional defaults
+            </summary>
+            <param name="action">default action</param>
+            <param name="defaults">other default parameters</param>
+        </member>
+        <member name="M:MvcContrib.Routing.MvcRoute.ToDefaultAction``1(System.Linq.Expressions.Expression{System.Func{``0,System.Web.Mvc.ActionResult}})">
+            <summary>
+             Sets the default controller, action and parameters via a lambda method
+            </summary>
+            <param name="action"></param>
+        </member>
+        <member name="M:MvcContrib.Routing.MvcRoute.WithConstraints(System.Object)">
+            <summary>
+            Add constraints to this route
+            </summary>
+            <param name="constraints">The constraints defined as an anonymous object</param>
+        </member>
+        <member name="M:MvcContrib.Routing.MvcRoute.WithDefaults(System.Object)">
+            <summary>
+            Add defaults to this route, if you use the ToDefaultAction 
+            method the controller and action default will be overwritten.
+            </summary>
+            <param name="defaults">The defaults defined as an anonymous object</param>
+        </member>
+        <member name="M:MvcContrib.Routing.MvcRoute.WithNamespaces(System.String[])">
+            <summary>
+             Sets the list of namespaces to look for controllers
+            </summary>
+            <param name="namespaces">An array of namespaces</param>
+        </member>
+        <member name="M:MvcContrib.Routing.MvcRoute.AddWithName(System.String,System.Web.Routing.RouteCollection)">
+            <summary>
+             Add this route to the route collection with the specified name
+            </summary>
+            <param name="routeName">The name of the route</param>
+            <param name="routes">The route collection to add the route to</param>
+        </member>
         <member name="T:MvcContrib.Routing.RouteDebugger">
             <summary>
             Helper class for switching the default route handler to the debug route handler.
@@ -537,7 +790,7 @@
             Metadata about a controller action
             </summary>
         </member>
-        <member name="M:MvcContrib.MetaData.ActionMetaData.#ctor(System.Reflection.MethodInfo,System.Web.Mvc.ActionSelectionAttribute[],System.Web.Mvc.FilterInfo)">
+        <member name="M:MvcContrib.MetaData.ActionMetaData.#ctor(System.Reflection.MethodInfo,System.Web.Mvc.ActionMethodSelectorAttribute[],System.Web.Mvc.FilterInfo)">
             <summary>
             Creates a new instance of the ActionMetaData class
             </summary>
@@ -578,16 +831,16 @@
             Metadata about a controller action with an alias
             </summary>
         </member>
-        <member name="M:MvcContrib.MetaData.AliasedActionMetaData.#ctor(System.Reflection.MethodInfo,System.Web.Mvc.FilterInfo,System.Web.Mvc.ActionSelectionAttribute[],System.Web.Mvc.ActionNameAttribute[])">
+        <member name="M:MvcContrib.MetaData.AliasedActionMetaData.#ctor(System.Reflection.MethodInfo,System.Web.Mvc.FilterInfo,System.Web.Mvc.ActionMethodSelectorAttribute[],System.Web.Mvc.ActionNameAttribute)">
             <summary>
             Creates a new instance of the AliasedActionMetaData class
             </summary>
             <param name="methodInfo">The Methodinfo that represents the action method</param>
             <param name="filters">Any filters defined on the action</param>
             <param name="selectionAttributes">Any ActionSelection attributes defined on the action</param>
-            <param name="actionNameAttributes">The ActionNameAttributes that supply aliasing info for the action</param>
+            <param name="actionNameAttribute">The ActionNameAttributes that supply aliasing info for the action</param>
         </member>
-        <member name="P:MvcContrib.MetaData.AliasedActionMetaData.Aliases">
+        <member name="P:MvcContrib.MetaData.AliasedActionMetaData.Alias">
             <summary>
             The ActionNameAttribute that supplies aliasing info for the action
             </summary>
@@ -673,7 +926,23 @@
             <typeparam name="T">The type to deserialize to.</typeparam>
             <param name="collection">The collection.</param>
             <param name="prefix">The prefix.</param>
-            <returns></returns>
+            <returns>The deserialized object</returns>
+        </member>
+        <member name="M:MvcContrib.NameValueDeserializer.Deserialize``1(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Deserializes the specified request collection.
+            </summary>
+            <typeparam name="T">The type to deserialize to.</typeparam>
+            <param name="collection">The collection.</param>
+            <returns>The deserialized object</returns>
+        </member>
+        <member name="M:MvcContrib.NameValueDeserializer.Deserialize(System.Collections.Specialized.NameValueCollection,System.Type)">
+            <summary>
+            Deserializes the specified request collection.
+            </summary>
+            <param name="collection">The collection.</param>
+            <param name="targetType">Type of the target.</param>
+            <returns>The deserialized object</returns>
         </member>
         <member name="M:MvcContrib.NameValueDeserializer.Deserialize(System.Collections.Specialized.NameValueCollection,System.String,System.Type)">
             <summary>
@@ -682,7 +951,7 @@
             <param name="collection">The collection.</param>
             <param name="prefix">The prefix.</param>
             <param name="targetType">Type of the target.</param>
-            <returns></returns>
+            <returns>The deserialized object</returns>
         </member>
         <member name="T:MvcContrib.SimplyRestful.SimplyRestfulRouteHandler">
             <summary>A Rails inspired Restful Routing Handler</summary>
@@ -749,6 +1018,30 @@
             <param name="controllerName">The default controller for the route.</param>
             <returns>An Anonymous Type with a default Action property and and default Controller property
             if <paramref name="controllerName"/> is not null or empty.</returns>
+        </member>
+        <member name="T:MvcContrib.SubController">
+            <summary>
+             SubController base class for subcontrollers.  SubControllers can  be infinitely nested.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.SubController.GetNewRequestContextFromController(System.Web.Mvc.ControllerBase)">
+            <summary>
+             Gets new RequestContext using objects from parent controller.  This ensures subcontrollers have their own state that doesn't conflict with the parent.
+            </summary>
+            <param name="parentController">Parent controller</param>
+            <returns>RequestContext</returns>
+        </member>
+        <member name="M:MvcContrib.SubController.GetControllerName">
+            <summary>
+             Gets the name from the type by trimming "controller" and "subcontroller" from the type name.  The subcontroller action must match the controller name.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MvcContrib.SubController`1">
+            <summary>
+             SubController with generic Model property.
+            </summary>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="T:MvcContrib.UI.BlockRenderer">
             <summary>Renders an Action delegate and captures all output to a string. </summary>
@@ -957,6 +1250,12 @@
         <member name="M:MvcContrib.UI.Html.Grid.IGridSections`1.RowStart(System.Action{`0})">
             <summary>
             Executes a delegate that can be used to specify custom HTML to replace the built in rendering of the start of the row.
+            </summary>
+            <param name="block">Action that renders the HTML.</param>
+        </member>
+        <member name="M:MvcContrib.UI.Html.Grid.IGridSections`1.RowStart(System.Action{`0,System.Boolean})">
+            <summary>
+            Executes a delegate that can be used to specify custom HTML to replace the built in rendering of the start of the row with alternate row as additional parameter.
             </summary>
             <param name="block">Action that renders the HTML.</param>
         </member>
