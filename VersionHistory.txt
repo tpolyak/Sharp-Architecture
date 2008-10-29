@@ -7,11 +7,16 @@ Pending on Trunk
 ----------------------------------------------
 
 Breaking Changes:
-* None
+* Upgraded to ASP.NET MVC Beta web project; respective modifications made to web.config and assembly dependencies
+* Upgrade also include changes to Global.asax.cs and the inclusion of Default.aspx.cs
+
+Modifications to <root>/bin:
+* All dependencies needed for your own project are now included in the bin folder
 
 Modifications to SharpArch:
 * Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
 * Marked both DomainSignatureAttribute and DomainSignatureComparable as Serializable (thanks athmer!)
+* Upgraded SharpArch.Web to depend on ASP.NET MVC Beta assemblies
 
 Modifications to Northwind sample:
 * Added a many-to-many example; specifically:
