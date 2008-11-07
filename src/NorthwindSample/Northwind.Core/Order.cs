@@ -32,14 +32,15 @@ namespace Northwind.Core
         /// example, no two different orders should have the same ShipToName, OrderDate and OrderedBy;
         /// therefore, the returned "signature" should be expressed as demonstrated below.
         /// 
-        /// Alternatively, we could decorate properties with the [Identity] attribute, as shown in
-        /// <see cref="Customer" />, but since there is conditional logic with respect to how to 
-        /// handle nullable types, GetDomainObjectSignature should be overridden instead.
+        /// Alternatively, we could decorate properties with the [DomainSignature] attribute, as shown in
+        /// <see cref="Customer" />, but here's an example of overriding it nonetheless.
         /// </summary>
-        protected override int GetDomainObjectSignature() {
-            return ShipToName.GetHashCode() ^
-                    (OrderDate ?? DateTime.MinValue).GetHashCode() ^
-                    OrderedBy.GetHashCode();
+        protected override bool HasSameDomainObjectSignatureAs(DomainSignatureComparable compareTo) {
+            Order orderCompareTo = compareTo as Order;
+
+            return orderCompareTo != null && ShipToName.Equals(orderCompareTo.ShipToName) &&
+                (OrderDate ?? DateTime.MinValue).Equals((orderCompareTo.OrderDate ?? DateTime.MinValue)) &&
+                OrderedBy.Equals(orderCompareTo.OrderedBy);
         }
     }
 }
