@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SharpArch.Core;
 using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Core.PersistenceSupport;
@@ -13,6 +9,24 @@ namespace Tests.SharpArch.Core
     [TestFixture]
     public class DomainSignatureComparableTests
     {
+        [Test]
+        public void CanComputeConsistentHashWithDomainSignatureProperties() {
+            ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
+            int defaultHash = object1.GetHashCode();
+
+            object1.Age = 13;
+            int domainSignatureEffectedHash = object1.GetHashCode();
+            Assert.AreNotEqual(defaultHash, domainSignatureEffectedHash);
+
+            // Name property isn't a domain signature property and shouldn't affect the hash
+            object1.Name = "Foo";
+            Assert.AreEqual(domainSignatureEffectedHash, object1.GetHashCode());
+
+            // Changing a domain signature property will impace the hash generated
+            object1.Age = 14;
+            Assert.AreNotEqual(domainSignatureEffectedHash, object1.GetHashCode());
+        }
+
         [Test]
         public void CannotCompareObjectsWithNoDomainSignatureProperties() {
             ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
@@ -99,7 +113,7 @@ namespace Tests.SharpArch.Core
         }
 
         [Test]
-        public void WontGetConfusedWithOutsideComparisonCases() {
+        public void WontGetConfusedWithOutsideCases() {
             ObjectWithIdenticalTypedProperties object1 =
                 new ObjectWithIdenticalTypedProperties();
             ObjectWithIdenticalTypedProperties object2 =
@@ -126,6 +140,56 @@ namespace Tests.SharpArch.Core
             object1.Name = "Supercalifragilisticexpialidocious";
             object2.Name = "Supercalifragilisticexpialidociouz";
             Assert.That(object1, Is.Not.EqualTo(object2));
+        }
+
+        [Test]
+        public void CanCompareObjectsWithComplexProperties() {
+            ObjectWithComplexProperties object1 = new ObjectWithComplexProperties();
+            ObjectWithComplexProperties object2 = new ObjectWithComplexProperties();
+
+            Assert.AreEqual(object1, object2);
+
+            object1.Address = new AddressBeingDomainSignatureComparble() {
+                Address1 = "123 Smith Ln.",
+                Address2 = "Suite 201",
+                ZipCode = 12345
+            };
+            Assert.AreNotEqual(object1, object2);
+
+            // Set the address of the 2nd to be different to the address of the first
+            object2.Address = new AddressBeingDomainSignatureComparble() {
+                Address1 = "123 Smith Ln.",
+                // Address2 isn't marked as being part of the domain signature; 
+                // therefore, it WON'T be used in the equality comparison
+                Address2 = "Suite 402",
+                ZipCode = 98765
+            };
+            Assert.AreNotEqual(object1, object2);
+
+            // Set the address of the 2nd to be the same as the first
+            object2.Address.ZipCode = 12345;
+            Assert.AreEqual(object1, object2);
+
+            object1.Phone = new PhoneBeingNotDomainSignatureComparable() {
+                PhoneNumber = "(555) 555-5555"
+            };
+            Assert.AreNotEqual(object1, object2);
+
+            // IMPORTANT: Note that even though the phone number below has the same value as the 
+            // phone number on object1, they're not domain signature comparable; therefore, the
+            // "out of the box" equality will be used which shows them as being different objects.
+            object2.Phone = new PhoneBeingNotDomainSignatureComparable() {
+                PhoneNumber = "(555) 555-5555"
+            };
+            Assert.AreNotEqual(object1, object2);
+
+            // Observe as we replace the object1.Phone with an object that isn't domain-signature
+            // comparable, but DOES have an overridden Equals which will return true if the phone
+            // number properties are equal.
+            object1.Phone = new PhoneBeingNotDomainSignatureComparableButWithOverriddenEquals() {
+                PhoneNumber = "(555) 555-5555"
+            };
+            Assert.AreEqual(object1, object2);
         }
 
         private class ObjectWithNoDomainSignatureProperties : DomainSignatureComparable
@@ -167,5 +231,49 @@ namespace Tests.SharpArch.Core
             [DomainSignature]
             public string Address { get; set; }
         }
+
+        #region ObjectWithComplexProperties
+
+        private class ObjectWithComplexProperties : DomainSignatureComparable
+        {
+            [DomainSignature]
+            public string Name { get; set; }
+
+            [DomainSignature]
+            public AddressBeingDomainSignatureComparble Address { get; set; }
+
+            [DomainSignature]
+            public PhoneBeingNotDomainSignatureComparable Phone { get; set; }
+        }
+
+        private class AddressBeingDomainSignatureComparble : DomainSignatureComparable
+        {
+            [DomainSignature]
+            public string Address1 { get; set; }
+
+            public string Address2 { get; set; }
+
+            [DomainSignature]
+            public int ZipCode { get; set; }
+        }
+
+        private class PhoneBeingNotDomainSignatureComparable
+        {
+            public string PhoneNumber { get; set; }
+            public string Extension { get; set; }
+        }
+
+        private class PhoneBeingNotDomainSignatureComparableButWithOverriddenEquals : PhoneBeingNotDomainSignatureComparable
+        {
+            public override bool Equals(object obj) {
+                PhoneBeingNotDomainSignatureComparable compareTo =
+                    obj as PhoneBeingNotDomainSignatureComparable;
+
+                return (compareTo != null && 
+                    PhoneNumber.Equals(compareTo.PhoneNumber));
+            }
+        }
+
+        #endregion
     }
 }

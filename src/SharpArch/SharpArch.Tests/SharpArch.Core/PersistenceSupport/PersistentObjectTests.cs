@@ -66,6 +66,17 @@ namespace Tests.SharpArch.Core.PersistenceSupport
             Assert.That(object3, Is.EqualTo(object4));
         }
 
+        [Test]
+        public void CannotEquateObjectsWithSameIdButDifferentTypes() {
+            Object1 object1Type = new Object1();
+            Object2 object2Type = new Object2();
+
+            PersistentObjectIdSetter<int>.SetIdOf(object1Type, 1);
+            PersistentObjectIdSetter<int>.SetIdOf(object2Type, 1);
+
+            Assert.That(object1Type, Is.Not.EqualTo(object2Type));
+        }
+
         private class ObjectWithIntId : PersistentObject {
             [DomainSignature]
             public string Name { get; set; }
@@ -80,6 +91,9 @@ namespace Tests.SharpArch.Core.PersistenceSupport
                 ID = assignedId;
             }
         }
+
+        private class Object1 : PersistentObject {}
+        private class Object2 : PersistentObject { }
 
         #region Comprehensive unit tests provided by Brian Nicoloff
 

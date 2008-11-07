@@ -43,17 +43,20 @@ namespace SharpArch.Core.PersistenceSupport
         public override bool Equals(object obj) {
             PersistentObjectWithTypedId<IdT> compareTo = obj as PersistentObjectWithTypedId<IdT>;
 
-            if (compareTo == null)
+            if (ReferenceEquals(this, compareTo))
+                return true;
+
+            if (compareTo == null || !GetType().Equals(compareTo.GetType()))
                 return false;
 
             if (HasSameNonDefaultIdAs(compareTo))
                 return true;
 
             // Since the IDs aren't the same, both of them must be transient to 
-            // compare business value signatures.  If one is transient and the other is
-            // a persisted entity, then they cannot be the same object.
+            // compare domain signatures; because if one is transient and the 
+            // other is a persisted entity, then they cannot be the same object.
             return IsTransient() && compareTo.IsTransient() &&
-                GetHashCode().Equals(compareTo.GetHashCode());
+                HasSameDomainObjectSignatureAs(compareTo);
         }
 
         /// <summary>
