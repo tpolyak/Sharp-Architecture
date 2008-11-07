@@ -8,7 +8,7 @@ Pending on Trunk
 
 Breaking Changes:
 * Upgraded to ASP.NET MVC Beta web project; respective modifications made to web.config and assembly dependencies
-* Upgrade also include changes to Global.asax.cs and the inclusion of Default.aspx.cs
+* Upgrade to Beta also included changes to Global.asax.cs and the inclusion of Default.aspx.cs
 
 Modifications to <root>/bin:
 * All dependencies needed for your own project are now included in the bin folder
@@ -17,8 +17,10 @@ Modifications to SharpArch:
 * Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
 * Marked both DomainSignatureAttribute and DomainSignatureComparable as Serializable (thanks athmer!)
 * Upgraded SharpArch.Web to depend on ASP.NET MVC Beta assemblies
+* The Equals/GetHashCode has been split; Equals no longer uses the result of GetHashCode for the basis of equality checking.  The affected classes include SharpArch.Core/DomainSignatureComparable.cs and SharpArch.Core/PersistenceSupport/PersistentObject.cs.  Although the underlying mechanism for these methods were altered, it should introduce no breaking changes.
 
 Modifications to Northwind sample:
+* Modified Northwind.Core/Order.cs to show an example of overriding HasSameDomainObjectSignatureAs()
 * Added a many-to-many example; specifically:
   - Northwind.Core
     * Employee has a many-to-many relationship to Territory objects.
