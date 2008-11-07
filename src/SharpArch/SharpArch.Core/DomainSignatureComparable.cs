@@ -32,10 +32,8 @@ namespace SharpArch.Core
             if (ReferenceEquals(this, compareTo))
                 return true;
 
-            if (compareTo == null || !GetType().Equals(compareTo.GetType()))
-                return false;
-
-            return HasSameDomainObjectSignatureAs(compareTo);
+            return compareTo != null && GetType().Equals(compareTo.GetType()) &&
+                HasSameDomainObjectSignatureAs(compareTo);
         }
 
         /// <summary>
@@ -51,23 +49,23 @@ namespace SharpArch.Core
                 // It's possible for two objects to return the same hash code based on 
                 // identically valued properties, even if they're of two different types, 
                 // so we include the object's type in the hash calculation
-                int typeHashCode = GetType().GetHashCode();
+                int hashCode = GetType().GetHashCode();
 
-                int hashCode = typeHashCode;
+                IEnumerable<PropertyInfo> domainSignatureProperties = GetDomainSignatureProperties();
 
-                foreach (PropertyInfo property in GetDomainSignatureProperties()) {
+                foreach (PropertyInfo property in domainSignatureProperties) {
                     object value = property.GetValue(this, null);
 
                     if (value != null)
                         hashCode = (hashCode * RANDOM_PRIME_NUMBER) ^ value.GetHashCode();
                 }
 
+                if (domainSignatureProperties.Any())
+                    return hashCode;
+
                 // If no properties were flagged as being part of the domain signature of the object,
                 // then simply return the hashcode of the base object as the hashcode.
-                if (hashCode == typeHashCode)
-                    return base.GetHashCode();
-
-                return hashCode;
+                return base.GetHashCode();
             }
         }
 
@@ -82,11 +80,9 @@ namespace SharpArch.Core
         /// Alternatively, you may override this method to provide your own comparison routine.
         /// </summary>
         protected virtual bool HasSameDomainObjectSignatureAs(DomainSignatureComparable compareTo) {
-            bool hasDomainObjectSignatureProperties = false;
-            
-            foreach (PropertyInfo property in GetDomainSignatureProperties()) {
-                hasDomainObjectSignatureProperties = true;
+            IEnumerable<PropertyInfo> domainSignatureProperties = GetDomainSignatureProperties();
 
+            foreach (PropertyInfo property in domainSignatureProperties) {
                 object valueOfThisObject = property.GetValue(this, null);
                 object valueToCompareTo = property.GetValue(compareTo, null);
 
@@ -100,11 +96,9 @@ namespace SharpArch.Core
             }
 
             // If we've gotten this far and domain signature properties were found, then we can
-            // assume that everything mathed; otherwise, if there were no domain signature 
+            // assume that everything matched; otherwise, if there were no domain signature 
             // properties, then simply return the default bahavior of Equals
-            return hasDomainObjectSignatureProperties
-                ? true
-                : base.Equals(compareTo);
+            return domainSignatureProperties.Any() || base.Equals(compareTo);
         }
 
         private IEnumerable<PropertyInfo> GetDomainSignatureProperties() {
@@ -118,7 +112,5 @@ namespace SharpArch.Core
         /// either started there or has a deeper and more profound history than 42.
         /// </summary>
         private const int RANDOM_PRIME_NUMBER = 397;
-
-        private readonly char ASCII_UNIT_SEPARATOR = Convert.ToChar(31);
     }
 }
