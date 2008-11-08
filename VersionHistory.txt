@@ -18,6 +18,10 @@ Modifications to SharpArch:
 * Marked both DomainSignatureAttribute and DomainSignatureComparable as Serializable (thanks athmer!)
 * Upgraded SharpArch.Web to depend on ASP.NET MVC Beta assemblies
 * The Equals/GetHashCode has been split; Equals no longer uses the result of GetHashCode for the basis of equality checking.  The affected classes include SharpArch.Core/DomainSignatureComparable.cs and SharpArch.Core/PersistenceSupport/PersistentObject.cs.  Although the underlying mechanism for these methods were altered, it should introduce no breaking changes.
+* The methods GetByProperties(IDictionary<string, object> 
+propertyValuePairs) and GetUniqueByProperties have been added to IDao 
+and GenericDao.  A unit test using this feature has been added to 
+Northwind.Tests/Northwind.Data/CustomerDaoTests.cs
 
 Modifications to Northwind sample:
 * Modified Northwind.Core/Order.cs to show an example of overriding HasSameDomainObjectSignatureAs()
