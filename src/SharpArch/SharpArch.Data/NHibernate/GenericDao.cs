@@ -4,6 +4,7 @@ using System.Reflection;
 using SharpArch.Core;
 using SharpArch.Core.PersistenceSupport;
 using NHibernate.Criterion;
+using System.Collections.Specialized;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -85,8 +86,43 @@ namespace SharpArch.Data.NHibernate
             if (foundList.Count > 1) {
                 throw new NonUniqueResultException(foundList.Count);
             }
+            else if (foundList.Count == 1) {
+                return foundList[0];
+            }
 
-            if (foundList.Count > 0) {
+            return default(T);
+        }
+
+        /// <summary>
+        /// Looks for zero or more instances using the <see cref="IDictionary{string, object}"/> provided.
+        /// The key of the collection should be the property name and the value should be
+        /// the value of the property to filter by.
+        /// </summary>
+        public List<T> GetByProperties(IDictionary<string, object> propertyValuePairs) {
+            Check.Require(propertyValuePairs != null && propertyValuePairs.Count > 0,
+                "propertyValuePairs was null or empty; " +
+                "it has to have at least one property/value pair in it");
+
+            ICriteria criteria = Session.CreateCriteria(typeof(T));
+
+            foreach (string key in propertyValuePairs.Keys) {
+                criteria.Add(Expression.Eq(key, propertyValuePairs[key]));
+            }
+
+            return criteria.List<T>() as List<T>;
+        }
+
+        /// <summary>
+        /// Looks for a single instance using the property/values provided.
+        /// </summary>
+        /// <exception cref="NonUniqueResultException" />
+        public T GetUniqueByProperties(IDictionary<string, object> propertyValuePairs) {
+            List<T> foundList = GetByProperties(propertyValuePairs);
+
+            if (foundList.Count > 1) {
+                throw new NonUniqueResultException(foundList.Count);
+            }
+            else if (foundList.Count == 1) {
                 return foundList[0];
             }
 

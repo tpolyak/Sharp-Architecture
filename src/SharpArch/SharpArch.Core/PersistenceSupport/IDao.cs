@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace SharpArch.Core.PersistenceSupport
 {
@@ -19,6 +20,8 @@ namespace SharpArch.Core.PersistenceSupport
         List<T> LoadAll();
         List<T> GetByExample(T exampleInstance, params string[] propertiesToExclude);
         T GetUniqueByExample(T exampleInstance, params string[] propertiesToExclude);
+        List<T> GetByProperties(IDictionary<string, object> propertyValuePairs);
+        T GetUniqueByProperties(IDictionary<string, object> propertyValuePairs);
         T Save(T entity);
         T Update(T entity);
         T SaveOrUpdate(T entity);

@@ -31,6 +31,21 @@ namespace Tests.Northwind.Data
             Assert.That(customer.CompanyName, Is.EqualTo("Rancho grande"));
         }
 
+        [Test]
+        public void CanGetCustomerByProperties() {
+            IDictionary<string, object> propertyValues = new Dictionary<string, object>();
+            propertyValues.Add("CompanyName", "Rancho grande");
+            Customer customer = customerDao.GetUniqueByProperties(propertyValues);
+
+            Assert.That(customer, Is.Not.Null);
+            Assert.That(customer.CompanyName, Is.EqualTo("Rancho grande"));
+
+            propertyValues.Add("ContactName", "Won't Match");
+            customer = customerDao.GetUniqueByProperties(propertyValues);
+
+            Assert.That(customer, Is.Null);
+        }
+
         /// <summary>
         /// This test demonstrates that the orders collection is lazily loaded.  Since lazilly loaded
         /// collections depend on a persisted session, this method is wrapped in a rolled-back transaction 
