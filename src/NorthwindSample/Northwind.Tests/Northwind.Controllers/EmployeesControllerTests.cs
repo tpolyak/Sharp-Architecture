@@ -112,12 +112,16 @@ namespace Tests.Northwind.Controllers
                 .Return(CreateEmployee());
             Expect.Call(mockedDao.SaveOrUpdate(null)).IgnoreArguments()
                 .Return(CreateEmployee());
+            Expect.Call(delegate { mockedDao.Delete(null); }).IgnoreArguments();
+
+            IDbContext mockedDbContext = mocks.StrictMock<IDbContext>();
+            Expect.Call(delegate { mockedDbContext.CommitChanges(); });
+            SetupResult.For(mockedDao.DbContext).Return(mockedDbContext);
+            
             mocks.Replay(mockedDao);
 
             return mockedDao;
         }
-
-        delegate void DeleteDelegate(Employee employee);
 
         private Employee CreateEmployee() {
             Employee employee = new Employee("Johnny", "Appleseed");
