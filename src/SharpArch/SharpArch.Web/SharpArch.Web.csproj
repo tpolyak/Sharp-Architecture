@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate.Validator, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\NHibernate.Validator.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject.Conditions, Version=1.0.0.82, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\Ninject.Conditions.dll</HintPath>
@@ -70,6 +74,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="NHibernate\Validator\MvcValidationAdapter.cs" />
     <Compile Include="Ninject\ControllersAutoBindModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NHibernate\TransactionAttribute.cs" />

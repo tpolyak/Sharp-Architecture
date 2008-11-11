@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NHibernate.Validator, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\NHibernate.Validator.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\nunit.framework.dll</HintPath>
@@ -38,6 +42,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -58,17 +66,21 @@
     <Compile Include="SharpArch.Core\DomainObjectTests.cs" />
     <Compile Include="SharpArch.Core\EnumDescriptionTests.cs" />
     <Compile Include="SharpArch.Core\PersistenceSupport\PersistentObjectTests.cs" />
+    <Compile Include="SharpArch.Web\NHibernate\Validator\MvcValidationAdapterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpArch.Core\SharpArch.Core.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Web\SharpArch.Web.csproj">
+      <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
+      <Name>SharpArch.Web</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SharpArch.Data\" />
     <Folder Include="SharpArch.ServiceModel\" />
-    <Folder Include="SharpArch.Web\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

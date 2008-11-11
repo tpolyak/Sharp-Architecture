@@ -7,6 +7,7 @@ using System;
 using SharpArch.Web.NHibernate;
 using NHibernate.Validator.Engine;
 using System.Text;
+using SharpArch.Web.NHibernate.Validator;
 
 namespace Northwind.Controllers
 {
@@ -43,7 +44,7 @@ namespace Northwind.Controllers
                 return RedirectToAction("Index");
             }
             else {
-                TransferValidationMessagesToModelState(employee.ValidationMessages);
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationMessages);
                 return View();
             }
         }
@@ -67,15 +68,8 @@ namespace Northwind.Controllers
                 return RedirectToAction("Index");
             }
             else {
-                TransferValidationMessagesToModelState(employee.ValidationMessages);
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationMessages);
                 return View();
-            }
-        }
-
-        private void TransferValidationMessagesToModelState(InvalidValue[] invalidValues) {
-            foreach (InvalidValue invalidValue in invalidValues) {
-                ViewData.ModelState.AddModelError(invalidValue.BeanClass.Name + "." +
-                    invalidValue.PropertyName, invalidValue.Message);
             }
         }
 
