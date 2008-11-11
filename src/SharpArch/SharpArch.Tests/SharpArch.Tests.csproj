@@ -55,7 +55,7 @@
     <Compile Include="PersistentObjectIdSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharpArch.Core\DesignByContractTests.cs" />
-    <Compile Include="SharpArch.Core\DomainSignatureComparableTests.cs" />
+    <Compile Include="SharpArch.Core\DomainObjectTests.cs" />
     <Compile Include="SharpArch.Core\EnumDescriptionTests.cs" />
     <Compile Include="SharpArch.Core\PersistenceSupport\PersistentObjectTests.cs" />
   </ItemGroup>

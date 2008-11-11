@@ -22,15 +22,17 @@ namespace Tests.Northwind.Core
         }
 
         [Test]
-        [ExpectedException(typeof(PreconditionException))]
-        public void CannotCreateTerritoryWithoutDescription() {
-            new Territory(null, new RegionWithPublicConstructor("South"));
-        }
+        public void CannotHaveValidTerritoryWithoutDescriptionAndRegion() {
+            Territory territory = new Territory(null, null);
+            Assert.That(territory.IsValid(), Is.False);
+            Assert.That(territory.ValidationMessages.Length, Is.EqualTo(2));
 
-        [Test]
-        [ExpectedException(typeof(PreconditionException))]
-        public void CannotCreateTerritoryWithoutRegion() {
-            new Territory("Cincinnati", null);
+            territory.RegionBelongingTo = new RegionWithPublicConstructor("South");
+            Assert.That(territory.IsValid(), Is.False);
+            Assert.That(territory.ValidationMessages.Length, Is.EqualTo(1));
+
+            territory.Description = "Wherever";
+            Assert.That(territory.IsValid(), Is.True);
         }
     }
 }

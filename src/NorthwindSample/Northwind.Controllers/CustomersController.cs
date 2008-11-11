@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using SharpArch.Core.PersistenceSupport;
+﻿using System.Web.Mvc;
 using Northwind.Core;
+using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
+using System.Collections.Generic;
 using Northwind.Core.DataInterfaces;
 using SharpArch.Web.NHibernate;
 
@@ -20,7 +17,7 @@ namespace Northwind.Controllers
             this.customerDao = customerDao;
         }
 
-        public ActionResult List() {
+        public ActionResult Index() {
             List<Customer> customers = customerDao.FindByCountry("Venezuela");
             return View(customers);
         }

@@ -10,8 +10,9 @@ namespace SharpArch.Web.NHibernate
 		}
 
 		public override void OnActionExecuted(ActionExecutedContext filterContext) {
-			if(filterContext.Exception == null)
-				NHibernateSession.Current.Transaction.Commit();
+            if (filterContext.Exception == null && NHibernateSession.Current.Transaction.IsActive) {
+                NHibernateSession.Current.Transaction.Commit();
+            }
 		}
 	}
 }

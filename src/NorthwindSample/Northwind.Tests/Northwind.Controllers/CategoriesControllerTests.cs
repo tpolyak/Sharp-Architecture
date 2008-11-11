@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using MvcContrib.TestHelper;
 using Northwind.Controllers;
 using SharpArch.Core.PersistenceSupport;
@@ -10,6 +6,7 @@ using Northwind.Core;
 using Rhino.Mocks;
 using NUnit.Framework.SyntaxHelpers;
 using System.Web.Mvc;
+using System.Collections.Generic;
 
 namespace Tests.Northwind.Controllers
 {
@@ -28,7 +25,7 @@ namespace Tests.Northwind.Controllers
             testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
-                controller.List().AssertViewRendered().ForView("");
+                controller.Index().AssertViewRendered().ForView("");
 
             Assert.That(result.ViewData, Is.Not.Null);
             Assert.That(result.ViewData.Model as List<Category>, Is.Not.Null);
@@ -56,7 +53,7 @@ namespace Tests.Northwind.Controllers
             testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
-                controller.Detail(1).AssertViewRendered().ForView("");
+                controller.Show(1).AssertViewRendered().ForView("");
 
             // The builder object acts as a wrapper around the controller, 
             // so be sure to interrogate it instead of the controller

@@ -24,8 +24,9 @@
                     <h2>Example Pages</h2>
                     <ul>
                         <li><%= Html.ActionLink((HomeController c) => c.Index(), "Home")%></li>
-                        <li><%= Html.ActionLink((CategoriesController c) => c.List(), "List Categories") %></li>
-                        <li><%= Html.ActionLink((CustomersController c) => c.List(), "List Customers") %></li>
+                        <li><%= Html.ActionLink((CategoriesController c) => c.Index(), "List Categories") %></li>
+                        <li><%= Html.ActionLink((CustomersController c) => c.Index(), "List Customers with Lazy Loading") %></li>
+                        <li><%= Html.ActionLink((EmployeesController c) => c.Index(), "Employee CRUD with Validation")%></li>
                     </ul>
                 </div><!--/leftColumn-->
 

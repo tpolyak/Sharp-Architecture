@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using SharpArch.Core.PersistenceSupport;
+﻿using System.Web.Mvc;
 using Northwind.Core;
+using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
+using System.Collections.Generic;
 using SharpArch.Web.NHibernate;
+using System;
 
 namespace Northwind.Controllers
 {
@@ -19,9 +17,14 @@ namespace Northwind.Controllers
             this.categoryDao = categoryDao;
         }
 
-        public ActionResult List() {
+        public ActionResult Index() {
             List<Category> categories = categoryDao.LoadAll();
             return View(categories);
+        }
+
+        public ActionResult Show(int id) {
+            Category category = categoryDao.Load(id);
+            return View(category);
         }
 
         /// <summary>
@@ -35,13 +38,6 @@ namespace Northwind.Controllers
             Category category = new Category(categoryName);
             category = categoryDao.SaveOrUpdate(category);
 
-            return View(category);
-        }
-
-        public ActionResult Detail(int id) {
-            Check.Require(id > 0, "Category ID must be > 0");
-
-            Category category = categoryDao.Load(id);
             return View(category);
         }
 

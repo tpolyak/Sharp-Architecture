@@ -20,7 +20,7 @@ namespace SharpArch.Core.PersistenceSupport
     /// </summary>
     [Serializable]
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class PersistentObjectWithTypedId<IdT> : DomainSignatureComparable
+    public abstract class PersistentObjectWithTypedId<IdT> : DomainObject, IPersistentObjectWithTypedId<IdT>
     {
         /// <summary>
         /// ID may be of type string, int, custom type, etc.

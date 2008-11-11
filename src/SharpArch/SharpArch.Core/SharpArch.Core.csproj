@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate.Validator, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\NHibernate.Validator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -52,10 +56,13 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DomainSignatureComparable.cs" />
+    <Compile Include="DomainObject.cs" />
     <Compile Include="EnumDescription.cs" />
+    <Compile Include="IDomainObject.cs" />
     <Compile Include="PersistenceSupport\IDao.cs" />
     <Compile Include="DesignByContract.cs" />
+    <Compile Include="PersistenceSupport\IDbContext.cs" />
+    <Compile Include="PersistenceSupport\IPersistentObjectWithTypedId.cs" />
     <Compile Include="PersistenceSupport\PersistentObject.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="PersistenceSupport\IHasAssignedId.cs" />

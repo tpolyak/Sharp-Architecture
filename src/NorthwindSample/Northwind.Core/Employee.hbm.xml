@@ -9,6 +9,7 @@
 		<!-- No need to specify column when it's the same as the property name -->
 		<property name="LastName" />
 		<property name="FirstName" />
+		<property name="PhoneExtension" column="Extension" />
 
 		<bag name="Territories" table="EmployeeTerritories">
 			<key column="EmployeeID" />

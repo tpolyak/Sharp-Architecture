@@ -1,25 +1,20 @@
 ﻿using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
 using System.Collections.Generic;
+using NHibernate.Validator;
 
 namespace Northwind.Core
 {
     public class Territory : PersistentObjectWithTypedId<string>, IHasAssignedId<string>
     {
-        /// <summary>
-        /// This is a placeholder constructor for NHibernate.
-        /// A no-argument constructor must be avilable for NHibernate to create the object.
-        /// </summary>
-        protected Territory() {
+        public Territory() {
             InitMembers();
         }
 
-        public Territory(string description, Region regionBelongingTo) {
-            Check.Require(regionBelongingTo != null);
-            // Don't need to Check.Require description as the property setter will take care of it
-
-            InitMembers();
-
+        /// <summary>
+        /// Creates valid domain object
+        /// </summary>
+        public Territory(string description, Region regionBelongingTo) : this() {
             RegionBelongingTo = regionBelongingTo;
             Description = description;
         }
@@ -38,26 +33,13 @@ namespace Northwind.Core
             ID = assignedId;
         }
 
-        /// <summary>
-        /// Let's assume that a territory can't move to a different region after it's created
-        /// </summary>
         [DomainSignature]
-        public virtual Region RegionBelongingTo { get; protected set; }
+        [NotNull]
+        public virtual Region RegionBelongingTo { get; set; }
         
-        /// <summary>
-        /// We can't use automatic accessors here because we need a public setter for the 
-        /// description but want to enforce our contract
-        /// </summary>
         [DomainSignature]
-        public virtual string Description {
-            get {
-                return description;
-            }
-            set {
-                Check.Require(!string.IsNullOrEmpty(value));
-                description = value;
-            }
-        }
+        [NotNullNotEmpty]
+        public virtual string Description { get; set; }
 
         /// <summary>
         /// Note the protected set...only the ORM should set the collection reference directly
@@ -66,6 +48,5 @@ namespace Northwind.Core
         public virtual IList<Employee> Employees { get; protected set; }
 
         private const int ID_MAX_LENGTH = 20;
-        private string description;
     }
 }

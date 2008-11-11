@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace Tests.SharpArch.Core
 {
     [TestFixture]
-    public class DomainSignatureComparableTests
+    public class DomainObjectTests
     {
         [Test]
         public void CanComputeConsistentHashWithDomainSignatureProperties() {
@@ -35,7 +35,7 @@ namespace Tests.SharpArch.Core
         }
 
         [Test]
-        public void CanCompareDefaultDomainSignatureComparableTypesAsEqual() {
+        public void CanCompareDefaultDomainObjectTypesAsEqual() {
             ObjectWithNoDomainSignatureProperties object1 = new ObjectWithNoDomainSignatureProperties();
             ObjectWithNoDomainSignatureProperties object2 = new ObjectWithNoDomainSignatureProperties();
             Assert.That(object1, Is.Not.EqualTo(object2));
@@ -170,7 +170,7 @@ namespace Tests.SharpArch.Core
             object2.Address.ZipCode = 12345;
             Assert.AreEqual(object1, object2);
 
-            object1.Phone = new PhoneBeingNotDomainSignatureComparable() {
+            object1.Phone = new PhoneBeingNotDomainObject() {
                 PhoneNumber = "(555) 555-5555"
             };
             Assert.AreNotEqual(object1, object2);
@@ -178,7 +178,7 @@ namespace Tests.SharpArch.Core
             // IMPORTANT: Note that even though the phone number below has the same value as the 
             // phone number on object1, they're not domain signature comparable; therefore, the
             // "out of the box" equality will be used which shows them as being different objects.
-            object2.Phone = new PhoneBeingNotDomainSignatureComparable() {
+            object2.Phone = new PhoneBeingNotDomainObject() {
                 PhoneNumber = "(555) 555-5555"
             };
             Assert.AreNotEqual(object1, object2);
@@ -186,19 +186,19 @@ namespace Tests.SharpArch.Core
             // Observe as we replace the object1.Phone with an object that isn't domain-signature
             // comparable, but DOES have an overridden Equals which will return true if the phone
             // number properties are equal.
-            object1.Phone = new PhoneBeingNotDomainSignatureComparableButWithOverriddenEquals() {
+            object1.Phone = new PhoneBeingNotDomainObjectButWithOverriddenEquals() {
                 PhoneNumber = "(555) 555-5555"
             };
             Assert.AreEqual(object1, object2);
         }
 
-        private class ObjectWithNoDomainSignatureProperties : DomainSignatureComparable
+        private class ObjectWithNoDomainSignatureProperties : DomainObject
         {
             public string Name { get; set; }
             public int Age { get; set; }
         }
 
-        private class ObjectWithOneDomainSignatureProperty : DomainSignatureComparable
+        private class ObjectWithOneDomainSignatureProperty : DomainObject
         {
             public string Name { get; set; }
 
@@ -206,7 +206,7 @@ namespace Tests.SharpArch.Core
             public int Age { get; set; }
         }
 
-        private class ObjectWithAllDomainSignatureProperty : DomainSignatureComparable
+        private class ObjectWithAllDomainSignatureProperty : DomainObject
         {
             [DomainSignature]
             public string Name { get; set; }
@@ -223,7 +223,7 @@ namespace Tests.SharpArch.Core
             public bool IsLiving { get; set; }
         }
 
-        private class ObjectWithIdenticalTypedProperties : DomainSignatureComparable
+        private class ObjectWithIdenticalTypedProperties : DomainObject
         {
             [DomainSignature]
             public string Name { get; set; }
@@ -234,7 +234,7 @@ namespace Tests.SharpArch.Core
 
         #region ObjectWithComplexProperties
 
-        private class ObjectWithComplexProperties : DomainSignatureComparable
+        private class ObjectWithComplexProperties : DomainObject
         {
             [DomainSignature]
             public string Name { get; set; }
@@ -243,10 +243,10 @@ namespace Tests.SharpArch.Core
             public AddressBeingDomainSignatureComparble Address { get; set; }
 
             [DomainSignature]
-            public PhoneBeingNotDomainSignatureComparable Phone { get; set; }
+            public PhoneBeingNotDomainObject Phone { get; set; }
         }
 
-        private class AddressBeingDomainSignatureComparble : DomainSignatureComparable
+        private class AddressBeingDomainSignatureComparble : DomainObject
         {
             [DomainSignature]
             public string Address1 { get; set; }
@@ -257,19 +257,19 @@ namespace Tests.SharpArch.Core
             public int ZipCode { get; set; }
         }
 
-        private class PhoneBeingNotDomainSignatureComparable
+        private class PhoneBeingNotDomainObject
         {
             public string PhoneNumber { get; set; }
             public string Extension { get; set; }
         }
 
-        private class PhoneBeingNotDomainSignatureComparableButWithOverriddenEquals : PhoneBeingNotDomainSignatureComparable
+        private class PhoneBeingNotDomainObjectButWithOverriddenEquals : PhoneBeingNotDomainObject
         {
             public override bool Equals(object obj) {
-                PhoneBeingNotDomainSignatureComparable compareTo =
-                    obj as PhoneBeingNotDomainSignatureComparable;
+                PhoneBeingNotDomainObject compareTo =
+                    obj as PhoneBeingNotDomainObject;
 
-                return (compareTo != null && 
+                return (compareTo != null &&
                     PhoneNumber.Equals(compareTo.PhoneNumber));
             }
         }

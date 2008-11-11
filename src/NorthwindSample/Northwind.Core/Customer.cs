@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
+using NHibernate.Validator;
 
 namespace Northwind.Core
 {
@@ -11,17 +12,14 @@ namespace Northwind.Core
     /// </summary>
     public class Customer : PersistentObjectWithTypedId<string>, IHasAssignedId<string>
     {
-        /// <summary>
-        /// Needed by ORM for reflective creation.
-        /// </summary>
-        protected Customer() {
+        public Customer() {
             InitMembers();
         }
 
-        public Customer(string companyName) {
-            Check.Require(!string.IsNullOrEmpty(companyName), "companyName must be supplied");
-
-            InitMembers();
+        /// <summary>
+        /// Creates valid domain object
+        /// </summary>
+        public Customer(string companyName) : this() {
             CompanyName = companyName;
         }
 
@@ -33,6 +31,7 @@ namespace Northwind.Core
         }
 
         [DomainSignature]
+        [NotNullNotEmpty]
         public string CompanyName { get; set; }
 
         [DomainSignature]

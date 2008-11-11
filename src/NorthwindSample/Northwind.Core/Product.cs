@@ -1,43 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpArch.Core.PersistenceSupport;
+﻿using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
+using NHibernate.Validator;
 
 namespace Northwind.Core
 {
     public class Product : PersistentObject
     {
+        public Product() { }
+
         /// <summary>
-        /// This is a placeholder constructor for NHibernate.
-        /// A no-argument constructor must be avilable for NHibernate to create the object.
+        /// Creates valid domain object
         /// </summary>
-        protected Product() { }
-
         public Product(string name, Supplier supplier) {
-            Check.Require(supplier != null, "supplier must be supplied");
-
             Supplier = supplier;
             Name = name;
         }
 
         [DomainSignature]
-        public virtual string Name {
-            get {
-                return name;
-            }
-            set {
-                Check.Require(!string.IsNullOrEmpty(value), "name must be supplied");
-                name = value;
-            }
-        }
-
-        public virtual Category Category { get; set; }
+        [NotNullNotEmpty]
+        public virtual string Name { get; set; }
 
         [DomainSignature]
+        [NotNull]
         public virtual Supplier Supplier { get; protected set; }
 
-        private string name;
+        public virtual Category Category { get; set; }
     }
 }

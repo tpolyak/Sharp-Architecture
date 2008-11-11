@@ -5,6 +5,7 @@ using SharpArch.Core;
 using SharpArch.Core.PersistenceSupport;
 using NHibernate.Criterion;
 using System.Collections.Specialized;
+using System;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -26,6 +27,12 @@ namespace SharpArch.Data.NHibernate
 		protected ISession Session {
 			get { return NHibernateSession.Current; }
 		}
+
+        public IDbContext DbContext {
+            get {
+                return SharpArch.Data.NHibernate.DbContext.Instance;
+            }
+        }
 
         /// <summary>
         /// Returns null if a row is not found matching the provided ID.
@@ -162,14 +169,6 @@ namespace SharpArch.Data.NHibernate
 		}
 
         /// <summary>
-        /// Technically, this isn't specific to any one DAO and flushes everything that has been changed since
-        /// the last commit; but it's convenient putting it here so I'm not going to sweat it too much.
-        /// </summary>
-        public void CommitChanges() {
-			Session.Flush();
-		}
-
-        /// <summary>
         /// For entities with automatatically generated IDs, such as identity, SaveOrUpdate may 
         /// be called when saving or updating an entity.  Although SaveOrUpdate _can_ be invoked
         /// to update an object with an assigned ID, you are hereby forced instead to use Save/Update 
@@ -200,6 +199,10 @@ namespace SharpArch.Data.NHibernate
                     "with the lock modes maintained in the domain layer.");
 
             return (LockMode)translatedLockMode.GetValue(null);
+        }
+
+        public void CommitChanges() {
+            DbContext.CommitChanges();
         }
     }
 }

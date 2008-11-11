@@ -9,11 +9,15 @@ Pending on Trunk
 Breaking Changes:
 * Upgraded to ASP.NET MVC Beta web project; respective modifications made to web.config and assembly dependencies
 * Upgrade to Beta also included changes to Global.asax.cs and the inclusion of Default.aspx.cs
+* IDao.CommitChanges() is now Obsolete; IDao.DbContext.CommitChanges() should be used instead
+* Renamed SharpArch.Core/DomainSignatureComparable to DomainObject
+* DomainObject.HasSameDomainObjectSignatureAs now accepts an IDomainObject (not a DomainSignatureComparable)
 
 Modifications to <root>/bin:
 * All dependencies needed for your own project are now included in the bin folder
 
 Modifications to SharpArch:
+* SharpArch.Core/PersistenceSupport:  Added IPersistentObject and IDomainSignatureComparable to provide your own, if you feel so inclined
 * Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
 * Marked both DomainSignatureAttribute and DomainSignatureComparable as Serializable (thanks athmer!)
 * Upgraded SharpArch.Web to depend on ASP.NET MVC Beta assemblies
@@ -22,9 +26,12 @@ Modifications to SharpArch:
 propertyValuePairs) and GetUniqueByProperties have been added to IDao 
 and GenericDao.  A unit test using this feature has been added to 
 Northwind.Tests/Northwind.Data/CustomerDaoTests.cs
+* IDao now exposes IDbContext which provides capabilities such as CommitChanges, Begin/Commit/RollbackTransaction
+* Added validation methods to DomainObject
 
 Modifications to Northwind sample:
 * Modified Northwind.Core/Order.cs to show an example of overriding HasSameDomainObjectSignatureAs()
+* Updated dynamic links to use Html.ActionLink
 * Added a many-to-many example; specifically:
   - Northwind.Core
     * Employee has a many-to-many relationship to Territory objects.
@@ -34,6 +41,7 @@ Modifications to Northwind sample:
   - Northwind.Tests
     * Northwind.Core/RegionTests.cs, TerritoryTests.cs, and EmployeeTests.cs test the domain model of the new classes.
     * Northwind.Data/EmployeeDaoTests.cs and TerritoryDaoTests.cs test the many-to-many relationships in the database along with the many-to-one from Territory to Region.
+* Made general clean ups to make the code simpler and with less typing (e.g., changed "<%= (ViewData.Model as Customer).CompanyName%>" to simply "<%= ViewData.Model.CompanyName%>")
 
 0.8.1 - MVC Preview 5, NH 2.0.1 and Ninject 1.0
 ----------------------------------------------

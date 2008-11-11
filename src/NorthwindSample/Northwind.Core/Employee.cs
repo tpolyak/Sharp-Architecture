@@ -1,6 +1,7 @@
 ﻿using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
 using System.Collections.Generic;
+using NHibernate.Validator;
 
 namespace Northwind.Core
 {
@@ -13,17 +14,14 @@ namespace Northwind.Core
     /// </summary>
     public class Employee : PersistentObject
     {
-        /// <summary>
-        /// This is a placeholder constructor for NHibernate.
-        /// A no-argument constructor must be avilable for NHibernate to create the object.
-        /// </summary>
-        protected Employee() {
+        public Employee() {
             InitMembers();
         }
 
-        public Employee(string firstName, string lastName) {
-            InitMembers();
-
+        /// <summary>
+        /// Creates valid domain object
+        /// </summary>
+        public Employee(string firstName, string lastName) : this() {
             FirstName = firstName;
             LastName = lastName;
         }
@@ -34,24 +32,19 @@ namespace Northwind.Core
         }
 
         [DomainSignature]
-        public virtual string LastName {
-            get {
-                return lastName;
-            }
-            set {
-                Check.Require(!string.IsNullOrEmpty(value));
-                lastName = value;
-            }
-        }
+        [NotNullNotEmpty(Message="Last name must be provided")]
+        public virtual string LastName { get; set; }
 
         [DomainSignature]
-        public virtual string FirstName {
+        [NotNullNotEmpty(Message = "First name must be provided")]
+        public virtual string FirstName { get; set; }
+
+        [Range(1, 9999, Message = "Phone extension must be between 1 and 9999")]
+        public virtual int PhoneExtension { get; set; }
+
+        public virtual string FullName {
             get {
-                return firstName;
-            }
-            set {
-                Check.Require(!string.IsNullOrEmpty(value));
-                firstName = value;
+                return LastName + ", " + FirstName;
             }
         }
 
@@ -60,8 +53,5 @@ namespace Northwind.Core
         /// after it's been initialized in <see cref="InitMembers" />
         /// </summary>
         public virtual IList<Territory> Territories { get; protected set; }
-
-        private string firstName;
-        private string lastName;
     }
 }

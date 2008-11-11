@@ -22,9 +22,12 @@ namespace Tests.Northwind.Core
         }
 
         [Test]
-        [ExpectedException(typeof(PreconditionException))]
-        public void CannotCreateCustomerWithoutCompanyName() {
-            new Customer("");
+        public void CannotHaveValidCustomerWithoutCompanyName() {
+            Customer customer = new Customer();
+            Assert.That(customer.IsValid(), Is.False);
+
+            customer.CompanyName = "Acme";
+            Assert.That(customer.IsValid(), Is.True);
         }
 
         [Test]

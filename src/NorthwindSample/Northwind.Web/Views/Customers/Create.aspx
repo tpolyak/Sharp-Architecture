@@ -10,7 +10,7 @@
 <body>
     <div>
         Congratulations, you have a brand new customer, with an assigned ID of
-        <%= (ViewData.Model as Customer).ID %> who happens to work for <%= (ViewData.Model as Customer).CompanyName%>.
+        <%= ViewData.Model.ID %> who happens to work for <%= ViewData.Model.CompanyName%>.
     </div>
 </body>
 </html>

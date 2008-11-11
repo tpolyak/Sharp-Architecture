@@ -11,6 +11,7 @@ namespace Northwind.Web.NinjectModules
     {
         public override void Load() {
             Bind<IDao<Category>>().To<GenericDao<Category>>();
+            Bind<IDao<Employee>>().To<GenericDao<Employee>>();
             Bind<ICustomerDao>().To<CustomerDao>();
         }
     }

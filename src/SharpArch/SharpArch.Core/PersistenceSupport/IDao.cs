@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System;
 
 namespace SharpArch.Core.PersistenceSupport
 {
@@ -27,6 +28,9 @@ namespace SharpArch.Core.PersistenceSupport
         T SaveOrUpdate(T entity);
         void Delete(T entity);
         void Evict(T entity);
+        IDbContext DbContext { get; }
+
+        [Obsolete("Use CommitChanges via dao.DbContext.CommitChanges() instead")]
         void CommitChanges();
     }
 }

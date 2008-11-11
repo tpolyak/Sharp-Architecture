@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
+using NHibernate.Validator;
 
 namespace Northwind.Core
 {
@@ -13,9 +14,10 @@ namespace Northwind.Core
             InitMembers();
         }
 
-        public Supplier(string companyName) {
-            InitMembers();
-
+        /// <summary>
+        /// Creates valid domain object
+        /// </summary>
+        public Supplier(string companyName) : this() {
             CompanyName = companyName;
         }
 
@@ -24,22 +26,13 @@ namespace Northwind.Core
         }
 
         [DomainSignature]
-        public virtual string CompanyName {
-            get {
-                return companyName;
-            }
-            set {
-                Check.Require(!string.IsNullOrEmpty(value), "companyName must be provided");
-                companyName = value;
-            }
-        }
+        [NotNullNotEmpty]
+        public virtual string CompanyName { get; set; }
 
         /// <summary>
         /// Note the protected set...only the ORM should set the collection reference directly
         /// after it's been initialized in <see cref="InitMembers" />
         /// </summary>
         public virtual IList<Product> Products { get; protected set; }
-
-        private string companyName;
     }
 }

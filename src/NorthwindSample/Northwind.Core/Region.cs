@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpArch.Core;
+﻿using SharpArch.Core;
 using SharpArch.Core.PersistenceSupport;
+using NHibernate.Validator;
 
 namespace Northwind.Core
 {

@@ -28,7 +28,7 @@ namespace Tests.Northwind.Controllers
             testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
-                controller.List().AssertViewRendered().ForView("");
+                controller.Index().AssertViewRendered().ForView("");
 
             Assert.That(result.ViewData, Is.Not.Null);
             Assert.That(result.ViewData.Model as List<Customer>, Is.Not.Null);

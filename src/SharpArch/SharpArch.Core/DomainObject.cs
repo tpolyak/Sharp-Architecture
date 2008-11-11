@@ -1,22 +1,22 @@
-﻿using System;
+﻿using System.Reflection;
+using System.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Diagnostics;
+using NHibernate.Validator.Engine;
 
 namespace SharpArch.Core
 {
     /// <summary>
     /// Facilitates indicating which property(s) of a class describe the unique signature of a 
-    /// business object.  See PersistentObject.GetDomainObjectSignature for how this is leveraged.
+    /// business object.  See DomainObject.GetDomainSignatureProperties for how this is leveraged.
     /// </summary>
     [Serializable]
     public class DomainSignatureAttribute : Attribute { }
 
     /// <summary>
     /// Provides a standard base class for facilitating comparison of domain objects via the 
-    /// <see cref="DomainSignatureAttribute" />.
+    /// <see cref="DomainSignatureAttribute" />.  Also provides domain validation capabilities.
     /// 
     /// For a discussion of the implementation of Equals/GetHashCode, see 
     /// http://devlicio.us/blogs/billy_mccafferty/archive/2007/04/25/using-equals-gethashcode-effectively.aspx
@@ -24,10 +24,10 @@ namespace SharpArch.Core
     /// an in depth and conclusive resolution.
     /// </summary>
     [Serializable]
-    public abstract class DomainSignatureComparable
+    public abstract class DomainObject : IDomainObject
     {
         public override bool Equals(object obj) {
-            DomainSignatureComparable compareTo = obj as DomainSignatureComparable;
+            IDomainObject compareTo = obj as IDomainObject;
 
             if (ReferenceEquals(this, compareTo))
                 return true;
@@ -79,7 +79,7 @@ namespace SharpArch.Core
         ///
         /// Alternatively, you may override this method to provide your own comparison routine.
         /// </summary>
-        protected virtual bool HasSameDomainObjectSignatureAs(DomainSignatureComparable compareTo) {
+        protected virtual bool HasSameDomainObjectSignatureAs(IDomainObject compareTo) {
             IEnumerable<PropertyInfo> domainSignatureProperties = GetDomainSignatureProperties();
 
             foreach (PropertyInfo property in domainSignatureProperties) {
@@ -89,8 +89,8 @@ namespace SharpArch.Core
                 if (valueOfThisObject == null && valueToCompareTo == null)
                     continue;
 
-                if ((valueOfThisObject == null ^ valueToCompareTo == null) || 
-                    (! valueOfThisObject.Equals(valueToCompareTo))) {
+                if ((valueOfThisObject == null ^ valueToCompareTo == null) ||
+                    (!valueOfThisObject.Equals(valueToCompareTo))) {
                     return false;
                 }
             }
@@ -106,11 +106,37 @@ namespace SharpArch.Core
                 .Where(p => p.GetCustomAttributes(typeof(DomainSignatureAttribute), true).Length > 0);
         }
 
+        public virtual bool IsValid() {
+            return Validator.IsValid(this);
+        }
+
+        public virtual InvalidValue[] ValidationMessages {
+            get {
+                return Validator.Validate(this);
+            }
+        }
+
+        protected virtual ValidatorEngine Validator {
+            get {
+                if (validator == null) {
+                    validator = new ValidatorEngine();
+                }
+
+                return validator;
+            }
+        }
+
         /// <summary>
         /// This particular magic number is often used in GetHashCode computations but is actually 
         /// quite random.  Resharper uses 397 as its number when overrideing GetHashCode, so it 
         /// either started there or has a deeper and more profound history than 42.
         /// </summary>
         private const int RANDOM_PRIME_NUMBER = 397;
+
+        /// <summary>
+        /// Talk to this property via the protected Validator property; that getter lazily 
+        /// initializes this member.
+        /// </summary>
+        private ValidatorEngine validator;
     }
 }
