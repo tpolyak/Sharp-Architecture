@@ -8,7 +8,6 @@ Pending on Trunk
 
 Migrating from 0.8.1 to 0.9.0:
 * Follow instructions for upgrading to ASP.NET MVC Beta.  There were respective modifications made to web.config and assembly dependencies.  Also included changes to Global.asax.cs and the inclusion of Default.aspx.cs
-* Move NHibernate settings out of web.config into Hibernate.cfg.xml (Northwind contains an example)
 * Change the name of the "web.config" AppSetting within Northwind.Tests/App.config to "nhibernate.config.path"
 * Change any calls to myDao.CommitChanges() to myDao.DbContext.CommitChanges()
 * Change any references to DomainSignatureComparable to DomainObject
@@ -21,6 +20,7 @@ Migrating from 0.8.1 to 0.9.0:
    - Get(id, lockMode), GetByExample, GetUniqueByExample, Load(id), Load(id, lockMode), Save, Update and Evict were all moved to SharpArch.Core.PersistenceSupport.NHibernate.INHibernateRepository.
 IRepository was simplified to provide a simpler mechanism that is more NHibernate agnostic and is simpler to understand and use.  You may still wish to use the NHibernate-specific one.  Consequently, decide if you'd like to use SharpArch.Core.PersistenceSupport.IRepository/IRepositoryWithTypedId or SharpArch.Core.PersistenceSupport.NHibernate.INHibernateRepository/INHibernateRepositoryWithTypedId and adjust your code, accordingly.  There's nothing to stop you from using IRepository most of the time and INHibernateRepository on occassion...but I'd only recommend using it when absolutely necessary.  For example, the only time the Northwind sample uses it is to support Save vs. Update for objects with assigned IDs (which are a bad practice to use anyway).
 * Optionally rename your *Dao.cs classes to *Repository.cs to be consistent with the IRepository base interface.
+* Optionally move NHibernate settings out of web.config into Hibernate.cfg.xml (the Northwind contains an example); if you do so, be sure to change the path in MyProject.Tests/app.config to point to the externalized file
 
 *** Non Breaking Changes ***
 
