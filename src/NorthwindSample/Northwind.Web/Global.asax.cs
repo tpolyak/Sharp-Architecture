@@ -8,13 +8,15 @@ using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
 using System.Reflection;
 using SharpArch.Web.Ninject;
+using NHibernate.Cfg;
+using FluentNHibernate;
 
 namespace Northwind.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start() {
             InitializeNinject();
@@ -29,7 +31,9 @@ namespace Northwind.Web
         public override void Init() {
             base.Init();
 
-            NHibernateSession.Init(new WebSessionStorage(this));
+            NHibernateSession.Init(new WebSessionStorage(this), 
+                new string[] { Server.MapPath("./bin/Northwind.Data.dll") }, 
+                Server.MapPath("Hibernate.cfg.xml"));
         }
 
         public static void RegisterRoutes(RouteCollection routes) {

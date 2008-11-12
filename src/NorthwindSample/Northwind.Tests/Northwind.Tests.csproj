@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\FluentNHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="MvcContrib, Version=0.0.1.96, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\MvcContrib.dll</HintPath>
@@ -99,6 +103,7 @@
     <Compile Include="Northwind.Data\CategoryRepositoryTests.cs" />
     <Compile Include="Northwind.Data\CustomerRepositoryTests.cs" />
     <Compile Include="Northwind.Data\EmployeeRepositoryTests.cs" />
+    <Compile Include="Northwind.Data\NHibernateMaps\CategoryMapTests.cs" />
     <Compile Include="Northwind.Data\SupplierRepositoryTests.cs" />
     <Compile Include="Northwind.Data\TerritoryRepositoryTests.cs" />
     <Compile Include="PersistentObjectIdSetter.cs" />

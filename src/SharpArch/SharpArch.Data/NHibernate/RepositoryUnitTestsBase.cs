@@ -3,6 +3,9 @@ using System.Configuration;
 using System.IO;
 using NHibernate.Cfg;
 using System.Collections.Specialized;
+using SharpArch.Core;
+using FluentNHibernate;
+using System.Reflection;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -14,15 +17,18 @@ namespace SharpArch.Data.NHibernate
     {
         [SetUp]
         public void SetUp() {
-            string webNHibernateConfig = ConfigurationSettings.AppSettings["web.config"];
+            string nhibernateConfig = ConfigurationSettings.AppSettings["nhibernate.config.path"];
+            string mappingAssemblies = ConfigurationSettings.AppSettings["nhibernate.mapping.assembly"];
 
-            if (! string.IsNullOrEmpty(webNHibernateConfig)) {
-                NHibernateSession.Init(new SimpleSessionStorage(), webNHibernateConfig);
-            }
-            else {
-                NHibernateSession.Init(new SimpleSessionStorage());
-            }
+            Check.Require(!string.IsNullOrEmpty(nhibernateConfig),
+                "Please add an AppSetting to your app.config for 'nhibernate.config.path.' This setting " +
+                "should be a relative path to the location of the configuration file containing NHibernate config options.");
+            Check.Require(!string.IsNullOrEmpty(mappingAssemblies),
+                "Please add an AppSetting to your app.config for 'nhibernate.mapping.assembly.' This setting " +
+                "takes a comma delimited list of assemblies containing NHibernate mapping files. Including '.dll' " +
+                "at the end of each is optional.");
 
+            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies.Split(','), nhibernateConfig);
             NHibernateSession.Current.BeginTransaction();
         }
 

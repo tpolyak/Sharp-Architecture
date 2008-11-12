@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\FluentNHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate, Version=2.0.0.2001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\NHibernate.dll</HintPath>
@@ -61,6 +65,8 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="NHibernate\DbContext.cs" />
+    <Compile Include="NHibernate\FluentNHibernate\GeneratorHelper.cs" />
+    <Compile Include="NHibernate\FluentNHibernate\IMapGenerator.cs" />
     <Compile Include="NHibernate\NHibernateSession.cs" />
     <Compile Include="NHibernate\Repository.cs" />
     <Compile Include="NHibernate\RepositoryUnitTestsBase.cs" />

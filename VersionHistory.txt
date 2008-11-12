@@ -8,6 +8,8 @@ Pending on Trunk
 
 Migrating from 0.8.1 to 0.9.0:
 * Follow instructions for upgrading to ASP.NET MVC Beta.  There were respective modifications made to web.config and assembly dependencies.  Also included changes to Global.asax.cs and the inclusion of Default.aspx.cs
+* Move NHibernate settings out of web.config into Hibernate.cfg.xml (Northwind contains an example)
+* Change the name of the "web.config" AppSetting within Northwind.Tests/App.config to "nhibernate.config.path"
 * Change any calls to myDao.CommitChanges() to myDao.DbContext.CommitChanges()
 * Change any references to DomainSignatureComparable to DomainObject
 * If you've overridden HasSameDomainObjectSignatureAs, changes the parameter type to IDomainObject (instead of DomainSignatureComparable)

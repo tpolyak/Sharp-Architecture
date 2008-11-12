@@ -3,6 +3,8 @@ using NHibernate.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Cfg;
 using SharpArch.Core;
+using FluentNHibernate;
+using System.Reflection;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -18,23 +20,44 @@ namespace SharpArch.Data.NHibernate
 
 	public static class NHibernateSession
 	{
-        public static void Init(ISessionStorage storage) {
-            Init(storage, null, null);
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies) {
+            return Init(storage, mappingAssemblies, null, null);
         }
 
-        public static void Init(ISessionStorage storage, string cfgFile) {
-            Init(storage, cfgFile, null);
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile) {
+            return Init(storage, mappingAssemblies, cfgFile, null);
         }
 
-        public static void Init(ISessionStorage storage, string cfgFile, string validatorCfgFile) {
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile, string validatorCfgFile) {
             Check.Require(storage != null, "storage mechanism was null but must be provided");
             
             Configuration cfg = ConfigureNHibernate(cfgFile);
             ConfigureNHibernateValidator(cfg, validatorCfgFile);
+            AddMappingAssembliesTo(cfg, mappingAssemblies);
 
  			SessionFactory = cfg.BuildSessionFactory();
  			Storage = storage;
+
+            return cfg;
  		}
+
+        private static void AddMappingAssembliesTo(Configuration cfg, string[] mappingAssemblies) {
+            Check.Require(mappingAssemblies != null && mappingAssemblies.Length >= 1,
+                "mappingAssemblies must be provided as a string array of assembly names which contain mapping artifacts. " +
+                "The artifacts themselves may be HBMs or ClassMaps.  You may optionally include '.dll' on the assembly name.");
+
+            foreach (string mappingAssembly in mappingAssemblies) {
+                string loadReadyAssemblyName = (mappingAssembly.IndexOf(".dll") == -1)
+                    ? mappingAssembly.Trim() + ".dll"
+                    : mappingAssembly.Trim();
+
+                Assembly assemblyToInclude = Assembly.LoadFrom(loadReadyAssemblyName);
+                // Looks for any HBMs
+                cfg.AddAssembly(assemblyToInclude);
+                // Looks for any Fluent NHibernate ClassMaps
+                cfg.AddMappingsFromAssembly(assemblyToInclude);
+            }
+        }
 
         private static Configuration ConfigureNHibernate(string cfgFile) {
             Configuration cfg = new Configuration();
