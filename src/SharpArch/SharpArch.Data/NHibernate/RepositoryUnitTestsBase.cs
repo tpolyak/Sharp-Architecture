@@ -1,5 +1,8 @@
 ﻿using NUnit.Framework;
 using System.Configuration;
+using System.IO;
+using NHibernate.Cfg;
+using System.Collections.Specialized;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -7,12 +10,19 @@ namespace SharpArch.Data.NHibernate
     /// Initiates a transaction before each test is run and rolls back the transaction after
     /// the test completes.  Consequently, tests make no permanent changes to the DB.
     /// </summary>
-    public class DaoTests
+    public abstract class RepositoryUnitTestsBase
     {
         [SetUp]
         public void SetUp() {
-            NHibernateSession.Init(new SimpleSessionStorage(), 
-                ConfigurationSettings.AppSettings["web.config"]);
+            string webNHibernateConfig = ConfigurationSettings.AppSettings["web.config"];
+
+            if (! string.IsNullOrEmpty(webNHibernateConfig)) {
+                NHibernateSession.Init(new SimpleSessionStorage(), webNHibernateConfig);
+            }
+            else {
+                NHibernateSession.Init(new SimpleSessionStorage());
+            }
+
             NHibernateSession.Current.BeginTransaction();
         }
 

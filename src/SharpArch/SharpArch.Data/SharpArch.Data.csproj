@@ -60,10 +60,10 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="NHibernate\DaoTests.cs" />
     <Compile Include="NHibernate\DbContext.cs" />
-    <Compile Include="NHibernate\GenericDao.cs" />
     <Compile Include="NHibernate\NHibernateSession.cs" />
+    <Compile Include="NHibernate\Repository.cs" />
+    <Compile Include="NHibernate\RepositoryUnitTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

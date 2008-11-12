@@ -14,11 +14,11 @@ namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class CustomerDaoTests : DaoTests
+    public class CustomerRepositoryTests : RepositoryUnitTestsBase
     {
         [Test]
         public void CanGetAllCustomers() {
-            IList<Customer> customers = customerDao.LoadAll();
+            IList<Customer> customers = customerRepository.GetAll();
 
             Assert.That(customers, Is.Not.Null);
             Assert.That(customers, Is.Not.Empty);
@@ -35,13 +35,13 @@ namespace Tests.Northwind.Data
         public void CanGetCustomerByProperties() {
             IDictionary<string, object> propertyValues = new Dictionary<string, object>();
             propertyValues.Add("CompanyName", "Rancho grande");
-            Customer customer = customerDao.GetUniqueByProperties(propertyValues);
+            Customer customer = customerRepository.GetUniqueByProperties(propertyValues);
 
             Assert.That(customer, Is.Not.Null);
             Assert.That(customer.CompanyName, Is.EqualTo("Rancho grande"));
 
             propertyValues.Add("ContactName", "Won't Match");
-            customer = customerDao.GetUniqueByProperties(propertyValues);
+            customer = customerRepository.GetUniqueByProperties(propertyValues);
 
             Assert.That(customer, Is.Null);
         }
@@ -68,11 +68,11 @@ namespace Tests.Northwind.Data
 
         /// <summary>
         /// It would be more effecient to use an example object or a more direct means to find the customers
-        /// within a particular country, but this is a good demonstration of how the DAO extensions work.
+        /// within a particular country, but this is a good demonstration of how the Repository extensions work.
         /// </summary>
         [Test]
         public void CanGetCustomersByCountry() {
-            List<Customer> customers = customerDao.FindByCountry("Brazil");
+            List<Customer> customers = customerRepository.FindByCountry("Brazil");
 
             Assert.That(customers, Is.Not.Null);
             Assert.That(customers.Count, Is.EqualTo(9));
@@ -82,15 +82,15 @@ namespace Tests.Northwind.Data
         [ExpectedException(typeof(PreconditionException))]
         public void CanNotSaveOrUpdatePersistentObjectWithAssignedId() {
             Customer customer = GetCustomerById();
-            customerDao.SaveOrUpdate(customer);
+            customerRepository.SaveOrUpdate(customer);
         }
 
         private Customer GetCustomerById() {
-            Customer customer = customerDao.Load("RANCH", SharpArch.Core.Enums.LockMode.Read);
+            Customer customer = customerRepository.Load("RANCH", SharpArch.Core.Enums.LockMode.Read);
             Assert.That(customer, Is.Not.Null);
             return customer;
         }
 
-        private ICustomerDao customerDao = new CustomerDao();
+        private ICustomerRepository customerRepository = new CustomerRepository();
     }
 }

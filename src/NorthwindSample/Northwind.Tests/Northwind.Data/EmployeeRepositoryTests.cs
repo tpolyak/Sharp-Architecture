@@ -8,7 +8,7 @@ namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class EmployeeDaoTests : DaoTests
+    public class EmployeeRepositoryTests : RepositoryUnitTestsBase
     {
         /// <summary>
         /// WARNING: This is a very fragile test is will likely break over time.  It assumes 
@@ -18,13 +18,13 @@ namespace Tests.Northwind.Data
         /// </summary>
         [Test]
         public void CanLoadEmployee() {
-            Employee employeeFromDb = employeeDao.Load(2);
+            Employee employeeFromDb = employeeRepository.Get(2);
 
             Assert.That(employeeFromDb.FirstName, Is.EqualTo("Andrew"));
             Assert.That(employeeFromDb.LastName, Is.EqualTo("Fuller"));
             Assert.That(employeeFromDb.Territories.Count, Is.EqualTo(7));
         }
 
-        private IDao<Employee> employeeDao = new GenericDao<Employee>();
+        private IRepository<Employee> employeeRepository = new Repository<Employee>();
     }
 }

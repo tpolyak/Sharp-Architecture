@@ -29,7 +29,7 @@ namespace Northwind.Web
         public override void Init() {
             base.Init();
 
-            NHibernateSession.Init(new WebSessionStorage(this), null);
+            NHibernateSession.Init(new WebSessionStorage(this));
         }
 
         public static void RegisterRoutes(RouteCollection routes) {

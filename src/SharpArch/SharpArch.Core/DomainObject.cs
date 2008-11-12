@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Validator.Engine;
+using Newtonsoft.Json;
 
 namespace SharpArch.Core
 {
@@ -24,6 +25,7 @@ namespace SharpArch.Core
     /// an in depth and conclusive resolution.
     /// </summary>
     [Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class DomainObject : IDomainObject
     {
         public override bool Equals(object obj) {

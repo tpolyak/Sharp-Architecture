@@ -21,7 +21,7 @@ namespace Tests.Northwind.Controllers
         [Test]
         public void CanListCategories() {
             CategoriesController controller = 
-                new CategoriesController(CreateMockCategoryDao());
+                new CategoriesController(CreateMockCategoryRepository());
             testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
@@ -35,7 +35,7 @@ namespace Tests.Northwind.Controllers
         [Test]
         public void CanCreateCategory() {
             CategoriesController controller =
-                new CategoriesController(CreateMockCategoryDao());
+                new CategoriesController(CreateMockCategoryRepository());
             testControllerBuilder.InitializeController(controller);
 
             ViewResult result =
@@ -49,7 +49,7 @@ namespace Tests.Northwind.Controllers
         [Test]
         public void CanDetailCategory() {
             CategoriesController controller = 
-                new CategoriesController(CreateMockCategoryDao());
+                new CategoriesController(CreateMockCategoryRepository());
             testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
@@ -62,19 +62,19 @@ namespace Tests.Northwind.Controllers
             Assert.That((result.ViewData.Model as Category).ID, Is.EqualTo(1));
         }
 
-        private IDao<Category> CreateMockCategoryDao() {
+        private IRepository<Category> CreateMockCategoryRepository() {
             MockRepository mocks = new MockRepository();
 
-            IDao<Category> mockedDao = mocks.StrictMock<IDao<Category>>();
-            Expect.Call(mockedDao.LoadAll())
+            IRepository<Category> mockedRepository = mocks.StrictMock<IRepository<Category>>();
+            Expect.Call(mockedRepository.GetAll())
                 .Return(CreateCategories());
-            Expect.Call(mockedDao.Load(1)).IgnoreArguments()
+            Expect.Call(mockedRepository.Get(1)).IgnoreArguments()
                 .Return(CreateCategory());
-            Expect.Call(mockedDao.SaveOrUpdate(null)).IgnoreArguments()
+            Expect.Call(mockedRepository.SaveOrUpdate(null)).IgnoreArguments()
                 .Return(CreateCategory());
-            mocks.Replay(mockedDao);
+            mocks.Replay(mockedRepository);
 
-            return mockedDao;
+            return mockedRepository;
         }
 
         private Category CreateCategory() {

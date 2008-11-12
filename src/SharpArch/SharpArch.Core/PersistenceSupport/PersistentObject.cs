@@ -6,10 +6,14 @@ using System.Diagnostics;
 namespace SharpArch.Core.PersistenceSupport
 {
     /// <summary>
+    /// Provides an optional base class for your objects which will be persisted to the database.
+    /// Benefits include the addition of an ID property along with a consistent manner for comparing
+    /// persistent objects.  If you're looking for a consistent means of comparing objects but don't
+    /// need the ID property; consider inheriting from <see cref="DomainObject"/>, this object's base class.
+    /// 
     /// Since nearly all of the persistent objects you create will have a type of int ID, this 
-    /// more freqently used base class leverages this assumption.  If you want a persistent 
-    /// object with a type other than int, such as string, then use 
-    /// <see cref="PersistentObjectWithTypedId{IdT}" /> instead.
+    /// base class leverages this assumption.  If you want a persistent object with a type other 
+    /// than int, such as string, then use <see cref="PersistentObjectWithTypedId{IdT}" /> instead.
     /// </summary>
     [Serializable]
     public abstract class PersistentObject : PersistentObjectWithTypedId<int> { }
@@ -19,7 +23,6 @@ namespace SharpArch.Core.PersistenceSupport
     /// http://devlicio.us/blogs/billy_mccafferty/archive/2007/04/25/using-equals-gethashcode-effectively.aspx
     /// </summary>
     [Serializable]
-    [JsonObject(MemberSerialization.OptIn)]
     public abstract class PersistentObjectWithTypedId<IdT> : DomainObject, IPersistentObjectWithTypedId<IdT>
     {
         /// <summary>

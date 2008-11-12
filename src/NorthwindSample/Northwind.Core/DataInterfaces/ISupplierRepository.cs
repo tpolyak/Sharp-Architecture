@@ -7,8 +7,8 @@ using SharpArch.Core;
 
 namespace Northwind.Core.DataInterfaces
 {
-    public interface ISupplierDao : IDao<Supplier>
+    public interface ISupplierRepository : IRepository<Supplier>
     {
-        List<Supplier> LoadSuppliersBy(string productCategoryName);
+        List<Supplier> GetSuppliersBy(string productCategoryName);
     }
 }

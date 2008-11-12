@@ -8,7 +8,7 @@ namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class TerritoryDaoTests : DaoTests
+    public class TerritoryRepositoryTests : RepositoryUnitTestsBase
     {
         /// <summary>
         /// WARNING: This is a very fragile test is will likely break over time.  It assumes 
@@ -18,13 +18,13 @@ namespace Tests.Northwind.Data
         /// </summary>
         [Test]
         public void CanLoadTerritory() {
-            Territory territoryFromDb = territoryDao.Load("48084");
+            Territory territoryFromDb = territoryRepository.Get("48084");
 
             Assert.That(territoryFromDb.Description.Trim(), Is.EqualTo("Troy"));
             Assert.That(territoryFromDb.RegionBelongingTo.Description.Trim(), Is.EqualTo("Northern"));
             Assert.That(territoryFromDb.Employees.Count, Is.EqualTo(1));
         }
 
-        private IDaoWithTypedId<Territory, string> territoryDao = new GenericDaoWithTypedId<Territory, string>();
+        private IRepositoryWithTypedId<Territory, string> territoryRepository = new RepositoryWithTypedId<Territory, string>();
     }
 }

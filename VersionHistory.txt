@@ -6,30 +6,37 @@ Roadmap for next Release
 Pending on Trunk
 ----------------------------------------------
 
-Breaking Changes:
-* Upgraded to ASP.NET MVC Beta web project; respective modifications made to web.config and assembly dependencies
-* Upgrade to Beta also included changes to Global.asax.cs and the inclusion of Default.aspx.cs
-* IDao.CommitChanges() is now Obsolete; IDao.DbContext.CommitChanges() should be used instead
-* Renamed SharpArch.Core/DomainSignatureComparable to DomainObject
-* DomainObject.HasSameDomainObjectSignatureAs now accepts an IDomainObject (not a DomainSignatureComparable)
+Migrating from 0.8.1 to 0.9.0:
+* Follow instructions for upgrading to ASP.NET MVC Beta.  There were respective modifications made to web.config and assembly dependencies.  Also included changes to Global.asax.cs and the inclusion of Default.aspx.cs
+* Change any calls to myDao.CommitChanges() to myDao.DbContext.CommitChanges()
+* Change any references to DomainSignatureComparable to DomainObject
+* If you've overridden HasSameDomainObjectSignatureAs, changes the parameter type to IDomainObject (instead of DomainSignatureComparable)
+* Rename references to SharpArch.Core.PersistenceSupport.IDao/IDaoWithTypedId to IRepository/IRepositoryWithTypedId (as a number of developers have rightly indicated is more inline with DDD)
+* Rename references to SharpArch.Data.NHibernate.GenericDao/GenericDaoWithTypedId to Repository/RepositoryWithTypedId
+* Rename references to SharpArch.Data/NHibernate/DaoTests.cs to RepositoryUnitTestsBase.cs
+* Greatly simplified IRepository and moved NHibernate specific methods to SharpArch.Core/PersistenceSupport/NHibernate/INHibernateRepository.cs; consequently, SharpArch.Core/PersistenceSupport/IRepository.cs, which was IDao.cs, now contains the following breaking changes:
+   - LoadAll was changed to GetAll (changed to standardize "Get" as the retrieval keyword);
+   - Get(id, lockMode), GetByExample, GetUniqueByExample, Load(id), Load(id, lockMode), Save, Update and Evict were all moved to SharpArch.Core.PersistenceSupport.NHibernate.INHibernateRepository.
+IRepository was simplified to provide a simpler mechanism that is more NHibernate agnostic and is simpler to understand and use.  You may still wish to use the NHibernate-specific one.  Consequently, decide if you'd like to use SharpArch.Core.PersistenceSupport.IRepository/IRepositoryWithTypedId or SharpArch.Core.PersistenceSupport.NHibernate.INHibernateRepository/INHibernateRepositoryWithTypedId and adjust your code, accordingly.  There's nothing to stop you from using IRepository most of the time and INHibernateRepository on occassion...but I'd only recommend using it when absolutely necessary.  For example, the only time the Northwind sample uses it is to support Save vs. Update for objects with assigned IDs (which are a bad practice to use anyway).
+* Optionally rename your *Dao.cs classes to *Repository.cs to be consistent with the IRepository base interface.
+
+*** Non Breaking Changes ***
 
 Modifications to <root>/bin:
 * All dependencies needed for your own project are now included in the bin folder
 
 Modifications to SharpArch:
-* SharpArch.Core/PersistenceSupport:  Added IPersistentObject and IDomainSignatureComparable to provide your own, if you feel so inclined
-* Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
+* SharpArch.Core/PersistenceSupport:  Added IPersistentObject and IDomainSignatureComparable to provide your own implementation, if you feel so inclined
+* SharpArch.Data/NHibernate/NHibernateSession.cs:  Inclusion of NHibernate.Validator.  Optional NHibernate.Validator config file may be passed to NHibernateSession.Init within Global.asax.cs
+* SharpArch.Data/NHibernate/NHibernateSession.cs:  Init has been overloaded to to accept ISessionStorage without config file info.
 * Marked both DomainSignatureAttribute and DomainSignatureComparable as Serializable (thanks athmer!)
-* Upgraded SharpArch.Web to depend on ASP.NET MVC Beta assemblies
 * The Equals/GetHashCode has been split; Equals no longer uses the result of GetHashCode for the basis of equality checking.  The affected classes include SharpArch.Core/DomainSignatureComparable.cs and SharpArch.Core/PersistenceSupport/PersistentObject.cs.  Although the underlying mechanism for these methods were altered, it should introduce no breaking changes.
-* The methods GetByProperties(IDictionary<string, object> 
-propertyValuePairs) and GetUniqueByProperties have been added to IDao 
-and GenericDao.  A unit test using this feature has been added to 
-Northwind.Tests/Northwind.Data/CustomerDaoTests.cs
-* IDao now exposes IDbContext which provides capabilities such as CommitChanges, Begin/Commit/RollbackTransaction
-* Added validation methods to DomainObject
+* The methods GetByProperties(IDictionary<string, object>, propertyValuePairs) and GetUniqueByProperties have been added to IRepository and Repository.  A unit test using this feature has been added to Northwind.Tests/Northwind.Data/CustomerDaoTests.cs
+* IRepository now exposes IDbContext which provides capabilities such as CommitChanges, Begin/Commit/RollbackTransaction
+* Added validation support methods to DomainObject
 
 Modifications to Northwind sample:
+* Added full CRUD with validation for employee objects
 * Modified Northwind.Core/Order.cs to show an example of overriding HasSameDomainObjectSignatureAs()
 * Updated dynamic links to use Html.ActionLink
 * Added a many-to-many example; specifically:

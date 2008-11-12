@@ -2,6 +2,7 @@
 using NHibernate.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Cfg;
+using SharpArch.Core;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -17,11 +18,17 @@ namespace SharpArch.Data.NHibernate
 
 	public static class NHibernateSession
 	{
+        public static void Init(ISessionStorage storage) {
+            Init(storage, null, null);
+        }
+
         public static void Init(ISessionStorage storage, string cfgFile) {
             Init(storage, cfgFile, null);
         }
 
         public static void Init(ISessionStorage storage, string cfgFile, string validatorCfgFile) {
+            Check.Require(storage != null, "storage mechanism was null but must be provided");
+            
             Configuration cfg = ConfigureNHibernate(cfgFile);
             ConfigureNHibernateValidator(cfg, validatorCfgFile);
 

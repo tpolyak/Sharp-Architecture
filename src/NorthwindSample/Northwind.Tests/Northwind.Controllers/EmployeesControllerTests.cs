@@ -20,7 +20,7 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanListEmployees() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Index().AssertViewRendered();
 
             Assert.That(result.ViewData.Model as List<Employee>, Is.Not.Null);
@@ -29,7 +29,7 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanShowEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Show(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
@@ -38,7 +38,7 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanInitEmployeeCreation() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Create().AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Null);
@@ -46,7 +46,7 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanEnsureEmployeeCreationIsValid() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             Employee employeeFromForm = new Employee();
             ViewResult result = controller.Create(employeeFromForm).AssertViewRendered();
 
@@ -59,7 +59,7 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanCreateEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             Employee employeeFromForm = new Employee() {
                 FirstName = "Jackie",
                 LastName = "Daniels",
@@ -72,7 +72,7 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanInitEmployeeEdit() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
@@ -81,7 +81,7 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanUpdateEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             Employee employeeFromForm = new Employee() {
                 FirstName = "Jackie",
                 LastName = "Daniels",
@@ -94,33 +94,31 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanDeleteEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeDao());
+            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             RedirectToRouteResult redirectResult = controller.Delete(1)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"], Is.EqualTo("The employee was successfully deleted."));
         }
 
-        private IDao<Employee> CreateMockEmployeeDao() {
+        private IRepository<Employee> CreateMockEmployeeRepository() {
             MockRepository mocks = new MockRepository();
 
-            IDao<Employee> mockedDao = mocks.StrictMock<IDao<Employee>>();
-            Expect.Call(mockedDao.LoadAll())
+            IRepository<Employee> mockedRepository = mocks.StrictMock<IRepository<Employee>>();
+            Expect.Call(mockedRepository.GetAll())
                 .Return(CreateEmployees());
-            Expect.Call(mockedDao.Get(1)).IgnoreArguments()
+            Expect.Call(mockedRepository.Get(1)).IgnoreArguments()
                 .Return(CreateEmployee());
-            Expect.Call(mockedDao.Get(1, SharpArch.Core.Enums.LockMode.Upgrade)).IgnoreArguments()
+            Expect.Call(mockedRepository.SaveOrUpdate(null)).IgnoreArguments()
                 .Return(CreateEmployee());
-            Expect.Call(mockedDao.SaveOrUpdate(null)).IgnoreArguments()
-                .Return(CreateEmployee());
-            Expect.Call(delegate { mockedDao.Delete(null); }).IgnoreArguments();
+            Expect.Call(delegate { mockedRepository.Delete(null); }).IgnoreArguments();
 
             IDbContext mockedDbContext = mocks.StrictMock<IDbContext>();
             Expect.Call(delegate { mockedDbContext.CommitChanges(); });
-            SetupResult.For(mockedDao.DbContext).Return(mockedDbContext);
+            SetupResult.For(mockedRepository.DbContext).Return(mockedDbContext);
             
-            mocks.Replay(mockedDao);
+            mocks.Replay(mockedRepository);
 
-            return mockedDao;
+            return mockedRepository;
         }
 
         private Employee CreateEmployee() {

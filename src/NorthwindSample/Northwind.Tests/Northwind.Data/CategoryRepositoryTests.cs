@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
@@ -15,11 +12,11 @@ namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class CategoryDaoTests : DaoTests
+    public class CategoryRepositoryTests : RepositoryUnitTestsBase
     {
         [Test]
         public void CanGetAllCategories() {
-            IList<Category> categories = categoryDao.LoadAll();
+            IList<Category> categories = categoryRepository.GetAll();
 
             Assert.That(categories, Is.Not.Null);
             Assert.That(categories, Is.Not.Empty);
@@ -27,11 +24,11 @@ namespace Tests.Northwind.Data
 
         [Test]
         public void CanGetCategoryById() {
-            Category category = categoryDao.Load(1);
+            Category category = categoryRepository.Get(1);
 
             Assert.That(category.Name, Is.EqualTo("Beverages"));
         }
 
-        private IDao<Category> categoryDao = new GenericDao<Category>();
+        private IRepository<Category> categoryRepository = new Repository<Category>();
     }
 }

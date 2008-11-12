@@ -10,9 +10,9 @@ namespace Northwind.Web.NinjectModules
     public class DataModule : StandardModule
     {
         public override void Load() {
-            Bind<IDao<Category>>().To<GenericDao<Category>>();
-            Bind<IDao<Employee>>().To<GenericDao<Employee>>();
-            Bind<ICustomerDao>().To<CustomerDao>();
+            Bind<IRepository<Category>>().To<Repository<Category>>();
+            Bind<IRepository<Employee>>().To<Repository<Employee>>();
+            Bind<ICustomerRepository>().To<CustomerRepository>();
         }
     }
 }

@@ -11,14 +11,14 @@ namespace Northwind.Controllers
     [HandleError]
     public class CustomersController : Controller
     {
-        public CustomersController(ICustomerDao customerDao) {
-            Check.Require(customerDao != null, "customerDao may not be null");
+        public CustomersController(ICustomerRepository customerRepository) {
+            Check.Require(customerRepository != null, "customerRepository may not be null");
 
-            this.customerDao = customerDao;
+            this.customerRepository = customerRepository;
         }
 
         public ActionResult Index() {
-            List<Customer> customers = customerDao.FindByCountry("Venezuela");
+            List<Customer> customers = customerRepository.FindByCountry("Venezuela");
             return View(customers);
         }
 
@@ -34,11 +34,11 @@ namespace Northwind.Controllers
         public ActionResult Create(string companyName, string assignedId) {
             Customer customer = new Customer(companyName);
             customer.SetAssignedIdTo(assignedId);
-            customerDao.Save(customer);
+            customerRepository.Save(customer);
 
             return View(customer);
         }
 
-        private readonly ICustomerDao customerDao;
+        private readonly ICustomerRepository customerRepository;
     }
 }

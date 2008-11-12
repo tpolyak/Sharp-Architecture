@@ -59,10 +59,11 @@
     <Compile Include="DomainObject.cs" />
     <Compile Include="EnumDescription.cs" />
     <Compile Include="IDomainObject.cs" />
-    <Compile Include="PersistenceSupport\IDao.cs" />
     <Compile Include="DesignByContract.cs" />
     <Compile Include="PersistenceSupport\IDbContext.cs" />
     <Compile Include="PersistenceSupport\IPersistentObjectWithTypedId.cs" />
+    <Compile Include="PersistenceSupport\IRepository.cs" />
+    <Compile Include="PersistenceSupport\NHibernate\INHibernateRepository.cs" />
     <Compile Include="PersistenceSupport\PersistentObject.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="PersistenceSupport\IHasAssignedId.cs" />

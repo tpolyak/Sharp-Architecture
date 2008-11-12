@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Northwind.Core.DataInterfaces;
+﻿using Northwind.Core.DataInterfaces;
 using Northwind.Core;
 using NHibernate;
 using SharpArch.Data.NHibernate;
 using NHibernate.Criterion;
+using System.Collections.Generic;
 
 namespace Northwind.Data
 {
-    public class CustomerDao : GenericDaoWithTypedId<Customer, string>, ICustomerDao
+    public class CustomerRepository : RepositoryWithTypedId<Customer, string>, ICustomerRepository
     {
         public List<Customer> FindByCountry(string countryName) {
             ICriteria criteria = Session.CreateCriteria(typeof(Customer))

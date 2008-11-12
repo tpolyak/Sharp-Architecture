@@ -14,11 +14,11 @@ namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class SupplierDaoTests : DaoTests
+    public class SupplierRepositoryTests : RepositoryUnitTestsBase
     {
         [Test]
         public void CanLoadSuppliersByProductCategoryName() {
-            List<Supplier> matchingSuppliers = supplierDao.LoadSuppliersBy("Seafood");
+            List<Supplier> matchingSuppliers = supplierRepository.GetSuppliersBy("Seafood");
 
             Assert.That(matchingSuppliers.Count, Is.EqualTo(8));
 
@@ -26,7 +26,7 @@ namespace Tests.Northwind.Data
         }
 
         private static void OutputSearchResults(List<Supplier> matchingSuppliers) {
-            Debug.WriteLine("SupplierDaoTests.CanLoadSuppliersByProductCategoryName Results:");
+            Debug.WriteLine("SupplierRepositoryTests.CanLoadSuppliersByProductCategoryName Results:");
 
             foreach (Supplier supplier in matchingSuppliers) {
                 Debug.WriteLine("Company name: " + supplier.CompanyName);
@@ -38,6 +38,6 @@ namespace Tests.Northwind.Data
             }
         }
 
-        private ISupplierDao supplierDao = new SupplierDao();
+        private ISupplierRepository supplierRepository = new SupplierRepository();
     }
 }

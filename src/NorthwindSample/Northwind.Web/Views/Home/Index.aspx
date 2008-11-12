@@ -24,7 +24,7 @@
             <li>
                 <%= Html.ActionLink((CategoriesController c) => c.Index(), "List Categories") %>: 
                 Using a master page, this page simply lists out all the categories in the database.  
-                This uses an "out of the box" generic DAO to retrieve the categories from the database.  
+                This uses an "out of the box" repository to retrieve the categories from the database.  
                 To view the category details, click a category name on the listing page.
             </li>
             <li>
@@ -42,7 +42,7 @@
                 <%= Html.ActionLink((CustomersController c) => c.Index(), "List Customers") %>: 
                 Not using a master page, this page lists the customers in the database who are from Venezuela.  
                 Since this uses a custom data-access method, this demonstrates extending the 
-                generic DAO with a custom retrieval method.  As it lists the number of orders that each 
+                base repository with a custom retrieval method.  As it lists the number of orders that each 
                 customer has placed, it's also an example of lazy-loaded collections.
             </li>
             <li>

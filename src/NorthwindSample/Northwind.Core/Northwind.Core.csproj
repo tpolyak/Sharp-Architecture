@@ -52,8 +52,8 @@
   <ItemGroup>
     <Compile Include="Category.cs" />
     <Compile Include="Customer.cs" />
-    <Compile Include="DataInterfaces\ICustomerDao.cs" />
-    <Compile Include="DataInterfaces\ISupplierDao.cs" />
+    <Compile Include="DataInterfaces\ICustomerRepository.cs" />
+    <Compile Include="DataInterfaces\ISupplierRepository.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="OrdersExtensions.cs" />

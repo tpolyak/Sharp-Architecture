@@ -24,7 +24,7 @@ namespace Tests.Northwind.Controllers
         [Test]
         public void CanListCustomers() {
             CustomersController controller = 
-                new CustomersController(CreateMockCustomerDao());
+                new CustomersController(CreateMockCustomerRepository());
             testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
@@ -35,15 +35,15 @@ namespace Tests.Northwind.Controllers
             Assert.That((result.ViewData.Model as List<Customer>).Count, Is.EqualTo(2));
         }
 
-        public ICustomerDao CreateMockCustomerDao() {
+        public ICustomerRepository CreateMockCustomerRepository() {
             MockRepository mocks = new MockRepository();
 
-            ICustomerDao mockedCustomerDao = mocks.StrictMock<ICustomerDao>();
-            Expect.Call(mockedCustomerDao.FindByCountry(null)).IgnoreArguments()
+            ICustomerRepository mockedCustomerRepository = mocks.StrictMock<ICustomerRepository>();
+            Expect.Call(mockedCustomerRepository.FindByCountry(null)).IgnoreArguments()
                 .Return(CreateCustomers());
-            mocks.Replay(mockedCustomerDao);
+            mocks.Replay(mockedCustomerRepository);
 
-            return mockedCustomerDao;
+            return mockedCustomerRepository;
         }
 
         private List<Customer> CreateCustomers() {

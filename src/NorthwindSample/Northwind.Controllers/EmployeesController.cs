@@ -14,19 +14,19 @@ namespace Northwind.Controllers
     [HandleError]
     public class EmployeesController : Controller
     {
-        public EmployeesController(IDao<Employee> employeeDao) {
-            Check.Require(employeeDao != null, "employeeDao may not be null");
+        public EmployeesController(IRepository<Employee> employeeRepository) {
+            Check.Require(employeeRepository != null, "employeeRepository may not be null");
 
-            this.employeeDao = employeeDao;
+            this.employeeRepository = employeeRepository;
         }
 
         public ActionResult Index() {
-            List<Employee> employees = employeeDao.LoadAll();
+            List<Employee> employees = employeeRepository.GetAll();
             return View(employees);
         }
 
         public ActionResult Show(int id) {
-            Employee employee = employeeDao.Get(id);
+            Employee employee = employeeRepository.Get(id);
             return View(employee);
         }
 
@@ -38,7 +38,7 @@ namespace Northwind.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(Employee employee) {
             if (employee.IsValid()) {
-                employeeDao.SaveOrUpdate(employee);
+                employeeRepository.SaveOrUpdate(employee);
 
                 TempData["message"] = employee.FullName + " was successfully created.";
                 return RedirectToAction("Index");
@@ -50,14 +50,14 @@ namespace Northwind.Controllers
         }
 
         public ActionResult Edit(int id) {
-            Employee employee = employeeDao.Get(id);
+            Employee employee = employeeRepository.Get(id);
             return View(employee);
         }
 
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int id, Employee employee) {
-            Employee employeeToUpdate = employeeDao.Get(id);
+            Employee employeeToUpdate = employeeRepository.Get(id);
 
             if (employee.IsValid()) {
                 employeeToUpdate.FirstName = employee.FirstName;
@@ -76,20 +76,20 @@ namespace Northwind.Controllers
         [Transaction]
         public ActionResult Delete(int id) {
             string resultMessage = null;
-            Employee employeeToDelete = employeeDao.Get(id, Enums.LockMode.Upgrade);
+            Employee employeeToDelete = employeeRepository.Get(id);
 
             if (employeeToDelete != null) {
-                employeeDao.Delete(employeeToDelete);
+                employeeRepository.Delete(employeeToDelete);
 
                 try {
-                    employeeDao.DbContext.CommitChanges();
+                    employeeRepository.DbContext.CommitChanges();
                 }
                 catch {
                     resultMessage = "The employee couldn't be deleted; likely due to a foreign key " +
                         "reference. You could cascade the deletion or you could inform " +
                         "the user better on where the foreign dependencies are and what needs to be " +
                         "done before the employee can be deleted.";
-                    employeeDao.DbContext.RollbackTransaction();
+                    employeeRepository.DbContext.RollbackTransaction();
                 }
             }
             else {
@@ -104,6 +104,6 @@ namespace Northwind.Controllers
             return RedirectToAction("Index");
         }
 
-        private readonly IDao<Employee> employeeDao;
+        private readonly IRepository<Employee> employeeRepository;
     }
 }

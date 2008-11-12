@@ -11,19 +11,19 @@ namespace Northwind.Controllers
     [HandleError]
     public class CategoriesController : Controller
     {
-        public CategoriesController(IDao<Category> categoryDao) {
-            Check.Require(categoryDao != null, "categoryDao may not be null");
+        public CategoriesController(IRepository<Category> categoryRepository) {
+            Check.Require(categoryRepository != null, "categoryRepository may not be null");
 
-            this.categoryDao = categoryDao;
+            this.categoryRepository = categoryRepository;
         }
 
         public ActionResult Index() {
-            List<Category> categories = categoryDao.LoadAll();
+            List<Category> categories = categoryRepository.GetAll();
             return View(categories);
         }
 
         public ActionResult Show(int id) {
-            Category category = categoryDao.Load(id);
+            Category category = categoryRepository.Get(id);
             return View(category);
         }
 
@@ -36,11 +36,11 @@ namespace Northwind.Controllers
         [Transaction]
         public ActionResult Create(string categoryName) {
             Category category = new Category(categoryName);
-            category = categoryDao.SaveOrUpdate(category);
+            category = categoryRepository.SaveOrUpdate(category);
 
             return View(category);
         }
 
-        private readonly IDao<Category> categoryDao;
+        private readonly IRepository<Category> categoryRepository;
     }
 }
