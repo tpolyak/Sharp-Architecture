@@ -1,14 +1,26 @@
-Roadmap for next Release
+----------------------------------------------
+----------------------------------------------
+Roadmap for 1.0 Release
+----------------------------------------------
 ----------------------------------------------
 
-* Add examaple usage of NHibernate.Validator along with unit tests of capabilities
+* Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
+* Add WCF integration
+* Add Common Service Locator integration
+* Hone CRUD capabilities
+* Scaffolding generators!
 
-Pending on Trunk
+----------------------------------------------
+----------------------------------------------
+0.9.72 - ASP.NET MVC Beta, NH 2.0.1, Ninject 1.0, NHibernate.Validator 1.0, Fluent NHibernate 0.1
+----------------------------------------------
 ----------------------------------------------
 
-Migrating from 0.8.1 to 0.9.0:
+Migrating from 0.8.1 to 0.9.0 (see the Northwind sample code for implementation examples):
 * Follow instructions for upgrading to ASP.NET MVC Beta.  There were respective modifications made to web.config and assembly dependencies.  Also included changes to Global.asax.cs and the inclusion of Default.aspx.cs
 * Change the name of the "web.config" AppSetting within Northwind.Tests/App.config to "nhibernate.config.path"
+* Add a new AppSetting within Northwind.Tests/App.config called "nhibernate.mapping.assembly" which contains the name of the assembly which holds the mapping artifacts
+* Add an assembly redirect for NHibernate to app.config and web.config; Fluent NHibernate is a little behind
 * Change any calls to myDao.CommitChanges() to myDao.DbContext.CommitChanges()
 * Change any references to DomainSignatureComparable to DomainObject
 * If you've overridden HasSameDomainObjectSignatureAs, changes the parameter type to IDomainObject (instead of DomainSignatureComparable)
@@ -21,8 +33,11 @@ Migrating from 0.8.1 to 0.9.0:
 IRepository was simplified to provide a simpler mechanism that is more NHibernate agnostic and is simpler to understand and use.  You may still wish to use the NHibernate-specific one.  Consequently, decide if you'd like to use SharpArch.Core.PersistenceSupport.IRepository/IRepositoryWithTypedId or SharpArch.Core.PersistenceSupport.NHibernate.INHibernateRepository/INHibernateRepositoryWithTypedId and adjust your code, accordingly.  There's nothing to stop you from using IRepository most of the time and INHibernateRepository on occassion...but I'd only recommend using it when absolutely necessary.  For example, the only time the Northwind sample uses it is to support Save vs. Update for objects with assigned IDs (which are a bad practice to use anyway).
 * Optionally rename your *Dao.cs classes to *Repository.cs to be consistent with the IRepository base interface.
 * Optionally move NHibernate settings out of web.config into Hibernate.cfg.xml (the Northwind contains an example); if you do so, be sure to change the path in MyProject.Tests/app.config to point to the externalized file
+* Optionally migrate your HBM files to Fluent NHibernate class maps within MyProject.Data.  If you do so, be sure to delete the HBMs (or simply set their compile behavior to "Content" rather than "Embedded Resource" during the migration.  You'll then need to change the mapping assembly information for NHibernate.  REGARDLESS, you'll need to remove the assembly mapping property from your NHibernate configuration settings and modify the NHibernate session initialization within Global.asax.cs; see Northwind.Web/Global.asax.cs for an example.  Currently, you have to provide the full path to the requested resources; I'm looking to simplify this if possible.
 
 *** Non Breaking Changes ***
+
+The documentation within <root>/docs has been completely updated; I highly recommend you review it to see changes in action, particularly with respect to Fluent NHibernate.
 
 Modifications to <root>/bin:
 * All dependencies needed for your own project are now included in the bin folder
@@ -52,7 +67,10 @@ Modifications to Northwind sample:
     * Northwind.Data/EmployeeDaoTests.cs and TerritoryDaoTests.cs test the many-to-many relationships in the database along with the many-to-one from Territory to Region.
 * Made general clean ups to make the code simpler and with less typing (e.g., changed "<%= (ViewData.Model as Customer).CompanyName%>" to simply "<%= ViewData.Model.CompanyName%>")
 
+----------------------------------------------
+----------------------------------------------
 0.8.1 - MVC Preview 5, NH 2.0.1 and Ninject 1.0
+----------------------------------------------
 ----------------------------------------------
 
 Baseline history record
