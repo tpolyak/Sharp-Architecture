@@ -74,9 +74,9 @@ namespace SharpArch.Core.PersistenceSupport
         /// and the IDs are not of the default ID value
         /// </summary>
         private bool HasSameNonDefaultIdAs(PersistentObjectWithTypedId<IdT> compareTo) {
-            return (ID != null && !ID.Equals(default(IdT))) &&
-                   (compareTo.ID != null && !compareTo.ID.Equals(default(IdT))) &&
-                   ID.Equals(compareTo.ID);
+            return ! IsTransient() &&
+                  ! compareTo.IsTransient() &&
+                  ID.Equals(compareTo.ID);
         }
     }
 }

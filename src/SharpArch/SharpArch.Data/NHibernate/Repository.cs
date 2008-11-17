@@ -25,38 +25,38 @@ namespace SharpArch.Data.NHibernate
     /// </summary>
     public class RepositoryWithTypedId<T, IdT> : INHibernateRepositoryWithTypedId<T, IdT>
     {
-        protected ISession Session {
+        protected virtual ISession Session {
             get { return NHibernateSession.Current; }
         }
 
-        public IDbContext DbContext {
+        public virtual IDbContext DbContext {
             get {
                 return SharpArch.Data.NHibernate.DbContext.Instance;
             }
         }
 
-        public T Get(IdT id) {
+        public virtual T Get(IdT id) {
             return Session.Get<T>(id);
         }
 
-        public T Get(IdT id, Enums.LockMode lockMode) {
+        public virtual T Get(IdT id, Enums.LockMode lockMode) {
             return Session.Get<T>(id, ConvertFrom(lockMode));
         }
 
-        public T Load(IdT id) {
+        public virtual T Load(IdT id) {
             return Session.Load<T>(id);
         }
 
-        public T Load(IdT id, Enums.LockMode lockMode) {
+        public virtual T Load(IdT id, Enums.LockMode lockMode) {
             return Session.Load<T>(id, ConvertFrom(lockMode));
         }
 
-        public List<T> GetAll() {
+        public virtual List<T> GetAll() {
             ICriteria criteria = Session.CreateCriteria(typeof(T));
             return criteria.List<T>() as List<T>;
         }
 
-        public List<T> GetByExample(T exampleInstance, params string[] propertiesToExclude) {
+        public virtual List<T> GetByExample(T exampleInstance, params string[] propertiesToExclude) {
             ICriteria criteria = Session.CreateCriteria(typeof(T));
             Example example = Example.Create(exampleInstance);
 
@@ -69,7 +69,7 @@ namespace SharpArch.Data.NHibernate
             return criteria.List<T>() as List<T>;
         }
 
-        public T GetUniqueByExample(T exampleInstance, params string[] propertiesToExclude) {
+        public virtual T GetUniqueByExample(T exampleInstance, params string[] propertiesToExclude) {
             List<T> foundList = GetByExample(exampleInstance, propertiesToExclude);
 
             if (foundList.Count > 1) {
@@ -82,7 +82,7 @@ namespace SharpArch.Data.NHibernate
             return default(T);
         }
 
-        public List<T> GetByProperties(IDictionary<string, object> propertyValuePairs) {
+        public virtual List<T> GetByProperties(IDictionary<string, object> propertyValuePairs) {
             Check.Require(propertyValuePairs != null && propertyValuePairs.Count > 0,
                 "propertyValuePairs was null or empty; " +
                 "it has to have at least one property/value pair in it");
@@ -96,7 +96,7 @@ namespace SharpArch.Data.NHibernate
             return criteria.List<T>() as List<T>;
         }
 
-        public T GetUniqueByProperties(IDictionary<string, object> propertyValuePairs) {
+        public virtual T GetUniqueByProperties(IDictionary<string, object> propertyValuePairs) {
             List<T> foundList = GetByProperties(propertyValuePairs);
 
             if (foundList.Count > 1) {
@@ -109,21 +109,21 @@ namespace SharpArch.Data.NHibernate
             return default(T);
         }
 
-        public T Save(T entity) {
+        public virtual T Save(T entity) {
             Session.Save(entity);
             return entity;
         }
 
-        public T Update(T entity) {
+        public virtual T Update(T entity) {
             Session.Update(entity);
             return entity;
         }
 
-        public void Delete(T entity) {
+        public virtual void Delete(T entity) {
             Session.Delete(entity);
         }
 
-        public void Evict(T entity) {
+        public virtual void Evict(T entity) {
             Session.Evict(entity);
         }
 
@@ -131,7 +131,7 @@ namespace SharpArch.Data.NHibernate
         /// Although SaveOrUpdate _can_ be invoked to update an object with an assigned ID, you are 
         /// hereby forced instead to use Save/Update for better clarity.
         /// </summary>
-        public T SaveOrUpdate(T entity) {
+        public virtual T SaveOrUpdate(T entity) {
             Check.Require(!(entity is IHasAssignedId<IdT>),
                 "For better clarity and reliability, PersistentObjects with an assigned ID must call Save or Update");
 

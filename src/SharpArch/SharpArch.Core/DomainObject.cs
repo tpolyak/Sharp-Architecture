@@ -10,7 +10,7 @@ namespace SharpArch.Core
 {
     /// <summary>
     /// Facilitates indicating which property(s) of a class describe the unique signature of a 
-    /// business object.  See DomainObject.GetDomainSignatureProperties for how this is leveraged.
+    /// business object.  See DomainObject.DomainSignatureProperties for how this is leveraged.
     /// </summary>
     [Serializable]
     public class DomainSignatureAttribute : Attribute { }
@@ -53,16 +53,14 @@ namespace SharpArch.Core
                 // so we include the object's type in the hash calculation
                 int hashCode = GetType().GetHashCode();
 
-                IEnumerable<PropertyInfo> domainSignatureProperties = GetDomainSignatureProperties();
-
-                foreach (PropertyInfo property in domainSignatureProperties) {
+                foreach (PropertyInfo property in DomainSignatureProperties) {
                     object value = property.GetValue(this, null);
 
                     if (value != null)
                         hashCode = (hashCode * RANDOM_PRIME_NUMBER) ^ value.GetHashCode();
                 }
 
-                if (domainSignatureProperties.Any())
+                if (DomainSignatureProperties.Any())
                     return hashCode;
 
                 // If no properties were flagged as being part of the domain signature of the object,
@@ -82,9 +80,7 @@ namespace SharpArch.Core
         /// Alternatively, you may override this method to provide your own comparison routine.
         /// </summary>
         protected virtual bool HasSameDomainObjectSignatureAs(IDomainObject compareTo) {
-            IEnumerable<PropertyInfo> domainSignatureProperties = GetDomainSignatureProperties();
-
-            foreach (PropertyInfo property in domainSignatureProperties) {
+            foreach (PropertyInfo property in DomainSignatureProperties) {
                 object valueOfThisObject = property.GetValue(this, null);
                 object valueToCompareTo = property.GetValue(compareTo, null);
 
@@ -100,12 +96,7 @@ namespace SharpArch.Core
             // If we've gotten this far and domain signature properties were found, then we can
             // assume that everything matched; otherwise, if there were no domain signature 
             // properties, then simply return the default bahavior of Equals
-            return domainSignatureProperties.Any() || base.Equals(compareTo);
-        }
-
-        private IEnumerable<PropertyInfo> GetDomainSignatureProperties() {
-            return GetType().GetProperties()
-                .Where(p => p.GetCustomAttributes(typeof(DomainSignatureAttribute), true).Length > 0);
+            return DomainSignatureProperties.Any() || base.Equals(compareTo);
         }
 
         public virtual bool IsValid() {
@@ -118,6 +109,9 @@ namespace SharpArch.Core
             }
         }
 
+        /// <summary>
+        /// Lazily loads the validation engine
+        /// </summary>
         protected virtual ValidatorEngine Validator {
             get {
                 if (validator == null) {
@@ -125,6 +119,20 @@ namespace SharpArch.Core
                 }
 
                 return validator;
+            }
+        }
+
+        /// <summary>
+        /// Lazily loads the domain signature properties
+        /// </summary>
+        protected virtual IEnumerable<PropertyInfo> DomainSignatureProperties {
+            get {
+                if (domainSignatureProperties == null) {
+                    domainSignatureProperties = GetType().GetProperties()
+                        .Where(p => p.GetCustomAttributes(typeof(DomainSignatureAttribute), true).Length > 0);
+                }
+
+                return domainSignatureProperties;
             }
         }
 
@@ -140,5 +148,11 @@ namespace SharpArch.Core
         /// initializes this member.
         /// </summary>
         private ValidatorEngine validator;
+
+        /// <summary>
+        /// Talk to this property via the protected DomainSignatureProperties property; that getter lazily 
+        /// initializes this member.
+        /// </summary>
+        private IEnumerable<PropertyInfo> domainSignatureProperties;
     }
 }

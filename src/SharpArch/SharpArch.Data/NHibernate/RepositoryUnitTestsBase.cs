@@ -16,7 +16,7 @@ namespace SharpArch.Data.NHibernate
     public abstract class RepositoryUnitTestsBase
     {
         [SetUp]
-        public void SetUp() {
+        public virtual void SetUp() {
             string nhibernateConfig = ConfigurationSettings.AppSettings["nhibernate.config.path"];
             string mappingAssemblies = ConfigurationSettings.AppSettings["nhibernate.mapping.assembly"];
 
@@ -33,7 +33,7 @@ namespace SharpArch.Data.NHibernate
         }
 
         [TearDown]
-        public void TearDown() {
+        public virtual void TearDown() {
             NHibernateSession.Current.Transaction.Rollback();
         }
     }
