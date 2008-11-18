@@ -32,8 +32,8 @@ namespace Northwind.Web
             base.Init();
 
             NHibernateSession.Init(new WebSessionStorage(this), 
-                new string[] { Server.MapPath("./bin/Northwind.Data.dll") }, 
-                Server.MapPath("Hibernate.cfg.xml"));
+                new string[] { Server.MapPath("~/bin/Northwind.Data.dll") }, 
+                Server.MapPath("~/Hibernate.cfg.xml"));
         }
 
         public static void RegisterRoutes(RouteCollection routes) {
