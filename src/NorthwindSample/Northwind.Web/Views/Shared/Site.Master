@@ -21,6 +21,9 @@
             <div class="columnsContainer">
 
                 <div class="leftColumn">
+                    <p>
+                        <%= Html.Image("~/Content/Images/sharp_arch.jpg") %>
+                    </p>
                     <h2>Example Pages</h2>
                     <ul>
                         <li><%= Html.ActionLink((HomeController c) => c.Index(), "Home")%></li>
@@ -28,7 +31,8 @@
                         <li><%= Html.ActionLink((CustomersController c) => c.Index(), "List Customers with Lazy Loading") %></li>
                         <li><%= Html.ActionLink((EmployeesController c) => c.Index(), "Employee CRUD with Validation")%></li>
                     </ul>
-                </div><!--/leftColumn-->
+                </div>
+                <!--/leftColumn-->
 
                 <div class="rightColumn">
                     <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server" />

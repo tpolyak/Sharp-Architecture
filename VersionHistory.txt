@@ -12,6 +12,14 @@ Roadmap for 1.0 Release
 
 ----------------------------------------------
 ----------------------------------------------
+On the trunk
+----------------------------------------------
+----------------------------------------------
+
+* Modified Global.asax.cs to pass in paths to the HBM dll and Hibernate.cfg.xml using ~ for the relative path (http://code.google.com/p/sharp-architecture/issues/detail?id=18)
+
+----------------------------------------------
+----------------------------------------------
 0.9.72 - ASP.NET MVC Beta, NH 2.0.1, Ninject 1.0, NHibernate.Validator 1.0, Fluent NHibernate 0.1
 ----------------------------------------------
 ----------------------------------------------
