@@ -34,7 +34,7 @@ namespace SharpArch.Web.Ninject
             foreach (Type controller in controllers) {
                 Bind<IController>().To(controller).Only(
                     When.Context.Variable("controllerName")
-                    .EqualTo(controller.Name.Replace("Controller", "")));
+                    .EqualTo(controller.Name.Replace("Controller", ""), StringComparer.OrdinalIgnoreCase));
             }
         }
 

@@ -11,11 +11,6 @@
 <body>
     <div class="page">
 
-        <div id="header">
-            <p id="logo">
-                <a href="">S#arp Architecture</a></p>
-        </div>
-
         <div id="mainContent">
 
             <div class="columnsContainer">
