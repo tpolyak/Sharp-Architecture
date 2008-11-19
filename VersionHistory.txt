@@ -16,7 +16,11 @@ On the trunk
 ----------------------------------------------
 ----------------------------------------------
 
-* Modified Global.asax.cs to pass in paths to the HBM dll and Hibernate.cfg.xml using ~ for the relative path (http://code.google.com/p/sharp-architecture/issues/detail?id=18)
+SharpArch.Web
+* Ninject/ControllersAutoBindMOdule.cs:  Added StringComparer.OrdinalIgnoreCase to auto binder so that URLs are no longer case sensitive
+
+Northwind.Web
+* Global.asax.cs:  Modified Global.asax.cs to pass in paths to the HBM dll and Hibernate.cfg.xml using ~ for the relative path (http://code.google.com/p/sharp-architecture/issues/detail?id=18)
 
 ----------------------------------------------
 ----------------------------------------------
