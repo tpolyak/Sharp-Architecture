@@ -21,6 +21,10 @@ On the trunk
 SharpArch.Data
 * BREAKING CHANGE ~ Moved NHibernate/RepositoryUnitTestsBase.cs to SharpArch.Testing.NUnit/NHibernate and renamed it to be DatabaseRepositoryTestsBase.  To fix, simply add a "using SharpArch.Testing.NUnit.NHibernate;" to any test fixture class which inherits from RepositoryUnitTestsBase and rename the parent to DatabaseRepositoryTestsBase
 
+SharpArch.Testing
+* Added this new, stand-alone library to consolidate general, unit testing utilities
+* PersistentObjectIdSetter.cs:  Used to set the ID of a persistent object for unit testing purposes; this class was originally in Northwind.Tests
+
 SharpArch.Testing.NUnit
 * Added this new, stand-alone library to support NUnit
 * BehaviorSpecificiationTestsBase.cs:  This optional text fixture base class provides a base class for BDD unit tests, as described at http://flux88.com/blog/the-transition-from-tdd-to-bdd/.
