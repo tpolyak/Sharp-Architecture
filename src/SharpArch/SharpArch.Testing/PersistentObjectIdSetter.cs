@@ -1,8 +1,8 @@
+﻿using SharpArch.Core.PersistenceSupport;
 using System.Reflection;
-using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
 
-namespace Tests
+namespace SharpArch.Testing
 {
     /// <summary>
     /// For better data integrity, it is imperitive that the <see cref="PersistentObject.ID"/>
@@ -16,14 +16,14 @@ namespace Tests
         /// <summary>
         /// Uses reflection to set the ID of a <see cref="PersistentObjectWithTypedId" />.
         /// </summary>
-        public static void SetIdOf(PersistentObjectWithTypedId<IdT> domainObject, IdT id) {
+        public static void SetIdOf(IPersistentObjectWithTypedId<IdT> persistentObject, IdT id) {
             // Set the data property reflectively
-            PropertyInfo idProperty = domainObject.GetType().GetProperty("ID",
+            PropertyInfo idProperty = persistentObject.GetType().GetProperty("ID",
                 BindingFlags.Public | BindingFlags.Instance);
 
             Check.Ensure(idProperty != null, "idProperty could not be found");
 
-            idProperty.SetValue(domainObject, id, null);
+            idProperty.SetValue(persistentObject, id, null);
         }
     }
 }

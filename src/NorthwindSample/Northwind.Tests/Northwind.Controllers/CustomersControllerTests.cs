@@ -10,6 +10,7 @@ using Northwind.Core;
 using Rhino.Mocks;
 using NUnit.Framework.SyntaxHelpers;
 using Northwind.Core.DataInterfaces;
+using SharpArch.Testing;
 
 namespace Tests.Northwind.Controllers
 {

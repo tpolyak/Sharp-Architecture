@@ -272,6 +272,10 @@ namespace Tests.SharpArch.Core
                 return (compareTo != null &&
                     PhoneNumber.Equals(compareTo.PhoneNumber));
             }
+
+            public override int GetHashCode() {
+                return base.GetHashCode();
+            }
         }
 
         #endregion

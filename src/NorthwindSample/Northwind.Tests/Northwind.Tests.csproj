@@ -67,6 +67,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\SharpArch.Data.dll</HintPath>
     </Reference>
+    <Reference Include="SharpArch.Testing, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\SharpArch.Testing.dll</HintPath>
+    </Reference>
     <Reference Include="SharpArch.Testing.NUnit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\SharpArch.Testing.NUnit.dll</HintPath>
@@ -116,7 +120,6 @@
     <Compile Include="Northwind.Data\NHibernateMaps\MappingIntegrationTests.cs" />
     <Compile Include="Northwind.Data\SupplierRepositoryBehaviorTests.cs" />
     <Compile Include="Northwind.Data\TerritoryRepositoryTests.cs" />
-    <Compile Include="PersistentObjectIdSetter.cs" />
     <Compile Include="Northwind.Core\CustomerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

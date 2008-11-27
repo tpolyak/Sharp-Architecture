@@ -7,6 +7,7 @@ using Rhino.Mocks;
 using NUnit.Framework.SyntaxHelpers;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using SharpArch.Testing;
 
 namespace Tests.Northwind.Controllers
 {
