@@ -16,11 +16,36 @@ On the trunk
 ----------------------------------------------
 ----------------------------------------------
 
+** Search for "BREAKING CHANGE" below to find each of the breaking changes **
+
+SharpArch.Data
+* BREAKING CHANGE ~ Moved NHibernate/RepositoryUnitTestsBase.cs to SharpArch.Testing.NUnit/NHibernate and renamed it to be DatabaseRepositoryTestsBase.  To fix, simply add a "using SharpArch.Testing.NUnit.NHibernate;" to any test fixture class which inherits from RepositoryUnitTestsBase and rename the parent to DatabaseRepositoryTestsBase
+
+SharpArch.Testing.NUnit
+* Added this new, stand-alone library to support NUnit
+* BehaviorSpecificiationTestsBase.cs:  This optional text fixture base class provides a base class for BDD unit tests, as described at http://flux88.com/blog/the-transition-from-tdd-to-bdd/.
+* SyntaxHelpers.cs:  This optional extensions class adds a number of fluent NUnit syntax capabilities.  To use, simply add a reference to SharpArch.Testing.NUnit to have them available from your unit tests.
+* NHibernate/DatabaseRepositoryTestsBase.cs:  This is the old SharpArch.Data/NHibernate/RepositoryUnitTestsBase.cs class provided for backwards compatibility.  The preferred mechanism for database unit testing is using an in-memory database, described next.
+* NHibernate/RepositoryBehaviorSpecificationTestsBase.cs:  Provides an optional base class for developing behavior driven unit tests against an auto-generated database, suggested to be in-memory, SqlLite database.  (See Northwind.Tests for an example.)
+* NHibernate/RepositoryTestsBase.cs:  Behaves similarly to the old SharpArch.Data/NHibernate/RepositoryUnitTestsBase.cs but auto-generates the database, suggested to be in-memory, SqlLite database.  (See Northwind.Tests for an example.)
+
 SharpArch.Web
 * Ninject/ControllersAutoBindMOdule.cs:  Added StringComparer.OrdinalIgnoreCase to auto binder so that URLs are no longer case sensitive
 
 Northwind.Web
-* Global.asax.cs:  Modified Global.asax.cs to pass in paths to the HBM dll and Hibernate.cfg.xml using ~ for the relative path (http://code.google.com/p/sharp-architecture/issues/detail?id=18)
+* Hibernate.cfg.xml:  Extracted NHibernate settings to this file and set the "Copy to Output Directory" to "Copy always"
+* Global.asax.cs:  Modified Global.asax.cs to pass in path to the HBM dll using "~" for the relative path; dropped the optional  path to the Hibernate.cfg.xml now that it's being copied to the output directory (i.e., to the /bin directory)
+
+Northwind.Tests
+* App.config:  Removed "nhibernate.config.path" from appSettings; it now uses Hibernate.cfg.xml, discussed next
+* Hibernate.cfg.xml:  Added this file and set its "Copy to Output Directory" to "Copy always"; this now uses an in-memory SqlLite database for DB tests
+* All DB test fixtures now inherit from either RepositoryTestsBase or RepositoryBehaviorSpecificationTestsBase using the in-memory database
+
+Northwind.TestsUsingDevelopmentDatabase
+* Added this new, stand-alone library to demonstrate unit testing against a "live" development database.  The preferred mechanism is to use an in-memory database, as demonstrated within Northwind.Tests, but this is here to show backward compatibility for the previous approach.
+
+** Version Acknowledgements **
+* A big thanks goes out to Lee Carter for providing code for running DB unit tests within an in-memory SQLLite database.
 
 ----------------------------------------------
 ----------------------------------------------

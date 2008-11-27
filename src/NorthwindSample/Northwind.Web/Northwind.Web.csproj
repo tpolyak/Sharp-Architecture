@@ -203,7 +203,9 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Hibernate.cfg.xml" />
+    <Content Include="Hibernate.cfg.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Categories\Create.aspx" />
     <Content Include="Views\Categories\Index.aspx" />
     <Content Include="Views\Categories\Show.aspx" />

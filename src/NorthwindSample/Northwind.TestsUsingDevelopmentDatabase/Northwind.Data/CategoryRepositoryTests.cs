@@ -13,19 +13,14 @@ namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class CategoryRepositoryTests : RepositoryTestsBase
+    public class CategoryRepositoryTests : DatabaseRepositoryTestsBase
     {
-        protected override void LoadTestData() {
-            CreatePersistedCategory("Beverages");
-            CreatePersistedCategory("Snacks");
-        }
-
         [Test]
         public void CanGetAllCategories() {
             IList<Category> categories = categoryRepository.GetAll();
 
             Assert.That(categories, Is.Not.Null);
-            Assert.That(categories.Count, Is.EqualTo(2));
+            Assert.That(categories, Is.Not.Empty);
         }
 
         [Test]
@@ -33,12 +28,6 @@ namespace Tests.Northwind.Data
             Category category = categoryRepository.Get(1);
 
             Assert.That(category.Name, Is.EqualTo("Beverages"));
-        }
-
-        private void CreatePersistedCategory(string categoryName) {
-            Category category = new Category(categoryName);
-            categoryRepository.SaveOrUpdate(category);
-            FlushSessionAndEvict(category);
         }
 
         private IRepository<Category> categoryRepository = new Repository<Category>();

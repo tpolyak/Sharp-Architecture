@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Web", "SharpArch.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Tests", "SharpArch.Tests\SharpArch.Tests.csproj", "{C201296D-09B7-4BAE-96F0-AB59F624DB36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing.NUnit", "SharpArch.Testing.NUnit\SharpArch.Testing.NUnit.csproj", "{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{C201296D-09B7-4BAE-96F0-AB59F624DB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C201296D-09B7-4BAE-96F0-AB59F624DB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C201296D-09B7-4BAE-96F0-AB59F624DB36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Northwind.Core.DataInterfaces;
 using Northwind.Core;
 using NUnit.Framework.SyntaxHelpers;
 using System.Diagnostics;
 using SharpArch.Data.NHibernate;
 using Northwind.Data;
+using SharpArch.Testing.NUnit.NHibernate;
+using System.Collections.Generic;
 
 namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class SupplierRepositoryTests : RepositoryUnitTestsBase
+    public class SupplierRepositoryTests : DatabaseRepositoryTestsBase
     {
         [Test]
         public void CanLoadSuppliersByProductCategoryName() {

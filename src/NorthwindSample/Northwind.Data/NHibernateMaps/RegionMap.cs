@@ -13,7 +13,7 @@ namespace Northwind.Data.NHibernateMappings
 
             Id(x => x.ID, "RegionID")
                 .WithUnsavedValue(0)
-                .GeneratedBy.Increment();
+                .GeneratedBy.Assigned();
 
             Map(x => x.Description, "RegionDescription");
         }

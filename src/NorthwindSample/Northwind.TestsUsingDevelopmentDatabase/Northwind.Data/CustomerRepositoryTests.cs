@@ -15,24 +15,14 @@ namespace Tests.Northwind.Data
 {
     [TestFixture]
     [Category("DB Tests")]
-    public class CustomerRepositoryTests : RepositoryTestsBase
+    public class CustomerRepositoryTests : DatabaseRepositoryTestsBase
     {
-        protected override void LoadTestData() {
-            CreatePersistedCustomer("WOWEE", "Jack Johnson", "Rancho pequeno", "Brazil");
-            CreatePersistedCustomer("ABC12", "Jim Wirwille", "Homebrew", "German");
-
-            Customer customer = CreatePersistedCustomer("RANCH", "John Wayne", "Rancho grande", "Brazil");
-            CreatePersistentOrder(customer, DateTime.Now);
-            CreatePersistentOrder(customer, new DateTime(1998, 1, 13));
-            CreatePersistentOrder(customer, new DateTime(2006, 2, 23));
-        }
-
         [Test]
         public void CanGetAllCustomers() {
             IList<Customer> customers = customerRepository.GetAll();
 
             Assert.That(customers, Is.Not.Null);
-            Assert.That(customers.Count, Is.EqualTo(3));
+            Assert.That(customers, Is.Not.Empty);
         }
 
         [Test]
@@ -66,7 +56,7 @@ namespace Tests.Northwind.Data
         public void CanLoadCustomerOrders() {
             Customer customer = GetCustomerById();
 
-            Assert.That(customer.Orders.Count, Is.EqualTo(3));
+            Assert.That(customer.Orders.Count, Is.EqualTo(5));
         }
 
         [Test]
@@ -86,7 +76,7 @@ namespace Tests.Northwind.Data
             List<Customer> customers = customerRepository.FindByCountry("Brazil");
 
             Assert.That(customers, Is.Not.Null);
-            Assert.That(customers.Count, Is.EqualTo(2));
+            Assert.That(customers.Count, Is.EqualTo(9));
         }
 
         [Test]
@@ -102,30 +92,6 @@ namespace Tests.Northwind.Data
             return customer;
         }
 
-        private Customer CreatePersistedCustomer(string customerId, string contactName, string companyName, string country) {
-            Customer customer = new Customer(companyName) {
-                ContactName = contactName,
-                Country = country
-            };
-            customer.SetAssignedIdTo(customerId);
-
-            // We have to explicitly call Save() since it has an assigned ID
-            customerRepository.Save(customer);
-            FlushSessionAndEvict(customer);
-
-            return customer;
-        }
-
-        private Order CreatePersistentOrder(Customer customer, DateTime orderDate) {
-            Order order = new Order(customer);
-            order.OrderDate = orderDate;
-            orderRepository.SaveOrUpdate(order);
-            FlushSessionAndEvict(order);
-
-            return order;
-        }
-
         private ICustomerRepository customerRepository = new CustomerRepository();
-        private IRepository<Order> orderRepository = new Repository<Order>();
     }
 }
