@@ -40,6 +40,7 @@ Northwind.Tests
 * App.config:  Removed "nhibernate.config.path" from appSettings; it now uses Hibernate.cfg.xml, discussed next
 * Hibernate.cfg.xml:  Added this file and set its "Copy to Output Directory" to "Copy always"; this now uses an in-memory SqlLite database for DB tests
 * All DB test fixtures now inherit from either RepositoryTestsBase or RepositoryBehaviorSpecificationTestsBase using the in-memory database
+* Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs:  Test fixture which tests every mapping file against the database sepcified in the application's "live" database NHibernate configuration file (e.g., the one found within the Northwind.Web project); this ensures that the "live" database is compliant with the mapping files since the unit tests are now using an in-memory database.
 
 Northwind.TestsUsingDevelopmentDatabase
 * Added this new, stand-alone library to demonstrate unit testing against a "live" development database.  The preferred mechanism is to use an in-memory database, as demonstrated within Northwind.Tests, but this is here to show backward compatibility for the previous approach.
