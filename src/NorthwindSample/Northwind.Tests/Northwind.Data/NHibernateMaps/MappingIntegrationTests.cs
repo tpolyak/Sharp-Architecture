@@ -33,7 +33,9 @@ namespace Tests.Northwind.Data.NHibernateMaps
 
         [TearDown]
         public virtual void TearDown() {
-            NHibernateSession.Storage.Session.Dispose();
+            if (NHibernateSession.Storage.Session != null) {
+                NHibernateSession.Storage.Session.Dispose();
+            }
         }
     }
 }
