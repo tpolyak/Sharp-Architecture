@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\sharp_arch.jpg" />
+    <Content Include="Content\Images\sharp_arch_small.gif" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Hibernate.cfg.xml">

@@ -99,6 +99,11 @@ page width. Or, you can specify an exact pixel width. */
     padding: 0 0px 0 0;
 }
 
+#sharpArchLogo 
+{
+	text-align: right;
+}
+
 p#logo, h1#logo
 {
     font-weight: bold;
