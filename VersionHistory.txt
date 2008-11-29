@@ -8,13 +8,20 @@ Roadmap for 1.0 Release
 * Add WCF integration
 * Add Common Service Locator integration
 * Hone CRUD capabilities
-* Scaffolding generators!
+* Scaffolding generators!  (Visual Studio template now available!)
 
 ----------------------------------------------
 ----------------------------------------------
 On the trunk
 ----------------------------------------------
 ----------------------------------------------
+
+New and exciting:
+* A Visual Studio 2008 template project has been added under /TemplatesAndCodeGen to get your own S#arp Architecture project up and running quickly
+
+-------
+
+Changes to /src:  
 
 ** Search for "BREAKING CHANGE" below to find each of the breaking changes **
 
