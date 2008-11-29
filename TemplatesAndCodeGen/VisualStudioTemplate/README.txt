@@ -17,6 +17,8 @@ This contains everything you need to get a S#arp Architecture project up and run
 	* Keep "Create directory for solution" unchecked (it'll work if this is selected but will add another parent folder)
 	* Click OK
 
-5) Right click the <YOUR PROJECT>.Web project and select "Set as StartUp Project"
+5) Create your project database and set the connection string within <YOUR PROJECT>.Web/Hibernate.cfg.xml
 
-6) Click F5 to build and run it!
+6) Right click the <YOUR PROJECT>.Web project and select "Set as StartUp Project"
+
+7) Click F5 to build and run it!
