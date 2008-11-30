@@ -20,7 +20,7 @@ namespace SharpArch.Testing.NUnit.NHibernate
     /// a "live" development database, such as a SQL Server instance, use <see cref="DatabaseRepositoryTestsBase" />
     /// as your test fixture base class.
     /// </summary>
-    public abstract class RepositoryBehaviorSpecificationTestsBase : BehaviorSpecificiationTestsBase
+    public abstract class RepositoryBehaviorSpecificationTestsBase : BehaviorSpecificationTestsBase
     {
         [SetUp]
         protected override void SetUp() {

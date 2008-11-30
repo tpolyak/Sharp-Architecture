@@ -10,7 +10,7 @@ namespace SharpArch.Testing.NUnit
     /// Provides a base class for BDD unit tests, as described at http://flux88.com/blog/the-transition-from-tdd-to-bdd/.
     /// This is an optional base class which need not be used with unit tests.
     /// </summary>
-    public abstract class BehaviorSpecificiationTestsBase
+    public abstract class BehaviorSpecificationTestsBase
     {
         protected Exception ExceptionThrown { get; private set; }
 

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -60,7 +60,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BehaviorSpecificiationTestsBase.cs" />
+    <Compile Include="BehaviorSpecificationTestsBase.cs" />
     <Compile Include="NHibernate\RepositoryTestsBase.cs" />
     <Compile Include="NHibernate\RepositoryBehaviorSpecificationTestsBase.cs" />
     <Compile Include="NHibernate\DatabaseRepositoryTestsBase.cs" />
