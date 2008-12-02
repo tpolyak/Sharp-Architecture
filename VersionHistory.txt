@@ -12,12 +12,14 @@ Roadmap for 1.0 Release
 
 ----------------------------------------------
 ----------------------------------------------
-On the trunk
+0.9.??? - ASP.NET MVC Beta, NH 2.0.1, NHibernate.Validator 1.0, Fluent NHibernate 0.1, Castle Windsor 1.0RC3
 ----------------------------------------------
 ----------------------------------------------
 
 New and exciting:
 * A Visual Studio 2008 template project has been added under /TemplatesAndCodeGen to get your own S#arp Architecture project up and running quickly
+* Replaced Ninject with Castle Windsor
+* Added support for behavior driven unit testing
 
 -------
 
@@ -41,11 +43,20 @@ SharpArch.Testing.NUnit
 * NHibernate/RepositoryTestsBase.cs:  Behaves similarly to the old SharpArch.Data/NHibernate/RepositoryUnitTestsBase.cs but auto-generates the database, suggested to be in-memory, SqlLite database.  (See Northwind.Tests for an example.)
 
 SharpArch.Web
-* Ninject/ControllersAutoBindMOdule.cs:  Added StringComparer.OrdinalIgnoreCase to auto binder so that URLs are no longer case sensitive
+* BREAKING CHANGE ~ Ninject/ControllersAutoBindModule.cs:  This class has been deleted.  If you need it for backwards compatibility, you can get the code for this class from version 0.9.72 and put it into your application.
+
+SharpArch Solution Items
+* BREAKING CHANGE ~ Deleted Ninject.Conditions.dll and Ninject.Core.dll.  If you need them for backwards compatibility, you can get them from version 0.9.72 and add them to your application.
+
+Northwind.Controllers:
+* RouteRegistrar.cs:  Added this class to pull route registration into the controllers layer.
 
 Northwind.Web
+* /CastleWindsor/:  Added support for Castle Windsor configuration within the class ComponentRegistrar.cs
+* /NinjectModuldes/:  Deleted this folder and replaced it with /CastleWindsor/
 * Hibernate.cfg.xml:  Extracted NHibernate settings to this file and set the "Copy to Output Directory" to "Copy always"
-* Global.asax.cs:  Modified Global.asax.cs to pass in path to the HBM dll using "~" for the relative path; dropped the optional  path to the Hibernate.cfg.xml now that it's being copied to the output directory (i.e., to the /bin directory)
+* Global.asax.cs:  Modified Global.asax.cs to pass in path to the HBM dll using "~" for the relative path; dropped the optional  path to the Hibernate.cfg.xml now that it's being copied to the output directory (i.e., to the /bin directory); moved route registration to /Northwind.Controllers/RouteRegistrar.cs; added Castle Windsor configuration.
+* web.config:  Dropped assembly redirect for Ninject and added log4net configuration
 
 Northwind.Tests
 * App.config:  Removed "nhibernate.config.path" from appSettings; it now uses Hibernate.cfg.xml, discussed next
@@ -55,6 +66,9 @@ Northwind.Tests
 
 Northwind.TestsUsingDevelopmentDatabase
 * Added this new, stand-alone library to demonstrate unit testing against a "live" development database.  The preferred mechanism is to use an in-memory database, as demonstrated within Northwind.Tests, but this is here to show backward compatibility for the previous approach.
+
+Northwind Solution Items
+* Deleted Ninject.Conditions.dll, Ninject.Core.dll and MvcContrib.Ninject.dll
 
 ** Version Acknowledgements **
 * A big thanks goes out to Lee Carter for providing code for running DB unit tests within an in-memory SQLLite database.
