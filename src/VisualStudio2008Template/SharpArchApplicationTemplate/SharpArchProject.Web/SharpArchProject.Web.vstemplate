@@ -26,8 +26,8 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="Global.asax">Global.asax</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Global.asax.cs">Global.asax.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="Hibernate.cfg.xml">Hibernate.cfg.xml</ProjectItem>
-      <Folder Name="NinjectModules" TargetFolderName="NinjectModules">
-        <ProjectItem ReplaceParameters="true" TargetFileName="DataModule.cs">DataModule.cs</ProjectItem>
+      <Folder Name="CastleWindsor" TargetFolderName="CastleWindsor">
+        <ProjectItem ReplaceParameters="true" TargetFileName="ComponentRegistrar.cs">ComponentRegistrar.cs</ProjectItem>
       </Folder>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>

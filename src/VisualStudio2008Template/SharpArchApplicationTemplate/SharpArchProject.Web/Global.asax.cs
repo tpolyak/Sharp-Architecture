@@ -2,30 +2,47 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using MvcContrib.Ninject;
-using $safeprojectname$.NinjectModules;
+using System.Reflection;
+using NHibernate.Cfg;
+using Castle.Windsor;
+using $solutionname$.Controllers;
+using MvcContrib.Castle;
+using Castle.MicroKernel.Registration;
+using SharpArch.Core.PersistenceSupport;
+using SharpArch.Core.PersistenceSupport.NHibernate;
+using $safeprojectname$.CastleWindsor;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
-using System.Reflection;
-using SharpArch.Web.Ninject;
-using NHibernate.Cfg;
-using FluentNHibernate;
 
 namespace $safeprojectname$
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : HttpApplication
+    public class MvcApplication : HttpApplication, IContainerAccessor
     {
         protected void Application_Start() {
-            InitializeNinject();
-            RegisterRoutes(RouteTable.Routes);
+            log4net.Config.XmlConfigurator.Configure();
+
+            InitializeWindsor();
+            RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
 
-        private void InitializeNinject() {
-            NinjectKernel.Initialize(new ControllersAutoBindModule("$solutionname$.Controllers"), new DataModule());
-            ControllerBuilder.Current.SetControllerFactory(typeof(MvcContrib.Ninject.NinjectControllerFactory));
+        /// <summary>
+        /// Instantiate the container and add all Controllers that derive from 
+        /// WindsorController to the container.  Also associate the Controller 
+        /// with the WindsorContainer ControllerFactory.
+        /// </summary>
+        protected virtual void InitializeWindsor() {
+            if (container == null) {
+                container = new WindsorContainer();
+
+                ControllerBuilder.Current.SetControllerFactory(
+                    new MvcContrib.Castle.WindsorControllerFactory(Container));
+                container.RegisterControllers(typeof(HomeController).Assembly);
+
+                ComponentRegistrar.AddComponentsTo(container);
+            }
         }
 
         public override void Init() {
@@ -35,20 +52,20 @@ namespace $safeprojectname$
                 new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") });
         }
 
-        public static void RegisterRoutes(RouteCollection routes) {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
-            routes.MapRoute(
-                "Default",
-                "{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = "" }
-            );
-        }
-
         protected void Application_Error(object sender, EventArgs e) {
             // Useful for debugging
             Exception ex = Server.GetLastError();
             ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
+
+        public static IWindsorContainer Container {
+            get { return container; }
+        }
+
+        IWindsorContainer IContainerAccessor.Container {
+            get { return Container; }
+        }
+
+        private static WindsorContainer container;
     }
 }

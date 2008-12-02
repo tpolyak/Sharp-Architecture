@@ -38,14 +38,16 @@
     <Content Include="Solution Items\Castle.Core.xml" />
     <Content Include="Solution Items\Castle.DynamicProxy2.dll" />
     <Content Include="Solution Items\Castle.DynamicProxy2.xml" />
+    <Content Include="Solution Items\Castle.MicroKernel.dll" />
+    <Content Include="Solution Items\Castle.Windsor.dll" />
     <Content Include="Solution Items\FluentNHibernate.dll" />
     <Content Include="Solution Items\Iesi.Collections.dll" />
     <Content Include="Solution Items\Iesi.Collections.xml" />
     <Content Include="Solution Items\log4net.dll" />
     <Content Include="Solution Items\log4net.xml" />
     <Content Include="Solution Items\Microsoft.Web.Mvc.dll" />
+    <Content Include="Solution Items\MvcContrib.Castle.dll" />
     <Content Include="Solution Items\MvcContrib.dll" />
-    <Content Include="Solution Items\MvcContrib.Ninject.dll" />
     <Content Include="Solution Items\MvcContrib.TestHelper.dll" />
     <Content Include="Solution Items\MvcContrib.TestHelper.XML" />
     <Content Include="Solution Items\MvcContrib.xml" />
@@ -54,8 +56,6 @@
     <Content Include="Solution Items\NHibernate.Validator.dll" />
     <Content Include="Solution Items\NHibernate.Validator.xml" />
     <Content Include="Solution Items\NHibernate.xml" />
-    <Content Include="Solution Items\Ninject.Conditions.dll" />
-    <Content Include="Solution Items\Ninject.Core.dll" />
     <Content Include="Solution Items\nunit.framework.dll" />
     <Content Include="Solution Items\Rhino.Mocks.dll" />
     <Content Include="Solution Items\Rhino.Mocks.xml" />

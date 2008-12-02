@@ -19,14 +19,16 @@
 				<ProjectItem>Castle.Core.xml</ProjectItem>
 				<ProjectItem>Castle.DynamicProxy2.dll</ProjectItem>
 				<ProjectItem>Castle.DynamicProxy2.xml</ProjectItem>
+				<ProjectItem>Castle.MicroKernel.dll</ProjectItem>
+				<ProjectItem>Castle.Windsor.dll</ProjectItem>
 				<ProjectItem>FluentNHibernate.dll</ProjectItem>
 				<ProjectItem>Iesi.Collections.dll</ProjectItem>
 				<ProjectItem>Iesi.Collections.xml</ProjectItem>
 				<ProjectItem>log4net.dll</ProjectItem>
 				<ProjectItem>log4net.xml</ProjectItem>
 				<ProjectItem>Microsoft.Web.Mvc.dll</ProjectItem>
+				<ProjectItem>MvcContrib.Castle.dll</ProjectItem>
 				<ProjectItem>MvcContrib.dll</ProjectItem>
-				<ProjectItem>MvcContrib.Ninject.dll</ProjectItem>
 				<ProjectItem>MvcContrib.TestHelper.dll</ProjectItem>
 				<ProjectItem>MvcContrib.TestHelper.XML</ProjectItem>
 				<ProjectItem>MvcContrib.xml</ProjectItem>
@@ -35,8 +37,6 @@
 				<ProjectItem>NHibernate.Validator.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.xml</ProjectItem>
 				<ProjectItem>NHibernate.xml</ProjectItem>
-				<ProjectItem>Ninject.Conditions.dll</ProjectItem>
-				<ProjectItem>Ninject.Core.dll</ProjectItem>
 				<ProjectItem>nunit.framework.dll</ProjectItem>
 				<ProjectItem>Rhino.Mocks.dll</ProjectItem>
 				<ProjectItem>Rhino.Mocks.xml</ProjectItem>

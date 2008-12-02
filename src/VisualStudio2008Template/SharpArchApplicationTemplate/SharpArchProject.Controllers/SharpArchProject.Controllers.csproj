@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="HomeController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RouteRegistrar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\$solutionname$.Core\$solutionname$.Core.csproj">
