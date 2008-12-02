@@ -6,13 +6,12 @@ Roadmap for 1.0 Release
 
 * Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
 * Add WCF integration
-* Add Common Service Locator integration
 * Hone CRUD capabilities
 * Scaffolding generators!  (Visual Studio template now available!)
 
 ----------------------------------------------
 ----------------------------------------------
-0.9.??? - ASP.NET MVC Beta, NH 2.0.1, NHibernate.Validator 1.0, Fluent NHibernate 0.1, Castle Windsor 1.0RC3
+0.9.??? - ASP.NET MVC Beta, NH 2.0.1, NHibernate.Validator, Fluent NHibernate, Castle Windsor
 ----------------------------------------------
 ----------------------------------------------
 
@@ -20,6 +19,18 @@ New and exciting:
 * A Visual Studio 2008 template project has been added under /TemplatesAndCodeGen to get your own S#arp Architecture project up and running quickly
 * Replaced Ninject with Castle Windsor
 * Added support for behavior driven unit testing
+
+-------
+
+Assembly Dependencies:
+* ASP.NET MVC Beta
+* Castle 1.0 RC3
+* Fluent NHibernate 0.1
+* NHibernate 2.0.1
+* NHibernate.Validator 1.0
+* MvcContrib Revision 635 (later than 0.0.1.137 release from CodePlex)
+* Rhino.Mocks 3.5.0.1337
+* System.Data.SQLite.DLL 1.0.60.0
 
 -------
 
@@ -47,6 +58,7 @@ SharpArch.Web
 
 SharpArch Solution Items
 * BREAKING CHANGE ~ Deleted Ninject.Conditions.dll and Ninject.Core.dll.  If you need them for backwards compatibility, you can get them from version 0.9.72 and add them to your application.
+* Updated MvcContrib*.dll dependencies
 
 Northwind.Controllers:
 * RouteRegistrar.cs:  Added this class to pull route registration into the controllers layer.
@@ -69,6 +81,7 @@ Northwind.TestsUsingDevelopmentDatabase
 
 Northwind Solution Items
 * Deleted Ninject.Conditions.dll, Ninject.Core.dll and MvcContrib.Ninject.dll
+* Added Castle.MicroKernel.dll, Castle.Windsor.dll and MvcContrib.Castle.dll
 
 ** Version Acknowledgements **
 * A big thanks goes out to Lee Carter for providing code for running DB unit tests within an in-memory SQLLite database.

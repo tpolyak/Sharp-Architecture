@@ -30,8 +30,6 @@
 				<ProjectItem>MvcContrib.Castle.dll</ProjectItem>
 				<ProjectItem>MvcContrib.dll</ProjectItem>
 				<ProjectItem>MvcContrib.TestHelper.dll</ProjectItem>
-				<ProjectItem>MvcContrib.TestHelper.XML</ProjectItem>
-				<ProjectItem>MvcContrib.xml</ProjectItem>
 				<ProjectItem>Newtonsoft.Json.dll</ProjectItem>
 				<ProjectItem>NHibernate.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.dll</ProjectItem>

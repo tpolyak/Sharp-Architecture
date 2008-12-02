@@ -49,8 +49,6 @@
     <Content Include="Solution Items\MvcContrib.Castle.dll" />
     <Content Include="Solution Items\MvcContrib.dll" />
     <Content Include="Solution Items\MvcContrib.TestHelper.dll" />
-    <Content Include="Solution Items\MvcContrib.TestHelper.XML" />
-    <Content Include="Solution Items\MvcContrib.xml" />
     <Content Include="Solution Items\Newtonsoft.Json.dll" />
     <Content Include="Solution Items\NHibernate.dll" />
     <Content Include="Solution Items\NHibernate.Validator.dll" />
