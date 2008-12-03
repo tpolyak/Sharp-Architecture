@@ -4,14 +4,15 @@ Roadmap for 1.0 Release
 ----------------------------------------------
 ----------------------------------------------
 
-* Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
 * Add WCF integration
 * Hone CRUD capabilities
+* Support multiple databases
+* Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
 * Scaffolding generators!  (Visual Studio template now available!)
 
 ----------------------------------------------
 ----------------------------------------------
-0.9.??? - ASP.NET MVC Beta, NH 2.0.1, NHibernate.Validator, Fluent NHibernate, Castle Windsor
+0.9.114 - ASP.NET MVC Beta, NH 2.0.1, NHibernate.Validator, Fluent NHibernate, Castle Windsor
 ----------------------------------------------
 ----------------------------------------------
 
@@ -19,6 +20,7 @@ New and exciting:
 * A Visual Studio 2008 template project has been added under /TemplatesAndCodeGen to get your own S#arp Architecture project up and running quickly
 * Replaced Ninject with Castle Windsor
 * Added support for behavior driven unit testing
+* Unit tests now use an in-memory SQLite database for testing data access methods along with providing an integration verification mechanism to check mappings against a live database
 
 -------
 
