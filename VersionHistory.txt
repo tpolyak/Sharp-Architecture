@@ -8,7 +8,55 @@ Roadmap for 1.0 Release
 * Hone CRUD capabilities
 * Support multiple databases
 * Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
-* Scaffolding generators!  (Visual Studio template now available!)
+* CRUD scaffolding generators which will include:
+	- Use of Fluent NHibernate's AutoPersistenceModel for coding by convention
+	- 
+
+----------------------------------------------
+----------------------------------------------
+On the trunk
+----------------------------------------------
+----------------------------------------------
+
+New and exciting:
+* Added CommonServiceLocator to provide IoC agnosticism to the non-web layers
+
+-------
+
+Assembly Dependencies:
+* ASP.NET MVC Beta
+* Castle 1.0 RC3
+* Fluent NHibernate 0.1
+* Microsoft.Practices.ServiceLocation 1.0 (CommonServiceLocator)
+* NHibernate 2.0.1
+* NHibernate.Validator 1.0
+* MvcContrib Revision 635 (later than 0.0.1.137 release from CodePlex)
+* Rhino.Mocks 3.5.0.1337
+* System.Data.SQLite.DLL 1.0.60.0
+
+-------
+
+Changes to /src:
+
+Northwind.Controllers
+* Added a reference to Microsoft.Practices.ServiceLocation.dll
+
+Northwind.Core
+* Added a reference to Microsoft.Practices.ServiceLocation.dll
+
+Northwind.Data
+* Added a reference to Microsoft.Practices.ServiceLocation.dll
+
+Northwind.Tests
+* Added a reference to Microsoft.Practices.ServiceLocation.dll, Castle.Core.dll, Castle.MicroKernel.dll, Castle.Windsor.dll to support configuring IoC from the tests layer
+
+Northwind.Web
+* Added a reference to Microsoft.Practices.ServiceLocation.dll
+* Global.asax.cs: Added CommonServiceLocator support and removed implementation of IContainerAccessor (use CSL instead)
+
+Northwind Solution Items
+* Added NorthwindSample/Solution Items/CommonServiceLocator.WindsorAdapter.dll
+* Added NorthwindSample/Solution Items/Microsoft.Practices.ServiceLocation.dll
 
 ----------------------------------------------
 ----------------------------------------------
