@@ -8,8 +8,6 @@ using Castle.Windsor;
 using Northwind.Controllers;
 using MvcContrib.Castle;
 using Castle.MicroKernel.Registration;
-using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core.PersistenceSupport.NHibernate;
 using Northwind.Web.CastleWindsor;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
