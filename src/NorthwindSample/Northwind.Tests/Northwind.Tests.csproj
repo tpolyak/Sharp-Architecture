@@ -31,9 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.WindsorAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\CommonServiceLocator.WindsorAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="MvcContrib, Version=0.0.1.96, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

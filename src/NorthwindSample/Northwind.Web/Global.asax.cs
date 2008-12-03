@@ -13,18 +13,19 @@ using SharpArch.Core.PersistenceSupport.NHibernate;
 using Northwind.Web.CastleWindsor;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
+using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator.WindsorAdapter;
 
 namespace Northwind.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : HttpApplication, IContainerAccessor
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start() {
             log4net.Config.XmlConfigurator.Configure();
-
-            InitializeWindsor();
+            InitializeServiceLocator();
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
 
@@ -33,16 +34,14 @@ namespace Northwind.Web
         /// WindsorController to the container.  Also associate the Controller 
         /// with the WindsorContainer ControllerFactory.
         /// </summary>
-        protected virtual void InitializeWindsor() {
-            if (container == null) {
-                container = new WindsorContainer();
+        protected virtual void InitializeServiceLocator() {
+            IWindsorContainer container = new WindsorContainer();
+            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
-                ControllerBuilder.Current.SetControllerFactory(
-                    new MvcContrib.Castle.WindsorControllerFactory(Container));
-                container.RegisterControllers(typeof(HomeController).Assembly);
+            container.RegisterControllers(typeof(HomeController).Assembly);
+            ComponentRegistrar.AddComponentsTo(container);
 
-                ComponentRegistrar.AddComponentsTo(container);
-            }
+            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
 
         public override void Init() {
@@ -57,15 +56,5 @@ namespace Northwind.Web
             Exception ex = Server.GetLastError();
             ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
-
-        public static IWindsorContainer Container {
-            get { return container; }
-        }
-
-        IWindsorContainer IContainerAccessor.Container {
-            get { return Container; }
-        }
-
-        private static WindsorContainer container;
     }
 }
