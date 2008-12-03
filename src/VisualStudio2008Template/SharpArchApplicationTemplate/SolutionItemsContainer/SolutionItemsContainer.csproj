@@ -40,11 +40,13 @@
     <Content Include="Solution Items\Castle.DynamicProxy2.xml" />
     <Content Include="Solution Items\Castle.MicroKernel.dll" />
     <Content Include="Solution Items\Castle.Windsor.dll" />
+    <Content Include="Solution Items\CommonServiceLocator.WindsorAdapter.dll" />
     <Content Include="Solution Items\FluentNHibernate.dll" />
     <Content Include="Solution Items\Iesi.Collections.dll" />
     <Content Include="Solution Items\Iesi.Collections.xml" />
     <Content Include="Solution Items\log4net.dll" />
     <Content Include="Solution Items\log4net.xml" />
+    <Content Include="Solution Items\Microsoft.Practices.ServiceLocation.dll" />
     <Content Include="Solution Items\Microsoft.Web.Mvc.dll" />
     <Content Include="Solution Items\MvcContrib.Castle.dll" />
     <Content Include="Solution Items\MvcContrib.dll" />

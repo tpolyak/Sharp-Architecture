@@ -21,11 +21,13 @@
 				<ProjectItem>Castle.DynamicProxy2.xml</ProjectItem>
 				<ProjectItem>Castle.MicroKernel.dll</ProjectItem>
 				<ProjectItem>Castle.Windsor.dll</ProjectItem>
+				<ProjectItem>CommonServiceLocator.WindsorAdapter.dll</ProjectItem>
 				<ProjectItem>FluentNHibernate.dll</ProjectItem>
 				<ProjectItem>Iesi.Collections.dll</ProjectItem>
 				<ProjectItem>Iesi.Collections.xml</ProjectItem>
 				<ProjectItem>log4net.dll</ProjectItem>
 				<ProjectItem>log4net.xml</ProjectItem>
+				<ProjectItem>Microsoft.Practices.ServiceLocation.dll</ProjectItem>
 				<ProjectItem>Microsoft.Web.Mvc.dll</ProjectItem>
 				<ProjectItem>MvcContrib.Castle.dll</ProjectItem>
 				<ProjectItem>MvcContrib.dll</ProjectItem>
