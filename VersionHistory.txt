@@ -20,6 +20,7 @@ On the trunk
 
 New and exciting:
 * Added CommonServiceLocator to provide IoC agnosticism to the non-web layers
+* You no longer need to register custom repositories to Castle Windsor
 
 -------
 
@@ -40,6 +41,7 @@ Changes to /src:
 
 Northwind.Controllers
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
+* RouteRegistrar.cs:  Registered map for "Root"
 
 Northwind.Core
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
@@ -49,10 +51,14 @@ Northwind.Data
 
 Northwind.Tests
 * Added a reference to Microsoft.Practices.ServiceLocation.dll, Castle.Core.dll, Castle.MicroKernel.dll, Castle.Windsor.dll to support configuring IoC from the tests layer
+* /Northwind.Controllers/RouteRegistrarTests.cs:  Added call to "Clear()" the RouteTable during SetUp()
 
 Northwind.Web
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
+* Default.aspx.cs:  Modified RewritePath to pass in false for the rebasePath parameter
 * Global.asax.cs: Added CommonServiceLocator support and removed implementation of IContainerAccessor (use CSL instead)
+* /CastleWindsor/CastleExtensions.cs:  Added extension to find interfaces for custom repositories
+* /CastleWindsor/ComponentRegistrar.cs:  Replaced manual custom repository registrations with auto-registration of custom repositories; also added registration of IRepositoryWithTypedId and INHibernateRepositoryWithTypedId
 
 Northwind Solution Items
 * Added NorthwindSample/Solution Items/CommonServiceLocator.WindsorAdapter.dll
