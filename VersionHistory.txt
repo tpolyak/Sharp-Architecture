@@ -39,6 +39,9 @@ Assembly Dependencies:
 
 Changes to /src:
 
+SharpArch.Core
+* EnumDescription.cs:  This class has been dropped from the library; it doesn't have anything to do with S#arp Architecture; if you miss it dearly, you can find it described at http://devlicio.us/blogs/billy_mccafferty/archive/2006/10/16/Show-User_2D00_Friendly-enum-Translations.aspx
+
 Northwind.Controllers
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
 * RouteRegistrar.cs:  Registered map for "Root"
