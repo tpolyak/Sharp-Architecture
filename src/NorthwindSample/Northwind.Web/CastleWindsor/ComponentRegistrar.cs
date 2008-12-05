@@ -2,8 +2,7 @@
 using SharpArch.Core.PersistenceSupport.NHibernate;
 using SharpArch.Data.NHibernate;
 using SharpArch.Core.PersistenceSupport;
-using Northwind.Core.DataInterfaces;
-using Northwind.Data;
+using Castle.MicroKernel.Registration;
 
 namespace Northwind.Web.CastleWindsor
 {
@@ -15,10 +14,10 @@ namespace Northwind.Web.CastleWindsor
         }
 
         private static void AddCustomRepositoriesTo(IWindsorContainer container) {
-            container.AddComponent("customerRepository",
-                typeof(ICustomerRepository), typeof(CustomerRepository));
-            container.AddComponent("supplierRepository",
-                typeof(ISupplierRepository), typeof(SupplierRepository));
+            container.Register(
+                AllTypes.Pick()
+                .FromAssemblyNamed("Northwind.Data")
+                .WithService.FirstNonGenericCoreInterface("Northwind.Core"));
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container) {
@@ -26,6 +25,10 @@ namespace Northwind.Web.CastleWindsor
                 typeof(IRepository<>), typeof(Repository<>));
             container.AddComponent("nhibernateRepositoryType",
                 typeof(INHibernateRepository<>), typeof(Repository<>));
+            container.AddComponent("repositoryWithTypedId",
+                typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
+            container.AddComponent("nhibernateRepositoryWithTypedId",
+                typeof(INHibernateRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
         }
     }
 }

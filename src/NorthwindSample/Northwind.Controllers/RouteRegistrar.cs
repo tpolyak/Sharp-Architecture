@@ -9,6 +9,12 @@ namespace Northwind.Controllers
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "Root",
+                "",
+                new { controller = "Home", action = "Index", id = "" }
+            );
+
+            routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = "" }

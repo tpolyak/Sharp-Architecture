@@ -28,6 +28,7 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="Hibernate.cfg.xml">Hibernate.cfg.xml</ProjectItem>
       <Folder Name="CastleWindsor" TargetFolderName="CastleWindsor">
         <ProjectItem ReplaceParameters="true" TargetFileName="ComponentRegistrar.cs">ComponentRegistrar.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="CastleExtensions.cs">CastleExtensions.cs</ProjectItem>
       </Folder>
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>

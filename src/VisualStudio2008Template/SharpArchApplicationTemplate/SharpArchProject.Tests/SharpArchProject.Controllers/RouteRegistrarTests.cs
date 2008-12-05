@@ -10,6 +10,7 @@ namespace Tests.$solutionname$.Controllers
     {
         [SetUp]
         public void SetUp() {
+            RouteTable.Routes.Clear();
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
 
