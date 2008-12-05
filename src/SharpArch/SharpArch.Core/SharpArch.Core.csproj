@@ -57,7 +57,6 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="DomainObject.cs" />
-    <Compile Include="EnumDescription.cs" />
     <Compile Include="IDomainObject.cs" />
     <Compile Include="DesignByContract.cs" />
     <Compile Include="PersistenceSupport\IDbContext.cs" />
