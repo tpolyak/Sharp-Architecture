@@ -24,11 +24,11 @@ namespace $safeprojectname$.CastleWindsor
             container.AddComponent("repositoryType",
                 typeof(IRepository<>), typeof(Repository<>));
             container.AddComponent("nhibernateRepositoryType",
-                typeof(INHibernateRepository<>), typeof(Repository<>));
+                typeof(INHibernateRepository<>), typeof(NHibernateRepository<>));
             container.AddComponent("repositoryWithTypedId",
                 typeof(IRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
             container.AddComponent("nhibernateRepositoryWithTypedId",
-                typeof(INHibernateRepositoryWithTypedId<,>), typeof(RepositoryWithTypedId<,>));
+                typeof(INHibernateRepositoryWithTypedId<,>), typeof(NHibernateRepositoryWithTypedId<,>));
         }
     }
 }

@@ -40,7 +40,11 @@ Assembly Dependencies:
 Changes to /src:
 
 SharpArch.Core
-* EnumDescription.cs:  This class has been dropped from the library; it doesn't have anything to do with S#arp Architecture; if you miss it dearly, you can find it described at http://devlicio.us/blogs/billy_mccafferty/archive/2006/10/16/Show-User_2D00_Friendly-enum-Translations.aspx
+* BREAKING CHANGE ~ EnumDescription.cs:  This class has been dropped from the library; it doesn't have anything to do with S#arp Architecture; if you miss it dearly, you can find it described at http://devlicio.us/blogs/billy_mccafferty/archive/2006/10/16/Show-User_2D00_Friendly-enum-Translations.aspx
+
+SharpArch.Data
+* BREAKING CHANGE ~ Renamed Repository.GetByProperties(), Repository.GetUniqueByProperties(), Repository.GetByExample(), Repository.GetUniqueByExample() to FindAll(properties/example) and FindOne(properties/example)
+* BREAKING CHANGE ~ Repository.cs:  This now implements the simpler IRepository<> instead of INHibernateRepository<>; Moved the NHibernate specific methods Get(id, lockMode), Load(id), Load(id, lockMode), FindAll(exampleInstance), FindOne(exampleInstance), Save(entity), Update(entity), Evict(entity) to NHibernateRepository<>; If you write a custom repository which needs to implement methods from INHibernateRepository<>, you'll want to inherit from this new NHibernateRepository<> class
 
 Northwind.Controllers
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
@@ -61,7 +65,7 @@ Northwind.Web
 * Default.aspx.cs:  Modified RewritePath to pass in false for the rebasePath parameter
 * Global.asax.cs: Added CommonServiceLocator support and removed implementation of IContainerAccessor (use CSL instead)
 * /CastleWindsor/CastleExtensions.cs:  Added extension to find interfaces for custom repositories
-* /CastleWindsor/ComponentRegistrar.cs:  Replaced manual custom repository registrations with auto-registration of custom repositories; also added registration of IRepositoryWithTypedId and INHibernateRepositoryWithTypedId
+* /CastleWindsor/ComponentRegistrar.cs:  Replaced manual custom repository registrations with auto-registration of custom repositories; Added registration of IRepositoryWithTypedId and INHibernateRepositoryWithTypedId; Modified auto-bindings to account for the new NHibernateRepository<> and NHibernateRepositoryWithTypedId<,> classes
 
 Northwind Solution Items
 * Added NorthwindSample/Solution Items/CommonServiceLocator.WindsorAdapter.dll
