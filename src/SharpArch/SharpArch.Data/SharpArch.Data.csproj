@@ -63,6 +63,7 @@
     <Compile Include="NHibernate\DbContext.cs" />
     <Compile Include="NHibernate\FluentNHibernate\GeneratorHelper.cs" />
     <Compile Include="NHibernate\FluentNHibernate\IMapGenerator.cs" />
+    <Compile Include="NHibernate\NHibernateRepository.cs" />
     <Compile Include="NHibernate\NHibernateSession.cs" />
     <Compile Include="NHibernate\Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

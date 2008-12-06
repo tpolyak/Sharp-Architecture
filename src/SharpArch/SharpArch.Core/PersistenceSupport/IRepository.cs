@@ -31,13 +31,13 @@ namespace SharpArch.Core.PersistenceSupport
         /// The key of the collection should be the property name and the value should be
         /// the value of the property to filter by.
         /// </summary>
-        List<T> GetByProperties(IDictionary<string, object> propertyValuePairs);
+        List<T> FindAll(IDictionary<string, object> propertyValuePairs);
 
         /// <summary>
         /// Looks for a single instance using the property/values provided.
         /// </summary>
         /// <exception cref="NonUniqueResultException" />
-        T GetUniqueByProperties(IDictionary<string, object> propertyValuePairs);
+        T FindOne(IDictionary<string, object> propertyValuePairs);
 
         /// <summary>
         /// For entities with automatatically generated IDs, such as identity, SaveOrUpdate may 

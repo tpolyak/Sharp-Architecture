@@ -16,14 +16,14 @@ namespace SharpArch.Data.NHibernate
     /// object with a type other than int, such as string, then use 
     /// <see cref="GenericDaoWithTypedId{T, IdT}" />.
     /// </summary>
-    public class Repository<T> : RepositoryWithTypedId<T, int>, INHibernateRepository<T> { }
+    public class Repository<T> : RepositoryWithTypedId<T, int>, IRepository<T> { }
 
     /// <summary>
     /// Provides a fully loaded DAO which may be created in a few ways including:
     /// * Direct instantiation; e.g., new GenericDao<Customer, string>
     /// * Spring configuration; e.g., <object id="CustomerDao" type="SharpArch.Data.NHibernateSupport.GenericDao&lt;CustomerAlias, string>, SharpArch.Data" autowire="byName" />
     /// </summary>
-    public class RepositoryWithTypedId<T, IdT> : INHibernateRepositoryWithTypedId<T, IdT>
+    public class RepositoryWithTypedId<T, IdT> : IRepositoryWithTypedId<T, IdT>
     {
         protected virtual ISession Session {
             get { return NHibernateSession.Current; }
@@ -39,50 +39,12 @@ namespace SharpArch.Data.NHibernate
             return Session.Get<T>(id);
         }
 
-        public virtual T Get(IdT id, Enums.LockMode lockMode) {
-            return Session.Get<T>(id, ConvertFrom(lockMode));
-        }
-
-        public virtual T Load(IdT id) {
-            return Session.Load<T>(id);
-        }
-
-        public virtual T Load(IdT id, Enums.LockMode lockMode) {
-            return Session.Load<T>(id, ConvertFrom(lockMode));
-        }
-
         public virtual List<T> GetAll() {
             ICriteria criteria = Session.CreateCriteria(typeof(T));
             return criteria.List<T>() as List<T>;
         }
 
-        public virtual List<T> GetByExample(T exampleInstance, params string[] propertiesToExclude) {
-            ICriteria criteria = Session.CreateCriteria(typeof(T));
-            Example example = Example.Create(exampleInstance);
-
-            foreach (string propertyToExclude in propertiesToExclude) {
-                example.ExcludeProperty(propertyToExclude);
-            }
-
-            criteria.Add(example);
-
-            return criteria.List<T>() as List<T>;
-        }
-
-        public virtual T GetUniqueByExample(T exampleInstance, params string[] propertiesToExclude) {
-            List<T> foundList = GetByExample(exampleInstance, propertiesToExclude);
-
-            if (foundList.Count > 1) {
-                throw new NonUniqueResultException(foundList.Count);
-            }
-            else if (foundList.Count == 1) {
-                return foundList[0];
-            }
-
-            return default(T);
-        }
-
-        public virtual List<T> GetByProperties(IDictionary<string, object> propertyValuePairs) {
+        public virtual List<T> FindAll(IDictionary<string, object> propertyValuePairs) {
             Check.Require(propertyValuePairs != null && propertyValuePairs.Count > 0,
                 "propertyValuePairs was null or empty; " +
                 "it has to have at least one property/value pair in it");
@@ -96,8 +58,8 @@ namespace SharpArch.Data.NHibernate
             return criteria.List<T>() as List<T>;
         }
 
-        public virtual T GetUniqueByProperties(IDictionary<string, object> propertyValuePairs) {
-            List<T> foundList = GetByProperties(propertyValuePairs);
+        public virtual T FindOne(IDictionary<string, object> propertyValuePairs) {
+            List<T> foundList = FindAll(propertyValuePairs);
 
             if (foundList.Count > 1) {
                 throw new NonUniqueResultException(foundList.Count);
@@ -109,22 +71,8 @@ namespace SharpArch.Data.NHibernate
             return default(T);
         }
 
-        public virtual T Save(T entity) {
-            Session.Save(entity);
-            return entity;
-        }
-
-        public virtual T Update(T entity) {
-            Session.Update(entity);
-            return entity;
-        }
-
         public virtual void Delete(T entity) {
             Session.Delete(entity);
-        }
-
-        public virtual void Evict(T entity) {
-            Session.Evict(entity);
         }
 
         /// <summary>
@@ -137,23 +85,6 @@ namespace SharpArch.Data.NHibernate
 
             Session.SaveOrUpdate(entity);
             return entity;
-        }
-
-        /// <summary>
-        /// Translates a domain layer lock mode into an NHibernate lock mode via reflection.  This is 
-        /// provided to facilitate developing the domain layer without a direct dependency on the 
-        /// NHibernate assembly.
-        /// </summary>
-        private LockMode ConvertFrom(Enums.LockMode lockMode) {
-            FieldInfo translatedLockMode = typeof(LockMode).GetField(lockMode.ToString(),
-                BindingFlags.Public | BindingFlags.Static);
-
-            Check.Ensure(translatedLockMode != null, "The provided lock mode , '" + lockMode + ",' " +
-                    "could not be translated into an NHibernate.LockMode. This is probably because " +
-                    "NHibernate was updated and now has different lock modes which are out of synch " +
-                    "with the lock modes maintained in the domain layer.");
-
-            return (LockMode)translatedLockMode.GetValue(null);
         }
     }
 }

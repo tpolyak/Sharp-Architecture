@@ -33,13 +33,13 @@ namespace SharpArch.Core.PersistenceSupport.NHibernate
         /// <summary>
         /// Looks for zero or more instances using the example provided.
         /// </summary>
-        List<T> GetByExample(T exampleInstance, params string[] propertiesToExclude);
+        List<T> FindAll(T exampleInstance, params string[] propertiesToExclude);
 
         /// <summary>
         /// Looks for a single instance using the example provided.
         /// </summary>
         /// <exception cref="NonUniqueResultException" />
-        T GetUniqueByExample(T exampleInstance, params string[] propertiesToExclude);
+        T FindOne(T exampleInstance, params string[] propertiesToExclude);
 
         /// <summary>
         /// For entities that have assigned ID's, you must explicitly call Save to add a new one.

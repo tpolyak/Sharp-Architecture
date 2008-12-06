@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Northwind.Data
 {
-    public class CustomerRepository : RepositoryWithTypedId<Customer, string>, ICustomerRepository
+    public class CustomerRepository : NHibernateRepositoryWithTypedId<Customer, string>, ICustomerRepository
     {
         public List<Customer> FindByCountry(string countryName) {
             ICriteria criteria = Session.CreateCriteria(typeof(Customer))

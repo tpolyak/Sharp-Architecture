@@ -46,13 +46,13 @@ namespace Tests.Northwind.Data
         public void CanGetCustomerByProperties() {
             IDictionary<string, object> propertyValues = new Dictionary<string, object>();
             propertyValues.Add("CompanyName", "Rancho grande");
-            Customer customer = customerRepository.GetUniqueByProperties(propertyValues);
+            Customer customer = customerRepository.FindOne(propertyValues);
 
             Assert.That(customer, Is.Not.Null);
             Assert.That(customer.CompanyName, Is.EqualTo("Rancho grande"));
 
             propertyValues.Add("ContactName", "Won't Match");
-            customer = customerRepository.GetUniqueByProperties(propertyValues);
+            customer = customerRepository.FindOne(propertyValues);
 
             Assert.That(customer, Is.Null);
         }

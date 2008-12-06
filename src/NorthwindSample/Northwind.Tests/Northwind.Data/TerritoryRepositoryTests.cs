@@ -47,8 +47,8 @@ namespace Tests.Northwind.Data
         private IRepository<Employee> employeeRepository =
             new Repository<Employee>();
         private INHibernateRepositoryWithTypedId<Territory, string> territoryRepository = 
-            new RepositoryWithTypedId<Territory, string>();
+            new NHibernateRepositoryWithTypedId<Territory, string>();
         private INHibernateRepository<Region> regionRepository =
-            new Repository<Region>();
+            new NHibernateRepository<Region>();
     }
 }
