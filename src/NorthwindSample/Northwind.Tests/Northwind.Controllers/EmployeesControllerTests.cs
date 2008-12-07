@@ -63,7 +63,7 @@ namespace Tests.Northwind.Controllers
             };
             RedirectToRouteResult redirectResult = controller.Create(employeeFromForm)
                 .AssertActionRedirect().ToAction("Index");
-            Assert.That(controller.TempData["message"], Is.EqualTo("Daniels, Jackie was successfully created."));
+            Assert.That(controller.TempData["message"].ToString().Contains("was successfully created"));
         }
 
         [Test]
