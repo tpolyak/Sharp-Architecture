@@ -14,9 +14,13 @@ namespace Tests.Northwind.Controllers
     [TestFixture]
     public class EmployeesControllerTests
     {
+        [SetUp]
+        public void SetUp() {
+            controller = new EmployeesController(CreateMockEmployeeRepository());
+        }
+
         [Test]
         public void CanListEmployees() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Index().AssertViewRendered();
 
             Assert.That(result.ViewData.Model as List<Employee>, Is.Not.Null);
@@ -25,7 +29,6 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanShowEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Show(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
@@ -34,7 +37,6 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanInitEmployeeCreation() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Create().AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Null);
@@ -42,7 +44,6 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanEnsureEmployeeCreationIsValid() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             Employee employeeFromForm = new Employee();
             ViewResult result = controller.Create(employeeFromForm).AssertViewRendered();
 
@@ -55,7 +56,6 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanCreateEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             Employee employeeFromForm = new Employee() {
                 FirstName = "Jackie",
                 LastName = "Daniels",
@@ -68,7 +68,6 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanInitEmployeeEdit() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
@@ -77,7 +76,6 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanUpdateEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             Employee employeeFromForm = new Employee() {
                 FirstName = "Jackie",
                 LastName = "Daniels",
@@ -90,7 +88,6 @@ namespace Tests.Northwind.Controllers
 
         [Test]
         public void CanDeleteEmployee() {
-            EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
             RedirectToRouteResult redirectResult = controller.Delete(1)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"], Is.EqualTo("The employee was successfully deleted."));
@@ -131,5 +128,7 @@ namespace Tests.Northwind.Controllers
 
             return employees;
         }
+
+        private EmployeesController controller;
     }
 }
