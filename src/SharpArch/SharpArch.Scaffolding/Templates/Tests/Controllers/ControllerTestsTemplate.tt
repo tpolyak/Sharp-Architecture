@@ -11,23 +11,23 @@ public class ControllerTestsTemplate : BaseTemplate
 #>
 using NUnit.Framework;
 using MvcContrib.TestHelper;
-using Northwind.Controllers;
+using <#= SolutionName #>.Controllers;
 using SharpArch.Core.PersistenceSupport;
-using Northwind.Core;
+using <#= SolutionName #>.Core;
 using Rhino.Mocks;
 using NUnit.Framework.SyntaxHelpers;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using SharpArch.Testing;
 
-namespace Tests.Northwind.Controllers
+namespace Tests.<#= SolutionName #>.Controllers
 {
     [TestFixture]
-    public class EmployeesControllerTests
+    public class <#= DomainObjectNamePlural #>ControllerTests
     {
         [SetUp]
         public void SetUp() {
-            controller = new EmployeesController(CreateMockEmployeeRepository());
+            controller = new <#= DomainObjectNamePlural #>Controller(CreateMock<#= DomainObjectName #>Repository());
         }
 
         /// <summary>
@@ -35,87 +35,85 @@ namespace Tests.Northwind.Controllers
         /// "Is.EqualTo(0)" within this test to the respective number.
         /// </summary>
         [Test]
-        public void CanListEmployees() {
+        public void CanList<#= DomainObjectNamePlural #>() {
             ViewResult result = controller.Index().AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as List<Employee>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as List<Employee>).Count, Is.EqualTo(0));
+            Assert.That(result.ViewData.Model as List<<#= DomainObjectName #>>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as List<<#= DomainObjectName #>>).Count, Is.EqualTo(0));
         }
 
         [Test]
-        public void CanShowEmployee() {
+        public void CanShow<#= DomainObjectName #>() {
             ViewResult result = controller.Show(1).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Employee).ID, Is.EqualTo(1));
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as <#= DomainObjectName #>).ID, Is.EqualTo(1));
         }
 
         [Test]
-        public void CanInitEmployeeCreation() {
+        public void CanInit<#= DomainObjectName #>Creation() {
             ViewResult result = controller.Create().AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as Employee, Is.Null);
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Null);
         }
 
         [Test]
-        public void CanEnsureEmployeeCreationIsValid() {
-            Employee employeeFromForm = new Employee();
-            ViewResult result = controller.Create(employeeFromForm).AssertViewRendered();
+        public void CanEnsure<#= DomainObjectName #>CreationIsValid() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>();
+            ViewResult result = controller.Create(<#= DomainObjectNameCamelCase #>FromForm).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as Employee, Is.Null);
-            Assert.That(result.ViewData.ModelState.Count, Is.EqualTo(3));
-            Assert.That(result.ViewData.ModelState["Employee.FirstName"].Errors[0].ErrorMessage, Is.Not.Empty);
-            Assert.That(result.ViewData.ModelState["Employee.LastName"].Errors[0].ErrorMessage, Is.Not.Empty);
-            Assert.That(result.ViewData.ModelState["Employee.PhoneExtension"].Errors[0].ErrorMessage, Is.Not.Empty);
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Null);
+
+            // If you add validation rules, change the number of expected violations here and a test for each error, accordingly
+            Assert.That(result.ViewData.ModelState.Count, Is.EqualTo(0));
+            // Example validation message test:  Assert.That(result.ViewData.ModelState["<#= DomainObjectName #>.FirstName"].Errors[0].ErrorMessage, Is.Not.Empty);
         }
 
         [Test]
-        public void CanCreateEmployee() {
-            Employee employeeFromForm = new Employee() {
+        public void CanCreate<#= DomainObjectName #>() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
 				// Assign default property values here
             };
-            RedirectToRouteResult redirectResult = controller.Create(employeeFromForm)
+            RedirectToRouteResult redirectResult = controller.Create(<#= DomainObjectNameCamelCase #>FromForm)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"].ToString().Contains("was successfully created"));
         }
 
         [Test]
-        public void CanInitEmployeeEdit() {
+        public void CanInit<#= DomainObjectName #>Edit() {
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Employee).ID, Is.EqualTo(1));
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as <#= DomainObjectName #>).ID, Is.EqualTo(1));
         }
 
         [Test]
-        public void CanUpdateEmployee() {
-            Employee employeeFromForm = new Employee() {
-                FirstName = "Jackie",
-                LastName = "Daniels",
-                PhoneExtension = 350
+        public void CanUpdate<#= DomainObjectName #>() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
+				// Set the simulated properties from the form here
             };
-            RedirectToRouteResult redirectResult = controller.Edit(1, employeeFromForm)
+            RedirectToRouteResult redirectResult = controller.Edit(1, <#= DomainObjectNameCamelCase #>FromForm)
                 .AssertActionRedirect().ToAction("Index");
-            Assert.That(controller.TempData["message"], Is.EqualTo("Daniels, Jackie was successfully updated."));
+            Assert.That(controller.TempData["message"].ToString().Contains("was successfully updated"));
         }
 
         [Test]
-        public void CanDeleteEmployee() {
+        public void CanDelete<#= DomainObjectName #>() {
             RedirectToRouteResult redirectResult = controller.Delete(1)
                 .AssertActionRedirect().ToAction("Index");
-            Assert.That(controller.TempData["message"], Is.EqualTo("The employee was successfully deleted."));
+            Assert.That(controller.TempData["message"].ToString().Contains("was successfully deleted"));
         }
 
-        private IRepository<Employee> CreateMockEmployeeRepository() {
+        private IRepository<<#= DomainObjectName #>> CreateMock<#= DomainObjectName #>Repository() {
             MockRepository mocks = new MockRepository();
 
-            IRepository<Employee> mockedRepository = mocks.StrictMock<IRepository<Employee>>();
+            IRepository<<#= DomainObjectName #>> mockedRepository = mocks.StrictMock<IRepository<<#= DomainObjectName #>>>();
             Expect.Call(mockedRepository.GetAll())
-                .Return(CreateEmployees());
+                .Return(Create<#= DomainObjectNamePlural #>());
             Expect.Call(mockedRepository.Get(1)).IgnoreArguments()
-                .Return(CreateEmployee());
+                .Return(Create<#= DomainObjectName #>());
             Expect.Call(mockedRepository.SaveOrUpdate(null)).IgnoreArguments()
-                .Return(CreateEmployee());
+                .Return(Create<#= DomainObjectName #>());
             Expect.Call(delegate { mockedRepository.Delete(null); }).IgnoreArguments();
 
             IDbContext mockedDbContext = mocks.StrictMock<IDbContext>();
@@ -127,21 +125,24 @@ namespace Tests.Northwind.Controllers
             return mockedRepository;
         }
 
-        private Employee CreateEmployee() {
-            Employee employee = new Employee("Johnny", "Appleseed");
-            PersistentObjectIdSetter<int>.SetIdOf(employee, 1);
-            return employee;
+        private <#= DomainObjectName #> Create<#= DomainObjectName #>() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = new <#= DomainObjectName #>();
+
+            // Set the <#= DomainObjectNameCamelCase #> properties here
+
+            PersistentObjectIdSetter<int>.SetIdOf(<#= DomainObjectNameCamelCase #>, 1);
+            return <#= DomainObjectNameCamelCase #>;
         }
 
-        private List<Employee> CreateEmployees() {
-            List<Employee> employees = new List<Employee>();
+        private List<<#= DomainObjectName #>> Create<#= DomainObjectNamePlural #>() {
+            List<<#= DomainObjectName #>> <#= DomainObjectNamePluralCamelCase #> = new List<<#= DomainObjectName #>>();
 
             // Create a number of domain object instances here and add them to the list
 
-            return employees;
+            return <#= DomainObjectNamePluralCamelCase #>;
         }
 
-        private EmployeesController controller;
+        private <#= DomainObjectNamePlural #>Controller controller;
     }
 }
 <#+

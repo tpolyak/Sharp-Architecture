@@ -22,6 +22,14 @@ public abstract class BaseTemplate : Template
 	protected string DomainObjectNamePlural {
 		get { return Pluralizer.ToPlural(domainObjectName); }
 	}
+
+	protected string DomainObjectNameCamelCase {
+		get { return domainObjectName.Substring(0, 1).ToLower() + domainObjectName.Substring(1); }
+	}
+
+	protected string DomainObjectNamePluralCamelCase {
+		get { return domainObjectName.Substring(0, 1).ToLower() + domainObjectName.Substring(1); }
+	}
 	
 	private NameValueCollection properties;
 	private string solutionName;

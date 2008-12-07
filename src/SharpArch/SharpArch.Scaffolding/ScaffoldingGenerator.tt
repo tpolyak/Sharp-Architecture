@@ -1,5 +1,7 @@
 ﻿<#@ include file="Pluralizer.tt" #> 
 <#@ include file="./Templates/BaseTemplate.tt" #>
+<#@ include file="./Templates/Controllers/ControllerTemplate.tt" #>
+<#@ include file="./Templates/Core/DomainObjectTemplate.tt" #>
 <#@ include file="./Templates/Data/NHibernateMaps/ClassMapTemplate.tt" #>
 <#@ include file="./Templates/Tests/Core/DomainObjectTestsTemplate.tt" #>
 <#@ include file="./Templates/Tests/Controllers/ControllerTestsTemplate.tt" #>
@@ -10,21 +12,28 @@ public class ScaffoldingGenerator : Generator
 	public ScaffoldingGenerator(string solutionName, string domainObjectName, NameValueCollection properties) {
 		this.domainObjectName = domainObjectName;
 
-		this.classMapTemplate = new ClassMapTemplate(solutionName, domainObjectName, properties);
-		this.domainObjectTestsTemplate = new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
-		this.controllerTestsTemplate = new ControllerTestsTemplate(solutionName, domainObjectName, properties);
+		classMapTemplate = new ClassMapTemplate(solutionName, domainObjectName, properties);
+		domainObjectTestsTemplate = new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
+		controllerTestsTemplate = new ControllerTestsTemplate(solutionName, domainObjectName, properties);
+		domainObjectTemplate = new DomainObjectTemplate(solutionName, domainObjectName, properties);
+		controllerTemplate = new ControllerTemplate(solutionName, domainObjectName, properties);
 	}
 
-	protected override void RunCore()
-	{
+	protected override void RunCore() {
+		string domainObjectNamePlural = Pluralizer.ToPlural(domainObjectName);
+	
 		classMapTemplate.RenderToFile(domainObjectName + "Map.cs");
 		domainObjectTestsTemplate.RenderToFile(domainObjectName + "Tests.cs");
-		controllerTestsTemplate.RenderToFile(Pluralizer.ToPlural(domainObjectName) + "ControllerTests.cs");
+		controllerTestsTemplate.RenderToFile(domainObjectNamePlural + "ControllerTests.cs");
+		domainObjectTemplate.RenderToFile(domainObjectName + ".cs");
+		controllerTemplate.RenderToFile(domainObjectNamePlural + "Controller.cs");
 	}
 
 	private string domainObjectName;
 	private ClassMapTemplate classMapTemplate;
 	private DomainObjectTestsTemplate domainObjectTestsTemplate;
 	private ControllerTestsTemplate controllerTestsTemplate;
+	private DomainObjectTemplate domainObjectTemplate;
+	private ControllerTemplate controllerTemplate;
 }
 #>
