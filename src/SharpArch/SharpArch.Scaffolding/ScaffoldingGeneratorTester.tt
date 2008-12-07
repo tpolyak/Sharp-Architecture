@@ -10,5 +10,5 @@ properties.Add("Name", "string");
 properties.Add("Price", "decimal");
 
 ScaffoldingGenerator generator = new ScaffoldingGenerator("Northwind", "Product", properties);
-generator.Run();
+generator.Run(); 
 #>
