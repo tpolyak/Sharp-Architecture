@@ -6,7 +6,7 @@ using EnvDTE;
 using EnvDTE80;
 using System.IO;
 
-namespace SharpArch.VsSharpArchTemplate.SharpArchApplicationWizard
+namespace SharpArchApplicationWizard
 {
     // Class that implements the IWizard() interface
     internal class WizardImplementation : IWizard
