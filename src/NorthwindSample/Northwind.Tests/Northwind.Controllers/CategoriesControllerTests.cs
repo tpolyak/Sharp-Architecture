@@ -14,16 +14,10 @@ namespace Tests.Northwind.Controllers
     [TestFixture]
     public class CategoriesControllerTests
     {
-        [SetUp]
-        public void Setup() {
-            testControllerBuilder = new TestControllerBuilder();
-        }
-
         [Test]
         public void CanListCategories() {
             CategoriesController controller = 
                 new CategoriesController(CreateMockCategoryRepository());
-            testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
                 controller.Index().AssertViewRendered().ForView("");
@@ -37,7 +31,6 @@ namespace Tests.Northwind.Controllers
         public void CanCreateCategory() {
             CategoriesController controller =
                 new CategoriesController(CreateMockCategoryRepository());
-            testControllerBuilder.InitializeController(controller);
 
             ViewResult result =
                 controller.Create("Hawaiian").AssertViewRendered().ForView("");
@@ -51,7 +44,6 @@ namespace Tests.Northwind.Controllers
         public void CanDetailCategory() {
             CategoriesController controller = 
                 new CategoriesController(CreateMockCategoryRepository());
-            testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
                 controller.Show(1).AssertViewRendered().ForView("");
@@ -93,7 +85,5 @@ namespace Tests.Northwind.Controllers
 
             return categories;
         }
-
-        private TestControllerBuilder testControllerBuilder;
     }
 }

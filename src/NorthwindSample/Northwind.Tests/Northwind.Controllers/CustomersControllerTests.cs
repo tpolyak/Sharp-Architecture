@@ -17,16 +17,10 @@ namespace Tests.Northwind.Controllers
     [TestFixture]
     public class CustomersControllerTests
     {
-        [SetUp]
-        public void Setup() {
-            testControllerBuilder = new TestControllerBuilder();
-        }
-
         [Test]
         public void CanListCustomers() {
             CustomersController controller = 
                 new CustomersController(CreateMockCustomerRepository());
-            testControllerBuilder.InitializeController(controller);
 
             ViewResult result = 
                 controller.Index().AssertViewRendered().ForView("");
@@ -57,7 +51,5 @@ namespace Tests.Northwind.Controllers
 
             return customers;
         }
-
-        private TestControllerBuilder testControllerBuilder;
     }
 }

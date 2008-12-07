@@ -14,11 +14,6 @@ namespace Tests.Northwind.Controllers
     [TestFixture]
     public class EmployeesControllerTests
     {
-        [SetUp]
-        public void Setup() {
-            testControllerBuilder = new TestControllerBuilder();
-        }
-
         [Test]
         public void CanListEmployees() {
             EmployeesController controller = new EmployeesController(CreateMockEmployeeRepository());
@@ -136,7 +131,5 @@ namespace Tests.Northwind.Controllers
 
             return employees;
         }
-
-        private TestControllerBuilder testControllerBuilder;
     }
 }
