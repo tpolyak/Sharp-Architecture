@@ -1,0 +1,44 @@
+﻿<#+
+public class DomainObjectTestsTemplate : BaseTemplate
+{
+	public DomainObjectTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
+		: base(solutionName, domainObjectName, properties) { }
+
+	protected override void RenderCore()
+	{
+#>
+using NUnit.Framework;
+using <#= SolutionName #>.Core;
+using NUnit.Framework.SyntaxHelpers;
+
+namespace Tests.<#= SolutionName #>.Core
+{
+    [TestFixture]
+    public class <#= DomainObjectName #>Tests
+    {
+        /// <summary>
+        /// You need to take the following steps to get this passing:
+        /// 1) Add the [DomainSignature] attribute over the property(s) in your object which define its domain
+        ///    signature.  See the documentation if you need assitance with determining what the 
+        ///    domain signature of the object is.
+        /// 2) Set the values of the "instance" domain signature properties in the test below
+        /// 3) Set the values of the "instanceToCompareTo" to be the same as those of the "instance"
+        /// </summary>
+        [Test]
+        public void CanCompare<#= DomainObjectNamePlural #>() {
+            <#= DomainObjectName #> instance = new <#= DomainObjectName #>();
+            // Set the values of the domain signature properties here
+            // e.g., instance.Name = "Azeroth";
+            
+            <#= DomainObjectName #> instanceToCompareTo = new <#= DomainObjectName #>();
+            // Set the values to be the same as those set to the instance above
+            // e.g., instanceToCompareTo.Name = "Azeroth";
+
+            Assert.That(instance.Equals(instanceToCompareTo));
+        }
+    }
+}
+<#+
+	}
+}
+#>
