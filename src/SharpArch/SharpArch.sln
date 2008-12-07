@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Scaffolding", "Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.VsSharpArchTemplate", "SharpArch.VsSharpArchTemplate\SharpArch.VsSharpArchTemplate.csproj", "{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generation", "Code Generation", "{D3C58A2B-F044-4965-8A5F-7B6A3C5180DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,5 +59,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA} = {D3C58A2B-F044-4965-8A5F-7B6A3C5180DD}
+		{F9EBF6B7-DDD5-49B9-9DC7-CF48EACE1119} = {D3C58A2B-F044-4965-8A5F-7B6A3C5180DD}
 	EndGlobalSection
 EndGlobal
