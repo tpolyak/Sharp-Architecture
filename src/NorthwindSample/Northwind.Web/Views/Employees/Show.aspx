@@ -1,12 +1,12 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Show.aspx.cs" Inherits="Northwind.Web.Views.Employees.Show" %>
+﻿<%@ Page Title="Employee Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Show.aspx.cs" Inherits="Northwind.Web.Views.Employees.Show" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
+<asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Employee Details</h2>
 
-    <div>
-        <p>
-            Full Name:
-            <%= ViewData.Model.FullName %>
-        </p>
-    </div>
+    <ul>
+        <li>
+            <label for="Employee.FullName">Full Name:</label>
+            <span id="Employee.FullName"><%= ViewData.Model.FullName %></span>
+        </li>
+    </ul>
 </asp:Content>

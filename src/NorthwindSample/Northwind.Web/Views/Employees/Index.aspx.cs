@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Northwind.Web.Views.Employees
 {
-    public partial class Index : ViewPage<IList<Employee>>
+    public partial class Index : ViewPage<IEnumerable<Employee>>
     {
         public void Page_Load() {
             employeeList.DataSource = ViewData.Model;

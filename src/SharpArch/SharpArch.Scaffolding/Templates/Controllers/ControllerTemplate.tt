@@ -10,7 +10,7 @@ public class ControllerTemplate : BaseTemplate
 	{
 #>
 using System.Web.Mvc;
-using Northwind.Core;
+using <#= SolutionName #>.Core;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
 using System.Collections.Generic;
@@ -20,25 +20,25 @@ using NHibernate.Validator.Engine;
 using System.Text;
 using SharpArch.Web.NHibernate.Validator;
 
-namespace Northwind.Controllers
+namespace <#= SolutionName #>.Controllers
 {
     [HandleError]
-    public class EmployeesController : Controller
+    public class <#= DomainObjectNamePlural #>Controller : Controller
     {
-        public EmployeesController(IRepository<Employee> employeeRepository) {
-            Check.Require(employeeRepository != null, "employeeRepository may not be null");
+        public <#= DomainObjectNamePlural #>Controller(IRepository<<#= DomainObjectName #>> <#= DomainObjectNameCamelCase #>Repository) {
+            Check.Require(<#= DomainObjectNameCamelCase #>Repository != null, "<#= DomainObjectNameCamelCase #>Repository may not be null");
 
-            this.employeeRepository = employeeRepository;
+            this.<#= DomainObjectNameCamelCase #>Repository = <#= DomainObjectNameCamelCase #>Repository;
         }
 
         public ActionResult Index() {
-            List<Employee> employees = employeeRepository.GetAll();
-            return View(employees);
+            List<<#= DomainObjectName #>> <#= DomainObjectNamePluralCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.GetAll();
+            return View(<#= DomainObjectNamePluralCamelCase #>);
         }
 
         public ActionResult Show(int id) {
-            Employee employee = employeeRepository.Get(id);
-            return View(employee);
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.Get(id);
+            return View(<#= DomainObjectNameCamelCase #>);
         }
 
         public ActionResult Create() {
@@ -47,75 +47,75 @@ namespace Northwind.Controllers
 
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(Employee employee) {
-            if (employee.IsValid()) {
-                employeeRepository.SaveOrUpdate(employee);
+        public ActionResult Create(<#= DomainObjectName #> <#= DomainObjectNameCamelCase #>) {
+            if (<#= DomainObjectNameCamelCase #>.IsValid()) {
+                <#= DomainObjectNameCamelCase #>Repository.SaveOrUpdate(<#= DomainObjectNameCamelCase #>);
 
-                TempData["message"] = employee.FullName + " was successfully created.";
+                TempData["message"] = "The <#= DomainObjectNameCamelCase #> was successfully created.";
                 return RedirectToAction("Index");
             }
             else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationMessages);
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.ValidationMessages);
                 return View();
             }
         }
 
         public ActionResult Edit(int id) {
-            Employee employee = employeeRepository.Get(id);
-            return View(employee);
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.Get(id);
+            return View(<#= DomainObjectNameCamelCase #>);
         }
 
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, Employee employee) {
-            Employee employeeToUpdate = employeeRepository.Get(id);
+        public ActionResult Edit(int id, <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>) {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>ToUpdate = <#= DomainObjectNameCamelCase #>Repository.Get(id);
 
-            if (employee.IsValid()) {
-                employeeToUpdate.FirstName = employee.FirstName;
-                employeeToUpdate.LastName = employee.LastName;
-                employeeToUpdate.PhoneExtension = employee.PhoneExtension;
+            if (<#= DomainObjectNameCamelCase #>.IsValid()) {
+				<#+
+				PushIndent("\t\t\t\t");
 
-                TempData["message"] = employee.FullName + " was successfully updated.";
+				foreach (string	propertyName in Properties.AllKeys ) {
+					WriteLine(DomainObjectNameCamelCase + "ToUpdate." + propertyName + " = " + DomainObjectNameCamelCase + "." + propertyName + ";");
+				}
+
+				PopIndent();
+				#>
+
+                TempData["message"] = "The <#= DomainObjectNameCamelCase #> was successfully updated.";
                 return RedirectToAction("Index");
             }
             else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationMessages);
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.ValidationMessages);
                 return View();
             }
         }
 
         [Transaction]
         public ActionResult Delete(int id) {
-            string resultMessage = null;
-            Employee employeeToDelete = employeeRepository.Get(id);
+            string resultMessage = "The <#= DomainObjectNameCamelCase #> was successfully deleted.";
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>ToDelete = <#= DomainObjectNameCamelCase #>Repository.Get(id);
 
-            if (employeeToDelete != null) {
-                employeeRepository.Delete(employeeToDelete);
+            if (<#= DomainObjectNameCamelCase #>ToDelete != null) {
+                <#= DomainObjectNameCamelCase #>Repository.Delete(<#= DomainObjectNameCamelCase #>ToDelete);
 
                 try {
-                    employeeRepository.DbContext.CommitChanges();
+                    <#= DomainObjectNameCamelCase #>Repository.DbContext.CommitChanges();
                 }
                 catch {
-                    resultMessage = "The employee couldn't be deleted; likely due to a foreign key " +
-                        "reference. You could cascade the deletion or you could inform " +
-                        "the user better on where the foreign dependencies are and what needs to be " +
-                        "done before the employee can be deleted.";
-                    employeeRepository.DbContext.RollbackTransaction();
+                    resultMessage = "A problem was encountered preventing the <#= DomainObjectNameCamelCase #> from being deleted. " +
+						"Another item likely depends on this <#= DomainObjectNameCamelCase #>.";
+                    <#= DomainObjectNameCamelCase #>Repository.DbContext.RollbackTransaction();
                 }
             }
             else {
-                resultMessage = "An employee with the ID of " + id + " could not be found for deletion.";
-            }
-
-            if (resultMessage == null) {
-                resultMessage = "The employee was successfully deleted.";
+                resultMessage = "The <#= DomainObjectNameCamelCase #> could not be found for deletion. It may already have been deleted.";
             }
 
             TempData["Message"] = resultMessage;
             return RedirectToAction("Index");
         }
 
-        private readonly IRepository<Employee> employeeRepository;
+        private readonly IRepository<<#= DomainObjectName #>> <#= DomainObjectNameCamelCase #>Repository;
     }
 }
 <#+

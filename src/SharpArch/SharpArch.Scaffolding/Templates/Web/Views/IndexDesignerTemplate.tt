@@ -1,0 +1,20 @@
+﻿<#+
+public class IndexDesignerTemplate : BaseTemplate
+{
+	public IndexDesignerTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
+		: base(solutionName, domainObjectName, properties) { }
+
+	protected override void RenderCore()
+	{
+#>
+namespace <#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>
+{
+    public partial class Index
+    {
+        protected global::System.Web.UI.WebControls.ListView <#= DomainObjectNameCamelCase #>List;
+    }
+}
+<#+
+	}
+}
+#>

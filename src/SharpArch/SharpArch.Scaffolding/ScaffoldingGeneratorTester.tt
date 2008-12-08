@@ -1,6 +1,6 @@
 ﻿<#@ template language="C#" hostspecific="True" debug="True" #>
 <#@ import namespace="System.Collections.Specialized" #>
-<#@ output extension="txt" #>
+<#@ output extension="log" #>
 <#@ include file="T4Toolbox.tt" #>
 <#@ include file="ScaffoldingGenerator.tt" #> 
 

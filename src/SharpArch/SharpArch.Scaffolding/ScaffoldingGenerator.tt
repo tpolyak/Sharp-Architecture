@@ -3,37 +3,120 @@
 <#@ include file="./Templates/Controllers/ControllerTemplate.tt" #>
 <#@ include file="./Templates/Core/DomainObjectTemplate.tt" #>
 <#@ include file="./Templates/Data/NHibernateMaps/ClassMapTemplate.tt" #>
-<#@ include file="./Templates/Tests/Core/DomainObjectTestsTemplate.tt" #>
 <#@ include file="./Templates/Tests/Controllers/ControllerTestsTemplate.tt" #>
+<#@ include file="./Templates/Tests/Core/DomainObjectTestsTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/DomainObjectFormTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/CreateTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/EditTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/IndexTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/IndexCodeBehindTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/IndexDesignerTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/ShowTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/GeneralCodeBehindTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/GeneralDesignerTemplate.tt" #>
 
 <#+
 public class ScaffoldingGenerator : Generator
 {
 	public ScaffoldingGenerator(string solutionName, string domainObjectName, NameValueCollection properties) {
+		this.solutionName = solutionName;
 		this.domainObjectName = domainObjectName;
-
-		classMapTemplate = new ClassMapTemplate(solutionName, domainObjectName, properties);
-		domainObjectTestsTemplate = new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
-		controllerTestsTemplate = new ControllerTestsTemplate(solutionName, domainObjectName, properties);
-		domainObjectTemplate = new DomainObjectTemplate(solutionName, domainObjectName, properties);
-		controllerTemplate = new ControllerTemplate(solutionName, domainObjectName, properties);
+		this.properties = properties;
 	}
 
 	protected override void RunCore() {
 		string domainObjectNamePlural = Pluralizer.ToPlural(domainObjectName);
-	
-		classMapTemplate.RenderToFile(domainObjectName + "Map.cs");
+
+		DomainObjectTestsTemplate domainObjectTestsTemplate = 
+			new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
 		domainObjectTestsTemplate.RenderToFile(domainObjectName + "Tests.cs");
-		controllerTestsTemplate.RenderToFile(domainObjectNamePlural + "ControllerTests.cs");
+
+		DomainObjectTemplate domainObjectTemplate = 
+			new DomainObjectTemplate(solutionName, domainObjectName, properties);
 		domainObjectTemplate.RenderToFile(domainObjectName + ".cs");
+
+		ControllerTestsTemplate controllerTestsTemplate = 
+			new ControllerTestsTemplate(solutionName, domainObjectName, properties);
+		controllerTestsTemplate.RenderToFile(domainObjectNamePlural + "ControllerTests.cs");
+
+		ControllerTemplate controllerTemplate = 
+			new ControllerTemplate(solutionName, domainObjectName, properties);
 		controllerTemplate.RenderToFile(domainObjectNamePlural + "Controller.cs");
+
+		ClassMapTemplate classMapTemplate = 
+			new ClassMapTemplate(solutionName, domainObjectName, properties);
+		classMapTemplate.RenderToFile(domainObjectName + "Map.cs");
+		
+		GenerateDomainObjectFormView();
+		GenerateCreateView();
+		GenerateEditView();
+		GenerateIndexView();
+		GenerateShowView();
+	}
+	
+	private void GenerateDomainObjectFormView() {
+		DomainObjectFormTemplate domainObjectFormTemplate = 
+			new DomainObjectFormTemplate(solutionName, domainObjectName, properties);
+		domainObjectFormTemplate.RenderToFile(domainObjectName + "Form.ascx");
+
+		GeneralCodeBehindTemplate codeBehindTemplate = 
+			new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
+				properties, domainObjectName + "Form", "ViewUserControl<" + domainObjectName + ">");
+		codeBehindTemplate.RenderToFile(domainObjectName + "Form.ascx.cs");
+
+		GeneralDesignerTemplate designerTemplate = 
+			new GeneralDesignerTemplate(solutionName, domainObjectName, properties, domainObjectName + "Form");
+		designerTemplate.RenderToFile(domainObjectName + "Form.ascx.designer.cs");
 	}
 
+	private void GenerateCreateView() {
+		CreateTemplate createTemplate = new CreateTemplate(solutionName, domainObjectName, properties);
+		createTemplate.RenderToFile("Create.aspx");
+
+		GenerateGeneralCodeBehindAndDesignerForViewPage("Create");
+	}
+
+	private void GenerateEditView() {
+		EditTemplate editTemplate = new EditTemplate(solutionName, domainObjectName, properties);
+		editTemplate.RenderToFile("Edit.aspx");
+
+		GenerateGeneralCodeBehindAndDesignerForViewPage("Edit");
+	}
+	
+	private void GenerateIndexView() {
+		IndexTemplate indexTemplate = 
+			new IndexTemplate(solutionName, domainObjectName, properties);
+		indexTemplate.RenderToFile("Index.aspx");
+
+		IndexCodeBehindTemplate codeBehindTemplate = 
+			new IndexCodeBehindTemplate(solutionName, domainObjectName, properties);
+		codeBehindTemplate.RenderToFile("Index.aspx.cs");
+
+		IndexDesignerTemplate designerTemplate = 
+			new IndexDesignerTemplate(solutionName, domainObjectName, properties);
+		designerTemplate.RenderToFile("Index.aspx.designer.cs");
+	}
+	
+	private void GenerateShowView() {
+		ShowTemplate showTemplate = new ShowTemplate(solutionName, domainObjectName, properties);
+		showTemplate.RenderToFile("Show.aspx");
+
+		GenerateGeneralCodeBehindAndDesignerForViewPage("Show");
+	}
+	
+	private void GenerateGeneralCodeBehindAndDesignerForViewPage(string className) {
+		GeneralCodeBehindTemplate codeBehindTemplate = 
+			new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
+				properties, className, "ViewPage<" + domainObjectName + ">");
+		codeBehindTemplate.RenderToFile(className + ".aspx.cs");
+
+		GeneralDesignerTemplate designerTemplate = 
+			new GeneralDesignerTemplate(solutionName, domainObjectName, properties, className);
+		designerTemplate.RenderToFile(className + ".aspx.designer.cs");
+	}
+
+	private string solutionName;
 	private string domainObjectName;
-	private ClassMapTemplate classMapTemplate;
-	private DomainObjectTestsTemplate domainObjectTestsTemplate;
-	private ControllerTestsTemplate controllerTestsTemplate;
-	private DomainObjectTemplate domainObjectTemplate;
-	private ControllerTemplate controllerTemplate;
+	private NameValueCollection properties;
 }
 #>
