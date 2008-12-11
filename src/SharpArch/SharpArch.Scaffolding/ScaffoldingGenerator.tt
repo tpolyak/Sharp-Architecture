@@ -70,6 +70,12 @@ public class ScaffoldingGenerator : Generator
 		string targetPath = solutionRootFolder + solutionName + ".Data\\NHibernateMaps\\";
 	
 		if (DidRequestToGenerate(ArtifactToGenerate.ClassMap)) {
+			if (! Directory.Exists(targetPath)) {
+				Directory.CreateDirectory(targetPath);
+
+				Log("Added directory " + targetPath);
+			}
+
 			if (! File.Exists(targetPath + fileName)) {
 				ClassMapTemplate classMapTemplate = 
 					new ClassMapTemplate(solutionName, domainObjectName, properties);
