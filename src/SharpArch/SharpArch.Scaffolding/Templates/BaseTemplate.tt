@@ -6,7 +6,7 @@ public abstract class BaseTemplate : Template
 		this.domainObjectName = domainObjectName;
 		this.properties = properties;
 	}
-
+	
 	protected NameValueCollection Properties {
 		get { return properties; }
 	}

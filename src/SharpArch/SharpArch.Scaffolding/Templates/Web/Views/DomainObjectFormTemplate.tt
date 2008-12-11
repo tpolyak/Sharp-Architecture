@@ -20,8 +20,10 @@ public class DomainObjectFormTemplate : BaseTemplate
 	#>
 	<li>
 			<label for="<#= DomainObjectName #>.<#= propertyName #>"><#= propertyName #>:</label>
-			<%= Html.TextBox("<#= DomainObjectName #>.<#= propertyName #>", 
-				(ViewData.Model != null) ? ViewData.Model.<#= propertyName #>.ToString() : "")%>
+			<div>
+				<%= Html.TextBox("<#= DomainObjectName #>.<#= propertyName #>", 
+					(ViewData.Model != null) ? ViewData.Model.<#= propertyName #>.ToString() : "")%>
+			</div>
 			<%= Html.ValidationMessage("<#= DomainObjectName #>.<#= propertyName #>")%>
 		</li>
 	<#+

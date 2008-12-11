@@ -45,10 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DELETE_ME.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Pluralizer.tt">
+    </None>
+    <None Include="SharpScaffoldingEnums.tt">
     </None>
     <None Include="ScaffoldingGenerator.tt">
     </None>

@@ -1,4 +1,5 @@
 ﻿<#@ include file="Pluralizer.tt" #> 
+<#@ include file="SharpScaffoldingEnums.tt" #>
 <#@ include file="./Templates/BaseTemplate.tt" #>
 <#@ include file="./Templates/Controllers/ControllerTemplate.tt" #>
 <#@ include file="./Templates/Core/DomainObjectTemplate.tt" #>
@@ -14,94 +15,191 @@
 <#@ include file="./Templates/Web/Views/ShowTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/GeneralCodeBehindTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/GeneralDesignerTemplate.tt" #>
+<#@ import namespace="System.IO" #>
 
 <#+
 public class ScaffoldingGenerator : Generator
 {
-	public ScaffoldingGenerator(string solutionName, string domainObjectName, NameValueCollection properties) {
+	public ScaffoldingGenerator(string scaffoldingOutputFolder, string solutionRootFolder, 
+		string solutionName, string domainObjectName, NameValueCollection properties)
+		: this(scaffoldingOutputFolder, solutionRootFolder, solutionName, domainObjectName, properties, null) { }
+
+	public ScaffoldingGenerator(string scaffoldingOutputFolder, string solutionRootFolder, 
+		string solutionName, string domainObjectName, NameValueCollection properties, ArtifactToGenerate[] artifactsToGenerate) {
+		this.scaffoldingOutputFolder = scaffoldingOutputFolder;
+		this.solutionRootFolder = solutionRootFolder;
 		this.solutionName = solutionName;
 		this.domainObjectName = domainObjectName;
 		this.properties = properties;
+		this.artifactsToGenerate = artifactsToGenerate;
 	}
 
 	protected override void RunCore() {
-		string domainObjectNamePlural = Pluralizer.ToPlural(domainObjectName);
+		GenerateDomainObjectAndTests();
+		GenerateControllerAndTests();
+		GenerateClassMap();
+		GenerateViews();
+	}
 
-		DomainObjectTestsTemplate domainObjectTestsTemplate = 
-			new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
-		domainObjectTestsTemplate.RenderToFile(domainObjectName + "Tests.cs");
+	private void GenerateViews() {
+		if (DidRequestToGenerate(ArtifactToGenerate.Views)) {
+			string targetPath = solutionRootFolder + solutionName + ".Web\\Views\\" + DomainObjectNamePlural + "\\";
 
-		DomainObjectTemplate domainObjectTemplate = 
-			new DomainObjectTemplate(solutionName, domainObjectName, properties);
-		domainObjectTemplate.RenderToFile(domainObjectName + ".cs");
+			if (! Directory.Exists(targetPath)) {
+				Directory.CreateDirectory(targetPath);
+			}
 
-		ControllerTestsTemplate controllerTestsTemplate = 
-			new ControllerTestsTemplate(solutionName, domainObjectName, properties);
-		controllerTestsTemplate.RenderToFile(domainObjectNamePlural + "ControllerTests.cs");
+			GenerateDomainObjectFormView(targetPath);
+			GenerateCreateView(targetPath);
+			GenerateEditView(targetPath);
+			GenerateIndexView(targetPath);
+			GenerateShowView(targetPath);
+		}
+	}
 
-		ControllerTemplate controllerTemplate = 
-			new ControllerTemplate(solutionName, domainObjectName, properties);
-		controllerTemplate.RenderToFile(domainObjectNamePlural + "Controller.cs");
-
-		ClassMapTemplate classMapTemplate = 
-			new ClassMapTemplate(solutionName, domainObjectName, properties);
-		classMapTemplate.RenderToFile(domainObjectName + "Map.cs");
-		
-		GenerateDomainObjectFormView();
-		GenerateCreateView();
-		GenerateEditView();
-		GenerateIndexView();
-		GenerateShowView();
+	private void GenerateClassMap() {
+		string fileName = domainObjectName + "Map.cs";
+		string targetPath = solutionRootFolder + solutionName + ".Data\\NHibernateMaps\\";
+	
+		if (DidRequestToGenerate(ArtifactToGenerate.ClassMap) && ! File.Exists(targetPath + fileName)) {
+			ClassMapTemplate classMapTemplate = 
+				new ClassMapTemplate(solutionName, domainObjectName, properties);
+			classMapTemplate.RenderToFile(fileName);
+			
+			File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+		}
 	}
 	
-	private void GenerateDomainObjectFormView() {
-		DomainObjectFormTemplate domainObjectFormTemplate = 
-			new DomainObjectFormTemplate(solutionName, domainObjectName, properties);
-		domainObjectFormTemplate.RenderToFile(domainObjectName + "Form.ascx");
+	private void GenerateDomainObjectAndTests() {
+		if (DidRequestToGenerate(ArtifactToGenerate.DomainObject)) {
+			string fileName = domainObjectName + "Tests.cs";
+			string targetPath = solutionRootFolder + solutionName + ".Tests\\" + solutionName + ".Core\\";
 
-		GeneralCodeBehindTemplate codeBehindTemplate = 
-			new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
-				properties, domainObjectName + "Form", "ViewUserControl<" + domainObjectName + ">");
-		codeBehindTemplate.RenderToFile(domainObjectName + "Form.ascx.cs");
+			if (! File.Exists(targetPath + fileName)) {
+				DomainObjectTestsTemplate domainObjectTestsTemplate = 
+					new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
+				domainObjectTestsTemplate.RenderToFile(fileName);
 
-		GeneralDesignerTemplate designerTemplate = 
-			new GeneralDesignerTemplate(solutionName, domainObjectName, properties, domainObjectName + "Form");
-		designerTemplate.RenderToFile(domainObjectName + "Form.ascx.designer.cs");
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+			}
+
+			fileName = domainObjectName + ".cs";
+			targetPath = solutionRootFolder + solutionName + ".Core\\";
+
+			if (! File.Exists(targetPath + fileName)) {
+				DomainObjectTemplate domainObjectTemplate = 
+					new DomainObjectTemplate(solutionName, domainObjectName, properties);
+				domainObjectTemplate.RenderToFile(fileName);
+
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+			}
+		}
 	}
 
-	private void GenerateCreateView() {
-		CreateTemplate createTemplate = new CreateTemplate(solutionName, domainObjectName, properties);
-		createTemplate.RenderToFile("Create.aspx");
+	private void GenerateControllerAndTests() {
+		if (DidRequestToGenerate(ArtifactToGenerate.Controller)) {
+			string fileName = DomainObjectNamePlural + "ControllerTests.cs";
+			string targetPath = solutionRootFolder + solutionName + ".Tests\\" + solutionName + ".Controllers\\";
 
-		GenerateGeneralCodeBehindAndDesignerForViewPage("Create");
-	}
+			if (! File.Exists(targetPath + fileName)) {
+				ControllerTestsTemplate controllerTestsTemplate = 
+					new ControllerTestsTemplate(solutionName, domainObjectName, properties);
+				controllerTestsTemplate.RenderToFile(fileName);
 
-	private void GenerateEditView() {
-		EditTemplate editTemplate = new EditTemplate(solutionName, domainObjectName, properties);
-		editTemplate.RenderToFile("Edit.aspx");
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+			}
 
-		GenerateGeneralCodeBehindAndDesignerForViewPage("Edit");
+			fileName = DomainObjectNamePlural + "Controller.cs";
+			targetPath = solutionRootFolder + solutionName + ".Controllers\\";
+
+			if (! File.Exists(targetPath + fileName)) {
+				ControllerTemplate controllerTemplate = 
+					new ControllerTemplate(solutionName, domainObjectName, properties);
+				controllerTemplate.RenderToFile(fileName);
+
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+			}
+		}
 	}
 	
-	private void GenerateIndexView() {
-		IndexTemplate indexTemplate = 
-			new IndexTemplate(solutionName, domainObjectName, properties);
-		indexTemplate.RenderToFile("Index.aspx");
+	private void GenerateDomainObjectFormView(string targetPath) {
+		string fileName = domainObjectName + "Form.ascx";
 
-		IndexCodeBehindTemplate codeBehindTemplate = 
-			new IndexCodeBehindTemplate(solutionName, domainObjectName, properties);
-		codeBehindTemplate.RenderToFile("Index.aspx.cs");
+		if (! File.Exists(targetPath + fileName)) {
+			DomainObjectFormTemplate domainObjectFormTemplate = 
+				new DomainObjectFormTemplate(solutionName, domainObjectName, properties);
+			domainObjectFormTemplate.RenderToFile(fileName);
 
-		IndexDesignerTemplate designerTemplate = 
-			new IndexDesignerTemplate(solutionName, domainObjectName, properties);
-		designerTemplate.RenderToFile("Index.aspx.designer.cs");
+			GeneralCodeBehindTemplate codeBehindTemplate = 
+				new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
+					properties, domainObjectName + "Form", "ViewUserControl<" + domainObjectName + ">");
+			codeBehindTemplate.RenderToFile(fileName + ".cs");
+
+			GeneralDesignerTemplate designerTemplate = 
+				new GeneralDesignerTemplate(solutionName, domainObjectName, properties, domainObjectName + "Form");
+			designerTemplate.RenderToFile(domainObjectName + "Form.ascx.designer.cs");
+
+			MoveViewFilesTo(targetPath, fileName);
+		}
+	}
+
+	private void GenerateCreateView(string targetPath) {
+		string fileName = "Create.aspx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			CreateTemplate createTemplate = new CreateTemplate(solutionName, domainObjectName, properties);
+			createTemplate.RenderToFile(fileName);
+
+			GenerateGeneralCodeBehindAndDesignerForViewPage("Create");
+
+			MoveViewFilesTo(targetPath, fileName);
+		}
 	}
 	
-	private void GenerateShowView() {
-		ShowTemplate showTemplate = new ShowTemplate(solutionName, domainObjectName, properties);
-		showTemplate.RenderToFile("Show.aspx");
+	private void GenerateEditView(string targetPath) {
+		string fileName = "Edit.aspx";
 
-		GenerateGeneralCodeBehindAndDesignerForViewPage("Show");
+		if (! File.Exists(targetPath + fileName)) {
+			EditTemplate editTemplate = new EditTemplate(solutionName, domainObjectName, properties);
+			editTemplate.RenderToFile(fileName);
+
+			GenerateGeneralCodeBehindAndDesignerForViewPage("Edit");
+
+			MoveViewFilesTo(targetPath, fileName);
+		}
+	}
+	
+	private void GenerateIndexView(string targetPath) {
+		string fileName = "Index.aspx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			IndexTemplate indexTemplate = 
+				new IndexTemplate(solutionName, domainObjectName, properties);
+			indexTemplate.RenderToFile(fileName);
+
+			IndexCodeBehindTemplate codeBehindTemplate = 
+				new IndexCodeBehindTemplate(solutionName, domainObjectName, properties);
+			codeBehindTemplate.RenderToFile(fileName + ".cs");
+
+			IndexDesignerTemplate designerTemplate = 
+				new IndexDesignerTemplate(solutionName, domainObjectName, properties);
+			designerTemplate.RenderToFile(fileName + ".designer.cs");
+
+			MoveViewFilesTo(targetPath, fileName);
+		}
+	}
+	
+	private void GenerateShowView(string targetPath) {
+		string fileName = "Show.aspx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			ShowTemplate showTemplate = new ShowTemplate(solutionName, domainObjectName, properties);
+			showTemplate.RenderToFile(fileName);
+
+			GenerateGeneralCodeBehindAndDesignerForViewPage("Show");
+
+			MoveViewFilesTo(targetPath, fileName);
+		}
 	}
 	
 	private void GenerateGeneralCodeBehindAndDesignerForViewPage(string className) {
@@ -115,6 +213,36 @@ public class ScaffoldingGenerator : Generator
 		designerTemplate.RenderToFile(className + ".aspx.designer.cs");
 	}
 
+	private void MoveViewFilesTo(string targetPath, string viewFileName) {
+			File.Move(scaffoldingOutputFolder + viewFileName, targetPath + viewFileName);
+			File.Move(scaffoldingOutputFolder + viewFileName + ".cs", targetPath + viewFileName + ".cs");
+			File.Move(scaffoldingOutputFolder + viewFileName + ".designer.cs", targetPath + viewFileName + ".designer.cs");
+	}
+
+	private bool DidRequestToGenerate(ArtifactToGenerate artifactToGenerate) {
+		// If specific artifacts were not designated, then assume creation
+		if (artifactsToGenerate == null) {
+			return true;
+		}
+
+        for (int i=0; i < artifactsToGenerate.Length; i++) {
+            if (artifactsToGenerate[i] == artifactToGenerate) {
+				return true;
+            }
+        }
+        
+        return false;
+	}
+
+	private string DomainObjectNamePlural {
+		get {
+			return Pluralizer.ToPlural(domainObjectName);
+		}
+	}
+
+	private string scaffoldingOutputFolder;
+	private string solutionRootFolder;
+	private ArtifactToGenerate[] artifactsToGenerate;
 	private string solutionName;
 	private string domainObjectName;
 	private NameValueCollection properties;
