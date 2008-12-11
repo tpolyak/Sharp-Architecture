@@ -87,6 +87,11 @@
     <None Include="Templates\Web\Views\ShowTemplate.tt">
     </None>
     <Content Include="PluralizerLicense.htm" />
+    <Content Include="ScaffoldingGeneratorCommand.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScaffoldingGeneratorCommand.tt</DependentUpon>
+    </Content>
     <Content Include="Templates\Data\NHibernateMaps\ClassMapTemplate.tt" />
   </ItemGroup>
   <ItemGroup>

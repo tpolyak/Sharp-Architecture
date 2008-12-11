@@ -35,6 +35,9 @@ public class ScaffoldingGenerator : Generator
 	}
 
 	protected override void RunCore() {
+		// Get rid of the existing generation log
+		File.Delete(scaffoldingOutputFolder + LOG_FILE_NAME);
+
 		GenerateDomainObjectAndTests();
 		GenerateControllerAndTests();
 		GenerateClassMap();
