@@ -12,6 +12,6 @@ properties.Add("Price", "decimal");
 ScaffoldingGenerator generator = new ScaffoldingGenerator(
 	@"C:\MyStuff\Projects\SharpArchitecture\src\SharpArch\SharpArch.Scaffolding\",
 	@"C:\MyStuff\Projects\ScaffoldTesting\", 
-	"ScaffoldTesting", "Animal", properties);
+	"ScaffoldTesting", "Emergency", properties);
 generator.Run(); 
 #>

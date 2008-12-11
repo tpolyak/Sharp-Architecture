@@ -51,13 +51,13 @@
   <ItemGroup>
     <None Include="Pluralizer.tt">
     </None>
+    <None Include="ScaffoldingGeneratorCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ScaffoldingGeneratorCommand.log</LastGenOutput>
+    </None>
     <None Include="SharpScaffoldingEnums.tt">
     </None>
     <None Include="ScaffoldingGenerator.tt">
-    </None>
-    <None Include="ScaffoldingGeneratorTester.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ScaffoldingGeneratorTester.log</LastGenOutput>
     </None>
     <None Include="Templates\BaseTemplate.tt">
     </None>
