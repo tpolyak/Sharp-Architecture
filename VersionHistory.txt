@@ -8,9 +8,6 @@ Roadmap for 1.0 Release
 * Hone CRUD capabilities
 * Support multiple databases
 * Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
-* CRUD scaffolding generators which will include:
-	- Use of Fluent NHibernate's AutoPersistenceModel for coding by convention
-	- 
 
 ----------------------------------------------
 ----------------------------------------------
@@ -19,6 +16,7 @@ On the trunk
 ----------------------------------------------
 
 New and exciting:
+* CRUD Scaffolding generation is now available - see the documentation for details
 * Added CommonServiceLocator to provide IoC agnosticism to the non-web layers
 * You no longer need to register custom repositories to Castle Windsor
 
