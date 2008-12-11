@@ -58,6 +58,7 @@ namespace Tests.<#= SolutionName #>.Controllers
         }
 
         [Test]
+        [Ignore("Add NHibernate validation constraints to the <#= DomainObjectName #> object and then remove this ignore")]
         public void CanEnsure<#= DomainObjectName #>CreationIsValid() {
             <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>();
             ViewResult result = controller.Create(<#= DomainObjectNameCamelCase #>FromForm).AssertViewRendered();

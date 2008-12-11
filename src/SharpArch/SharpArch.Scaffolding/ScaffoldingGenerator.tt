@@ -47,6 +47,8 @@ public class ScaffoldingGenerator : Generator
 
 			if (! Directory.Exists(targetPath)) {
 				Directory.CreateDirectory(targetPath);
+
+				Log("Added directory " + targetPath);
 			}
 
 			GenerateDomainObjectFormView(targetPath);
@@ -55,18 +57,31 @@ public class ScaffoldingGenerator : Generator
 			GenerateIndexView(targetPath);
 			GenerateShowView(targetPath);
 		}
+		else {
+			Log("Skipped generation of views");
+		}
 	}
 
 	private void GenerateClassMap() {
 		string fileName = domainObjectName + "Map.cs";
 		string targetPath = solutionRootFolder + solutionName + ".Data\\NHibernateMaps\\";
 	
-		if (DidRequestToGenerate(ArtifactToGenerate.ClassMap) && ! File.Exists(targetPath + fileName)) {
-			ClassMapTemplate classMapTemplate = 
-				new ClassMapTemplate(solutionName, domainObjectName, properties);
-			classMapTemplate.RenderToFile(fileName);
-			
-			File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+		if (DidRequestToGenerate(ArtifactToGenerate.ClassMap)) {
+			if (! File.Exists(targetPath + fileName)) {
+				ClassMapTemplate classMapTemplate = 
+					new ClassMapTemplate(solutionName, domainObjectName, properties);
+				classMapTemplate.RenderToFile(fileName);
+				
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+		}
+		else {
+			Log("Skipped generation of class map");
 		}
 	}
 	
@@ -81,6 +96,11 @@ public class ScaffoldingGenerator : Generator
 				domainObjectTestsTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
 			}
 
 			fileName = domainObjectName + ".cs";
@@ -92,7 +112,15 @@ public class ScaffoldingGenerator : Generator
 				domainObjectTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
 			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+		}
+		else {
+			Log("Skipped generation of domain and domain tests");
 		}
 	}
 
@@ -107,6 +135,11 @@ public class ScaffoldingGenerator : Generator
 				controllerTestsTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
 			}
 
 			fileName = DomainObjectNamePlural + "Controller.cs";
@@ -118,7 +151,15 @@ public class ScaffoldingGenerator : Generator
 				controllerTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
 			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+		}
+		else {
+			Log("Skipped generation of controller and controller tests");
 		}
 	}
 	
@@ -140,6 +181,11 @@ public class ScaffoldingGenerator : Generator
 			designerTemplate.RenderToFile(domainObjectName + "Form.ascx.designer.cs");
 
 			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
 		}
 	}
 
@@ -153,6 +199,11 @@ public class ScaffoldingGenerator : Generator
 			GenerateGeneralCodeBehindAndDesignerForViewPage("Create");
 
 			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
 		}
 	}
 	
@@ -166,6 +217,11 @@ public class ScaffoldingGenerator : Generator
 			GenerateGeneralCodeBehindAndDesignerForViewPage("Edit");
 
 			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
 		}
 	}
 	
@@ -186,6 +242,11 @@ public class ScaffoldingGenerator : Generator
 			designerTemplate.RenderToFile(fileName + ".designer.cs");
 
 			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
 		}
 	}
 	
@@ -199,6 +260,11 @@ public class ScaffoldingGenerator : Generator
 			GenerateGeneralCodeBehindAndDesignerForViewPage("Show");
 
 			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
 		}
 	}
 	
@@ -240,11 +306,18 @@ public class ScaffoldingGenerator : Generator
 		}
 	}
 
+	private void Log(string message) {
+		StreamWriter streamWriter = File.AppendText(scaffoldingOutputFolder + LOG_FILE_NAME);
+		streamWriter.WriteLine(DateTime.Now.ToLongTimeString() + "\t" + message);
+		streamWriter.Close();
+	}
+
 	private string scaffoldingOutputFolder;
 	private string solutionRootFolder;
 	private ArtifactToGenerate[] artifactsToGenerate;
 	private string solutionName;
 	private string domainObjectName;
 	private NameValueCollection properties;
+	private const string LOG_FILE_NAME = "SharpArch.Scaffolding.log";
 }
 #>

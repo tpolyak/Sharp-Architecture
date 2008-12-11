@@ -25,6 +25,7 @@ namespace Tests.<#= SolutionName #>.Core
         /// 3) Set the values of the "instanceToCompareTo" to be the same as those of the "instance"
         /// </summary>
         [Test]
+        [Ignore("Follow the steps in this test's description to get this passing")]
         public void CanCompare<#= DomainObjectNamePlural #>() {
             <#= DomainObjectName #> instance = new <#= DomainObjectName #>();
             // Set the values of the domain signature properties here

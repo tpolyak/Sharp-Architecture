@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DELETE_ME.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +52,7 @@
     </None>
     <None Include="ScaffoldingGeneratorCommand.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ScaffoldingGeneratorCommand.log</LastGenOutput>
+      <LastGenOutput>ScaffoldingGeneratorCommand.txt</LastGenOutput>
     </None>
     <None Include="SharpScaffoldingEnums.tt">
     </None>
