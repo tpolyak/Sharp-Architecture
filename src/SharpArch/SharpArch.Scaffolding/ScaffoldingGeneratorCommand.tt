@@ -11,9 +11,11 @@ properties.Add("Name", "string");
 properties.Add("Price", "decimal");
   
 ScaffoldingGenerator generator = new ScaffoldingGenerator(
-	@"C:\MyStuff\Projects\SharpArchitecture\src\SharpArch\SharpArch.Scaffolding\",
-	@"C:\MyStuff\Projects\ScaffoldTesting\",  
-	"ScaffoldTesting", "Family", properties); 
+	@"C:\SharpArchUnzippedFolder\SharpArch.Scaffolding\",
+	@"C:\PathToFolderContainingSolutionFileOfYourProject\",  
+	"NameOfYourSolutionWithoutTheSLNExtension", 
+	"NameOfYourDomainObjectSingularAndPascalCase", 
+	properties); 
 
 generator.Run(); 
 #>
