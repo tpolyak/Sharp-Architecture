@@ -29,7 +29,7 @@ namespace SharpArch.Core
     public abstract class DomainObject : IDomainObject
     {
         public override bool Equals(object obj) {
-            IDomainObject compareTo = obj as IDomainObject;
+            DomainObject compareTo = obj as DomainObject;
 
             if (ReferenceEquals(this, compareTo))
                 return true;
