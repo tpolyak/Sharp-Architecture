@@ -13,11 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing.NUnit", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing", "SharpArch.Testing\SharpArch.Testing.csproj", "{230DF364-CC54-440A-AA02-31A0E2964AC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Scaffolding", "SharpArch.Scaffolding\SharpArch.Scaffolding.csproj", "{F9EBF6B7-DDD5-49B9-9DC7-CF48EACE1119}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.VsSharpArchTemplate", "SharpArch.VsSharpArchTemplate\SharpArch.VsSharpArchTemplate.csproj", "{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code Generation", "Code Generation", "{D3C58A2B-F044-4965-8A5F-7B6A3C5180DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,9 +45,6 @@ Global
 		{230DF364-CC54-440A-AA02-31A0E2964AC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{230DF364-CC54-440A-AA02-31A0E2964AC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{230DF364-CC54-440A-AA02-31A0E2964AC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9EBF6B7-DDD5-49B9-9DC7-CF48EACE1119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9EBF6B7-DDD5-49B9-9DC7-CF48EACE1119}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9EBF6B7-DDD5-49B9-9DC7-CF48EACE1119}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,9 +52,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA} = {D3C58A2B-F044-4965-8A5F-7B6A3C5180DD}
-		{F9EBF6B7-DDD5-49B9-9DC7-CF48EACE1119} = {D3C58A2B-F044-4965-8A5F-7B6A3C5180DD}
 	EndGlobalSection
 EndGlobal
