@@ -24,10 +24,10 @@ public class ScaffoldingGenerator : Generator
 		: this(projectRootPath, solutionName, domainObjectName, properties, null) { }
 
 	public ScaffoldingGenerator(string projectRootPath, string solutionName, string domainObjectName, NameValueCollection properties, ArtifactToGenerate[] artifactsToGenerate) {
-		this.solutionRootFolder = projectRootPath + "App\\";
-		this.scaffoldingOutputFolder = projectRootPath + "Tools\\CrudScaffolding\\";
-		this.testsRootFolder = projectRootPath + "Tests\\";
-		this.logsPath = projectRootPath + "Logs\\";
+		this.solutionRootFolder = projectRootPath + "app\\";
+		this.scaffoldingOutputFolder = projectRootPath + "tools\\CrudScaffolding\\";
+		this.testsRootFolder = projectRootPath + "tests\\";
+		this.logsPath = projectRootPath + "logs\\";
 
 		this.solutionName = solutionName;
 		this.domainObjectName = domainObjectName;
