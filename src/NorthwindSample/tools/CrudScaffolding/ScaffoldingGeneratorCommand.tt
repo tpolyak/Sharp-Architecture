@@ -1,0 +1,28 @@
+﻿<#@ template language="C#" hostspecific="True" debug="True" #>
+<#@ import namespace="System.Collections.Specialized" #>
+<#@ output extension="txt" #>
+<#@ include file="T4Toolbox.tt" #>
+<#@ include file="ScaffoldingGenerator.tt" #> 
+
+<#
+///////////////////////////////////////////////////
+// Set your domain object details below
+
+// Domain name should be PascalCaseSingular
+string domainObjectName = "Employee";
+
+// Properties should be name/value pairs representing the property-name/data-type of the properties; property names should be PascalCase
+NameValueCollection properties = new NameValueCollection();
+properties.Add("EmailAddress", "string"); 
+properties.Add("EmployeeNumber", "int");
+
+///////////////////////////////////////////////////
+
+string projectRootPath = @"C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\";
+string solutionName = "Northwind";
+
+ScaffoldingGenerator generator = new ScaffoldingGenerator(
+	projectRootPath, solutionName, domainObjectName, properties); 
+
+generator.Run();
+#>
