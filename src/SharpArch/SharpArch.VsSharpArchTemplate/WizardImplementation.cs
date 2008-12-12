@@ -54,7 +54,8 @@ namespace SharpArchApplicationWizard
                     MoveSolutionItemsToToolsLib(project);
                 }
                 else if (project.Name == "CrudScaffolding") {
-                    MoveProjectTo("\\tools\\", project, "Code Generation");
+                    Project movedProject = MoveProjectTo("\\tools\\", project, "Code Generation");
+                    ExcludeProjectFromBuildProcess(movedProject);
                 }
                 else if (project.Name == GetSolutionName() + ".Tests") {
                     MoveProjectTo("\\tests\\", project);
@@ -81,11 +82,26 @@ namespace SharpArchApplicationWizard
             }
         }
 
-        private void MoveProjectTo(string targetSubFolder, EnvDTE.Project project) {
-            MoveProjectTo(targetSubFolder, project, null);
+        private void ExcludeProjectFromBuildProcess(EnvDTE.Project project) {
+            Solution2 solution = dte.Solution as Solution2;
+            SolutionBuild2 solutionBuild = (SolutionBuild2) solution.SolutionBuild;
+
+            foreach (SolutionConfiguration solutionConfiguration in solutionBuild.SolutionConfigurations) {
+                foreach (SolutionContext solutionContext in solutionConfiguration.SolutionContexts) {
+                    if (solutionContext.ProjectName.IndexOf(project.Name) > -1) {
+                        Log("Setting build to false for project " + solutionContext.ProjectName + 
+                            " within the " + solutionConfiguration.Name + " configuration");
+                        solutionContext.ShouldBuild = false;
+                    }
+                }
+            }
         }
 
-        private void MoveProjectTo(string targetSubFolder, EnvDTE.Project project, string solutionFolderName) {
+        private Project MoveProjectTo(string targetSubFolder, EnvDTE.Project project) {
+            return MoveProjectTo(targetSubFolder, project, null);
+        }
+
+        private Project MoveProjectTo(string targetSubFolder, EnvDTE.Project project, string solutionFolderName) {
             string projectName = project.Name;
             string originalLocation = GetSolutionRootPath() + GetSolutionName() + "\\" + projectName;
 
@@ -98,15 +114,15 @@ namespace SharpArchApplicationWizard
                 Log("Moving " + projectName + " from " + originalLocation + " to target location at " + targetLocation);
                 Directory.Move(originalLocation, targetLocation);
 
-                // Give the move request time to complete; otherwise, you can run into a file lock
-                System.Threading.Thread.Sleep(1500);
+                // Give the move request time to complete; otherwise, you can run into a read access file lock which manifests as "Access Denied"
+                System.Threading.Thread.Sleep(2500);
 
                 if (!string.IsNullOrEmpty(solutionFolderName)) {
                     SolutionFolder solutionFolder = (SolutionFolder)solution.AddSolutionFolder(solutionFolderName).Object;
-                    solutionFolder.AddFromFile(targetLocation + "\\" + projectName + ".csproj");
+                    return solutionFolder.AddFromFile(targetLocation + "\\" + projectName + ".csproj");
                 }
                 else {
-                    solution.AddFromFile(targetLocation + "\\" + projectName + ".csproj", false);
+                    return solution.AddFromFile(targetLocation + "\\" + projectName + ".csproj", false);
                 }
             }
             else {
