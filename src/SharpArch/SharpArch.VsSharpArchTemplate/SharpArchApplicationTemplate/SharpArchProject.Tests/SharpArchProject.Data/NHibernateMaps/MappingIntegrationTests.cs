@@ -18,7 +18,8 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
         [SetUp]
         public virtual void SetUp() {
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
-            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, "../../../$solutionname$.Web/Hibernate.cfg.xml");
+            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, 
+                "../../../../app/$solutionname$.Web/Hibernate.cfg.xml");
         }
 
         [Test]
