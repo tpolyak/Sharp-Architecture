@@ -1,0 +1,27 @@
+﻿<#+
+public class IndexCodeBehindTemplate : BaseTemplate
+{
+	public IndexCodeBehindTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
+		: base(solutionName, domainObjectName, properties) { }
+
+	protected override void RenderCore()
+	{
+#>
+using System.Web.Mvc;
+using <#= SolutionName #>.Core;
+using System.Collections.Generic;
+
+namespace <#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>
+{
+    public partial class Index : ViewPage<IEnumerable<<#= DomainObjectName #>>>
+    {
+        public void Page_Load() {
+            <#= DomainObjectNameCamelCase #>List.DataSource = ViewData.Model;
+            <#= DomainObjectNameCamelCase #>List.DataBind();
+        }
+    }
+}
+<#+
+	}
+}
+#>

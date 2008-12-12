@@ -1,0 +1,59 @@
+﻿<#@ import namespace="System.Collections" #>
+
+<#+
+public class ClassMapTemplate : BaseTemplate
+{
+	public ClassMapTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
+		: base(solutionName, domainObjectName, properties) { }
+
+	protected override void RenderCore()
+	{
+#>
+using <#= SolutionName #>.Core;
+using FluentNHibernate;
+using FluentNHibernate.Mapping;
+using SharpArch.Data.NHibernate.FluentNHibernate;
+
+namespace <#= SolutionName #>.Data.NHibernateMappings
+{
+    public class <#= DomainObjectName #>Map : ClassMap<<#= DomainObjectName #>>, IMapGenerator
+    {
+        public <#= DomainObjectName #>Map() {
+            WithTable("<#= DomainObjectNamePlural #>");
+
+            Id(x => x.ID)
+                .WithUnsavedValue(0)
+                .GeneratedBy.Identity();
+            
+			<#+
+			PushIndent("\t\t\t");
+
+			foreach (string	propertyName in Properties.AllKeys ) {
+				WriteLine("Map(x => x." + propertyName + ");");
+			}
+
+			PopIndent();
+			#>
+        }
+
+        #region IMapGenerator Members
+
+        public System.Xml.XmlDocument Generate() {
+            return CreateMapping(new MappingVisitor());
+        }
+
+        #endregion
+    }
+}
+<#+
+    }
+}
+#>
+
+
+
+
+
+
+
+

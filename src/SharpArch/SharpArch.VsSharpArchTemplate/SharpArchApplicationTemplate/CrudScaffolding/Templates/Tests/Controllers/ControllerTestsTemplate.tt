@@ -1,0 +1,152 @@
+﻿<#@ import namespace="System.Collections" #>
+
+<#+
+public class ControllerTestsTemplate : BaseTemplate
+{
+	public ControllerTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
+		: base(solutionName, domainObjectName, properties) { }
+
+	protected override void RenderCore()
+	{
+#>
+using NUnit.Framework;
+using MvcContrib.TestHelper;
+using <#= SolutionName #>.Controllers;
+using SharpArch.Core.PersistenceSupport;
+using <#= SolutionName #>.Core;
+using Rhino.Mocks;
+using NUnit.Framework.SyntaxHelpers;
+using System.Web.Mvc;
+using System.Collections.Generic;
+using SharpArch.Testing;
+
+namespace Tests.<#= SolutionName #>.Controllers
+{
+    [TestFixture]
+    public class <#= DomainObjectNamePlural #>ControllerTests
+    {
+        [SetUp]
+        public void SetUp() {
+            controller = new <#= DomainObjectNamePlural #>Controller(CreateMock<#= DomainObjectName #>Repository());
+        }
+
+        /// <summary>
+        /// Add a couple of objects to the list within Create<#= DomainObjectNamePlural #> and change the 
+        /// "Is.EqualTo(0)" within this test to the respective number.
+        /// </summary>
+        [Test]
+        public void CanList<#= DomainObjectNamePlural #>() {
+            ViewResult result = controller.Index().AssertViewRendered();
+
+            Assert.That(result.ViewData.Model as List<<#= DomainObjectName #>>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as List<<#= DomainObjectName #>>).Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void CanShow<#= DomainObjectName #>() {
+            ViewResult result = controller.Show(1).AssertViewRendered();
+
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as <#= DomainObjectName #>).ID, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void CanInit<#= DomainObjectName #>Creation() {
+            ViewResult result = controller.Create().AssertViewRendered();
+
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Null);
+        }
+
+        [Test]
+        [Ignore("Add NHibernate validation constraints to the <#= DomainObjectName #> object and then remove this ignore")]
+        public void CanEnsure<#= DomainObjectName #>CreationIsValid() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>();
+            ViewResult result = controller.Create(<#= DomainObjectNameCamelCase #>FromForm).AssertViewRendered();
+
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Null);
+
+            // If you add validation rules, change the number of expected violations here and a test for each error, accordingly
+            Assert.That(result.ViewData.ModelState.Count, Is.EqualTo(0));
+            // Example validation message test:  Assert.That(result.ViewData.ModelState["<#= DomainObjectName #>.FirstName"].Errors[0].ErrorMessage, Is.Not.Empty);
+        }
+
+        [Test]
+        public void CanCreate<#= DomainObjectName #>() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
+				// Assign default property values here
+            };
+            RedirectToRouteResult redirectResult = controller.Create(<#= DomainObjectNameCamelCase #>FromForm)
+                .AssertActionRedirect().ToAction("Index");
+            Assert.That(controller.TempData["message"].ToString().Contains("was successfully created"));
+        }
+
+        [Test]
+        public void CanInit<#= DomainObjectName #>Edit() {
+            ViewResult result = controller.Edit(1).AssertViewRendered();
+
+            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as <#= DomainObjectName #>).ID, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void CanUpdate<#= DomainObjectName #>() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
+				// Set the simulated properties from the form here
+            };
+            RedirectToRouteResult redirectResult = controller.Edit(1, <#= DomainObjectNameCamelCase #>FromForm)
+                .AssertActionRedirect().ToAction("Index");
+            Assert.That(controller.TempData["message"].ToString().Contains("was successfully updated"));
+        }
+
+        [Test]
+        public void CanDelete<#= DomainObjectName #>() {
+            RedirectToRouteResult redirectResult = controller.Delete(1)
+                .AssertActionRedirect().ToAction("Index");
+            Assert.That(controller.TempData["message"].ToString().Contains("was successfully deleted"));
+        }
+
+        private IRepository<<#= DomainObjectName #>> CreateMock<#= DomainObjectName #>Repository() {
+            MockRepository mocks = new MockRepository();
+
+            IRepository<<#= DomainObjectName #>> mockedRepository = mocks.StrictMock<IRepository<<#= DomainObjectName #>>>();
+            Expect.Call(mockedRepository.GetAll())
+                .Return(Create<#= DomainObjectNamePlural #>());
+            Expect.Call(mockedRepository.Get(1)).IgnoreArguments()
+                .Return(Create<#= DomainObjectName #>());
+            Expect.Call(mockedRepository.SaveOrUpdate(null)).IgnoreArguments()
+                .Return(Create<#= DomainObjectName #>());
+            Expect.Call(delegate { mockedRepository.Delete(null); }).IgnoreArguments();
+
+            IDbContext mockedDbContext = mocks.StrictMock<IDbContext>();
+            Expect.Call(delegate { mockedDbContext.CommitChanges(); });
+            SetupResult.For(mockedRepository.DbContext).Return(mockedDbContext);
+            
+            mocks.Replay(mockedRepository);
+
+            return mockedRepository;
+        }
+
+        private <#= DomainObjectName #> Create<#= DomainObjectName #>() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = new <#= DomainObjectName #>();
+
+            // Set the <#= DomainObjectNameCamelCase #> properties here
+
+            PersistentObjectIdSetter<int>.SetIdOf(<#= DomainObjectNameCamelCase #>, 1);
+            return <#= DomainObjectNameCamelCase #>;
+        }
+
+        private List<<#= DomainObjectName #>> Create<#= DomainObjectNamePlural #>() {
+            List<<#= DomainObjectName #>> <#= DomainObjectNamePluralCamelCase #> = new List<<#= DomainObjectName #>>();
+
+            // Create a number of domain object instances here and add them to the list
+
+            return <#= DomainObjectNamePluralCamelCase #>;
+        }
+
+        private <#= DomainObjectNamePlural #>Controller controller;
+    }
+}
+<#+
+	}
+}
+#>

@@ -1,0 +1,335 @@
+﻿<#@ include file="Pluralizer.tt" #> 
+<#@ include file="ScaffoldingEnums.tt" #>
+<#@ include file="./Templates/BaseTemplate.tt" #>
+<#@ include file="./Templates/Controllers/ControllerTemplate.tt" #>
+<#@ include file="./Templates/Core/DomainObjectTemplate.tt" #>
+<#@ include file="./Templates/Data/NHibernateMaps/ClassMapTemplate.tt" #>
+<#@ include file="./Templates/Tests/Controllers/ControllerTestsTemplate.tt" #>
+<#@ include file="./Templates/Tests/Core/DomainObjectTestsTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/DomainObjectFormTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/CreateTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/EditTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/IndexTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/IndexCodeBehindTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/IndexDesignerTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/ShowTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/GeneralCodeBehindTemplate.tt" #>
+<#@ include file="./Templates/Web/Views/GeneralDesignerTemplate.tt" #>
+<#@ import namespace="System.IO" #>
+
+<#+
+public class ScaffoldingGenerator : Generator
+{
+	public ScaffoldingGenerator(string projectRootPath,	string solutionName, string domainObjectName, NameValueCollection properties)
+		: this(projectRootPath, solutionName, domainObjectName, properties, null) { }
+
+	public ScaffoldingGenerator(string projectRootPath, string solutionName, string domainObjectName, NameValueCollection properties, ArtifactToGenerate[] artifactsToGenerate) {
+		this.solutionRootFolder = projectRootPath + "app\\";
+		this.scaffoldingOutputFolder = projectRootPath + "tools\\CrudScaffolding\\";
+		this.testsRootFolder = projectRootPath + "tests\\";
+		this.logsPath = projectRootPath + "logs\\";
+
+		this.solutionName = solutionName;
+		this.domainObjectName = domainObjectName;
+		this.properties = properties;
+		this.artifactsToGenerate = artifactsToGenerate;
+	}
+
+	protected override void RunCore() {
+		// Get rid of the existing generation log
+		File.Delete(logsPath + LOG_FILE_NAME);
+
+		GenerateDomainObjectAndTests();
+		GenerateControllerAndTests();
+		GenerateClassMap();
+		GenerateViews();
+	}
+
+	private void GenerateViews() {
+		if (DidRequestToGenerate(ArtifactToGenerate.Views)) {
+			string targetPath = solutionRootFolder + solutionName + ".Web\\Views\\" + DomainObjectNamePlural + "\\";
+
+			if (! Directory.Exists(targetPath)) {
+				Directory.CreateDirectory(targetPath);
+
+				Log("Added directory " + targetPath);
+			}
+
+			GenerateDomainObjectFormView(targetPath);
+			GenerateCreateView(targetPath);
+			GenerateEditView(targetPath);
+			GenerateIndexView(targetPath);
+			GenerateShowView(targetPath);
+		}
+		else {
+			Log("Skipped generation of views");
+		}
+	}
+
+	private void GenerateClassMap() {
+		string fileName = domainObjectName + "Map.cs";
+		string targetPath = solutionRootFolder + solutionName + ".Data\\NHibernateMaps\\";
+	
+		if (DidRequestToGenerate(ArtifactToGenerate.ClassMap)) {
+			if (! Directory.Exists(targetPath)) {
+				Directory.CreateDirectory(targetPath);
+
+				Log("Added directory " + targetPath);
+			}
+
+			if (! File.Exists(targetPath + fileName)) {
+				ClassMapTemplate classMapTemplate = 
+					new ClassMapTemplate(solutionName, domainObjectName, properties);
+				classMapTemplate.RenderToFile(fileName);
+				
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+		}
+		else {
+			Log("Skipped generation of class map");
+		}
+	}
+	
+	private void GenerateDomainObjectAndTests() {
+		if (DidRequestToGenerate(ArtifactToGenerate.DomainObject)) {
+			string fileName = domainObjectName + "Tests.cs";
+			string targetPath = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Core\\";
+
+			if (! File.Exists(targetPath + fileName)) {
+				DomainObjectTestsTemplate domainObjectTestsTemplate = 
+					new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
+				domainObjectTestsTemplate.RenderToFile(fileName);
+
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+
+			fileName = domainObjectName + ".cs";
+			targetPath = solutionRootFolder + solutionName + ".Core\\";
+
+			if (! File.Exists(targetPath + fileName)) {
+				DomainObjectTemplate domainObjectTemplate = 
+					new DomainObjectTemplate(solutionName, domainObjectName, properties);
+				domainObjectTemplate.RenderToFile(fileName);
+
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+		}
+		else {
+			Log("Skipped generation of domain and domain tests");
+		}
+	}
+
+	private void GenerateControllerAndTests() {
+		if (DidRequestToGenerate(ArtifactToGenerate.Controller)) {
+			string fileName = DomainObjectNamePlural + "ControllerTests.cs";
+			string targetPath = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Controllers\\";
+
+			if (! File.Exists(targetPath + fileName)) {
+				ControllerTestsTemplate controllerTestsTemplate = 
+					new ControllerTestsTemplate(solutionName, domainObjectName, properties);
+				controllerTestsTemplate.RenderToFile(fileName);
+
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+
+			fileName = DomainObjectNamePlural + "Controller.cs";
+			targetPath = solutionRootFolder + solutionName + ".Controllers\\";
+
+			if (! File.Exists(targetPath + fileName)) {
+				ControllerTemplate controllerTemplate = 
+					new ControllerTemplate(solutionName, domainObjectName, properties);
+				controllerTemplate.RenderToFile(fileName);
+
+				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+
+				Log("Added file " + targetPath + fileName);
+			}
+			else {
+				Log("File already exists " + targetPath + fileName);
+			}
+		}
+		else {
+			Log("Skipped generation of controller and controller tests");
+		}
+	}
+	
+	private void GenerateDomainObjectFormView(string targetPath) {
+		string fileName = domainObjectName + "Form.ascx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			DomainObjectFormTemplate domainObjectFormTemplate = 
+				new DomainObjectFormTemplate(solutionName, domainObjectName, properties);
+			domainObjectFormTemplate.RenderToFile(fileName);
+
+			GeneralCodeBehindTemplate codeBehindTemplate = 
+				new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
+					properties, domainObjectName + "Form", "ViewUserControl<" + domainObjectName + ">");
+			codeBehindTemplate.RenderToFile(fileName + ".cs");
+
+			GeneralDesignerTemplate designerTemplate = 
+				new GeneralDesignerTemplate(solutionName, domainObjectName, properties, domainObjectName + "Form");
+			designerTemplate.RenderToFile(domainObjectName + "Form.ascx.designer.cs");
+
+			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
+		}
+	}
+
+	private void GenerateCreateView(string targetPath) {
+		string fileName = "Create.aspx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			CreateTemplate createTemplate = new CreateTemplate(solutionName, domainObjectName, properties);
+			createTemplate.RenderToFile(fileName);
+
+			GenerateGeneralCodeBehindAndDesignerForViewPage("Create");
+
+			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
+		}
+	}
+	
+	private void GenerateEditView(string targetPath) {
+		string fileName = "Edit.aspx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			EditTemplate editTemplate = new EditTemplate(solutionName, domainObjectName, properties);
+			editTemplate.RenderToFile(fileName);
+
+			GenerateGeneralCodeBehindAndDesignerForViewPage("Edit");
+
+			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
+		}
+	}
+	
+	private void GenerateIndexView(string targetPath) {
+		string fileName = "Index.aspx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			IndexTemplate indexTemplate = 
+				new IndexTemplate(solutionName, domainObjectName, properties);
+			indexTemplate.RenderToFile(fileName);
+
+			IndexCodeBehindTemplate codeBehindTemplate = 
+				new IndexCodeBehindTemplate(solutionName, domainObjectName, properties);
+			codeBehindTemplate.RenderToFile(fileName + ".cs");
+
+			IndexDesignerTemplate designerTemplate = 
+				new IndexDesignerTemplate(solutionName, domainObjectName, properties);
+			designerTemplate.RenderToFile(fileName + ".designer.cs");
+
+			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
+		}
+	}
+	
+	private void GenerateShowView(string targetPath) {
+		string fileName = "Show.aspx";
+
+		if (! File.Exists(targetPath + fileName)) {
+			ShowTemplate showTemplate = new ShowTemplate(solutionName, domainObjectName, properties);
+			showTemplate.RenderToFile(fileName);
+
+			GenerateGeneralCodeBehindAndDesignerForViewPage("Show");
+
+			MoveViewFilesTo(targetPath, fileName);
+
+			Log("Added file " + targetPath + fileName);
+		}
+		else {
+			Log("File already exists " + targetPath + fileName);
+		}
+	}
+	
+	private void GenerateGeneralCodeBehindAndDesignerForViewPage(string className) {
+		GeneralCodeBehindTemplate codeBehindTemplate = 
+			new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
+				properties, className, "ViewPage<" + domainObjectName + ">");
+		codeBehindTemplate.RenderToFile(className + ".aspx.cs");
+
+		GeneralDesignerTemplate designerTemplate = 
+			new GeneralDesignerTemplate(solutionName, domainObjectName, properties, className);
+		designerTemplate.RenderToFile(className + ".aspx.designer.cs");
+	}
+
+	private void MoveViewFilesTo(string targetPath, string viewFileName) {
+			File.Move(scaffoldingOutputFolder + viewFileName, targetPath + viewFileName);
+			File.Move(scaffoldingOutputFolder + viewFileName + ".cs", targetPath + viewFileName + ".cs");
+			File.Move(scaffoldingOutputFolder + viewFileName + ".designer.cs", targetPath + viewFileName + ".designer.cs");
+	}
+
+	private bool DidRequestToGenerate(ArtifactToGenerate artifactToGenerate) {
+		// If specific artifacts were not designated, then assume creation
+		if (artifactsToGenerate == null) {
+			return true;
+		}
+
+        for (int i=0; i < artifactsToGenerate.Length; i++) {
+            if (artifactsToGenerate[i] == artifactToGenerate) {
+				return true;
+            }
+        }
+        
+        return false;
+	}
+
+	private string DomainObjectNamePlural {
+		get {
+			return Pluralizer.ToPlural(domainObjectName);
+		}
+	}
+
+	private void Log(string message) {
+		StreamWriter streamWriter = File.AppendText(logsPath + LOG_FILE_NAME);
+		streamWriter.WriteLine(DateTime.Now.ToLongTimeString() + "\t" + message);
+		streamWriter.Close();
+	}
+
+	private readonly string logsPath;
+	private readonly string testsRootFolder;
+	private readonly string scaffoldingOutputFolder;
+	private readonly string solutionRootFolder;
+	private readonly ArtifactToGenerate[] artifactsToGenerate;
+	private readonly string solutionName;
+	private readonly string domainObjectName;
+	private readonly NameValueCollection properties;
+	private const string LOG_FILE_NAME = "CrudScaffolding.log";
+}
+#>
