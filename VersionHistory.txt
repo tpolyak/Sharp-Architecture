@@ -19,6 +19,7 @@ New and exciting:
 * CRUD Scaffolding generation is now available - see the documentation for details
 * Added CommonServiceLocator to provide IoC agnosticism to the non-web layers
 * You no longer need to register custom repositories to Castle Windsor
+* Added formal solution structure to help organize applications
 
 -------
 
@@ -44,6 +45,25 @@ SharpArch.Data
 * BREAKING CHANGE ~ Renamed Repository.GetByProperties(), Repository.GetUniqueByProperties(), Repository.GetByExample(), Repository.GetUniqueByExample() to FindAll(properties/example) and FindOne(properties/example)
 * BREAKING CHANGE ~ Repository.cs:  This now implements the simpler IRepository<> instead of INHibernateRepository<>; Moved the NHibernate specific methods Get(id, lockMode), Load(id), Load(id, lockMode), FindAll(exampleInstance), FindOne(exampleInstance), Save(entity), Update(entity), Evict(entity) to NHibernateRepository<>; If you write a custom repository which needs to implement methods from INHibernateRepository<>, you'll want to inherit from this new NHibernateRepository<> class
 
+Northwind Solution
+* Modified solution structure to reflect the following
+   /MyProject 
+      /app - Contains MyProject.sln and the core project layers. 
+         /MyProject.Controllers 
+         /MyProject.Core 
+         /MyProject.Data 
+         /MyProject.Web 
+      /bin - Contains the solution items for the deployable application. 
+      /db - Contains database schema information; e.g., the result of scaffolding and/or NHibernate's schema export. 
+      /docs - Project documents. 
+      /logs - Output location for log files. 
+      /tests 
+         /MyProject.Tests 
+      /tools 
+         /build - Empty folder for housing build related stuff. 
+         /bin - Contains the solution items for the tests project and all other non-deployable assemblies. 
+         /MyProject.Scaffolding - Customizable CRUD, scaffolding generation code.
+
 Northwind.Controllers
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
 * RouteRegistrar.cs:  Registered map for "Root"
@@ -55,13 +75,16 @@ Northwind.Data
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
 
 Northwind.Tests
+* Moved project to /NorthwindSample/tests/Northwind.Tests
 * Added a reference to Microsoft.Practices.ServiceLocation.dll, Castle.Core.dll, Castle.MicroKernel.dll, Castle.Windsor.dll to support configuring IoC from the tests layer
 * /Northwind.Controllers/RouteRegistrarTests.cs:  Added call to "Clear()" the RouteTable during SetUp()
+* /Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs:  Changed relative path to account for new solution structure; e.g., "../../../../app/Northwind.Web/Hibernate.cfg.xml"
 
 Northwind.Web
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
 * Default.aspx.cs:  Modified RewritePath to pass in false for the rebasePath parameter
 * Global.asax.cs: Added CommonServiceLocator support and removed implementation of IContainerAccessor (use CSL instead)
+* web.config:  Changed relative path to log4net output file to reflect new solution structure; e.g., <file value="../../logs/Northwind.Web.log"/>
 * /CastleWindsor/CastleExtensions.cs:  Added extension to find interfaces for custom repositories
 * /CastleWindsor/ComponentRegistrar.cs:  Replaced manual custom repository registrations with auto-registration of custom repositories; Added registration of IRepositoryWithTypedId and INHibernateRepositoryWithTypedId; Modified auto-bindings to account for the new NHibernateRepository<> and NHibernateRepositoryWithTypedId<,> classes
 
