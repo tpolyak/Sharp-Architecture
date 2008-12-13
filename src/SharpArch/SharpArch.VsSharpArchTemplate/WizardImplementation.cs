@@ -107,21 +107,24 @@ namespace SharpArchApplicationWizard
 
             if (Directory.Exists(originalLocation)) {
                 Solution2 solution = dte.Solution as Solution2;
+
+                Log("Removing " + projectName + " from solution");
                 solution.Remove(project);
+                // Give the solution time to release the lock on the project file
+                System.Threading.Thread.Sleep(500);
 
                 string targetLocation = GetSolutionRootPath() + GetSolutionName() + targetSubFolder + projectName;
 
                 Log("Moving " + projectName + " from " + originalLocation + " to target location at " + targetLocation);
                 Directory.Move(originalLocation, targetLocation);
 
-                // Give the move request time to complete; otherwise, you can run into a read access file lock which manifests as "Access Denied"
-                System.Threading.Thread.Sleep(2500);
-
                 if (!string.IsNullOrEmpty(solutionFolderName)) {
                     SolutionFolder solutionFolder = (SolutionFolder)solution.AddSolutionFolder(solutionFolderName).Object;
+                    Log("Adding " + projectName + " to solution folder " + targetLocation);
                     return solutionFolder.AddFromFile(targetLocation + "\\" + projectName + ".csproj");
                 }
                 else {
+                    Log("Adding " + projectName + " to solution");
                     return solution.AddFromFile(targetLocation + "\\" + projectName + ".csproj", false);
                 }
             }
@@ -141,6 +144,8 @@ namespace SharpArchApplicationWizard
 
                 Solution2 solution = dte.Solution as Solution2;
                 solution.Remove(solutionItemsContainerProject);
+                // Give the solution time to release the lock on the project file
+                System.Threading.Thread.Sleep(500);
 
                 Directory.Delete(GetSolutionRootPath() + GetSolutionName() + "\\SolutionItemsContainer", true);
             }
@@ -160,6 +165,8 @@ namespace SharpArchApplicationWizard
 
                 Solution2 solution = dte.Solution as Solution2;
                 solution.Remove(toolsSolutionItemsContainerProject);
+                // Give the solution time to release the lock on the project file
+                System.Threading.Thread.Sleep(500);
 
                 Directory.Delete(GetSolutionRootPath() + GetSolutionName() + "\\ToolsSolutionItemsContainer", true);
             }
