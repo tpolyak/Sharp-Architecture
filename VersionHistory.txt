@@ -20,6 +20,7 @@ New and exciting:
 * Added CommonServiceLocator to provide IoC agnosticism to the non-web layers
 * You no longer need to register custom repositories to Castle Windsor
 * Added formal solution structure to help organize applications
+* You no longer need to install ASP.NET MVC to create and edit S#arp Architecture projects
 
 -------
 
@@ -53,7 +54,7 @@ Northwind Solution
          /MyProject.Core 
          /MyProject.Data 
          /MyProject.Web 
-      /bin - Contains the solution items for the deployable application. 
+      /lib - Contains the solution items for the deployable application. 
       /db - Contains database schema information; e.g., the result of scaffolding and/or NHibernate's schema export. 
       /docs - Project documents. 
       /logs - Output location for log files. 
@@ -61,8 +62,8 @@ Northwind Solution
          /MyProject.Tests 
       /tools 
          /build - Empty folder for housing build related stuff. 
-         /bin - Contains the solution items for the tests project and all other non-deployable assemblies. 
-         /MyProject.Scaffolding - Customizable CRUD, scaffolding generation code.
+         /lib - Contains the solution items for the tests project and all other non-deployable assemblies. 
+         /CrudScaffolding - Customizable CRUD, scaffolding generation code.
 
 Northwind.Controllers
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
@@ -84,6 +85,8 @@ Northwind.Web
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
 * Default.aspx.cs:  Modified RewritePath to pass in false for the rebasePath parameter
 * Global.asax.cs: Added CommonServiceLocator support and removed implementation of IContainerAccessor (use CSL instead)
+* Northwind.Web.csproj:  Removed "{603c0e0b-db56-11dc- 
+be95-000d561079b0};" from top to remove dependency on ASP.NET MVC being installed
 * web.config:  Changed relative path to log4net output file to reflect new solution structure; e.g., <file value="../../logs/Northwind.Web.log"/>
 * /CastleWindsor/CastleExtensions.cs:  Added extension to find interfaces for custom repositories
 * /CastleWindsor/ComponentRegistrar.cs:  Replaced manual custom repository registrations with auto-registration of custom repositories; Added registration of IRepositoryWithTypedId and INHibernateRepositoryWithTypedId; Modified auto-bindings to account for the new NHibernateRepository<> and NHibernateRepositoryWithTypedId<,> classes
