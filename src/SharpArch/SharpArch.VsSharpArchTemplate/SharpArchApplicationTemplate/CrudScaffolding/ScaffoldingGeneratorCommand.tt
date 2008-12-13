@@ -11,7 +11,11 @@
 // Domain name should be PascalCaseSingular
 string domainObjectName = "Employee";
 
-// Properties should be name/value pairs representing the property-name/data-type of the properties; property names should be PascalCase
+/*
+ * Properties should be name/value pairs representing the property-name/data-type of the properties.
+ * Property names should be PascalCase.
+ * Do not include a property for ID as it will be included automatically.
+ */
 NameValueCollection properties = new NameValueCollection();
 properties.Add("EmailAddress", "string"); 
 properties.Add("EmployeeNumber", "int");
