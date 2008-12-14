@@ -2,8 +2,8 @@
 public class GeneralCodeBehindTemplate : BaseTemplate
 {
 	public GeneralCodeBehindTemplate(string solutionName, string domainObjectName, 
-		NameValueCollection properties, string className, string inheritsFrom) 
-		: base(solutionName, domainObjectName, properties) {
+		NameValueCollection properties, string[] namespaceHierarchy, string className, string inheritsFrom) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) {
 		this.className = className;
 		this.inheritsFrom = inheritsFrom;
 	}
@@ -12,7 +12,7 @@ public class GeneralCodeBehindTemplate : BaseTemplate
 	{
 #>
 using System.Web.Mvc;
-using <#= SolutionName #>.Core;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 
 namespace <#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>
 {

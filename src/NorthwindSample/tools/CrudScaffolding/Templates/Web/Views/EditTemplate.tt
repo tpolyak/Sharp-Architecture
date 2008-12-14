@@ -1,8 +1,8 @@
 ﻿<#+
 public class EditTemplate : BaseTemplate
 {
-	public EditTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public EditTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{

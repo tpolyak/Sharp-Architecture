@@ -30,9 +30,30 @@ public class ScaffoldingGenerator : Generator
 		this.logsPath = projectRootPath + "logs\\";
 
 		this.solutionName = solutionName;
-		this.domainObjectName = domainObjectName;
 		this.properties = properties;
 		this.artifactsToGenerate = artifactsToGenerate;
+
+		InitializeNamespaceHierarchyAndDomainObjectNameWith(domainObjectName);
+	}
+
+	private void InitializeNamespaceHierarchyAndDomainObjectNameWith(string domainObjectName) {
+		if (domainObjectName.IndexOf('.') > -1) {
+			string[] namespaceHierarchyAndDomainObjectName = domainObjectName.Split('.');
+
+			// Exclude a spot for the domain object name
+			namespaceHierarchy = new string[namespaceHierarchyAndDomainObjectName.Length - 1];
+
+			// Populate the namespace hierarchy from the split domain object name
+			for (int i=0; i < namespaceHierarchy.Length; i++) {
+				namespaceHierarchy[i] = namespaceHierarchyAndDomainObjectName[i];
+			}
+
+			// The last element in the hierarchy is the domain object name itself
+			this.domainObjectName = namespaceHierarchyAndDomainObjectName[namespaceHierarchyAndDomainObjectName.Length - 1];
+		}
+		else {
+			this.domainObjectName = domainObjectName;
+		}
 	}
 
 	protected override void RunCore() {
@@ -67,19 +88,14 @@ public class ScaffoldingGenerator : Generator
 	}
 
 	private void GenerateClassMap() {
-		string fileName = domainObjectName + "Map.cs";
-		string targetPath = solutionRootFolder + solutionName + ".Data\\NHibernateMaps\\";
-	
 		if (DidRequestToGenerate(ArtifactToGenerate.ClassMap)) {
-			if (! Directory.Exists(targetPath)) {
-				Directory.CreateDirectory(targetPath);
-
-				Log("Added directory " + targetPath);
-			}
+			string fileName = domainObjectName + "Map.cs";
+			string targetPathRoot = solutionRootFolder + solutionName + ".Data\\NHibernateMaps\\";
+			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
 				ClassMapTemplate classMapTemplate = 
-					new ClassMapTemplate(solutionName, domainObjectName, properties);
+					new ClassMapTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 				classMapTemplate.RenderToFile(fileName);
 				
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
@@ -98,11 +114,12 @@ public class ScaffoldingGenerator : Generator
 	private void GenerateDomainObjectAndTests() {
 		if (DidRequestToGenerate(ArtifactToGenerate.DomainObject)) {
 			string fileName = domainObjectName + "Tests.cs";
-			string targetPath = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Core\\";
+			string targetPathRoot = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Core\\";
+			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
 				DomainObjectTestsTemplate domainObjectTestsTemplate = 
-					new DomainObjectTestsTemplate(solutionName, domainObjectName, properties);
+					new DomainObjectTestsTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 				domainObjectTestsTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
@@ -114,11 +131,12 @@ public class ScaffoldingGenerator : Generator
 			}
 
 			fileName = domainObjectName + ".cs";
-			targetPath = solutionRootFolder + solutionName + ".Core\\";
+			targetPathRoot = solutionRootFolder + solutionName + ".Core\\";
+			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
 				DomainObjectTemplate domainObjectTemplate = 
-					new DomainObjectTemplate(solutionName, domainObjectName, properties);
+					new DomainObjectTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 				domainObjectTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
@@ -137,11 +155,12 @@ public class ScaffoldingGenerator : Generator
 	private void GenerateControllerAndTests() {
 		if (DidRequestToGenerate(ArtifactToGenerate.Controller)) {
 			string fileName = DomainObjectNamePlural + "ControllerTests.cs";
-			string targetPath = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Controllers\\";
+			string targetPathRoot = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Controllers\\";
+			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
 				ControllerTestsTemplate controllerTestsTemplate = 
-					new ControllerTestsTemplate(solutionName, domainObjectName, properties);
+					new ControllerTestsTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 				controllerTestsTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
@@ -153,11 +172,12 @@ public class ScaffoldingGenerator : Generator
 			}
 
 			fileName = DomainObjectNamePlural + "Controller.cs";
-			targetPath = solutionRootFolder + solutionName + ".Controllers\\";
+			targetPathRoot = solutionRootFolder + solutionName + ".Controllers\\";
+			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
 				ControllerTemplate controllerTemplate = 
-					new ControllerTemplate(solutionName, domainObjectName, properties);
+					new ControllerTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 				controllerTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
@@ -178,16 +198,17 @@ public class ScaffoldingGenerator : Generator
 
 		if (! File.Exists(targetPath + fileName)) {
 			DomainObjectFormTemplate domainObjectFormTemplate = 
-				new DomainObjectFormTemplate(solutionName, domainObjectName, properties);
+				new DomainObjectFormTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			domainObjectFormTemplate.RenderToFile(fileName);
 
 			GeneralCodeBehindTemplate codeBehindTemplate = 
-				new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
-					properties, domainObjectName + "Form", "ViewUserControl<" + domainObjectName + ">");
+				new GeneralCodeBehindTemplate(solutionName, domainObjectName, properties, namespaceHierarchy, 
+					domainObjectName + "Form", "ViewUserControl<" + domainObjectName + ">");
 			codeBehindTemplate.RenderToFile(fileName + ".cs");
 
 			GeneralDesignerTemplate designerTemplate = 
-				new GeneralDesignerTemplate(solutionName, domainObjectName, properties, domainObjectName + "Form");
+				new GeneralDesignerTemplate(solutionName, domainObjectName, properties, namespaceHierarchy, 
+					domainObjectName + "Form");
 			designerTemplate.RenderToFile(domainObjectName + "Form.ascx.designer.cs");
 
 			MoveViewFilesTo(targetPath, fileName);
@@ -203,7 +224,7 @@ public class ScaffoldingGenerator : Generator
 		string fileName = "Create.aspx";
 
 		if (! File.Exists(targetPath + fileName)) {
-			CreateTemplate createTemplate = new CreateTemplate(solutionName, domainObjectName, properties);
+			CreateTemplate createTemplate = new CreateTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			createTemplate.RenderToFile(fileName);
 
 			GenerateGeneralCodeBehindAndDesignerForViewPage("Create");
@@ -221,7 +242,7 @@ public class ScaffoldingGenerator : Generator
 		string fileName = "Edit.aspx";
 
 		if (! File.Exists(targetPath + fileName)) {
-			EditTemplate editTemplate = new EditTemplate(solutionName, domainObjectName, properties);
+			EditTemplate editTemplate = new EditTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			editTemplate.RenderToFile(fileName);
 
 			GenerateGeneralCodeBehindAndDesignerForViewPage("Edit");
@@ -240,15 +261,15 @@ public class ScaffoldingGenerator : Generator
 
 		if (! File.Exists(targetPath + fileName)) {
 			IndexTemplate indexTemplate = 
-				new IndexTemplate(solutionName, domainObjectName, properties);
+				new IndexTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			indexTemplate.RenderToFile(fileName);
 
 			IndexCodeBehindTemplate codeBehindTemplate = 
-				new IndexCodeBehindTemplate(solutionName, domainObjectName, properties);
+				new IndexCodeBehindTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			codeBehindTemplate.RenderToFile(fileName + ".cs");
 
 			IndexDesignerTemplate designerTemplate = 
-				new IndexDesignerTemplate(solutionName, domainObjectName, properties);
+				new IndexDesignerTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			designerTemplate.RenderToFile(fileName + ".designer.cs");
 
 			MoveViewFilesTo(targetPath, fileName);
@@ -264,7 +285,7 @@ public class ScaffoldingGenerator : Generator
 		string fileName = "Show.aspx";
 
 		if (! File.Exists(targetPath + fileName)) {
-			ShowTemplate showTemplate = new ShowTemplate(solutionName, domainObjectName, properties);
+			ShowTemplate showTemplate = new ShowTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			showTemplate.RenderToFile(fileName);
 
 			GenerateGeneralCodeBehindAndDesignerForViewPage("Show");
@@ -280,12 +301,12 @@ public class ScaffoldingGenerator : Generator
 	
 	private void GenerateGeneralCodeBehindAndDesignerForViewPage(string className) {
 		GeneralCodeBehindTemplate codeBehindTemplate = 
-			new GeneralCodeBehindTemplate(solutionName, domainObjectName, 
-				properties, className, "ViewPage<" + domainObjectName + ">");
+			new GeneralCodeBehindTemplate(solutionName, domainObjectName, properties, namespaceHierarchy, 
+				className, "ViewPage<" + domainObjectName + ">");
 		codeBehindTemplate.RenderToFile(className + ".aspx.cs");
 
 		GeneralDesignerTemplate designerTemplate = 
-			new GeneralDesignerTemplate(solutionName, domainObjectName, properties, className);
+			new GeneralDesignerTemplate(solutionName, domainObjectName, properties, namespaceHierarchy, className);
 		designerTemplate.RenderToFile(className + ".aspx.designer.cs");
 	}
 
@@ -295,6 +316,22 @@ public class ScaffoldingGenerator : Generator
 			File.Move(scaffoldingOutputFolder + viewFileName + ".designer.cs", targetPath + viewFileName + ".designer.cs");
 	}
 
+	private string CreateDirectoriesAndAppendNamespacePathTo(string path) {
+		if (namespaceHierarchy == null)
+			return path;
+			
+		for (int i=0; i < namespaceHierarchy.Length; i++) {
+			path += namespaceHierarchy[i] + "\\";
+			
+			if (! Directory.Exists(path)) {
+				Directory.CreateDirectory(path);
+				Log("Added directory " + path);
+			}
+		}
+		
+		return path;
+	}
+	
 	private bool DidRequestToGenerate(ArtifactToGenerate artifactToGenerate) {
 		// If specific artifacts were not designated, then assume creation
 		if (artifactsToGenerate == null) {
@@ -322,13 +359,15 @@ public class ScaffoldingGenerator : Generator
 		streamWriter.Close();
 	}
 
+	private string domainObjectName;
+	private string[] namespaceHierarchy;
+
 	private readonly string logsPath;
 	private readonly string testsRootFolder;
 	private readonly string scaffoldingOutputFolder;
 	private readonly string solutionRootFolder;
 	private readonly ArtifactToGenerate[] artifactsToGenerate;
 	private readonly string solutionName;
-	private readonly string domainObjectName;
 	private readonly NameValueCollection properties;
 	private const string LOG_FILE_NAME = "CrudScaffolding.log";
 }

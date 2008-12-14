@@ -56,13 +56,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ScaffoldingGeneratorCommand.txt</LastGenOutput>
     </None>
-    <None Include="ScaffoldingGenerator.tt">
-    </None>
     <None Include="Templates\BaseTemplate.tt">
     </None>
     <None Include="Templates\Controllers\ControllerTemplate.tt">
     </None>
     <None Include="Templates\Core\DomainObjectTemplate.tt">
+    </None>
+    <None Include="Templates\ScaffoldingGenerator.tt">
     </None>
     <None Include="Templates\Tests\Controllers\ControllerTestsTemplate.tt">
     </None>

@@ -1,8 +1,9 @@
 ﻿<#+
 public abstract class BaseTemplate : Template
 {
-	public BaseTemplate(string solutionName, string domainObjectName, NameValueCollection properties) {
+	public BaseTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) {
 		this.solutionName = solutionName;
+		this.namespaceHierarchy = namespaceHierarchy;
 		this.domainObjectName = domainObjectName;
 		this.properties = properties;
 	}
@@ -15,8 +16,23 @@ public abstract class BaseTemplate : Template
 		get { return solutionName; }
 	}
 	
+	protected string[] NamespaceHierarchy {
+		get { return namespaceHierarchy; }
+	}
+	
 	protected string DomainObjectName {
 		get { return domainObjectName; }
+	}
+	
+	protected string AppendNamespaceHierarchyTo(string namespacePath) {
+		if (NamespaceHierarchy == null || NamespaceHierarchy.Length == 0)
+			return namespacePath;
+			
+		foreach (string namespaceToAppend in NamespaceHierarchy) {
+			namespacePath += "." + namespaceToAppend;
+		}
+		
+		return namespacePath;
 	}
 	
 	protected string DomainObjectNamePlural {
@@ -31,8 +47,9 @@ public abstract class BaseTemplate : Template
 		get { return domainObjectName.Substring(0, 1).ToLower() + domainObjectName.Substring(1); }
 	}
 	
-	private NameValueCollection properties;
-	private string solutionName;
-	private string domainObjectName;
+	private readonly NameValueCollection properties;
+	private readonly string[] namespaceHierarchy;
+	private readonly string solutionName;
+	private readonly string domainObjectName;
 }
 #>

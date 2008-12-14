@@ -2,27 +2,33 @@
 <#@ import namespace="System.Collections.Specialized" #>
 <#@ output extension="txt" #>
 <#@ include file="T4Toolbox.tt" #>
-<#@ include file="ScaffoldingGenerator.tt" #> 
+<#@ include file="./Templates/ScaffoldingGenerator.tt" #> 
 
 <#
 ///////////////////////////////////////////////////
-// Set your domain object details below
+// Set your domain object details below and simply save this file to auto-generate the scaffolding
 
-// Domain name should be PascalCaseSingular
-string domainObjectName = "Employee";
+/*
+ * Domain name should be PascalCaseSingular with no spaces.
+ * You may qualify the domain object with a namespace; a folder structure reflecting the namespace structure will be created (or verified).
+ * A log of created artifacts may be found in /Northwind/logs/CrudScaffolding.log
+ * Examples:  Product, Organization.Employee, Financial.Costs.LedgerEntry
+ */
+string domainObjectName = "Elephant";
 
-// Properties should be name/value pairs representing the property-name/data-type of the properties; property names should be PascalCase
+/*
+ * Properties should be name/value pairs representing the property-name/datatype of the properties.
+ * Property names should be PascalCase.
+ * Do not include a property for ID as it will be included automatically.
+ */
 NameValueCollection properties = new NameValueCollection();
-properties.Add("EmailAddress", "string"); 
-properties.Add("EmployeeNumber", "int");
+	properties.Add("EmailAddress", "string"); 
+	properties.Add("EmployeeNumber", "int");
 
 ///////////////////////////////////////////////////
 
-string projectRootPath = @"C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\";
-string solutionName = "Northwind";
-
 ScaffoldingGenerator generator = new ScaffoldingGenerator(
-	projectRootPath, solutionName, domainObjectName, properties); 
+	@"C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\", "Northwind", domainObjectName, properties); 
 
 generator.Run();
 #>

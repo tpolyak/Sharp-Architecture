@@ -1,17 +1,17 @@
 ﻿<#+
 public class DomainObjectTestsTemplate : BaseTemplate
 {
-	public DomainObjectTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public DomainObjectTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{
 #>
 using NUnit.Framework;
-using <#= SolutionName #>.Core;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace Tests.<#= SolutionName #>.Core
+namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
 {
     [TestFixture]
     public class <#= DomainObjectName #>Tests

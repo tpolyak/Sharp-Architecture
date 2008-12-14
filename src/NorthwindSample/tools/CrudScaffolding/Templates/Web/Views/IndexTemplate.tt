@@ -3,15 +3,15 @@
 <#+
 public class IndexTemplate : BaseTemplate
 {
-	public IndexTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public IndexTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{
 #>
 <%@ Page Title="<#= DomainObjectNamePlural #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="<#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>.Index" %>
-<%@ Import Namespace="<#= SolutionName #>.Core" %>
-<%@ Import Namespace="<#= SolutionName #>.Controllers" %>
+<%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>" %>
+<%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2><#= DomainObjectNamePlural #></h2>

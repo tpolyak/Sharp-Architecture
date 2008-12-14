@@ -3,18 +3,18 @@
 <#+
 public class ClassMapTemplate : BaseTemplate
 {
-	public ClassMapTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public ClassMapTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{
 #>
-using <#= SolutionName #>.Core;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 using FluentNHibernate;
 using FluentNHibernate.Mapping;
 using SharpArch.Data.NHibernate.FluentNHibernate;
 
-namespace <#= SolutionName #>.Data.NHibernateMappings
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Data.NHibernateMappings") #>
 {
     public class <#= DomainObjectName #>Map : ClassMap<<#= DomainObjectName #>>, IMapGenerator
     {

@@ -3,8 +3,8 @@
 <#+
 public class DomainObjectFormTemplate : BaseTemplate
 {
-	public DomainObjectFormTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public DomainObjectFormTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{
