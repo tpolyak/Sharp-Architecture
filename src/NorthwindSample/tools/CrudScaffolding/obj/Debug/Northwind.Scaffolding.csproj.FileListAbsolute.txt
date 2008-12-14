@@ -1,5 +1,0 @@
-C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\tools\Northwind.Scaffolding\bin\Debug\SharpArch.Scaffolding.dll
-C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\tools\Northwind.Scaffolding\bin\Debug\SharpArch.Scaffolding.pdb
-C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\tools\Northwind.Scaffolding\obj\Debug\ResolveAssemblyReference.cache
-C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\tools\Northwind.Scaffolding\obj\Debug\SharpArch.Scaffolding.dll
-C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\tools\Northwind.Scaffolding\obj\Debug\SharpArch.Scaffolding.pdb
