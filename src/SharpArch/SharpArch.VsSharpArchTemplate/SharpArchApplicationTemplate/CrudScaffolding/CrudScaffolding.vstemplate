@@ -20,10 +20,10 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="false" TargetFileName="ScaffoldingEnums.tt">ScaffoldingEnums.tt</ProjectItem>
-      <ProjectItem ReplaceParameters="false" TargetFileName="ScaffoldingGenerator.tt">ScaffoldingGenerator.tt</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="ScaffoldingGeneratorCommand.tt">ScaffoldingGeneratorCommand.tt</ProjectItem>
       <Folder Name="Templates" TargetFolderName="Templates">
-        <ProjectItem ReplaceParameters="false" TargetFileName="BaseTemplate.tt">BaseTemplate.tt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="ScaffoldingGenerator.tt">ScaffoldingGenerator.tt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="BaseTemplate.tt">BaseTemplate.tt</ProjectItem>
         <Folder Name="Controllers" TargetFolderName="Controllers">
           <ProjectItem ReplaceParameters="false" TargetFileName="ControllerTemplate.tt">ControllerTemplate.tt</ProjectItem>
         </Folder>

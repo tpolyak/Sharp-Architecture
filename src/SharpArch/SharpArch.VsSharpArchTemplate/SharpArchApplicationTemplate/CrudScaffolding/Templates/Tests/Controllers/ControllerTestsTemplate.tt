@@ -3,24 +3,24 @@
 <#+
 public class ControllerTestsTemplate : BaseTemplate
 {
-	public ControllerTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public ControllerTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{
 #>
-using NUnit.Framework;
 using MvcContrib.TestHelper;
-using <#= SolutionName #>.Controllers;
-using SharpArch.Core.PersistenceSupport;
-using <#= SolutionName #>.Core;
+using NUnit.Framework;
 using Rhino.Mocks;
 using NUnit.Framework.SyntaxHelpers;
-using System.Web.Mvc;
-using System.Collections.Generic;
+using SharpArch.Core.PersistenceSupport;
 using SharpArch.Testing;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>;
 
-namespace Tests.<#= SolutionName #>.Controllers
+namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Controllers") #>
 {
     [TestFixture]
     public class <#= DomainObjectNamePlural #>ControllerTests

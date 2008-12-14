@@ -1,8 +1,8 @@
 ﻿<#+
 public class GeneralDesignerTemplate : BaseTemplate
 {
-	public GeneralDesignerTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string className) 
-		: base(solutionName, domainObjectName, properties) {
+	public GeneralDesignerTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy, string className) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) {
 		this.className = className;
 	}
 

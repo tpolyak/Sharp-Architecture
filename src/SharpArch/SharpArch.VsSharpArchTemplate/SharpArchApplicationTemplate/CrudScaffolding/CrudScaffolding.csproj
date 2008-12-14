@@ -56,7 +56,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ScaffoldingGeneratorCommand.txt</LastGenOutput>
     </None>
-    <None Include="ScaffoldingGenerator.tt">
+    <None Include="Templates\ScaffoldingGenerator.tt">
     </None>
     <None Include="Templates\BaseTemplate.tt">
     </None>

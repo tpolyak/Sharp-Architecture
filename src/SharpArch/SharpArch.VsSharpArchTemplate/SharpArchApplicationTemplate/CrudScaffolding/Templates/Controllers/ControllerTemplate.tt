@@ -3,14 +3,14 @@
 <#+
 public class ControllerTemplate : BaseTemplate
 {
-	public ControllerTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public ControllerTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{
 #>
 using System.Web.Mvc;
-using <#= SolutionName #>.Core;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ using NHibernate.Validator.Engine;
 using System.Text;
 using SharpArch.Web.NHibernate.Validator;
 
-namespace <#= SolutionName #>.Controllers
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>
 {
     [HandleError]
     public class <#= DomainObjectNamePlural #>Controller : Controller

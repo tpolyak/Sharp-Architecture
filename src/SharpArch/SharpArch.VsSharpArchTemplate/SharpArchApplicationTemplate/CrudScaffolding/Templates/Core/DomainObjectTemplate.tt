@@ -3,8 +3,8 @@
 <#+
 public class DomainObjectTemplate : BaseTemplate
 {
-	public DomainObjectTemplate(string solutionName, string domainObjectName, NameValueCollection properties) 
-		: base(solutionName, domainObjectName, properties) { }
+	public DomainObjectTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
+		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
 
 	protected override void RenderCore()
 	{
@@ -13,7 +13,7 @@ using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
 using NHibernate.Validator;
 
-namespace <#= SolutionName #>.Core
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>
 {
     public class <#= DomainObjectName #> : PersistentObject
     {
