@@ -67,7 +67,7 @@ Northwind Solution
 
 Northwind.Controllers
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
-* RouteRegistrar.cs:  Registered map for "Root"
+* RouteRegistrar.cs:  Registered map for "Root"; added ignore for favicon.ico
 
 Northwind.Core
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
