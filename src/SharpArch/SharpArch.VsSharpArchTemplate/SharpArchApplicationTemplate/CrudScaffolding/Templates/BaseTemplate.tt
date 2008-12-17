@@ -44,7 +44,7 @@ public abstract class BaseTemplate : Template
 	}
 
 	protected string DomainObjectNamePluralCamelCase {
-		get { return domainObjectName.Substring(0, 1).ToLower() + domainObjectName.Substring(1); }
+		get { return DomainObjectNamePlural.Substring(0, 1).ToLower() + DomainObjectNamePlural.Substring(1); }
 	}
 	
 	private readonly NameValueCollection properties;
