@@ -191,7 +191,7 @@ namespace SharpArchApplicationWizard
 
         private void MoveSolutionFileToProjectsDirectory() {
             dte.Solution.SaveAs(
-                GetSolutionRootPath() + GetSolutionName() + "\\app\\" + GetSolutionFileName());
+                GetSolutionRootPath() + GetSolutionName() + "\\" + GetSolutionFileName());
         }
 
         private void DeleteSuoFile() {
