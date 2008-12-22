@@ -3,12 +3,21 @@ using SharpArch.Core;
 using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Core.PersistenceSupport;
 using System.Diagnostics;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Tests.SharpArch.Core
 {
     [TestFixture]
     public class DomainObjectTests
     {
+        [Test]
+        public void CanSerializePersistentObject() {
+            ObjectWithOneDomainSignatureProperty objectToSerialize = new ObjectWithOneDomainSignatureProperty() { Name = "Acme" };
+
+            new XmlSerializer(typeof(ObjectWithOneDomainSignatureProperty));
+        }
+
         [Test]
         public void CanComputeConsistentHashWithDomainSignatureProperties() {
             ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
@@ -198,7 +207,7 @@ namespace Tests.SharpArch.Core
             public int Age { get; set; }
         }
 
-        private class ObjectWithOneDomainSignatureProperty : DomainObject
+        public class ObjectWithOneDomainSignatureProperty : DomainObject
         {
             public string Name { get; set; }
 

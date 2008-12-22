@@ -59,7 +59,7 @@ namespace SharpArch.Core.PersistenceSupport
             // compare domain signatures; because if one is transient and the 
             // other is a persisted entity, then they cannot be the same object.
             return IsTransient() && compareTo.IsTransient() &&
-                HasSameDomainObjectSignatureAs(compareTo);
+                HasSameObjectSignatureAs(compareTo);
         }
 
         /// <summary>

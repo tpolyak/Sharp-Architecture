@@ -65,6 +65,7 @@
     <Compile Include="SharpArch.Core\DesignByContractTests.cs" />
     <Compile Include="SharpArch.Core\DomainObjectTests.cs" />
     <Compile Include="SharpArch.Core\PersistenceSupport\PersistentObjectTests.cs" />
+    <Compile Include="SharpArch.Core\ValueObjectTests.cs" />
     <Compile Include="SharpArch.Web\NHibernate\Validator\MvcValidationAdapterTests.cs" />
   </ItemGroup>
   <ItemGroup>
