@@ -35,7 +35,7 @@ namespace Northwind.Core
         /// Alternatively, we could decorate properties with the [DomainSignature] attribute, as shown in
         /// <see cref="Customer" />, but here's an example of overriding it nonetheless.
         /// </summary>
-        protected override bool HasSameDomainObjectSignatureAs(IDomainObject compareTo) {
+        protected override bool HasSameObjectSignatureAs(BaseObject compareTo) {
             Order orderCompareTo = compareTo as Order;
 
             return orderCompareTo != null && ShipToName.Equals(orderCompareTo.ShipToName) &&
