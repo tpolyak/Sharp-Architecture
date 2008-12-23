@@ -5,7 +5,6 @@ Roadmap for 1.0 Release
 ----------------------------------------------
 
 * Add WCF integration
-* Hone CRUD capabilities
 * Support multiple databases
 * Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
 
@@ -51,8 +50,8 @@ SharpArch.Data
 
 Northwind Solution
 * Modified solution structure to reflect the following
-   /MyProject 
-      /app - Contains MyProject.sln and the core project layers. 
+   /MyProject - Contains MyProject.sln
+      /app - Contains the core project layers.
          /MyProject.Controllers 
          /MyProject.Core 
          /MyProject.Data 
