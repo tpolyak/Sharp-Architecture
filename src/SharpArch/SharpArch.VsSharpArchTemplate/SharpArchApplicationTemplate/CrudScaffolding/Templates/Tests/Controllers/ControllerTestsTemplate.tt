@@ -57,8 +57,15 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Controllers
             Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Null);
         }
 
+        /// <summary>
+        /// You need to take the following steps to get this passing:
+        /// 1) Optionally add NHibernate validation constraints to the appropriate <#= DomainObjectName #> object properties
+        /// 2) If validation attributes were added, change the number of expected violations within this test, accordingly
+        /// 3) Optionally include assertions for each violation you expect
+        /// 4) Remove the ignore attribute on this test along with this description
+        /// </summary>
         [Test]
-        [Ignore("Add NHibernate validation constraints to the <#= DomainObjectName #> object and then remove this ignore")]
+        [Ignore("Follow the steps in this test's description to get this passing")]
         public void CanEnsure<#= DomainObjectName #>CreationIsValid() {
             <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>();
             ViewResult result = controller.Create(<#= DomainObjectNameCamelCase #>FromForm).AssertViewRendered();
@@ -67,17 +74,33 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Controllers
 
             // If you add validation rules, change the number of expected violations here and a test for each error, accordingly
             Assert.That(result.ViewData.ModelState.Count, Is.EqualTo(0));
-            // Example validation message test:  Assert.That(result.ViewData.ModelState["<#= DomainObjectName #>.FirstName"].Errors[0].ErrorMessage, Is.Not.Empty);
+
+            // Example validation message test:
+            // Assert.That(result.ViewData.ModelState["<#= DomainObjectName #>.FirstName"].Errors[0].ErrorMessage, Is.Not.Empty);
         }
 
         [Test]
+        [Ignore("Set the properties from the faked form in the test, in compliance with any validation rules, and then remove this ignore")]
         public void CanCreate<#= DomainObjectName #>() {
             <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
-				// Assign default property values here
+				// Set the properties from the faked form here; e.g., Name = "Billy"
             };
+
             RedirectToRouteResult redirectResult = controller.Create(<#= DomainObjectNameCamelCase #>FromForm)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"].ToString().Contains("was successfully created"));
+        }
+
+        [Test]
+        [Ignore("Set the properties from the faked form in the test, in compliance with any validation rules, and then remove this ignore")]
+        public void CanUpdate<#= DomainObjectName #>() {
+            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
+				// Set the properties from the faked form here; e.g., Name = "Billy"
+            };
+
+            RedirectToRouteResult redirectResult = controller.Edit(1, <#= DomainObjectNameCamelCase #>FromForm)
+                .AssertActionRedirect().ToAction("Index");
+            Assert.That(controller.TempData["message"].ToString().Contains("was successfully updated"));
         }
 
         [Test]
@@ -86,16 +109,6 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Controllers
 
             Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Not.Null);
             Assert.That((result.ViewData.Model as <#= DomainObjectName #>).ID, Is.EqualTo(1));
-        }
-
-        [Test]
-        public void CanUpdate<#= DomainObjectName #>() {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
-				// Set the simulated properties from the form here
-            };
-            RedirectToRouteResult redirectResult = controller.Edit(1, <#= DomainObjectNameCamelCase #>FromForm)
-                .AssertActionRedirect().ToAction("Index");
-            Assert.That(controller.TempData["message"].ToString().Contains("was successfully updated"));
         }
 
         [Test]

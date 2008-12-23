@@ -16,18 +16,20 @@
 <#@ include file="./Templates/Web/Views/GeneralCodeBehindTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/GeneralDesignerTemplate.tt" #>
 <#@ import namespace="System.IO" #>
+<#@ import namespace="EnvDTE" #>
 
 <#+
 public class ScaffoldingGenerator : Generator
 {
-	public ScaffoldingGenerator(string projectRootPath,	string solutionName, string domainObjectName, NameValueCollection properties)
-		: this(projectRootPath, solutionName, domainObjectName, properties, null) { }
+	public ScaffoldingGenerator(string solutionRootPath,	string solutionName, string domainObjectName, NameValueCollection properties)
+		: this(solutionRootPath, solutionName, domainObjectName, properties, null) { }
 
-	public ScaffoldingGenerator(string projectRootPath, string solutionName, string domainObjectName, NameValueCollection properties, ArtifactToGenerate[] artifactsToGenerate) {
-		this.solutionRootFolder = projectRootPath + "app\\";
-		this.scaffoldingOutputFolder = projectRootPath + "tools\\CrudScaffolding\\";
-		this.testsRootFolder = projectRootPath + "tests\\";
-		this.logsPath = projectRootPath + "logs\\";
+	public ScaffoldingGenerator(string solutionRootPath, string solutionName, string domainObjectName, NameValueCollection properties, ArtifactToGenerate[] artifactsToGenerate) {
+		this.solutionRootPath = solutionRootPath;
+		this.applicationRootPath = solutionRootPath + "app\\";
+		this.scaffoldingOutputFolder = solutionRootPath + "tools\\CrudScaffolding\\";
+		this.testsRootFolder = solutionRootPath + "tests\\";
+		this.logsPath = solutionRootPath + "logs\\";
 
 		this.solutionName = solutionName;
 		this.properties = properties;
@@ -60,15 +62,39 @@ public class ScaffoldingGenerator : Generator
 		// Get rid of the existing generation log
 		File.Delete(logsPath + LOG_FILE_NAME);
 
-		GenerateDomainObjectAndTests();
-		GenerateControllerAndTests();
-		GenerateClassMap();
-		GenerateViews();
+		OpenSolutionForAddingFiles();
+
+		try {
+			GenerateDomainObjectAndTests();
+			GenerateControllerAndTests();
+			GenerateClassMap();
+			GenerateViews();
+		}
+		finally {
+			CloseSolution();
+		}
+	}
+
+	private void OpenSolutionForAddingFiles() {
+		dte = (DTE) Activator.CreateInstance(Type.GetTypeFromProgID("VisualStudio.DTE.9.0"));
+		dte.SuppressUI = true; 
+		dte.UserControl = false; 
+
+		solution = dte.Solution; 
+		solution.Open(solutionRootPath + solutionName + ".sln"); 
+		Log("Opened solution for addition of generated files");
+	}
+
+	private void CloseSolution() {
+		solution.Close(false);
+		Log("Closed solution after addition of generated files");
+		
+		dte.Quit();
 	}
 
 	private void GenerateViews() {
 		if (DidRequestToGenerate(ArtifactToGenerate.Views)) {
-			string targetPath = solutionRootFolder + solutionName + ".Web\\Views\\" + DomainObjectNamePlural + "\\";
+			string targetPath = applicationRootPath + solutionName + ".Web\\Views\\" + DomainObjectNamePlural + "\\";
 
 			if (! Directory.Exists(targetPath)) {
 				Directory.CreateDirectory(targetPath);
@@ -90,7 +116,7 @@ public class ScaffoldingGenerator : Generator
 	private void GenerateClassMap() {
 		if (DidRequestToGenerate(ArtifactToGenerate.ClassMap)) {
 			string fileName = domainObjectName + "Map.cs";
-			string targetPathRoot = solutionRootFolder + solutionName + ".Data\\NHibernateMaps\\";
+			string targetPathRoot = applicationRootPath + solutionName + ".Data\\NHibernateMaps\\";
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
@@ -99,6 +125,7 @@ public class ScaffoldingGenerator : Generator
 				classMapTemplate.RenderToFile(fileName);
 				
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+				AddFileToProject(targetPath + fileName, applicationRootPath + solutionName + ".Data\\" + solutionName + ".Data.csproj");
 
 				Log("Added file " + targetPath + fileName);
 			}
@@ -109,6 +136,16 @@ public class ScaffoldingGenerator : Generator
 		else {
 			Log("Skipped generation of class map");
 		}
+	}
+	
+	private void AddFileToProject(string pathOfFileToAdd, string pathOfProjectFileToAddTo) {
+        foreach (Project project in solution.Projects) {
+            if (pathOfProjectFileToAddTo.IndexOf(project.Name) > -1) {
+                project.ProjectItems.AddFromFile(pathOfFileToAdd);
+				Log("Adding " + pathOfFileToAdd + " to project named " + project.Name + " with AddFromFile");
+				project.Save(pathOfProjectFileToAddTo);
+            }
+        }
 	}
 	
 	private void GenerateDomainObjectAndTests() {
@@ -123,6 +160,7 @@ public class ScaffoldingGenerator : Generator
 				domainObjectTestsTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+				AddFileToProject(targetPath + fileName, testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Tests.csproj");
 
 				Log("Added file " + targetPath + fileName);
 			}
@@ -131,7 +169,7 @@ public class ScaffoldingGenerator : Generator
 			}
 
 			fileName = domainObjectName + ".cs";
-			targetPathRoot = solutionRootFolder + solutionName + ".Core\\";
+			targetPathRoot = applicationRootPath + solutionName + ".Core\\";
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
@@ -140,6 +178,7 @@ public class ScaffoldingGenerator : Generator
 				domainObjectTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+				AddFileToProject(targetPath + fileName, targetPathRoot + solutionName + ".Core.csproj");
 
 				Log("Added file " + targetPath + fileName);
 			}
@@ -164,6 +203,7 @@ public class ScaffoldingGenerator : Generator
 				controllerTestsTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+				AddFileToProject(targetPath + fileName, testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Tests.csproj");
 
 				Log("Added file " + targetPath + fileName);
 			}
@@ -172,7 +212,7 @@ public class ScaffoldingGenerator : Generator
 			}
 
 			fileName = DomainObjectNamePlural + "Controller.cs";
-			targetPathRoot = solutionRootFolder + solutionName + ".Controllers\\";
+			targetPathRoot = applicationRootPath + solutionName + ".Controllers\\";
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
@@ -181,6 +221,7 @@ public class ScaffoldingGenerator : Generator
 				controllerTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
+				AddFileToProject(targetPath + fileName, targetPathRoot + solutionName + ".Controllers.csproj");
 
 				Log("Added file " + targetPath + fileName);
 			}
@@ -311,9 +352,11 @@ public class ScaffoldingGenerator : Generator
 	}
 
 	private void MoveViewFilesTo(string targetPath, string viewFileName) {
-			File.Move(scaffoldingOutputFolder + viewFileName, targetPath + viewFileName);
-			File.Move(scaffoldingOutputFolder + viewFileName + ".cs", targetPath + viewFileName + ".cs");
-			File.Move(scaffoldingOutputFolder + viewFileName + ".designer.cs", targetPath + viewFileName + ".designer.cs");
+		File.Move(scaffoldingOutputFolder + viewFileName, targetPath + viewFileName);
+		File.Move(scaffoldingOutputFolder + viewFileName + ".cs", targetPath + viewFileName + ".cs");
+		File.Move(scaffoldingOutputFolder + viewFileName + ".designer.cs", targetPath + viewFileName + ".designer.cs");
+
+		AddFileToProject(targetPath + viewFileName, applicationRootPath + solutionName + ".Web\\" + solutionName + ".Web.csproj");
 	}
 
 	private string CreateDirectoriesAndAppendNamespacePathTo(string path) {
@@ -365,10 +408,13 @@ public class ScaffoldingGenerator : Generator
 	private readonly string logsPath;
 	private readonly string testsRootFolder;
 	private readonly string scaffoldingOutputFolder;
-	private readonly string solutionRootFolder;
+	private readonly string applicationRootPath;
+	private readonly string solutionRootPath;
 	private readonly ArtifactToGenerate[] artifactsToGenerate;
 	private readonly string solutionName;
 	private readonly NameValueCollection properties;
 	private const string LOG_FILE_NAME = "CrudScaffolding.log";
+	private DTE dte;
+	private Solution solution;
 }
 #>

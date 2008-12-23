@@ -14,7 +14,7 @@
  * A log of created artifacts may be found in /$solutionname$/logs/CrudScaffolding.log
  * Examples:  Product, Organization.Employee, Financial.Costs.LedgerEntry
  */
-string domainObjectName = "Organization.Employee";
+string domainObjectName = "Organization.Manager";
 
 /*
  * Properties should be name/value pairs representing the property-name/datatype of the properties.

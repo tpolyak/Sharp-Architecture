@@ -10,6 +10,9 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
     /// <summary>
     /// Provides a means to verify that the target database is in compliance with all mappings.
     /// Taken from http://ayende.com/Blog/archive/2006/08/09/NHibernateMappingCreatingSanityChecks.aspx.
+    /// 
+    /// If this is failing, the error will likely inform you that there is a missing table or column
+    /// which needs to be added to your database.
     /// </summary>
     [TestFixture]
     [Category("DB Tests")]

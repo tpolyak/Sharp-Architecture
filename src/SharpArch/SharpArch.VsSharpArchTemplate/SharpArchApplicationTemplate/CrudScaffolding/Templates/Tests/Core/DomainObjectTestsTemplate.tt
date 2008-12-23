@@ -23,6 +23,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
         ///    domain signature of the object is.
         /// 2) Set the values of the "instance" domain signature properties in the test below
         /// 3) Set the values of the "instanceToCompareTo" to be the same as those of the "instance"
+        /// 4) Remove the ignore attribute on this test along with this description
         /// </summary>
         [Test]
         [Ignore("Follow the steps in this test's description to get this passing")]
