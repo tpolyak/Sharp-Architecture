@@ -12,6 +12,8 @@
     <AssemblyName>SharpArch.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Codai.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -77,6 +79,9 @@
       <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
       <Name>SharpArch.Web</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Codai.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SharpArch.Data\" />
