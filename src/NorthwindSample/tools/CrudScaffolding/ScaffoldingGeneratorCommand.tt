@@ -14,7 +14,7 @@
  * A log of created artifacts may be found in /Northwind/logs/CrudScaffolding.log
  * Examples:  Product, Organization.Employee, Financial.Costs.LedgerEntry
  */
-string domainObjectName = "Organization.Manager";
+string domainObjectName = "Farm.Animals.Horse";
 
 /*
  * Properties should be name/value pairs representing the property-name/datatype of the properties.
@@ -22,8 +22,9 @@ string domainObjectName = "Organization.Manager";
  * Do not include a property for ID as it will be included automatically.
  */
 NameValueCollection properties = new NameValueCollection();
-	properties.Add("EmailAddress", "string"); 
-	properties.Add("EmployeeNumber", "int");
+	properties.Add("Name", "string");
+	properties.Add("Hands", "int");
+	properties.Add("Breed", "string");
 
 ///////////////////////////////////////////////////
 

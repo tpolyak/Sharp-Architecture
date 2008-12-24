@@ -7,7 +7,7 @@ public class CreateTemplate : BaseTemplate
 	protected override void RenderCore()
 	{
 #>
-<%@ Page Title="Create <#= DomainObjectName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Create.aspx.cs" Inherits="<#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>.Create" %>
+<%@ Page Title="Create <#= DomainObjectName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Create.aspx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.Create" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 	<h2>Create <#= DomainObjectName #></h2>

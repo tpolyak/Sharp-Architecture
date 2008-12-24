@@ -9,7 +9,7 @@ public class GeneralDesignerTemplate : BaseTemplate
 	protected override void RenderCore()
 	{
 #>
-namespace <#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>
 {
     public partial class <#= className #>
     {

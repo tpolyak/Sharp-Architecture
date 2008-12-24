@@ -9,7 +9,7 @@ public class ShowTemplate : BaseTemplate
 	protected override void RenderCore()
 	{
 #>
-<%@ Page Title="<#= DomainObjectName #> Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Show.aspx.cs" Inherits="<#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>.Show" %>
+<%@ Page Title="<#= DomainObjectName #> Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Show.aspx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.Show" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2><#= DomainObjectName #> Details</h2>

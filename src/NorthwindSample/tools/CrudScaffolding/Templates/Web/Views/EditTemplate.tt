@@ -7,7 +7,7 @@ public class EditTemplate : BaseTemplate
 	protected override void RenderCore()
 	{
 #>
-<%@ Page Title="Edit <#= DomainObjectName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" Inherits="<#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>.Edit" %>
+<%@ Page Title="Edit <#= DomainObjectName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.Edit" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 	<h2>Edit <#= DomainObjectName #></h2>
