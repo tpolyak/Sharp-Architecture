@@ -11,7 +11,8 @@
         for something a bit simpler.
         <ul>
             <li>
-                <%= Html.ActionLink((EmployeesController c) => c.Index(), "List Employees") %>: 
+                <!-- We cannot use Html.ActionLink to link to a controller within an area -->
+                <asp:HyperLink runat="server" NavigateUrl="~/Organization/Employees" Text="List Employees" />
                 This page lists all of the employees in the database, provides a means to edit 
                 an existing one, and also a form to create a brand new one.
             </li>

@@ -2,6 +2,7 @@
 using SharpArch.Core;
 using System.Collections.Generic;
 using NHibernate.Validator;
+using Northwind.Core.Organization;
 
 namespace Northwind.Core
 {

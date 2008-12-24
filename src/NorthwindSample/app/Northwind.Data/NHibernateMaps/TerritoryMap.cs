@@ -1,5 +1,6 @@
-﻿using Northwind.Core;
+﻿using Northwind.Core.Organization;
 using FluentNHibernate.Mapping;
+using Northwind.Core;
 
 namespace Northwind.Data.NHibernateMappings
 {

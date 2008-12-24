@@ -77,8 +77,8 @@
   <ItemGroup>
     <Compile Include="CategoriesController.cs" />
     <Compile Include="CustomersController.cs" />
-    <Compile Include="EmployeesController.cs" />
     <Compile Include="HomeController.cs" />
+    <Compile Include="Organization\EmployeesController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteRegistrar.cs" />
   </ItemGroup>

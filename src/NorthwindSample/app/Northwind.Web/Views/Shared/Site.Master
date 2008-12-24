@@ -1,5 +1,6 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Northwind.Web.Views.Shared.Site" %>
 <%@ Import Namespace="Northwind.Controllers" %>
+<%@ Import Namespace="Northwind.Controllers.Organization" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -21,10 +22,10 @@
                     </p>
                     <h2>Example Pages</h2>
                     <ul>
-                        <li><%= Html.ActionLink((HomeController c) => c.Index(), "Home")%></li>
-                        <li><%= Html.ActionLink((CategoriesController c) => c.Index(), "List Categories") %></li>
-                        <li><%= Html.ActionLink((CustomersController c) => c.Index(), "List Customers with Lazy Loading") %></li>
-                        <li><%= Html.ActionLink((EmployeesController c) => c.Index(), "Employee CRUD with Validation")%></li>
+                        <li><asp:HyperLink runat="server" NavigateUrl="~/Home" Text="Home" /></li>
+                        <li><asp:HyperLink runat="server" NavigateUrl="~/Categories" Text="List Categories" /></li>
+                        <li><asp:HyperLink runat="server" NavigateUrl="~/Customers" Text="List Customers with Lazy Loading" /></li>
+                        <li><asp:HyperLink runat="server" NavigateUrl="~/Organization/Employees" Text="Employee CRUD with Validation" /></li>
                     </ul>
                 </div>
                 <!--/leftColumn-->

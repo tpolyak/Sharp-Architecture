@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="Northwind.Data\CategoryRepositoryTests.cs" />
     <Compile Include="Northwind.Data\CustomerRepositoryTests.cs" />
-    <Compile Include="Northwind.Data\EmployeeRepositoryTests.cs" />
+    <Compile Include="Northwind.Data\Organization\EmployeeRepositoryTests.cs" />
     <Compile Include="Northwind.Data\SupplierRepositoryTests.cs" />
     <Compile Include="Northwind.Data\TerritoryRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

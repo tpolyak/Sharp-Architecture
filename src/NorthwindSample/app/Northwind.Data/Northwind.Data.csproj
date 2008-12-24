@@ -68,8 +68,8 @@
     <Compile Include="CustomerRepository.cs" />
     <Compile Include="NHibernateMaps\CategoryMap.cs" />
     <Compile Include="NHibernateMaps\CustomerMap.cs" />
-    <Compile Include="NHibernateMaps\EmployeeMap.cs" />
     <Compile Include="NHibernateMaps\OrderMap.cs" />
+    <Compile Include="NHibernateMaps\Organization\EmployeeMap.cs" />
     <Compile Include="NHibernateMaps\ProductMap.cs" />
     <Compile Include="NHibernateMaps\RegionMap.cs" />
     <Compile Include="NHibernateMaps\SupplierMap.cs" />

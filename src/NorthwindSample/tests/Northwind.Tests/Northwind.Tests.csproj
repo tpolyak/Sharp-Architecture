@@ -131,11 +131,11 @@
   <ItemGroup>
     <Compile Include="Northwind.Controllers\CategoriesControllerTests.cs" />
     <Compile Include="Northwind.Controllers\CustomersControllerTests.cs" />
-    <Compile Include="Northwind.Controllers\EmployeesControllerTests.cs" />
+    <Compile Include="Northwind.Controllers\Organization\EmployeesControllerTests.cs" />
     <Compile Include="Northwind.Controllers\RouteRegistrarTests.cs" />
     <Compile Include="Northwind.Core\CategoryTests.cs" />
-    <Compile Include="Northwind.Core\EmployeeTests.cs" />
     <Compile Include="Northwind.Core\OrdersTests.cs" />
+    <Compile Include="Northwind.Core\Organization\EmployeeTests.cs" />
     <Compile Include="Northwind.Core\ProductTests.cs" />
     <Compile Include="Northwind.Core\RegionTests.cs" />
     <Compile Include="Northwind.Core\RegionWithPublicConstructor.cs" />
@@ -144,9 +144,9 @@
     <Compile Include="Northwind.Data\CategoryRepositoryBehaviorTests.cs" />
     <Compile Include="Northwind.Data\CategoryRepositoryTests.cs" />
     <Compile Include="Northwind.Data\CustomerRepositoryTests.cs" />
-    <Compile Include="Northwind.Data\EmployeeRepositoryTests.cs" />
     <Compile Include="Northwind.Data\NHibernateMaps\CategoryMapTests.cs" />
     <Compile Include="Northwind.Data\NHibernateMaps\MappingIntegrationTests.cs" />
+    <Compile Include="Northwind.Data\Organization\EmployeeRepositoryTests.cs" />
     <Compile Include="Northwind.Data\SupplierRepositoryBehaviorTests.cs" />
     <Compile Include="Northwind.Data\TerritoryRepositoryTests.cs" />
     <Compile Include="Northwind.Core\CustomerTests.cs" />

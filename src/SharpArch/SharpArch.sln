@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing", "SharpA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.VsSharpArchTemplate", "SharpArch.VsSharpArchTemplate\SharpArch.VsSharpArchTemplate.csproj", "{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Web.Castle", "SharpArch.Web.Castle\SharpArch.Web.Castle.csproj", "{EF04B10E-DF21-4380-A52E-B80337757017}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B9F4A3C-FB52-4E18-A276-64B4B0FE02DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF04B10E-DF21-4380-A52E-B80337757017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF04B10E-DF21-4380-A52E-B80337757017}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF04B10E-DF21-4380-A52E-B80337757017}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF04B10E-DF21-4380-A52E-B80337757017}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

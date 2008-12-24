@@ -11,8 +11,10 @@ using Castle.MicroKernel.Registration;
 using Northwind.Web.CastleWindsor;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
+using SharpArch.Web.Castle;
 using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
+using SharpArch.Web.Areas;
 
 namespace Northwind.Web
 {
@@ -23,7 +25,12 @@ namespace Northwind.Web
     {
         protected void Application_Start() {
             log4net.Config.XmlConfigurator.Configure();
+
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new AreaViewEngine());
+            
             InitializeServiceLocator();
+            
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
 
@@ -36,7 +43,7 @@ namespace Northwind.Web
             IWindsorContainer container = new WindsorContainer();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
-            container.RegisterControllers(typeof(HomeController).Assembly);
+            container.RegisterControllersByArea(typeof(HomeController).Assembly);
             ComponentRegistrar.AddComponentsTo(container);
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));

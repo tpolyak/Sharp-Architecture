@@ -2,6 +2,7 @@
 using SharpArch.Core.PersistenceSupport.NHibernate;
 using SharpArch.Data.NHibernate;
 using SharpArch.Core.PersistenceSupport;
+using SharpArch.Web.Castle;
 using Castle.MicroKernel.Registration;
 
 namespace Northwind.Web.CastleWindsor
