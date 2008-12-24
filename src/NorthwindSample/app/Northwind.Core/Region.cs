@@ -21,7 +21,7 @@ namespace Northwind.Core
         [DomainSignature]
         public virtual string Description { get; protected set; }
 
-        public void SetAssignedIdTo(int assignedId) {
+        public virtual void SetAssignedIdTo(int assignedId) {
             ID = assignedId;
         }
     }
