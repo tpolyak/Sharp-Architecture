@@ -27,6 +27,7 @@ Assembly Dependencies:
 * ASP.NET MVC Beta
 * Castle 1.0 RC3
 * Fluent NHibernate 0.1
+* Json.NET 3.5 Beta 1
 * Microsoft.Practices.ServiceLocation 1.0 (CommonServiceLocator)
 * NHibernate 2.0.1
 * NHibernate.Validator 1.0
@@ -37,6 +38,9 @@ Assembly Dependencies:
 -------
 
 Changes to /src:
+
+SharpArch Solution
+* All projects are now strongly signed with exception of SharpArch.Web.Castle (The MvcContrib dependency isn't signed; there's only one class in this SharpArch library, so you can move it to your project to sign everything.)
 
 SharpArch.Core
 * BaseObject.cs ~ Introduced this base class to consolidate object comparison functionality used by both DomainObject and ValueObject
@@ -66,6 +70,7 @@ Northwind Solution
          /build - Empty folder for housing build related stuff. 
          /lib - Contains the solution items for the tests project and all other non-deployable assemblies. 
          /CrudScaffolding - Customizable CRUD, scaffolding generation code.
+* Moved all employee related artifacts (controller, domain, views, etc.) under a namespace of "Organization" to show how areas are used
 
 Northwind.Controllers
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
