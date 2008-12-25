@@ -52,6 +52,13 @@ SharpArch.Data
 * BREAKING CHANGE ~ Renamed Repository.GetByProperties(), Repository.GetUniqueByProperties(), Repository.GetByExample(), Repository.GetUniqueByExample() to FindAll(properties/example) and FindOne(properties/example)
 * BREAKING CHANGE ~ Repository.cs:  This now implements the simpler IRepository<> instead of INHibernateRepository<>; Moved the NHibernate specific methods Get(id, lockMode), Load(id), Load(id, lockMode), FindAll(exampleInstance), FindOne(exampleInstance), Save(entity), Update(entity), Evict(entity) to NHibernateRepository<>; If you write a custom repository which needs to implement methods from INHibernateRepository<>, you'll want to inherit from this new NHibernateRepository<> class
 
+SharpArch.Web
+* /Areas/AreaRouteHelper.cs:  New class for supporting controller/view "areas"
+* /Areas/AreaViewEngine.cs:  New class for replacing the default view engine for supporting use of areas
+
+SharpArch.Web.Castle
+* Added this library to house extension methods for Castle related to registering controllers and custom repositories
+
 Northwind Solution
 * Modified solution structure to reflect the following
    /MyProject - Contains MyProject.sln
@@ -70,6 +77,7 @@ Northwind Solution
          /build - Empty folder for housing build related stuff. 
          /lib - Contains the solution items for the tests project and all other non-deployable assemblies. 
          /CrudScaffolding - Customizable CRUD, scaffolding generation code.
+* Modified solution to accommodate controller/view "areas"; the change were numerous and should be reviewed within the patch associated with http://code.google.com/p/sharp-architecture/issues/detail?id=27
 * Moved all employee related artifacts (controller, domain, views, etc.) under a namespace of "Organization" to show how areas are used
 
 Northwind.Controllers
