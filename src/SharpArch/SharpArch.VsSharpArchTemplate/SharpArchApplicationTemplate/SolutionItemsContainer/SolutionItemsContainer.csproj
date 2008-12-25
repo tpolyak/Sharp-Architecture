@@ -51,6 +51,7 @@
     <Content Include="Solution Items\MvcContrib.Castle.dll" />
     <Content Include="Solution Items\MvcContrib.dll" />
     <Content Include="Solution Items\Newtonsoft.Json.dll" />
+    <Content Include="Solution Items\Newtonsoft.Json.xml" />
     <Content Include="Solution Items\NHibernate.dll" />
     <Content Include="Solution Items\NHibernate.Validator.dll" />
     <Content Include="Solution Items\NHibernate.Validator.xml" />
@@ -58,9 +59,11 @@
     <Content Include="Solution Items\SharpArch.Core.dll" />
     <Content Include="Solution Items\SharpArch.Data.dll" />
     <Content Include="Solution Items\SharpArch.Web.dll" />
+    <Content Include="Solution Items\SharpArch.Web.Castle.dll" />
     <Content Include="Solution Items\SharpArch.Core.pdb" />
     <Content Include="Solution Items\SharpArch.Data.pdb" />
     <Content Include="Solution Items\SharpArch.Web.pdb" />
+    <Content Include="Solution Items\SharpArch.Web.Castle.pdb" />
     <Content Include="Solution Items\System.Web.Abstractions.dll" />
     <Content Include="Solution Items\System.Web.Mvc.dll" />
     <Content Include="Solution Items\System.Web.Routing.dll" />

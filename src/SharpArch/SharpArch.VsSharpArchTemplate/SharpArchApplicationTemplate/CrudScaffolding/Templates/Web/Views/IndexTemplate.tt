@@ -9,7 +9,7 @@ public class IndexTemplate : BaseTemplate
 	protected override void RenderCore()
 	{
 #>
-<%@ Page Title="<#= DomainObjectNamePlural #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="<#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>.Index" %>
+<%@ Page Title="<#= DomainObjectNamePlural #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.Index" %>
 <%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>" %>
 <%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>" %>
 

@@ -14,7 +14,7 @@ public class GeneralCodeBehindTemplate : BaseTemplate
 using System.Web.Mvc;
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 
-namespace <#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>
 {
     public partial class <#= className #> : <#= inheritsFrom #>
     {

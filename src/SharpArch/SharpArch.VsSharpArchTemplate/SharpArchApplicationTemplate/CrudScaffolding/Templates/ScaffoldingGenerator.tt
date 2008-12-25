@@ -94,7 +94,8 @@ public class ScaffoldingGenerator : Generator
 
 	private void GenerateViews() {
 		if (DidRequestToGenerate(ArtifactToGenerate.Views)) {
-			string targetPath = applicationRootPath + solutionName + ".Web\\Views\\" + DomainObjectNamePlural + "\\";
+			string targetPathRoot = applicationRootPath + solutionName + ".Web\\Views\\";
+			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot) + DomainObjectNamePlural + "\\";
 
 			if (! Directory.Exists(targetPath)) {
 				Directory.CreateDirectory(targetPath);

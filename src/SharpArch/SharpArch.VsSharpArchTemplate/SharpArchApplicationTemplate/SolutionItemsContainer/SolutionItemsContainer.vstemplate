@@ -32,24 +32,27 @@
 				<ProjectItem>MvcContrib.Castle.dll</ProjectItem>
 				<ProjectItem>MvcContrib.dll</ProjectItem>
 				<ProjectItem>Newtonsoft.Json.dll</ProjectItem>
-				<ProjectItem>NHibernate.dll</ProjectItem>
+                <ProjectItem>Newtonsoft.Json.xml</ProjectItem>
+                <ProjectItem>NHibernate.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.xml</ProjectItem>
 				<ProjectItem>NHibernate.xml</ProjectItem>
 				<ProjectItem>SharpArch.Core.dll</ProjectItem>
 				<ProjectItem>SharpArch.Data.dll</ProjectItem>
 				<ProjectItem>SharpArch.Web.dll</ProjectItem>
-				<ProjectItem>SharpArch.Core.pdb</ProjectItem>
+                <ProjectItem>SharpArch.Web.Castle.dll</ProjectItem>
+                <ProjectItem>SharpArch.Core.pdb</ProjectItem>
 				<ProjectItem>SharpArch.Data.pdb</ProjectItem>
 				<ProjectItem>SharpArch.Web.pdb</ProjectItem>
-				<ProjectItem>System.Web.Abstractions.dll</ProjectItem>
+                <ProjectItem>SharpArch.Web.Castle.pdb</ProjectItem>
+                <ProjectItem>System.Web.Abstractions.dll</ProjectItem>
 				<ProjectItem>System.Web.Mvc.dll</ProjectItem>
 				<ProjectItem>System.Web.Routing.dll</ProjectItem>
 			</Folder>
 		</Project>
 	</TemplateContent>
   <WizardExtension>
-    <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=86ab20767eba9003, Custom=null</Assembly>
+    <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=63b42eba4c2a549f, Custom=null</Assembly>
     <FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
   </WizardExtension>
 </VSTemplate>

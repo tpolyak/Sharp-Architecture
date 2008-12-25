@@ -9,7 +9,7 @@ public class DomainObjectFormTemplate : BaseTemplate
 	protected override void RenderCore()
 	{
 #>
-<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="<#= DomainObjectName #>Form.ascx.cs" Inherits="<#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>.<#= DomainObjectName #>Form" %>
+<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="<#= DomainObjectName #>Form.ascx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.<#= DomainObjectName #>Form" %>
 
 <% using (Html.BeginForm()) { %>
     <%= Html.Hidden("id", (ViewData.Model != null) ? ViewData.Model.ID : 0) %>

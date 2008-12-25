@@ -11,7 +11,7 @@ using System.Web.Mvc;
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 using System.Collections.Generic;
 
-namespace <#= SolutionName #>.Web.Views.<#= DomainObjectNamePlural #>
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>
 {
     public partial class Index : ViewPage<IEnumerable<<#= DomainObjectName #>>>
     {
