@@ -32,7 +32,7 @@ public class DomainObjectFormTemplate : BaseTemplate
     <li>
             <%= Html.SubmitButton("btnSave", "Save <#= DomainObjectName #>") %>
 	        <%= Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, 
-	                        "window.location.href = '" + ResolveUrl("~") + "<#= AppendNamespaceHierarchyTo("").Substring(1).Replace(".", "/") #>/<#= DomainObjectNamePlural #>';") %>
+	                        "window.location.href = '" + ResolveUrl("~") + "<#= (NamespaceHierarchy != null && NamespaceHierarchy.Length > 0) ? (AppendNamespaceHierarchyTo("").Substring(1).Replace(".", "/") + "/") : "" #><#= DomainObjectNamePlural #>';") %>
         </li>
     </ul>
 <% } %>
