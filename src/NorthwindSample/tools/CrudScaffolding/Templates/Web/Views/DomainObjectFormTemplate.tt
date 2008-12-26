@@ -11,6 +11,8 @@ public class DomainObjectFormTemplate : BaseTemplate
 #>
 <%@ Control Language="C#" AutoEventWireup="true" CodeBehind="<#= DomainObjectName #>Form.ascx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.<#= DomainObjectName #>Form" %>
 
+<%= Html.ValidationSummary() %>
+
 <% using (Html.BeginForm()) { %>
     <%= Html.Hidden("id", (ViewData.Model != null) ? ViewData.Model.ID : 0) %>
 
