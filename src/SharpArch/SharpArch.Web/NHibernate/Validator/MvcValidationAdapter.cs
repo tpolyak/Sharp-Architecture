@@ -17,8 +17,11 @@ namespace SharpArch.Web.NHibernate.Validator
                     "perhaps you were creating your own InvalidValue items for a unit test and forgot to pass " +
                     "in the class Type?");
 
-                modelStateDictionary.AddModelError(invalidValue.BeanClass.Name + "." +
-                    invalidValue.PropertyName, invalidValue.Message);
+                modelStateDictionary.AddModelError(invalidValue.BeanClass.Name + 
+                    (! string.IsNullOrEmpty(invalidValue.PropertyName) 
+                        ? "." + invalidValue.PropertyName 
+                        : ""), 
+                    invalidValue.Message);
             }
 
             return modelStateDictionary;
