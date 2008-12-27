@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core;
 using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing;
 
 namespace Tests.SharpArch.Core.PersistenceSupport
 {

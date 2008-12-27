@@ -1,10 +1,8 @@
 ﻿using System.Reflection;
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using NHibernate.Validator.Engine;
-using Newtonsoft.Json;
 using System.Xml.Serialization;
 
 namespace SharpArch.Core
@@ -42,7 +40,7 @@ namespace SharpArch.Core
             get {
                 if (domainSignatureProperties == null) {
                     domainSignatureProperties = GetType().GetProperties()
-                        .Where(p => p.GetCustomAttributes(typeof(DomainSignatureAttribute), true).Length > 0);
+                        .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
                 }
 
                 return domainSignatureProperties;
