@@ -36,7 +36,7 @@ namespace SharpArch.Core
         ///
         /// Lazily loads the domain signature properties
         /// </summary>
-        protected override IEnumerable<PropertyInfo> SignatureProperties {
+        public override IEnumerable<PropertyInfo> SignatureProperties {
             get {
                 if (domainSignatureProperties == null) {
                     domainSignatureProperties = GetType().GetProperties()

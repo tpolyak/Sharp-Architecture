@@ -24,10 +24,11 @@ namespace SharpArch.Core
         /// The property getter for SignatureProperties for value objects should include the properties which make up 
         /// the entirety of the object's properties; that's part of the definition of a value object.
         /// </summary>
-        protected override IEnumerable<PropertyInfo> SignatureProperties {
+        public override IEnumerable<PropertyInfo> SignatureProperties {
             get {
                 if (valueSignatureProperties == null) {
-                    valueSignatureProperties = GetType().GetProperties();
+                    valueSignatureProperties = GetType().GetProperties()
+                        .Where(p => p.Name != "SignatureProperties");
                 }
 
                 return valueSignatureProperties;

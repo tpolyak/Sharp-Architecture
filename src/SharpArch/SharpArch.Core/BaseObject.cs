@@ -88,7 +88,7 @@ namespace SharpArch.Core
         /// Enforces the template method pattern to have child objects determine which properties 
         /// should and should not be included in the object signature comparison.
         /// </summary>
-        protected abstract IEnumerable<PropertyInfo> SignatureProperties { get; }
+        public abstract IEnumerable<PropertyInfo> SignatureProperties { get; }
 
         /// <summary>
         /// This particular magic number is often used in GetHashCode computations but is actually 
