@@ -38,12 +38,8 @@ namespace SharpArch.Core
         /// </summary>
         public override IEnumerable<PropertyInfo> SignatureProperties {
             get {
-                if (domainSignatureProperties == null) {
-                    domainSignatureProperties = GetType().GetProperties()
-                        .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
-                }
-
-                return domainSignatureProperties;
+                return domainSignatureProperties ?? (domainSignatureProperties = GetType().GetProperties()
+                        .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true)).ToList());
             }
         }
 
