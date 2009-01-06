@@ -31,11 +31,13 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>
             this.<#= DomainObjectNameCamelCase #>Repository = <#= DomainObjectNameCamelCase #>Repository;
         }
 
+        [Transaction]
         public ActionResult Index() {
             List<<#= DomainObjectName #>> <#= DomainObjectNamePluralCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.GetAll();
             return View(<#= DomainObjectNamePluralCamelCase #>);
         }
 
+        [Transaction]
         public ActionResult Show(int id) {
             <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.Get(id);
             return View(<#= DomainObjectNameCamelCase #>);
@@ -60,6 +62,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>
             }
         }
 
+        [Transaction]
         public ActionResult Edit(int id) {
             <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.Get(id);
             return View(<#= DomainObjectNameCamelCase #>);
