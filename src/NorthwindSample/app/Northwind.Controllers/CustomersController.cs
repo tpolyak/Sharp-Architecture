@@ -17,6 +17,10 @@ namespace Northwind.Controllers
             this.customerRepository = customerRepository;
         }
 
+        /// <summary>
+        /// The transaction on this action is optional, but recommended for performance reasons
+        /// </summary>
+        [Transaction]
         public ActionResult Index() {
             List<Customer> customers = customerRepository.FindByCountry("Venezuela");
             return View(customers);

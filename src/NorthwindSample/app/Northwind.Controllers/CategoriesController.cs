@@ -17,11 +17,19 @@ namespace Northwind.Controllers
             this.categoryRepository = categoryRepository;
         }
 
+        /// <summary>
+        /// The transaction on this action is optional, but recommended for performance reasons
+        /// </summary>
+        [Transaction]
         public ActionResult Index() {
             List<Category> categories = categoryRepository.GetAll();
             return View(categories);
         }
 
+        /// <summary>
+        /// The transaction on this action is optional, but recommended for performance reasons
+        /// </summary>
+        [Transaction]
         public ActionResult Show(int id) {
             Category category = categoryRepository.Get(id);
             return View(category);

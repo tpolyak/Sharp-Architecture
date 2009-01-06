@@ -20,11 +20,19 @@ namespace Northwind.Controllers.Organization
             this.employeeRepository = employeeRepository;
         }
 
+        /// <summary>
+        /// The transaction on this action is optional, but recommended for performance reasons
+        /// </summary>
+        [Transaction]
         public ActionResult Index() {
             List<Employee> employees = employeeRepository.GetAll();
             return View(employees);
         }
 
+        /// <summary>
+        /// The transaction on this action is optional, but recommended for performance reasons
+        /// </summary>
+        [Transaction]
         public ActionResult Show(int id) {
             Employee employee = employeeRepository.Get(id);
             return View(employee);
@@ -49,6 +57,10 @@ namespace Northwind.Controllers.Organization
             }
         }
 
+        /// <summary>
+        /// The transaction on this action is optional, but recommended for performance reasons
+        /// </summary>
+        [Transaction]
         public ActionResult Edit(int id) {
             Employee employee = employeeRepository.Get(id);
             return View(employee);
