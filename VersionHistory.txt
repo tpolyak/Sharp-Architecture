@@ -55,6 +55,7 @@ SharpArch.Data
 SharpArch.Web
 * /Areas/AreaRouteHelper.cs:  New class for supporting controller/view "areas"
 * /Areas/AreaViewEngine.cs:  New class for replacing the default view engine for supporting use of areas
+* /JsonNet/JsonNetResult.cs:  New ActionResult for returning Json.NET result
 
 SharpArch.Web.Castle
 * Added this library to house extension methods for Castle related to registering controllers and custom repositories
