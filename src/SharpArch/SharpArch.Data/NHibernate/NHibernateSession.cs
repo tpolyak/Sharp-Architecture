@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Collections.Generic;
+using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Validator.Engine;
 using NHibernate.Validator.Cfg;
@@ -21,17 +22,25 @@ namespace SharpArch.Data.NHibernate
 	public static class NHibernateSession
 	{
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies) {
-            return Init(storage, mappingAssemblies, null, null);
+            return Init(storage, mappingAssemblies, null, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile) {
-            return Init(storage, mappingAssemblies, cfgFile, null);
+            return Init(storage, mappingAssemblies, cfgFile, null, null);
+        }
+
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, IDictionary<string ,string> cfgProperties) {
+            return Init(storage, mappingAssemblies, null, cfgProperties, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile, string validatorCfgFile) {
+            return Init(storage, mappingAssemblies, cfgFile, null, validatorCfgFile);
+        }
+
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile, IDictionary<string ,string> cfgProperties, string validatorCfgFile) {
             Check.Require(storage != null, "storage mechanism was null but must be provided");
             
-            Configuration cfg = ConfigureNHibernate(cfgFile);
+            Configuration cfg = ConfigureNHibernate(cfgFile, cfgProperties);
             ConfigureNHibernateValidator(cfg, validatorCfgFile);
             AddMappingAssembliesTo(cfg, mappingAssemblies);
 
@@ -41,8 +50,8 @@ namespace SharpArch.Data.NHibernate
             return cfg;
  		}
 
-        private static void AddMappingAssembliesTo(Configuration cfg, string[] mappingAssemblies) {
-            Check.Require(mappingAssemblies != null && mappingAssemblies.Length >= 1,
+        private static void AddMappingAssembliesTo(Configuration cfg, ICollection<string> mappingAssemblies) {
+            Check.Require(mappingAssemblies != null && mappingAssemblies.Count >= 1,
                 "mappingAssemblies must be provided as a string array of assembly names which contain mapping artifacts. " +
                 "The artifacts themselves may be HBMs or ClassMaps.  You may optionally include '.dll' on the assembly name.");
 
@@ -59,13 +68,16 @@ namespace SharpArch.Data.NHibernate
             }
         }
 
-        private static Configuration ConfigureNHibernate(string cfgFile) {
+        private static Configuration ConfigureNHibernate(string cfgFile, IDictionary<string, string> cfgProperties) {
             Configuration cfg = new Configuration();
+
+            if (cfgProperties != null)
+                cfg.AddProperties(cfgProperties);
 
             if (string.IsNullOrEmpty(cfgFile))
                 return cfg.Configure();
-            else
-                return cfg.Configure(cfgFile);
+            
+            return cfg.Configure(cfgFile);
         }
 
         private static void ConfigureNHibernateValidator(Configuration cfg, string validatorCfgFile) {
