@@ -22,7 +22,7 @@
     </Project>
   </TemplateContent>
   <WizardExtension>
-    <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=63b42eba4c2a549f, Custom=null</Assembly>
+    <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, Custom=null</Assembly>
     <FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
   </WizardExtension>
 </VSTemplate>
