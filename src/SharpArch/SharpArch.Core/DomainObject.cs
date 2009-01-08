@@ -86,6 +86,7 @@ namespace SharpArch.Core
         /// This static member caches the domain signature properties for each type inheriting
         /// from <see cref="DomainObject" /> to avoid looking them up for each instance of the same type.
         /// </summary>
-        private static readonly Dictionary<Type, IEnumerable<PropertyInfo>> signaturePropertiesDictionary = new Dictionary<Type, IEnumerable<PropertyInfo>>();
+        private static readonly Dictionary<Type, IEnumerable<PropertyInfo>> signaturePropertiesDictionary = 
+            new Dictionary<Type, IEnumerable<PropertyInfo>>();
     }
 }
