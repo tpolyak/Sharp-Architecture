@@ -39,7 +39,10 @@ namespace SharpArch.Core
         public override IEnumerable<PropertyInfo> SignatureProperties {
             get {
                 IEnumerable<PropertyInfo> properties;
-                
+
+                if (signaturePropertiesDictionary == null)
+                    signaturePropertiesDictionary = new Dictionary<Type, IEnumerable<PropertyInfo>>();
+
                 if (signaturePropertiesDictionary.TryGetValue(GetType(), out properties)) 
                     return properties;
 
@@ -90,7 +93,6 @@ namespace SharpArch.Core
         /// http://www.dotnetjunkies.com/WebLog/chris.taylor/archive/2005/08/18/132026.aspx
         /// </summary>
         [ThreadStatic]
-        private static readonly Dictionary<Type, IEnumerable<PropertyInfo>> signaturePropertiesDictionary = 
-            new Dictionary<Type, IEnumerable<PropertyInfo>>();
+        private static Dictionary<Type, IEnumerable<PropertyInfo>> signaturePropertiesDictionary;
     }
 }
