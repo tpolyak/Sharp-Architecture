@@ -40,13 +40,15 @@ namespace SharpArch.Core
             get {
                 IEnumerable<PropertyInfo> properties;
 
+                // Init the signaturePropertiesDictionary here due to reasons described at 
+                // http://blogs.msdn.com/jfoscoding/archive/2006/07/18/670497.aspx
                 if (signaturePropertiesDictionary == null)
                     signaturePropertiesDictionary = new Dictionary<Type, IEnumerable<PropertyInfo>>();
 
-                if (signaturePropertiesDictionary.TryGetValue(GetType(), out properties)) 
+                if (signaturePropertiesDictionary.TryGetValue(GetType(), out properties))
                     return properties;
 
-                return (signaturePropertiesDictionary[GetType()] = 
+                return (signaturePropertiesDictionary[GetType()] =
                     GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true)).ToList());
             }
         }

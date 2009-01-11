@@ -50,8 +50,6 @@
             <ProjectItem ReplaceParameters="false" TargetFileName="EditTemplate.tt">EditTemplate.tt</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="GeneralCodeBehindTemplate.tt">GeneralCodeBehindTemplate.tt</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="GeneralDesignerTemplate.tt">GeneralDesignerTemplate.tt</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="IndexCodeBehindTemplate.tt">IndexCodeBehindTemplate.tt</ProjectItem>
-            <ProjectItem ReplaceParameters="false" TargetFileName="IndexDesignerTemplate.tt">IndexDesignerTemplate.tt</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="IndexTemplate.tt">IndexTemplate.tt</ProjectItem>
             <ProjectItem ReplaceParameters="false" TargetFileName="ShowTemplate.tt">ShowTemplate.tt</ProjectItem>
           </Folder>
