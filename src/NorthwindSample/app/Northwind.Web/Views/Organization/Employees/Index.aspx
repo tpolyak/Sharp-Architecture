@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Employees" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="Northwind.Web.Views.Organization.Employees.Index" %>
 <%@ Import Namespace="Northwind.Core.Organization" %>
-<%@ Import Namespace="Northwind.Controllers.Organization" %>
+<%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Employees</h2>

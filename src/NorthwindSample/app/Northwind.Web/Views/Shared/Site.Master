@@ -1,6 +1,6 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Northwind.Web.Views.Shared.Site" %>
-<%@ Import Namespace="Northwind.Controllers" %>
-<%@ Import Namespace="Northwind.Controllers.Organization" %>
+<%@ Import Namespace="Northwind.Web.Controllers" %>
+<%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

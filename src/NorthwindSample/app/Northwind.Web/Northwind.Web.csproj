@@ -256,10 +256,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Northwind.Controllers\Northwind.Controllers.csproj">
-      <Project>{4278C4DC-E2A8-4FB4-8172-82FB03E7DDF9}</Project>
-      <Name>Northwind.Controllers</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj">
       <Project>{968B265E-AF3B-4153-B996-6EC4E83D9616}</Project>
       <Name>Northwind.Core</Name>
@@ -267,6 +263,10 @@
     <ProjectReference Include="..\Northwind.Data\Northwind.Data.csproj">
       <Project>{AAB1B13C-653C-4764-9360-4DA67F4CC959}</Project>
       <Name>Northwind.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Northwind.Web.Controllers\Northwind.Web.Controllers.csproj">
+      <Project>{4278C4DC-E2A8-4FB4-8172-82FB03E7DDF9}</Project>
+      <Name>Northwind.Web.Controllers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -284,7 +284,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2578</DevelopmentServerPort>
+          <DevelopmentServerPort>10741</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

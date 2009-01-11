@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="Northwind.Web.Views.Categories.Index" %>
 <%@ Import Namespace="Northwind.Core" %>
-<%@ Import Namespace="Northwind.Controllers" %>
+<%@ Import Namespace="Northwind.Web.Controllers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Categories</h2>

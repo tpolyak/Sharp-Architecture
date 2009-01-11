@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="Northwind.Web.Views.Home.Index" %>
-<%@ Import Namespace="Northwind.Controllers" %>
+<%@ Import Namespace="Northwind.Web.Controllers" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Northwind MVC Example Pages</h2>
