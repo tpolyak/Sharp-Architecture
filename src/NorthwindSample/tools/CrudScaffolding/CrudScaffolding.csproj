@@ -62,13 +62,13 @@
     </None>
     <None Include="Templates\BaseTemplate.tt">
     </None>
-    <None Include="Templates\Controllers\ControllerTemplate.tt">
+    <None Include="Templates\Web\Controllers\ControllerTemplate.tt">
     </None>
     <None Include="Templates\Core\DomainObjectTemplate.tt">
     </None>
     <None Include="Templates\ScaffoldingGenerator.tt">
     </None>
-    <None Include="Templates\Tests\Controllers\ControllerTestsTemplate.tt">
+    <None Include="Templates\Tests\Web\Controllers\ControllerTestsTemplate.tt">
     </None>
     <None Include="Templates\Tests\Core\DomainObjectTestsTemplate.tt">
     </None>
