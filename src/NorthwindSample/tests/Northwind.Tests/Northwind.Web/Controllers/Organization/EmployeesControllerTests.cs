@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using MvcContrib.TestHelper;
-using Northwind.Controllers.Organization;
+using Northwind.Web.Controllers.Organization;
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core.Organization;
 using Rhino.Mocks;
@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using SharpArch.Testing;
 
-namespace Tests.Northwind.Controllers.Organization
+namespace Tests.Northwind.Web.Controllers.Organization
 {
     [TestFixture]
     public class EmployeesControllerTests

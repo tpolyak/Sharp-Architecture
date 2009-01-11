@@ -1,4 +1,4 @@
-﻿using Northwind.Controllers;
+﻿using Northwind.Web.Controllers;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using NUnit.Framework.SyntaxHelpers;
 using Northwind.Core.DataInterfaces;
 using SharpArch.Testing;
 
-namespace Tests.Northwind.Controllers
+namespace Tests.Northwind.Web.Controllers
 {
     [TestFixture]
     public class CustomersControllerTests

@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
-using Northwind.Controllers;
+using Northwind.Web.Controllers;
 using MvcContrib.TestHelper;
 using System.Web.Routing;
 
-namespace Tests.Northwind.Controllers
+namespace Tests.Northwind.Web.Controllers
 {
     [TestFixture]
     public class RouteRegistrarTests
