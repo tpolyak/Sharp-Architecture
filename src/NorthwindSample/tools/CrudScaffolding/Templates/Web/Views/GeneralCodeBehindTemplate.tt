@@ -11,6 +11,7 @@ public class GeneralCodeBehindTemplate : BaseTemplate
 	protected override void RenderCore()
 	{
 #>
+using System.Collections.Generic;
 using System.Web.Mvc;
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 

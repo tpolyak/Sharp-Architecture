@@ -82,10 +82,6 @@
     </None>
     <None Include="Templates\Web\Views\DomainObjectFormTemplate.tt">
     </None>
-    <None Include="Templates\Web\Views\IndexCodeBehindTemplate.tt">
-    </None>
-    <None Include="Templates\Web\Views\IndexDesignerTemplate.tt">
-    </None>
     <None Include="Templates\Web\Views\IndexTemplate.tt">
     </None>
     <None Include="Templates\Web\Views\ShowTemplate.tt">

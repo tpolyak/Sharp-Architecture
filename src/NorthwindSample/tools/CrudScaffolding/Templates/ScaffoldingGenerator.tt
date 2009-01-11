@@ -10,8 +10,6 @@
 <#@ include file="./Templates/Web/Views/CreateTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/EditTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/IndexTemplate.tt" #>
-<#@ include file="./Templates/Web/Views/IndexCodeBehindTemplate.tt" #>
-<#@ include file="./Templates/Web/Views/IndexDesignerTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/ShowTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/GeneralCodeBehindTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/GeneralDesignerTemplate.tt" #>
@@ -306,12 +304,14 @@ public class ScaffoldingGenerator : Generator
 				new IndexTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
 			indexTemplate.RenderToFile(fileName);
 
-			IndexCodeBehindTemplate codeBehindTemplate = 
-				new IndexCodeBehindTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
+			GeneralCodeBehindTemplate codeBehindTemplate = 
+				new GeneralCodeBehindTemplate(solutionName, domainObjectName, properties, namespaceHierarchy, 
+					"Index", "ViewPage<IEnumerable<" + domainObjectName + ">>");
 			codeBehindTemplate.RenderToFile(fileName + ".cs");
 
-			IndexDesignerTemplate designerTemplate = 
-				new IndexDesignerTemplate(solutionName, domainObjectName, properties, namespaceHierarchy);
+			GeneralDesignerTemplate designerTemplate = 
+				new GeneralDesignerTemplate(solutionName, domainObjectName, properties, namespaceHierarchy, 
+					domainObjectName);
 			designerTemplate.RenderToFile(fileName + ".designer.cs");
 
 			MoveViewFilesTo(targetPath, fileName);
