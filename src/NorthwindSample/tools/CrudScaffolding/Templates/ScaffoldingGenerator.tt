@@ -311,7 +311,7 @@ public class ScaffoldingGenerator : Generator
 
 			GeneralDesignerTemplate designerTemplate = 
 				new GeneralDesignerTemplate(solutionName, domainObjectName, properties, namespaceHierarchy, 
-					domainObjectName);
+					"Index");
 			designerTemplate.RenderToFile(fileName + ".designer.cs");
 
 			MoveViewFilesTo(targetPath, fileName);
