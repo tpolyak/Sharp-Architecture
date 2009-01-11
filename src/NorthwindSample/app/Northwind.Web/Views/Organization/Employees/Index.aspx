@@ -20,27 +20,15 @@
                 </th>
             </tr>
         </thead>
-        <asp:ListView ID="employeeList" runat="server">
-            <LayoutTemplate>
-                <asp:PlaceHolder ID="itemPlaceHolder" runat="server" />
-            </LayoutTemplate>
-            <ItemTemplate>
-                <tr>
-                    <td>
-                        <%# ((Employee) Container.DataItem).FullName %>
-                    </td>
-                    <td>
-                        <%# Html.ActionLink<EmployeesController>(c => c.Show(((Employee)Container.DataItem).ID), "Details")%>
-                    </td>
-                    <td>
-                        <%# Html.ActionLink<EmployeesController>(c => c.Edit(((Employee)Container.DataItem).ID), "Edit")%>
-                    </td>
-                    <td>
-                        <%# Html.ActionLink<EmployeesController>(c => c.Delete(((Employee)Container.DataItem).ID), "Delete")%>
-                    </td>
-                </tr>
-            </ItemTemplate>
-        </asp:ListView>
+		<%
+		foreach (Employee employee in ViewData.Model) { %>
+			<tr>
+				<td><%= employee.FullName %></td>
+				<td><%=Html.ActionLink<EmployeesController>(c => c.Show(employee.ID), "Details ")%></td>
+				<td><%=Html.ActionLink<EmployeesController>(c => c.Edit(employee.ID), "Edit")%></td>
+				<td><%=Html.ActionLink<EmployeesController>(c => c.Delete(employee.ID), "Delete")%></td>
+			</tr>
+		<%} %>
     </table>
 
     <p><%= Html.ActionLink<EmployeesController>(c => c.Create(), "Create New Employee") %></p>
