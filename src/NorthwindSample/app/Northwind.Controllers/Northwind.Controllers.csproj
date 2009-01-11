@@ -33,23 +33,23 @@
   <ItemGroup>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\..\..\..\bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="MvcContrib, Version=0.0.1.96, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\MvcContrib.dll</HintPath>
+      <HintPath>..\..\..\..\bin\MvcContrib.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate.Validator, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\NHibernate.Validator.dll</HintPath>
+      <HintPath>..\..\..\..\bin\NHibernate.Validator.dll</HintPath>
     </Reference>
     <Reference Include="SharpArch.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpArch.Core.dll</HintPath>
+      <HintPath>..\..\..\..\bin\SharpArch.Core.dll</HintPath>
     </Reference>
     <Reference Include="SharpArch.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\SharpArch.Web.dll</HintPath>
+      <HintPath>..\..\..\..\bin\SharpArch.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
