@@ -52,7 +52,12 @@ namespace SharpArch.Data.NHibernate
             ICriteria criteria = Session.CreateCriteria(typeof(T));
 
             foreach (string key in propertyValuePairs.Keys) {
-                criteria.Add(Expression.Eq(key, propertyValuePairs[key]));
+                if (propertyValuePairs[key] != null) {
+                    criteria.Add(Expression.Eq(key, propertyValuePairs[key]));
+                }
+                else {
+                    criteria.Add(Expression.IsNull(key));
+                }
             }
 
             return criteria.List<T>() as List<T>;
