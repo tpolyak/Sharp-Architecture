@@ -86,22 +86,22 @@ Northwind.Web.Controllers (formerly Northwind.Controllers)
 * RouteRegistrar.cs:  Registered map for "Root"; added ignore for favicon.ico
 * Renamed this project from Northwind.Controllers to Northwind.Web.Controllers.  To migrate this change to your own project:
 	In your project:
-		#) Renamed YourProject.Controllers to YourProject.Web.Controllers
-		#) In YourProject.Web.Controllers' project properties, renamed Assembly name and Default namespace of "YourProject.Controllers" with 		"YourProject.Web.Controllers"
-		#) Did a solution-wide find and replace of "YourProject.Controllers" to "YourProject.Web.Controllers"
-		#) Via VS, added the folder "YourProject.Web/Controllers" under YourProject.Tests and moved the contents of YourProject.Tests to this new folder; finally deleted the YourProject.Controllers folder from the YourProject.Tests project
-		#) Successfully compiled all changes and closed VS
-		#) Renamed the YourProject.Controllers folder to YourProject.Web.Controllers
-		#) Reopened the SLN and replaced the missing project with the one from the renamed folder and then added a reference to YourProject.Tests and YourProject.Web
+		1) Renamed YourProject.Controllers to YourProject.Web.Controllers
+		2) In YourProject.Web.Controllers' project properties, renamed Assembly name and Default namespace of "YourProject.Controllers" with 		"YourProject.Web.Controllers"
+		3) Did a solution wide find and replace of "YourProject.Controllers" to "YourProject.Web.Controllers"
+		4) Via VS, added the folder "YourProject.Web/Controllers" under YourProject.Tests and moved the contents of YourProject.Tests to this new folder; finally deleted the YourProject.Controllers folder from the YourProject.Tests project
+		5) Successfully compiled all changes and closed VS
+		6) Renamed the YourProject.Controllers folder to YourProject.Web.Controllers
+		7) Reopened the SLN and replaced the missing project with the one from the renamed folder and then added a reference to YourProject.Tests and YourProject.Web
 
 	In CrudScaffolding:
-		#) Moved Templates/Controllers to Templates/Web/Controllers
-		#) Moved Templates/Tests/Controllers to Templates/Tests/Web/Controllers
-		#) Modified paths within Templates/ScaffoldingGenerator.tt to account for the moved files
-		#) Did a *project-wide* find and replace of ".Controllers" to ".Web.Controllers"
-		#) Within ScaffoldingGenerator.tt, modified the third line under the GenerateControllerAndTests() method to be the following:
+		1) Moved Templates/Controllers to Templates/Web/Controllers
+		2) Moved Templates/Tests/Controllers to Templates/Tests/Web/Controllers
+		3) Modified paths within Templates/ScaffoldingGenerator.tt to account for the moved files
+		4) Did a *project* wide find and replace of ".Controllers" to ".Web.Controllers"
+		5) Within ScaffoldingGenerator.tt, modified the third line under the GenerateControllerAndTests() method to be the following:
 			string targetPathRoot = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Web\\Controllers\\";
-		#) Within ScafolldingGenerator.tt, modified the third line under the AddFileToProject() method to be the following:
+		6) Within ScafolldingGenerator.tt, modified the third line under the AddFileToProject() method to be the following:
 			if (pathOfProjectFileToAddTo.IndexOf(project.Name + ".csproj") > -1) {
 
 Northwind.Core
