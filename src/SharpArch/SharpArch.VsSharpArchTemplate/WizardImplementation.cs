@@ -60,7 +60,7 @@ namespace SharpArchApplicationWizard
                 else if (project.Name == GetSolutionName() + ".Tests") {
                     MoveProjectTo("\\tests\\", project);
                 }
-                else if (project.Name == GetSolutionName() + ".Controllers" || 
+                else if (project.Name == GetSolutionName() + ".Web.Controllers" || 
                     project.Name == GetSolutionName() + ".Core" || 
                     project.Name == GetSolutionName() + ".Data" || 
                     project.Name == GetSolutionName() + ".Web") {

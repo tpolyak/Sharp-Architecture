@@ -18,9 +18,9 @@ using SharpArch.Testing;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
-using <#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>;
 
-namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Controllers") #>
+namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Controllers") #>
 {
     [TestFixture]
     public class <#= DomainObjectNamePlural #>ControllerTests

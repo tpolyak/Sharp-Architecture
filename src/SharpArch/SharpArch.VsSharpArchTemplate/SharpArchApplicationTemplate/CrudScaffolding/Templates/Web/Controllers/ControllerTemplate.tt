@@ -20,7 +20,7 @@ using NHibernate.Validator.Engine;
 using System.Text;
 using SharpArch.Web.NHibernate.Validator;
 
-namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Controllers") #>
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
 {
     [HandleError]
     public class <#= DomainObjectNamePlural #>Controller : Controller

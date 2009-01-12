@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using $solutionname$.Controllers;
+using $solutionname$.Web.Controllers;
 using MvcContrib.TestHelper;
 using System.Web.Routing;
 

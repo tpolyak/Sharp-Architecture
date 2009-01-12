@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="$safeprojectname$.Views.Home.Index" %>
-<%@ Import Namespace="$solutionname$.Controllers" %>
+<%@ Import Namespace="$solutionname$.Web.Controllers" %>
 
 <asp:Content ID="indexContent" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>S#arp Architecture Project</h2>

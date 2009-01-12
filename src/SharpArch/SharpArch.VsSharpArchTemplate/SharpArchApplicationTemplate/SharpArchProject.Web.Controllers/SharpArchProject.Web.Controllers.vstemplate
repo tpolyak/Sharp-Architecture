@@ -1,21 +1,22 @@
 <VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
     <TemplateData>
-        <Name>SharpArchProject.Data</Name>
-        <Description>S#arp Architecture project data layer</Description>
+        <Name>SharpArchProject.Web.Controllers</Name>
+        <Description>S#arp Architecture project controllers layer</Description>
         <ProjectType>CSharp</ProjectType>
         <ProjectSubType>
         </ProjectSubType>
         <SortOrder>1000</SortOrder>
         <CreateNewFolder>true</CreateNewFolder>
-        <DefaultName>SharpArchProject.Data</DefaultName>
+        <DefaultName>SharpArchProject.Web.Controllers</DefaultName>
         <ProvideDefaultName>true</ProvideDefaultName>
         <LocationField>Enabled</LocationField>
         <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
         <Icon></Icon>
     </TemplateData>
     <TemplateContent>
-        <Project TargetFileName="SharpArchProject.Data.csproj" File="SharpArchProject.Data.csproj" ReplaceParameters="true">
-            <Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps" />
+        <Project TargetFileName="SharpArchProject.Web.Controllers.csproj" File="SharpArchProject.Web.Controllers.csproj" ReplaceParameters="true">
+            <ProjectItem ReplaceParameters="true" TargetFileName="HomeController.cs">HomeController.cs</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="RouteRegistrar.cs">RouteRegistrar.cs</ProjectItem>
             <Folder Name="Properties" TargetFolderName="Properties">
                 <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
             </Folder>

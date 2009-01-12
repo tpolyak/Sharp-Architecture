@@ -5,7 +5,7 @@ using System.Web.Routing;
 using System.Reflection;
 using NHibernate.Cfg;
 using Castle.Windsor;
-using $solutionname$.Controllers;
+using $solutionname$.Web.Controllers;
 using MvcContrib.Castle;
 using Castle.MicroKernel.Registration;
 using $safeprojectname$.CastleWindsor;

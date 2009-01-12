@@ -21,8 +21,8 @@
             <ProjectTemplateLink ProjectName="$safeprojectname$.Data">
                 SharpArchProject.Data\SharpArchProject.Data.vstemplate
             </ProjectTemplateLink>
-            <ProjectTemplateLink ProjectName="$safeprojectname$.Controllers">
-                SharpArchProject.Controllers\SharpArchProject.Controllers.vstemplate
+            <ProjectTemplateLink ProjectName="$safeprojectname$.Web.Controllers">
+                SharpArchProject.Web.Controllers\SharpArchProject.Web.Controllers.vstemplate
             </ProjectTemplateLink>
             <ProjectTemplateLink ProjectName="$safeprojectname$.Tests">
                 SharpArchProject.Tests\SharpArchProject.Tests.vstemplate

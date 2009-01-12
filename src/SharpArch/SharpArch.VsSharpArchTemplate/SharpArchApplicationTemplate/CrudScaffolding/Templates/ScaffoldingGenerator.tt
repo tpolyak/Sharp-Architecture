@@ -1,10 +1,10 @@
 ﻿<#@ include file="Pluralizer.tt" #> 
 <#@ include file="ScaffoldingEnums.tt" #>
 <#@ include file="./Templates/BaseTemplate.tt" #>
-<#@ include file="./Templates/Controllers/ControllerTemplate.tt" #>
+<#@ include file="./Templates/Web/Controllers/ControllerTemplate.tt" #>
 <#@ include file="./Templates/Core/DomainObjectTemplate.tt" #>
 <#@ include file="./Templates/Data/NHibernateMaps/ClassMapTemplate.tt" #>
-<#@ include file="./Templates/Tests/Controllers/ControllerTestsTemplate.tt" #>
+<#@ include file="./Templates/Tests/Web/Controllers/ControllerTestsTemplate.tt" #>
 <#@ include file="./Templates/Tests/Core/DomainObjectTestsTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/DomainObjectFormTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/CreateTemplate.tt" #>
@@ -139,7 +139,7 @@ public class ScaffoldingGenerator : Generator
 	
 	private void AddFileToProject(string pathOfFileToAdd, string pathOfProjectFileToAddTo) {
         foreach (Project project in solution.Projects) {
-            if (pathOfProjectFileToAddTo.IndexOf(project.Name) > -1) {
+            if (pathOfProjectFileToAddTo.IndexOf(project.Name + ".csproj") > -1) {
                 project.ProjectItems.AddFromFile(pathOfFileToAdd);
 				Log("Adding " + pathOfFileToAdd + " to project named " + project.Name + " with AddFromFile");
 				project.Save(pathOfProjectFileToAddTo);
@@ -193,7 +193,7 @@ public class ScaffoldingGenerator : Generator
 	private void GenerateControllerAndTests() {
 		if (DidRequestToGenerate(ArtifactToGenerate.Controller)) {
 			string fileName = DomainObjectNamePlural + "ControllerTests.cs";
-			string targetPathRoot = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Controllers\\";
+			string targetPathRoot = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Web\\Controllers\\";
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
@@ -211,7 +211,7 @@ public class ScaffoldingGenerator : Generator
 			}
 
 			fileName = DomainObjectNamePlural + "Controller.cs";
-			targetPathRoot = applicationRootPath + solutionName + ".Controllers\\";
+			targetPathRoot = applicationRootPath + solutionName + ".Web.Controllers\\";
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
@@ -220,7 +220,7 @@ public class ScaffoldingGenerator : Generator
 				controllerTemplate.RenderToFile(fileName);
 
 				File.Move(scaffoldingOutputFolder + fileName, targetPath + fileName);
-				AddFileToProject(targetPath + fileName, targetPathRoot + solutionName + ".Controllers.csproj");
+				AddFileToProject(targetPath + fileName, targetPathRoot + solutionName + ".Web.Controllers.csproj");
 
 				Log("Added file " + targetPath + fileName);
 			}
