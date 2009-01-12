@@ -1,0 +1,1 @@
+This contains everything you need to get a S#arp Architecture project up and running quickly.  See the documentation within /docs for usage guidelines.
