@@ -64,10 +64,10 @@ Northwind Solution
 * Modified solution structure to reflect the following
    /MyProject - Contains MyProject.sln
       /app - Contains the core project layers.
-         /MyProject.Controllers 
          /MyProject.Core 
          /MyProject.Data 
-         /MyProject.Web 
+         /MyProject.Web
+         /MyProject.Web.Controllers 
       /lib - Contains the solution items for the deployable application. 
       /db - Contains database schema information; e.g., the result of scaffolding and/or NHibernate's schema export. 
       /docs - Project documents. 
@@ -81,9 +81,28 @@ Northwind Solution
 * Modified solution to accommodate controller/view "areas"; the change were numerous and should be reviewed within the patch associated with http://code.google.com/p/sharp-architecture/issues/detail?id=27
 * Moved all employee related artifacts (controller, domain, views, etc.) under a namespace of "Organization" to show how areas are used
 
-Northwind.Controllers
+Northwind.Web.Controllers (formerly Northwind.Controllers)
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
 * RouteRegistrar.cs:  Registered map for "Root"; added ignore for favicon.ico
+* Renamed this project from Northwind.Controllers to Northwind.Web.Controllers.  To migrate this change to your own project:
+	In your project:
+		#) Renamed YourProject.Controllers to YourProject.Web.Controllers
+		#) In YourProject.Web.Controllers' project properties, renamed Assembly name and Default namespace of "YourProject.Controllers" with 		"YourProject.Web.Controllers"
+		#) Did a solution-wide find and replace of "YourProject.Controllers" to "YourProject.Web.Controllers"
+		#) Via VS, added the folder "YourProject.Web/Controllers" under YourProject.Tests and moved the contents of YourProject.Tests to this new folder; finally deleted the YourProject.Controllers folder from the YourProject.Tests project
+		#) Successfully compiled all changes and closed VS
+		#) Renamed the YourProject.Controllers folder to YourProject.Web.Controllers
+		#) Reopened the SLN and replaced the missing project with the one from the renamed folder and then added a reference to YourProject.Tests and YourProject.Web
+
+	In CrudScaffolding:
+		#) Moved Templates/Controllers to Templates/Web/Controllers
+		#) Moved Templates/Tests/Controllers to Templates/Tests/Web/Controllers
+		#) Modified paths within Templates/ScaffoldingGenerator.tt to account for the moved files
+		#) Did a *project-wide* find and replace of ".Controllers" to ".Web.Controllers"
+		#) Within ScaffoldingGenerator.tt, modified the third line under the GenerateControllerAndTests() method to be the following:
+			string targetPathRoot = testsRootFolder + solutionName + ".Tests\\" + solutionName + ".Web\\Controllers\\";
+		#) Within ScafolldingGenerator.tt, modified the third line under the AddFileToProject() method to be the following:
+			if (pathOfProjectFileToAddTo.IndexOf(project.Name + ".csproj") > -1) {
 
 Northwind.Core
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
