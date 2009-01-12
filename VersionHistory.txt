@@ -86,6 +86,7 @@ Northwind.Web.Controllers (formerly Northwind.Controllers)
 * RouteRegistrar.cs:  Registered map for "Root"; added ignore for favicon.ico
 * Renamed this project from Northwind.Controllers to Northwind.Web.Controllers.  To migrate this change to your own project:
 	In your project:
+		0) Before starting this, clear out all your compiled bin directories to avoid NHibernate getting confused with obsolete DLLs lying around
 		1) Renamed YourProject.Controllers to YourProject.Web.Controllers
 		2) In YourProject.Web.Controllers' project properties, renamed Assembly name and Default namespace of "YourProject.Controllers" with 		"YourProject.Web.Controllers"
 		3) Did a solution wide find and replace of "YourProject.Controllers" to "YourProject.Web.Controllers"
