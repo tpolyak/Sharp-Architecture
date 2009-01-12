@@ -19,7 +19,7 @@ namespace Tests.Northwind.Data
     {
         protected override void LoadTestData() {
             CreatePersistedCustomer("WOWEE", "Jack Johnson", "Rancho pequeno", "Brazil");
-            CreatePersistedCustomer("ABC12", "Jim Wirwille", "Homebrew", "German");
+            CreatePersistedCustomer("ABC12", "Jim Wirwille", "Homebrew", null);
 
             Customer customer = CreatePersistedCustomer("RANCH", "John Wayne", "Rancho grande", "Brazil");
             CreatePersistentOrder(customer, DateTime.Now);
@@ -55,6 +55,16 @@ namespace Tests.Northwind.Data
             customer = customerRepository.FindOne(propertyValues);
 
             Assert.That(customer, Is.Null);
+        }
+
+        [Test]
+        public void CanGetCustomerByNullProperty() {
+            IDictionary<string, object> propertyValues = new Dictionary<string, object>();
+            propertyValues.Add("Country", null);
+            IList<Customer> customers = customerRepository.FindAll(propertyValues);
+
+            Assert.That(customers.Count, Is.EqualTo(1));
+            Assert.That(customers[0].ID, Is.EqualTo("ABC12"));
         }
 
         /// <summary>
