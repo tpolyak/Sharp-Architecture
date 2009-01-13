@@ -51,6 +51,7 @@ SharpArch.Core
 	2) Change every call to ".ValidationMessages" to ".GetValidationMessages()"
 	3) Manually add "using SharpArch.Core.DomainModel;" onto every page having an Entity
 * ValueObject.cs:  Added this value-object base class to support this missing base class for DDD
+* See http://groups.google.com/group/sharp-architecture/browse_thread/thread/6c8e626535a47219 for a more thorough summary of the changes to SharpArch.Core
 
 SharpArch.Data
 * BREAKING CHANGE ~ Renamed Repository.GetByProperties(), Repository.GetUniqueByProperties(), Repository.GetByExample(), Repository.GetUniqueByExample() to FindAll(properties/example) and FindOne(properties/example)
