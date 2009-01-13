@@ -4,9 +4,8 @@ Roadmap for 1.0 Release
 ----------------------------------------------
 ----------------------------------------------
 
-* Add WCF integration
+* Add WCF integration example
 * Support multiple databases
-* Add examaple of using a Unit of Work to encapsulate non-trivial controller logic
 
 ----------------------------------------------
 ----------------------------------------------
@@ -17,7 +16,7 @@ On the trunk
 New and exciting:
 * CRUD Scaffolding generation is now available - see the documentation for details
 * Added CommonServiceLocator to provide IoC agnosticism to the non-web layers
-* You no longer need to register custom repositories to Castle Windsor
+* You no longer need to register custom repositories to Castle Windsor...it's now done with voodoo magic
 * Added formal solution structure to help organize applications
 * You no longer need to install ASP.NET MVC to create and edit S#arp Architecture projects
 
@@ -56,6 +55,7 @@ SharpArch.Core
 SharpArch.Data
 * BREAKING CHANGE ~ Renamed Repository.GetByProperties(), Repository.GetUniqueByProperties(), Repository.GetByExample(), Repository.GetUniqueByExample() to FindAll(properties/example) and FindOne(properties/example)
 * BREAKING CHANGE ~ Repository.cs:  This now implements the simpler IRepository<> instead of INHibernateRepository<>; Moved the NHibernate specific methods Get(id, lockMode), Load(id), Load(id, lockMode), FindAll(exampleInstance), FindOne(exampleInstance), Save(entity), Update(entity), Evict(entity) to NHibernateRepository<>; If you write a custom repository which needs to implement methods from INHibernateRepository<>, you'll want to inherit from this new NHibernateRepository<> class
+* /NHibernate/NHibernateSession.cs: Added RegisterInterceptor(IInterceptor) to be optionally invoked after you've initialized NHibernate configuration
 
 SharpArch.Web
 * /Areas/AreaRouteHelper.cs:  New class for supporting controller/view "areas"
