@@ -22,8 +22,8 @@ string domainObjectName = "Organization.Employee";
  * Do NOT include a property for ID as it will be included automatically.
  */
 NameValueCollection properties = new NameValueCollection();
-	properties.Add("FirstName", "string"); 
-	properties.Add("LastName", "string"); 
+	properties.Add("Name", "string"); 
+	properties.Add("EmailAddress", "string"); 
 
 ///////////////////////////////////////////////////
 

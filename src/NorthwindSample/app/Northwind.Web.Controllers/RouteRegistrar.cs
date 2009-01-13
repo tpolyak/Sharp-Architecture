@@ -18,10 +18,6 @@ namespace Northwind.Web.Controllers
             //    routes.MapRoute(null, "Organization/Department/{controller}/{action}", new { action = "Index" })
             //);
 
-            routes.CreateArea("Farming/Animals", "Northwind.Web.Controllers.Farming.Animals",
-                routes.MapRoute(null, "Farming/Animals/{controller}/{action}", new { action = "Index" })
-            );
-
             routes.CreateArea("Organization", "Northwind.Web.Controllers.Organization",
                 routes.MapRoute(null, "Organization/{controller}/{action}", new { action = "Index" })
             );

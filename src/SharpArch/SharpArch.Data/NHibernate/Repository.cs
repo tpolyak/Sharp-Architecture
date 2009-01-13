@@ -7,13 +7,14 @@ using NHibernate.Criterion;
 using System.Collections.Specialized;
 using System;
 using SharpArch.Core.PersistenceSupport.NHibernate;
+using SharpArch.Core.DomainModel;
 
 namespace SharpArch.Data.NHibernate
 {
     /// <summary>
     /// Since nearly all of the domain objects you create will have a type of int ID, this 
-    /// most freqently used base GenericDao leverages this assumption.  If you want a persistent 
-    /// object with a type other than int, such as string, then use 
+    /// most freqently used base GenericDao leverages this assumption.  If you want an entity
+    /// with a type other than int, such as string, then use 
     /// <see cref="GenericDaoWithTypedId{T, IdT}" />.
     /// </summary>
     public class Repository<T> : RepositoryWithTypedId<T, int>, IRepository<T> { }
@@ -86,7 +87,7 @@ namespace SharpArch.Data.NHibernate
         /// </summary>
         public virtual T SaveOrUpdate(T entity) {
             Check.Require(!(entity is IHasAssignedId<IdT>),
-                "For better clarity and reliability, PersistentObjects with an assigned ID must call Save or Update");
+                "For better clarity and reliability, Entities with an assigned ID must call Save or Update");
 
             Session.SaveOrUpdate(entity);
             return entity;

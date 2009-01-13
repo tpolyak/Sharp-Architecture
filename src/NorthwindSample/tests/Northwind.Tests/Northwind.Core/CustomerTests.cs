@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Northwind.Core;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using NUnit.Framework.SyntaxHelpers;
 
 namespace Tests.Northwind.Core

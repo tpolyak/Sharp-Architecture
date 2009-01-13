@@ -1,12 +1,13 @@
 ﻿using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
 using NHibernate.Validator;
 using Northwind.Core.Organization;
+using SharpArch.Core;
 
 namespace Northwind.Core
 {
-    public class Territory : PersistentObjectWithTypedId<string>, IHasAssignedId<string>
+    public class Territory : EntityWithTypedId<string>, IHasAssignedId<string>
     {
         public Territory() {
             InitMembers();

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using NHibernate.Validator;
+using SharpArch.Core;
 
 namespace Northwind.Core
 {
@@ -10,7 +11,7 @@ namespace Northwind.Core
     /// idea; this is a major complaint I have with the Northwind database.  With that said, 
     /// some legacy databases require such techniques.
     /// </summary>
-    public class Customer : PersistentObjectWithTypedId<string>, IHasAssignedId<string>
+    public class Customer : EntityWithTypedId<string>, IHasAssignedId<string>
     {
         public Customer() {
             InitMembers();

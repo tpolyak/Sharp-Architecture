@@ -45,7 +45,7 @@ namespace Tests.Northwind.Web.Controllers
             List<Customer> customers = new List<Customer>();
 
             Customer customer = new Customer("Acme Anvil");
-            PersistentObjectIdSetter<string>.SetIdOf(customer, "abcde");
+            EntityIdSetter<string>.SetIdOf(customer, "abcde");
             customers.Add(new Customer("Acme Anvil"));
             customers.Add(new Customer("Road Runner Industries"));
 

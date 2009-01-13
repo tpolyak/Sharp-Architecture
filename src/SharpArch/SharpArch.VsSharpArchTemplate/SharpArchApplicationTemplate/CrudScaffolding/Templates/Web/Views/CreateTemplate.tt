@@ -12,7 +12,7 @@ public class CreateTemplate : BaseTemplate
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 	<h2>Create <#= DomainObjectName #></h2>
 
-	<% Html.RenderPartial("<#= DomainObjectName #>Form"); %>
+	<% Html.RenderPartial("<#= DomainObjectName #>Form", ViewData); %>
 </asp:Content>
 <#+
 	}

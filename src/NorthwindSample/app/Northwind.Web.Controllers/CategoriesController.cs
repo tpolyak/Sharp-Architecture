@@ -1,10 +1,11 @@
 ﻿using System.Web.Mvc;
 using Northwind.Core;
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
 using SharpArch.Web.NHibernate;
 using System;
+using SharpArch.Core;
 
 namespace Northwind.Web.Controllers
 {

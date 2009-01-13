@@ -10,12 +10,12 @@ public class DomainObjectTemplate : BaseTemplate
 	{
 #>
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using NHibernate.Validator;
 
 namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>
 {
-    public class <#= DomainObjectName #> : PersistentObject
+    public class <#= DomainObjectName #> : Entity
     {
         public <#= DomainObjectName #>() { }
 

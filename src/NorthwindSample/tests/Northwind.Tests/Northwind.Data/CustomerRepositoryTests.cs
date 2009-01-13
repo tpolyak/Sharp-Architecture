@@ -3,13 +3,14 @@ using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
 using Northwind.Data;
 using System.Diagnostics;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using NUnit.Framework.SyntaxHelpers;
 using Northwind.Core.DataInterfaces;
 using SharpArch.Data.NHibernate;
 using System.Collections.Generic;
 using System;
 using SharpArch.Testing.NUnit.NHibernate;
+using SharpArch.Core;
 
 namespace Tests.Northwind.Data
 {
@@ -101,7 +102,7 @@ namespace Tests.Northwind.Data
 
         [Test]
         [ExpectedException(typeof(PreconditionException))]
-        public void CanNotSaveOrUpdatePersistentObjectWithAssignedId() {
+        public void CanNotSaveOrUpdateEntityWithAssignedId() {
             Customer customer = GetCustomerById();
             customerRepository.SaveOrUpdate(customer);
         }

@@ -1,10 +1,10 @@
 ﻿using SharpArch.Core.PersistenceSupport;
 using NHibernate.Validator;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 
 namespace Northwind.Core
 {
-    public class Category : PersistentObject
+    public class Category : Entity
     {
         public Category() { }
 

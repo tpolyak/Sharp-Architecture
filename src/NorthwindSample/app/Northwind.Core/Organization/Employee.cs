@@ -1,7 +1,8 @@
 ﻿using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
 using NHibernate.Validator;
+using SharpArch.Core.PersistenceSupport.NHibernateValidator;
 
 namespace Northwind.Core.Organization
 {
@@ -12,7 +13,8 @@ namespace Northwind.Core.Organization
     /// domain signature properties.  If you don't, then Equals will use it's default behavior and
     /// compare the object references themselves.
     /// </summary>
-    public class Employee : PersistentObject
+    [HasUniqueDomainSignature(Message="An employee already exists with the same first and last name")]
+    public class Employee : Entity
     {
         public Employee() {
             InitMembers();

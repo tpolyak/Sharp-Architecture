@@ -1,5 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EmployeeForm.ascx.cs" Inherits="Northwind.Web.Views.Organization.Employees.EmployeeForm" %>
 
+<%= Html.ValidationSummary() %>
+
 <% using (Html.BeginForm()) { %>
     <%= Html.Hidden("id", (ViewData.Model != null) ? ViewData.Model.ID : 0) %>
 

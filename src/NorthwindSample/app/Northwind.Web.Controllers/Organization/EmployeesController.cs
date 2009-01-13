@@ -1,13 +1,14 @@
 ﻿using System.Web.Mvc;
 using Northwind.Core.Organization;
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
 using System;
 using SharpArch.Web.NHibernate;
 using NHibernate.Validator.Engine;
 using System.Text;
 using SharpArch.Web.NHibernate.Validator;
+using SharpArch.Core;
 
 namespace Northwind.Web.Controllers.Organization
 {
@@ -52,7 +53,7 @@ namespace Northwind.Web.Controllers.Organization
                 return RedirectToAction("Index");
             }
             else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationMessages);
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.GetValidationMessages());
                 return View();
             }
         }
@@ -70,18 +71,18 @@ namespace Northwind.Web.Controllers.Organization
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int id, Employee employee) {
             Employee employeeToUpdate = employeeRepository.Get(id);
+            employeeToUpdate.FirstName = employee.FirstName;
+            employeeToUpdate.LastName = employee.LastName;
+            employeeToUpdate.PhoneExtension = employee.PhoneExtension;
 
-            if (employee.IsValid()) {
-                employeeToUpdate.FirstName = employee.FirstName;
-                employeeToUpdate.LastName = employee.LastName;
-                employeeToUpdate.PhoneExtension = employee.PhoneExtension;
-
-                TempData["message"] = employee.FullName + " was successfully updated.";
+            if (employeeToUpdate.IsValid()) {
+                TempData["message"] = employeeToUpdate.FullName + " was successfully updated.";
                 return RedirectToAction("Index");
             }
             else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationMessages);
-                return View();
+                employeeRepository.DbContext.RollbackTransaction();
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.GetValidationMessages());
+                return View(employee);
             }
         }
 

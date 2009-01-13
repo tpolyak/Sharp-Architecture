@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Northwind.Core;
 using NUnit.Framework.SyntaxHelpers;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 
 namespace Tests.Northwind.Core
 {
@@ -25,11 +25,11 @@ namespace Tests.Northwind.Core
         public void CannotHaveValidTerritoryWithoutDescriptionAndRegion() {
             Territory territory = new Territory(null, null);
             Assert.That(territory.IsValid(), Is.False);
-            Assert.That(territory.ValidationMessages.Length, Is.EqualTo(2));
+            Assert.That(territory.GetValidationMessages().Length, Is.EqualTo(2));
 
             territory.RegionBelongingTo = new RegionWithPublicConstructor("South");
             Assert.That(territory.IsValid(), Is.False);
-            Assert.That(territory.ValidationMessages.Length, Is.EqualTo(1));
+            Assert.That(territory.GetValidationMessages().Length, Is.EqualTo(1));
 
             territory.Description = "Wherever";
             Assert.That(territory.IsValid(), Is.True);

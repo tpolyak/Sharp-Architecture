@@ -1,10 +1,11 @@
-﻿using SharpArch.Core;
+﻿using SharpArch.Core.DomainModel;
 using SharpArch.Core.PersistenceSupport;
 using NHibernate.Validator;
+using SharpArch.Core;
 
 namespace Northwind.Core
 {
-    public class Region : PersistentObject, IHasAssignedId<int>
+    public class Region : Entity, IHasAssignedId<int>
     {
         /// <summary>
         /// The Northwind DB doesn't make the ID of this object an identity field; 

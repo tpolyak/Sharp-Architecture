@@ -1,4 +1,4 @@
-﻿using SharpArch.Core;
+﻿using SharpArch.Core.DomainModel;
 using SharpArch.Core.PersistenceSupport.NHibernate;
 using System.Collections.Generic;
 

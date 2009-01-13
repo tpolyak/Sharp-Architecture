@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
 using Northwind.Data;

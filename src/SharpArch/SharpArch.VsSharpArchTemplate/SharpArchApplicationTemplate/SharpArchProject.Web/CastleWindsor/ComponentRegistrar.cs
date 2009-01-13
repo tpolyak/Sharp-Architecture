@@ -22,6 +22,8 @@ namespace $safeprojectname$.CastleWindsor
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container) {
+            container.AddComponent("entityDuplicateChecker",
+                typeof(IEntityDuplicateChecker), typeof(EntityDuplicateChecker));
             container.AddComponent("repositoryType",
                 typeof(IRepository<>), typeof(Repository<>));
             container.AddComponent("nhibernateRepositoryType",

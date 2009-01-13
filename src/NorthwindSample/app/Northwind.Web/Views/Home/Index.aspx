@@ -62,6 +62,6 @@
         There are many more examples of functionality, including data access unit tests, found in the 
         Northwind.Tests project.  I encourage you to take a look.  There are also a number of unit tests
         within SharpArch.Tests; particularly for reviewing the Equals/GetHashCode functionality and the 
-        use of DomainSignatureComparable and PersistentObject base classes.
+        use of DomainSignatureComparable and Entity base classes.
     </p>
 </asp:Content>

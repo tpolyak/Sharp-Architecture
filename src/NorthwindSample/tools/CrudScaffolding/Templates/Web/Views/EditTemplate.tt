@@ -12,11 +12,7 @@ public class EditTemplate : BaseTemplate
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 	<h2>Edit <#= DomainObjectName #></h2>
 
-    <% if (ViewData.Model != null) { %>
-		<% Html.RenderPartial("<#= DomainObjectName #>Form", ViewData.Model); %>
-    <% } else { %>
-		<% Html.RenderPartial("<#= DomainObjectName #>Form"); %>
-    <% } %>
+	<% Html.RenderPartial("<#= DomainObjectName #>Form", ViewData.Model, ViewData); %>
 </asp:Content>
 <#+
 	}

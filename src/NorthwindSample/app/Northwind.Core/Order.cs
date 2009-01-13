@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SharpArch.Core.PersistenceSupport;
+using SharpArch.Core.DomainModel;
 using SharpArch.Core;
 
 namespace Northwind.Core
 {
-    public class Order : PersistentObject
+    public class Order : Entity
     {
         /// <summary>
         /// This is a placeholder constructor for NHibernate.
@@ -27,7 +28,7 @@ namespace Northwind.Core
 
         /// <summary>
         /// Should ONLY contain the "business value signature" of the object and not the ID, 
-        /// which is handled by <see cref="PersistentObject" />.  This method should return a unique 
+        /// which is handled by <see cref="Entity" />.  This method should return a unique 
         /// int representing a unique signature of the domain object.  For 
         /// example, no two different orders should have the same ShipToName, OrderDate and OrderedBy;
         /// therefore, the returned "signature" should be expressed as demonstrated below.

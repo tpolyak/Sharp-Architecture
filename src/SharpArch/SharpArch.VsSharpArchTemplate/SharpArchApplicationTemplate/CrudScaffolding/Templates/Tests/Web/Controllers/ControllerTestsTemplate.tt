@@ -144,7 +144,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
 
             // Set the <#= DomainObjectNameCamelCase #> properties here
 
-            PersistentObjectIdSetter<int>.SetIdOf(<#= DomainObjectNameCamelCase #>, 1);
+            EntityIdSetter<int>.SetIdOf(<#= DomainObjectNameCamelCase #>, 1);
             return <#= DomainObjectNameCamelCase #>;
         }
 

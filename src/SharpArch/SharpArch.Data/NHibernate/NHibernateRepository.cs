@@ -12,8 +12,8 @@ namespace SharpArch.Data.NHibernate
 {
     /// <summary>
     /// Since nearly all of the domain objects you create will have a type of int ID, this 
-    /// most freqently used base GenericDao leverages this assumption.  If you want a persistent 
-    /// object with a type other than int, such as string, then use 
+    /// most freqently used base GenericDao leverages this assumption.  If you want an entity 
+    /// with a type other than int, such as string, then use 
     /// <see cref="GenericDaoWithTypedId{T, IdT}" />.
     /// </summary>
     public class NHibernateRepository<T> : NHibernateRepositoryWithTypedId<T, int>, INHibernateRepository<T> { }

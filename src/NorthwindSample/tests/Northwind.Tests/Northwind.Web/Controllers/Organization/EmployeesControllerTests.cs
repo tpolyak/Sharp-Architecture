@@ -8,6 +8,12 @@ using NUnit.Framework.SyntaxHelpers;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using SharpArch.Testing;
+using SharpArch.Core.PersistenceSupport.NHibernate;
+using SharpArch.Core.DomainModel;
+using SharpArch.Core;
+using Castle.Windsor;
+using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator.WindsorAdapter;
 
 namespace Tests.Northwind.Web.Controllers.Organization
 {
@@ -16,7 +22,16 @@ namespace Tests.Northwind.Web.Controllers.Organization
     {
         [SetUp]
         public void SetUp() {
+            InitServiceLocator();
+
             controller = new EmployeesController(CreateMockEmployeeRepository());
+        }
+
+        public void InitServiceLocator() {
+            IWindsorContainer container = new WindsorContainer();
+            container.AddComponent("duplicateChecker",
+                typeof(IEntityDuplicateChecker), typeof(DuplicateCheckerStub));
+            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
 
         [Test]
@@ -116,7 +131,7 @@ namespace Tests.Northwind.Web.Controllers.Organization
 
         private Employee CreateEmployee() {
             Employee employee = new Employee("Johnny", "Appleseed");
-            PersistentObjectIdSetter<int>.SetIdOf(employee, 1);
+            EntityIdSetter<int>.SetIdOf(employee, 1);
             return employee;
         }
 
@@ -130,5 +145,20 @@ namespace Tests.Northwind.Web.Controllers.Organization
         }
 
         private EmployeesController controller;
+
+        private class DuplicateCheckerStub : IEntityDuplicateChecker
+        {
+            public bool DoesDuplicateExistWithTypedIdOf<IdT>(IEntityWithTypedId<IdT> entity) {
+                Check.Require(entity != null);
+
+                if (entity as Employee != null) {
+                    Employee employee = entity as Employee;
+                    return employee.FirstName == "Billy" && employee.FirstName == "McCafferty";
+                }
+
+                // By default, simply return false for no duplicates found
+                return false;
+            }
+        }
     }
 }

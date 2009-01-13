@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Northwind.Core;
 using NUnit.Framework.SyntaxHelpers;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 
 namespace Tests.Northwind.Core
 {

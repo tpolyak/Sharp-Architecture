@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core;
+using SharpArch.Core.DomainModel;
 using NHibernate.Validator;
 
 namespace Northwind.Core
 {
-    public class Supplier : PersistentObject
+    public class Supplier : Entity
     {
         protected Supplier() {
             InitMembers();

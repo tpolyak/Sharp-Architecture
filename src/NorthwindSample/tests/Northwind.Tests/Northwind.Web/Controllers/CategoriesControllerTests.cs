@@ -72,7 +72,7 @@ namespace Tests.Northwind.Web.Controllers
 
         private Category CreateCategory() {
             Category category = new Category("Hawaiian");
-            PersistentObjectIdSetter<int>.SetIdOf(category, 1);
+            EntityIdSetter<int>.SetIdOf(category, 1);
             return category;
         }
 
