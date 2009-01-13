@@ -50,6 +50,34 @@ namespace SharpArch.Data.NHibernate
             return cfg;
  		}
 
+        public static void RegisterInterceptor(IInterceptor interceptor) {
+            Check.Require(interceptor != null, "interceptor may not be null");
+
+            RegisteredInterceptor = interceptor;
+        }
+
+        public static ISessionFactory SessionFactory { get; set; }
+		public static ISessionStorage Storage { get; set; }
+
+		public static ISession Current {
+			get {
+				ISession session = Storage.Session;
+				
+                if (session == null) {
+                    if (RegisteredInterceptor != null) {
+                        session = SessionFactory.OpenSession(RegisteredInterceptor);
+                    }
+                    else {
+                        session = SessionFactory.OpenSession();
+                    }
+
+                    Storage.Session = session;
+				}
+
+                return session;
+			}
+		}
+
         private static void AddMappingAssembliesTo(Configuration cfg, ICollection<string> mappingAssemblies) {
             Check.Require(mappingAssemblies != null && mappingAssemblies.Count >= 1,
                 "mappingAssemblies must be provided as a string array of assembly names which contain mapping artifacts. " +
@@ -76,7 +104,7 @@ namespace SharpArch.Data.NHibernate
 
             if (string.IsNullOrEmpty(cfgFile))
                 return cfg.Configure();
-            
+
             return cfg.Configure(cfgFile);
         }
 
@@ -92,20 +120,6 @@ namespace SharpArch.Data.NHibernate
             ValidatorInitializer.Initialize(cfg, engine);
         }
 
-        public static ISessionFactory SessionFactory { get; set; }
-		public static ISessionStorage Storage { get; set; }
-
-		public static ISession Current {
-			get {
-				ISession session = Storage.Session;
-				
-                if (session == null) {
-					session = SessionFactory.OpenSession();
-					Storage.Session = session;
-				}
-
-                return session;
-			}
-		}
-	}
+        private static IInterceptor RegisteredInterceptor;
+    }
 }
