@@ -19,7 +19,8 @@ namespace Northwind.Web.Controllers
             //);
 
             routes.CreateArea("Organization", "Northwind.Web.Controllers.Organization",
-                routes.MapRoute(null, "Organization/{controller}/{action}", new { action = "Index" })
+                routes.MapRoute(null, "Organization/{controller}/{action}", new { action = "Index" }),
+                routes.MapRoute(null, "Organization/{controller}/{action}/{id}")
             );
 
             // Routing config for the root area
