@@ -47,10 +47,11 @@ SharpArch.Core
 * BREAKING CHANGE ~ Renamed IDomainObject.cs to IValidatable.cs to reflect what it's really doing; also simplified IValidatable to contain simply IsValid()
 * BREAKING CHANGE ~ Dropped DomainObject.cs and PersistentObject.cs and replaced them with Entity.cs which now exists in /DomainModel namespace.  Here are steps to take to accommodate:
 	1) Do a solution wide find and replace of "PersistentObject" with "Entity"
-	2) Change every call to ".ValidationMessages" to ".GetValidationMessages()"
+	2) Change every call to ".ValidationMessages" to ".ValidationResults()"
 	3) Manually add "using SharpArch.Core.DomainModel;" onto every page having an Entity
 * ValueObject.cs:  Added this value-object base class to support this missing base class for DDD
 * See http://groups.google.com/group/sharp-architecture/browse_thread/thread/6c8e626535a47219 for a more thorough summary of the changes to SharpArch.Core
+* See http://groups.google.com/group/sharp-architecture/browse_thread/thread/6c8e626535a47219?hl=en for a thorough discussion of changes made to the validation infrastructure
 
 SharpArch.Data
 * BREAKING CHANGE ~ Renamed Repository.GetByProperties(), Repository.GetUniqueByProperties(), Repository.GetByExample(), Repository.GetUniqueByExample() to FindAll(properties/example) and FindOne(properties/example)
@@ -61,6 +62,7 @@ SharpArch.Web
 * /Areas/AreaRouteHelper.cs:  New class for supporting controller/view "areas"
 * /Areas/AreaViewEngine.cs:  New class for replacing the default view engine for supporting use of areas
 * /JsonNet/JsonNetResult.cs:  New ActionResult for returning Json.NET result
+* BREAKING CHANGE ~ /CommonValidator/MvcValidationAdapter.cs:  Moved from /NHibernate/Validator/MvcValidationAdapter.cs
 
 SharpArch.Web.Castle
 * Added this library to house extension methods for Castle related to registering controllers and custom repositories
