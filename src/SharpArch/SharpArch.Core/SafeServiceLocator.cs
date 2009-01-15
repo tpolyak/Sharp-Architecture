@@ -17,7 +17,8 @@ namespace SharpArch.Core
                 service = (TDependency)ServiceLocator.Current.GetService(typeof(TDependency));
             }
             catch (NullReferenceException) {
-                throw new NullReferenceException("ServiceLocator has not been initialized");
+                throw new NullReferenceException("ServiceLocator has not been initialized; " +
+                    "I was trying to retrieve " + typeof(TDependency).ToString());
             }
             catch (ActivationException) {
                 throw new ActivationException("The needed dependency of type " + typeof(TDependency).Name + 

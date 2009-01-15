@@ -5,8 +5,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-using NHibernate.Validator.Engine;
-using SharpArch.Core.DomainModel;
+using SharpArch.Core.CommonValidator;
 
 namespace SharpArch.Core.DomainModel
 {
@@ -45,18 +44,14 @@ namespace SharpArch.Core.DomainModel
             return Validator.IsValid(this);
         }
 
-        /// <summary>
-        /// If this property isn't ignored by the XML serializer, a "missing constructor" exception 
-        /// is thrown during serialization.
-        /// </summary>
-        public virtual InvalidValue[] GetValidationMessages() {
-            return Validator.Validate(this);
+        public virtual ICollection<IValidationResult> ValidationResults() {
+            return Validator.ValidationResultsFor(this);
         }
 
-        private ValidatorEngine Validator {
+        private IValidator Validator {
             get {
                 if (validator == null) {
-                    validator = new ValidatorEngine();
+                    validator = SafeServiceLocator<IValidator>.GetService();
                 }
 
                 return validator;
@@ -64,7 +59,7 @@ namespace SharpArch.Core.DomainModel
         }
 
         [ThreadStatic]
-        private static ValidatorEngine validator;
+        private static IValidator validator;
 
         #endregion
 

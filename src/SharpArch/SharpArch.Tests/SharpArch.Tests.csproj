@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C201296D-09B7-4BAE-96F0-AB59F624DB36}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -85,10 +85,14 @@
     <Compile Include="SharpArch.Core\DesignByContractTests.cs" />
     <Compile Include="SharpArch.Core\DomainModel\EntityTests.cs" />
     <Compile Include="SharpArch.Core\DomainModel\ValueObjectTests.cs" />
-    <Compile Include="SharpArch.Core\PersistenceSupport\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
-    <Compile Include="SharpArch.Web\NHibernate\Validator\MvcValidationAdapterTests.cs" />
+    <Compile Include="SharpArch.Core\CommonValidator\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
+    <Compile Include="SharpArch.Web\CommonValidator\MvcValidationAdapterTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Core.NHibernateValidator\SharpArch.Core.NHibernateValidator.csproj">
+      <Project>{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}</Project>
+      <Name>SharpArch.Core.NHibernateValidator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpArch.Core\SharpArch.Core.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Core</Name>

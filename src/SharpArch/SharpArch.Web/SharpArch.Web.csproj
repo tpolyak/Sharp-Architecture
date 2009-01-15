@@ -41,10 +41,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Validator, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\NHibernate.Validator.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -73,8 +69,8 @@
     </Compile>
     <Compile Include="Areas\AreaRouteHelper.cs" />
     <Compile Include="Areas\AreaViewEngine.cs" />
+    <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
     <Compile Include="JsonNet\JsonNetResult.cs" />
-    <Compile Include="NHibernate\Validator\MvcValidationAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NHibernate\TransactionAttribute.cs" />
     <Compile Include="NHibernate\WebSessionStorage.cs" />

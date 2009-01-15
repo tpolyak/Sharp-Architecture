@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -40,10 +40,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Validator, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\NHibernate.Validator.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -55,19 +51,20 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CommonValidator\IValidatable.cs" />
+    <Compile Include="CommonValidator\IValidationResult.cs" />
+    <Compile Include="CommonValidator\IValidator.cs" />
     <Compile Include="DomainModel\BaseObject.cs" />
     <Compile Include="DesignByContract.cs" />
     <Compile Include="DomainModel\Entity.cs" />
     <Compile Include="DomainModel\IEntityWithTypedId.cs" />
     <Compile Include="DomainModel\IHasAssignedId.cs" />
-    <Compile Include="DomainModel\IValidatable.cs" />
     <Compile Include="DomainModel\ValueObject.cs" />
     <Compile Include="PersistenceSupport\IDbContext.cs" />
     <Compile Include="PersistenceSupport\IRepository.cs" />
     <Compile Include="PersistenceSupport\IEntityDuplicateChecker.cs" />
     <Compile Include="PersistenceSupport\NHibernate\INHibernateRepository.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="PersistenceSupport\NHibernateValidator\HasUniqueDomainSignatureValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SafeServiceLocator.cs" />
   </ItemGroup>
