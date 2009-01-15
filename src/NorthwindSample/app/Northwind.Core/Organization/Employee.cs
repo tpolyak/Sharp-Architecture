@@ -2,7 +2,7 @@
 using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
 using NHibernate.Validator;
-using SharpArch.Core.PersistenceSupport.NHibernateValidator;
+using SharpArch.Core.NHibernateValidator;
 
 namespace Northwind.Core.Organization
 {

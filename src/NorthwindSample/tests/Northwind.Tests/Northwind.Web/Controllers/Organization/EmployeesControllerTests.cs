@@ -14,6 +14,8 @@ using SharpArch.Core;
 using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
+using SharpArch.Core.CommonValidator;
+using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 
 namespace Tests.Northwind.Web.Controllers.Organization
 {
@@ -31,6 +33,7 @@ namespace Tests.Northwind.Web.Controllers.Organization
             IWindsorContainer container = new WindsorContainer();
             container.AddComponent("duplicateChecker",
                 typeof(IEntityDuplicateChecker), typeof(DuplicateCheckerStub));
+            container.AddComponent("validator", typeof(IValidator), typeof(Validator));
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
 

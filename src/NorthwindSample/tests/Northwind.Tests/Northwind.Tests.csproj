@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8AF76BE7-79B8-445D-9794-332B23D2D2F5}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -87,6 +87,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\SharpArch.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SharpArch.Core.NHibernateValidator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\SharpArch.Core.NHibernateValidator.dll</HintPath>
+    </Reference>
     <Reference Include="SharpArch.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\SharpArch.Data.dll</HintPath>
@@ -151,6 +155,7 @@
     <Compile Include="Northwind.Data\TerritoryRepositoryTests.cs" />
     <Compile Include="Northwind.Core\CustomerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceLocatorSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

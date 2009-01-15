@@ -7,7 +7,7 @@ using System;
 using SharpArch.Web.NHibernate;
 using NHibernate.Validator.Engine;
 using System.Text;
-using SharpArch.Web.NHibernate.Validator;
+using SharpArch.Web.CommonValidator;
 using SharpArch.Core;
 
 namespace Northwind.Web.Controllers.Organization
@@ -53,7 +53,7 @@ namespace Northwind.Web.Controllers.Organization
                 return RedirectToAction("Index");
             }
             else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.GetValidationMessages());
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationResults());
                 return View();
             }
         }
@@ -81,7 +81,7 @@ namespace Northwind.Web.Controllers.Organization
             }
             else {
                 employeeRepository.DbContext.RollbackTransaction();
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.GetValidationMessages());
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationResults());
                 return View(employee);
             }
         }

@@ -4,6 +4,8 @@ using SharpArch.Data.NHibernate;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Web.Castle;
 using Castle.MicroKernel.Registration;
+using SharpArch.Core.CommonValidator;
+using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 
 namespace Northwind.Web.CastleWindsor
 {
@@ -12,6 +14,9 @@ namespace Northwind.Web.CastleWindsor
         public static void AddComponentsTo(IWindsorContainer container) {
             AddGenericRepositoriesTo(container);
             AddCustomRepositoriesTo(container);
+
+            container.AddComponent("validator",
+                typeof(IValidator), typeof(Validator));
         }
 
         private static void AddCustomRepositoriesTo(IWindsorContainer container) {

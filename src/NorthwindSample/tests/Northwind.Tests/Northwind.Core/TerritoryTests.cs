@@ -23,13 +23,16 @@ namespace Tests.Northwind.Core
 
         [Test]
         public void CannotHaveValidTerritoryWithoutDescriptionAndRegion() {
+            // Register the IValidator service
+            ServiceLocatorSetup.InitServiceLocator();
+
             Territory territory = new Territory(null, null);
             Assert.That(territory.IsValid(), Is.False);
-            Assert.That(territory.GetValidationMessages().Length, Is.EqualTo(2));
+            Assert.That(territory.ValidationResults().Count, Is.EqualTo(2));
 
             territory.RegionBelongingTo = new RegionWithPublicConstructor("South");
             Assert.That(territory.IsValid(), Is.False);
-            Assert.That(territory.GetValidationMessages().Length, Is.EqualTo(1));
+            Assert.That(territory.ValidationResults().Count, Is.EqualTo(1));
 
             territory.Description = "Wherever";
             Assert.That(territory.IsValid(), Is.True);
