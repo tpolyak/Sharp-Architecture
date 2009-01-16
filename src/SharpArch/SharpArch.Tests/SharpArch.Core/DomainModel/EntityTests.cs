@@ -11,8 +11,7 @@ namespace Tests.SharpArch.Core.DomainModel
     public class EntityTests
     {
         [Test]
-        [ExpectedException(typeof(PostconditionException))]
-        public void CannotHaveEntityWithoutDomainSignatureProperties() {
+        public void CanHaveEntityWithoutDomainSignatureProperties() {
             ObjectWithNoDomainSignatureProperties invalidEntity = 
                 new ObjectWithNoDomainSignatureProperties();
 
@@ -42,21 +41,6 @@ namespace Tests.SharpArch.Core.DomainModel
             // Changing a domain signature property will impace the hash generated
             object1.Age = 14;
             Assert.AreNotEqual(domainSignatureEffectedHash, object1.GetHashCode());
-        }
-
-        [Test]
-        public void CannotCompareObjectsWithNoDomainSignatureProperties() {
-            ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
-            ObjectWithOneDomainSignatureProperty object2 = new ObjectWithOneDomainSignatureProperty();
-            Assert.That(object1, Is.EqualTo(object2));
-        }
-
-        [Test]
-        [ExpectedException(typeof(PostconditionException))]
-        public void CannotCompareDomainObjectsWithNoDomainSignature() {
-            ObjectWithNoDomainSignatureProperties object1 = new ObjectWithNoDomainSignatureProperties();
-            ObjectWithNoDomainSignatureProperties object2 = new ObjectWithNoDomainSignatureProperties();
-            Assert.That(object1, Is.Not.EqualTo(object2));
         }
 
         [Test]

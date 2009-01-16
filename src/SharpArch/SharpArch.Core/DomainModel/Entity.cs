@@ -101,22 +101,8 @@ namespace SharpArch.Core.DomainModel
         /// [DomainSignature] attribute.
         /// </remarks>
         protected override IEnumerable<PropertyInfo> GetTypeSpecificSignatureProperties() {
-            IEnumerable<PropertyInfo> signatureProperties = GetType().GetProperties()
+            return GetType().GetProperties()
                 .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
-
-            Check.Ensure(signatureProperties.Any(), 
-                "No properties were found within " + GetType().ToString() + " having the " +
-                "[DomainSignature] attribute. An entity object without a domain signature is more " + 
-                "akin to a \"value object.\" For further assistance, please see the documentation for " +
-                "a thorough discussion of what defines the domain signature of an entity object. " +
-                "As a quick example, suppose you have an employee object with a social security " +
-                "number property; you would likely put the [DomainSignature] attribute above this " +
-                "property. Note that objects frequently have domain signature made up of multiple " +
-                "properties. You can put the [DomainSignature] attribute above each property that " +
-                "makes of the domain signature.  Alternatively, you can inherit from ValueObject " +
-                "if that fits your needs better.");
-
-            return signatureProperties;
         }
 
         public override bool Equals(object obj) {
