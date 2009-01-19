@@ -18,7 +18,7 @@ using System;
 using SharpArch.Web.NHibernate;
 using NHibernate.Validator.Engine;
 using System.Text;
-using SharpArch.Web.NHibernate.Validator;
+using SharpArch.Web.CommonValidator;
 using SharpArch.Core;
 
 namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
@@ -58,7 +58,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
                 return RedirectToAction("Index");
             }
             else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.GetValidationMessages());
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.ValidationResults());
                 return View();
             }
         }
@@ -89,7 +89,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
             }
             else {
                 <#= DomainObjectNameCamelCase #>Repository.DbContext.RollbackTransaction();
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.GetValidationMessages());
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.ValidationResults());
                 return View(<#= DomainObjectNameCamelCase #>);
             }
         }

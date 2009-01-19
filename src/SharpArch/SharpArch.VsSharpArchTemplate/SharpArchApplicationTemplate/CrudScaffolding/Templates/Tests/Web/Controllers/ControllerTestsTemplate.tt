@@ -27,6 +27,8 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
     {
         [SetUp]
         public void SetUp() {
+            ServiceLocatorInitializer.Init();
+
             controller = new <#= DomainObjectNamePlural #>Controller(CreateMock<#= DomainObjectName #>Repository());
         }
 

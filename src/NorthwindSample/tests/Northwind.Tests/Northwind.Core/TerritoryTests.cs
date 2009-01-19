@@ -24,7 +24,7 @@ namespace Tests.Northwind.Core
         [Test]
         public void CannotHaveValidTerritoryWithoutDescriptionAndRegion() {
             // Register the IValidator service
-            ServiceLocatorSetup.InitServiceLocator();
+            ServiceLocatorInitializer.Init();
 
             Territory territory = new Territory(null, null);
             Assert.That(territory.IsValid(), Is.False);

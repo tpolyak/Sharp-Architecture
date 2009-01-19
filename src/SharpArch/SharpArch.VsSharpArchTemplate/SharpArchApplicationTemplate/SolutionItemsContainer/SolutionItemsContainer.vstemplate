@@ -38,7 +38,9 @@
 				<ProjectItem>NHibernate.Validator.xml</ProjectItem>
 				<ProjectItem>NHibernate.xml</ProjectItem>
 				<ProjectItem>SharpArch.Core.dll</ProjectItem>
-				<ProjectItem>SharpArch.Data.dll</ProjectItem>
+                <ProjectItem>SharpArch.Core.NHibernateValidator.dll</ProjectItem>
+                <ProjectItem>SharpArch.Core.NHibernateValidator.pdb</ProjectItem>
+                <ProjectItem>SharpArch.Data.dll</ProjectItem>
 				<ProjectItem>SharpArch.Web.dll</ProjectItem>
                 <ProjectItem>SharpArch.Web.Castle.dll</ProjectItem>
                 <ProjectItem>SharpArch.Core.pdb</ProjectItem>

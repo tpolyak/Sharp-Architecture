@@ -24,7 +24,7 @@ namespace Tests.Northwind.Core
         [Test]
         public void CannotHaveValidCustomerWithoutCompanyName() {
             // Register the IValidator service
-            ServiceLocatorSetup.InitServiceLocator();
+            ServiceLocatorInitializer.Init();
 
             Customer customer = new Customer();
             Assert.That(customer.IsValid(), Is.False);

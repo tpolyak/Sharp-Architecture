@@ -25,7 +25,7 @@ New and exciting:
 Assembly Dependencies:
 * ASP.NET MVC Beta
 * Castle 1.0 RC3
-* Fluent NHibernate 0.1
+* Fluent NHibernate 0.1 Revision 200
 * Json.NET 3.5 Beta 1
 * Microsoft.Practices.ServiceLocation 1.0 (CommonServiceLocator)
 * NHibernate 2.0.1
@@ -50,8 +50,7 @@ SharpArch.Core
 	2) Change every call to ".ValidationMessages" to ".ValidationResults()"
 	3) Manually add "using SharpArch.Core.DomainModel;" onto every page having an Entity
 * ValueObject.cs:  Added this value-object base class to support this missing base class for DDD
-* See http://groups.google.com/group/sharp-architecture/browse_thread/thread/6c8e626535a47219 for a more thorough summary of the changes to SharpArch.Core
-* See http://groups.google.com/group/sharp-architecture/browse_thread/thread/6c8e626535a47219?hl=en for a thorough discussion of changes made to the validation infrastructure
+* See http://groups.google.com/group/sharp-architecture/browse_thread/thread/6c8e626535a47219 for a more thorough summary of the changes to SharpArch.Core and the validation infrastructure
 
 SharpArch.Data
 * BREAKING CHANGE ~ Renamed Repository.GetByProperties(), Repository.GetUniqueByProperties(), Repository.GetByExample(), Repository.GetUniqueByExample() to FindAll(properties/example) and FindOne(properties/example)

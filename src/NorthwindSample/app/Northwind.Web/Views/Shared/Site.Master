@@ -24,7 +24,7 @@
                     <ul>
                         <li><asp:HyperLink runat="server" NavigateUrl="~/Home" Text="Home" /></li>
                         <li><asp:HyperLink runat="server" NavigateUrl="~/Categories" Text="List Categories" /></li>
-                        <li><asp:HyperLink runat="server" NavigateUrl="~/Customers" Text="List Customers with Lazy Loading" /></li>
+                        <li><asp:HyperLink runat="server" NavigateUrl="~/Customers" Text="List Customers with Lazily Loaded Orders" /></li>
                         <li><asp:HyperLink runat="server" NavigateUrl="~/Organization/Employees" Text="Employee CRUD with Validation" /></li>
                     </ul>
                 </div>
