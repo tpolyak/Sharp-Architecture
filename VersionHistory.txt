@@ -4,7 +4,7 @@ Roadmap for 1.0 Release
 ----------------------------------------------
 ----------------------------------------------
 
-* Await release of ASP.NET MVC 1.0
+* Await impatiently for the release of ASP.NET MVC 1.0
 * Support multiple databases
 * Add WCF integration example
 * Add example of LINQ for NHibernate
@@ -18,11 +18,12 @@ Roadmap for 1.0 Release
 New and exciting in this release:
 * CRUD Scaffolding generation is now available
 * Added CommonServiceLocator to provide IoC agnosticism to the non-web layers
-* You no longer need to register custom repositories to Castle Windsor...it's now done with voodoo magic
+* You no longer need to register custom repositories to Castle Windsor...it's now done with voodoo magic (thanks Kyle Baley for the voodoo magic!)
 * Added formal solution structure to help organize applications
+* View "areas" are seamlessly supported as subfolders under the Views folder
 * You no longer need to install ASP.NET MVC to create and edit S#arp Architecture projects
-* NHibernate auto mapping is now available
-* Validation is now abstracted, similarly to CommonServiceLocator...use NHibernate Validator out of the box or supply your own!
+* NHibernate auto mapping is now available (thanks Jay Oliver!)
+* Validation is now abstracted, similarly to CommonServiceLocator...use NHibernate Validator out of the box or supply your own! (thanks Luis Abreu for being a pain in the arse until this change was made! ;)
 
 -------
 
@@ -44,6 +45,7 @@ Changes to /src:
 
 SharpArch Solution
 * All projects are now strongly signed with exception of SharpArch.Web.Castle (The MvcContrib dependency isn't signed; there's only one class in this SharpArch library, so you can move it to your project to sign everything.)
+* Added support for Fluent NHibernate automapping (see http://groups.google.com/group/sharp-architecture/browse_thread/thread/ef799cfe75835cb4/468c6c18ae1cd239 for patch details which have been applied)
 
 SharpArch.Core
 * BaseObject.cs ~ Introduced this base class to consolidate object comparison functionality used by both DomainObject and ValueObject
