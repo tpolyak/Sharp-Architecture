@@ -1,5 +1,4 @@
-﻿using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core.DomainModel;
+﻿using SharpArch.Core.DomainModel;
 using NHibernate.Validator;
 
 namespace Northwind.Core
@@ -13,12 +12,12 @@ namespace Northwind.Core
         /// </summary>
         public Product(string name, Supplier supplier) {
             Supplier = supplier;
-            Name = name;
+            ProductName = name;
         }
 
         [DomainSignature]
         [NotNullNotEmpty]
-        public virtual string Name { get; set; }
+        public virtual string ProductName { get; set; }
 
         [DomainSignature]
         [NotNull]

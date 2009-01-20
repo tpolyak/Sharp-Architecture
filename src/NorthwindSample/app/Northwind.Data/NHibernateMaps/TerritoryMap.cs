@@ -1,10 +1,10 @@
-﻿using Northwind.Core.Organization;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.AutoMap;
+using Northwind.Core.Organization;
 using Northwind.Core;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class TerritoryMap : ClassMap<Territory>
+    public class TerritoryMap : AutoMap<Territory>
     {
         public TerritoryMap() {
             WithTable("Territories");

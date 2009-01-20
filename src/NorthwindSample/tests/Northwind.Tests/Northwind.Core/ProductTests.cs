@@ -15,7 +15,7 @@ namespace Tests.Northwind.Core
             Category categoryOfProduct = new Category("Good Stuff");
             product.Category = categoryOfProduct;
 
-            Assert.That(product.Name, Is.EqualTo("Fruit"));
+            Assert.That(product.ProductName, Is.EqualTo("Fruit"));
             Assert.That(product.Supplier, Is.EqualTo(new Supplier("Acme")));
             Assert.That(product.Category, Is.EqualTo(categoryOfProduct));
         }

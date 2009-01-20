@@ -1,9 +1,9 @@
-﻿using Northwind.Core;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.AutoMap;
+using Northwind.Core;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class OrderMap : ClassMap<Order>
+    public class OrderMap : AutoMap<Order>
     {
         public OrderMap() {
             WithTable("Orders");

@@ -1,5 +1,4 @@
-﻿using SharpArch.Core.PersistenceSupport;
-using NHibernate.Validator;
+﻿using NHibernate.Validator;
 using SharpArch.Core.DomainModel;
 
 namespace Northwind.Core
@@ -12,11 +11,11 @@ namespace Northwind.Core
         /// Creates valid domain object
         /// </summary>
         public Category(string name) {
-            Name = name;
+            CategoryName = name;
         }
 
         [DomainSignature]
         [NotNullNotEmpty]
-        public virtual string Name { get; protected set; }
+        public virtual string CategoryName { get; protected set; }
     }
 }

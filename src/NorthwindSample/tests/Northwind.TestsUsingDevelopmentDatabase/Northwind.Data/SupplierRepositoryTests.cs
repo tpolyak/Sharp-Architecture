@@ -30,8 +30,8 @@ namespace Tests.Northwind.Data
                 Debug.WriteLine("Company name: " + supplier.CompanyName);
 
                 foreach (Product product in supplier.Products) {
-                    Debug.WriteLine(" * Product name: " + product.Name);
-                    Debug.WriteLine(" * Category name: " + product.Category.Name);
+                    Debug.WriteLine(" * Product name: " + product.ProductName);
+                    Debug.WriteLine(" * Category name: " + product.Category.CategoryName);
                 }
             }
         }

@@ -1,9 +1,9 @@
-﻿using Northwind.Core;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.AutoMap;
+using Northwind.Core;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class RegionMap : ClassMap<Region>
+    public class RegionMap : AutoMap<Region>
     {
         public RegionMap() {
             // Why they didn't make this plural, when every other table is, is beyond me

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Northwind.Data.NHibernateMaps;
+using NUnit.Framework;
 using SharpArch.Testing.NUnit.NHibernate;
 using SharpArch.Data.NHibernate;
 using System.Collections;
@@ -19,6 +20,7 @@ namespace Tests.Northwind.Data.NHibernateMaps
         public virtual void SetUp() {
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
             NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, 
+                new AutoPersistenceModelGenerator().Generate(),
                 "../../../../app/Northwind.Web/Hibernate.cfg.xml");
         }
 

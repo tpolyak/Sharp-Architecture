@@ -71,7 +71,7 @@ namespace Tests.Northwind.Data
 
         [Test]
         public void RetrievedCategoryNameShouldEqualPersistedCategoryName() {
-            fromDb.Name.ShouldEqual(toDb.Name);
+            fromDb.CategoryName.ShouldEqual(toDb.CategoryName);
         }
 
         [Test]

@@ -1,10 +1,10 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.AutoMap;
 using Northwind.Core.Organization;
 using Northwind.Core;
 
 namespace Northwind.Data.NHibernateMappings.Organization
 {
-    public class EmployeeMap : ClassMap<Employee>
+    public class EmployeeMap : AutoMap<Employee>
     {
         public EmployeeMap() {
             WithTable("Employees");

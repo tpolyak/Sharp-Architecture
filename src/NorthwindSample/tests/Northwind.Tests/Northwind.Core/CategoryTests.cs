@@ -12,7 +12,7 @@ namespace Tests.Northwind.Core
             string categoryName = "Just testing";
             Category category = new Category(categoryName);
 
-            Assert.That(category.Name, Is.EqualTo(categoryName));
+            Assert.That(category.CategoryName, Is.EqualTo(categoryName));
         }
 
         [Test]

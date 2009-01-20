@@ -3,12 +3,15 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Reflection;
-using NHibernate.Cfg;
+using FluentNHibernate;
+using FluentNHibernate.AutoMap;
 using Castle.Windsor;
+using Northwind.Core;
+using Northwind.Data.NHibernateMaps;
 using Northwind.Web.Controllers;
 using MvcContrib.Castle;
-using Castle.MicroKernel.Registration;
 using Northwind.Web.CastleWindsor;
+using SharpArch.Core.DomainModel;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
 using SharpArch.Web.Castle;
@@ -53,13 +56,14 @@ namespace Northwind.Web
             base.Init();
 
             NHibernateSession.Init(new WebSessionStorage(this), 
-                new string[] { Server.MapPath("~/bin/Northwind.Data.dll") });
+                new[] { Server.MapPath("~/bin/Northwind.Data.dll") },
+                new AutoPersistenceModelGenerator().Generate());
         }
 
         protected void Application_Error(object sender, EventArgs e) {
             // Useful for debugging
-            Exception ex = Server.GetLastError();
-            ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
+            var ex = Server.GetLastError();
+            var reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
     }
 }

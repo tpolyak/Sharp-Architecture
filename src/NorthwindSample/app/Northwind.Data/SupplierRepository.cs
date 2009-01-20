@@ -20,7 +20,7 @@ namespace Northwind.Data
             ICriteria criteria = Session.CreateCriteria(typeof(Supplier))
                 .CreateAlias("Products", "product")
                 .CreateAlias("product.Category", "productCategory")
-                .Add(Expression.Eq("productCategory.Name", productCategoryName))
+                .Add(Expression.Eq("productCategory.CategoryName", productCategoryName))
                 .SetResultTransformer(new DistinctRootEntityResultTransformer());
 
             return criteria.List<Supplier>() as List<Supplier>;

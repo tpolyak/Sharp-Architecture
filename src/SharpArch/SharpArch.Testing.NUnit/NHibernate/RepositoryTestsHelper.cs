@@ -1,9 +1,14 @@
-﻿using SharpArch.Core;
+﻿using System;
+using System.Reflection;
+using FluentNHibernate.AutoMap;
+using SharpArch.Core;
 using NHibernate.Cfg;
 using System.Data;
 using NHibernate.Tool.hbm2ddl;
 using SharpArch.Data.NHibernate;
 using System.Configuration;
+using SharpArch.Data.NHibernate.FluentNHibernate;
+
 namespace SharpArch.Testing.NUnit.NHibernate
 {
     /// <summary>
@@ -13,8 +18,8 @@ namespace SharpArch.Testing.NUnit.NHibernate
     {
         public static void InitializeDatabase() {
             string[] mappingAssemblies = GetMappingAssemblies();
-            
-            Configuration cfg = NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies);
+            AutoPersistenceModel autoPersistenceModel = GetAutoPersistenceModel(mappingAssemblies);
+            Configuration cfg = NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoPersistenceModel);
             IDbConnection connection = NHibernateSession.Current.Connection;
             new SchemaExport(cfg).Execute(false, true, false, true, connection, null);
         }
@@ -28,6 +33,22 @@ namespace SharpArch.Testing.NUnit.NHibernate
                 "at the end of each is optional.");
 
             return mappingAssembliesSetting.Split(',');
+        }
+
+        public static AutoPersistenceModel GetAutoPersistenceModel(string[] assemblies) {
+            foreach (var asmName in assemblies) {
+                Assembly asm = Assembly.Load(asmName);
+                Type[] asmTypes = asm.GetTypes();
+
+                foreach (Type asmType in asmTypes) {
+                    if (typeof(IAutoPersistenceModelGenerator).IsAssignableFrom(asmType)) {
+                        IAutoPersistenceModelGenerator generator = Activator.CreateInstance(asmType) as IAutoPersistenceModelGenerator;
+                        return generator.Generate();
+                    }
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using Northwind.Core;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.AutoMap;
+using Northwind.Core;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class SupplierMap : ClassMap<Supplier>
+    public class SupplierMap : AutoMap<Supplier>
     {
         public SupplierMap() {
             WithTable("Suppliers");

@@ -51,6 +51,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\FluentNHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="Inflector.Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\Inflector.Net.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\log4net.dll</HintPath>
@@ -148,7 +152,6 @@
     <Compile Include="Northwind.Data\CategoryRepositoryBehaviorTests.cs" />
     <Compile Include="Northwind.Data\CategoryRepositoryTests.cs" />
     <Compile Include="Northwind.Data\CustomerRepositoryTests.cs" />
-    <Compile Include="Northwind.Data\NHibernateMaps\CategoryMapTests.cs" />
     <Compile Include="Northwind.Data\NHibernateMaps\MappingIntegrationTests.cs" />
     <Compile Include="Northwind.Data\Organization\EmployeeRepositoryTests.cs" />
     <Compile Include="Northwind.Data\SupplierRepositoryBehaviorTests.cs" />

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FluentNHibernate.AutoMap;
+using NUnit.Framework;
 using System.Configuration;
 using System.IO;
 using NHibernate.Cfg;
@@ -27,7 +28,8 @@ namespace SharpArch.Testing.NUnit.NHibernate
         [SetUp]
         public virtual void SetUp() {
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
-            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies);
+            AutoPersistenceModel autoMapping = RepositoryTestsHelper.GetAutoPersistenceModel(mappingAssemblies);
+            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoMapping);
             NHibernateSession.Current.BeginTransaction();
         }
 

@@ -6,6 +6,7 @@ using NHibernate.Validator.Cfg;
 using SharpArch.Core;
 using FluentNHibernate;
 using System.Reflection;
+using FluentNHibernate.AutoMap;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -20,35 +21,61 @@ namespace SharpArch.Data.NHibernate
 	}
 
 	public static class NHibernateSession
-	{
+    {
+        #region Init() overloads
+
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies) {
-            return Init(storage, mappingAssemblies, null, null, null);
+            return Init(storage, mappingAssemblies, null, null, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile) {
-            return Init(storage, mappingAssemblies, cfgFile, null, null);
+            return Init(storage, mappingAssemblies, null, cfgFile, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, IDictionary<string ,string> cfgProperties) {
-            return Init(storage, mappingAssemblies, null, cfgProperties, null);
+            return Init(storage, mappingAssemblies, null, null, cfgProperties, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile, string validatorCfgFile) {
-            return Init(storage, mappingAssemblies, cfgFile, null, validatorCfgFile);
+            return Init(storage, mappingAssemblies, null, cfgFile, null, validatorCfgFile);
         }
 
-        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile, IDictionary<string ,string> cfgProperties, string validatorCfgFile) {
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel) {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, null, null, null);
+        }
+
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, string cfgFile) {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, null);
+        }
+
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, IDictionary<string, string> cfgProperties) {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, null, cfgProperties, null);
+        }
+
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, string cfgFile, string validatorCfgFile) {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile);
+        }
+
+        #endregion
+
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, string cfgFile, IDictionary<string, string> cfgProperties, string validatorCfgFile) {
             Check.Require(storage != null, "storage mechanism was null but must be provided");
             
             Configuration cfg = ConfigureNHibernate(cfgFile, cfgProperties);
             ConfigureNHibernateValidator(cfg, validatorCfgFile);
-            AddMappingAssembliesTo(cfg, mappingAssemblies);
+            AddMappingAssembliesTo(cfg, mappingAssemblies, autoPersistenceModel);
 
  			SessionFactory = cfg.BuildSessionFactory();
  			Storage = storage;
 
             return cfg;
  		}
+
+        private static void AddAutoMappingsTo(Configuration cfg, AutoPersistenceModel autoPersistenceModel) {
+            if (autoPersistenceModel != null) {
+                cfg.AddAutoMappings(autoPersistenceModel);
+            }
+        }
 
         public static void RegisterInterceptor(IInterceptor interceptor) {
             Check.Require(interceptor != null, "interceptor may not be null");
@@ -78,7 +105,7 @@ namespace SharpArch.Data.NHibernate
 			}
 		}
 
-        private static void AddMappingAssembliesTo(Configuration cfg, ICollection<string> mappingAssemblies) {
+        private static void AddMappingAssembliesTo(Configuration cfg, ICollection<string> mappingAssemblies, AutoPersistenceModel autoPersistenceModel) {
             Check.Require(mappingAssemblies != null && mappingAssemblies.Count >= 1,
                 "mappingAssemblies must be provided as a string array of assembly names which contain mapping artifacts. " +
                 "The artifacts themselves may be HBMs or ClassMaps.  You may optionally include '.dll' on the assembly name.");
@@ -91,8 +118,15 @@ namespace SharpArch.Data.NHibernate
                 Assembly assemblyToInclude = Assembly.LoadFrom(loadReadyAssemblyName);
                 // Looks for any HBMs
                 cfg.AddAssembly(assemblyToInclude);
-                // Looks for any Fluent NHibernate ClassMaps
-                cfg.AddMappingsFromAssembly(assemblyToInclude);
+
+                if (autoPersistenceModel == null) {
+                    // Looks for any Fluent NHibernate ClassMaps
+                    cfg.AddMappingsFromAssembly(assemblyToInclude);
+                }
+                else {
+                    autoPersistenceModel.addMappingsFromAssembly(assemblyToInclude);
+                    cfg.AddAutoMappings(autoPersistenceModel);
+                }
             }
         }
 

@@ -27,7 +27,7 @@ namespace Tests.Northwind.Data
         public void CanGetCategoryById() {
             Category category = categoryRepository.Get(1);
 
-            Assert.That(category.Name, Is.EqualTo("Beverages"));
+            Assert.That(category.CategoryName, Is.EqualTo("Beverages"));
         }
 
         private IRepository<Category> categoryRepository = new Repository<Category>();

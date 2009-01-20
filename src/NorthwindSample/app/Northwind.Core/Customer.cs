@@ -33,21 +33,21 @@ namespace Northwind.Core
 
         [DomainSignature]
         [NotNullNotEmpty]
-        public string CompanyName { get; set; }
+        public virtual string CompanyName { get; set; }
 
         [DomainSignature]
-        public string ContactName { get; set; }
-        
-        public string Country { get; set; }
-        public string Fax { get; set; }
+        public virtual string ContactName { get; set; }
+
+        public virtual string Country { get; set; }
+        public virtual string Fax { get; set; }
 
         /// <summary>
         /// Note the protected set...only the ORM should set the collection reference directly
         /// after it's been initialized in <see cref="InitMembers" />
         /// </summary>
-        public IList<Order> Orders { get; protected set; }
+        public virtual IList<Order> Orders { get; protected set; }
 
-        public void SetAssignedIdTo(string assignedId) {
+        public virtual void SetAssignedIdTo(string assignedId) {
             Check.Require(!string.IsNullOrEmpty(assignedId), "assignedId may not be null or empty");
             Check.Require(assignedId.Trim().Length == 5, "assignedId must be exactly 5 characters");
 

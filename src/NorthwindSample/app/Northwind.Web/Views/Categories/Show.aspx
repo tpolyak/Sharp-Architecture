@@ -9,6 +9,6 @@
             <%= ViewData.Model.ID %></p>
         <p>
             Name:
-            <%= ViewData.Model.Name%></p>
+            <%= ViewData.Model.CategoryName%></p>
     </div>
 </asp:Content>
