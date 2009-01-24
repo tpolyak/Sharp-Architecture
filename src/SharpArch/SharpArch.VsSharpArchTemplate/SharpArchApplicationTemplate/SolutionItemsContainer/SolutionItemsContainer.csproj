@@ -53,7 +53,8 @@
         <Content Include="Solution Items\Newtonsoft.Json.dll" />
         <Content Include="Solution Items\Newtonsoft.Json.xml" />
         <Content Include="Solution Items\NHibernate.dll" />
-        <Content Include="Solution Items\NHibernate.Validator.dll" />
+		<Content Include="Solution Items\NHibernate.Linq.dll" />
+		<Content Include="Solution Items\NHibernate.Validator.dll" />
         <Content Include="Solution Items\NHibernate.Validator.xml" />
         <Content Include="Solution Items\NHibernate.xml" />
         <Content Include="Solution Items\SharpArch.Core.dll" />

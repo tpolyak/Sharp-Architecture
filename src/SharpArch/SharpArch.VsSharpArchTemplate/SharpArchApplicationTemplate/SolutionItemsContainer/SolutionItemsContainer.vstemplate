@@ -34,6 +34,7 @@
 				<ProjectItem>Newtonsoft.Json.dll</ProjectItem>
                 <ProjectItem>Newtonsoft.Json.xml</ProjectItem>
                 <ProjectItem>NHibernate.dll</ProjectItem>
+				<ProjectItem>NHibernate.Linq.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.xml</ProjectItem>
 				<ProjectItem>NHibernate.xml</ProjectItem>

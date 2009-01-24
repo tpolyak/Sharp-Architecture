@@ -27,8 +27,10 @@ NameValueCollection properties = new NameValueCollection();
 
 ///////////////////////////////////////////////////
 
+// The first parameter should reflect the root directory of your solution
 ScaffoldingGenerator generator = new ScaffoldingGenerator(
 	@"C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\", "Northwind", domainObjectName, properties); 
 
-generator.Run();
+// Uncomment this line when you're ready for the scaffolding generator to fire
+//generator.Run();
 #>

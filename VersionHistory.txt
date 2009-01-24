@@ -11,6 +11,36 @@ Roadmap for 1.0 Release
 
 ----------------------------------------------
 ----------------------------------------------
+On the trunk
+----------------------------------------------
+----------------------------------------------
+
+Assembly Dependencies:
+* ASP.NET MVC Beta
+* Castle 1.0 RC3
+* Fluent NHibernate 0.1 (rev 207)
+* Json.NET 3.5 Beta 2
+* Microsoft.Practices.ServiceLocation 1.0 (CommonServiceLocator)
+* NHibernate 2.0.1
+* NHibernate.Linq 1.0.0.Alpha 696 (added)
+* NHibernate.Validator 1.0
+* MvcContrib Beta (rev 697)
+* Rhino.Mocks 3.5.0.1337
+* System.Data.SQLite.DLL 1.0.60.0
+
+-------
+
+Changes to /src:
+
+CRUD Scaffolding:
+* ScaffoldingGeneratorCommand.tt:  Commented out "generator.Run()" by default to avoid inadvertent code generation
+* /Templates/DomainObjectTemplate.tt:  Added "using System;" to support DateTime fields
+
+Visual Studio Template:
+* YourProject.Data:  Added reference to NHibernate.LINQ
+
+----------------------------------------------
+----------------------------------------------
 1.0 Beta (rev 337) - S#arp Architecture for ASP.NET MVC Beta with NHibernate 2.0.1
 ----------------------------------------------
 ----------------------------------------------
