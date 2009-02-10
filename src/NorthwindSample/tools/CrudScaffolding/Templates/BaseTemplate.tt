@@ -1,55 +1,34 @@
-﻿<#+
+﻿<#@ assembly name="Inflector.Net.dll" #>
+
+<#+
 public abstract class BaseTemplate : Template
 {
-	public BaseTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) {
+	public BaseTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) {
 		this.solutionName = solutionName;
-		this.namespaceHierarchy = namespaceHierarchy;
-		this.domainObjectName = domainObjectName;
-		this.properties = properties;
+		this.entityScaffoldingDetails = entityScaffoldingDetails;
 	}
 	
-	protected NameValueCollection Properties {
-		get { return properties; }
-	}
-
 	protected string SolutionName {
 		get { return solutionName; }
 	}
 	
-	protected string[] NamespaceHierarchy {
-		get { return namespaceHierarchy; }
-	}
-	
-	protected string DomainObjectName {
-		get { return domainObjectName; }
+	protected EntityScaffoldingDetails EntityScaffoldingDetails {
+		get { return entityScaffoldingDetails; }
 	}
 	
 	protected string AppendNamespaceHierarchyTo(string namespacePath) {
-		if (NamespaceHierarchy == null || NamespaceHierarchy.Length == 0)
+		if (entityScaffoldingDetails.NamespaceHierarchy == null || 
+			entityScaffoldingDetails.NamespaceHierarchy.Length == 0)
 			return namespacePath;
 			
-		foreach (string namespaceToAppend in NamespaceHierarchy) {
+		foreach (string namespaceToAppend in entityScaffoldingDetails.NamespaceHierarchy) {
 			namespacePath += "." + namespaceToAppend;
 		}
 		
 		return namespacePath;
 	}
 	
-	protected string DomainObjectNamePlural {
-		get { return Pluralizer.ToPlural(domainObjectName); }
-	}
-
-	protected string DomainObjectNameCamelCase {
-		get { return domainObjectName.Substring(0, 1).ToLower() + domainObjectName.Substring(1); }
-	}
-
-	protected string DomainObjectNamePluralCamelCase {
-		get { return DomainObjectNamePlural.Substring(0, 1).ToLower() + DomainObjectNamePlural.Substring(1); }
-	}
-	
-	private readonly NameValueCollection properties;
-	private readonly string[] namespaceHierarchy;
 	private readonly string solutionName;
-	private readonly string domainObjectName;
+	private readonly EntityScaffoldingDetails entityScaffoldingDetails;
 }
 #>

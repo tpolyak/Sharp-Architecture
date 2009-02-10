@@ -3,8 +3,8 @@
 <#+
 public class ControllerTemplate : BaseTemplate
 {
-	public ControllerTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
-		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
+	public ControllerTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { }
 
 	protected override void RenderCore()
 	{
@@ -24,102 +24,104 @@ using SharpArch.Core;
 namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
 {
     [HandleError]
-    public class <#= DomainObjectNamePlural #>Controller : Controller
+    public class <#= EntityScaffoldingDetails.EntityNamePlural #>Controller : Controller
     {
-        public <#= DomainObjectNamePlural #>Controller(IRepository<<#= DomainObjectName #>> <#= DomainObjectNameCamelCase #>Repository) {
-            Check.Require(<#= DomainObjectNameCamelCase #>Repository != null, "<#= DomainObjectNameCamelCase #>Repository may not be null");
+        public <#= EntityScaffoldingDetails.EntityNamePlural #>Controller(IRepository<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository) {
+            Check.Require(<#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository != null, "<#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository may not be null");
 
-            this.<#= DomainObjectNameCamelCase #>Repository = <#= DomainObjectNameCamelCase #>Repository;
+            this.<#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository;
         }
 
         [Transaction]
         public ActionResult Index() {
-            List<<#= DomainObjectName #>> <#= DomainObjectNamePluralCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.GetAll();
-            return View(<#= DomainObjectNamePluralCamelCase #>);
+            List<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNamePluralCamelCase #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.GetAll();
+            return View(<#= EntityScaffoldingDetails.EntityNamePluralCamelCase #>);
         }
 
         [Transaction]
         public ActionResult Show(int id) {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.Get(id);
-            return View(<#= DomainObjectNameCamelCase #>);
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
+            return View(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
         }
 
         public ActionResult Create() {
             return View();
         }
 
+        [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Create(<#= DomainObjectName #> <#= DomainObjectNameCamelCase #>) {
-            if (<#= DomainObjectNameCamelCase #>.IsValid()) {
-                <#= DomainObjectNameCamelCase #>Repository.SaveOrUpdate(<#= DomainObjectNameCamelCase #>);
+        public ActionResult Create(<#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
+            if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>.IsValid()) {
+                <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.SaveOrUpdate(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
-                TempData["message"] = "The <#= DomainObjectNameCamelCase #> was successfully created.";
+                TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully created.";
                 return RedirectToAction("Index");
             }
             else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.ValidationResults());
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ValidationResults());
                 return View();
             }
         }
 
         [Transaction]
         public ActionResult Edit(int id) {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = <#= DomainObjectNameCamelCase #>Repository.Get(id);
-            return View(<#= DomainObjectNameCamelCase #>);
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
+            return View(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
         }
 
+        [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>) {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>ToUpdate = <#= DomainObjectNameCamelCase #>Repository.Get(id);
+        public ActionResult Edit(int id, <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
 			<#+
 			PushIndent("\t\t\t");
 
-			foreach (string	propertyName in Properties.AllKeys ) {
-				WriteLine(DomainObjectNameCamelCase + "ToUpdate." + propertyName + " = " + DomainObjectNameCamelCase + "." + propertyName + ";");
+			foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
+				WriteLine(EntityScaffoldingDetails.EntityNameCamelCase + "ToUpdate." + property.PropertyName + " = " + EntityScaffoldingDetails.EntityNameCamelCase + "." + property.PropertyName + ";");
 			}
 
 			PopIndent();
 			#>
 
-            if (<#= DomainObjectNameCamelCase #>ToUpdate.IsValid()) {
-                TempData["message"] = "The <#= DomainObjectNameCamelCase #> was successfully updated.";
+            if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate.IsValid()) {
+                TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully updated.";
                 return RedirectToAction("Index");
             }
             else {
-                <#= DomainObjectNameCamelCase #>Repository.DbContext.RollbackTransaction();
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= DomainObjectNameCamelCase #>.ValidationResults());
-                return View(<#= DomainObjectNameCamelCase #>);
+                <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.DbContext.RollbackTransaction();
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ValidationResults());
+                return View(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
             }
         }
 
         [Transaction]
         public ActionResult Delete(int id) {
-            string resultMessage = "The <#= DomainObjectNameCamelCase #> was successfully deleted.";
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>ToDelete = <#= DomainObjectNameCamelCase #>Repository.Get(id);
+            string resultMessage = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully deleted.";
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToDelete = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
 
-            if (<#= DomainObjectNameCamelCase #>ToDelete != null) {
-                <#= DomainObjectNameCamelCase #>Repository.Delete(<#= DomainObjectNameCamelCase #>ToDelete);
+            if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToDelete != null) {
+                <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Delete(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToDelete);
 
                 try {
-                    <#= DomainObjectNameCamelCase #>Repository.DbContext.CommitChanges();
+                    <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.DbContext.CommitChanges();
                 }
                 catch {
-                    resultMessage = "A problem was encountered preventing the <#= DomainObjectNameCamelCase #> from being deleted. " +
-						"Another item likely depends on this <#= DomainObjectNameCamelCase #>.";
-                    <#= DomainObjectNameCamelCase #>Repository.DbContext.RollbackTransaction();
+                    resultMessage = "A problem was encountered preventing the <#= EntityScaffoldingDetails.EntityNameCamelCase #> from being deleted. " +
+						"Another item likely depends on this <#= EntityScaffoldingDetails.EntityNameCamelCase #>.";
+                    <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.DbContext.RollbackTransaction();
                 }
             }
             else {
-                resultMessage = "The <#= DomainObjectNameCamelCase #> could not be found for deletion. It may already have been deleted.";
+                resultMessage = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> could not be found for deletion. It may already have been deleted.";
             }
 
             TempData["Message"] = resultMessage;
             return RedirectToAction("Index");
         }
 
-        private readonly IRepository<<#= DomainObjectName #>> <#= DomainObjectNameCamelCase #>Repository;
+        private readonly IRepository<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository;
     }
 }
 <#+

@@ -43,8 +43,9 @@ namespace Northwind.Web.Controllers.Organization
             return View();
         }
 
-        [Transaction]
-        [AcceptVerbs(HttpVerbs.Post)]
+        [ValidateAntiForgeryToken]      // Helps avoid CSRF attacks
+        [Transaction]                   // Wraps a transaction around the action
+        [AcceptVerbs(HttpVerbs.Post)]   // Limits the method to only accept post requests
         public ActionResult Create(Employee employee) {
             if (employee.IsValid()) {
                 employeeRepository.SaveOrUpdate(employee);
@@ -67,6 +68,7 @@ namespace Northwind.Web.Controllers.Organization
             return View(employee);
         }
 
+        [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Edit(int id, Employee employee) {

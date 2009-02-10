@@ -1,9 +1,12 @@
+using System;
+using System.Linq;
 using FluentNHibernate;
 using FluentNHibernate.AutoMap;
 using Northwind.Core;
+using Northwind.Data.NHibernateMappings;
 using SharpArch.Core.DomainModel;
 using SharpArch.Data.NHibernate.FluentNHibernate;
-using System;
+using Northwind.Data.NHibernateMappings.Organization;
 
 namespace Northwind.Data.NHibernateMaps
 {
@@ -13,15 +16,22 @@ namespace Northwind.Data.NHibernateMaps
             AutoPersistenceModel mappings = AutoPersistenceModel
                 .MapEntitiesFromAssemblyOf<Category>()
                 .Where(GetAutoMappingFilter)
-                .WithConvention(GetConventions);
+                .WithConvention(GetConventions)
+                .MapConventionOverridesFromAssemblyOf<AutoPersistenceModelGenerator>();
+
             return mappings;
         }
 
-
+        /// <summary>
+        /// Provides a filter for only including types which inherit from the IEntityWithTypedId interface.
+        /// This might be considered a little hackish having this magic string in the comparison, but since
+        /// the interface is generic, it wouldn't be possible to compare the type directly.
+        /// </summary>
         private bool GetAutoMappingFilter(Type t) {
-            return t.Namespace == "Northwind.Core" &&
-                // NHibernate persistence auto-mapping doesn't play nice with extension methods, so exclude them
-                (t.Name.Contains("OrdersExtensions") == false);
+            return 
+                (from interfaceType in t.GetInterfaces()
+                 where interfaceType.ToString().IndexOf("SharpArch.Core.DomainModel.IEntityWithTypedId") == 0
+                 select interfaceType).Any();
         }
 
         private void GetConventions(Conventions c) {

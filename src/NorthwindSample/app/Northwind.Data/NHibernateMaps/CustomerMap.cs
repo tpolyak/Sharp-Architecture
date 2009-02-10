@@ -1,12 +1,15 @@
 ﻿using FluentNHibernate.AutoMap;
 using Northwind.Core;
+using SharpArch.Data.NHibernate.FluentNHibernate;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class CustomerMap : AutoMap<Customer>
+    public class CustomerMap : IAutoPeristenceModelConventionOverride
     {
-        public CustomerMap() {
-            SetAttribute("lazy", "false");
+        public AutoPersistenceModel Override(AutoPersistenceModel model) {
+            return model.ForTypesThatDeriveFrom<Customer>(map => {
+                map.SetAttribute("lazy", "false");
+            });
         }
     }
 }

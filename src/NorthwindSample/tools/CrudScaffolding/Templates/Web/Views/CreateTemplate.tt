@@ -1,18 +1,19 @@
 ﻿<#+
 public class CreateTemplate : BaseTemplate
 {
-	public CreateTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
-		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
+	public CreateTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { }
 
 	protected override void RenderCore()
 	{
 #>
-<%@ Page Title="Create <#= DomainObjectName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Create.aspx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.Create" %>
+<%@ Page Title="Create <#= EntityScaffoldingDetails.EntityName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
+	Inherits="System.Web.Mvc.ViewPage<<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>.<#= EntityScaffoldingDetails.EntityName #>>" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-	<h2>Create <#= DomainObjectName #></h2>
+	<h2>Create <#= EntityScaffoldingDetails.EntityName #></h2>
 
-	<% Html.RenderPartial("<#= DomainObjectName #>Form", ViewData); %>
+	<% Html.RenderPartial("<#= EntityScaffoldingDetails.EntityName #>Form", ViewData); %>
 </asp:Content>
 <#+
 	}

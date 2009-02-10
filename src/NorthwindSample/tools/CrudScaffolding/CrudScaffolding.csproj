@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F9EBF6B7-DDD5-49B9-9DC7-CF48EACE1119}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -35,6 +35,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PublicAssemblies\EnvDTE.dll</HintPath>
     </Reference>
+    <Reference Include="Inflector.Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\Inflector.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpArch.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\SharpArch.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -52,9 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pluralizer.tt">
-    </None>
-    <None Include="ScaffoldingEnums.tt">
+    <None Include="EntityScaffoldingDetails.tt">
     </None>
     <None Include="ScaffoldingGeneratorCommand.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -76,18 +82,12 @@
     </None>
     <None Include="Templates\Web\Views\EditTemplate.tt">
     </None>
-    <None Include="Templates\Web\Views\GeneralCodeBehindTemplate.tt">
-    </None>
-    <None Include="Templates\Web\Views\GeneralDesignerTemplate.tt">
-    </None>
     <None Include="Templates\Web\Views\DomainObjectFormTemplate.tt">
     </None>
     <None Include="Templates\Web\Views\IndexTemplate.tt">
     </None>
     <None Include="Templates\Web\Views\ShowTemplate.tt">
     </None>
-    <Content Include="PluralizerLicense.htm" />
-    <Content Include="Templates\Data\NHibernateMaps\ClassMapTemplate.tt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />

@@ -3,10 +3,11 @@
 <#@ output extension="txt" #>
 <#@ include file="T4Toolbox.tt" #>
 <#@ include file="./Templates/ScaffoldingGenerator.tt" #> 
+<#@ include file="EntityScaffoldingDetails.tt" #> 
 
 <#
 ///////////////////////////////////////////////////
-// Set your domain object details below and simply save this file to auto-generate the scaffolding
+// Set your domain object details below and simply uncomment the last line (".Run()") and save this file to auto-generate the scaffolding
 
 /*
  * Domain name should be PascalCaseSingular with no spaces.
@@ -14,22 +15,31 @@
  * A log of created artifacts may be found in /Northwind/logs/CrudScaffolding.log
  * Examples:  Product, Organization.Employee, Financial.Costs.LedgerEntry
  */
-string domainObjectName = "Organization.Employee";
-
+EntityScaffoldingDetails entityScaffoldingDetails =
+	new EntityScaffoldingDetails("Organization.Worker");
+ 
 /*
- * Properties should be name/value pairs representing the property-name/datatype of the properties.
  * Property names should be PascalCase.
  * Do NOT include a property for ID as it will be included automatically.
  */
-NameValueCollection properties = new NameValueCollection();
-	properties.Add("Name", "string"); 
-	properties.Add("EmailAddress", "string"); 
+entityScaffoldingDetails.EntityProperties.Add(
+	new EntityProperty("FirstName", "string", "Joe", "[NotNull, NotEmpty]", true) 
+);
+entityScaffoldingDetails.EntityProperties.Add(
+	new EntityProperty("LastName", "string", "Smith", "[NotNull, NotEmpty]", true)
+);
+entityScaffoldingDetails.EntityProperties.Add(
+	new EntityProperty("BirthDate", "DateTime", DateTime.Parse("1/1/1975"))
+);
+entityScaffoldingDetails.EntityProperties.Add(
+	new EntityProperty("Manager", "Employee", null, "[NotNull]")
+);
 
 ///////////////////////////////////////////////////
 
 // The first parameter should reflect the root directory of your solution
 ScaffoldingGenerator generator = new ScaffoldingGenerator(
-	@"C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\", "Northwind", domainObjectName, properties); 
+	@"C:\MyStuff\Projects\SharpArchitecture\src\NorthwindSample\", "Northwind", entityScaffoldingDetails); 
 
 // Uncomment this line when you're ready for the scaffolding generator to fire
 //generator.Run();

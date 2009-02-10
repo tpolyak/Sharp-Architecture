@@ -1,4 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Show.aspx.cs" Inherits="Northwind.Web.Views.Categories.Show" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
+    Inherits="System.Web.Mvc.ViewPage<Category>" %>
+<%@ Import Namespace="Northwind.Core" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Category Details</h2>

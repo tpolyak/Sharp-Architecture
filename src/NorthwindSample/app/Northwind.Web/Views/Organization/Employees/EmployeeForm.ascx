@@ -1,8 +1,10 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EmployeeForm.ascx.cs" Inherits="Northwind.Web.Views.Organization.Employees.EmployeeForm" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl<Northwind.Core.Organization.Employee>" %>
+<%@ Import Namespace="Northwind.Core.Organization" %>
 
 <%= Html.ValidationSummary() %>
 
 <% using (Html.BeginForm()) { %>
+    <%= Html.AntiForgeryToken() %>
     <%= Html.Hidden("id", (ViewData.Model != null) ? ViewData.Model.ID : 0) %>
 
     <!--
@@ -12,22 +14,22 @@
     -->
     <ul>
         <li>
-            <label for="Employee.Firstname">First Name *</label>
-            <%= Html.TextBox("Employee.FirstName", 
+            <label for="employee.Firstname">First Name *</label>
+            <%= Html.TextBox("employee.FirstName", 
                 (ViewData.Model != null) ? ViewData.Model.FirstName : "")%>
-            <%= Html.ValidationMessage("Employee.FirstName")%>
+            <%= Html.ValidationMessage("employee.FirstName")%>
         </li>
         <li>
-            <label for="Employee.LastName">Last Name *</label>
-            <%= Html.TextBox("Employee.LastName", 
+            <label for="employee.LastName">Last Name *</label>
+            <%= Html.TextBox("employee.LastName", 
                 (ViewData.Model != null) ? ViewData.Model.LastName : "")%>
-            <%= Html.ValidationMessage("Employee.LastName")%>
+            <%= Html.ValidationMessage("employee.LastName")%>
         </li>
         <li>
-            <label for="Employee.LastName">Phone Extension *</label>
-            <%= Html.TextBox("Employee.PhoneExtension",
+            <label for="employee.LastName">Phone Extension *</label>
+            <%= Html.TextBox("employee.PhoneExtension",
                 (ViewData.Model != null) ? ViewData.Model.PhoneExtension : 0)%>
-            <%= Html.ValidationMessage("Employee.PhoneExtension")%>
+            <%= Html.ValidationMessage("employee.PhoneExtension")%>
         </li>
         <li>
             <%= Html.SubmitButton("btnSave", "Save Employee") %>

@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Employees" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Index.aspx.cs" Inherits="Northwind.Web.Views.Organization.Employees.Index" %>
+﻿<%@ Page Title="Employees" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
+    Inherits="System.Web.Mvc.ViewPage<IEnumerable<Northwind.Core.Organization.Employee>>" %>
 <%@ Import Namespace="Northwind.Core.Organization" %>
 <%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
 

@@ -1,4 +1,5 @@
-﻿<%@ Page Title="Create Employee" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Create.aspx.cs" Inherits="Northwind.Web.Views.Organization.Employees.Create" %>
+﻿<%@ Page Title="Create Employee" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
+    Inherits="System.Web.Mvc.ViewPage<Northwind.Core.Organization.Employee>" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 

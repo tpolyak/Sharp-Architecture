@@ -1,22 +1,23 @@
 ﻿using FluentNHibernate.AutoMap;
 using Northwind.Core;
+using SharpArch.Data.NHibernate.FluentNHibernate;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class OrderMap : AutoMap<Order>
+    public class OrderMap : IAutoPeristenceModelConventionOverride
     {
-        public OrderMap() {
-            WithTable("Orders");
+        public AutoPersistenceModel Override(AutoPersistenceModel model) {
+            return model.ForTypesThatDeriveFrom<Order>(map => {
+                map.Id(x => x.ID, "OrderID")
+                    .WithUnsavedValue(0)
+                    .GeneratedBy.Identity();
 
-            Id(x => x.ID, "OrderID")
-                .WithUnsavedValue(0)
-                .GeneratedBy.Identity();
+                map.Map(x => x.OrderDate);
+                map.Map(x => x.ShipToName, "ShipName");
 
-            Map(x => x.OrderDate);
-            Map(x => x.ShipToName, "ShipName");
-
-            References(x => x.OrderedBy, "CustomerID")
-                .SetAttribute("not-null", "true");
+                map.References(x => x.OrderedBy, "CustomerID")
+                    .SetAttribute("not-null", "true");
+            });
         }
     }
 }

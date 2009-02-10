@@ -1,8 +1,8 @@
 ﻿<#+
 public class DomainObjectTestsTemplate : BaseTemplate
 {
-	public DomainObjectTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
-		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
+	public DomainObjectTestsTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { }
 
 	protected override void RenderCore()
 	{
@@ -13,28 +13,56 @@ using NUnit.Framework.SyntaxHelpers;
 
 namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
 {
-    [TestFixture]
-    public class <#= DomainObjectName #>Tests
+	<#+
+	if (! EntityScaffoldingDetails.HasAnyDomainSignatureProperties) { #>
+    /// <summary>
+    /// A <#= EntityScaffoldingDetails.EntityNameCamelCase #>'s ID property is the only property which is compared to
+    /// another <#= EntityScaffoldingDetails.EntityNameCamelCase #>.  I.e., it does not have any domain signature 
+    /// properties other than the Id itself.
+    /// </summary>
+	<#+
+	}
+	#>
+[TestFixture]
+    public class <#= EntityScaffoldingDetails.EntityName #>Tests
     {
-        /// <summary>
-        /// You need to take the following steps to get this passing:
-        /// 1) Add the [DomainSignature] attribute over the property(s) in your object which define its domain
-        ///    signature.  See the documentation if you need assitance with determining what the 
-        ///    domain signature of the object is.
-        /// 2) Set the values of the "instance" domain signature properties in the test below
-        /// 3) Set the values of the "instanceToCompareTo" to be the same as those of the "instance"
-        /// 4) Remove the ignore attribute on this test along with this description
-        /// </summary>
         [Test]
-        [Ignore("Follow the steps in this test's description to get this passing")]
-        public void CanCompare<#= DomainObjectNamePlural #>() {
-            <#= DomainObjectName #> instance = new <#= DomainObjectName #>();
-            // Set the values of the domain signature properties here
-            // e.g., instance.Name = "Azeroth";
-            
-            <#= DomainObjectName #> instanceToCompareTo = new <#= DomainObjectName #>();
-            // Set the values to be the same as those set to the instance above
-            // e.g., instanceToCompareTo.Name = "Azeroth";
+        public void CanCompare<#= EntityScaffoldingDetails.EntityNamePlural #>() {
+            <#= EntityScaffoldingDetails.EntityName #> instance = new <#= EntityScaffoldingDetails.EntityName #>();
+			<#+
+			PushIndent("\t\t\t");
+
+			if (EntityScaffoldingDetails.HasAnyDomainSignatureProperties) {
+				foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
+					if (property.IsPartOfDomainSignature) {
+						WriteLine("instance." + property.PropertyName + " = " + property.GetDefaultValueForTests() + ";");
+					}
+				}
+			}
+			else {
+				WriteLine("EntityIdSetter<int>.SetIdOf(instance, 1);");
+			}
+
+			PopIndent();
+			#>
+
+            <#= EntityScaffoldingDetails.EntityName #> instanceToCompareTo = new <#= EntityScaffoldingDetails.EntityName #>();
+			<#+
+			PushIndent("\t\t\t");
+
+			if (EntityScaffoldingDetails.HasAnyDomainSignatureProperties) {
+				foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
+					if (property.IsPartOfDomainSignature) {
+						WriteLine("instanceToCompareTo." + property.PropertyName + " = " + property.GetDefaultValueForTests() + ";");
+					}
+				}
+			}
+			else {
+				WriteLine("EntityIdSetter<int>.SetIdOf(instanceToCompareTo, 1);");
+			}
+
+			PopIndent();
+			#>
 
             Assert.That(instance.Equals(instanceToCompareTo));
         }

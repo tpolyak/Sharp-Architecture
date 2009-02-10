@@ -3,8 +3,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Reflection;
-using FluentNHibernate;
-using FluentNHibernate.AutoMap;
 using Castle.Windsor;
 using Northwind.Core;
 using Northwind.Data.NHibernateMaps;
@@ -31,7 +29,9 @@ namespace Northwind.Web
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
-            
+
+            HtmlHelper.IdAttributeDotReplacement = ".";
+
             InitializeServiceLocator();
             
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
@@ -46,7 +46,7 @@ namespace Northwind.Web
             IWindsorContainer container = new WindsorContainer();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
-            container.RegisterControllersByArea(typeof(HomeController).Assembly);
+            container.RegisterControllers(typeof(HomeController).Assembly);
             ComponentRegistrar.AddComponentsTo(container);
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
@@ -55,15 +55,15 @@ namespace Northwind.Web
         public override void Init() {
             base.Init();
 
-            NHibernateSession.Init(new WebSessionStorage(this), 
-                new[] { Server.MapPath("~/bin/Northwind.Data.dll") },
+            NHibernateSession.Init(new WebSessionStorage(this),
+                new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
                 new AutoPersistenceModelGenerator().Generate());
         }
 
         protected void Application_Error(object sender, EventArgs e) {
             // Useful for debugging
-            var ex = Server.GetLastError();
-            var reflectionTypeLoadException = ex as ReflectionTypeLoadException;
+            Exception ex = Server.GetLastError();
+            ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
     }
 }
