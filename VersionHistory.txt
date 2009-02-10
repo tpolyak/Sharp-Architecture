@@ -7,37 +7,117 @@ Roadmap for 1.0 Release
 * Await impatiently for the release of ASP.NET MVC 1.0
 * Support multiple databases
 * Add WCF integration example
-* Add example of LINQ for NHibernate
+* Add example of LINQ for NHibernate (after it matures)
 
 ----------------------------------------------
 ----------------------------------------------
-On the trunk
+On the Trunk
 ----------------------------------------------
 ----------------------------------------------
+
+New and exciting in this release:
+* compatible with ASP.NET MVC RC
+* VS template project includes Fluent NHibernate auto persistence mapping automatically
+* Much more powerful and extensible CRUD scaffolding generator - it's completely touch-up free for many scenarios
+
+-------
 
 Assembly Dependencies:
-* ASP.NET MVC Beta
-* Castle 1.0 RC3
-* Fluent NHibernate 0.1 (rev 207)
+* ASP.NET MVC RC 1 Refresh
+* ASP.NET MVC RC 1 Futures
+* Castle 1.0 RC3 (rev 1038)
+* Fluent NHibernate 0.1 (rev 283)
 * Json.NET 3.5 Beta 2
 * Microsoft.Practices.ServiceLocation 1.0 (CommonServiceLocator)
-* NHibernate 2.0.1
-* NHibernate.Linq 1.0.0.Alpha 696 (added)
-* NHibernate.Validator 1.0
-* MvcContrib Beta (rev 697)
+* MvcContrib for MVC RC (rev 775)
+* NHibernate 2.0.1 GA
+* NHibernate.Validator 1.0 GA
+* NUnit 2.4.8
 * Rhino.Mocks 3.5.0.1337
 * System.Data.SQLite.DLL 1.0.60.0
+* T4 Toolbox 9.1.20.1
+
+-------
+
+Upgrading to S#arp Architecture RC 1 from Beta:
+1) Install NUnit 2.4.8
+2) Update assembly dependencies from trunk/bin into your application's lib and /tools/lib folders
+3) (PENDING NEXT CHECK-IN) Change all reference to anyEntity.ID to anyEntity.Id (I've included an obsolete ID getter with this release only.)  You'll definitely want resharper around for this one.
+4) Within your Fluent NHibernate mapping files, rename .IsInverse() to .Inverse()
+5) If you're using Fluent NHibernate auto mapping persistence, do the following account for the fact that you can no longer inherit from AutoMap:
+	1) For each class that inherits from AutoMap, remove the AutoMap inheritance and implement SharpArch.Data.NHibernate.FluentNHibernate.IAutoPeristenceModelConventionOverride instead
+	2) Move the contents of the constructor, which sets up the overrides, to the body of the following, prefixing each line with "map.":
+            public AutoPersistenceModel Override(AutoPersistenceModel model) {
+                return model.ForTypesThatDeriveFrom<YourEntityClassName>(map => {
+                    // Your mapping overrides
+                });
+            }
+	3) Within YourProject.Data.NHibernateMaps.AutoPersistenceModelGenerator, append the following extension method to the mappings creation:
+            .MapConventionOverridesFromAssemblyOf<YourEntityClassMapName>();
+6) Update YourProject.Web/Views/web.config to reflect the respective content from the Northwind sample project
+7) Within YourProject.Web/Global.asax.cs, change the following line:
+	container.RegisterControllersByArea(typeof(HomeController).Assembly);
+   to:
+	container.RegisterControllers(typeof(HomeController).Assembly);
+8) Within YourProject.Tests/App.config, update the nunit assembly redirect to go to version 2.4.8.0
+9) Update your Site.master to provide an overwritable title and to account for a known bug in MVC RC 1, described at http://haacked.com/archive/2009/01/27/controls-collection-cannot-be-modified-issue-with-asp.net-mvc-rc1.aspx
+10) Either replace your CrudScaffolding project with a duplicate of the one from the Northwind project or use the guidance discussed in the below change log for modifications
+11) (Optional) Add the following line to Global.asax.cs to Application_Start if you're client side code looks for dot-notation in generated input names:
+	HtmlHelper.IdAttributeDotReplacement = ".";
+12) (Optional) Add Northwind.Web/Scripts/jquery-1.2.6.min-vsdoc.js and jquery-1.2.6-vsdoc.js to your project to enable jQuery IntelliSense
+13) (Optional) Get rid of the code behind pages in favor of ViewMasterPage, ViewPage<Whatever>, ViewUserControl<Whatever> inheritance in the view's Master/Page/Control declaration.  E.g.: Inherits="System.Web.Mvc.ViewPage<Employee>".  Be sure to include System.Web.Mvc before ViewPage and either move your domain imports ABOVE the page declaration or fully qualify the namespaces of your model object.
+14) (Optional) Add MvcBuildViews to YourProject.Web.csproj and alter the Target/AfterBuild, following the details in the ASP.NET MVC RC release notes
 
 -------
 
 Changes to /src:
 
-CRUD Scaffolding:
+CrudScaffolding Generator
 * ScaffoldingGeneratorCommand.tt:  Commented out "generator.Run()" by default to avoid inadvertent code generation
-* /Templates/DomainObjectTemplate.tt:  Added "using System;" to support DateTime fields
+* Added reference to SharpArch.Core to have design by contract capablities
+* Added reference to Inflector.Net.Inflector for pluralizing words
+* Added assembly inclusion at the top of /Templates/BaseTemplate.tt and ScaffoldingGenerator.tt
+* Replaced all references to "Pluralizer.ToPlural" with "Inflector.Net.Inflector.Pluralize"
+* Modified /Templates/Web/Views/*.tt page/control declarations, and added imports where necessary, to support removal of code-behind pages
+* Deleted Pluralizer.tt in favor of using Inflector.Net
+* Deleted /Templates/Data/NHibernateMaps/ClassMapTemplate.tt due to VS project template and Northwind now using Fluent NHibernate auto persistence model
+* Deleted /Templates/Web/Views/GeneralCodeBehindTemplate.tt and GeneralDesignerTemplate.tt because they're no longer necessary (nor recommended)
+* Deleted /ScaffoldingEnums.tt as the enum has been moved to the newly added /EntityScaffoldingDetails.tt; had to also drop the include of this file from /Templates/ScaffoldingGenerator.tt
+* Within /Templates/ScaffoldingGenerator.tt:
+	- Dropped import of GeneralCodeBehindTemplate.tt, GeneralDesignerTemplate.tt and Pluralizer.tt
+	- Dropped move of code behind and designer pages from MoveViewFilesTo()
+	- Dropped GenerateGeneralCodeBehindAndDesignerForViewPage() and all calls to it
+	- Dropped all calls to GeneralCodeBehindTemplate and GeneralDesignerTemplate
+* Added /EntityScaffoldingDetails.tt to have a more expressive and complete means of generating entities
+* Replaced all use of namespaceHierarchy, domainObjectName, properties, and artifactsToGenerate with instance of entityScaffoldingDetails; e.g., 
+	- Replaced parameter set "domainObjectName, properties, namespaceHierarchy" with "entityScaffoldingDetails"
+	- Replaced "domainObjectName" with "entityScaffoldingDetails.EntityName"
+	- Replaced "namespaceHierarchy" with "entityScaffoldingDetails.NamespaceHierarchy"
+	- Replaced "artifactsToGenerate" with "entityScaffoldingDetails.ArtifactsToGenerate"
+	- Replaced "DomainObjectNamePlural" with "entityScaffoldingDetails.EntityNamePlural"
+* Moved plural and camel case helper methods from /Templates/BaseTemplate.tt to EntityScaffoldingDetails.tt
+* In each template, changed each constructor to accept EntityScaffoldingDetails and pass it to the constructor of BaseTemplate.tt
+* Changed constructor of BaseTemplate.tt to accept EntityScaffoldingDetails and share it as a protected value to subclass templates
+* Changed templates as follows (in this order):
+	- Replaced "DomainObjectNamePluralCamelCase" with "EntityScaffoldingDetails.EntityNamePluralCamelCase"
+	- Replaced "DomainObjectNamePlural" with "EntityScaffoldingDetails.EntityNamePlural"
+	- Replaced "DomainObjectNameCamelCase" with "EntityScaffoldingDetails.EntityNameCamelCase"
+	- Replaced "DomainObjectName" with "EntityScaffoldingDetails.EntityName"
+	- Carefully replaced "NamespaceHierarchy" with "EntityScaffoldingDetails.NamespaceHierarchy"
+	- Replaced "foreach (string propertyName in Properties.AllKey)" with "foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties)" and adjusted loop accordingly
 
-Visual Studio Template:
-* YourProject.Data:  Added reference to NHibernate.LINQ
+SharpArch.Core
+* BREAKING CHANGE ~ /DomainModel.Entity.ID changed to Entity.Id because "Id" is an abbreviation, not an acronym, and should reflect this, accordingly.  (An obsolete getter for ID remains for temporary backward compatibility.)  Yes, it's a bit of tom-at-o/tom-ott-o...but formally, it really should be "Id".
+
+SharpArch.Data
+* /NHibernate/FluentNHibernate/IAutoPeristenceModelConventionOverride.cs:  Added this interface to serve as a base class for any Fluent NHibernate override classes; this was introduced because it's no longer allowed to inherit from AutoMap<> for overriding conventions.
+* /NHibernate/FluentNHibernate/AutoPersistenceModelExtensions.cs:  Added this extension to AutoPersistenceModel to automatically apply any override classes from a specific assembly.  (See above note for reason.)
+
+SharpArch.Web
+* /Areas/AreaViewEngine.cs:  Added a needed "useCache" variable to FindPartialView() and FindView() for RC compatibility
+
+SharpArch.Web.Castle
+* WindsorExtensions.cs:  Dropped RegisterController() and RegisterControllersByArea() extension methods; MvCContrib has this fixed now - so need need for the extensions anymore.
 
 ----------------------------------------------
 ----------------------------------------------
