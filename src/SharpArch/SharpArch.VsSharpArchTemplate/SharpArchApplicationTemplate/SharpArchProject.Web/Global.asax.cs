@@ -5,16 +5,17 @@ using System.Web.Routing;
 using System.Reflection;
 using NHibernate.Cfg;
 using Castle.Windsor;
-using $solutionname$.Web.Controllers;
 using MvcContrib.Castle;
 using Castle.MicroKernel.Registration;
-using $safeprojectname$.CastleWindsor;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
 using SharpArch.Web.Castle;
 using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
 using SharpArch.Web.Areas;
+using $solutionname$.Web.Controllers;
+using $solutionname$.Data.NHibernateMaps;
+using $safeprojectname$.CastleWindsor;
 
 namespace $safeprojectname$
 {
@@ -43,7 +44,7 @@ namespace $safeprojectname$
             IWindsorContainer container = new WindsorContainer();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
-            container.RegisterControllersByArea(typeof(HomeController).Assembly);
+            container.RegisterControllers(typeof(HomeController).Assembly);
             ComponentRegistrar.AddComponentsTo(container);
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
@@ -53,7 +54,8 @@ namespace $safeprojectname$
             base.Init();
 
             NHibernateSession.Init(new WebSessionStorage(this), 
-                new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") });
+                new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") },
+                new AutoPersistenceModelGenerator().Generate());
         }
 
         protected void Application_Error(object sender, EventArgs e) {

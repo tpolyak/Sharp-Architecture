@@ -15,23 +15,16 @@
     </TemplateData>
     <TemplateContent>
         <Project TargetFileName="CrudScaffolding.csproj" File="CrudScaffolding.csproj" ReplaceParameters="true">
-            <ProjectItem ReplaceParameters="false" TargetFileName="Pluralizer.tt">Pluralizer.tt</ProjectItem>
-            <ProjectItem ReplaceParameters="true" TargetFileName="PluralizerLicense.htm">PluralizerLicense.htm</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="EntityScaffoldingDetails.tt">EntityScaffoldingDetails.tt</ProjectItem>
             <Folder Name="Properties" TargetFolderName="Properties">
                 <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
             </Folder>
-            <ProjectItem ReplaceParameters="false" TargetFileName="ScaffoldingEnums.tt">ScaffoldingEnums.tt</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="ScaffoldingGeneratorCommand.tt">ScaffoldingGeneratorCommand.tt</ProjectItem>
             <Folder Name="Templates" TargetFolderName="Templates">
                 <ProjectItem ReplaceParameters="false" TargetFileName="ScaffoldingGenerator.tt">ScaffoldingGenerator.tt</ProjectItem>
                 <ProjectItem ReplaceParameters="false" TargetFileName="BaseTemplate.tt">BaseTemplate.tt</ProjectItem>
                 <Folder Name="Core" TargetFolderName="Core">
                     <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectTemplate.tt">DomainObjectTemplate.tt</ProjectItem>
-                </Folder>
-                <Folder Name="Data" TargetFolderName="Data">
-                    <Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps">
-                        <ProjectItem ReplaceParameters="false" TargetFileName="ClassMapTemplate.tt">ClassMapTemplate.tt</ProjectItem>
-                    </Folder>
                 </Folder>
                 <Folder Name="Tests" TargetFolderName="Tests">
                     <Folder Name="Core" TargetFolderName="Core">
@@ -51,8 +44,6 @@
                         <ProjectItem ReplaceParameters="false" TargetFileName="CreateTemplate.tt">CreateTemplate.tt</ProjectItem>
                         <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectFormTemplate.tt">DomainObjectFormTemplate.tt</ProjectItem>
                         <ProjectItem ReplaceParameters="false" TargetFileName="EditTemplate.tt">EditTemplate.tt</ProjectItem>
-                        <ProjectItem ReplaceParameters="false" TargetFileName="GeneralCodeBehindTemplate.tt">GeneralCodeBehindTemplate.tt</ProjectItem>
-                        <ProjectItem ReplaceParameters="false" TargetFileName="GeneralDesignerTemplate.tt">GeneralDesignerTemplate.tt</ProjectItem>
                         <ProjectItem ReplaceParameters="false" TargetFileName="IndexTemplate.tt">IndexTemplate.tt</ProjectItem>
                         <ProjectItem ReplaceParameters="false" TargetFileName="ShowTemplate.tt">ShowTemplate.tt</ProjectItem>
                     </Folder>

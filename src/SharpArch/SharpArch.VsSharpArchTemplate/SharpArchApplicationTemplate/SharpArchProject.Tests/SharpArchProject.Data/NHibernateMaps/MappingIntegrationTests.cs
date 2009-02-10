@@ -4,6 +4,7 @@ using SharpArch.Data.NHibernate;
 using System.Collections;
 using NHibernate;
 using System;
+using $solutionname$.Data.NHibernateMaps;
 
 namespace Tests.$solutionname$.Data.NHibernateMaps
 {
@@ -22,6 +23,7 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
         public virtual void SetUp() {
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
             NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, 
+                new AutoPersistenceModelGenerator().Generate(),
                 "../../../../app/$solutionname$.Web/Hibernate.cfg.xml");
         }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using Castle.Windsor;
 using System.Reflection;
 using System.Web.Mvc;
-using MvcContrib.MetaData;
 using Castle.Core;
 
 namespace SharpArch.Web.Castle
@@ -27,41 +26,6 @@ namespace SharpArch.Web.Castle
                 
                 return null;
             });
-        }
-
-        /// <summary>
-        /// This is a modified version of the RegisterControllers extension found within MvcContrib.
-        /// This modified version registers the controller by its full name to account for areas.
-        /// </summary>
-        public static IWindsorContainer RegisterController<T>(this IWindsorContainer container) where T : IController {
-            container.RegisterControllersByArea(typeof(T));
-            return container;
-        }
-
-        /// <summary>
-        /// This is a modified version of the RegisterControllers extension found within MvcContrib.
-        /// This modified version registers the controller by its full name to account for areas.
-        /// </summary>
-        public static IWindsorContainer RegisterControllersByArea(this IWindsorContainer container, params Type[] controllerTypes) {
-            foreach (var type in controllerTypes) {
-                if (ControllerDescriptor.IsController(type)) {
-                    container.AddComponentLifeStyle(type.FullName.ToLower(), type, LifestyleType.Transient);
-                }
-            }
-
-            return container;
-        }
-
-        /// <summary>
-        /// This is a modified version of the RegisterControllers extension found within MvcContrib.
-        /// This modified version registers the controller by its full name to account for areas.
-        /// </summary>
-        public static IWindsorContainer RegisterControllersByArea(this IWindsorContainer container, params Assembly[] assemblies) {
-            foreach (var assembly in assemblies) {
-                container.RegisterControllersByArea(assembly.GetExportedTypes());
-            }
-
-            return container;
         }
     }
 }

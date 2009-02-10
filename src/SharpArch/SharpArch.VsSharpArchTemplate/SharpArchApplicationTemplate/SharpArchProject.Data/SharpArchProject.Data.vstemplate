@@ -15,7 +15,9 @@
     </TemplateData>
     <TemplateContent>
         <Project TargetFileName="SharpArchProject.Data.csproj" File="SharpArchProject.Data.csproj" ReplaceParameters="true">
-            <Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps" />
+            <Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps">
+                    <ProjectItem ReplaceParameters="true" TargetFileName="AutoPersistenceModelGenerator.cs">AutoPersistenceModelGenerator.cs</ProjectItem>
+            </Folder>
             <Folder Name="Properties" TargetFolderName="Properties">
                 <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
             </Folder>

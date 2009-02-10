@@ -3,24 +3,25 @@
 <#+
 public class ShowTemplate : BaseTemplate
 {
-	public ShowTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
-		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { } 
+	public ShowTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { } 
 
 	protected override void RenderCore()
 	{
 #>
-<%@ Page Title="<#= DomainObjectName #> Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" CodeBehind="Show.aspx.cs" Inherits="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Views") #>.<#= DomainObjectNamePlural #>.Show" %>
+<%@ Page Title="<#= EntityScaffoldingDetails.EntityName #> Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
+	Inherits="System.Web.Mvc.ViewPage<<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>.<#= EntityScaffoldingDetails.EntityName #>>" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-    <h2><#= DomainObjectName #> Details</h2>
+    <h2><#= EntityScaffoldingDetails.EntityName #> Details</h2>
 
     <ul>
 	<#+
-	foreach (string	propertyName in Properties.AllKeys ) {
+	foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
 	#>
 	<li>
-			<label for="<#= DomainObjectName #>.<#= propertyName #>"><#= propertyName #>:</label>
-            <span id="<#= DomainObjectName #>.<#= propertyName #>"><%= ViewData.Model.<#= propertyName #> %></span>
+			<label for="<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>"><#= property.PropertyName #>:</label>
+            <span id="<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>"><%= ViewData.Model.<#= property.PropertyName #> %></span>
 		</li>
 	<#+
 	}

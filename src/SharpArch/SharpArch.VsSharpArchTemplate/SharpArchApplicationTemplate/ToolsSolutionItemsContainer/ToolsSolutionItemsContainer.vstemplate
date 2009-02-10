@@ -11,11 +11,13 @@
 		<ProvideDefaultName>true</ProvideDefaultName>
 		<LocationField>Enabled</LocationField>
 		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+        <Icon></Icon>
 	</TemplateData>
 	<TemplateContent>
 		<Project TargetFileName="ToolsSolutionItemsContainer.csproj" File="ToolsSolutionItemsContainer.csproj">
 			<Folder Name="Solution Items">
-				<ProjectItem>MvcContrib.TestHelper.dll</ProjectItem>
+                <ProjectItem>FluentNHibernate.Testing.dll</ProjectItem>
+                <ProjectItem>MvcContrib.TestHelper.dll</ProjectItem>
 				<ProjectItem>nunit.framework.dll</ProjectItem>
 				<ProjectItem>Rhino.Mocks.dll</ProjectItem>
 				<ProjectItem>Rhino.Mocks.xml</ProjectItem>

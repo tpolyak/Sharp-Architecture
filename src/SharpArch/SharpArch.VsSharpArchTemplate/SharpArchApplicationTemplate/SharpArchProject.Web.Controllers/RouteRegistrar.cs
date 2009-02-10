@@ -18,7 +18,8 @@ namespace $safeprojectname$
             //    routes.MapRoute(null, "Organization/Department/{controller}/{action}", new { action = "Index" })
             //);
             //routes.CreateArea("Organization", "$safeprojectname$.Organization",
-            //    routes.MapRoute(null, "Organization/{controller}/{action}", new { action = "Index" })
+            //    routes.MapRoute(null, "Organization/{controller}/{action}", new { action = "Index" }),
+            //    routes.MapRoute(null, "Organization/{controller}/{action}/{id}")
             //);
             
             // Routing config for the root area

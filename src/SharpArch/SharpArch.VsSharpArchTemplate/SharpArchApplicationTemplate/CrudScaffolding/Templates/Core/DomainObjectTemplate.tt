@@ -3,8 +3,8 @@
 <#+
 public class DomainObjectTemplate : BaseTemplate
 {
-	public DomainObjectTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
-		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
+	public DomainObjectTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { }
 
 	protected override void RenderCore()
 	{
@@ -16,15 +16,22 @@ using System;
 
 namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>
 {
-    public class <#= DomainObjectName #> : Entity
+    public class <#= EntityScaffoldingDetails.EntityName #> : Entity
     {
-        public <#= DomainObjectName #>() { }
-
+        public <#= EntityScaffoldingDetails.EntityName #>() { }
 		<#+
 		PushIndent("\t\t");
 
-		foreach (string	propertyName in Properties.AllKeys ) {
-			WriteLine("public virtual " + Properties[propertyName] + " " + propertyName + " { get; set; }");
+		foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
+			WriteLine("");
+
+			if (property.IsPartOfDomainSignature)
+				WriteLine("[DomainSignature]");
+
+			if (! string.IsNullOrEmpty(property.PropertyAttributes))
+				WriteLine(property.PropertyAttributes);
+
+			WriteLine("public virtual " + property.TypeName + " " + property.PropertyName + " { get; set; }");
 		}
 
 		PopIndent();

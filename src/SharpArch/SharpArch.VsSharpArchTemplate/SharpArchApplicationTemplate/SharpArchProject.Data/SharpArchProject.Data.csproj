@@ -5,7 +5,7 @@
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<ProductVersion>9.0.21022</ProductVersion>
 		<SchemaVersion>2.0</SchemaVersion>
-		<ProjectGuid>{AAB1B13C-653C-4764-9360-4DA67F4CC959}</ProjectGuid>
+		<ProjectGuid>$guid2$</ProjectGuid>
 		<OutputType>Library</OutputType>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<RootNamespace>$safeprojectname$</RootNamespace>
@@ -35,7 +35,11 @@
 			<SpecificVersion>False</SpecificVersion>
 			<HintPath>..\..\lib\FluentNHibernate.dll</HintPath>
 		</Reference>
-		<Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+        <Reference Include="Inflector.Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\lib\Inflector.Net.dll</HintPath>
+        </Reference>
+        <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
 			<SpecificVersion>False</SpecificVersion>
 			<HintPath>..\..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
 		</Reference>
@@ -69,16 +73,16 @@
 		<Reference Include="System.Xml" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\$solutionname$.Core\$solutionname$.Core.csproj">
-			<Project>{968B265E-AF3B-4153-B996-6EC4E83D9616}</Project>
+			<Project>{$guid1$}</Project>
 			<Name>$solutionname$.Core</Name>
 		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="NHibernateMaps\" />
+        <Compile Include="NHibernateMaps\AutoPersistenceModelGenerator.cs" />
 	</ItemGroup>
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

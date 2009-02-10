@@ -32,27 +32,23 @@
       <Folder Name="Properties" TargetFolderName="Properties">
         <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
       </Folder>
-      <Folder Name="Scripts" TargetFolderName="Scripts">
-        <ProjectItem ReplaceParameters="true" TargetFileName="jquery-1.2.6.js">jquery-1.2.6.js</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="jquery-1.2.6.min.js">jquery-1.2.6.min.js</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftAjax.debug.js">MicrosoftAjax.debug.js</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftAjax.js">MicrosoftAjax.js</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftMvcAjax.debug.js">MicrosoftMvcAjax.debug.js</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftMvcAjax.js">MicrosoftMvcAjax.js</ProjectItem>
-      </Folder>
+        <Folder Name="Scripts" TargetFolderName="Scripts">
+            <ProjectItem ReplaceParameters="true" TargetFileName="jquery-1.2.6.js">jquery-1.2.6.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="jquery-1.2.6.min.js">jquery-1.2.6.min.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="jquery-1.2.6.min-vsdoc.js">jquery-1.2.6.min-vsdoc.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="jquery-1.2.6-vsdoc.js">jquery-1.2.6-vsdoc.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftAjax.debug.js">MicrosoftAjax.debug.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftAjax.js">MicrosoftAjax.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftMvcAjax.debug.js">MicrosoftMvcAjax.debug.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftMvcAjax.js">MicrosoftMvcAjax.js</ProjectItem>
+        </Folder>
       <Folder Name="Views" TargetFolderName="Views">
         <Folder Name="Home" TargetFolderName="Home">
           <ProjectItem ReplaceParameters="true" TargetFileName="Index.aspx">Index.aspx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="Index.aspx.cs">Index.aspx.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="Index.aspx.designer.cs">Index.aspx.designer.cs</ProjectItem>
         </Folder>
         <Folder Name="Shared" TargetFolderName="Shared">
           <ProjectItem ReplaceParameters="true" TargetFileName="Error.aspx">Error.aspx</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="Error.aspx.cs">Error.aspx.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="Error.aspx.designer.cs">Error.aspx.designer.cs</ProjectItem>
           <ProjectItem ReplaceParameters="true" TargetFileName="Site.Master">Site.Master</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="Site.Master.cs">Site.Master.cs</ProjectItem>
-          <ProjectItem ReplaceParameters="true" TargetFileName="Site.Master.designer.cs">Site.Master.designer.cs</ProjectItem>
         </Folder>
         <ProjectItem ReplaceParameters="true" TargetFileName="Web.config">Web.config</ProjectItem>
       </Folder>

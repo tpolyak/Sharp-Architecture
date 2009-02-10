@@ -3,12 +3,13 @@
 <#+
 public class ControllerTestsTemplate : BaseTemplate
 {
-	public ControllerTestsTemplate(string solutionName, string domainObjectName, NameValueCollection properties, string[] namespaceHierarchy) 
-		: base(solutionName, domainObjectName, properties, namespaceHierarchy) { }
+	public ControllerTestsTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { }
 
 	protected override void RenderCore()
 	{
 #>
+using System;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -23,113 +24,98 @@ using <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>;
 namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Controllers") #>
 {
     [TestFixture]
-    public class <#= DomainObjectNamePlural #>ControllerTests
+    public class <#= EntityScaffoldingDetails.EntityNamePlural #>ControllerTests
     {
         [SetUp]
         public void SetUp() {
             ServiceLocatorInitializer.Init();
-
-            controller = new <#= DomainObjectNamePlural #>Controller(CreateMock<#= DomainObjectName #>Repository());
+            controller = new <#= EntityScaffoldingDetails.EntityNamePlural #>Controller(CreateMock<#= EntityScaffoldingDetails.EntityName #>Repository());
         }
 
         /// <summary>
-        /// Add a couple of objects to the list within Create<#= DomainObjectNamePlural #> and change the 
+        /// Add a couple of objects to the list within Create<#= EntityScaffoldingDetails.EntityNamePlural #> and change the 
         /// "Is.EqualTo(0)" within this test to the respective number.
         /// </summary>
         [Test]
-        public void CanList<#= DomainObjectNamePlural #>() {
+        public void CanList<#= EntityScaffoldingDetails.EntityNamePlural #>() {
             ViewResult result = controller.Index().AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as List<<#= DomainObjectName #>>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as List<<#= DomainObjectName #>>).Count, Is.EqualTo(0));
+            Assert.That(result.ViewData.Model as List<<#= EntityScaffoldingDetails.EntityName #>>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as List<<#= EntityScaffoldingDetails.EntityName #>>).Count, Is.EqualTo(0));
         }
 
         [Test]
-        public void CanShow<#= DomainObjectName #>() {
+        public void CanShow<#= EntityScaffoldingDetails.EntityName #>() {
             ViewResult result = controller.Show(1).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as <#= DomainObjectName #>).ID, Is.EqualTo(1));
+            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).ID, Is.EqualTo(1));
         }
 
         [Test]
-        public void CanInit<#= DomainObjectName #>Creation() {
+        public void CanInit<#= EntityScaffoldingDetails.EntityName #>Creation() {
             ViewResult result = controller.Create().AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Null);
+            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Null);
         }
 
-        /// <summary>
-        /// You need to take the following steps to get this passing:
-        /// 1) Optionally add NHibernate validation constraints to the appropriate <#= DomainObjectName #> object properties
-        /// 2) If validation attributes were added, change the number of expected violations within this test, accordingly
-        /// 3) Optionally include assertions for each violation you expect
-        /// 4) Remove the ignore attribute on this test along with this description
-        /// </summary>
         [Test]
-        [Ignore("Follow the steps in this test's description to get this passing")]
-        public void CanEnsure<#= DomainObjectName #>CreationIsValid() {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>();
-            ViewResult result = controller.Create(<#= DomainObjectNameCamelCase #>FromForm).AssertViewRendered();
+        public void CanEnsure<#= EntityScaffoldingDetails.EntityName #>CreationIsValid() {
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = new <#= EntityScaffoldingDetails.EntityName #>();
+            ViewResult result = controller.Create(<#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Null);
+            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Null);
 
             // If you add validation rules, change the number of expected violations here and a test for each error, accordingly
-            Assert.That(result.ViewData.ModelState.Count, Is.EqualTo(0));
+            Assert.That(result.ViewData.ModelState.Count, Is.GreaterThan(0));
 
             // Example validation message test:
-            // Assert.That(result.ViewData.ModelState["<#= DomainObjectName #>.FirstName"].Errors[0].ErrorMessage, Is.Not.Empty);
+            // Assert.That(result.ViewData.ModelState["<#= EntityScaffoldingDetails.EntityName #>.Name"].Errors[0].ErrorMessage, Is.Not.Empty);
         }
 
         [Test]
-        [Ignore("Set the properties from the faked form in the test, in compliance with any validation rules, and then remove this ignore")]
-        public void CanCreate<#= DomainObjectName #>() {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
-				// Set the properties from the faked form here; e.g., Name = "Billy"
-            };
-
-            RedirectToRouteResult redirectResult = controller.Create(<#= DomainObjectNameCamelCase #>FromForm)
+        public void CanCreate<#= EntityScaffoldingDetails.EntityName #>() {
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = CreateTransient<#= EntityScaffoldingDetails.EntityName #>();
+            RedirectToRouteResult redirectResult = controller.Create(<#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"].ToString().Contains("was successfully created"));
         }
 
         [Test]
-        [Ignore("Set the properties from the faked form in the test, in compliance with any validation rules, and then remove this ignore")]
-        public void CanUpdate<#= DomainObjectName #>() {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #>FromForm = new <#= DomainObjectName #>() {
-				// Set the properties from the faked form here; e.g., Name = "Billy"
-            };
-
-            RedirectToRouteResult redirectResult = controller.Edit(1, <#= DomainObjectNameCamelCase #>FromForm)
+        public void CanUpdate<#= EntityScaffoldingDetails.EntityName #>() {
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = CreateTransient<#= EntityScaffoldingDetails.EntityName #>();
+            RedirectToRouteResult redirectResult = controller.Edit(1, <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"].ToString().Contains("was successfully updated"));
         }
 
         [Test]
-        public void CanInit<#= DomainObjectName #>Edit() {
+        public void CanInit<#= EntityScaffoldingDetails.EntityName #>Edit() {
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as <#= DomainObjectName #>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as <#= DomainObjectName #>).ID, Is.EqualTo(1));
+            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Not.Null);
+            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).ID, Is.EqualTo(1));
         }
 
         [Test]
-        public void CanDelete<#= DomainObjectName #>() {
+        public void CanDelete<#= EntityScaffoldingDetails.EntityName #>() {
             RedirectToRouteResult redirectResult = controller.Delete(1)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"].ToString().Contains("was successfully deleted"));
         }
 
-        private IRepository<<#= DomainObjectName #>> CreateMock<#= DomainObjectName #>Repository() {
+		#region Create Mock <#= EntityScaffoldingDetails.EntityName #> Repository
+
+        private IRepository<<#= EntityScaffoldingDetails.EntityName #>> CreateMock<#= EntityScaffoldingDetails.EntityName #>Repository() {
             MockRepository mocks = new MockRepository();
 
-            IRepository<<#= DomainObjectName #>> mockedRepository = mocks.StrictMock<IRepository<<#= DomainObjectName #>>>();
+            IRepository<<#= EntityScaffoldingDetails.EntityName #>> mockedRepository = mocks.StrictMock<IRepository<<#= EntityScaffoldingDetails.EntityName #>>>();
             Expect.Call(mockedRepository.GetAll())
-                .Return(Create<#= DomainObjectNamePlural #>());
+                .Return(Create<#= EntityScaffoldingDetails.EntityNamePlural #>());
             Expect.Call(mockedRepository.Get(1)).IgnoreArguments()
-                .Return(Create<#= DomainObjectName #>());
+                .Return(Create<#= EntityScaffoldingDetails.EntityName #>());
             Expect.Call(mockedRepository.SaveOrUpdate(null)).IgnoreArguments()
-                .Return(Create<#= DomainObjectName #>());
+                .Return(Create<#= EntityScaffoldingDetails.EntityName #>());
             Expect.Call(delegate { mockedRepository.Delete(null); }).IgnoreArguments();
 
             IDbContext mockedDbContext = mocks.StrictMock<IDbContext>();
@@ -141,24 +127,44 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
             return mockedRepository;
         }
 
-        private <#= DomainObjectName #> Create<#= DomainObjectName #>() {
-            <#= DomainObjectName #> <#= DomainObjectNameCamelCase #> = new <#= DomainObjectName #>();
-
-            // Set the <#= DomainObjectNameCamelCase #> properties here
-
-            EntityIdSetter<int>.SetIdOf(<#= DomainObjectNameCamelCase #>, 1);
-            return <#= DomainObjectNameCamelCase #>;
+        private <#= EntityScaffoldingDetails.EntityName #> Create<#= EntityScaffoldingDetails.EntityName #>() {
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #> = CreateTransient<#= EntityScaffoldingDetails.EntityName #>();
+            EntityIdSetter<int>.SetIdOf(<#= EntityScaffoldingDetails.EntityNameCamelCase #>, 1);
+            return <#= EntityScaffoldingDetails.EntityNameCamelCase #>;
         }
 
-        private List<<#= DomainObjectName #>> Create<#= DomainObjectNamePlural #>() {
-            List<<#= DomainObjectName #>> <#= DomainObjectNamePluralCamelCase #> = new List<<#= DomainObjectName #>>();
+        private List<<#= EntityScaffoldingDetails.EntityName #>> Create<#= EntityScaffoldingDetails.EntityNamePlural #>() {
+            List<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNamePluralCamelCase #> = new List<<#= EntityScaffoldingDetails.EntityName #>>();
 
             // Create a number of domain object instances here and add them to the list
 
-            return <#= DomainObjectNamePluralCamelCase #>;
+            return <#= EntityScaffoldingDetails.EntityNamePluralCamelCase #>;
+        }
+        
+        #endregion
+
+        /// <summary>
+        /// Creates a valid, transient <#= EntityScaffoldingDetails.EntityName #>; typical of something retrieved back from a form submission
+        /// </summary>
+        private <#= EntityScaffoldingDetails.EntityName #> CreateTransient<#= EntityScaffoldingDetails.EntityName #>() {
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #> = new <#= EntityScaffoldingDetails.EntityName #>() {
+				<#+
+				PushIndent("\t\t\t\t");
+
+				for (int i=0; i < EntityScaffoldingDetails.EntityProperties.Count; i++) {
+					WriteLine(EntityScaffoldingDetails.EntityProperties[i].PropertyName + " = " + 
+						EntityScaffoldingDetails.EntityProperties[i].GetDefaultValueForTests() + 
+						((i < EntityScaffoldingDetails.EntityProperties.Count - 1) ? "," : ""));
+				}
+
+				PopIndent();
+				#>
+            };
+            
+            return <#= EntityScaffoldingDetails.EntityNameCamelCase #>;
         }
 
-        private <#= DomainObjectNamePlural #>Controller controller;
+        private <#= EntityScaffoldingDetails.EntityNamePlural #>Controller controller;
     }
 }
 <#+

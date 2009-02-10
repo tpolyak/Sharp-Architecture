@@ -5,7 +5,7 @@
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <ProductVersion>9.0.21022</ProductVersion>
         <SchemaVersion>2.0</SchemaVersion>
-        <ProjectGuid>{968B265E-AF3B-4153-B996-6EC4E83D9616}</ProjectGuid>
+        <ProjectGuid>$guid6$</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>SolutionItemsContainer</RootNamespace>
@@ -39,22 +39,27 @@
         <Content Include="Solution Items\Castle.DynamicProxy2.dll" />
         <Content Include="Solution Items\Castle.DynamicProxy2.xml" />
         <Content Include="Solution Items\Castle.MicroKernel.dll" />
+        <Content Include="Solution Items\Castle.Services.Logging.Log4netIntegration.dll" />
         <Content Include="Solution Items\Castle.Windsor.dll" />
         <Content Include="Solution Items\CommonServiceLocator.WindsorAdapter.dll" />
         <Content Include="Solution Items\FluentNHibernate.dll" />
+        <Content Include="Solution Items\FluentNHibernate.Framework.dll" />
         <Content Include="Solution Items\Iesi.Collections.dll" />
         <Content Include="Solution Items\Iesi.Collections.xml" />
+        <Content Include="Solution Items\Inflector.Net.dll" />
         <Content Include="Solution Items\log4net.dll" />
         <Content Include="Solution Items\log4net.xml" />
         <Content Include="Solution Items\Microsoft.Practices.ServiceLocation.dll" />
         <Content Include="Solution Items\Microsoft.Web.Mvc.dll" />
         <Content Include="Solution Items\MvcContrib.Castle.dll" />
         <Content Include="Solution Items\MvcContrib.dll" />
+        <Content Include="Solution Items\MvcContrib.FluentHtml.dll" />
+        <Content Include="Solution Items\MvcContrib.ModelAttributes.dll" />
         <Content Include="Solution Items\Newtonsoft.Json.dll" />
         <Content Include="Solution Items\Newtonsoft.Json.xml" />
         <Content Include="Solution Items\NHibernate.dll" />
-		<Content Include="Solution Items\NHibernate.Linq.dll" />
-		<Content Include="Solution Items\NHibernate.Validator.dll" />
+        <Content Include="Solution Items\NHibernate.Linq.dll" />
+        <Content Include="Solution Items\NHibernate.Validator.dll" />
         <Content Include="Solution Items\NHibernate.Validator.xml" />
         <Content Include="Solution Items\NHibernate.xml" />
         <Content Include="Solution Items\SharpArch.Core.dll" />
