@@ -7,29 +7,29 @@ Roadmap for 1.0 Release
 * Await impatiently for the release of ASP.NET MVC 1.0
 * Support multiple databases
 * Add WCF integration example
-* Add example of LINQ for NHibernate (after it matures)
 
 ----------------------------------------------
 ----------------------------------------------
-On the Trunk
+On the Trunk (Ready for RC release pending update of documentation)
 ----------------------------------------------
 ----------------------------------------------
 
 New and exciting in this release:
 * compatible with ASP.NET MVC RC
-* VS template project includes Fluent NHibernate auto persistence mapping automatically
+* VS template project includes Fluent NHibernate auto persistence mapping by default
 * Much more powerful and extensible CRUD scaffolding generator - it's completely touch-up free for many scenarios
-
--------
+* Performance of unit tests using SQLite has been improved 20% (thanks Jay Oliver!)
+* Integration of domain validation with MVC model binding has been introduced via a new ValidatableModelBinder (thanks David Hayden and Austin Bain!)
+* Added crazy cool anti-forgery voodoo magic to the CRUD scaffolding generator for creating, editing and deleting items (uh, thanks MVC team!)
 
 Assembly Dependencies:
 * ASP.NET MVC RC 1 Refresh
 * ASP.NET MVC RC 1 Futures
 * Castle 1.0 RC3 (rev 1038)
-* Fluent NHibernate 0.1 (rev 283)
+* Fluent NHibernate 0.1 (rev 315)
 * Json.NET 3.5 Beta 2
-* Microsoft.Practices.ServiceLocation 1.0 (CommonServiceLocator)
-* MvcContrib for MVC RC (rev 775)
+* Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
+* MvcContrib for MVC RC (rev 781)
 * NHibernate 2.0.1 GA
 * NHibernate.Validator 1.0 GA
 * NUnit 2.4.8
@@ -39,18 +39,16 @@ Assembly Dependencies:
 
 -------
 
-Upgrading to S#arp Architecture RC 1 from Beta:
+Upgrading to S#arp Architecture RC 1 from Beta (steps also done to the Northwind sample project):
 1) Install NUnit 2.4.8
 2) Update assembly dependencies from trunk/bin into your application's lib and /tools/lib folders
-3) (PENDING NEXT CHECK-IN) Change all reference to anyEntity.ID to anyEntity.Id (I've included an obsolete ID getter with this release only.)  You'll definitely want resharper around for this one.
+3) Change all reference to anyEntity.ID to anyEntity.Id (I've included an obsolete ID getter with this release only.)  You'll definitely want resharper around for this one.
 4) Within your Fluent NHibernate mapping files, rename .IsInverse() to .Inverse()
 5) If you're using Fluent NHibernate auto mapping persistence, do the following account for the fact that you can no longer inherit from AutoMap:
-	1) For each class that inherits from AutoMap, remove the AutoMap inheritance and implement SharpArch.Data.NHibernate.FluentNHibernate.IAutoPeristenceModelConventionOverride instead
+	1) For each class that inherits from AutoMap, remove the AutoMap inheritance and implement IAutoMappingOverride<YourEntity> instead.
 	2) Move the contents of the constructor, which sets up the overrides, to the body of the following, prefixing each line with "map.":
-            public AutoPersistenceModel Override(AutoPersistenceModel model) {
-                return model.ForTypesThatDeriveFrom<YourEntityClassName>(map => {
-                    // Your mapping overrides
-                });
+            public void Override(AutoMap<YourEntity> mapping) {
+                // Your mapping overrides; e.g., mapping.Id(...);
             }
 	3) Within YourProject.Data.NHibernateMaps.AutoPersistenceModelGenerator, append the following extension method to the mappings creation:
             .MapConventionOverridesFromAssemblyOf<YourEntityClassMapName>();
@@ -72,7 +70,10 @@ Upgrading to S#arp Architecture RC 1 from Beta:
 
 Changes to /src:
 
-CrudScaffolding Generator
+Solution Wide:
+* BREAKING CHANGE ~ Changed Entity.ID to Entity.Id for compliance with naming conventions but have provided obsolete Entity.ID getter for backward compatibility (When you upgrade, don't do a simple find and replace as you'll change IDictionary, GUID and other such items; also pay attention when updating your IAutoPersistenceModelGenerator)
+
+CrudScaffolding Generator:
 * ScaffoldingGeneratorCommand.tt:  Commented out "generator.Run()" by default to avoid inadvertent code generation
 * Added reference to SharpArch.Core to have design by contract capablities
 * Added reference to Inflector.Net.Inflector for pluralizing words
@@ -105,9 +106,10 @@ CrudScaffolding Generator
 	- Replaced "DomainObjectName" with "EntityScaffoldingDetails.EntityName"
 	- Carefully replaced "NamespaceHierarchy" with "EntityScaffoldingDetails.NamespaceHierarchy"
 	- Replaced "foreach (string propertyName in Properties.AllKey)" with "foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties)" and adjusted loop accordingly
+* Within /Templates/Tests/Core/Web/Controllers/ControllerTestsTemplate.tt, deleted CanEnsureEntityCreationIsValid() method; it's doesn't prove anything with the new use of ModelState.IsValid on form submissions
 
 SharpArch.Core
-* BREAKING CHANGE ~ /DomainModel.Entity.ID changed to Entity.Id because "Id" is an abbreviation, not an acronym, and should reflect this, accordingly.  (An obsolete getter for ID remains for temporary backward compatibility.)  Yes, it's a bit of tom-at-o/tom-ott-o...but formally, it really should be "Id".
+* /DomainModel/ValidatableObject.cs:  This new class extracts the concrete validation that was being performed in Entity into a reusable superclass.  (Entity now inherits from it.)
 
 SharpArch.Data
 * /NHibernate/FluentNHibernate/IAutoPeristenceModelConventionOverride.cs:  Added this interface to serve as a base class for any Fluent NHibernate override classes; this was introduced because it's no longer allowed to inherit from AutoMap<> for overriding conventions.
@@ -115,9 +117,28 @@ SharpArch.Data
 
 SharpArch.Web
 * /Areas/AreaViewEngine.cs:  Added a needed "useCache" variable to FindPartialView() and FindView() for RC compatibility
+* /CommonValidator/ValidatableModelBinder.cs:  This new class inherits DefaultModelBinder to introduce domain driven validation to the binding process.  (This is in contrast to the MVC IDataErrorInfo which uses exceptions for raising validation issues.  See the class comments for more information.)
 
 SharpArch.Web.Castle
 * WindsorExtensions.cs:  Dropped RegisterController() and RegisterControllersByArea() extension methods; MvCContrib has this fixed now - so need need for the extensions anymore.
+
+Northwind.Web
+* Renamed Hibernate.cfg.xml to NHibernate.config so that you can't browse to it on the web server
+* Global.asax.cs:
+	- Passed location of NHibernate.config to NHibernateSession.Init()
+	- Within Application_Start, added "ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();" to replace the default binder with one that seamlessly integrates CommonValidator capabilities
+* /Views/Organization/Employees/Index.aspx:  Changed the delete link to an input button within a form which includes an anti-forgery token; deletes should only happen via POST requests for better security
+
+Northwind.Web.Controllers
+* /Organization/EmployeesController.cs:
+	- Replaced validation mechanism with ModelState.IsValid which now leverages ValidatableModelBinder
+	- Moved transfer of form properties to persistent object to within ModelState.IsValid path
+	- Dropped RollbackTransaction since it's no longer necessary
+	- Dropped use of MvcValidationAdapter.TransferValidationMessagesTo since it's done via ValidatableModelBinder
+	- Added ValidateAntiForgeryToken to the post actions
+
+Northwind.Tests
+* /Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs:  Renamed "Hibernate.cfg.xml" parameter to "NHibernate.config" (discussed under Northwind.Web changes)
 
 ----------------------------------------------
 ----------------------------------------------
