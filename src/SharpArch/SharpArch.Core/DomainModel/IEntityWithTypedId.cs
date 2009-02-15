@@ -9,7 +9,7 @@ namespace SharpArch.Core.DomainModel
     /// </summary>
     public interface IEntityWithTypedId<IdT>
     {
-        IdT ID { get; }
+        IdT Id { get; }
         bool IsTransient();
         IEnumerable<PropertyInfo> GetSignatureProperties();
     }

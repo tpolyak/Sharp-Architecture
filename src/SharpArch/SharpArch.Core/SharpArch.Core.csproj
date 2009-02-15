@@ -59,6 +59,7 @@
     <Compile Include="DomainModel\Entity.cs" />
     <Compile Include="DomainModel\IEntityWithTypedId.cs" />
     <Compile Include="DomainModel\IHasAssignedId.cs" />
+    <Compile Include="DomainModel\ValidatableObject.cs" />
     <Compile Include="DomainModel\ValueObject.cs" />
     <Compile Include="PersistenceSupport\IDbContext.cs" />
     <Compile Include="PersistenceSupport\IRepository.cs" />

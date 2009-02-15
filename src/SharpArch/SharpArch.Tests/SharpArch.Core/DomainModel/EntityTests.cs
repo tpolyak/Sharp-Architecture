@@ -288,13 +288,13 @@ namespace Tests.SharpArch.Core.DomainModel
             EntityIdSetter<int>.SetIdOf(object1, 10);
             EntityIdSetter<int>.SetIdOf(object2, 10);
 
-            // Even though the "business value signatures" are different, the persistent IDs 
-            // were the same.  Call me crazy, but I put that much trust into persisted IDs.
+            // Even though the "business value signatures" are different, the persistent Ids 
+            // were the same.  Call me crazy, but I put that much trust into persisted Ids.
             Assert.That(object1, Is.EqualTo(object2));
 
             ObjectWithIntId object3 = new ObjectWithIntId() { Name = "Acme" };
 
-            // Since object1 has an ID but object3 doesn't, they won't be equal
+            // Since object1 has an Id but object3 doesn't, they won't be equal
             // even though their signatures are the same
             Assert.That(object1, Is.Not.EqualTo(object3));
 
@@ -315,13 +315,13 @@ namespace Tests.SharpArch.Core.DomainModel
             object1.SetAssignedIdTo("AAAAA");
             object2.SetAssignedIdTo("AAAAA");
 
-            // Even though the "business value signatures" are different, the persistent IDs 
-            // were the same.  Call me crazy, but I put that much trust into persisted IDs.
+            // Even though the "business value signatures" are different, the persistent Ids 
+            // were the same.  Call me crazy, but I put that much trust into persisted Ids.
             Assert.That(object1, Is.EqualTo(object2));
 
             ObjectWithAssignedId object3 = new ObjectWithAssignedId() { Name = "Acme" };
 
-            // Since object1 has an ID but object3 doesn't, they won't be equal
+            // Since object1 has an Id but object3 doesn't, they won't be equal
             // even though their signatures are the same
             Assert.That(object1, Is.Not.EqualTo(object3));
 
@@ -354,7 +354,7 @@ namespace Tests.SharpArch.Core.DomainModel
             public string Name { get; set; }
 
             public void SetAssignedIdTo(string assignedId) {
-                ID = assignedId;
+                Id = assignedId;
             }
         }
 
@@ -456,7 +456,7 @@ namespace Tests.SharpArch.Core.DomainModel
             MockEntityObjectBase<string>, IHasAssignedId<string>
         {
             public void SetAssignedIdTo(string assignedId) {
-                ID = assignedId;
+                Id = assignedId;
             }
         }
 
@@ -464,7 +464,7 @@ namespace Tests.SharpArch.Core.DomainModel
             MockEntityObjectBase, IHasAssignedId<int>
         {
             public void SetAssignedIdTo(int assignedId) {
-                ID = assignedId;
+                Id = assignedId;
             }
         }
 

@@ -21,10 +21,10 @@ namespace SharpArch.Core.DomainModel
 
     /// <summary>
     /// Provides a base class for your objects which will be persisted to the database.
-    /// Benefits include the addition of an ID property along with a consistent manner for comparing
+    /// Benefits include the addition of an Id property along with a consistent manner for comparing
     /// entities.
     /// 
-    /// Since nearly all of the entities you create will have a type of int ID, this 
+    /// Since nearly all of the entities you create will have a type of int Id, this 
     /// base class leverages this assumption.  If you want an entity with a type other 
     /// than int, such as string, then use <see cref="EntityWithTypedId{IdT}" /> instead.
     /// </summary>
@@ -36,51 +36,34 @@ namespace SharpArch.Core.DomainModel
     /// http://devlicio.us/blogs/billy_mccafferty/archive/2007/04/25/using-equals-gethashcode-effectively.aspx
     /// </summary>
     [Serializable]
-    public abstract class EntityWithTypedId<IdT> : BaseObject, IEntityWithTypedId<IdT>, IValidatable
+    public abstract class EntityWithTypedId<IdT> : ValidatableObject, IEntityWithTypedId<IdT>
     {
-        #region IValidatable Members
-
-        public virtual bool IsValid() {
-            return Validator.IsValid(this);
-        }
-
-        public virtual ICollection<IValidationResult> ValidationResults() {
-            return Validator.ValidationResultsFor(this);
-        }
-
-        private IValidator Validator {
-            get {
-                if (validator == null) {
-                    validator = SafeServiceLocator<IValidator>.GetService();
-                }
-
-                return validator;
-            }
-        }
-
-        [ThreadStatic]
-        private static IValidator validator;
-
-        #endregion
-
         #region IEntityWithTypedId Members
 
         /// <summary>
-        /// ID may be of type string, int, custom type, etc.
+        /// Id may be of type string, int, custom type, etc.
         /// Setter is protected to allow unit tests to set this property via reflection and to allow 
-        /// domain objects more flexibility in setting this for those objects with assigned IDs.
+        /// domain objects more flexibility in setting this for those objects with assigned Ids.
         /// It's virtual to allow NHibernate-backed objects to be lazily loaded.
         /// </summary>
         [JsonProperty]
-        public virtual IdT ID { get; protected set; }
+        public virtual IdT Id { get; protected set; }
+
+        [JsonProperty]
+        [Obsolete("Use the PascalCase 'Id' instead; this backward compatible getter is provided for assisting with this transition")]
+        public virtual IdT ID {
+            get {
+                return Id;
+            }
+        }
 
         /// <summary>
         /// Transient objects are not associated with an item already in storage.  For instance,
-        /// a Customer is transient if its ID is 0.  It's virtual to allow NHibernate-backed 
+        /// a Customer is transient if its Id is 0.  It's virtual to allow NHibernate-backed 
         /// objects to be lazily loaded.
         /// </summary>
         public virtual bool IsTransient() {
-            return ID == null || ID.Equals(default(IdT));
+            return Id == null || Id.Equals(default(IdT));
         }
 
         #endregion
@@ -117,7 +100,7 @@ namespace SharpArch.Core.DomainModel
             if (HasSameNonDefaultIdAs(compareTo))
                 return true;
 
-            // Since the IDs aren't the same, both of them must be transient to 
+            // Since the Ids aren't the same, both of them must be transient to 
             // compare domain signatures; because if one is transient and the 
             // other is a persisted entity, then they cannot be the same object.
             return IsTransient() && compareTo.IsTransient() &&
@@ -132,13 +115,13 @@ namespace SharpArch.Core.DomainModel
         }
 
         /// <summary>
-        /// Returns true if self and the provided entity have the same ID values 
-        /// and the IDs are not of the default ID value
+        /// Returns true if self and the provided entity have the same Id values 
+        /// and the Ids are not of the default Id value
         /// </summary>
         private bool HasSameNonDefaultIdAs(EntityWithTypedId<IdT> compareTo) {
             return !IsTransient() &&
                   !compareTo.IsTransient() &&
-                  ID.Equals(compareTo.ID);
+                  Id.Equals(compareTo.Id);
         }
 
         #endregion

@@ -49,7 +49,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
             ViewResult result = controller.Show(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).ID, Is.EqualTo(1));
+            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).Id, Is.EqualTo(1));
         }
 
         [Test]
@@ -57,20 +57,6 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
             ViewResult result = controller.Create().AssertViewRendered();
 
             Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Null);
-        }
-
-        [Test]
-        public void CanEnsure<#= EntityScaffoldingDetails.EntityName #>CreationIsValid() {
-            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = new <#= EntityScaffoldingDetails.EntityName #>();
-            ViewResult result = controller.Create(<#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm).AssertViewRendered();
-
-            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Null);
-
-            // If you add validation rules, change the number of expected violations here and a test for each error, accordingly
-            Assert.That(result.ViewData.ModelState.Count, Is.GreaterThan(0));
-
-            // Example validation message test:
-            // Assert.That(result.ViewData.ModelState["<#= EntityScaffoldingDetails.EntityName #>.Name"].Errors[0].ErrorMessage, Is.Not.Empty);
         }
 
         [Test]
@@ -94,7 +80,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).ID, Is.EqualTo(1));
+            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).Id, Is.EqualTo(1));
         }
 
         [Test]

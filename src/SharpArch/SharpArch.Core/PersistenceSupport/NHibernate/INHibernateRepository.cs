@@ -16,17 +16,17 @@ namespace SharpArch.Core.PersistenceSupport.NHibernate
     public interface INHibernateRepositoryWithTypedId<T, IdT> : IRepositoryWithTypedId<T, IdT>
     {
         /// <summary>
-        /// Returns null if a row is not found matching the provided ID.
+        /// Returns null if a row is not found matching the provided Id.
         /// </summary>
         T Get(IdT id, Enums.LockMode lockMode);
 
         /// <summary>
-        /// Throws an exception if a row is not found matching the provided ID.
+        /// Throws an exception if a row is not found matching the provided Id.
         /// </summary>
         T Load(IdT id);
 
         /// <summary>
-        /// Throws an exception if a row is not found matching the provided ID.
+        /// Throws an exception if a row is not found matching the provided Id.
         /// </summary>
         T Load(IdT id, Enums.LockMode lockMode);
 
@@ -42,13 +42,13 @@ namespace SharpArch.Core.PersistenceSupport.NHibernate
         T FindOne(T exampleInstance, params string[] propertiesToExclude);
 
         /// <summary>
-        /// For entities that have assigned ID's, you must explicitly call Save to add a new one.
+        /// For entities that have assigned Id's, you must explicitly call Save to add a new one.
         /// See http://www.hibernate.org/hib_docs/nhibernate/html_single/#mapping-declaration-id-assigned.
         /// </summary>
         T Save(T entity);
 
         /// <summary>
-        /// For entities that have assigned ID's, you should explicitly call Update to update an existing one.
+        /// For entities that have assigned Id's, you should explicitly call Update to update an existing one.
         /// Updating also allows you to commit changes to a detached object.  More info may be found at:
         /// http://www.hibernate.org/hib_docs/nhibernate/html_single/#manipulatingdata-updating-detached
         /// </summary>

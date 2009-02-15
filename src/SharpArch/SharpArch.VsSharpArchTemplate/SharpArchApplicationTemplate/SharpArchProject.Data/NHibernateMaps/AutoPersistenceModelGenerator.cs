@@ -16,21 +16,17 @@ namespace $safeprojectname$.NHibernateMaps
                 .MapEntitiesFromAssemblyOf<Class1>()
                 .Where(GetAutoMappingFilter)
                 .WithConvention(GetConventions)
-                .MapConventionOverridesFromAssemblyOf<AutoPersistenceModelGenerator>();
+                .UseOverridesFromAssemblyOf<AutoPersistenceModelGenerator>();
 
             return mappings;
         }
 
         /// <summary>
         /// Provides a filter for only including types which inherit from the IEntityWithTypedId interface.
-        /// This might be considered a little hackish having this magic string in the comparison, but since
-        /// the interface is generic, it wouldn't be possible to compare the type directly.
         /// </summary>
         private bool GetAutoMappingFilter(Type t) {
-            return
-                (from interfaceType in t.GetInterfaces()
-                 where interfaceType.ToString().IndexOf("SharpArch.Core.DomainModel.IEntityWithTypedId") == 0
-                 select interfaceType).Any();
+            return t.GetInterfaces().Any(x =>
+                 x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
         }
 
         /// <summary>
@@ -39,12 +35,14 @@ namespace $safeprojectname$.NHibernateMaps
         /// * The Id of an object is "Id"
         /// * Foreign keys are "ObjectNameFk"
         /// * One-to-Many relationships cascade "All"
+        /// 
+        /// Feel free to change this to your project's needs!
         /// </summary>
         private void GetConventions(Conventions c) {
             c.GetTableName = type => Inflector.Net.Inflector.Pluralize(type.Name);
             c.IsBaseType = IsBaseTypeConvention;
-            c.FindIdentity = type => type.Name == "ID";
-            c.GetForeignKeyNameOfParent = type => type.Name + "Fk";
+            c.FindIdentity = type => type.Name == "Id";
+            c.GetForeignKeyNameOfParent = type => type.Name + "Id";
             c.OneToManyConvention = o => o.Cascade.All();
         }
 
@@ -52,6 +50,7 @@ namespace $safeprojectname$.NHibernateMaps
             bool derivesFromEntity = arg == typeof(Entity);
             bool derivesFromEntityWithTypedId = arg.IsGenericType && 
                 (arg.GetGenericTypeDefinition() == typeof(EntityWithTypedId<>));
+
             return derivesFromEntity || derivesFromEntityWithTypedId;
         }
     }

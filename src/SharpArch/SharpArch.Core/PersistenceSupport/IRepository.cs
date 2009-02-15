@@ -8,8 +8,8 @@ namespace SharpArch.Core.PersistenceSupport
     /// <summary>
     /// Provides a standard interface for DAOs which are data-access mechanism agnostic.
     /// 
-    /// Since nearly all of the domain objects you create will have a type of int ID, this 
-    /// base IDao leverages this assumption.  If you want an entity with a type 
+    /// Since nearly all of the domain objects you create will have a type of int Id, this 
+    /// base Idao leverages this assumption.  If you want an entity with a type 
     /// other than int, such as string, then use <see cref="IRepositoryWithTypedId{T, IdT}" />.
     /// </summary>
     public interface IRepository<T> : IRepositoryWithTypedId<T, int> { }
@@ -17,7 +17,7 @@ namespace SharpArch.Core.PersistenceSupport
     public interface IRepositoryWithTypedId<T, IdT>
     {
         /// <summary>
-        /// Returns null if a row is not found matching the provided ID.
+        /// Returns null if a row is not found matching the provided Id.
         /// </summary>
         T Get(IdT id);
 
@@ -40,7 +40,7 @@ namespace SharpArch.Core.PersistenceSupport
         T FindOne(IDictionary<string, object> propertyValuePairs);
 
         /// <summary>
-        /// For entities with automatatically generated IDs, such as identity, SaveOrUpdate may 
+        /// For entities with automatatically generated Ids, such as identity, SaveOrUpdate may 
         /// be called when saving or updating an entity.
         /// 
         /// Updating also allows you to commit changes to a detached object.  More info may be found at:

@@ -12,7 +12,7 @@ namespace SharpArch.Testing.NUnit.NHibernate
     /// <summary>
     /// Provides a base class for running unit tests against an in-memory database created
     /// during test execution.  This builds the database using the connection details within
-    /// Hibernate.cfg.xml.  If you'd prefer unit testing against a "live" development database
+    /// NHibernate.config.  If you'd prefer unit testing against a "live" development database
     /// such as a SQL Server instance, then use <see cref="DatabaseRepositoryTestsBase" /> instead.
     /// If you'd prefer a more behavior driven approach to testing against the in-memory database,
     /// use <see cref="RepositoryBehaviorSpecificationTestsBase" /> instead.

@@ -15,7 +15,8 @@ namespace $safeprojectname$
 
             // Example illustrative routes with a nested area - note that the order of registration is important
             //routes.CreateArea("Organization/Department", "$safeprojectname$.Organization.Department",
-            //    routes.MapRoute(null, "Organization/Department/{controller}/{action}", new { action = "Index" })
+            //    routes.MapRoute(null, "Organization/Department/{controller}/{action}", new { action = "Index" }),
+            //    routes.MapRoute(null, "Organization/Department/{controller}/{action}/{id}")
             //);
             //routes.CreateArea("Organization", "$safeprojectname$.Organization",
             //    routes.MapRoute(null, "Organization/{controller}/{action}", new { action = "Index" }),

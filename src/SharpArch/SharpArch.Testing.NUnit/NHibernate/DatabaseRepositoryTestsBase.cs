@@ -27,9 +27,7 @@ namespace SharpArch.Testing.NUnit.NHibernate
     {
         [SetUp]
         public virtual void SetUp() {
-            string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
-            AutoPersistenceModel autoMapping = RepositoryTestsHelper.GetAutoPersistenceModel(mappingAssemblies);
-            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoMapping);
+            RepositoryTestsHelper.InitializeNHibernateSession();
             NHibernateSession.Current.BeginTransaction();
         }
 

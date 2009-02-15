@@ -24,7 +24,7 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
             NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, 
                 new AutoPersistenceModelGenerator().Generate(),
-                "../../../../app/$solutionname$.Web/Hibernate.cfg.xml");
+                "../../../../app/$solutionname$.Web/NHibernate.config");
         }
 
         [Test]

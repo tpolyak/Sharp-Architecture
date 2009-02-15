@@ -70,6 +70,7 @@
     <Compile Include="Areas\AreaRouteHelper.cs" />
     <Compile Include="Areas\AreaViewEngine.cs" />
     <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
+    <Compile Include="CommonValidator\ValidatableModelBinder.cs" />
     <Compile Include="JsonNet\JsonNetResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NHibernate\TransactionAttribute.cs" />

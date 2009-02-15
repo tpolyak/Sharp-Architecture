@@ -8,6 +8,7 @@ using NHibernate.Tool.hbm2ddl;
 using SharpArch.Data.NHibernate;
 using System.Configuration;
 using SharpArch.Data.NHibernate.FluentNHibernate;
+using NHibernate;
 
 namespace SharpArch.Testing.NUnit.NHibernate
 {
@@ -17,11 +18,22 @@ namespace SharpArch.Testing.NUnit.NHibernate
     public class RepositoryTestsHelper
     {
         public static void InitializeDatabase() {
-            string[] mappingAssemblies = GetMappingAssemblies();
-            AutoPersistenceModel autoPersistenceModel = GetAutoPersistenceModel(mappingAssemblies);
-            Configuration cfg = NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoPersistenceModel);
+            InitializeNHibernateSession();
             IDbConnection connection = NHibernateSession.Current.Connection;
             new SchemaExport(cfg).Execute(false, true, false, true, connection, null);
+        }
+
+        public static void InitializeNHibernateSession() {
+            if (cfg != null) {
+                NHibernateSession.Storage = new SimpleSessionStorage();
+                NHibernateSession.SessionFactory = sessionFactory;
+            }
+            else {
+                string[] mappingAssemblies = GetMappingAssemblies();
+                AutoPersistenceModel autoPersistenceModel = GetAutoPersistenceModel(mappingAssemblies);
+                cfg = NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoPersistenceModel);
+                sessionFactory = NHibernateSession.SessionFactory;
+            }
         }
 
         public static string[] GetMappingAssemblies() {
@@ -50,5 +62,8 @@ namespace SharpArch.Testing.NUnit.NHibernate
 
             return null;
         }
+
+        private static Configuration cfg;
+        private static ISessionFactory sessionFactory;
     }
 }

@@ -21,5 +21,5 @@ using System;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
+// The following GUID is for the Id of the typelib if this project is exposed to COM
 [assembly: Guid("ba3e4e70-0384-4301-8d87-8fadcec38a9b")]

@@ -145,7 +145,7 @@
         <Content Include="Content\Images\sharp_arch_small.gif" />
         <Content Include="Default.aspx" />
         <Content Include="Global.asax" />
-        <Content Include="Hibernate.cfg.xml">
+        <Content Include="NHibernate.config">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Content Include="Views\Home\Index.aspx" />

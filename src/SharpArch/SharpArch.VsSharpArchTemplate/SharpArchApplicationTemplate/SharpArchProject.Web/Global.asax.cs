@@ -13,6 +13,7 @@ using SharpArch.Web.Castle;
 using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
 using SharpArch.Web.Areas;
+using SharpArch.Web.CommonValidator;
 using $solutionname$.Web.Controllers;
 using $solutionname$.Data.NHibernateMaps;
 using $safeprojectname$.CastleWindsor;
@@ -29,6 +30,8 @@ namespace $safeprojectname$
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
+
+            ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();
 
             InitializeServiceLocator();
 
@@ -55,7 +58,8 @@ namespace $safeprojectname$
 
             NHibernateSession.Init(new WebSessionStorage(this), 
                 new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") },
-                new AutoPersistenceModelGenerator().Generate());
+                new AutoPersistenceModelGenerator().Generate(), 
+                Server.MapPath("~/NHibernate.config"));
         }
 
         protected void Application_Error(object sender, EventArgs e) {

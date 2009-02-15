@@ -4,7 +4,7 @@ using NHibernate;
 namespace SharpArch.Data.NHibernate
 {
     /// <summary>
-    /// This has to implement <see cref="IDbContext" />, but there's no reason for it to be 
+    /// This has to implement <see cref="IdbContext" />, but there's no reason for it to be 
     /// recreated more than once.  Therefore, it's been setup as a threadsafe singleton.
     /// Singleton guidance from http://www.yoda.arachsys.com/csharp/singleton.html.
     /// </summary>

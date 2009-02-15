@@ -11,7 +11,7 @@
 		<ProvideDefaultName>true</ProvideDefaultName>
 		<LocationField>Enabled</LocationField>
 		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
-        <Icon></Icon>
+		<Icon></Icon>
 	</TemplateData>
 	<TemplateContent>
 		<Project TargetFileName="SolutionItemsContainer.csproj" File="SolutionItemsContainer.csproj">
@@ -25,7 +25,6 @@
 				<ProjectItem>Castle.Windsor.dll</ProjectItem>
 				<ProjectItem>CommonServiceLocator.WindsorAdapter.dll</ProjectItem>
 				<ProjectItem>FluentNHibernate.dll</ProjectItem>
-                <ProjectItem>FluentNHibernate.Framework.dll</ProjectItem>
                 <ProjectItem>Iesi.Collections.dll</ProjectItem>
 				<ProjectItem>Iesi.Collections.xml</ProjectItem>
                 <ProjectItem>Inflector.Net.dll</ProjectItem>

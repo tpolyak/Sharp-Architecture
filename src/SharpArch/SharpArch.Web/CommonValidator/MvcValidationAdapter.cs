@@ -8,8 +8,15 @@ namespace SharpArch.Web.CommonValidator
 {
     public class MvcValidationAdapter
     {
-        public static ModelStateDictionary TransferValidationMessagesTo(ModelStateDictionary modelStateDictionary,
-            IEnumerable<IValidationResult> validationResults) {
+        /// <summary>
+        /// This acts as a more "manual" alternative to moving validation errors to the 
+        /// <see cref="ModelStateDictionary" /> if you care to bypass the use of 
+        /// <see cref="ValidatableModelBinder" />.  This typically wouldn't be used in conjunction
+        /// with <see cref="ValidatableModelBinder" /> but as an alternative to it.
+        /// </summary>
+        public static ModelStateDictionary TransferValidationMessagesTo(
+            ModelStateDictionary modelStateDictionary, IEnumerable<IValidationResult> validationResults) {
+
             Check.Require(modelStateDictionary != null, "modelStateDictionary may not be null");
             Check.Require(validationResults != null, "invalidValues may not be null");
 

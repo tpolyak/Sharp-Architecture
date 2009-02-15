@@ -12,7 +12,7 @@
 /*
  * Domain name should be PascalCaseSingular with no spaces.
  * You may qualify the domain object with a namespace; a folder structure reflecting the namespace structure will be created (or verified).
- * A log of created artifacts may be found in /$solutionrootpath$/logs/CrudScaffolding.log
+ * A log of created artifacts may be found in /$solutionname$/logs/CrudScaffolding.log
  * Examples:  Product, Organization.Employee, Financial.Costs.LedgerEntry
  */
 EntityScaffoldingDetails entityScaffoldingDetails =
@@ -20,7 +20,7 @@ EntityScaffoldingDetails entityScaffoldingDetails =
  
 /*
  * Property names should be PascalCase.
- * Do NOT include a property for ID as it will be included automatically.
+ * Do not include a property for Id as it will be included automatically.
  */
 entityScaffoldingDetails.EntityProperties.Add(
 	new EntityProperty("FirstName", "string", "Joe", "[NotNull, NotEmpty]", true) 
@@ -41,6 +41,6 @@ entityScaffoldingDetails.EntityProperties.Add(
 ScaffoldingGenerator generator = new ScaffoldingGenerator(
 	@"$solutionrootpath$", "$solutionname$", entityScaffoldingDetails); 
 
-// Uncomment this line when you're ready for the scaffolding generator to fire
+// Uncomment this line when you're ready for the scaffolding generator to fire...be sure to recomment after it completes to avoid accidental generating!
 //generator.Run();
 #>

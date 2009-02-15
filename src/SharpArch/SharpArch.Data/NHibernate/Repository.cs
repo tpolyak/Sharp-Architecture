@@ -12,7 +12,7 @@ using SharpArch.Core.DomainModel;
 namespace SharpArch.Data.NHibernate
 {
     /// <summary>
-    /// Since nearly all of the domain objects you create will have a type of int ID, this 
+    /// Since nearly all of the domain objects you create will have a type of int Id, this 
     /// most freqently used base GenericDao leverages this assumption.  If you want an entity
     /// with a type other than int, such as string, then use 
     /// <see cref="GenericDaoWithTypedId{T, IdT}" />.
@@ -82,12 +82,12 @@ namespace SharpArch.Data.NHibernate
         }
 
         /// <summary>
-        /// Although SaveOrUpdate _can_ be invoked to update an object with an assigned ID, you are 
+        /// Although SaveOrUpdate _can_ be invoked to update an object with an assigned Id, you are 
         /// hereby forced instead to use Save/Update for better clarity.
         /// </summary>
         public virtual T SaveOrUpdate(T entity) {
             Check.Require(!(entity is IHasAssignedId<IdT>),
-                "For better clarity and reliability, Entities with an assigned ID must call Save or Update");
+                "For better clarity and reliability, Entities with an assigned Id must call Save or Update");
 
             Session.SaveOrUpdate(entity);
             return entity;

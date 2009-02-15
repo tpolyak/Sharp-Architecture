@@ -23,7 +23,7 @@ namespace SharpArch.Data.NHibernate
             Session.FlushMode = FlushMode.Never;
 
             ICriteria criteria = Session.CreateCriteria(entity.GetType())
-                .Add(Expression.Not(Expression.Eq("ID", entity.ID)))
+                .Add(Expression.Not(Expression.Eq("Id", entity.Id)))
                 .SetMaxResults(1);
 
             AppendSignaturePropertyCriteriaTo<IdT>(criteria, entity);
@@ -96,11 +96,11 @@ namespace SharpArch.Data.NHibernate
         private static void AppendEntityCriteriaTo(ICriteria criteria, 
             PropertyInfo signatureProperty, object propertyValue) {
             if (propertyValue != null) {
-                criteria.Add(Expression.Eq(signatureProperty.Name + ".ID",
-                    ((Entity)propertyValue).ID));
+                criteria.Add(Expression.Eq(signatureProperty.Name + ".Id",
+                    ((Entity)propertyValue).Id));
             }
             else {
-                criteria.Add(Expression.IsNull(signatureProperty.Name + ".ID"));
+                criteria.Add(Expression.IsNull(signatureProperty.Name + ".Id"));
             }
         }
 

@@ -43,7 +43,6 @@
         <Content Include="Solution Items\Castle.Windsor.dll" />
         <Content Include="Solution Items\CommonServiceLocator.WindsorAdapter.dll" />
         <Content Include="Solution Items\FluentNHibernate.dll" />
-        <Content Include="Solution Items\FluentNHibernate.Framework.dll" />
         <Content Include="Solution Items\Iesi.Collections.dll" />
         <Content Include="Solution Items\Iesi.Collections.xml" />
         <Content Include="Solution Items\Inflector.Net.dll" />
