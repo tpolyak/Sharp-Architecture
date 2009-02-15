@@ -17,7 +17,7 @@ namespace Northwind.Data.NHibernateMaps
                 .MapEntitiesFromAssemblyOf<Category>()
                 .Where(GetAutoMappingFilter)
                 .WithConvention(GetConventions)
-                .MapConventionOverridesFromAssemblyOf<AutoPersistenceModelGenerator>();
+                .UseOverridesFromAssemblyOf<AutoPersistenceModelGenerator>();
 
             return mappings;
         }
@@ -28,15 +28,13 @@ namespace Northwind.Data.NHibernateMaps
         /// the interface is generic, it wouldn't be possible to compare the type directly.
         /// </summary>
         private bool GetAutoMappingFilter(Type t) {
-            return 
-                (from interfaceType in t.GetInterfaces()
-                 where interfaceType.ToString().IndexOf("SharpArch.Core.DomainModel.IEntityWithTypedId") == 0
-                 select interfaceType).Any();
+            return t.GetInterfaces().Any(x =>
+                 x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
         }
 
         private void GetConventions(Conventions c) {
             c.GetPrimaryKeyNameFromType = type => type.Name + "ID";
-            c.FindIdentity = type => type.Name == "ID";
+            c.FindIdentity = type => type.Name == "Id";
             c.GetTableName = type => Inflector.Net.Inflector.Pluralize(type.Name);
             c.IsBaseType = IsBaseTypeConvention;
             c.GetForeignKeyNameOfParent = type => type.Name + "ID";
@@ -46,6 +44,7 @@ namespace Northwind.Data.NHibernateMaps
             bool derivesFromEntity = arg == typeof(Entity);
             bool derivesFromEntityWithTypedId = arg.IsGenericType && 
                 (arg.GetGenericTypeDefinition() == typeof(EntityWithTypedId<>));
+
             return derivesFromEntity || derivesFromEntityWithTypedId;
         }
     }

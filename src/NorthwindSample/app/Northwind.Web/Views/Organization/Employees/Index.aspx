@@ -25,9 +25,14 @@
 		foreach (Employee employee in ViewData.Model) { %>
 			<tr>
 				<td><%= employee.FullName %></td>
-				<td><%=Html.ActionLink<EmployeesController>(c => c.Show(employee.ID), "Details ")%></td>
-				<td><%=Html.ActionLink<EmployeesController>(c => c.Edit(employee.ID), "Edit")%></td>
-				<td><%=Html.ActionLink<EmployeesController>(c => c.Delete(employee.ID), "Delete")%></td>
+				<td><%=Html.ActionLink<EmployeesController>(c => c.Show(employee.Id), "Details ")%></td>
+				<td><%=Html.ActionLink<EmployeesController>(c => c.Edit(employee.Id), "Edit")%></td>
+				<td>
+    				<% using (Html.BeginForm<EmployeesController>(c => c.Delete(employee.Id))) { %>
+                        <%= Html.AntiForgeryToken() %>
+    				    <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
+                    <% } %>
+				</td>
 			</tr>
 		<%} %>
     </table>

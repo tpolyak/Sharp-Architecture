@@ -5,7 +5,7 @@
 
 <% using (Html.BeginForm()) { %>
     <%= Html.AntiForgeryToken() %>
-    <%= Html.Hidden("id", (ViewData.Model != null) ? ViewData.Model.ID : 0) %>
+    <%= Html.Hidden("id", (ViewData.Model != null) ? ViewData.Model.Id : 0) %>
 
     <!--
         Be sure to use CSS driven forms instead of layout via tables; 

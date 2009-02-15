@@ -2,28 +2,27 @@
 using Northwind.Core.Organization;
 using Northwind.Core;
 using SharpArch.Data.NHibernate.FluentNHibernate;
+using FluentNHibernate.AutoMap.Alterations;
 
 namespace Northwind.Data.NHibernateMappings.Organization
 {
-    public class EmployeeMap : IAutoPeristenceModelConventionOverride
+    public class EmployeeMap : IAutoMappingOverride<Employee>
     {
-        public AutoPersistenceModel Override(AutoPersistenceModel model) {
-            return model.ForTypesThatDeriveFrom<Employee>(map => {
-                map.Id(x => x.ID, "EmployeeID")
-                    .WithUnsavedValue(0)
-                    .GeneratedBy.Identity();
+        public void Override(AutoMap<Employee> mapping) {
+            mapping.Id(x => x.Id, "EmployeeID")
+                .WithUnsavedValue(0)
+                .GeneratedBy.Identity();
 
-                // No need to specify column when it's the same as the property name
-                map.Map(x => x.FirstName);
-                map.Map(x => x.LastName);
-                map.Map(x => x.PhoneExtension, "Extension");
+            // No need to specify the column name when it's the same as the property name
+            mapping.Map(x => x.FirstName);
+            mapping.Map(x => x.LastName);
+            mapping.Map(x => x.PhoneExtension, "Extension");
 
-                map.HasManyToMany<Territory>(x => x.Territories)
-                    .WithTableName("EmployeeTerritories")
-                    .WithParentKeyColumn("EmployeeID")
-                    .WithChildKeyColumn("TerritoryID")
-                    .AsBag();
-            });
+            mapping.HasManyToMany<Territory>(x => x.Territories)
+                .WithTableName("EmployeeTerritories")
+                .WithParentKeyColumn("EmployeeID")
+                .WithChildKeyColumn("TerritoryID")
+                .AsBag();
         }
     }
 }

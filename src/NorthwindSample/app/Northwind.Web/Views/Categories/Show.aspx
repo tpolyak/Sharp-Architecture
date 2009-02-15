@@ -8,7 +8,7 @@
     <div>
         <p>
             ID:
-            <%= ViewData.Model.ID %></p>
+            <%= ViewData.Model.Id %></p>
         <p>
             Name:
             <%= ViewData.Model.CategoryName%></p>

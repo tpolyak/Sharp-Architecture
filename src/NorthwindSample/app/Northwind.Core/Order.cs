@@ -27,7 +27,7 @@ namespace Northwind.Core
         public virtual Customer OrderedBy { get; protected set; }
 
         /// <summary>
-        /// Should ONLY contain the "business value signature" of the object and not the ID, 
+        /// Should ONLY contain the "business value signature" of the object and not the Id, 
         /// which is handled by <see cref="Entity" />.  This method should return a unique 
         /// int representing a unique signature of the domain object.  For 
         /// example, no two different orders should have the same ShipToName, OrderDate and OrderedBy;

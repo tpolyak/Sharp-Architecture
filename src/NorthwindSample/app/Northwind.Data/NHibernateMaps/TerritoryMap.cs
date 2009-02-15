@@ -2,29 +2,28 @@
 using Northwind.Core.Organization;
 using Northwind.Core;
 using SharpArch.Data.NHibernate.FluentNHibernate;
+using FluentNHibernate.AutoMap.Alterations;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class TerritoryMap : IAutoPeristenceModelConventionOverride
+    public class TerritoryMap : IAutoMappingOverride<Territory>
     {
-        public AutoPersistenceModel Override(AutoPersistenceModel model) {
-            return model.ForTypesThatDeriveFrom<Territory>(map => {
-                // Evil assigned ID - use identity instead unless you're working with a legacy DB
-                map.Id(x => x.ID, "TerritoryID")
-                    .GeneratedBy.Assigned();
+        public void Override(AutoMap<Territory> mapping) {
+            // Evil assigned ID - use identity instead unless you're working with a legacy DB
+            mapping.Id(x => x.Id, "TerritoryID")
+                .GeneratedBy.Assigned();
 
-                map.Map(x => x.Description, "TerritoryDescription");
+            mapping.Map(x => x.Description, "TerritoryDescription");
 
-                map.References(x => x.RegionBelongingTo, "RegionID")
-                    .SetAttribute("not-null", "true");
+            mapping.References(x => x.RegionBelongingTo, "RegionID")
+                .SetAttribute("not-null", "true");
 
-                map.HasManyToMany<Employee>(x => x.Employees)
-                    .WithTableName("EmployeeTerritories")
-                    .Inverse()
-                    .WithParentKeyColumn("TerritoryID")
-                    .WithChildKeyColumn("EmployeeID")
-                    .AsBag();
-            });
+            mapping.HasManyToMany<Employee>(x => x.Employees)
+                .WithTableName("EmployeeTerritories")
+                .Inverse()
+                .WithParentKeyColumn("TerritoryID")
+                .WithChildKeyColumn("EmployeeID")
+                .AsBag();
         }
     }
 }

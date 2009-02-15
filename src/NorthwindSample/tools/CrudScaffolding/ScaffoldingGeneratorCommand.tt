@@ -20,7 +20,7 @@ EntityScaffoldingDetails entityScaffoldingDetails =
  
 /*
  * Property names should be PascalCase.
- * Do NOT include a property for ID as it will be included automatically.
+ * Do NOT include a property for Id as it will be included automatically.
  */
 entityScaffoldingDetails.EntityProperties.Add(
 	new EntityProperty("FirstName", "string", "Joe", "[NotNull, NotEmpty]", true) 

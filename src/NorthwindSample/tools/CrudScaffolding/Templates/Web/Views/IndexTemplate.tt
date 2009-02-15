@@ -45,9 +45,14 @@ public class IndexTemplate : BaseTemplate
 			<#+
 			}
 			#>
-	<td><%=Html.ActionLink<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>( c => c.Show( <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ID ), "Details ") %></td>
-				<td><%=Html.ActionLink<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>( c => c.Edit( <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ID ), "Edit") %></td>
-				<td><%=Html.ActionLink<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>( c => c.Delete( <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ID ), "Delete") %></td>
+	<td><%=Html.ActionLink<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>( c => c.Show( <#= EntityScaffoldingDetails.EntityNameCamelCase #>.Id ), "Details ") %></td>
+				<td><%=Html.ActionLink<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>( c => c.Edit( <#= EntityScaffoldingDetails.EntityNameCamelCase #>.Id ), "Edit") %></td>
+				<td>
+    				<% using (Html.BeginForm<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>(c => c.Delete(<#= EntityScaffoldingDetails.EntityNameCamelCase #>.Id))) { %>
+                        <%= Html.AntiForgeryToken() %>
+    				    <input type="submit" value="Delete" onclick="return confirm('Are you sure?');" />
+                    <% } %>
+				</td>
 			</tr>
 		<%} %>
     </table>

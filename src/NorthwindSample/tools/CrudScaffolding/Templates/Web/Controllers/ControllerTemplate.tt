@@ -52,16 +52,14 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(<#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
-            if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>.IsValid()) {
+            if (ModelState.IsValid) {
                 <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.SaveOrUpdate(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
                 TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully created.";
                 return RedirectToAction("Index");
             }
-            else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ValidationResults());
-                return View();
-            }
+
+            return View();
         }
 
         [Transaction]
@@ -73,30 +71,39 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
         [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
+        public ActionResult Edit(int id, [ModelBinder(typeof(DefaultModelBinder))] <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
             <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
-			<#+
-			PushIndent("\t\t\t");
-
-			foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
-				WriteLine(EntityScaffoldingDetails.EntityNameCamelCase + "ToUpdate." + property.PropertyName + " = " + EntityScaffoldingDetails.EntityNameCamelCase + "." + property.PropertyName + ";");
-			}
-
-			PopIndent();
-			#>
+            TransferFormValuesTo(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate, <#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
             if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate.IsValid()) {
+                TransferFormValuesTo(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate, <#= EntityScaffoldingDetails.EntityNameCamelCase #>);
+
                 TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully updated.";
                 return RedirectToAction("Index");
             }
             else {
                 <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.DbContext.RollbackTransaction();
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ValidationResults());
-                return View(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, 
+                    <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate.ValidationResults());
+                return View(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate);
             }
         }
 
+        private void TransferFormValuesTo(<#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate, <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm) {
+			<#+
+			PushIndent("\t\t\t");
+
+			foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
+				WriteLine(EntityScaffoldingDetails.EntityNameCamelCase + "ToUpdate." + property.PropertyName + " = " + EntityScaffoldingDetails.EntityNameCamelCase + "FromForm." + property.PropertyName + ";");
+			}
+
+			PopIndent();
+			#>
+        }
+
+        [ValidateAntiForgeryToken]
         [Transaction]
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(int id) {
             string resultMessage = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully deleted.";
             <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToDelete = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);

@@ -50,7 +50,7 @@ namespace Tests.Northwind.Web.Controllers.Organization
             ViewResult result = controller.Show(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Employee).ID, Is.EqualTo(1));
+            Assert.That((result.ViewData.Model as Employee).Id, Is.EqualTo(1));
         }
 
         [Test]
@@ -61,24 +61,13 @@ namespace Tests.Northwind.Web.Controllers.Organization
         }
 
         [Test]
-        public void CanEnsureEmployeeCreationIsValid() {
-            Employee employeeFromForm = new Employee();
-            ViewResult result = controller.Create(employeeFromForm).AssertViewRendered();
-
-            Assert.That(result.ViewData.Model as Employee, Is.Null);
-            Assert.That(result.ViewData.ModelState.Count, Is.EqualTo(3));
-            Assert.That(result.ViewData.ModelState["Employee.FirstName"].Errors[0].ErrorMessage, Is.Not.Empty);
-            Assert.That(result.ViewData.ModelState["Employee.LastName"].Errors[0].ErrorMessage, Is.Not.Empty);
-            Assert.That(result.ViewData.ModelState["Employee.PhoneExtension"].Errors[0].ErrorMessage, Is.Not.Empty);
-        }
-
-        [Test]
         public void CanCreateEmployee() {
             Employee employeeFromForm = new Employee() {
                 FirstName = "Jackie",
                 LastName = "Daniels",
                 PhoneExtension = 350
             };
+
             RedirectToRouteResult redirectResult = controller.Create(employeeFromForm)
                 .AssertActionRedirect().ToAction("Index");
             Assert.That(controller.TempData["message"].ToString().Contains("was successfully created"));
@@ -89,7 +78,7 @@ namespace Tests.Northwind.Web.Controllers.Organization
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
             Assert.That(result.ViewData.Model as Employee, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Employee).ID, Is.EqualTo(1));
+            Assert.That((result.ViewData.Model as Employee).Id, Is.EqualTo(1));
         }
 
         [Test]

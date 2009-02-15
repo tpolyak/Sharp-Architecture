@@ -16,6 +16,7 @@ using SharpArch.Web.Castle;
 using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
 using SharpArch.Web.Areas;
+using SharpArch.Web.CommonValidator;
 
 namespace Northwind.Web
 {
@@ -30,7 +31,7 @@ namespace Northwind.Web
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
 
-            HtmlHelper.IdAttributeDotReplacement = ".";
+            ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();
 
             InitializeServiceLocator();
             
@@ -57,7 +58,8 @@ namespace Northwind.Web
 
             NHibernateSession.Init(new WebSessionStorage(this),
                 new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
-                new AutoPersistenceModelGenerator().Generate());
+                new AutoPersistenceModelGenerator().Generate(), 
+                Server.MapPath("~/NHibernate.config"));
         }
 
         protected void Application_Error(object sender, EventArgs e) {

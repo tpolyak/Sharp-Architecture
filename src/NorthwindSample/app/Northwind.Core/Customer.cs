@@ -51,7 +51,7 @@ namespace Northwind.Core
             Check.Require(!string.IsNullOrEmpty(assignedId), "assignedId may not be null or empty");
             Check.Require(assignedId.Trim().Length == 5, "assignedId must be exactly 5 characters");
 
-            ID = assignedId.Trim().ToUpper();
+            Id = assignedId.Trim().ToUpper();
         }
     }
 }

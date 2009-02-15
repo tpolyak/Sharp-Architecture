@@ -65,7 +65,7 @@ namespace Tests.Northwind.Data
             IList<Customer> customers = customerRepository.FindAll(propertyValues);
 
             Assert.That(customers.Count, Is.EqualTo(1));
-            Assert.That(customers[0].ID, Is.EqualTo("ABC12"));
+            Assert.That(customers[0].Id, Is.EqualTo("ABC12"));
         }
 
         /// <summary>

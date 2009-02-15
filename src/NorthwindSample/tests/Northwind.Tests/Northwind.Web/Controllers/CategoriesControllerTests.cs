@@ -37,7 +37,7 @@ namespace Tests.Northwind.Web.Controllers
 
             Assert.That(result.ViewData, Is.Not.Null);
             Assert.That(result.ViewData.Model as Category, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Category).ID, Is.GreaterThan(0));
+            Assert.That((result.ViewData.Model as Category).Id, Is.GreaterThan(0));
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Tests.Northwind.Web.Controllers
             // so be sure to interrogate it instead of the controller
             Assert.That(result.ViewData, Is.Not.Null);
             Assert.That(result.ViewData.Model as Category, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Category).ID, Is.EqualTo(1));
+            Assert.That((result.ViewData.Model as Category).Id, Is.EqualTo(1));
         }
 
         private IRepository<Category> CreateMockCategoryRepository() {

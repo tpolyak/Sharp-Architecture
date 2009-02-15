@@ -27,12 +27,12 @@ namespace Northwind.Core
         }
 
         /// <summary>
-        /// Let me remind you that I completely disdane assigned IDs...another lesson to be learned
+        /// Let me remind you that I completely disdane assigned Ids...another lesson to be learned
         /// from the fallacies of the Northwind DB.
         /// </summary>
         public virtual void SetAssignedIdTo(string assignedId) {
             Check.Require(!string.IsNullOrEmpty(assignedId) && assignedId.Length <= ID_MAX_LENGTH);
-            ID = assignedId;
+            Id = assignedId;
         }
 
         [DomainSignature]

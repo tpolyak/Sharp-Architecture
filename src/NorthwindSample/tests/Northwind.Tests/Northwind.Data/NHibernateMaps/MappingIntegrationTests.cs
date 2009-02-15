@@ -21,7 +21,7 @@ namespace Tests.Northwind.Data.NHibernateMaps
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
             NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, 
                 new AutoPersistenceModelGenerator().Generate(),
-                "../../../../app/Northwind.Web/Hibernate.cfg.xml");
+                "../../../../app/Northwind.Web/NHibernate.config");
         }
 
         [Test]

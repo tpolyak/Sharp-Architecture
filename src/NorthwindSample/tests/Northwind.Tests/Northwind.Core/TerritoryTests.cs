@@ -15,10 +15,10 @@ namespace Tests.Northwind.Core
             Territory territory = new Territory("Cincinnati", region);
             Assert.That(territory.Description, Is.EqualTo("Cincinnati"));
             Assert.That(territory.RegionBelongingTo, Is.EqualTo(region));
-            Assert.That(territory.ID, Is.Null);
+            Assert.That(territory.Id, Is.Null);
 
             territory.SetAssignedIdTo("ABRACADABRA");
-            Assert.That(territory.ID, Is.EqualTo("ABRACADABRA"));
+            Assert.That(territory.Id, Is.EqualTo("ABRACADABRA"));
         }
 
         [Test]

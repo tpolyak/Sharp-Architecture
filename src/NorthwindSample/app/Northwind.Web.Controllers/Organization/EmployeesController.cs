@@ -47,16 +47,15 @@ namespace Northwind.Web.Controllers.Organization
         [Transaction]                   // Wraps a transaction around the action
         [AcceptVerbs(HttpVerbs.Post)]   // Limits the method to only accept post requests
         public ActionResult Create(Employee employee) {
-            if (employee.IsValid()) {
+            if (ModelState.IsValid) {
                 employeeRepository.SaveOrUpdate(employee);
 
                 TempData["message"] = employee.FullName + " was successfully created.";
                 return RedirectToAction("Index");
             }
-            else {
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationResults());
-                return View();
-            }
+
+            // If it wasn't valid, go back to the input page
+            return View();
         }
 
         /// <summary>
@@ -68,27 +67,47 @@ namespace Northwind.Web.Controllers.Organization
             return View(employee);
         }
 
+        /// <summary>
+        /// Accepts the form submission to update an existing item. This uses 
+        /// <see cref="DefaultModelBinder" /> since we're going to try to update the persisted 
+        /// entity and ask it for its validation state rather than relying on the employee
+        /// from the form to report validation issues.  This is particularly important when verifying
+        /// if the updated persistent object is unique when compared to other entities in the DB.
+        /// </summary>
         [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, Employee employee) {
+        public ActionResult Edit(int id, [ModelBinder(typeof(DefaultModelBinder))] Employee employee) {
             Employee employeeToUpdate = employeeRepository.Get(id);
-            employeeToUpdate.FirstName = employee.FirstName;
-            employeeToUpdate.LastName = employee.LastName;
-            employeeToUpdate.PhoneExtension = employee.PhoneExtension;
+            TransferFormValuesTo(employeeToUpdate, employee);
 
             if (employeeToUpdate.IsValid()) {
+                TransferFormValuesTo(employeeToUpdate, employee);
+
                 TempData["message"] = employeeToUpdate.FullName + " was successfully updated.";
                 return RedirectToAction("Index");
             }
             else {
                 employeeRepository.DbContext.RollbackTransaction();
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, employee.ValidationResults());
-                return View(employee);
+                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, 
+                    employeeToUpdate.ValidationResults());
+                return View(employeeToUpdate);
             }
         }
 
+        private void TransferFormValuesTo(Employee employeeToUpdate, Employee employeeFromForm) {
+            employeeToUpdate.FirstName = employeeFromForm.FirstName;
+            employeeToUpdate.LastName = employeeFromForm.LastName;
+            employeeToUpdate.PhoneExtension = employeeFromForm.PhoneExtension;
+        }
+
+        /// <summary>
+        /// As described at http://stephenwalther.com/blog/archive/2009/01/21/asp.net-mvc-tip-46-ndash-donrsquot-use-delete-links-because.aspx
+        /// there are a lot of arguments for doing a delete via a GET request.  This addresses that, accordingly.
+        /// </summary>
+        [ValidateAntiForgeryToken]
         [Transaction]
+        [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Delete(int id) {
             string resultMessage = null;
             Employee employeeToDelete = employeeRepository.Get(id);

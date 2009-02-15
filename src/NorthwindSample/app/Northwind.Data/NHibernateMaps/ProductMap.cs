@@ -1,22 +1,21 @@
 ﻿using FluentNHibernate.AutoMap;
 using Northwind.Core;
 using SharpArch.Data.NHibernate.FluentNHibernate;
+using FluentNHibernate.AutoMap.Alterations;
 
 namespace Northwind.Data.NHibernateMappings
 {
-    public class ProductMap : IAutoPeristenceModelConventionOverride
+    public class ProductMap : IAutoMappingOverride<Product>
     {
-        public AutoPersistenceModel Override(AutoPersistenceModel model) {
-            return model.ForTypesThatDeriveFrom<Product>(map => {
-                map.Id(x => x.ID, "ProductID")
-                    .WithUnsavedValue(0)
-                    .GeneratedBy.Identity();
+        public void Override(AutoMap<Product> mapping) {
+            mapping.Id(x => x.Id, "ProductID")
+                .WithUnsavedValue(0)
+                .GeneratedBy.Identity();
 
-                map.Map(x => x.ProductName);
+            mapping.Map(x => x.ProductName);
 
-                map.References(x => x.Supplier, "SupplierID");
-                map.References(x => x.Category, "CategoryID");
-            });
+            mapping.References(x => x.Supplier, "SupplierID");
+            mapping.References(x => x.Category, "CategoryID");
         }
     }
 }

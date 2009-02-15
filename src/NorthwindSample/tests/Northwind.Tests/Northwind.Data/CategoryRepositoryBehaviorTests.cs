@@ -66,7 +66,7 @@ namespace Tests.Northwind.Data
 
         protected override void Act() {
 
-            fromDb = categoryRepository.Get(toDb.ID);
+            fromDb = categoryRepository.Get(toDb.Id);
         }
 
         [Test]

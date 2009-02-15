@@ -15,7 +15,7 @@
             </LayoutTemplate>
             <ItemTemplate>
                 <li>
-                    <%# Html.ActionLink<CategoriesController>(c => c.Show(((Category)Container.DataItem).ID), ((Category)Container.DataItem).CategoryName) %>
+                    <%# Html.ActionLink<CategoriesController>(c => c.Show(((Category)Container.DataItem).Id), ((Category)Container.DataItem).CategoryName) %>
                 </li>
             </ItemTemplate>
         </asp:ListView>
