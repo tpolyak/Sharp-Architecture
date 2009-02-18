@@ -76,8 +76,6 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
             TransferFormValuesTo(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate, <#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
             if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate.IsValid()) {
-                TransferFormValuesTo(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate, <#= EntityScaffoldingDetails.EntityNameCamelCase #>);
-
                 TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully updated.";
                 return RedirectToAction("Index");
             }
