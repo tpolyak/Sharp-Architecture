@@ -7,8 +7,17 @@ using SharpArch.Core.CommonValidator;
 
 namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
 {
+    /// <summary>
+    /// Provides an implementation of the <see cref="CommonValidator.IValidator" /> interface 
+    /// which relies on NHibernate validator
+    /// </summary>
     public class Validator : SharpArch.Core.CommonValidator.IValidator
     {
+        static Validator()
+        {
+            validator = new ValidatorEngine();
+        }
+
         public bool IsValid(object value) {
             Check.Require(value != null, "value to IsValid may not be null");
 
@@ -35,15 +44,10 @@ namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
 
         private ValidatorEngine ValidatorEngine {
             get {
-                if (validator == null) {
-                    validator = new ValidatorEngine();
-                }
-
                 return validator;
             }
         }
 
-        [ThreadStatic]
-        private static ValidatorEngine validator;
+        private static readonly ValidatorEngine validator;
     }
 }

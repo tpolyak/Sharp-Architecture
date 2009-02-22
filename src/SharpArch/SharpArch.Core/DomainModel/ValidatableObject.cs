@@ -17,15 +17,8 @@ namespace SharpArch.Core.DomainModel
 
         private IValidator Validator {
             get {
-                if (validator == null) {
-                    validator = SafeServiceLocator<IValidator>.GetService();
-                }
-
-                return validator;
+                return SafeServiceLocator<IValidator>.GetService();
             }
         }
-
-        [ThreadStatic]
-        private static IValidator validator;
     }
 }
