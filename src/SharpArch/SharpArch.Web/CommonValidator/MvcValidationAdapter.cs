@@ -24,11 +24,13 @@ namespace SharpArch.Web.CommonValidator
                 Check.Require(validationResult.ClassContext != null,
                     "validationResult.ClassContext may not be null");
 
-                modelStateDictionary.AddModelError(validationResult.ClassContext.Name +
+                string key = validationResult.ClassContext.Name +
                     (!string.IsNullOrEmpty(validationResult.PropertyName)
                         ? "." + validationResult.PropertyName
-                        : ""),
-                    validationResult.Message);
+                        : "");
+
+                modelStateDictionary.AddModelError(key, validationResult.Message);
+                modelStateDictionary.SetModelValue(key, new ValueProviderResult(null, null, null));
             }
 
             return modelStateDictionary;
