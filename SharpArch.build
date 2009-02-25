@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<project name="SharpArch" default="test" xmlns="http://nant.sf.net/schemas/nant.xsd">
+	<property name="nant.settings.currentframework" value="net-3.5" />
+	<property name="project.config" value="debug" />
+
+  <!-- Directories and files -->
+	<property name="build.dir" value="build" />
+	<property name="solution.dir" value=".\src\SharpArch"/>
+	<property name="base.dir" value="${project::get-base-directory()}\SharpArch" />
+	<property name="current.dir" value="${directory::get-current-directory()}" />
+	<property name="solution.file" value="${solution.dir}\${project::get-name()}.sln"/>
+	<property name="results.dir" value="${build.dir}\results" />
+	
+	<!-- Assemblies -->
+	<property name="test.assembly" value="${project::get-name()}.Tests.dll" />
+
+	<!-- User targets -->
+	<target name="clean" description="Delete Automated Build artifacts">
+		<delete dir="${build.dir}" if="${directory::exists(build.dir)}"/>
+	</target>
+
+	<target name="compile" description="Compiles the app" depends="clean">
+    <echo message="${current.dir}" />
+		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline="${solution.file} /t:Clean /p:Configuration=${project.config};SolutionDir=${solution.dir} /v:q" workingdir="." />
+		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline="${solution.file} /t:Rebuild /p:Configuration=${project.config};SolutionDir=${solution.dir} /v:q" workingdir="." />
+	</target>
+
+
+	<target name="move-for-test">
+		<copy todir="${build.dir}" flatten="true">
+			<fileset basedir="${solution.dir}">
+				<include name="/**/bin/${project.config}/**" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}" flatten="true">
+			<fileset basedir="${current.dir}">
+				<include name="bin/**" />
+				<exclude name="bin/Nant/**" />
+			</fileset>
+		</copy>
+
+	</target>	
+
+	<target name="test" depends="compile, move-for-test">
+		<nunit2 failonerror="true" verbose="true">
+			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
+			<formatter type="Plain" />
+			<test assemblyname="${build.dir}/${test.assembly}" />
+		</nunit2>
+	</target>
+
+</project>
+
