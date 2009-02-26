@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 using SharpArch.Core.DomainModel;
 using System.Xml.Serialization;
 using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Testing;
-using SharpArch.Core;
 
 namespace Tests.SharpArch.Core.DomainModel
 {
@@ -19,10 +19,15 @@ namespace Tests.SharpArch.Core.DomainModel
         }
 
         [Test]
-        public void CanSerializeEntity() {
-            ObjectWithOneDomainSignatureProperty objectToSerialize = new ObjectWithOneDomainSignatureProperty() { Name = "Acme" };
+        [Ignore("Need to decide if we want the Id in serialization output")]
+        public void CanSerializeEntityWithId() {
+            ObjectWithOneDomainSignatureProperty objectToSerialize = new ObjectWithOneDomainSignatureProperty { Name = "Acme" };
+            EntityIdSetter.SetIdOf(objectToSerialize, 1);
 
-            new XmlSerializer(typeof(ObjectWithOneDomainSignatureProperty));
+            var writer = new StringWriter();
+            new XmlSerializer(typeof(ObjectWithOneDomainSignatureProperty)).Serialize(writer, objectToSerialize);
+
+            Assert.That(writer.GetStringBuilder().ToString().Contains("Id"));
         }
 
         [Test]
@@ -285,8 +290,8 @@ namespace Tests.SharpArch.Core.DomainModel
             Assert.That(object1, Is.Not.EqualTo(null));
             Assert.That(object1, Is.Not.EqualTo(object2));
 
-            EntityIdSetter<int>.SetIdOf(object1, 10);
-            EntityIdSetter<int>.SetIdOf(object2, 10);
+            EntityIdSetter.SetIdOf(object1, 10);
+            EntityIdSetter.SetIdOf(object2, 10);
 
             // Even though the "business value signatures" are different, the persistent Ids 
             // were the same.  Call me crazy, but I put that much trust into persisted Ids.
@@ -336,8 +341,8 @@ namespace Tests.SharpArch.Core.DomainModel
             Object1 object1Type = new Object1();
             Object2 object2Type = new Object2();
 
-            EntityIdSetter<int>.SetIdOf(object1Type, 1);
-            EntityIdSetter<int>.SetIdOf(object2Type, 1);
+            EntityIdSetter.SetIdOf(object1Type, 1);
+            EntityIdSetter.SetIdOf(object2Type, 1);
 
             Assert.That(object1Type, Is.Not.EqualTo(object2Type));
         }

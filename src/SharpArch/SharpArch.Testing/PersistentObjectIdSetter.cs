@@ -12,12 +12,12 @@ namespace SharpArch.Testing
     /// never be used outside of the testing project; instead, implement <see cref="IHasAssignedId" /> to 
     /// expose a public setter.
     /// </summary>
-    public class EntityIdSetter<IdT>
+    public class EntityIdSetter
     {
         /// <summary>
         /// Uses reflection to set the Id of a <see cref="EntityWithTypedId" />.
         /// </summary>
-        public static void SetIdOf(IEntityWithTypedId<IdT> Entity, IdT id) {
+        public static void SetIdOf<IdT>(IEntityWithTypedId<IdT> Entity, IdT id) {
             // Set the data property reflectively
             PropertyInfo idProperty = Entity.GetType().GetProperty("Id",
                 BindingFlags.Public | BindingFlags.Instance);
