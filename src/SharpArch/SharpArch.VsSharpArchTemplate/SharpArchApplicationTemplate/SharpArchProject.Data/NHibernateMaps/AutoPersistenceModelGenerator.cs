@@ -42,7 +42,8 @@ namespace $safeprojectname$.NHibernateMaps
             c.GetTableName = type => Inflector.Net.Inflector.Pluralize(type.Name);
             c.IsBaseType = IsBaseTypeConvention;
             c.FindIdentity = type => type.Name == "Id";
-            c.GetForeignKeyNameOfParent = type => type.Name + "Id";
+            c.GetForeignKeyName = type => type.Name + "Fk";
+            c.GetForeignKeyNameOfParent = type => type.Name + "Fk";
             c.OneToManyConvention = o => o.Cascade.All();
         }
 
