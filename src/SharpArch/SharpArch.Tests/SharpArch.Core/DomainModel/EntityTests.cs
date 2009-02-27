@@ -19,7 +19,6 @@ namespace Tests.SharpArch.Core.DomainModel
         }
 
         [Test]
-        [Ignore("Need to decide if we want the Id in serialization output")]
         public void CanSerializeEntityWithId() {
             ObjectWithOneDomainSignatureProperty objectToSerialize = new ObjectWithOneDomainSignatureProperty { Name = "Acme" };
             EntityIdSetter.SetIdOf(objectToSerialize, 1);
