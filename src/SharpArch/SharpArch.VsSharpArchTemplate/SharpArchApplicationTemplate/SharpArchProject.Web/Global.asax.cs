@@ -36,6 +36,11 @@ namespace $safeprojectname$
             InitializeServiceLocator();
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
+
+            NHibernateSession.Init(new WebSessionStorage(this), 
+                new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") },
+                new AutoPersistenceModelGenerator().Generate(), 
+                Server.MapPath("~/NHibernate.config"));
         }
 
         /// <summary>
@@ -51,15 +56,6 @@ namespace $safeprojectname$
             ComponentRegistrar.AddComponentsTo(container);
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
-        }
-
-        public override void Init() {
-            base.Init();
-
-            NHibernateSession.Init(new WebSessionStorage(this), 
-                new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") },
-                new AutoPersistenceModelGenerator().Generate(), 
-                Server.MapPath("~/NHibernate.config"));
         }
 
         protected void Application_Error(object sender, EventArgs e) {

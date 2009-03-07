@@ -111,19 +111,6 @@ namespace SharpArch.Core.DomainModel
         }
 
         /// <summary>
-        /// When NHibernate proxies objects, it masks the type of the actual entity object.
-        /// This wrapper burrows into the proxied object to get its actual type.
-        /// 
-        /// Although this assumes NHibernate is being used, it doesn't require any NHibernate
-        /// related dependencies and has no bad side effects if NHibernate isn't being used.
-        /// 
-        /// Related discussion is at http://groups.google.com/group/sharp-architecture/browse_thread/thread/ddd05f9baede023a ...thanks Jay!
-        /// </summary>
-        protected virtual Type GetTypeUnproxied() {
-            return GetType();
-        } 
-
-        /// <summary>
         /// Returns true if self and the provided entity have the same Id values 
         /// and the Ids are not of the default Id value
         /// </summary>

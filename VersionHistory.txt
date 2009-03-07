@@ -57,7 +57,7 @@ Upgrading to S#arp Architecture RC 2 from Beta (steps also done to the Northwind
 	container.RegisterControllersByArea(typeof(HomeController).Assembly);
    to:
 	container.RegisterControllers(typeof(HomeController).Assembly);
-8) Within YourProject.Tests/App.config, update the nunit assembly redirect to go to version 2.4.8.0
+#) Within YourProject.Tests/App.config, update the nunit assembly redirect to go to version 2.4.8.0
 #) Change calls to EntityIdSetter<>.SetIdOf() to EntityIdSetter.SetIdOf<>()
 #) Update your Site.master to provide an overwritable title and to account for a known bug in MVC RC 1, described at http://haacked.com/archive/2009/01/27/controls-collection-cannot-be-modified-issue-with-asp.net-mvc-rc1.aspx
 #) Either replace your CrudScaffolding project with a duplicate of the one from the Northwind project or use the guidance discussed in the below change log for modifications
@@ -110,6 +110,9 @@ CrudScaffolding Generator:
 * Within /Templates/Tests/Core/Web/Controllers/ControllerTestsTemplate.tt, deleted CanEnsureEntityCreationIsValid() method; it's doesn't prove anything with the new use of ModelState.IsValid on form submissions
 
 SharpArch.Core
+* /DomainModel/BaseObject.cs:  Modified Equals() to account for the fact that an object may be proxied by NHibernate when compared.
+* /DomainModel/Entity.cs:  Id is now excluded for XML serialization; see documentation FAQ for work around for Id serialization.
+* /DomainModel/ValueObject.cs:  == and != operator overloads have been added.
 * /DomainModel/ValidatableObject.cs:  This new class extracts the concrete validation that was being performed in Entity into a reusable superclass.  (Entity now inherits from it.)
 
 SharpArch.Data
@@ -131,6 +134,7 @@ Northwind.Web
 * Global.asax.cs:
 	- Passed location of NHibernate.config to NHibernateSession.Init()
 	- Within Application_Start, added "ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();" to replace the default binder with one that seamlessly integrates CommonValidator capabilities
+	- Moved NHibernateSession.Init to Application_Start due to http://code.google.com/p/sharp-architecture/issues/detail?id=44
 * /Views/Organization/Employees/Index.aspx:  Changed the delete link to an input button within a form which includes an anti-forgery token; deletes should only happen via POST requests for better security
 
 Northwind.Web.Controllers
