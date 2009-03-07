@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using SharpArch.Core.DomainModel;
 using SharpArch.Core;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace Tests.SharpArch.Core.DomainModel
 {
@@ -16,26 +17,17 @@ namespace Tests.SharpArch.Core.DomainModel
             invalidValueObject.GetSignatureProperties();
         }
 
-        public class DummyValueType : ValueObject
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-        }
+        [Test]
+        public void Equality_DifferentReferences_SameValues_True() {
+            DummyValueType valueObject1 = new DummyValueType { Id = 1, Name = "Luis" };
+            DummyValueType valueObject2 = new DummyValueType { Id = 1, Name = "Luis" };
+            Assert.That(valueObject1, Is.Not.SameAs(valueObject2));
+            Assert.That(valueObject1, Is.EqualTo(valueObject2));
+            Assert.That(valueObject1.Equals(valueObject2));
+            Assert.That(valueObject1 == valueObject2);
 
-        public class AnotherDummyValueType : ValueObject
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-        }
-
-        /// <summary>
-        /// This is a nonsense object; i.e., it doesn't make sense to have 
-        /// a value object with a domain signature.
-        /// </summary>
-        public class ValueObjectWithDomainSignature : ValueObject
-        {
-            [DomainSignature]
-            public string Name { get; set; }
+            valueObject2.Name = "Billy";
+            Assert.That(valueObject1 != valueObject2);
         }
 
         [Test]
@@ -114,6 +106,28 @@ namespace Tests.SharpArch.Core.DomainModel
             Assert.IsFalse(valType == null);
             Assert.IsTrue(null != valType);
             Assert.IsTrue(valType != null);
+        }
+
+        public class DummyValueType : ValueObject
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        public class AnotherDummyValueType : ValueObject
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
+
+        /// <summary>
+        /// This is a nonsense object; i.e., it doesn't make sense to have 
+        /// a value object with a domain signature.
+        /// </summary>
+        public class ValueObjectWithDomainSignature : ValueObject
+        {
+            [DomainSignature]
+            public string Name { get; set; }
         }
     }
 }

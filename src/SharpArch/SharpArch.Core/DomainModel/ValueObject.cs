@@ -39,5 +39,16 @@ namespace SharpArch.Core.DomainModel
 
             return GetType().GetProperties();
         }
+
+        public static bool operator ==(ValueObject valueObject1, ValueObject valueObject2) {
+            if ((object)valueObject1 == null) 
+                return (object)valueObject2 == null;
+
+            return valueObject1.Equals(valueObject2);
+        }
+
+        public static bool operator !=(ValueObject valueObject1, ValueObject valueObject2) { 
+            return !(valueObject1 == valueObject2);
+        }
     }
 }

@@ -181,12 +181,12 @@ namespace SharpArchApplicationWizard
         /// </summary>
         private void CreateSolutionDirectoryStructure() {
             Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\app");
+            Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\build");
             Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\db");
             Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\docs");
             Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\logs");
             Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\tests");
             Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\tools");
-            Directory.CreateDirectory(GetSolutionRootPath() + GetSolutionName() + "\\tools\\build");
         }
 
         private void MoveSolutionFileToProjectsDirectory() {

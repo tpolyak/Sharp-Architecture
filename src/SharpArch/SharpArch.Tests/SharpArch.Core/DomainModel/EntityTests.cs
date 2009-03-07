@@ -19,18 +19,6 @@ namespace Tests.SharpArch.Core.DomainModel
         }
 
         [Test]
-        [Ignore("Need to decide if we want the Id in serialization output")]
-        public void CanSerializeEntityWithId() {
-            ObjectWithOneDomainSignatureProperty objectToSerialize = new ObjectWithOneDomainSignatureProperty { Name = "Acme" };
-            EntityIdSetter.SetIdOf(objectToSerialize, 1);
-
-            var writer = new StringWriter();
-            new XmlSerializer(typeof(ObjectWithOneDomainSignatureProperty)).Serialize(writer, objectToSerialize);
-
-            Assert.That(writer.GetStringBuilder().ToString().Contains("Id"));
-        }
-
-        [Test]
         public void CanComputeConsistentHashWithDomainSignatureProperties() {
             ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
             int defaultHash = object1.GetHashCode();

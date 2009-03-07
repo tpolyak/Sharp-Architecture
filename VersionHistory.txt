@@ -42,7 +42,7 @@ Assembly Dependencies:
 Upgrading to S#arp Architecture RC 2 from Beta (steps also done to the Northwind sample project):
 1) Install NUnit 2.4.8
 2) Update assembly dependencies from trunk/bin into your application's lib and /tools/lib folders
-3) Change all reference to anyEntity.ID to anyEntity.Id (I've included an obsolete ID getter with this release only.)  You'll definitely want resharper around for this one.
+3) Change all reference to anyEntity.ID to anyEntity.Id.  You'll definitely want resharper around for this one.
 4) Within your Fluent NHibernate mapping files, rename .IsInverse() to .Inverse()
 5) If you're using Fluent NHibernate auto mapping persistence, do the following account for the fact that you can no longer inherit from AutoMap:
 	1) For each class that inherits from AutoMap, remove the AutoMap inheritance and implement IAutoMappingOverride<YourEntity> instead.
@@ -72,7 +72,7 @@ Upgrading to S#arp Architecture RC 2 from Beta (steps also done to the Northwind
 Changes to /src:
 
 Solution Wide:
-* BREAKING CHANGE ~ Changed Entity.ID to Entity.Id for compliance with naming conventions but have provided obsolete Entity.ID getter for backward compatibility (When you upgrade, don't do a simple find and replace as you'll change IDictionary, GUID and other such items; also pay attention when updating your IAutoPersistenceModelGenerator)
+* BREAKING CHANGE ~ Changed Entity.ID to Entity.Id for compliance with naming conventions (When you upgrade, don't do a simple find and replace as you'll change IDictionary, GUID and other such items; also pay attention when updating your IAutoPersistenceModelGenerator)
 
 CrudScaffolding Generator:
 * ScaffoldingGeneratorCommand.tt:  Commented out "generator.Run()" by default to avoid inadvertent code generation
