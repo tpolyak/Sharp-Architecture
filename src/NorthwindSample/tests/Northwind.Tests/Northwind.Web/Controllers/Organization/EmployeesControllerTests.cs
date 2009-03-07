@@ -123,7 +123,7 @@ namespace Tests.Northwind.Web.Controllers.Organization
 
         private Employee CreateEmployee() {
             Employee employee = new Employee("Johnny", "Appleseed");
-            EntityIdSetter<int>.SetIdOf(employee, 1);
+            EntityIdSetter.SetIdOf<int>(employee, 1);
             return employee;
         }
 

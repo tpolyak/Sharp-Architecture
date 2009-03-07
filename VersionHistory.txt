@@ -10,7 +10,7 @@ Roadmap for 1.0 Release
 
 ----------------------------------------------
 ----------------------------------------------
-On the Trunk (Ready for RC release pending update of documentation)
+On the Trunk (Ready for RC release pending update of documentation) - 357
 ----------------------------------------------
 ----------------------------------------------
 
@@ -26,7 +26,7 @@ Assembly Dependencies:
 * ASP.NET MVC RC 1 Refresh
 * ASP.NET MVC RC 1 Futures
 * Castle 1.0 RC3 (rev 1038)
-* Fluent NHibernate 0.1 (rev 315)
+* Fluent NHibernate 0.1 (rev 328)
 * Json.NET 3.5 Beta 2
 * Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
 * MvcContrib for MVC RC (rev 781)
@@ -39,7 +39,7 @@ Assembly Dependencies:
 
 -------
 
-Upgrading to S#arp Architecture RC 1 from Beta (steps also done to the Northwind sample project):
+Upgrading to S#arp Architecture RC 2 from Beta (steps also done to the Northwind sample project):
 1) Install NUnit 2.4.8
 2) Update assembly dependencies from trunk/bin into your application's lib and /tools/lib folders
 3) Change all reference to anyEntity.ID to anyEntity.Id (I've included an obsolete ID getter with this release only.)  You'll definitely want resharper around for this one.
@@ -58,13 +58,14 @@ Upgrading to S#arp Architecture RC 1 from Beta (steps also done to the Northwind
    to:
 	container.RegisterControllers(typeof(HomeController).Assembly);
 8) Within YourProject.Tests/App.config, update the nunit assembly redirect to go to version 2.4.8.0
-9) Update your Site.master to provide an overwritable title and to account for a known bug in MVC RC 1, described at http://haacked.com/archive/2009/01/27/controls-collection-cannot-be-modified-issue-with-asp.net-mvc-rc1.aspx
-10) Either replace your CrudScaffolding project with a duplicate of the one from the Northwind project or use the guidance discussed in the below change log for modifications
-11) (Optional) Add the following line to Global.asax.cs to Application_Start if you're client side code looks for dot-notation in generated input names:
+#) Change calls to EntityIdSetter<>.SetIdOf() to EntityIdSetter.SetIdOf<>()
+#) Update your Site.master to provide an overwritable title and to account for a known bug in MVC RC 1, described at http://haacked.com/archive/2009/01/27/controls-collection-cannot-be-modified-issue-with-asp.net-mvc-rc1.aspx
+#) Either replace your CrudScaffolding project with a duplicate of the one from the Northwind project or use the guidance discussed in the below change log for modifications
+#) (Optional) Add the following line to Global.asax.cs to Application_Start if you're client side code looks for dot-notation in generated input names:
 	HtmlHelper.IdAttributeDotReplacement = ".";
-12) (Optional) Add Northwind.Web/Scripts/jquery-1.2.6.min-vsdoc.js and jquery-1.2.6-vsdoc.js to your project to enable jQuery IntelliSense
-13) (Optional) Get rid of the code behind pages in favor of ViewMasterPage, ViewPage<Whatever>, ViewUserControl<Whatever> inheritance in the view's Master/Page/Control declaration.  E.g.: Inherits="System.Web.Mvc.ViewPage<Employee>".  Be sure to include System.Web.Mvc before ViewPage and either move your domain imports ABOVE the page declaration or fully qualify the namespaces of your model object.
-14) (Optional) Add MvcBuildViews to YourProject.Web.csproj and alter the Target/AfterBuild, following the details in the ASP.NET MVC RC release notes
+#) (Optional) Add Northwind.Web/Scripts/jquery-1.2.6.min-vsdoc.js and jquery-1.2.6-vsdoc.js to your project to enable jQuery IntelliSense
+#) (Optional) Get rid of the code behind pages in favor of ViewMasterPage, ViewPage<Whatever>, ViewUserControl<Whatever> inheritance in the view's Master/Page/Control declaration.  E.g.: Inherits="System.Web.Mvc.ViewPage<Employee>".  Be sure to include System.Web.Mvc before ViewPage and either move your domain imports ABOVE the page declaration or fully qualify the namespaces of your model object.
+#) (Optional) Add MvcBuildViews to YourProject.Web.csproj and alter the Target/AfterBuild, following the details in the ASP.NET MVC RC release notes
 
 -------
 
@@ -114,6 +115,9 @@ SharpArch.Core
 SharpArch.Data
 * /NHibernate/FluentNHibernate/IAutoPeristenceModelConventionOverride.cs:  Added this interface to serve as a base class for any Fluent NHibernate override classes; this was introduced because it's no longer allowed to inherit from AutoMap<> for overriding conventions.
 * /NHibernate/FluentNHibernate/AutoPersistenceModelExtensions.cs:  Added this extension to AutoPersistenceModel to automatically apply any override classes from a specific assembly.  (See above note for reason.)
+
+SharpArch.Testing
+* BREAKING CHANGE ~ /EntityIdSetter.cs:  Changed use of EntityIdSetter from EntityIdSetter<>.SetIdOf() to EntityIdSetter.SetIdOf<>()
 
 SharpArch.Web
 * /Areas/AreaViewEngine.cs:  Added a needed "useCache" variable to FindPartialView() and FindView() for RC compatibility
