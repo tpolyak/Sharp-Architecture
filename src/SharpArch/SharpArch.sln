@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Web.Castle", "Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Core.NHibernateValidator", "SharpArch.Core.NHibernateValidator\SharpArch.Core.NHibernateValidator.csproj", "{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63D7A5AC-3BD2-403B-9913-D31F338DA454}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\go.bat = ..\..\go.bat
+		..\..\SharpArch.build = ..\..\SharpArch.build
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

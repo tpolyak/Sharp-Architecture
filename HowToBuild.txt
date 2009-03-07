@@ -1,0 +1,3 @@
+The file CommonAssemblyInfo.cs is missing from the repository because it is generated automatically.
+
+Before building in Visual Studio you need to run the build with the go.bat file, just double clicking on it.

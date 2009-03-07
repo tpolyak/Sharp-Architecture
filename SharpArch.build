@@ -1,54 +1,97 @@
 <?xml version="1.0" ?>
-<project name="SharpArch" default="test" xmlns="http://nant.sf.net/schemas/nant.xsd">
+<!--EXTERNAL_PROPERTIES: build.number -->
+<!--EXTERNAL_PROPERTIES: build.vcs.number.1 -->
+<project name="SharpArch" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
 	<property name="nant.settings.currentframework" value="net-3.5" />
 	<property name="project.config" value="debug" />
+	<property name="company.name" value="Codai, LLC"/>
+
+	<!-- Version -->
+	<property name="version.major" value="1"/>
+	<property name="version.minor" value="0"/>
+	<property name="version.build" value="0"/>
+	<property name="version.revision" value="0" />
+	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}.${version.revision}" dynamic="true" />
 
   <!-- Directories and files -->
 	<property name="build.dir" value="build" />
-	<property name="solution.dir" value=".\src\SharpArch"/>
-	<property name="base.dir" value="${project::get-base-directory()}\SharpArch" />
-	<property name="current.dir" value="${directory::get-current-directory()}" />
+	<property name="solution.dir" value="src\${project::get-name()}"/>
 	<property name="solution.file" value="${solution.dir}\${project::get-name()}.sln"/>
 	<property name="results.dir" value="${build.dir}\results" />
+	<property name="docs.dir" value="docs" />
 	
 	<!-- Assemblies -->
 	<property name="test.assembly" value="${project::get-name()}.Tests.dll" />
 
 	<!-- User targets -->
+	<target name="build" depends="compile, test, package"></target>
+	
 	<target name="clean" description="Delete Automated Build artifacts">
 		<delete dir="${build.dir}" if="${directory::exists(build.dir)}"/>
 	</target>
 
-	<target name="compile" description="Compiles the app" depends="clean">
-    <echo message="${current.dir}" />
-		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
-				  commandline='${solution.file} /t:Clean /p:Configuration=${project.config};SolutionDir=${solution.dir} /p:Platform="Any CPU" /v:q' workingdir="." />
-		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
-				  commandline='${solution.file} /t:Rebuild /p:Configuration=${project.config};SolutionDir=${solution.dir} /p:Platform="Any CPU" /v:q' workingdir="." />
+	<target name="version" description="Generate AssemblyInfo">
+		<property name="version.build" value="${build.number}" if="${property::exists('build.number')}"/>
+		<property name="version.revision" value="${build.vcs.number.1}" if="${property::exists('build.vcs.number.1')}" />
+
+		<echo message="Marking build with version ${project.fullversion}" />
+		<delete file="${solution.dir}/CommonAssemblyInfo.cs" failonerror="false"/>
+		<asminfo output="${solution.dir}/CommonAssemblyInfo.cs" language="CSharp">
+			<imports>
+				<import namespace="System.Reflection" />
+				<import namespace="System.Runtime.InteropServices" />
+			</imports>
+			<attributes>
+				<attribute type="ComVisibleAttribute" value="false" />
+				<attribute type="AssemblyVersionAttribute" value="${project.fullversion}" />
+				<attribute type="AssemblyFileVersionAttribute" value="${project.fullversion}" />
+				<attribute type="AssemblyInformationalVersionAttribute" value="${project.fullversion}" />
+				<attribute type="AssemblyCopyrightAttribute" value="Copyright © ${company.name} ${datetime::get-year(datetime::now())}" />
+				<attribute type="AssemblyCompanyAttribute" value="${company.name}" />
+				<attribute type="AssemblyConfigurationAttribute" value="${project.config}" />
+				<attribute type="AssemblyTrademarkAttribute" value="" />
+				<attribute type="AssemblyCultureAttribute" value="" />
+			</attributes>
+			<references>
+				<include name="System.dll" />
+			</references>
+		</asminfo>
 	</target>
 
+	<target name="compile" description="Compiles the solution" depends="clean, version">
+		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline='${solution.file} /t:Clean /p:Configuration=${project.config} /p:Platform="Any CPU" /v:q' 
+					workingdir="." />
+		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
+				  commandline='${solution.file} /t:Rebuild /p:Configuration=${project.config} /p:Platform="Any CPU" /v:q' 
+					workingdir="." />
+	</target>
 
-	<target name="move-for-test">
+	<target name="move-for-test" depends="compile">
 		<copy todir="${build.dir}" flatten="true">
 			<fileset basedir="${solution.dir}">
 				<include name="/**/bin/${project.config}/**" />
 			</fileset>
 		</copy>
-		<copy todir="${build.dir}" flatten="true">
-			<fileset basedir="${current.dir}">
-				<include name="bin/**" />
-				<exclude name="bin/Nant/**" />
-			</fileset>
-		</copy>
-
 	</target>	
 
-	<target name="test" depends="compile, move-for-test">
+	<target name="test" depends="move-for-test">
 		<nunit2 failonerror="true" verbose="true">
 			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
 			<formatter type="Plain" />
 			<test assemblyname="${build.dir}/${test.assembly}" />
 		</nunit2>
+	</target>
+
+	<target name="package" depends="compile">
+		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-${project.config}.zip">
+			<fileset basedir="${build.dir}" prefix="bin">
+				<include name="*.*" />
+			</fileset>
+			<fileset basedir="${docs.dir}" prefix="doc">
+				<include name="*.doc" />
+			</fileset>
+		</zip>
 	</target>
 
 </project>
