@@ -24,7 +24,7 @@ public class DomainObjectFormTemplate : BaseTemplate
 	foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
 	#>
 	<li>
-			<label for="<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>"><#= property.PropertyName #>:</label>
+			<label for="<#= EntityScaffoldingDetails.EntityName #>_<#= property.PropertyName #>"><#= property.PropertyName #>:</label>
 			<div>
 				<%= Html.TextBox("<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>", 
 					(ViewData.Model != null) ? ViewData.Model.<#= property.PropertyName #>.ToString() : "")%>

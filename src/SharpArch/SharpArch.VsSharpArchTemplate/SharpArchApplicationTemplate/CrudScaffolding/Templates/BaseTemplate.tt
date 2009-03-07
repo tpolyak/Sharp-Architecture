@@ -27,6 +27,15 @@ public abstract class BaseTemplate : Template
 		
 		return namespacePath;
 	}
+
+	protected string EntityBaseUrl {
+		get {
+			return ((entityScaffoldingDetails.NamespaceHierarchy != null && entityScaffoldingDetails.NamespaceHierarchy.Length > 0) 
+				? (AppendNamespaceHierarchyTo("").Substring(1).Replace(".", "/") + "/") 
+				: "") + 
+				entityScaffoldingDetails.EntityNamePlural + "/";
+		}
+	}
 	
 	private readonly string solutionName;
 	private readonly EntityScaffoldingDetails entityScaffoldingDetails;

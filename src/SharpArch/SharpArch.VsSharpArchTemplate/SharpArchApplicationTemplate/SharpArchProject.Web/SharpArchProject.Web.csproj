@@ -11,7 +11,8 @@
         <RootNamespace>$safeprojectname$</RootNamespace>
         <AssemblyName>$safeprojectname$</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    </PropertyGroup>
+		<MvcBuildViews>true</MvcBuildViews>
+	</PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
@@ -181,7 +182,7 @@
     <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
     <Target Name="BeforeBuild">
     </Target>
-    <Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+	<Target Name="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
         <AspNetCompiler VirtualPath="temp" PhysicalPath="$(ProjectDir)\..\$(ProjectName)" />
     </Target>
     <ProjectExtensions>

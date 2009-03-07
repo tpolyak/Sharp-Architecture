@@ -98,6 +98,7 @@ CrudScaffolding Generator:
 	- Replaced "artifactsToGenerate" with "entityScaffoldingDetails.ArtifactsToGenerate"
 	- Replaced "DomainObjectNamePlural" with "entityScaffoldingDetails.EntityNamePlural"
 * Moved plural and camel case helper methods from /Templates/BaseTemplate.tt to EntityScaffoldingDetails.tt
+* Added BaseTemplate.EntityBaseUrl to be able to retrieve the base URL of the entity being generated
 * In each template, changed each constructor to accept EntityScaffoldingDetails and pass it to the constructor of BaseTemplate.tt
 * Changed constructor of BaseTemplate.tt to accept EntityScaffoldingDetails and share it as a protected value to subclass templates
 * Changed templates as follows (in this order):
@@ -130,7 +131,7 @@ SharpArch.Web.Castle
 * WindsorExtensions.cs:  Dropped RegisterController() and RegisterControllersByArea() extension methods; MvCContrib has this fixed now - so need need for the extensions anymore.
 
 Northwind.Web
-* Renamed Hibernate.cfg.xml to NHibernate.config so that you can't browse to it on the web server
+* Within Northwind.Web.csproj (and VS project template), added post compiler step as outlined in http://webdevdotnet.blogspot.com/2009/02/aspnet-mvc-rc-compiler-post-build-step.html* Renamed Hibernate.cfg.xml to NHibernate.config so that you can't browse to it on the web server
 * Global.asax.cs:
 	- Passed location of NHibernate.config to NHibernateSession.Init()
 	- Within Application_Start, added "ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();" to replace the default binder with one that seamlessly integrates CommonValidator capabilities
