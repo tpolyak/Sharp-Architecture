@@ -49,14 +49,6 @@ namespace SharpArch.Core.DomainModel
         [JsonProperty]
         public virtual IdT Id { get; protected set; }
 
-        [JsonProperty]
-        [Obsolete("Use the PascalCase 'Id' instead; this backward compatible getter is provided for assisting with this transition")]
-        public virtual IdT ID {
-            get {
-                return Id;
-            }
-        }
-
         /// <summary>
         /// Transient objects are not associated with an item already in storage.  For instance,
         /// a Customer is transient if its Id is 0.  It's virtual to allow NHibernate-backed 
