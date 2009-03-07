@@ -89,7 +89,27 @@
 				<include name="*.*" />
 			</fileset>
 			<fileset basedir="${docs.dir}" prefix="doc">
-				<include name="*.doc" />
+				<include name="*.*" />
+			</fileset>
+		</zip>
+
+		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-${project.config}-source.zip">
+			<fileset basedir=".">
+				<include name="*.*" />
+				<include name="src/**/*.*" />
+				<include name="bin/**/*.*" />
+				<exclude name="**/*.user" />
+				<exclude name="**/*.cache" />
+				<exclude name="**/*.suo" />
+				<exclude name="src/**/bin/**" />
+				<exclude name="**/obj/**" />
+				<exclude name="**/_ReSharper.*/**" />
+			</fileset>
+		</zip>
+
+		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-${project.config}-VSTemplate.zip">
+			<fileset basedir=".">
+				<include name="VisualStudioTemplate/**/*.*" />
 			</fileset>
 		</zip>
 	</target>
