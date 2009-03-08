@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+﻿<?xml version="1.0" ?>
 <!--EXTERNAL_PROPERTIES: build.number -->
 <!--EXTERNAL_PROPERTIES: build.vcs.number.1 -->
 <project name="SharpArch" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
@@ -84,7 +84,7 @@
 	</target>
 
 	<target name="package" depends="compile">
-		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-${project.config}.zip">
+		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-bin-${project.config}.zip">
 			<fileset basedir="${build.dir}" prefix="bin">
 				<include name="*.*" />
 			</fileset>
@@ -93,7 +93,7 @@
 			</fileset>
 		</zip>
 
-		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-${project.config}-source.zip">
+		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-source.zip">
 			<fileset basedir=".">
 				<include name="*.*" />
 				<include name="src/**/*.*" />
@@ -107,7 +107,7 @@
 			</fileset>
 		</zip>
 
-		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-${project.config}-VSTemplate.zip">
+		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-VSTemplate-${project.config}.zip">
 			<fileset basedir=".">
 				<include name="VisualStudioTemplate/**/*.*" />
 			</fileset>

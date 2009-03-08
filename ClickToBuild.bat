@@ -1,2 +1,2 @@
-@bin\nant\NAnt.exe -buildfile:SharpArch.build %*
+call go.bat
 pause
