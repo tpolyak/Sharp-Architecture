@@ -13,6 +13,12 @@ namespace Tests.SharpArch.Core
     [TestFixture]
     public class SafeServiceLocatorTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            ServiceLocator.SetLocatorProvider(null);
+        }
+
         [Test]
         public void WillBeInformedIfServiceLocatorNotInitialized() {
             bool exceptionThrown = false;
@@ -55,11 +61,6 @@ namespace Tests.SharpArch.Core
             IValidator validatorService = SafeServiceLocator<IValidator>.GetService();
 
             Assert.That(validatorService, Is.Not.Null);
-        }
-
-        [TearDown]
-        public void TearDown() {
-            ServiceLocator.SetLocatorProvider(null);
         }
     }
 }
