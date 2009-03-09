@@ -34,7 +34,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
 
         [Transaction]
         public ActionResult Index() {
-            List<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNamePluralCamelCase #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.GetAll();
+            IList<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNamePluralCamelCase #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.GetAll();
             return View(<#= EntityScaffoldingDetails.EntityNamePluralCamelCase #>);
         }
 
@@ -52,13 +52,15 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(<#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
-            if (ModelState.IsValid) {
+            if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>.IsValid()) {
                 <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.SaveOrUpdate(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
                 TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully created.";
                 return RedirectToAction("Index");
             }
 
+            MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState,
+                <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ValidationResults());
             return View();
         }
 

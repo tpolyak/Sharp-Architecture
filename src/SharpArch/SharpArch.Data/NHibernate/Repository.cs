@@ -40,12 +40,12 @@ namespace SharpArch.Data.NHibernate
             return Session.Get<T>(id);
         }
 
-        public virtual List<T> GetAll() {
+        public virtual IList<T> GetAll() {
             ICriteria criteria = Session.CreateCriteria(typeof(T));
-            return criteria.List<T>() as List<T>;
+            return criteria.List<T>();
         }
 
-        public virtual List<T> FindAll(IDictionary<string, object> propertyValuePairs) {
+        public virtual IList<T> FindAll(IDictionary<string, object> propertyValuePairs) {
             Check.Require(propertyValuePairs != null && propertyValuePairs.Count > 0,
                 "propertyValuePairs was null or empty; " +
                 "it has to have at least one property/value pair in it");
@@ -61,11 +61,11 @@ namespace SharpArch.Data.NHibernate
                 }
             }
 
-            return criteria.List<T>() as List<T>;
+            return criteria.List<T>();
         }
 
         public virtual T FindOne(IDictionary<string, object> propertyValuePairs) {
-            List<T> foundList = FindAll(propertyValuePairs);
+            IList<T> foundList = FindAll(propertyValuePairs);
 
             if (foundList.Count > 1) {
                 throw new NonUniqueResultException(foundList.Count);

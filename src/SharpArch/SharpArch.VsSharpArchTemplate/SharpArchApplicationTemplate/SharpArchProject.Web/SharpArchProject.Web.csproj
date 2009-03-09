@@ -4,14 +4,14 @@
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <ProductVersion>9.0.30729</ProductVersion>
         <SchemaVersion>2.0</SchemaVersion>
-        <ProjectGuid>$guid4$</ProjectGuid>
-        <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+		<ProjectGuid>{00000000-0000-0000-0000-000000000000}</ProjectGuid>
+		<ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>$safeprojectname$</RootNamespace>
         <AssemblyName>$safeprojectname$</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-		<MvcBuildViews>true</MvcBuildViews>
+		<MvcBuildViews>false</MvcBuildViews>
 	</PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -139,6 +139,9 @@
         <Compile Include="Global.asax.cs">
             <DependentUpon>Global.asax</DependentUpon>
         </Compile>
+        <Compile Include="PLACE_HOLDER_COMMON_ASSEMLY_INFO_LOCATION">
+          <Link>Properties\CommonAssemblyInfo.cs</Link>
+        </Compile>
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
@@ -153,10 +156,10 @@
         <Content Include="Views\Shared\Error.aspx" />
         <Content Include="Web.config" />
         <Content Include="Content\Site.css" />
-        <Content Include="Scripts\jquery-1.2.6.js" />
-        <Content Include="Scripts\jquery-1.2.6.min.js" />
-        <Content Include="Scripts\jquery-1.2.6.min-vsdoc.js" />
-        <Content Include="Scripts\jquery-1.2.6-vsdoc.js" />
+        <Content Include="Scripts\jquery-1.3.1.js" />
+        <Content Include="Scripts\jquery-1.3.1.min.js" />
+        <Content Include="Scripts\jquery-1.3.1.min-vsdoc.js" />
+        <Content Include="Scripts\jquery-1.3.1-vsdoc.js" />
         <Content Include="Scripts\MicrosoftAjax.js" />
         <Content Include="Scripts\MicrosoftAjax.debug.js" />
         <Content Include="Scripts\MicrosoftMvcAjax.js" />
@@ -166,16 +169,16 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\$solutionname$.Web.Controllers\$solutionname$.Web.Controllers.csproj">
-            <Project>{$guid3$}</Project>
-            <Name>$solutionname$.Web.Controllers</Name>
+			<Project>$guidAssignedToControllers$</Project>
+			<Name>$solutionname$.Web.Controllers</Name>
         </ProjectReference>
         <ProjectReference Include="..\$solutionname$.Core\$solutionname$.Core.csproj">
-            <Project>{$guid1$}</Project>
-            <Name>$solutionname$.Core</Name>
+			<Project>$guidAssignedToCore$</Project>
+			<Name>$solutionname$.Core</Name>
         </ProjectReference>
         <ProjectReference Include="..\$solutionname$.Data\$solutionname$.Data.csproj">
-            <Project>{$guid2$}</Project>
-            <Name>$solutionname$.Data</Name>
+			<Project>$guidAssignedToData$</Project>
+			<Name>$solutionname$.Data</Name>
         </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

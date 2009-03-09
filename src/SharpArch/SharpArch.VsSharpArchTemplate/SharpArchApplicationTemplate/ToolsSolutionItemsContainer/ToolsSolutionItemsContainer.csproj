@@ -5,7 +5,7 @@
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <ProductVersion>9.0.21022</ProductVersion>
         <SchemaVersion>2.0</SchemaVersion>
-        <ProjectGuid>$guid7$</ProjectGuid>
+        <ProjectGuid>$guid1$</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>ToolsSolutionItemsContainer</RootNamespace>
@@ -33,7 +33,8 @@
     <ItemGroup>
         <Content Include="Solution Items\FluentNHibernate.Testing.dll" />
         <Content Include="Solution Items\MvcContrib.TestHelper.dll" />
-        <Content Include="Solution Items\nunit.framework.dll" />
+		<Content Include="Solution Items\MvcContrib.TestHelper.xml" />
+		<Content Include="Solution Items\nunit.framework.dll" />
         <Content Include="Solution Items\Rhino.Mocks.dll" />
         <Content Include="Solution Items\Rhino.Mocks.xml" />
         <Content Include="Solution Items\SharpArch.Testing.dll" />

@@ -15,6 +15,7 @@
 	</TemplateData>
 	<TemplateContent>
 		<Project TargetFileName="SolutionItemsContainer.csproj" File="SolutionItemsContainer.csproj">
+			<ProjectItem ReplaceParameters="true" TargetFileName="CommonAssemblyInfo.cs">CommonAssemblyInfo.cs</ProjectItem>
 			<Folder Name="Solution Items">
 				<ProjectItem>Castle.Core.dll</ProjectItem>
 				<ProjectItem>Castle.Core.xml</ProjectItem>
@@ -33,9 +34,12 @@
 				<ProjectItem>Microsoft.Practices.ServiceLocation.dll</ProjectItem>
 				<ProjectItem>Microsoft.Web.Mvc.dll</ProjectItem>
 				<ProjectItem>MvcContrib.Castle.dll</ProjectItem>
+				<ProjectItem>MvcContrib.Castle.xml</ProjectItem>
 				<ProjectItem>MvcContrib.dll</ProjectItem>
-                <ProjectItem>MvcContrib.FluentHtml.dll</ProjectItem>
-                <ProjectItem>MvcContrib.ModelAttributes.dll</ProjectItem>
+				<ProjectItem>MvcContrib.xml</ProjectItem>
+				<ProjectItem>MvcContrib.FluentHtml.dll</ProjectItem>
+				<ProjectItem>MvcContrib.FluentHtml.xml</ProjectItem>
+				<ProjectItem>MvcContrib.ModelAttributes.dll</ProjectItem>
                 <ProjectItem>Newtonsoft.Json.dll</ProjectItem>
                 <ProjectItem>Newtonsoft.Json.xml</ProjectItem>
                 <ProjectItem>NHibernate.dll</ProjectItem>
@@ -55,6 +59,7 @@
                 <ProjectItem>SharpArch.Web.Castle.pdb</ProjectItem>
                 <ProjectItem>System.Web.Abstractions.dll</ProjectItem>
 				<ProjectItem>System.Web.Mvc.dll</ProjectItem>
+				<ProjectItem>System.Web.Mvc.xml</ProjectItem>
 				<ProjectItem>System.Web.Routing.dll</ProjectItem>
 			</Folder>
 		</Project>

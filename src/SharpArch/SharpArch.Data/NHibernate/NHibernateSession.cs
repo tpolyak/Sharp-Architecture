@@ -5,6 +5,7 @@ using NHibernate.Validator.Engine;
 using NHibernate.Validator.Cfg;
 using SharpArch.Core;
 using FluentNHibernate;
+using FluentNHibernate.Cfg;
 using System.Reflection;
 using FluentNHibernate.AutoMap;
 
@@ -60,16 +61,26 @@ namespace SharpArch.Data.NHibernate
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, string cfgFile, IDictionary<string, string> cfgProperties, string validatorCfgFile) {
             Check.Require(storage != null, "storage mechanism was null but must be provided");
-            
+
             Configuration cfg = ConfigureNHibernate(cfgFile, cfgProperties);
             ConfigureNHibernateValidator(cfg, validatorCfgFile);
-            AddMappingAssembliesTo(cfg, mappingAssemblies, autoPersistenceModel);
 
- 			SessionFactory = cfg.BuildSessionFactory();
- 			Storage = storage;
+            SessionFactory = Fluently.Configure(cfg)
+                .Mappings(m => {
+                    foreach (var mappingAssembly in mappingAssemblies) {
+                        var assembly = Assembly.LoadFrom(MakeLoadReadyAssemblyName(mappingAssembly));
+
+                        m.HbmMappings.AddFromAssembly(assembly);
+                        m.FluentMappings.AddFromAssembly(assembly);
+                    }
+                    m.AutoMappings.Add(autoPersistenceModel);
+                })
+                .BuildSessionFactory();
+
+            Storage = storage;
 
             return cfg;
- 		}
+        }
 
         private static void AddAutoMappingsTo(Configuration cfg, AutoPersistenceModel autoPersistenceModel) {
             if (autoPersistenceModel != null) {
@@ -111,9 +122,7 @@ namespace SharpArch.Data.NHibernate
                 "The artifacts themselves may be HBMs or ClassMaps.  You may optionally include '.dll' on the assembly name.");
 
             foreach (string mappingAssembly in mappingAssemblies) {
-                string loadReadyAssemblyName = (mappingAssembly.IndexOf(".dll") == -1)
-                    ? mappingAssembly.Trim() + ".dll"
-                    : mappingAssembly.Trim();
+                string loadReadyAssemblyName = MakeLoadReadyAssemblyName(mappingAssembly);
 
                 Assembly assemblyToInclude = Assembly.LoadFrom(loadReadyAssemblyName);
                 // Looks for any HBMs
@@ -128,6 +137,12 @@ namespace SharpArch.Data.NHibernate
                     cfg.AddAutoMappings(autoPersistenceModel);
                 }
             }
+        }
+
+        private static string MakeLoadReadyAssemblyName(string assemblyName) {
+            return (assemblyName.IndexOf(".dll") == -1)
+				? assemblyName.Trim() + ".dll"
+				: assemblyName.Trim();
         }
 
         private static Configuration ConfigureNHibernate(string cfgFile, IDictionary<string, string> cfgProperties) {

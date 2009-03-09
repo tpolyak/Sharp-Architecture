@@ -31,8 +31,6 @@ namespace Northwind.Web
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
 
-            ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();
-
             InitializeServiceLocator();
             
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);

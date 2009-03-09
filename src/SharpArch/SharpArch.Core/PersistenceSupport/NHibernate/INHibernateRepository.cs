@@ -33,7 +33,7 @@ namespace SharpArch.Core.PersistenceSupport.NHibernate
         /// <summary>
         /// Looks for zero or more instances using the example provided.
         /// </summary>
-        List<T> FindAll(T exampleInstance, params string[] propertiesToExclude);
+        IList<T> FindAll(T exampleInstance, params string[] propertiesToExclude);
 
         /// <summary>
         /// Looks for a single instance using the example provided.

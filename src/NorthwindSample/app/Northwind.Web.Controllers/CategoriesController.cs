@@ -23,7 +23,7 @@ namespace Northwind.Web.Controllers
         /// </summary>
         [Transaction]
         public ActionResult Index() {
-            List<Category> categories = categoryRepository.GetAll();
+            IList<Category> categories = categoryRepository.GetAll();
             return View(categories);
         }
 

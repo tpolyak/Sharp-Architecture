@@ -37,7 +37,7 @@ namespace SharpArch.Data.NHibernate
             return Session.Load<T>(id, ConvertFrom(lockMode));
         }
 
-        public virtual List<T> FindAll(T exampleInstance, params string[] propertiesToExclude) {
+        public virtual IList<T> FindAll(T exampleInstance, params string[] propertiesToExclude) {
             ICriteria criteria = Session.CreateCriteria(typeof(T));
             Example example = Example.Create(exampleInstance);
 
@@ -47,11 +47,11 @@ namespace SharpArch.Data.NHibernate
 
             criteria.Add(example);
 
-            return criteria.List<T>() as List<T>;
+            return criteria.List<T>();
         }
 
         public virtual T FindOne(T exampleInstance, params string[] propertiesToExclude) {
-            List<T> foundList = FindAll(exampleInstance, propertiesToExclude);
+            IList<T> foundList = FindAll(exampleInstance, propertiesToExclude);
 
             if (foundList.Count > 1) {
                 throw new NonUniqueResultException(foundList.Count);

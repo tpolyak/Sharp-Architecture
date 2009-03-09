@@ -1,6 +1,6 @@
 ﻿using SharpArch.Core.DomainModel;
 using SharpArch.Core.PersistenceSupport;
-using NHibernate.Validator;
+using NHibernate.Validator.Constraints;
 using SharpArch.Core;
 
 namespace Northwind.Core

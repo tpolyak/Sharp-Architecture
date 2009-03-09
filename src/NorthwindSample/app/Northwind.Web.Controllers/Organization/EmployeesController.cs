@@ -26,7 +26,7 @@ namespace Northwind.Web.Controllers.Organization
         /// </summary>
         [Transaction]
         public ActionResult Index() {
-            List<Employee> employees = employeeRepository.GetAll();
+            IList<Employee> employees = employeeRepository.GetAll();
             return View(employees);
         }
 
@@ -47,14 +47,15 @@ namespace Northwind.Web.Controllers.Organization
         [Transaction]                   // Wraps a transaction around the action
         [AcceptVerbs(HttpVerbs.Post)]   // Limits the method to only accept post requests
         public ActionResult Create(Employee employee) {
-            if (ModelState.IsValid) {
+            if (employee.IsValid()) {
                 employeeRepository.SaveOrUpdate(employee);
 
                 TempData["message"] = employee.FullName + " was successfully created.";
                 return RedirectToAction("Index");
             }
 
-            // If it wasn't valid, go back to the input page
+            MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState,
+                employee.ValidationResults());
             return View();
         }
 
@@ -77,7 +78,7 @@ namespace Northwind.Web.Controllers.Organization
         [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, [ModelBinder(typeof(DefaultModelBinder))] Employee employee) {
+        public ActionResult Edit(int id, Employee employee) {
             Employee employeeToUpdate = employeeRepository.Get(id);
             TransferFormValuesTo(employeeToUpdate, employee);
 

@@ -50,5 +50,13 @@ namespace SharpArch.Core.DomainModel
         public static bool operator !=(ValueObject valueObject1, ValueObject valueObject2) { 
             return !(valueObject1 == valueObject2);
         }
+
+        public override bool Equals(object obj) {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode() {
+            return base.GetHashCode();
+        }
     }
 }

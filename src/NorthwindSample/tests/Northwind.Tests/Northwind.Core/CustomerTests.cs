@@ -2,6 +2,7 @@
 using Northwind.Core;
 using SharpArch.Core.DomainModel;
 using NUnit.Framework.SyntaxHelpers;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Tests.Northwind.Core
 {

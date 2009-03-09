@@ -82,10 +82,12 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharpArch.Core.NHibernateValidator\CommonValidatorAdapter\ValidatorTests.cs" />
     <Compile Include="SharpArch.Core\DesignByContractTests.cs" />
     <Compile Include="SharpArch.Core\DomainModel\EntityTests.cs" />
     <Compile Include="SharpArch.Core\DomainModel\ValueObjectTests.cs" />
     <Compile Include="SharpArch.Core\CommonValidator\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
+    <Compile Include="SharpArch.Core\SafeServiceLocatorTests.cs" />
     <Compile Include="SharpArch.Web\CommonValidator\MvcValidationAdapterTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +107,9 @@
       <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
       <Name>SharpArch.Web</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

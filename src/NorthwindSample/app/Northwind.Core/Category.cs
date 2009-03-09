@@ -1,4 +1,4 @@
-﻿using NHibernate.Validator;
+﻿using NHibernate.Validator.Constraints;
 using SharpArch.Core.DomainModel;
 
 namespace Northwind.Core

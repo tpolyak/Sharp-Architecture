@@ -79,10 +79,17 @@
     <Compile Include="CustomersController.cs" />
     <Compile Include="HomeController.cs" />
     <Compile Include="Organization\EmployeesController.cs" />
+    <Compile Include="..\..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteRegistrar.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Northwind.ApplicationServices\Northwind.ApplicationServices.csproj">
+      <Project>{DDD17CE0-17DC-4AA3-8CA7-D9B0F8D5E87C}</Project>
+      <Name>Northwind.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj">
       <Project>{968B265E-AF3B-4153-B996-6EC4E83D9616}</Project>
       <Name>Northwind.Core</Name>

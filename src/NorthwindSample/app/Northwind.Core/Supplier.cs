@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core.DomainModel;
-using NHibernate.Validator;
+using NHibernate.Validator.Constraints;
 
 namespace Northwind.Core
 {

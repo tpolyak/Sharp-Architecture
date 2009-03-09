@@ -162,17 +162,20 @@ public class EntityProperty {
 		string defaultValue = "null";
 		
 		if (defaultValueForTests != null) {
-			if (defaultValueForTests.GetType() == typeof(string)) {
-				defaultValue = "\"" + defaultValueForTests.ToString() + "\"";
+			if (TypeName == "string") {
+				return "\"" + defaultValueForTests.ToString() + "\"";
 			}
-			else if (defaultValueForTests.GetType() == typeof(char)) {
-				defaultValue = "'" + defaultValueForTests.ToString() + "'";
+			else if (TypeName == "char") {
+				return "'" + defaultValueForTests.ToString() + "'";
 			}
-			else if (defaultValueForTests.GetType() == typeof(DateTime)) {
-				defaultValue = "DateTime.Parse(\"" + defaultValueForTests.ToString() + "\")";
+			else if (TypeName == "DateTime") {
+				return "DateTime.Parse(\"" + defaultValueForTests.ToString() + "\")";
+			}
+			else if (TypeName == "TimeSpan") {
+				return "new TimeSpan(" + defaultValueForTests.ToString() + ")";
 			}
 			else {
-				defaultValue = defaultValueForTests.ToString();
+				return defaultValueForTests.ToString();
 			}
 		}
 		

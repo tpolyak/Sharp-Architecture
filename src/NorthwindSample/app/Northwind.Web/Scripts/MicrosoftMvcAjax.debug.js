@@ -1,7 +1,7 @@
-//----------------------------------------------------------
-// Copyright (C) Microsoft Corporation. All rights reserved.
-//----------------------------------------------------------
-// MicrosoftMvcAjax.js
+//!----------------------------------------------------------
+//! Copyright (C) Microsoft Corporation. All rights reserved.
+//!----------------------------------------------------------
+//! MicrosoftMvcAjax.js
 
 Type.registerNamespace('Sys.Mvc');
 
@@ -199,9 +199,9 @@ Sys.Mvc.MvcHelpers._asyncRequest = function Sys_Mvc_MvcHelpers$_asyncRequest(url
     if (body.length > 0 && !body.endsWith('&')) {
         body += '&';
     }
-    body += '__MVCASYNCPOST=true';
+    body += 'X-Requested-With=XMLHttpRequest';
     var requestBody = '';
-    if (verb.toUpperCase() === 'GET') {
+    if (verb.toUpperCase() === 'GET' || verb.toUpperCase() === 'DELETE') {
         if (url.indexOf('?') > -1) {
             if (!url.endsWith('&')) {
                 url += '&';
@@ -220,6 +220,10 @@ Sys.Mvc.MvcHelpers._asyncRequest = function Sys_Mvc_MvcHelpers$_asyncRequest(url
     request.set_url(url);
     request.set_httpVerb(verb);
     request.set_body(requestBody);
+    if (verb.toUpperCase() === 'PUT') {
+        request.get_headers()['Content-Type'] = 'application/x-www-form-urlencoded;';
+    }
+    request.get_headers()['X-Requested-With'] = 'XMLHttpRequest';
     var updateElement = null;
     if (ajaxOptions.updateTargetId) {
         updateElement = $get(ajaxOptions.updateTargetId);
@@ -257,7 +261,13 @@ Sys.Mvc.MvcHelpers._onComplete = function Sys_Mvc_MvcHelpers$_onComplete(request
     var statusCode = ajaxContext.get_response().get_statusCode();
     if ((statusCode >= 200 && statusCode < 300) || statusCode === 304 || statusCode === 1223) {
         if (statusCode !== 204 && statusCode !== 304 && statusCode !== 1223) {
-            Sys.Mvc.MvcHelpers.updateDomElement(ajaxContext.get_updateTarget(), ajaxContext.get_insertionMode(), ajaxContext.get_data());
+            var contentType = ajaxContext.get_response().getResponseHeader('Content-Type');
+            if ((contentType) && (contentType.indexOf('application/x-javascript') !== -1)) {
+                eval(ajaxContext.get_data());
+            }
+            else {
+                Sys.Mvc.MvcHelpers.updateDomElement(ajaxContext.get_updateTarget(), ajaxContext.get_insertionMode(), ajaxContext.get_data());
+            }
         }
         if (ajaxOptions.onSuccess) {
             ajaxOptions.onSuccess(ajaxContext);

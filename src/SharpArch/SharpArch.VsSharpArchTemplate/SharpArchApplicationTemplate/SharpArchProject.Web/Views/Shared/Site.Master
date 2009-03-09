@@ -12,9 +12,7 @@
         <title>$solutionname$</title>
     </asp:ContentPlaceHolder>
 
-    <asp:PlaceHolder runat="server">
-        <link href="<%= ResolveUrl("~") %>Content/Site.css" rel="stylesheet" type="text/css" />
-    </asp:PlaceHolder>
+    <link href="<%= ResolveUrl("~") %>Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>

@@ -3,6 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
     <h2>Customers</h2>
+    <p>All customers from Venezuela:</p>    
     <div>
         <asp:ListView ID="customerList" runat="server">
             <LayoutTemplate>

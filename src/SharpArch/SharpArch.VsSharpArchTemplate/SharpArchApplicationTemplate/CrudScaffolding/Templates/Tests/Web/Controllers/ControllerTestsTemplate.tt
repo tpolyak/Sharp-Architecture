@@ -60,6 +60,18 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
         }
 
         [Test]
+        public void CanEnsure<#= EntityScaffoldingDetails.EntityName #>CreationIsValid() {
+           <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = new <#= EntityScaffoldingDetails.EntityName #>();
+            ViewResult result = controller.Create(<#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm).AssertViewRendered();
+
+            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Null);
+            Assert.That(result.ViewData.ModelState.Count, Is.GreaterThan(0));
+
+            // Example validation message test for lower level testing
+            // Assert.That(result.ViewData.ModelState["<#= EntityScaffoldingDetails.EntityName #>.Name"].Errors[0].ErrorMessage, Is.Not.Empty);
+        }
+
+        [Test]
         public void CanCreate<#= EntityScaffoldingDetails.EntityName #>() {
             <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = CreateTransient<#= EntityScaffoldingDetails.EntityName #>();
             RedirectToRouteResult redirectResult = controller.Create(<#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm)
@@ -115,7 +127,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
 
         private <#= EntityScaffoldingDetails.EntityName #> Create<#= EntityScaffoldingDetails.EntityName #>() {
             <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #> = CreateTransient<#= EntityScaffoldingDetails.EntityName #>();
-            EntityIdSetter<int>.SetIdOf(<#= EntityScaffoldingDetails.EntityNameCamelCase #>, 1);
+            EntityIdSetter.SetIdOf<int>(<#= EntityScaffoldingDetails.EntityNameCamelCase #>, 1);
             return <#= EntityScaffoldingDetails.EntityNameCamelCase #>;
         }
 

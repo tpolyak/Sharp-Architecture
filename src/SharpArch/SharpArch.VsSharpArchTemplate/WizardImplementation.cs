@@ -7,6 +7,7 @@ using EnvDTE80;
 using System.IO;
 using System.Windows.Forms;
 using System.Threading;
+using System.Xml;
 
 namespace SharpArchApplicationWizard
 {
@@ -17,7 +18,12 @@ namespace SharpArchApplicationWizard
         /// Provide a means for sub-projects to have access to the solution name
         /// </summary>
         private static string solutionName;
+        private static string guidAssignedToCore = "{00000000-0000-0000-0000-000000000000}";
+        private static string guidAssignedToData = "{00000000-0000-0000-0000-000000000000}";
+        private static string guidAssignedToApplicationServices = "{00000000-0000-0000-0000-000000000000}";
+        private static string guidAssignedToControllers = "{00000000-0000-0000-0000-000000000000}";
 
+        private const int MIN_TIME_FOR_PROJECT_TO_RELEASE_FILE_LOCK = 700;
         private EnvDTE._DTE dte;
         private WizardRunKind runKind;
         private Dictionary<string, string> replacementsDictionary;
@@ -35,10 +41,23 @@ namespace SharpArchApplicationWizard
 
             replacementsDictionary.Add("$solutionname$", solutionName);
 
-            // Make the solution root path available for all the child projects
             if (runKind == WizardRunKind.AsNewProject) {
+                // Make the solution root path available for all the projects
                 replacementsDictionary.Add("$solutionrootpath$", GetSolutionRootPath() + solutionName + "\\");
+
+                AddProjectGuidsTo(replacementsDictionary);
             }
+        }
+
+        /// <summary>
+        /// Makes the project GUIDs, which are collected during the project creation process, 
+        /// available to subsequent projects
+        /// </summary>
+        private static void AddProjectGuidsTo(Dictionary<string, string> replacementsDictionary) {
+            replacementsDictionary.Add("$guidAssignedToCore$", guidAssignedToCore);
+            replacementsDictionary.Add("$guidAssignedToData$", guidAssignedToData);
+            replacementsDictionary.Add("$guidAssignedToApplicationServices$", guidAssignedToApplicationServices);
+            replacementsDictionary.Add("$guidAssignedToControllers$", guidAssignedToControllers);
         }
 
         /// <summary>
@@ -47,7 +66,7 @@ namespace SharpArchApplicationWizard
         void IWizard.ProjectFinishedGenerating(EnvDTE.Project project) {
             if (project != null) {
                 if (project.Name == "SolutionItemsContainer") {
-                    CreateSolutionDirectoryStructure();
+                    PerformSolutionInitialization(project);
                     MoveSolutionItemsToLib(project);
                 }
                 else if (project.Name == "ToolsSolutionItemsContainer") {
@@ -60,13 +79,69 @@ namespace SharpArchApplicationWizard
                 else if (project.Name == GetSolutionName() + ".Tests") {
                     MoveProjectTo("\\tests\\", project);
                 }
-                else if (project.Name == GetSolutionName() + ".Web.Controllers" || 
-                    project.Name == GetSolutionName() + ".Core" || 
-                    project.Name == GetSolutionName() + ".Data" || 
+                else if (project.Name == GetSolutionName() + ".Web.Controllers" ||
+                    project.Name == GetSolutionName() + ".ApplicationServices" ||
+                    project.Name == GetSolutionName() + ".Core" ||
+                    project.Name == GetSolutionName() + ".Data" ||
                     project.Name == GetSolutionName() + ".Web") {
-                    MoveProjectTo("\\app\\", project);
+                    Project movedProject = MoveProjectTo("\\app\\", project);
+
+                    // Give the solution time to release the lock on the project file
+                    System.Threading.Thread.Sleep(MIN_TIME_FOR_PROJECT_TO_RELEASE_FILE_LOCK);
+                    
+                    CaptureProjectGuidOf(movedProject);
                 }
             }
+        }
+
+        private void CaptureProjectGuidOf(Project project) {
+            if (IsProjectReferredByOtherProjects(project)) {
+                string projectPath = GetSolutionRootPath() + GetSolutionName() + "\\app\\" + project.Name + "\\" + project.Name + ".csproj";
+
+                Log("CaptureProjectGuidOf: Does " + projectPath + " exist? " + File.Exists(projectPath).ToString());
+                Log("CaptureProjectGuidOf: About to open " + projectPath);
+
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.Load(projectPath);
+                XmlNodeList projectGuidNodes = xmlDocument.GetElementsByTagName("ProjectGuid");
+
+                if (projectGuidNodes == null || projectGuidNodes.Count == 0)
+                    throw new ApplicationException("Couldn't find a matching node in the project file for ProjectGuid");
+
+                StoreCapturedGuidForLaterUse(project, projectGuidNodes);
+
+                Log("CaptureProjectGuidOf: Captured the GUID " + projectGuidNodes[0].InnerText + " for " + project.Name);
+            }
+        }
+
+        private void StoreCapturedGuidForLaterUse(Project project, XmlNodeList projectGuidNodes) {
+            if (project.Name == GetSolutionName() + ".ApplicationServices") {
+                guidAssignedToApplicationServices = projectGuidNodes[0].InnerText;
+            }
+            else if (project.Name == GetSolutionName() + ".Core") {
+                guidAssignedToCore = projectGuidNodes[0].InnerText;
+            }
+            else if (project.Name == GetSolutionName() + ".Web.Controllers") {
+                guidAssignedToControllers = projectGuidNodes[0].InnerText;
+            }
+            else if (project.Name == GetSolutionName() + ".Data") {
+                guidAssignedToData = projectGuidNodes[0].InnerText;
+            }
+        }
+
+        private bool IsProjectReferredByOtherProjects(Project project) {
+            return project.Name == GetSolutionName() + ".ApplicationServices" ||
+                project.Name == GetSolutionName() + ".Core" ||
+                project.Name == GetSolutionName() + ".Web.Controllers" ||
+                project.Name == GetSolutionName() + ".Data";
+        }
+
+        /// <summary>
+        /// Sets up the solution structure and performs a number of related initialization steps
+        /// </summary>
+        private void PerformSolutionInitialization(EnvDTE.Project project) {
+            CreateSolutionDirectoryStructure();
+            MoveCommonAssemblyInfoToRoot(project);
         }
 
         /// <summary>
@@ -76,7 +151,7 @@ namespace SharpArchApplicationWizard
             // Only copy the solution items once, right after processing the solution template
             if (runKind == WizardRunKind.AsMultiProject) {
                 DeleteSuoFile();
-    
+
                 // Operations after this must take into account that the solution path has changed
                 MoveSolutionFileToProjectsDirectory();
             }
@@ -84,12 +159,12 @@ namespace SharpArchApplicationWizard
 
         private void ExcludeProjectFromBuildProcess(EnvDTE.Project project) {
             Solution2 solution = dte.Solution as Solution2;
-            SolutionBuild2 solutionBuild = (SolutionBuild2) solution.SolutionBuild;
+            SolutionBuild2 solutionBuild = (SolutionBuild2)solution.SolutionBuild;
 
             foreach (SolutionConfiguration solutionConfiguration in solutionBuild.SolutionConfigurations) {
                 foreach (SolutionContext solutionContext in solutionConfiguration.SolutionContexts) {
                     if (solutionContext.ProjectName.IndexOf(project.Name) > -1) {
-                        Log("Setting build to false for project " + solutionContext.ProjectName + 
+                        Log("ExcludeProjectFromBuildProcess: Setting build to false for project " + solutionContext.ProjectName +
                             " within the " + solutionConfiguration.Name + " configuration");
                         solutionContext.ShouldBuild = false;
                     }
@@ -108,28 +183,71 @@ namespace SharpArchApplicationWizard
             if (Directory.Exists(originalLocation)) {
                 Solution2 solution = dte.Solution as Solution2;
 
-                Log("Removing " + projectName + " from solution");
+                Log("MoveProjectTo: Removing " + projectName + " from solution");
                 solution.Remove(project);
+
                 // Give the solution time to release the lock on the project file
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(MIN_TIME_FOR_PROJECT_TO_RELEASE_FILE_LOCK);
+
+                PerformManualProjectReplacementsTo(originalLocation + "\\" + projectName + ".csproj");
 
                 string targetLocation = GetSolutionRootPath() + GetSolutionName() + targetSubFolder + projectName;
 
-                Log("Moving " + projectName + " from " + originalLocation + " to target location at " + targetLocation);
+                Log("MoveProjectTo: Moving " + projectName + " from " + originalLocation + " to target location at " + targetLocation);
                 Directory.Move(originalLocation, targetLocation);
 
                 if (!string.IsNullOrEmpty(solutionFolderName)) {
                     SolutionFolder solutionFolder = (SolutionFolder)solution.AddSolutionFolder(solutionFolderName).Object;
-                    Log("Adding " + projectName + " to solution folder " + targetLocation);
+                    Log("MoveProjectTo: Adding " + projectName + " to solution folder " + targetLocation);
                     return solutionFolder.AddFromFile(targetLocation + "\\" + projectName + ".csproj");
                 }
                 else {
-                    Log("Adding " + projectName + " to solution");
+                    Log("MoveProjectTo: Adding " + projectName + " to solution");
                     return solution.AddFromFile(targetLocation + "\\" + projectName + ".csproj", false);
                 }
             }
             else {
                 throw new ApplicationException("Couldn't find " + originalLocation + " to move");
+            }
+        }
+
+        /// <summary>
+        /// This does any manual value replacement on project files when it can't be handled 
+        /// (or is being handled incorrectly by the VS templating process.
+        /// </summary>
+        private void PerformManualProjectReplacementsTo(string projectFilePath) {
+            if (File.Exists(projectFilePath)) {
+                Log("PerformManualProjectReplacementsTo: Going to PerformManualProjectReplacementsTo on " + projectFilePath);
+
+                // Open a file for reading
+                StreamReader streamReader;
+                streamReader = File.OpenText(projectFilePath);
+
+                // Now, read the entire file into a string
+                string contents = streamReader.ReadToEnd();
+                streamReader.Close();
+
+                // Write the modification into the same fil
+                StreamWriter streamWriter = File.CreateText(projectFilePath);
+                streamWriter.Write(contents.Replace("PLACE_HOLDER_COMMON_ASSEMLY_INFO_LOCATION", "..\\..\\CommonAssemblyInfo.cs"));
+                streamWriter.Close();
+            }
+            else {
+                throw new ApplicationException("Couldn't find " + projectFilePath + " to PerformManualProjectReplacementsTo");
+            }
+        }
+
+        private void MoveCommonAssemblyInfoToRoot(EnvDTE.Project solutionItemsContainerProject) {
+            string originalFileLocation = GetSolutionRootPath() + GetSolutionName() + "\\SolutionItemsContainer\\CommonAssemblyInfo.cs";
+
+            if (File.Exists(originalFileLocation)) {
+                string targetFileLocation = GetSolutionRootPath() + GetSolutionName() + "\\CommonAssemblyInfo.cs";
+
+                Log("MoveCommonAssemblyInfoToRoot: Moving CommonAssemblyInfo.cs from " + originalFileLocation + " to root at " + targetFileLocation);
+                File.Move(originalFileLocation, targetFileLocation);
+            }
+            else {
+                throw new ApplicationException("Couldn't find CommonAssemblyInfo.cs to move");
             }
         }
 
@@ -139,7 +257,7 @@ namespace SharpArchApplicationWizard
             if (Directory.Exists(originalLocation)) {
                 string targetLibFolder = GetSolutionRootPath() + GetSolutionName() + "\\lib";
 
-                Log("Moving solution items from " + originalLocation + " to lib at " + targetLibFolder);
+                Log("MoveSolutionItemsToLib: Moving solution items from " + originalLocation + " to lib at " + targetLibFolder);
                 Directory.Move(originalLocation, targetLibFolder);
 
                 Solution2 solution = dte.Solution as Solution2;
@@ -160,7 +278,7 @@ namespace SharpArchApplicationWizard
             if (Directory.Exists(originalLocation)) {
                 string targetToolsLibFolder = GetSolutionRootPath() + GetSolutionName() + "\\tools\\lib";
 
-                Log("Moving tools solution items from " + originalLocation + " to tools lib at " + targetToolsLibFolder);
+                Log("MoveSolutionItemsToToolsLib: Moving tools solution items from " + originalLocation + " to tools lib at " + targetToolsLibFolder);
                 Directory.Move(originalLocation, targetToolsLibFolder);
 
                 Solution2 solution = dte.Solution as Solution2;
@@ -198,7 +316,7 @@ namespace SharpArchApplicationWizard
             string suoFile = GetSolutionRootPath() + GetSolutionName() + ".suo";
 
             if (File.Exists(suoFile)) {
-                Log("Deleting " + suoFile);
+                Log("DeleteSuoFile: Deleting " + suoFile);
                 File.Delete(suoFile);
             }
         }

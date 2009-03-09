@@ -1,7 +1,7 @@
 ﻿using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
-using NHibernate.Validator;
+using NHibernate.Validator.Constraints;
 using Northwind.Core.Organization;
 using SharpArch.Core;
 
