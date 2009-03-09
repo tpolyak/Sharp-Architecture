@@ -1,2 +1,2 @@
-call go.bat
+call go.bat build
 pause

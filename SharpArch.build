@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <!--EXTERNAL_PROPERTIES: build.number -->
 <!--EXTERNAL_PROPERTIES: build.vcs.number.1 -->
-<project name="SharpArch" default="build" xmlns="http://nant.sf.net/schemas/nant.xsd">
+<project name="SharpArch" default="build-and-package" xmlns="http://nant.sf.net/schemas/nant.xsd">
 	<property name="nant.settings.currentframework" value="net-3.5" />
 	<property name="project.config" value="debug" />
 	<property name="company.name" value="Codai, LLC"/>
@@ -24,7 +24,8 @@
 	<property name="test.assembly" value="${project::get-name()}.Tests.dll" />
 
 	<!-- User targets -->
-	<target name="build" depends="compile, test, package"></target>
+	<target name="build-and-package" depends="build, package"></target>
+	<target name="build" depends="compile, test"></target>
 	
 	<target name="clean" description="Delete Automated Build artifacts">
 		<delete dir="${build.dir}" if="${directory::exists(build.dir)}"/>
