@@ -21,6 +21,7 @@ New and exciting in this release:
 * Performance of unit tests using SQLite has been improved 20% (thanks Jay Oliver!)
 * Integration of domain validation with MVC model binding has been introduced via a new ValidatableModelBinder (thanks David Hayden and Austin Bain!)
 * Added crazy cool anti-forgery voodoo magic to the CRUD scaffolding generator for creating, editing and deleting items (uh, thanks MVC team!)
+* New empty class library, called YourProject.ApplicationServices, now gets added to VS generated projects
 
 Assembly Dependencies:
 * ASP.NET MVC RC 2
