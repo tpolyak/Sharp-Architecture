@@ -41,8 +41,9 @@ Assembly Dependencies:
 -------
 
 Upgrading to S#arp Architecture RC 2 from Beta (steps also reflected in the Northwind sample project):
-1) Install NUnit 2.4.8
-2) Update assembly dependencies from trunk/bin into your application's lib and /tools/lib folders
+#) If you have any previous versions of ASP.NET MVC installed, uninstall them and install ASP.NET MVC RC 2
+#) Install NUnit 2.4.8
+#) Update assembly dependencies from trunk/bin into your application's lib and /tools/lib folders
 #) Modify using statements from "using NHibernate.Validator;" to "using NHibernate.Validator.Constraints;"
 #) Change all reference to anyEntity.ID to anyEntity.Id.
 #) Add the following assembly redirect to YourProject.Web/web.config and YourProject.Tests/App.config (since some dependencies will be looking for an older version of Iesi.Collections):
@@ -65,6 +66,7 @@ Upgrading to S#arp Architecture RC 2 from Beta (steps also reflected in the Nort
 	container.RegisterControllersByArea(typeof(HomeController).Assembly);
    to:
 	container.RegisterControllers(typeof(HomeController).Assembly);
+#) Within YourProject.Web/Global.asax.cs, modify the Init() to reflect the locking mechanism shown within 
 #) Within YourProject.Tests/App.config, update the nunit assembly redirect to go to version 2.4.8.0
 #) Change calls to EntityIdSetter<>.SetIdOf() to EntityIdSetter.SetIdOf<>()
 #) Update your Site.master to provide an overwritable title and to account for a known bug in MVC RC 1, described at http://haacked.com/archive/2009/01/27/controls-collection-cannot-be-modified-issue-with-asp.net-mvc-rc1.aspx
