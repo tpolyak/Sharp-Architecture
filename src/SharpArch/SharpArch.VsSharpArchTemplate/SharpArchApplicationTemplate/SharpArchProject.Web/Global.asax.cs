@@ -34,11 +34,6 @@ namespace $safeprojectname$
             InitializeServiceLocator();
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
-
-            NHibernateSession.Init(new WebSessionStorage(this), 
-                new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") },
-                new AutoPersistenceModelGenerator().Generate(), 
-                Server.MapPath("~/NHibernate.config"));
         }
 
         /// <summary>
@@ -61,5 +56,37 @@ namespace $safeprojectname$
             Exception ex = Server.GetLastError();
             ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
+
+        /// <summary>
+        /// Due to issues on IIS7, the NHibernate initialization must occur in Init().
+        /// But Init() may be invoked more than once; accordingly, we introduce a thread-safe
+        /// mechanism to ensure it's only initialized once.
+        /// 
+        /// See http://msdn.microsoft.com/en-us/magazine/cc188793.aspx for explanation details.
+        /// </summary>
+        public override void Init() {
+            base.Init();
+
+            // Only allow the NHibernate session to be initialized once
+            if (!wasNHibernateInitialized) {
+                lock (lockObject) {
+                    if (!wasNHibernateInitialized) {
+                        NHibernateSession.Init(new WebSessionStorage(this), 
+                            new string[] { Server.MapPath("~/bin/$solutionname$.Data.dll") },
+                            new AutoPersistenceModelGenerator().Generate(), 
+                            Server.MapPath("~/NHibernate.config"));
+
+                        wasNHibernateInitialized = true;
+                    }
+                }
+            }
+        }
+
+        private static bool wasNHibernateInitialized = false;
+
+        /// <summary>
+        /// Private, static object used only for synchronization
+        /// </summary>
+        private static object lockObject = new object();
     }
 }

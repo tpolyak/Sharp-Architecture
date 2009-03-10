@@ -32,13 +32,8 @@ namespace Northwind.Web
             ViewEngines.Engines.Add(new AreaViewEngine());
 
             InitializeServiceLocator();
-            
-            RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 
-            NHibernateSession.Init(new WebSessionStorage(this),
-                new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
-                new AutoPersistenceModelGenerator().Generate(),
-                Server.MapPath("~/NHibernate.config"));
+            RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
 
         /// <summary>
@@ -56,10 +51,42 @@ namespace Northwind.Web
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
 
+        /// <summary>
+        /// Due to issues on IIS7, the NHibernate initialization must occur in Init().
+        /// But Init() may be invoked more than once; accordingly, we introduce a thread-safe
+        /// mechanism to ensure it's only initialized once.
+        /// 
+        /// See http://msdn.microsoft.com/en-us/magazine/cc188793.aspx for explanation details.
+        /// </summary>
+        public override void Init() {
+            base.Init();
+
+            // Only allow the NHibernate session to be initialized once
+            if (!wasNHibernateInitialized) {
+                lock (lockObject) {
+                    if (!wasNHibernateInitialized) {
+                        NHibernateSession.Init(new WebSessionStorage(this),
+                            new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
+                            new AutoPersistenceModelGenerator().Generate(),
+                            Server.MapPath("~/NHibernate.config"));
+
+                        wasNHibernateInitialized = true;
+                    }
+                }
+            }
+        }
+
         protected void Application_Error(object sender, EventArgs e) {
             // Useful for debugging
             Exception ex = Server.GetLastError();
             ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
+
+        private static bool wasNHibernateInitialized = false;
+
+        /// <summary>
+        /// Private, static object used only for synchronization
+        /// </summary>
+        private static object lockObject = new object();
     }
 }
