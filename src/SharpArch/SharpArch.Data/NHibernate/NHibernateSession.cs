@@ -63,7 +63,7 @@ namespace SharpArch.Data.NHibernate
             Check.Require(storage != null, "storage mechanism was null but must be provided");
 
             Configuration cfg = ConfigureNHibernate(cfgFile, cfgProperties);
-            ConfigureNHibernateValidator(cfg, validatorCfgFile);
+            ConfigureNHibernateValidator(cfg, validatorCfgFile); 
 
             SessionFactory = Fluently.Configure(cfg)
                 .Mappings(m => {
