@@ -133,8 +133,8 @@ SharpArch.Core
 * BREAKING CHANGE ~ /PersistenceSupport/NHibernate/INHibernateRepository.cs: Changed FindAll to return an IList rather than a List to be more loosely coupled.
 
 SharpArch.Data
-* /NHibernate/FluentNHibernate/IAutoPeristenceModelConventionOverride.cs:  Added this interface to serve as a base class for any Fluent NHibernate override classes; this was introduced because it's no longer allowed to inherit from AutoMap<> for overriding conventions.
-* /NHibernate/FluentNHibernate/AutoPersistenceModelExtensions.cs:  Added this extension to AutoPersistenceModel to automatically apply any override classes from a specific assembly.  (See above note for reason.)
+* Between RC 1 and 2, added and then removed /NHibernate/FluentNHibernate/IAutoPeristenceModelConventionOverride.cs:  In the RC 1 compatible code, I added this interface to serve as a base class for any Fluent NHibernate override classes; this was introduced because it's no longer allowed to inherit from AutoMap<> for overriding conventions.  For RC 2, James Gregory, developer of Fluent NHibernate, was kind enough to port these capabilities into Fluent NHibernate itself; so this interface has been dropped in RC 2.
+* Between RC 1 and 2, added and then removed /NHibernate/FluentNHibernate/AutoPersistenceModelExtensions.cs:  In the RC 1 compatible code, I added this extension to AutoPersistenceModel to automatically apply any override classes from a specific assembly.  With James Gregory's port of this functionality to Fluent NHibernate, this class has been dropped in the RC 2 compatible code.
 * /NHibernate/Repository.cs:  Changed GetAll and FindAll to return an IList rather than a List to be more loosely coupled.
 * /NHibernate/NHibernateRepository.cs:  Changed FindAll to return an IList rather than a List to be more loosely coupled.
 
@@ -157,10 +157,9 @@ Northwind.ApplicationServices
 Northwind.Web
 * Within Northwind.Web.csproj (and VS project template), added post compiler step as outlined in http://webdevdotnet.blogspot.com/2009/02/aspnet-mvc-rc-compiler-post-build-step.html* Renamed Hibernate.cfg.xml to NHibernate.config so that you can't browse to it on the web server
 * Global.asax.cs:
-	- Passed location of NHibernate.config to NHibernateSession.Init()
-	- Within Application_Start, added "ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();" to replace the default binder with one that seamlessly integrates CommonValidator capabilities
-	- Moved NHibernateSession.Init to Application_Start due to http://code.google.com/p/sharp-architecture/issues/detail?id=44
-* /Scripts/jquery*.js:  Updated to 1.3.1
+	- Passed location of NHibernate.config to  NHibernateSession.Init()
+	- For RC 1, I had within Application_Start, I added "ModelBinders.Binders.DefaultBinder = new ValidatableModelBinder();" to replace the default binder with one that seamlessly integrates CommonValidator capabilities; for RC 2 (the current release), I've removed this again to have more consistent post behavior between Create and Edit
+* /Scripts/jquery*.js:  Updated to 1.3.2
 * /Views/Organization/Employees/Index.aspx:  Changed the delete link to an input button within a form which includes an anti-forgery token; deletes should only happen via POST requests for better security
 
 Northwind.Web.Controllers
