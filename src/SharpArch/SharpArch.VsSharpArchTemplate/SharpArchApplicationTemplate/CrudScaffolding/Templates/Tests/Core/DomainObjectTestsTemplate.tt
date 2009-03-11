@@ -41,7 +41,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
 				}
 			}
 			else {
-				WriteLine("EntityIdSetter<int>.SetIdOf(instance, 1);");
+				WriteLine("EntityIdSetter.SetIdOf<int>(instance, 1);");
 			}
 
 			PopIndent();
@@ -59,7 +59,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
 				}
 			}
 			else {
-				WriteLine("EntityIdSetter<int>.SetIdOf(instanceToCompareTo, 1);");
+				WriteLine("EntityIdSetter.SetIdOf<int>(instanceToCompareTo, 1);");
 			}
 
 			PopIndent();
