@@ -60,7 +60,7 @@ Upgrading to S#arp Architecture RC 2 from Beta (steps also reflected in the Nort
             }
 	3) Within YourProject.Data.NHibernateMaps.AutoPersistenceModelGenerator, append the following extension method to the mappings creation:
             .MapConventionOverridesFromAssemblyOf<YourEntityClassMapName>();
-#) Update YourProject.Web/Scripts/jquery*.js with 1.3.1 versions available in Northwind sample project
+#) Update YourProject.Web/Scripts/jquery*.js with 1.3.2 versions available in Northwind sample project
 #) Update YourProject.Web/Views/web.config to reflect the respective content from the Northwind sample project
 #) Within YourProject.Web/Global.asax.cs, change the following line:
 	container.RegisterControllersByArea(typeof(HomeController).Assembly);

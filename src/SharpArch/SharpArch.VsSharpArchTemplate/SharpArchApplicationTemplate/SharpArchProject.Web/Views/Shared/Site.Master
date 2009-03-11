@@ -8,11 +8,12 @@
 <head id="Head1" runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
-    <asp:ContentPlaceHolder ID="head" runat="server">
+    <link href="<%= ResolveUrl("~") %>Content/Site.css" rel="stylesheet" type="text/css" />
+
+    <% // At bottom to facilitate other JS files to be loaded before page-by-page JS is loaded %>
+    <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server">
         <title>$solutionname$</title>
     </asp:ContentPlaceHolder>
-
-    <link href="<%= ResolveUrl("~") %>Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
