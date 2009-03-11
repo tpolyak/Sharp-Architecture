@@ -73,19 +73,16 @@ namespace SharpArch.Data.NHibernate
                         m.HbmMappings.AddFromAssembly(assembly);
                         m.FluentMappings.AddFromAssembly(assembly);
                     }
-                    m.AutoMappings.Add(autoPersistenceModel);
+
+                    if (autoPersistenceModel != null) {
+                        m.AutoMappings.Add(autoPersistenceModel);
+                    }
                 })
                 .BuildSessionFactory();
 
             Storage = storage;
 
             return cfg;
-        }
-
-        private static void AddAutoMappingsTo(Configuration cfg, AutoPersistenceModel autoPersistenceModel) {
-            if (autoPersistenceModel != null) {
-                cfg.AddAutoMappings(autoPersistenceModel);
-            }
         }
 
         public static void RegisterInterceptor(IInterceptor interceptor) {
@@ -115,29 +112,6 @@ namespace SharpArch.Data.NHibernate
                 return session;
 			}
 		}
-
-        private static void AddMappingAssembliesTo(Configuration cfg, ICollection<string> mappingAssemblies, AutoPersistenceModel autoPersistenceModel) {
-            Check.Require(mappingAssemblies != null && mappingAssemblies.Count >= 1,
-                "mappingAssemblies must be provided as a string array of assembly names which contain mapping artifacts. " +
-                "The artifacts themselves may be HBMs or ClassMaps.  You may optionally include '.dll' on the assembly name.");
-
-            foreach (string mappingAssembly in mappingAssemblies) {
-                string loadReadyAssemblyName = MakeLoadReadyAssemblyName(mappingAssembly);
-
-                Assembly assemblyToInclude = Assembly.LoadFrom(loadReadyAssemblyName);
-                // Looks for any HBMs
-                cfg.AddAssembly(assemblyToInclude);
-
-                if (autoPersistenceModel == null) {
-                    // Looks for any Fluent NHibernate ClassMaps
-                    cfg.AddMappingsFromAssembly(assemblyToInclude);
-                }
-                else {
-                    autoPersistenceModel.addMappingsFromAssembly(assemblyToInclude);
-                    cfg.AddAutoMappings(autoPersistenceModel);
-                }
-            }
-        }
 
         private static string MakeLoadReadyAssemblyName(string assemblyName) {
             return (assemblyName.IndexOf(".dll") == -1)
