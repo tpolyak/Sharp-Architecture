@@ -12,10 +12,18 @@ namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
             ClassContext = invalidValue.BeanClass;
             PropertyName = invalidValue.PropertyName;
             Message = invalidValue.Message;
+            InvalidValue = invalidValue;
         }
 
         public virtual Type ClassContext { get; protected set; }
         public virtual string PropertyName { get; protected set; }
         public virtual string Message { get; protected set; }
+
+        /// <summary>
+        /// This is not defined by IValidationResult but is useful for applications which are 
+        /// strictly using NHibernate Validator and need additional information about the 
+        /// validation problem.
+        /// </summary>
+        public virtual InvalidValue InvalidValue { get; protected set; }
     }
 }
