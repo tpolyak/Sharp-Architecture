@@ -1,0 +1,460 @@
+﻿<#+
+// <copyright file="TransformationContext.tt" company="T4 Toolbox Team">
+//  Copyright � T4 Toolbox Team. All Rights Reserved.
+// </copyright>
+
+/// <summary>
+/// Provides context information about template transformation environment.
+/// </summary>
+public static class TransformationContext
+{
+    #region fields
+
+	/// <summary>
+	/// Stores the top-level Visual Studio automation object.
+	/// </summary>
+	private static EnvDTE.DTE dte;
+
+    /// <summary>
+    /// Stores names of output files saved during template transformation
+    /// </summary>
+    private static System.Collections.Generic.List<string> outputFileNames;
+
+    /// <summary>
+    /// Visual Studio <see cref="EnvDTE.Project"/> to which the template file belongs
+    /// </summary>
+    private static EnvDTE.Project project;
+
+    /// <summary>
+    /// Visual Studio <see cref="EnvDTE.ProjectItem"/> representing the template file
+    /// </summary>
+    private static EnvDTE.ProjectItem projectItem;
+
+    /// <summary>
+    /// Currently running, generated <see cref="Microsoft.VisualStudio.TextTemplating.TextTransformation"/> object
+    /// </summary>
+    private static Microsoft.VisualStudio.TextTemplating.TextTransformation transformation;
+
+    #endregion
+
+	/// <summary>
+	/// Gets default namespace for generated code.
+	/// </summary>
+	public static string DefaultNamespace
+	{
+		get
+		{
+			System.Collections.Generic.List<string> namespaces = new System.Collections.Generic.List<string>();
+			EnvDTE.ProjectItem parent = TransformationContext.ProjectItem.Collection.Parent as EnvDTE.ProjectItem;
+			while (parent != null)
+			{
+				namespaces.Insert(0, parent.Name.Replace(" ", string.Empty));
+				parent = parent.Collection.Parent as EnvDTE.ProjectItem;
+			}
+
+			namespaces.Insert(0, TransformationContext.RootNamespace);
+			return string.Join(".", namespaces.ToArray());
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets the top-level Visual Studio automation object.
+	/// </summary>
+    /// <exception cref="TransformationException">
+    /// When Visual Studio automation object is not available.
+    /// </exception>
+	/// <remarks>
+	/// <see cref="TransformationContext"/> assumes that it is running inside of
+	/// Visual Studio T4 host and will automaticaly find the main automation object.
+	/// However, when running inside of the comman line T4 host (TextTransform.exe),
+	/// Visual Studio is not available. Code generators that require Visual Studio
+	/// automation in the command line host can launch it explicitly and assign this
+	/// property to enable normal behavior of the <see cref="TransformationContext"/>.
+	/// </remarks>
+	public static EnvDTE.DTE DTE
+	{
+		get
+		{
+			if (TransformationContext.dte == null)
+			{
+				IServiceProvider hostServiceProvider = (IServiceProvider)TransformationContext.Host;
+				if (hostServiceProvider == null)
+				{
+					throw new TransformationException("Host property returned unexpected value (null)");
+				}
+
+				TransformationContext.dte = (EnvDTE.DTE)hostServiceProvider.GetService(typeof(EnvDTE.DTE));
+				if (TransformationContext.dte == null)
+				{
+					throw new TransformationException("Unable to retrieve DTE");
+				}
+			}
+
+			return TransformationContext.dte;
+        }
+
+		set
+		{
+			TransformationContext.dte = value;
+		}
+	}
+
+    /// <summary>
+    /// Gets <see cref="ITextTemplatingEngineHost"/> which is running the 
+    /// <see cref="Transformation"/>.
+    /// </summary>
+    /// <exception cref="TransformationException">
+    /// When <see cref="TransformationContext"/> has not been properly initialized;
+    /// or when currently running <see cref="TextTransformation"/> is not host-specific.
+    /// </exception>
+    public static Microsoft.VisualStudio.TextTemplating.ITextTemplatingEngineHost Host
+    {
+        get
+        {
+            System.Type transformationType = Transformation.GetType();
+            System.Reflection.PropertyInfo hostProperty = transformationType.GetProperty("Host");
+            if (hostProperty == null)
+            {
+                throw new TransformationException(
+                    "Unable to access templating engine host. " +
+                    "Please make sure your template includes hostspecific=\"True\" " +
+                    "parameter in the \<#@ template \#> directive.");
+            }
+
+            return (Microsoft.VisualStudio.TextTemplating.ITextTemplatingEngineHost)hostProperty.GetValue(Transformation, null);
+        }
+    }
+
+    /// <summary>
+    /// Gets the Visual Studio <see cref="EnvDTE.Project"/> to which the template file belongs
+    /// </summary>
+    public static EnvDTE.Project Project
+    {
+        get
+        {
+            if (TransformationContext.project == null)
+            {
+                TransformationContext.project = TransformationContext.ProjectItem.ContainingProject;
+            }
+
+            return TransformationContext.project;
+        }
+    }
+
+    /// <summary>
+    /// Gets the Visual Studio <see cref="EnvDTE.ProjectItem"/> representing the template file
+    /// </summary>
+    public static EnvDTE.ProjectItem ProjectItem
+    {
+        get
+        {
+            if (TransformationContext.projectItem == null)
+            {
+                TransformationContext.projectItem = TransformationContext.DTE.Solution.FindProjectItem(
+					TransformationContext.Host.TemplateFile);
+            }
+
+            return TransformationContext.projectItem;
+        }
+    }
+
+
+	/// <summary>
+	/// Gets the default namespace specified in the options of the current project.
+	/// </summary>
+	public static string RootNamespace
+	{
+		get
+		{
+			foreach (EnvDTE.Property property in TransformationContext.Project.Properties)
+			{
+				if (property.Name == "RootNamespace")
+				{
+					return (string)property.Value;
+				}
+			}
+
+			return string.Empty;
+		}
+	}
+
+    /// <summary>
+    /// Gets the currently running, generated <see cref="TextTransformation"/> object.
+    /// </summary>
+    /// <exception cref="TransformationException">
+    /// When <see cref="TransformationContext"/> has not been properly initialized.
+    /// </exception>
+    public static Microsoft.VisualStudio.TextTemplating.TextTransformation Transformation
+    {
+        get
+        {
+            if (transformation == null)
+            {
+                throw new TransformationException(
+                    "TransformationContext was not properly initialized. " +
+                    "Please make sure your template uses the following directive: " +
+                    "\<#@ include file=\"T4Toolbox.tt\" \#>.");
+            }
+
+            return transformation; 
+        }
+    }
+
+    /// <summary>
+    /// Returns <see cref="EnvDTE.ProjectItem"/> for the specified file
+    /// </summary>
+    /// <param name="fileName">
+    /// Name of the file
+    /// </param>
+    /// <returns>
+    /// Visual Studio <see cref="EnvDTE.ProjectItem"/> object
+    /// </returns>
+    /// <remarks>
+    /// This method is used by templates to access CodeModel for generating
+    /// output using C# or Visual Basic source code as a model.
+    /// </remarks>
+    public static EnvDTE.ProjectItem FindProjectItem(string fileName)
+    {
+        if (fileName == null)
+        {
+            throw new ArgumentNullException("fileName");
+        }
+
+		return TransformationContext.DTE.Solution.FindProjectItem(fileName);
+    }
+
+    /// <summary>
+    /// This method is a part of T4 Toolbox infrastructure. Don't call it in your code.
+    /// </summary>
+    /// <param name="transformation">
+    /// Instance of the <see cref="TextTransformation"/> class generated by T4 engine.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Method throws <see cref="ArgumentNullException"/> when the specified 
+    /// <paramref name="transformation"/> is null.
+    /// </exception>
+    /// <remarks>
+    /// During template transformation, this method is called by code in T4Toolbox.tt.
+    /// </remarks>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public static void OnTransformationStarted(Microsoft.VisualStudio.TextTemplating.TextTransformation transformation)
+    {
+        if (transformation == null)
+        {
+            throw new ArgumentNullException("transformation");
+        }
+
+        TransformationContext.transformation = transformation;
+        TransformationContext.outputFileNames = new System.Collections.Generic.List<string>();
+    }
+
+    /// <summary>
+    /// This method is a part of T4 Toolbox infrastructure. Don't call it in your code.
+    /// </summary>
+    /// <param name="transformation">
+    /// Instance of the <see cref="TextTransformation"/> class generated by T4 engine.
+    /// </param>
+    /// <exception cref="ArgumentNullException">
+    /// Method throws <see cref="ArgumentNullException"/> when the specified 
+    /// <paramref name="transformation"/> is null.
+    /// </exception>
+    /// <remarks>
+    /// During template transformation, this method is called by code in T4Toolbox.tt.
+    /// </remarks>
+    [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+    public static void OnTransformationEnded(Microsoft.VisualStudio.TextTemplating.TextTransformation transformation)
+    {
+        if (transformation == null)
+        {
+            throw new ArgumentNullException("transformation");
+        }
+
+		if (TransformationContext.transformation != null)
+		{
+			DeleteOldOutputs();
+		}
+
+        TransformationContext.transformation = null;
+        TransformationContext.outputFileNames = null;
+        TransformationContext.project = null;
+        TransformationContext.projectItem = null;
+    }
+
+    /// <summary>
+    /// Saves content to a file and adds it to the Visual Studio <see cref="Project"/>.
+    /// </summary>
+    /// <param name="fileName">
+    /// Name of the output file
+    /// </param>
+    /// <param name="content">
+    /// Content that will be written to the output file.
+    /// </param>
+    public static void SaveOutputToFile(string fileName, string content)
+    {
+        if (fileName == null)
+        {
+            throw new ArgumentNullException("fileName");
+        }
+
+        if (content == null)
+        {
+            throw new ArgumentNullException("content");
+        }
+
+        string templateDirectory = System.IO.Path.GetDirectoryName(TransformationContext.Host.TemplateFile);
+        string filePath = System.IO.Path.Combine(templateDirectory, fileName);
+
+        // Try to find output file among the child project items of the template file
+        EnvDTE.ProjectItem outputProjectItem = FindProjectItem(TransformationContext.ProjectItem.ProjectItems, filePath);
+
+        // If output file has not been added to the project,
+        if (outputProjectItem == null)
+        {
+            // Save the output file before we can add it to the project
+            System.IO.File.WriteAllText(filePath, content);
+
+            // Add the output file to the project as a child of the template file
+            TransformationContext.ProjectItem.ProjectItems.AddFromFile(filePath);
+        }
+
+        // If output file is already in the project, 
+        else
+        {
+            // Does the file really need to be saved?
+            bool fileChanged = !System.IO.File.Exists(filePath) || !content.Equals(System.IO.File.ReadAllText(filePath));
+            if (fileChanged)
+            {
+                // Does the file need to be checked out?
+                EnvDTE.SourceControl sourceControl = outputProjectItem.DTE.SourceControl;
+                if (sourceControl.IsItemUnderSCC(filePath) && !sourceControl.IsItemCheckedOut(filePath))
+                {
+                    sourceControl.CheckOutItem(filePath);
+                }
+
+                // Save the output file after it has been checked out
+                System.IO.File.WriteAllText(filePath, content);
+            }
+        }
+
+        // Remember which files were generated so that we can delete unused ones in the end
+        TransformationContext.outputFileNames.Add(fileName);
+    }
+
+    #region internal
+
+    /// <summary>
+    /// This method is a part of T4 Toolbox infrastructure. Don't call it in your code.
+    /// </summary>
+    /// <remarks>
+    /// Clears all code generation errors.
+    /// </remarks>
+    internal static void ClearErrors()
+    {
+        TransformationContext.Errors.Clear();
+    }
+
+    /// <summary>
+    /// This method is a part of T4 Toolbox infrastructure. Don't call it in your code.
+    /// </summary>
+    /// <remarks>
+    /// Copies errors from the specified collection of <paramref name="errors"/> to the
+    /// list of <see cref="TextTransformation.Errors"/> that will be displayed in Visual
+    /// Studio error window.
+    /// </remarks>
+    internal static void ReportErrors(System.CodeDom.Compiler.CompilerErrorCollection errors)
+    {
+		foreach (System.CodeDom.Compiler.CompilerError error in errors)
+		{
+		    if (string.IsNullOrEmpty(error.FileName))
+		    {
+		        error.FileName = TransformationContext.Host.TemplateFile;
+		    }
+
+			TransformationContext.Errors.Add(error);
+		}
+    }
+
+    #endregion
+
+    #region private
+
+    /// <summary>
+    /// Gets <see cref="TextTransformation.Errors"/> collection.
+    /// </summary>
+    /// <exception cref="TransformationException">
+    /// When <see cref="TransformationContext"/> has not been properly initialized.
+    /// </exception>
+    private static System.CodeDom.Compiler.CompilerErrorCollection Errors
+    {
+        get
+        {
+            System.Type transformationType = Transformation.GetType();
+            System.Reflection.PropertyInfo errorsProperty = transformationType.GetProperty("Errors", 
+				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            return (System.CodeDom.Compiler.CompilerErrorCollection)errorsProperty.GetValue(Transformation, null);
+        }
+    }
+
+    /// <summary>
+    /// Deletes output files that were not generated by the running text transformation
+    /// </summary>
+    /// <remarks>
+    /// <see cref="TransformationContext"/> tracks all output files that were generated during current
+    /// template transformation with calls to <see cref="TransformationContext.SaveOutputToFile"/> and 
+    /// <see cref="Template.RenderToFile"/> methods. This method will delete all child project items of 
+    /// the template unless they were generated during current transformation. Howeveri, it will not delete
+    /// files that have the same name as the template. There is no way to determine file extension set by the
+    /// output directive and we need to assume that all child items with the same file name are produced 
+    /// by the template. Otherwise, the output file would be deleted and added back to source control with
+    /// each transformation, which displays extra user prompts with TFS and VSS source control providers. 
+    /// The downside is that this method will preserve obsolete child items that have the same file name as 
+    /// the template.
+    /// </remarks>
+    private static void DeleteOldOutputs()
+    {
+        if (TransformationContext.Errors.HasErrors)
+        {
+            // Don't delete old outputs if errors were detected.
+            return;
+        }
+
+        string templateFileName = System.IO.Path.GetFileNameWithoutExtension(TransformationContext.Host.TemplateFile);
+        try
+        {
+            foreach (EnvDTE.ProjectItem childProjectItem in TransformationContext.ProjectItem.ProjectItems)
+            {
+                string childFileName = System.IO.Path.GetFileNameWithoutExtension(childProjectItem.Name);
+                if (templateFileName != childFileName && !outputFileNames.Contains(childProjectItem.Name))
+                {
+                    childProjectItem.Delete();
+                }
+            }
+        }
+        catch (TransformationException e)
+        {
+            System.CodeDom.Compiler.CompilerError error = new System.CodeDom.Compiler.CompilerError();
+            error.ErrorText = e.Message;
+            TransformationContext.Errors.Add(error);                
+        }
+    }
+
+    /// <summary>
+    /// Returns <see cref="EnvDTE.ProjectItem"/> with the specified <paramref name="fileName"/>,
+    /// or null if it doesn't exist.
+    /// </summary>
+    private static EnvDTE.ProjectItem FindProjectItem(EnvDTE.ProjectItems projectItems, string fileName)
+    {
+        foreach (EnvDTE.ProjectItem projectItem in projectItems)
+        {
+            if (projectItem.get_FileNames(0) == fileName)
+            {
+                return projectItem;
+            }
+        }
+
+        return null;
+    }
+
+    #endregion
+}
+#>

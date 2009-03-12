@@ -10,7 +10,7 @@ Roadmap for 1.0 GA Release
 
 ----------------------------------------------
 ----------------------------------------------
-1.0 RC 2 (rev 406) - S#arp Architecture for ASP.NET MVC RC 2 with NHibernate 2.0.1
+1.0 RC 2 (rev 408) - S#arp Architecture for ASP.NET MVC RC 2 with NHibernate 2.0.1
 ----------------------------------------------
 ----------------------------------------------
 
@@ -51,6 +51,7 @@ There's one known bug associated with the T4 Toolbox described, with work-around
 Upgrading to S#arp Architecture RC 2 from Beta (steps also reflected in the Northwind sample project):
 #) If you have any previous versions of ASP.NET MVC installed, uninstall them and install ASP.NET MVC RC 2
 #) Install NUnit 2.4.8
+#) Upgrade T4 Toolbox to 9.1.20.1 and patch it, following the instructions in the "Installing and Configuring Prerequisites" of the documentation
 #) Update assembly dependencies from trunk/bin into your application's lib and /tools/lib folders
 #) Modify using statements from "using NHibernate.Validator;" to "using NHibernate.Validator.Constraints;"
 #) Change all reference to anyEntity.ID to anyEntity.Id.
