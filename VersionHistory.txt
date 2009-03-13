@@ -11,7 +11,7 @@ Roadmap for 1.0 GA Release
 
 ----------------------------------------------
 ----------------------------------------------
-1.0 RC 2 (rev 409) - S#arp Architecture for ASP.NET MVC RC 2 with NHibernate 2.0.1
+S#arp Architecture 1.0.48.410 RC 2 with ASP.NET MVC RC 2 and NHibernate 2.0.1
 ----------------------------------------------
 ----------------------------------------------
 

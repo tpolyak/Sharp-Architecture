@@ -50,27 +50,6 @@ namespace Tests.Northwind.Data
             FlushSessionAndEvict(category);
         }
 
-        private bool GetAutoMappingFilter(Type t)
-        {
-            return t.Namespace == "Northwind.Core" && (t.Name.Contains("OrdersExtensions") == false);
-        }
-
-        private void GetConventions(Conventions c)
-        {
-            c.GetPrimaryKeyNameFromType = type => type.Name + "ID";
-            c.FindIdentity = type => type.Name == "ID";
-            c.GetTableName = type => Inflector.Net.Inflector.Pluralize(type.Name);
-            c.IsBaseType = isBaseTypeConvention;
-            c.GetForeignKeyNameOfParent = type => type.Name + "ID";
-        }
-
-        private bool isBaseTypeConvention(Type arg)
-        {
-            var derivesFromEntity = arg == typeof(Entity);
-            var derivesFromEntityWithTypedId = arg.IsGenericType && (arg.GetGenericTypeDefinition() == typeof(EntityWithTypedId<>));
-            return derivesFromEntity || derivesFromEntityWithTypedId;
-        }
-
         private IRepository<Category> categoryRepository = new Repository<Category>();
     }
 }
