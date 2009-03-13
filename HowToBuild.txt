@@ -1,4 +1,0 @@
-The file CommonAssemblyInfo.cs is missing from the repository because it is generated automatically.
-
-Before building in Visual Studio you need to run the build either by running go.bat from a command line or double-clicking ClickToBuild.bat. 
-Both files do the same thing but ClickToBuild.bat includes a pause so that you can see the results of the build before the window closes.
