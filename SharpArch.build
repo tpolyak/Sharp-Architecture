@@ -85,7 +85,7 @@
 	</target>
 
 	<target name="package" depends="compile">
-		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-bin-${project.config}.zip">
+		<zip zipfile="${build.dir}\${project::get-name()}-bin-${project.config}-${project.fullversion}.zip">
 			<fileset basedir="${build.dir}" prefix="bin">
 				<include name="*.*" />
 			</fileset>
@@ -94,7 +94,7 @@
 			</fileset>
 		</zip>
 
-		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-source.zip">
+		<zip zipfile="${build.dir}\${project::get-name()}-source-${project.fullversion}.zip">
 			<fileset basedir=".">
 				<include name="*.*" />
 				<include name="src/**/*.*" />
@@ -108,7 +108,7 @@
 			</fileset>
 		</zip>
 
-		<zip zipfile="${build.dir}\${project::get-name()}-${project.fullversion}-VSTemplate-${project.config}.zip">
+		<zip zipfile="${build.dir}\${project::get-name()}-VSTemplate-${project.config}-${project.fullversion}.zip">
 			<fileset basedir=".">
 				<include name="VisualStudioTemplate/**/*.*" />
 			</fileset>
