@@ -11,7 +11,7 @@
 	<property name="version.minor" value="0"/>
 	<property name="version.build" value="0"/>
 	<property name="version.revision" value="0" />
-	<property name="project.fullversion" value="${version.major}.${version.minor}.{version.revision}" dynamic="true" />
+	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.revision}" dynamic="true" />
 
   <!-- Directories and files -->
 	<property name="build.dir" value="build" />
