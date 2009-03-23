@@ -72,7 +72,6 @@
     <Compile Include="NHibernate\RepositoryBehaviorSpecificationTestsBase.cs" />
     <Compile Include="NHibernate\RepositoryTestsBase.cs" />
     <Compile Include="NHibernate\RepositoryTestsHelper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SharpArch.snk" />
@@ -86,6 +85,9 @@
       <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
       <Name>SharpArch.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
