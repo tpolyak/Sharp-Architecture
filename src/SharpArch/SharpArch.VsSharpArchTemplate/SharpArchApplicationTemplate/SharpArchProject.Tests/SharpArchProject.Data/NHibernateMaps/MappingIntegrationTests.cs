@@ -2,7 +2,9 @@
 using SharpArch.Testing.NUnit.NHibernate;
 using SharpArch.Data.NHibernate;
 using System.Collections;
+using System.Collections.Generic;
 using NHibernate;
+using NHibernate.Metadata;
 using System;
 using $solutionname$.Data.NHibernateMaps;
 
@@ -29,10 +31,11 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
 
         [Test]
         public void CanConfirmDatabaseMatchesMappings() {
-            IDictionary allClassMetadata = NHibernateSession.SessionFactory.GetAllClassMetadata();
-         
-            foreach (DictionaryEntry entry in allClassMetadata) {
-                NHibernateSession.Current.CreateCriteria((Type)entry.Key)
+            IDictionary<string, IClassMetadata> allClassMetadata = 
+                NHibernateSession.SessionFactory.GetAllClassMetadata();
+
+            foreach (KeyValuePair<string, IClassMetadata> entry in allClassMetadata) {
+                NHibernateSession.Current.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
                      .SetMaxResults(0).List();
             }
         }

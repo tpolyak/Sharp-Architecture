@@ -31,7 +31,10 @@
                 <Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps">
                     <ProjectItem ReplaceParameters="true" TargetFileName="MappingIntegrationTests.cs">MappingIntegrationTests.cs</ProjectItem>
                 </Folder>
-            </Folder>
+				<Folder Name="TestDoubles" TargetFolderName="TestDoubles">
+					<ProjectItem ReplaceParameters="true" TargetFileName="EntityDuplicateCheckerStub.cs">EntityDuplicateCheckerStub.cs</ProjectItem>
+				</Folder>
+			</Folder>
         </Project>
     </TemplateContent>
     <WizardExtension>

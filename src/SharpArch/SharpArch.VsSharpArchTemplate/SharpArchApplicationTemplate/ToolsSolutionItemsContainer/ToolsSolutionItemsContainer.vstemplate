@@ -16,7 +16,6 @@
 	<TemplateContent>
 		<Project TargetFileName="ToolsSolutionItemsContainer.csproj" File="ToolsSolutionItemsContainer.csproj">
 			<Folder Name="Solution Items">
-                <ProjectItem>FluentNHibernate.Testing.dll</ProjectItem>
                 <ProjectItem>MvcContrib.TestHelper.dll</ProjectItem>
 				<ProjectItem>MvcContrib.TestHelper.xml</ProjectItem>
 				<ProjectItem>nunit.framework.dll</ProjectItem>

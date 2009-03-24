@@ -89,20 +89,6 @@
             <param name="methodInfo">The current action method</param>
             <returns>True if the action is being accessed via an HTTP POST</returns>
         </member>
-        <member name="T:MvcContrib.Attributes.DefaultActionAttribute">
-            <summary>
-            The action marked with this attribute will be called if the specified action cannot be found.
-            </summary>
-            <example>
-            <![CDATA[
-            	public class MyController : ConventionController
-            	{
-            		[DefaultAction]
-            		public void CatchAllAction() { }
-            	}
-            ]]>
-            </example>
-        </member>
         <member name="T:MvcContrib.Binders.SubControllerBinder">
             <summary>
              Binder that creates SubControllers that are needed for an action method
@@ -316,43 +302,6 @@
             </summary>
             <param name="type">Type to check</param>
             <returns>True if type is a controller, otherwise false</returns>
-        </member>
-        <member name="T:MvcContrib.ConventionControllerActionInvoker">
-            <summary>
-            Custom action invoker for use with the convention controller. 
-            The ConventionControllerActionInvoker uses the Controller Meta Data in order to locate filters and actions.
-            </summary>
-        </member>
-        <member name="T:MvcContrib.ConventionController">
-            <summary>
-            Base controller class that implements additional features over Controller.
-            </summary>
-        </member>
-        <member name="M:MvcContrib.ConventionController.#ctor">
-            <summary>
-            Creates a new instance of the ConventionController
-            </summary>
-        </member>
-        <member name="M:MvcContrib.ConventionController.#ctor(System.Web.Mvc.IActionInvoker)">
-            <summary>
-            Creates a new instance of the ConventionController using the specified ActionInvoker.
-            </summary>
-            <param name="invokerToUse">The action invoker to use.</param>
-        </member>
-        <member name="M:MvcContrib.ConventionController.Xml(System.Object)">
-            <summary>
-            Creates a <see cref="T:MvcContrib.ActionResults.XmlResult"/> object for serializing the specified object as XML for writing to the HTTP Response's output stream.
-            </summary>
-            <param name="toSerialize">The object to serialize</param>
-            <returns>An XmlResult object</returns>
-        </member>
-        <member name="M:MvcContrib.ConventionController.RedirectToAction``1(System.Linq.Expressions.Expression{System.Action{``0}})">
-            <summary>
-            Redirects to an action on the same or another controller using expression-based syntax
-            </summary>
-            <typeparam name="T">The type of the controller on which to call the action</typeparam>
-            <param name="action">An expression which identifies the action to redirect to on the controller of type <typeparamref name="T"/></param>
-            <returns>A <see cref="T:System.Web.Mvc.RedirectToRouteResult"/> pointing to the action specified by the <paramref name="action"/> expression</returns>
         </member>
         <member name="T:MvcContrib.Filters.PreconditionFilter">
             <author>Troy DeMonbreun</author>

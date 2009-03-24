@@ -5,6 +5,8 @@ using SharpArch.Data.NHibernate;
 using System.Collections;
 using NHibernate;
 using System;
+using System.Collections.Generic;
+using NHibernate.Metadata;
 
 namespace Tests.Northwind.Data.NHibernateMaps
 {
@@ -26,10 +28,11 @@ namespace Tests.Northwind.Data.NHibernateMaps
 
         [Test]
         public void CanConfirmDatabaseMatchesMappings() {
-            IDictionary allClassMetadata = NHibernateSession.SessionFactory.GetAllClassMetadata();
-         
-            foreach (DictionaryEntry entry in allClassMetadata) {
-                NHibernateSession.Current.CreateCriteria((Type)entry.Key)
+            IDictionary<string, IClassMetadata> allClassMetadata = 
+                NHibernateSession.SessionFactory.GetAllClassMetadata();
+
+            foreach (KeyValuePair<string, IClassMetadata> entry in allClassMetadata) {
+                NHibernateSession.Current.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
                      .SetMaxResults(0).List();
             }
         }

@@ -18,7 +18,7 @@ namespace Northwind.Data.NHibernateMappings
 
             mapping.HasMany<Product>(x => x.Products)
                 .Inverse()
-                .WithKeyColumn("SupplierID")
+                .KeyColumnNames.Add("SupplierID")
                 .AsBag();
         }
     }

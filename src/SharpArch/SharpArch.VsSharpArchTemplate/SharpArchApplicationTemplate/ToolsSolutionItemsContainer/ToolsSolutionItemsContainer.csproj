@@ -31,7 +31,6 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Content Include="Solution Items\FluentNHibernate.Testing.dll" />
         <Content Include="Solution Items\MvcContrib.TestHelper.dll" />
 		<Content Include="Solution Items\MvcContrib.TestHelper.xml" />
 		<Content Include="Solution Items\nunit.framework.dll" />

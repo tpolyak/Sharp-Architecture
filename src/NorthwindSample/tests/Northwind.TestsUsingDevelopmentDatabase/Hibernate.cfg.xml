@@ -8,5 +8,6 @@
 		<property name="show_sql">false</property>
 		<property name="connection.release_mode">auto</property>
 		<property name="adonet.batch_size">500</property>
+		<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
 	</session-factory>
 </hibernate-configuration>

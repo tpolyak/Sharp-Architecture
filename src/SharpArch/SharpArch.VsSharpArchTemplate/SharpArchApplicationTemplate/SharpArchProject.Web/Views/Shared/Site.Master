@@ -30,7 +30,7 @@
                     <h2>$solutionname$ Pages</h2>
                     <ul>
                         <!-- We cannot use Html.ActionLink within a master page to link to a controller while using areas -->
-                        <li><asp:HyperLink runat="server" NavigateUrl="~/Home" Text="Home" /></li>
+                        <li><%= Html.ActionLinkForAreas<HomeController>(c => c.Index(), "Home") %></li>
                     </ul>
                 </div>
                 <!--/leftColumn-->

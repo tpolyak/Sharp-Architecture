@@ -15,22 +15,25 @@ On the trunk
 ----------------------------------------------
 
 New and exciting in this release:
-* Compatible with ASP.NET MVC 1.0
+* We now have a community site at *LINK COMING SOON* (a flippin' ginormous thank you to Kyle Baley for setting this up)
+* Compatible with ASP.NET MVC 1.0 and NHibernate 2.1 Alpha 1
 * Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl)
+* Fluent NHibernate now using configuration classes
 
 -------
 
 Assembly Dependencies:
 * ASP.NET MVC 1.0
 * ASP.NET MVC 1.0 Futures (signed with SharpArch.snk)
-* Castle 1.0 RC3 (rev 1038)
-* Fluent NHibernate 0.1 (rev 381 - Does NOT include very recent Fluent NHibernate convention interfaces)
+* Castle 1.0 RC3 (rev 1068)
+* Fluent NHibernate 0.1 (rev 423)
 * jQuery 1.3.2
 * Json.NET 3.5 Beta 2
 * Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
-* MvcContrib for MVC RC (rev 903)
-* NHibernate 2.0.1 GA
-* NHibernate.Validator 1.2.0 (rev 809)
+* MvcContrib for MVC 1.0 (rev 912)
+* NHibernate 2.1.0.1001 Alpha 1
+* NHibernate.Linq 1.0 (rev 817)
+* NHibernate.Validator 1.2.0.1001 (rev 817)
 * NUnit 2.4.8
 * Rhino.Mocks 3.5.0.1337
 * System.Data.SQLite.DLL 1.0.60.0
@@ -38,10 +41,47 @@ Assembly Dependencies:
 
 -------
 
+Upgrading to S#arp Architecture 1.0 from RC 2 to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects):
+#) If you have any previous versions of ASP.NET MVC installed, uninstall them and install ASP.NET MVC 1.0
+#) Create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is easier.)
+#) Upgrade to Fluent NHibernate class conventions within YourProject.Data (You can look at the Northwind sample project for implementation examples but the Northwind DB is far from consistent and so there's an assortment of conventions and overrides in the Northwind sample project; accordingly, you'll have better luck having VS generate a S#arp Architecture project and then look at the internals of the generated project.):
+	*) Add a folder under /NHibernateMaps and add convention classes (see VS generated project for examples)
+	*) Within /NHibernateMaps/AutoPersistenceModelGenerator.cs, modify mappings setup to use new convention-per-class approach (see VS generated project for example)
+	*) See http://wiki.fluentnhibernate.org/show/ConvertingToNewStyleConventions for further guidance
+#) Within Fluent NHibernate class maps and overrides, replace .WithKeyColumn("YourColumnName") with .KeyColumnNames.Add("YourColumnName")
+#) Within YourProject.Tests.YourProject.Data.NHibernateMaps.MappingIntegrationTests.cs, modify CanConfirmDatabaseMatchesMappings() to reflect the following:
+    [Test]
+    public void CanConfirmDatabaseMatchesMappings() {
+        IDictionary<string, IClassMetadata> allClassMetadata = 
+            NHibernateSession.SessionFactory.GetAllClassMetadata();
+
+        foreach (KeyValuePair<string, IClassMetadata> entry in allClassMetadata) {
+            NHibernateSession.Current.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
+                 .SetMaxResults(0).List();
+        }
+    }
+#) Within YourProject.Tests, add a reference to NHibernate.ByteCode.Castle.dll
+#) Within YourProject.Web, add a reference to NHibernate.ByteCode.Castle.dll
+#) Within YourProject.Tests/App.config, remove the assemly redirects for NHibernate and Iesi.Collections (but you should still have one for NUnit)
+#) Within YourProject.Web/Web.config, remove the assemly redirects for NHibernate and Iesi.Collections
+#) Within YourProject.Tests/Hibernate.cfg.xml, add the following property:
+	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
+#) Within YourProject.Web/NHibernate.config, add the following property:
+	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
+#) (Optionally) Replace hardcoded links to areas with Html.ActionLinkForAreas<>.  You'll also likely want to add the following to your web.config's namespaces tag so that you don't have to import it for every ActionLinkForAreas:  <add namespace="SharpArch.Web.Areas" />
+
+-------
+
 Changes to /src:
+
+Solution Wide:
+* Updated all dependencies; only NHibernate and Fluent NHibernate had breaking changes which were disussed in the upgrade process above
 
 SharpArch.Web
 * /Areas/LinkForAreasExtensions.cs:  Added this class to provide the strongly typed ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<>.
+
+CrudScaffolding
+* /Templates/Web/Views/IndexTemplate.tt:  Now using Html.BuildUrlFromExpression for the URL behind the cancel button (more strongly typed)
 
 ----------------------------------------------
 ----------------------------------------------

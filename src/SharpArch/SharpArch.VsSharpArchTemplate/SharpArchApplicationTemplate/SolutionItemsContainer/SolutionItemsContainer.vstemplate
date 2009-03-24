@@ -22,14 +22,20 @@
 				<ProjectItem>Castle.DynamicProxy2.dll</ProjectItem>
 				<ProjectItem>Castle.DynamicProxy2.xml</ProjectItem>
                 <ProjectItem>Castle.MicroKernel.dll</ProjectItem>
+                <ProjectItem>Castle.MicroKernel.xml</ProjectItem>
                 <ProjectItem>Castle.Services.Logging.Log4netIntegration.dll</ProjectItem>
+                <ProjectItem>Castle.Services.Logging.Log4netIntegration.xml</ProjectItem>
 				<ProjectItem>Castle.Windsor.dll</ProjectItem>
+				<ProjectItem>Castle.Windsor.xml</ProjectItem>
 				<ProjectItem>CommonServiceLocator.WindsorAdapter.dll</ProjectItem>
 				<ProjectItem>FluentNHibernate.dll</ProjectItem>
+				<ProjectItem>FluentNHibernate.XML</ProjectItem>
                 <ProjectItem>Iesi.Collections.dll</ProjectItem>
+				<ProjectItem>Iesi.Collections.license.txt</ProjectItem>
 				<ProjectItem>Iesi.Collections.xml</ProjectItem>
                 <ProjectItem>Inflector.Net.dll</ProjectItem>
                 <ProjectItem>log4net.dll</ProjectItem>
+				<ProjectItem>log4net.license.txt</ProjectItem>
 				<ProjectItem>log4net.xml</ProjectItem>
 				<ProjectItem>Microsoft.Practices.ServiceLocation.dll</ProjectItem>
 				<ProjectItem>Microsoft.Web.Mvc.dll</ProjectItem>
@@ -42,7 +48,9 @@
 				<ProjectItem>MvcContrib.ModelAttributes.dll</ProjectItem>
                 <ProjectItem>Newtonsoft.Json.dll</ProjectItem>
                 <ProjectItem>Newtonsoft.Json.xml</ProjectItem>
+                <ProjectItem>NHibernate.ByteCode.Castle.dll</ProjectItem>
                 <ProjectItem>NHibernate.dll</ProjectItem>
+                <ProjectItem>NHibernate.license.txt</ProjectItem>
 				<ProjectItem>NHibernate.Linq.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.xml</ProjectItem>

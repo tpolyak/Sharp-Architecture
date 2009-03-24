@@ -12,7 +12,6 @@ namespace Northwind.Data.NHibernateMappings
                 .WithUnsavedValue(0)
                 .GeneratedBy.Identity();
 
-            mapping.Map(x => x.OrderDate);
             mapping.Map(x => x.ShipToName, "ShipName");
 
             mapping.References(x => x.OrderedBy, "CustomerID")

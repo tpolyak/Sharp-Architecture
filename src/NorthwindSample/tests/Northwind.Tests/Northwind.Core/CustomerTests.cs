@@ -3,6 +3,8 @@ using Northwind.Core;
 using SharpArch.Core.DomainModel;
 using NUnit.Framework.SyntaxHelpers;
 using Microsoft.Practices.ServiceLocation;
+using MvcContrib.UI.Tags.Validators;
+using SharpArch.Core;
 
 namespace Tests.Northwind.Core
 {
