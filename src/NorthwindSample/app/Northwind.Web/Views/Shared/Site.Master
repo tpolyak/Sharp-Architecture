@@ -1,6 +1,7 @@
 <%@ Master Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewMasterPage" %>
 <%@ Import Namespace="Northwind.Web.Controllers" %>
 <%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
+<%@ Import Namespace="SharpArch.Web.Areas" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -17,21 +18,18 @@
 
 <body>
     <div class="page">
-
         <div id="mainContent">
-
             <div class="columnsContainer">
-
                 <div class="leftColumn">
                     <p>
                         <%= Html.Image("~/Content/Images/sharp_arch.jpg") %>
                     </p>
                     <h2>Example Pages</h2>
                     <ul>
-                        <li><asp:HyperLink runat="server" NavigateUrl="~/Home" Text="Home" /></li>
-                        <li><asp:HyperLink runat="server" NavigateUrl="~/Categories" Text="List Categories" /></li>
-                        <li><asp:HyperLink runat="server" NavigateUrl="~/Customers" Text="List Customers with Lazily Loaded Orders" /></li>
-                        <li><asp:HyperLink runat="server" NavigateUrl="~/Organization/Employees" Text="Employee CRUD with Validation" /></li>
+                        <li><%= Html.ActionLinkForAreas<HomeController>(c => c.Index(), "Home") %></li>
+                        <li><%= Html.ActionLinkForAreas<CategoriesController>(c => c.Index(), "List Categories") %></li>
+                        <li><%= Html.ActionLinkForAreas<CustomersController>(c => c.Index(), "List Customers with Lazily Loaded Orders")%></li>
+                        <li><%= Html.ActionLinkForAreas<EmployeesController>(c => c.Index(), "Employee CRUD with Validation")%></li>
                     </ul>
                 </div>
                 <!--/leftColumn-->

@@ -4,10 +4,44 @@ Roadmap for 1.0 GA Release
 ----------------------------------------------
 ----------------------------------------------
 
-* Await impatiently for the release of ASP.NET MVC 1.0
 * Support multiple databases
 * Develop or include a more advanced form binder with CRUD scaffolding
 * Add more examples to Northwind sample project including:  WCF, Unit of Work, and Application Services
+
+----------------------------------------------
+----------------------------------------------
+On the trunk
+----------------------------------------------
+----------------------------------------------
+
+New and exciting in this release:
+* Compatible with ASP.NET MVC 1.0
+* Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl)
+
+-------
+
+Assembly Dependencies:
+* ASP.NET MVC 1.0
+* ASP.NET MVC 1.0 Futures (signed with SharpArch.snk)
+* Castle 1.0 RC3 (rev 1038)
+* Fluent NHibernate 0.1 (rev 381 - Does NOT include very recent Fluent NHibernate convention interfaces)
+* jQuery 1.3.2
+* Json.NET 3.5 Beta 2
+* Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
+* MvcContrib for MVC RC (rev 903)
+* NHibernate 2.0.1 GA
+* NHibernate.Validator 1.2.0 (rev 809)
+* NUnit 2.4.8
+* Rhino.Mocks 3.5.0.1337
+* System.Data.SQLite.DLL 1.0.60.0
+* T4 Toolbox 9.1.20.1
+
+-------
+
+Changes to /src:
+
+SharpArch.Web
+* /Areas/LinkForAreasExtensions.cs:  Added this class to provide the strongly typed ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<>.
 
 ----------------------------------------------
 ----------------------------------------------
