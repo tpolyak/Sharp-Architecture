@@ -7,8 +7,8 @@ namespace Northwind.Data.NHibernateMaps.Conventions
     public class TableNameConvention : IClassConvention
     {
         public bool Accept(IClassMap classMap) {
-            // We shouldn't have to ignore the region class explicitly since an override exists;
-            // The FNH team is working on correcting this.
+            // There's a class level exclusion here, but you can also create an override for the class
+            // itself discussed at http://groups.google.com/group/fluent-nhibernate/browse_thread/thread/b0fbb7988b904028
             return classMap.EntityType != typeof(Region);
         }
 

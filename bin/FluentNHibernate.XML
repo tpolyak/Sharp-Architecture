@@ -1093,16 +1093,16 @@
             Add an assembly to be queried.
             </summary>
             <remarks>
-            All convention types must have a parameterless constructor, or a single parameter of IConventionFinder.
+            All convention types must have a parameterless constructor, or a single parameter of <see cref="T:FluentNHibernate.Conventions.IConventionFinder"/>.
             </remarks>
             <param name="assembly">Assembly instance to query</param>
         </member>
         <member name="M:FluentNHibernate.Conventions.IConventionFinder.AddFromAssemblyOf``1">
             <summary>
-            Adds all conventions found in the assembly that contains T.
+            Adds all conventions found in the assembly that contains <typeparam name="T"/>.
             </summary>
             <remarks>
-            All convention types must have a parameterless constructor, or a single parameter of IConventionFinder.
+            All convention types must have a parameterless constructor, or a single parameter of <see cref="T:FluentNHibernate.Conventions.IConventionFinder"/>.
             </remarks>
         </member>
         <member name="M:FluentNHibernate.Conventions.IConventionFinder.Add``1">
@@ -1110,9 +1110,18 @@
             Add a single convention by type.
             </summary>
             <remarks>
-            Type must have a parameterless constructor, or a single parameter of IConventionFinder.
+            Type must have a parameterless constructor, or a single parameter of <see cref="T:FluentNHibernate.Conventions.IConventionFinder"/>.
             </remarks>
             <typeparam name="T">Convention type</typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.IConventionFinder.Add(System.Type)">
+            <summary>
+            Add a single convention by type.
+            </summary>
+            <remarks>
+            Types must have a parameterless constructor, or a single parameter of <see cref="T:FluentNHibernate.Conventions.IConventionFinder"/>.
+            </remarks>
+            <param name="type">Type of convention</param>
         </member>
         <member name="M:FluentNHibernate.Conventions.IConventionFinder.Add``1(``0)">
             <summary>
@@ -1163,6 +1172,15 @@
             Type must have a parameterless constructor, or a single parameter of IConventionFinder.
             </remarks>
             <typeparam name="T">Convention type</typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.DefaultConventionFinder.Add(System.Type)">
+            <summary>
+            Add a single convention by type.
+            </summary>
+            <remarks>
+            Types must have a parameterless constructor, or a single parameter of <see cref="T:FluentNHibernate.Conventions.IConventionFinder"/>.
+            </remarks>
+            <param name="type">Type of convention</param>
         </member>
         <member name="M:FluentNHibernate.Conventions.DefaultConventionFinder.Add``1(``0)">
             <summary>
@@ -1268,6 +1286,11 @@
         <member name="M:FluentNHibernate.Mapping.ToManyBase`2.CollectionType(System.String)">
             <summary>
             Sets a custom collection type
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.ToManyBase`2.Cache">
+            <summary>
+            Specify caching for this entity.
             </summary>
         </member>
         <member name="P:FluentNHibernate.Mapping.ToManyBase`2.Access">
@@ -1387,6 +1410,19 @@
             Add all fluent mappings in the assembly
             </summary>
             <param name="assembly">Assembly to add mappings from</param>
+            <returns>Fluent mappings configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentMappingsContainer.Add``1">
+            <summary>
+            Adds a single <see cref="T:FluentNHibernate.Mapping.IClassMap"/> represented by the specified type.
+            </summary>
+            <returns>Fluent mappings configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentMappingsContainer.Add(System.Type)">
+            <summary>
+            Adds a single <see cref="T:FluentNHibernate.Mapping.IClassMap"/> represented by the specified type.
+            </summary>
+            <param name="type">The type.</param>
             <returns>Fluent mappings configuration</returns>
         </member>
         <member name="M:FluentNHibernate.Cfg.FluentMappingsContainer.ExportTo(System.String)">

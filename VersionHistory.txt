@@ -26,7 +26,7 @@ Assembly Dependencies:
 * ASP.NET MVC 1.0
 * ASP.NET MVC 1.0 Futures (signed with SharpArch.snk)
 * Castle 1.0 RC3 (rev 1068)
-* Fluent NHibernate 0.1 (rev 423)
+* Fluent NHibernate 0.1 (rev 430)
 * jQuery 1.3.2
 * Json.NET 3.5 Beta 2
 * Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
