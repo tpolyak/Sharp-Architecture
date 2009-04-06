@@ -8,8 +8,7 @@ namespace Northwind.WcfServices
 {
     /// <summary>
     /// Provides a strongly typed client proxy to use the WCF service without having to configure 
-    /// it via WCF configuration.  I *DO NOT* claim that this is a best practice as I know very 
-    /// little about WCF, but it suffices to provide a working example.
+    /// it via WCF configuration.
     /// </summary>
     public partial class TerritoriesWcfServiceClient : ClientBase<ITerritoriesWcfService>, ITerritoriesWcfService
     {
