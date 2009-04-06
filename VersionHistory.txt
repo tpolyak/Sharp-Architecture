@@ -6,7 +6,7 @@ Roadmap for 1.0 GA Release
 
 * Support multiple databases
 * Develop or include a more advanced form binder with CRUD scaffolding
-* Add more examples to Northwind sample project including:  WCF, Unit of Work, and Application Services
+* Add more examples to Northwind sample project including:  Unit of Work, and Application Services
 
 ----------------------------------------------
 ----------------------------------------------
@@ -19,6 +19,7 @@ New and exciting in this release:
 * Compatible with ASP.NET MVC 1.0 and NHibernate 2.1 Alpha 1
 * Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl)
 * Fluent NHibernate now using configuration classes
+* Support for WCF has been added as SharpArch.Wcf (thanks Frank Laub)
 
 -------
 
@@ -76,6 +77,9 @@ Changes to /src:
 
 Solution Wide:
 * Updated all dependencies; only NHibernate and Fluent NHibernate had breaking changes which were disussed in the upgrade process above
+
+SharpArch.Wcf:
+* Added class library to support WCF
 
 SharpArch.Web
 * /Areas/LinkForAreasExtensions.cs:  Added this class to provide the strongly typed ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<>.
