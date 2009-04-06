@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\SharpArch.Core.dll</HintPath>
     </Reference>
+    <Reference Include="SharpArch.Wcf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\SharpArch.Wcf.dll</HintPath>
+    </Reference>
     <Reference Include="SharpArch.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\SharpArch.Web.dll</HintPath>
@@ -56,6 +60,12 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.IdentityModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -84,6 +94,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteRegistrar.cs" />
+    <Compile Include="TerritoriesController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Northwind.ApplicationServices\Northwind.ApplicationServices.csproj">
@@ -93,6 +104,10 @@
     <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj">
       <Project>{968B265E-AF3B-4153-B996-6EC4E83D9616}</Project>
       <Name>Northwind.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Northwind.Wcf\Northwind.Wcf.csproj">
+      <Project>{7AB75E1D-30D2-4DF5-A2E6-03916FB24BBA}</Project>
+      <Name>Northwind.Wcf</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

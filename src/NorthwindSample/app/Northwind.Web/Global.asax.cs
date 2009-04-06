@@ -31,7 +31,7 @@ namespace Northwind.Web
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
 
-            InitializeServiceLocator();
+            IWindsorContainer container = InitializeServiceLocator();
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
@@ -41,7 +41,7 @@ namespace Northwind.Web
         /// WindsorController to the container.  Also associate the Controller 
         /// with the WindsorContainer ControllerFactory.
         /// </summary>
-        protected virtual void InitializeServiceLocator() {
+        protected virtual IWindsorContainer InitializeServiceLocator() {
             IWindsorContainer container = new WindsorContainer();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
@@ -49,6 +49,8 @@ namespace Northwind.Web
             ComponentRegistrar.AddComponentsTo(container);
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
+
+            return container;
         }
 
         /// <summary>
