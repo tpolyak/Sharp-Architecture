@@ -17,9 +17,8 @@ namespace Northwind.Wcf.Web.CastleWindsor
 
         private static void AddWcfServicesTo(IWindsorContainer container) {
             // Since the TerritoriesService.svc must be associated with a concrete class,
-            // we must register the concrete implementation here as the service as well
-            container.AddComponent("territoriesWcfService",
-                typeof(TerritoriesWcfService), typeof(TerritoriesWcfService));
+            // we must register the concrete implementation here as the service
+            container.AddComponent("territoriesWcfService", typeof(TerritoriesWcfService));
         }
 
         private static void AddCustomRepositoriesTo(IWindsorContainer container) {
