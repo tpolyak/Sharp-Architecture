@@ -18,7 +18,11 @@ namespace SharpArch.Wcf.NHibernate
             if (session == null)
                 return;
 
-            session.Close();
+            if (session.IsOpen)
+                session.Close();
+
+            if (NHibernateSession.Storage != null)
+                NHibernateSession.Storage.Session = null;
         }
     }
 }
