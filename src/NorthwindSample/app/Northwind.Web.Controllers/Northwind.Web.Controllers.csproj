@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="CategoriesController.cs" />
     <Compile Include="CustomersController.cs" />
+    <Compile Include="DashboardController.cs" />
     <Compile Include="HomeController.cs" />
     <Compile Include="Organization\EmployeesController.cs" />
     <Compile Include="..\..\CommonAssemblyInfo.cs">

@@ -14,6 +14,7 @@ using System;
 using Castle.Core;
 using Castle.Facilities.FactorySupport;
 using Castle.Core.Interceptor;
+using Northwind.ApplicationServices;
 
 namespace Northwind.Web.CastleWindsor
 {
@@ -22,10 +23,15 @@ namespace Northwind.Web.CastleWindsor
         public static void AddComponentsTo(IWindsorContainer container) {
             AddGenericRepositoriesTo(container);
             AddCustomRepositoriesTo(container);
+            AddApplicationServicesTo(container);
             AddWcfServiceFactoriesTo(container);
 
             container.AddComponent("validator",
                 typeof(IValidator), typeof(Validator));
+        }
+
+        private static void AddApplicationServicesTo(IWindsorContainer container) {
+            container.AddComponent("dashboardService", typeof(DashboardService));
         }
 
         private static void AddWcfServiceFactoriesTo(IWindsorContainer container) {

@@ -212,6 +212,10 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Northwind.ApplicationServices\Northwind.ApplicationServices.csproj">
+      <Project>{DDD17CE0-17DC-4AA3-8CA7-D9B0F8D5E87C}</Project>
+      <Name>Northwind.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Northwind.Core\Northwind.Core.csproj">
       <Project>{968B265E-AF3B-4153-B996-6EC4E83D9616}</Project>
       <Name>Northwind.Core</Name>
@@ -235,6 +239,7 @@
     <Content Include="Scripts\jquery-1.3.2.min.js" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Dashboard\Index.aspx" />
     <Content Include="Views\Territories\Index.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

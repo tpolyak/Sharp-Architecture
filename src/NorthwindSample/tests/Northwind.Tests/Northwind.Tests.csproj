@@ -142,12 +142,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Northwind.ApplicationServices\DashboardServiceTests.cs" />
     <Compile Include="Northwind.Wcf\Dtos\EmployeeDtoTests.cs" />
     <Compile Include="Northwind.Wcf\Dtos\RegionDtoTests.cs" />
     <Compile Include="Northwind.Wcf\Dtos\TerritoryDtoTests.cs" />
     <Compile Include="Northwind.Wcf\TerritoriesServiceTests.cs" />
     <Compile Include="Northwind.Web\Controllers\CategoriesControllerTests.cs" />
     <Compile Include="Northwind.Web\Controllers\CustomersControllerTests.cs" />
+    <Compile Include="Northwind.Web\Controllers\DashboardControllerTests.cs" />
     <Compile Include="Northwind.Web\Controllers\Organization\EmployeesControllerTests.cs" />
     <Compile Include="Northwind.Web\Controllers\RouteRegistrarTests.cs" />
     <Compile Include="Northwind.Core\CategoryTests.cs" />
@@ -176,6 +178,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\app\Northwind.ApplicationServices\Northwind.ApplicationServices.csproj">
+      <Project>{DDD17CE0-17DC-4AA3-8CA7-D9B0F8D5E87C}</Project>
+      <Name>Northwind.ApplicationServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\app\Northwind.Core\Northwind.Core.csproj">
       <Project>{968B265E-AF3B-4153-B996-6EC4E83D9616}</Project>
       <Name>Northwind.Core</Name>

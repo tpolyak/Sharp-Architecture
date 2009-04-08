@@ -6,11 +6,11 @@ using SharpArch.Core.DomainModel;
 
 namespace Northwind.Core
 {
+    /// <summary>
+    /// Extends IList&lt;Order> with other, customer-specific collection methods.
+    /// </summary>
     public static class OrdersExtensions
     {
-        /// <summary>
-        /// Extends IList&lt;Order> with other, customer-specific collection methods.
-        /// </summary>
         public static List<Order> FindOrdersPlacedOn(this IList<Order> orders, DateTime whenPlaced) {
             return (
                 from order in orders
