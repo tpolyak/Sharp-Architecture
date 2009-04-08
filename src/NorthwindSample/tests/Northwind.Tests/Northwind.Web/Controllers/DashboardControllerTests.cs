@@ -1,17 +1,10 @@
-﻿using Northwind.Web.Controllers;
-using System.Web.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Northwind.ApplicationServices;
 using NUnit.Framework;
-using MvcContrib.TestHelper;
-using SharpArch.Core.PersistenceSupport;
-using Northwind.Core;
-using Rhino.Mocks;
+using Northwind.Web.Controllers;
+using System.Web.Mvc;
 using NUnit.Framework.SyntaxHelpers;
-using Northwind.Core.DataInterfaces;
-using SharpArch.Testing;
-using Northwind.ApplicationServices;
+using Rhino.Mocks;
+using MvcContrib.TestHelper;
 
 namespace Tests.Northwind.Web.Controllers
 {
