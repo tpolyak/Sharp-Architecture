@@ -12,7 +12,7 @@ namespace Tests.Northwind.ApplicationServices
     public class DashboardServiceTests
     {
         [Test]
-        public void GetDashboardSummary() {
+        public void CanGetDashboardSummary() {
             DashboardService dashboardService = new DashboardService(CreateMockSupplierRepository());
 
             DashboardService.DashboardSummaryDto summary = dashboardService.GetDashboardSummary();
