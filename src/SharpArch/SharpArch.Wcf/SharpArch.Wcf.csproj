@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ICloseableAndAbortable.cs" />
     <Compile Include="ServiceLocatorInstanceProvider.cs" />
     <Compile Include="NHibernate\InstanceCreationInitializer.cs" />
