@@ -26,6 +26,10 @@ namespace Northwind.ApplicationServices
         /// Since DashboardService is registered as a component within Northwind.Web.CastleWindsor.ComponentRegistrar,
         /// its dependencies (e.g. supplierRepository) will automatically be injected when this service is
         /// injected into the constructor of another object (e.g., Northwind.Web.Controllers.DashboardController).
+        /// 
+        /// Note that the constructor isn't limited to a single dependency.  You can pass in multiple repositories,
+        /// WCF services (e.g., as in Northwind.Web.Controllers.TerritoriesController), or even other application
+        /// services if you wanted to make it really ugly.
         /// </summary>
         public DashboardService(IRepository<Supplier> supplierRepository) {
             Check.Require(supplierRepository != null, "supplierRepository may not be null");
