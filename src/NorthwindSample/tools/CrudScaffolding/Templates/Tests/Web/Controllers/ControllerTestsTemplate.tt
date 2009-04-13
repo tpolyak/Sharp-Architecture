@@ -13,9 +13,9 @@ using System;
 using MvcContrib.TestHelper;
 using NUnit.Framework;
 using Rhino.Mocks;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Testing;
+using SharpArch.Testing.NUnit;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
@@ -40,23 +40,24 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
         public void CanList<#= EntityScaffoldingDetails.EntityNamePlural #>() {
             ViewResult result = controller.Index().AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as List<<#= EntityScaffoldingDetails.EntityName #>>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as List<<#= EntityScaffoldingDetails.EntityName #>>).Count, Is.EqualTo(0));
+            result.ViewData.Model.ShouldNotBeNull();
+            (result.ViewData.Model as List<<#= EntityScaffoldingDetails.EntityName #>>).Count.ShouldEqual(0);
         }
 
         [Test]
         public void CanShow<#= EntityScaffoldingDetails.EntityName #>() {
             ViewResult result = controller.Show(1).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).Id, Is.EqualTo(1));
+			result.ViewData.ShouldNotBeNull();
+			
+            (result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).Id.ShouldEqual(1);
         }
 
         [Test]
         public void CanInit<#= EntityScaffoldingDetails.EntityName #>Creation() {
             ViewResult result = controller.Create().AssertViewRendered();
-
-            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Null);
+            
+            result.ViewData.Model.ShouldBeNull();
         }
 
         [Test]
@@ -64,11 +65,11 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = new <#= EntityScaffoldingDetails.EntityName #>();
             ViewResult result = controller.Create(<#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Null);
-            Assert.That(result.ViewData.ModelState.Count, Is.GreaterThan(0));
+            result.ViewData.Model.ShouldBeNull();
+            result.ViewData.ModelState.Count.ShouldBeGreaterThan(0);
 
             // Example validation message test for lower level testing
-            // Assert.That(result.ViewData.ModelState["<#= EntityScaffoldingDetails.EntityName #>.Name"].Errors[0].ErrorMessage, Is.Not.Empty);
+            // result.ViewData.ModelState["<#= EntityScaffoldingDetails.EntityName #>.Name"].Errors[0].ErrorMessage.ShouldNotBeEmpty();
         }
 
         [Test]
@@ -76,7 +77,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
             <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = CreateTransient<#= EntityScaffoldingDetails.EntityName #>();
             RedirectToRouteResult redirectResult = controller.Create(<#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm)
                 .AssertActionRedirect().ToAction("Index");
-            Assert.That(controller.TempData["message"].ToString().Contains("was successfully created"));
+            controller.TempData["message"].ToString().ShouldContain("was successfully created");
         }
 
         [Test]
@@ -84,44 +85,39 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
             <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm = CreateTransient<#= EntityScaffoldingDetails.EntityName #>();
             RedirectToRouteResult redirectResult = controller.Edit(1, <#= EntityScaffoldingDetails.EntityNameCamelCase #>FromForm)
                 .AssertActionRedirect().ToAction("Index");
-            Assert.That(controller.TempData["message"].ToString().Contains("was successfully updated"));
+            controller.TempData["message"].ToString().ShouldContain("was successfully updated");
         }
 
         [Test]
         public void CanInit<#= EntityScaffoldingDetails.EntityName #>Edit() {
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
-            Assert.That(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).Id, Is.EqualTo(1));
+			result.ViewData.Model.ShouldNotBeNull();
+			(result.ViewData.Model as <#= EntityScaffoldingDetails.EntityName #>).Id.ShouldEqual(1);
         }
 
         [Test]
         public void CanDelete<#= EntityScaffoldingDetails.EntityName #>() {
             RedirectToRouteResult redirectResult = controller.Delete(1)
                 .AssertActionRedirect().ToAction("Index");
-            Assert.That(controller.TempData["message"].ToString().Contains("was successfully deleted"));
+            
+            controller.TempData["message"].ToString().ShouldContain("was successfully deleted");
         }
 
 		#region Create Mock <#= EntityScaffoldingDetails.EntityName #> Repository
 
         private IRepository<<#= EntityScaffoldingDetails.EntityName #>> CreateMock<#= EntityScaffoldingDetails.EntityName #>Repository() {
-            MockRepository mocks = new MockRepository();
 
-            IRepository<<#= EntityScaffoldingDetails.EntityName #>> mockedRepository = mocks.StrictMock<IRepository<<#= EntityScaffoldingDetails.EntityName #>>>();
-            Expect.Call(mockedRepository.GetAll())
-                .Return(Create<#= EntityScaffoldingDetails.EntityNamePlural #>());
-            Expect.Call(mockedRepository.Get(1)).IgnoreArguments()
-                .Return(Create<#= EntityScaffoldingDetails.EntityName #>());
-            Expect.Call(mockedRepository.SaveOrUpdate(null)).IgnoreArguments()
-                .Return(Create<#= EntityScaffoldingDetails.EntityName #>());
-            Expect.Call(delegate { mockedRepository.Delete(null); }).IgnoreArguments();
+            IRepository<<#= EntityScaffoldingDetails.EntityName #>> mockedRepository = MockRepository.CreateMock<IRepository<<#= EntityScaffoldingDetails.EntityName #>>>();
+            mockedRepository.Expect(mr => mr.GetAll()).Return(Create<#= EntityScaffoldingDetails.EntityNamePlural #>());
+            mockedRepository.Expect(mr => mr.Get(1)).IgnoreArguments().Return(Create<#= EntityScaffoldingDetails.EntityName #>());
+            mockedRepository.Expect(mr => mr.SaveOrUpdate(null)).IgnoreArguments().Return(Create<#= EntityScaffoldingDetails.EntityName #>());
+            mockedRepository.Expect(mr => mr.Delete(null)).IgnoreArguments();
 
-            IDbContext mockedDbContext = mocks.StrictMock<IDbContext>();
-            Expect.Call(delegate { mockedDbContext.CommitChanges(); });
-            SetupResult.For(mockedRepository.DbContext).Return(mockedDbContext);
+			IDbContext mockedDbContext = MockRepository.CreateStub<IDbContect>();
+			mockedDbContext.Stub(c => c.CommitChanges());
+			mockedRepository.Stub(mr => mr.DbContext).Return(mockedDbContext);
             
-            mocks.Replay(mockedRepository);
-
             return mockedRepository;
         }
 

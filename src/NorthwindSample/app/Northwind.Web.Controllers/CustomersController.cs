@@ -1,7 +1,5 @@
 ﻿using System.Web.Mvc;
 using Northwind.Core;
-using SharpArch.Core.PersistenceSupport;
-using SharpArch.Core.DomainModel;
 using System.Collections.Generic;
 using Northwind.Core.DataInterfaces;
 using SharpArch.Web.NHibernate;

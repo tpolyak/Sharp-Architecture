@@ -2,13 +2,11 @@
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
 using Northwind.Data;
-using System.Diagnostics;
-using SharpArch.Core.DomainModel;
-using NUnit.Framework.SyntaxHelpers;
 using Northwind.Core.DataInterfaces;
 using SharpArch.Data.NHibernate;
 using System.Collections.Generic;
 using System;
+using SharpArch.Testing.NUnit;
 using SharpArch.Testing.NUnit.NHibernate;
 using SharpArch.Core;
 
@@ -32,15 +30,15 @@ namespace Tests.Northwind.Data
         public void CanGetAllCustomers() {
             IList<Customer> customers = customerRepository.GetAll();
 
-            Assert.That(customers, Is.Not.Null);
-            Assert.That(customers.Count, Is.EqualTo(3));
+            customers.ShouldNotBeNull();
+            customers.Count.ShouldEqual(3);
         }
 
         [Test]
         public void CanGetCustomerById() {
             Customer customer = GetCustomerById();
 
-            Assert.That(customer.CompanyName, Is.EqualTo("Rancho grande"));
+            customer.CompanyName.ShouldEqual("Rancho grande");
         }
 
         [Test]
@@ -49,13 +47,13 @@ namespace Tests.Northwind.Data
             propertyValues.Add("CompanyName", "Rancho grande");
             Customer customer = customerRepository.FindOne(propertyValues);
 
-            Assert.That(customer, Is.Not.Null);
-            Assert.That(customer.CompanyName, Is.EqualTo("Rancho grande"));
+            customer.ShouldNotBeNull();
+            customer.CompanyName.ShouldEqual("Rancho grande");
 
             propertyValues.Add("ContactName", "Won't Match");
             customer = customerRepository.FindOne(propertyValues);
 
-            Assert.That(customer, Is.Null);
+            customer.ShouldBeNull();
         }
 
         [Test]
@@ -64,8 +62,8 @@ namespace Tests.Northwind.Data
             propertyValues.Add("Country", null);
             IList<Customer> customers = customerRepository.FindAll(propertyValues);
 
-            Assert.That(customers.Count, Is.EqualTo(1));
-            Assert.That(customers[0].Id, Is.EqualTo("ABC12"));
+            customers.Count.ShouldEqual(1);
+            customers[0].Id.ShouldEqual("ABC12");
         }
 
         /// <summary>
@@ -77,15 +75,15 @@ namespace Tests.Northwind.Data
         public void CanLoadCustomerOrders() {
             Customer customer = GetCustomerById();
 
-            Assert.That(customer.Orders.Count, Is.EqualTo(3));
+            customer.Orders.Count.ShouldEqual(3);
         }
 
         [Test]
         public void CanFindCustomerOrdersViaCustomFilter() {
             Customer customer = GetCustomerById();
 
-            Assert.That(customer.Orders.FindOrdersPlacedOn(new DateTime(1998, 1, 13)).Count, Is.EqualTo(1));
-            Assert.That(customer.Orders.FindOrdersPlacedOn(new DateTime(1992, 10, 13)), Is.Empty);
+            customer.Orders.FindOrdersPlacedOn(new DateTime(1998, 1, 13)).Count.ShouldEqual(1);
+            customer.Orders.FindOrdersPlacedOn(new DateTime(1992, 10, 13)).ShouldBeEmpty();
         }
 
         /// <summary>
@@ -96,8 +94,8 @@ namespace Tests.Northwind.Data
         public void CanGetCustomersByCountry() {
             List<Customer> customers = customerRepository.FindByCountry("Brazil");
 
-            Assert.That(customers, Is.Not.Null);
-            Assert.That(customers.Count, Is.EqualTo(2));
+            customers.ShouldNotBeNull();
+            customers.Count.ShouldEqual(2);
         }
 
         [Test]
@@ -108,8 +106,8 @@ namespace Tests.Northwind.Data
         }
 
         private Customer GetCustomerById() {
-            Customer customer = customerRepository.Load("RANCH", SharpArch.Core.Enums.LockMode.Read);
-            Assert.That(customer, Is.Not.Null);
+            Customer customer = customerRepository.Load("RANCH", Enums.LockMode.Read);
+            customer.ShouldNotBeNull();
             return customer;
         }
 

@@ -3,7 +3,7 @@ using Northwind.Core;
 using SharpArch.Testing;
 using Northwind.Core.Organization;
 using Northwind.Wcf.Dtos;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Wcf.Dtos
 {
@@ -16,15 +16,15 @@ namespace Tests.Northwind.Wcf.Dtos
 
             TerritoryDto territoryDto = TerritoryDto.Create(territory);
 
-            Assert.That(territoryDto.Id, Is.EqualTo("08837"));
-            Assert.That(territoryDto.Description, Is.EqualTo("Edison"));
+            territoryDto.Id.ShouldEqual("08837");
+            territoryDto.Description.ShouldEqual("Edison");
 
-            Assert.That(territoryDto.RegionBelongingTo, Is.Not.Null);
-            Assert.That(territoryDto.RegionBelongingTo.Id, Is.EqualTo(1));
+            territoryDto.RegionBelongingTo.ShouldNotBeNull();
+            territoryDto.RegionBelongingTo.Id.ShouldEqual(1); ;
 
-            Assert.That(territoryDto.Employees.Count, Is.EqualTo(2));
-            Assert.That(territoryDto.Employees[0].Id, Is.EqualTo(5));
-            Assert.That(territoryDto.Employees[1].Id, Is.EqualTo(10));
+            territoryDto.Employees.Count.ShouldEqual(2);
+            territoryDto.Employees[0].Id.ShouldEqual(5);
+            territoryDto.Employees[1].Id.ShouldEqual(10);
         }
 
         private Territory CreateTerritory() {

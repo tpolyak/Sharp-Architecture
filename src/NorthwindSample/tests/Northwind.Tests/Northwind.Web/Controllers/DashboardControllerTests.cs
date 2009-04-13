@@ -28,15 +28,10 @@ namespace Tests.Northwind.Web.Controllers
             // unit tests verify that the service itself is returning valid data.
         }
 
-        public DashboardService CreateMockDashboardServiceRepository() {
-            MockRepository mocks = new MockRepository();
-
-            DashboardService mockedService = mocks.StrictMock<DashboardService>();
-            Expect.Call(mockedService.GetDashboardSummary())
-                .Return(new DashboardService.DashboardSummaryDto());
-            mocks.Replay(mockedService);
-
-            return mockedService;
+        public IDashboardService CreateMockDashboardServiceRepository() {
+            IDashboardService dashboardService = MockRepository.GenerateMock<IDashboardService>( );
+            dashboardService.Expect(ds => ds.GetDashboardSummary()).Return(new DashboardService.DashboardSummaryDto());
+            return dashboardService;
         }
     }
 }

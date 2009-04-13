@@ -2,7 +2,7 @@
 using SharpArch.Data.NHibernate;
 using Northwind.Core.Organization;
 using SharpArch.Core.PersistenceSupport;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 using SharpArch.Testing.NUnit.NHibernate;
 
 namespace Tests.Northwind.Data.Organization
@@ -31,8 +31,8 @@ namespace Tests.Northwind.Data.Organization
         public void CanLoadEmployee() {
             Employee employeeFromDb = employeeRepository.Get(2);
 
-            Assert.That(employeeFromDb.FirstName, Is.EqualTo("Andrew"));
-            Assert.That(employeeFromDb.LastName, Is.EqualTo("Fuller"));
+            employeeFromDb.FirstName.ShouldEqual("Andrew");
+            employeeFromDb.LastName.ShouldEqual("Fuller");
         }
 
         private IRepository<Employee> employeeRepository = new Repository<Employee>();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Northwind.Core;
 using System.Diagnostics;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Core
 {
@@ -19,8 +19,8 @@ namespace Tests.Northwind.Core
                 Debug.WriteLine(order.OrderDate.ToString());
             }
 
-            Assert.That(ordersPlacedOnDate, Is.Not.Null);
-            Assert.That(ordersPlacedOnDate.Count, Is.EqualTo(2));
+            ordersPlacedOnDate.ShouldNotBeNull();
+            ordersPlacedOnDate.Count.ShouldEqual(2);
         }
 
         public List<Order> GetExampleOrders() {

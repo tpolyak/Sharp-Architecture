@@ -11,7 +11,7 @@ namespace Northwind.Web.Controllers
         /// repository (which gets automatically wired up for dependency injection), the service 
         /// needs to be manually registered within Northwind.Web.CastleWindsor.ComponentRegistrar
         /// </summary>
-        public DashboardController(DashboardService dashboardService) {
+        public DashboardController(IDashboardService dashboardService) {
             Check.Require(dashboardService != null, "dashboardService may not be null");
 
             this.dashboardService = dashboardService;
@@ -26,6 +26,6 @@ namespace Northwind.Web.Controllers
             return View(summary);
         }
 
-        private readonly DashboardService dashboardService;
+        private readonly IDashboardService dashboardService;
     }
 }

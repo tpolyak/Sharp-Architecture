@@ -1,12 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
-using SharpArch.Core.DomainModel;
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
-using Northwind.Data;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
-using Tests.Northwind;
 using SharpArch.Testing.NUnit;
 using SharpArch.Testing.NUnit.NHibernate;
 using SharpArch.Data.NHibernate;

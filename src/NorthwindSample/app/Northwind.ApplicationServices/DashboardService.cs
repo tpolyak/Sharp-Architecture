@@ -1,11 +1,15 @@
-﻿using SharpArch.Core.PersistenceSupport;
-using Northwind.Core;
+﻿using Northwind.Core;
 using SharpArch.Core;
 using Northwind.Core.DataInterfaces;
 using System.Collections.Generic;
 
 namespace Northwind.ApplicationServices
 {
+    public interface IDashboardService
+    {
+        DashboardService.DashboardSummaryDto GetDashboardSummary();
+    }
+
     /// <summary>
     /// This is an "application service" for coordinating the activities required by the view.
     /// Arguably, this service is so simplistic that I would lean towards putting this "logic"
@@ -15,13 +19,8 @@ namespace Northwind.ApplicationServices
     /// the technology context; e.g., web services, ASP.NET MVC, WCF, console app, etc.  Consequently,
     /// it's easy to reuse without having any duplicated code amongst the various project types.
     /// </summary>
-    public class DashboardService
+    public class DashboardService : IDashboardService
     {
-        /// <summary>
-        /// Provided for mocking capabilities.
-        /// </summary>
-        protected DashboardService() { }
-
         /// <summary>
         /// Since DashboardService is registered as a component within Northwind.Web.CastleWindsor.ComponentRegistrar,
         /// its dependencies (e.g. supplierRepository) will automatically be injected when this service is
@@ -31,7 +30,7 @@ namespace Northwind.ApplicationServices
         /// WCF services (e.g., as in Northwind.Web.Controllers.TerritoriesController), or even other application
         /// services if you wanted to make it really ugly.
         /// </summary>
-        public DashboardService(IRepository<Supplier> supplierRepository) {
+        public DashboardService(ISupplierRepository supplierRepository) {
             Check.Require(supplierRepository != null, "supplierRepository may not be null");
 
             this.supplierRepository = supplierRepository;
@@ -39,10 +38,8 @@ namespace Northwind.ApplicationServices
 
         /// <summary>
         /// Uses the repository and domain layer to gather a few summary items for a dashboard view.
-        /// Note that the method is a virtual method so that we can mock this class (which doesn't
-        /// have an interface) in our unit testing.
         /// </summary>
-        public virtual DashboardSummaryDto GetDashboardSummary() {
+        public DashboardSummaryDto GetDashboardSummary() {
             DashboardSummaryDto dashboardSummaryDto = new DashboardSummaryDto();
 
             IList<Supplier> allSuppliers = supplierRepository.GetAll();
@@ -68,6 +65,6 @@ namespace Northwind.ApplicationServices
             public IList<Supplier> SuppliersCarryingFewestProducts { get; set; }
         }
 
-        private readonly IRepository<Supplier> supplierRepository;
+        private readonly ISupplierRepository supplierRepository;
     }
 }

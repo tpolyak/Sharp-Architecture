@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Northwind.Core;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Core
 {
@@ -12,7 +12,7 @@ namespace Tests.Northwind.Core
             string categoryName = "Just testing";
             Category category = new Category(categoryName);
 
-            Assert.That(category.CategoryName, Is.EqualTo(categoryName));
+            category.CategoryName.ShouldEqual(categoryName);
         }
 
         [Test]
@@ -21,8 +21,8 @@ namespace Tests.Northwind.Core
             Category category2 = new Category("Anvil");
             Category category3 = new Category("Acme");
 
-            Assert.That(category1, Is.Not.EqualTo(category2));
-            Assert.That(category1.Equals(category3));
+            category1.ShouldNotEqual(category2);
+            category1.ShouldEqual(category3);
         }
     }
 }

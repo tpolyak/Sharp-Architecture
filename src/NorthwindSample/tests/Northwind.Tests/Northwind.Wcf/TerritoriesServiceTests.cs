@@ -5,9 +5,8 @@ using SharpArch.Core.PersistenceSupport;
 using Rhino.Mocks;
 using System.Collections.Generic;
 using SharpArch.Testing;
-using Northwind.Core.Organization;
 using Northwind.Wcf.Dtos;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Wcf
 {
@@ -26,22 +25,18 @@ namespace Tests.Northwind.Wcf
 
             IList<TerritoryDto> territoryDtos = territoriesWcfService.GetTerritories();
 
-            Assert.That(territoryDtos.Count, Is.EqualTo(2));
+            territoryDtos.Count.ShouldEqual(2);
         }
 
         private IRepository<Territory> CreateMockTerritoryRepository() {
-            MockRepository mocks = new MockRepository();
 
-            IRepository<Territory> mockedRepository = mocks.StrictMock<IRepository<Territory>>();
-            Expect.Call(mockedRepository.GetAll())
-                .Return(CreateTerritories());
+            IRepository<Territory> repository = MockRepository.GenerateMock<IRepository<Territory>>();
+            repository.Expect(r => r.GetAll()).Return(CreateTerritories());
 
-            IDbContext mockedDbContext = mocks.StrictMock<IDbContext>();
-            SetupResult.For(mockedRepository.DbContext).Return(mockedDbContext);
-            
-            mocks.Replay(mockedRepository);
+            IDbContext dbContext = MockRepository.GenerateStub<IDbContext>();
+            repository.Stub(r => r.DbContext).Return(dbContext);
 
-            return mockedRepository;
+            return repository;
         }
 
         /// <summary>

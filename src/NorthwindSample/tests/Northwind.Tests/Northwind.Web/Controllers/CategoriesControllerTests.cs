@@ -4,10 +4,10 @@ using Northwind.Web.Controllers;
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
 using Rhino.Mocks;
-using NUnit.Framework.SyntaxHelpers;
 using System.Web.Mvc;
 using System.Collections.Generic;
 using SharpArch.Testing;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Web.Controllers
 {
@@ -22,9 +22,9 @@ namespace Tests.Northwind.Web.Controllers
             ViewResult result = 
                 controller.Index().AssertViewRendered().ForView("");
 
-            Assert.That(result.ViewData, Is.Not.Null);
-            Assert.That(result.ViewData.Model as List<Category>, Is.Not.Null);
-            Assert.That((result.ViewData.Model as List<Category>).Count, Is.EqualTo(3));
+            result.ViewData.ShouldNotBeNull();
+            (result.ViewData.Model as List<Category>).ShouldNotBeNull();
+            (result.ViewData.Model as List<Category>).Count.ShouldEqual(3);
         }
 
         [Test]
@@ -35,9 +35,9 @@ namespace Tests.Northwind.Web.Controllers
             ViewResult result =
                 controller.Create("Hawaiian").AssertViewRendered().ForView("");
 
-            Assert.That(result.ViewData, Is.Not.Null);
-            Assert.That(result.ViewData.Model as Category, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Category).Id, Is.GreaterThan(0));
+            result.ViewData.ShouldNotBeNull();
+            (result.ViewData.Model as Category).ShouldNotBeNull();
+            (result.ViewData.Model as Category).Id.ShouldBeGreaterThan(0);
         }
 
         [Test]
@@ -50,29 +50,23 @@ namespace Tests.Northwind.Web.Controllers
 
             // The builder object acts as a wrapper around the controller, 
             // so be sure to interrogate it instead of the controller
-            Assert.That(result.ViewData, Is.Not.Null);
-            Assert.That(result.ViewData.Model as Category, Is.Not.Null);
-            Assert.That((result.ViewData.Model as Category).Id, Is.EqualTo(1));
+            result.ViewData.ShouldNotBeNull();
+            (result.ViewData.Model as Category).ShouldNotBeNull();
+            (result.ViewData.Model as Category).Id.ShouldEqual(1);
         }
 
         private IRepository<Category> CreateMockCategoryRepository() {
-            MockRepository mocks = new MockRepository();
+            IRepository<Category> repository = MockRepository.GenerateMock<IRepository<Category>>( );
+            repository.Expect(r => r.GetAll()).Return(CreateCategories());
+            repository.Expect(r => r.Get(1)).IgnoreArguments().Return(CreateCategory());
+            repository.Expect(r => r.SaveOrUpdate(null)).IgnoreArguments().Return(CreateCategory());
 
-            IRepository<Category> mockedRepository = mocks.StrictMock<IRepository<Category>>();
-            Expect.Call(mockedRepository.GetAll())
-                .Return(CreateCategories());
-            Expect.Call(mockedRepository.Get(1)).IgnoreArguments()
-                .Return(CreateCategory());
-            Expect.Call(mockedRepository.SaveOrUpdate(null)).IgnoreArguments()
-                .Return(CreateCategory());
-            mocks.Replay(mockedRepository);
-
-            return mockedRepository;
+            return repository;
         }
 
         private Category CreateCategory() {
             Category category = new Category("Hawaiian");
-            EntityIdSetter.SetIdOf<int>(category, 1);
+            EntityIdSetter.SetIdOf(category, 1);
             return category;
         }
 

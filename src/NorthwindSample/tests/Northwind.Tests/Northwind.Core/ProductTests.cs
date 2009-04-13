@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using Northwind.Core;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Core
 {
@@ -15,9 +15,9 @@ namespace Tests.Northwind.Core
             Category categoryOfProduct = new Category("Good Stuff");
             product.Category = categoryOfProduct;
 
-            Assert.That(product.ProductName, Is.EqualTo("Fruit"));
-            Assert.That(product.Supplier, Is.EqualTo(new Supplier("Acme")));
-            Assert.That(product.Category, Is.EqualTo(categoryOfProduct));
+            product.ProductName.ShouldEqual("Fruit");
+            product.Supplier.ShouldEqual(new Supplier("Acme"));
+            product.Category.ShouldEqual(categoryOfProduct);
         }
 
         [Test]
@@ -25,12 +25,9 @@ namespace Tests.Northwind.Core
             Supplier supplierA = new Supplier("A");
             Supplier supplierB = new Supplier("B");
 
-            Assert.That(new Product("1", supplierA), 
-                Is.Not.EqualTo(new Product("1", supplierB)));
-            Assert.That(new Product("1", supplierA),
-                Is.Not.EqualTo(new Product("2", supplierA)));
-            Assert.That(new Product("1", supplierA),
-                Is.EqualTo(new Product("1", supplierA)));
+            (new Product("1", supplierA)).ShouldNotEqual(new Product("1", supplierB));
+            (new Product("1", supplierA)).ShouldNotEqual(new Product("2", supplierB));
+            (new Product("1", supplierA)).ShouldEqual(new Product("1", supplierA));
         }
     }
 }

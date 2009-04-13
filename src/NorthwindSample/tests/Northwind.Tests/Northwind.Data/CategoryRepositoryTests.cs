@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentNHibernate;
-using FluentNHibernate.AutoMap;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using SharpArch.Core.PersistenceSupport;
 using Northwind.Core;
-using Northwind.Data;
-using System.Diagnostics;
-using SharpArch.Core.DomainModel;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Data.NHibernate;
+using SharpArch.Testing.NUnit;
 using SharpArch.Testing.NUnit.NHibernate;
 
 namespace Tests.Northwind.Data
@@ -31,8 +25,8 @@ namespace Tests.Northwind.Data
         {
             IList<Category> categories = categoryRepository.GetAll();
 
-            Assert.That(categories, Is.Not.Null);
-            Assert.That(categories.Count, Is.EqualTo(2));
+            categories.ShouldNotBeNull();
+            categories.Count.ShouldEqual(2);
         }
 
         [Test]
@@ -40,7 +34,7 @@ namespace Tests.Northwind.Data
         {
             Category category = categoryRepository.Get(1);
 
-            Assert.That(category.CategoryName, Is.EqualTo("Beverages"));
+            category.CategoryName.ShouldEqual("Beverages");
         }
 
         private void CreatePersistedCategory(string categoryName)

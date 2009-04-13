@@ -2,6 +2,7 @@
 using Northwind.Core;
 using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Core.DomainModel;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Core
 {
@@ -13,12 +14,12 @@ namespace Tests.Northwind.Core
             Region region = new RegionWithPublicConstructor("Midwest");
 
             Territory territory = new Territory("Cincinnati", region);
-            Assert.That(territory.Description, Is.EqualTo("Cincinnati"));
-            Assert.That(territory.RegionBelongingTo, Is.EqualTo(region));
-            Assert.That(territory.Id, Is.Null);
+            territory.Description.ShouldEqual("Cincinnati");
+            territory.RegionBelongingTo.ShouldEqual(region);
+            territory.Id.ShouldBeNull();
 
             territory.SetAssignedIdTo("ABRACADABRA");
-            Assert.That(territory.Id, Is.EqualTo("ABRACADABRA"));
+            territory.Id.ShouldEqual("ABRACADABRA");
         }
 
         [Test]
@@ -27,15 +28,15 @@ namespace Tests.Northwind.Core
             ServiceLocatorInitializer.Init();
 
             Territory territory = new Territory(null, null);
-            Assert.That(territory.IsValid(), Is.False);
-            Assert.That(territory.ValidationResults().Count, Is.EqualTo(2));
+            territory.IsValid().ShouldBeFalse();
+            territory.ValidationResults().Count.ShouldEqual(2);
 
             territory.RegionBelongingTo = new RegionWithPublicConstructor("South");
-            Assert.That(territory.IsValid(), Is.False);
-            Assert.That(territory.ValidationResults().Count, Is.EqualTo(1));
+            territory.IsValid().ShouldBeFalse();
+            territory.ValidationResults().Count.ShouldEqual(1);
 
             territory.Description = "Wherever";
-            Assert.That(territory.IsValid(), Is.True);
+            territory.IsValid().ShouldBeTrue();
         }
     }
 }

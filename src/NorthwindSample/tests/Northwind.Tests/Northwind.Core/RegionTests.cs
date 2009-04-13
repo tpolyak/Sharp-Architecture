@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using Northwind.Core;
+﻿using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
-using SharpArch.Core.DomainModel;
 
 namespace Tests.Northwind.Core
 {

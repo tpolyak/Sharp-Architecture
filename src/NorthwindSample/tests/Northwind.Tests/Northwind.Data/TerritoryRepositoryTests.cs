@@ -2,7 +2,7 @@
 using SharpArch.Data.NHibernate;
 using Northwind.Core;
 using SharpArch.Core.PersistenceSupport;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 using SharpArch.Testing.NUnit.NHibernate;
 using SharpArch.Core.PersistenceSupport.NHibernate;
 using Northwind.Core.Organization;
@@ -40,9 +40,9 @@ namespace Tests.Northwind.Data
         public void CanLoadTerritory() {
             Territory territoryFromDb = territoryRepository.Get("48084");
 
-            Assert.That(territoryFromDb.Description.Trim(), Is.EqualTo("Troy"));
-            Assert.That(territoryFromDb.RegionBelongingTo.Description.Trim(), Is.EqualTo("Northern"));
-            Assert.That(territoryFromDb.Employees.Count, Is.EqualTo(1));
+            territoryFromDb.Description.Trim().ShouldEqual("Troy");
+            territoryFromDb.RegionBelongingTo.Description.Trim().ShouldEqual("Northern");
+            territoryFromDb.Employees.Count.ShouldEqual(1);
         }
 
         private IRepository<Employee> employeeRepository =

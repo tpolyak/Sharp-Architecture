@@ -1,10 +1,6 @@
 ﻿using NUnit.Framework;
 using Northwind.Core;
-using SharpArch.Core.DomainModel;
-using NUnit.Framework.SyntaxHelpers;
-using Microsoft.Practices.ServiceLocation;
-using MvcContrib.UI.Tags.Validators;
-using SharpArch.Core;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Core
 {
@@ -14,14 +10,14 @@ namespace Tests.Northwind.Core
         [Test]
         public void CanCreateCustomer() {
             Customer customer = new Customer("Acme Anvil");
-            Assert.That(customer.CompanyName, Is.EqualTo("Acme Anvil"));
+            customer.CompanyName.ShouldEqual("Acme Anvil");
 
             customer.CompanyName = "Acme 2";
-            Assert.That(customer.CompanyName, Is.EqualTo("Acme 2"));
+            customer.CompanyName.ShouldEqual("Acme 2");
 
-            Assert.That(customer.ContactName, Is.Null);
+            customer.ContactName.ShouldBeNull();
             customer.ContactName = "Billy";
-            Assert.That(customer.ContactName, Is.EqualTo("Billy"));
+            customer.ContactName.ShouldEqual("Billy");
         }
 
         [Test]
@@ -30,10 +26,10 @@ namespace Tests.Northwind.Core
             ServiceLocatorInitializer.Init();
 
             Customer customer = new Customer();
-            Assert.That(customer.IsValid(), Is.False);
+            customer.IsValid().ShouldBeFalse();
 
             customer.CompanyName = "Acme";
-            Assert.That(customer.IsValid(), Is.True);
+            customer.IsValid().ShouldBeTrue();
         }
 
         [Test]
@@ -41,26 +37,26 @@ namespace Tests.Northwind.Core
             Customer customerA = new Customer("Acme");
             Customer customerB = new Customer("Anvil");
 
-            Assert.That(customerA, Is.Not.EqualTo(null));
-            Assert.That(customerA, Is.Not.EqualTo(customerB));
+            customerA.ShouldNotEqual(null);
+            customerA.ShouldNotEqual(customerB);
 
             customerA.SetAssignedIdTo("AAAAA");
             customerB.SetAssignedIdTo("AAAAA");
 
             // Even though the "business value signatures" are different, the persistent IDs 
             // were the same.  Call me crazy, but I put that much trust into persisted IDs.
-            Assert.That(customerA, Is.EqualTo(customerB));
+            customerA.ShouldEqual(customerB);
 
             Customer customerC = new Customer("Acme");
 
             // Since customerA has an ID but customerC doesn't, they won't be equal
             // even though their signatures are the same
-            Assert.That(customerA, Is.Not.EqualTo(customerC));
+            customerA.ShouldNotEqual(customerC);
 
             Customer customerD = new Customer("Acme");
 
             // customerC and customerD are both transient and share the same signature
-            Assert.That(customerC, Is.EqualTo(customerD));
+            customerC.ShouldEqual(customerD);
         }
     }
 }

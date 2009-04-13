@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
 using Northwind.Core.DataInterfaces;
 using Northwind.Core;
-using NUnit.Framework.SyntaxHelpers;
 using System.Diagnostics;
 using SharpArch.Data.NHibernate;
 using Northwind.Data;
+using SharpArch.Testing.NUnit;
 using SharpArch.Testing.NUnit.NHibernate;
 using System.Collections.Generic;
 using SharpArch.Core.PersistenceSupport;
@@ -41,10 +41,9 @@ namespace Tests.Northwind.Data
 
         [Test]
         public void SuppliersShouldBeThoseHavingProductsWithinTheCategory() {
-            Assert.That(matchingSuppliers.Count, Is.EqualTo(2));
-
-            Assert.That(matchingSuppliers[0].CompanyName, Is.EqualTo("Anvil"));
-            Assert.That(matchingSuppliers[1].CompanyName, Is.EqualTo("Roadrunner"));
+            matchingSuppliers.Count.ShouldEqual(2);
+            matchingSuppliers[0].CompanyName.ShouldEqual("Anvil");
+            matchingSuppliers[1].CompanyName.ShouldEqual("Roadrunner");
 
             OutputSearchResults(matchingSuppliers);
         }

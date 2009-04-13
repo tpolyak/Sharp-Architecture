@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
 using Northwind.Core;
-using SharpArch.Testing;
 using Northwind.Wcf.Dtos;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Wcf.Dtos
 {
@@ -16,8 +15,8 @@ namespace Tests.Northwind.Wcf.Dtos
 
             RegionDto regionDto = RegionDto.Create(region);
 
-            Assert.That(regionDto.Id, Is.EqualTo(1));
-            Assert.That(regionDto.Description, Is.EqualTo("Eastern"));
+            regionDto.Id.ShouldEqual(1);
+            regionDto.Description.ShouldEqual("Eastern");
         }
     }
 }

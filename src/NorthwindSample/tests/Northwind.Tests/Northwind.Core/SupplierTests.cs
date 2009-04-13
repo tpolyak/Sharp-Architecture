@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
 using Northwind.Core;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.Core
 {
@@ -11,7 +11,7 @@ namespace Tests.Northwind.Core
         public void CanCreateSupplier() {
             Supplier supplier = new Supplier("Acme");
 
-            Assert.That(supplier.CompanyName, Is.EqualTo("Acme"));
+            supplier.CompanyName.ShouldEqual("Acme");
         }
 
         [Test]
@@ -20,7 +20,7 @@ namespace Tests.Northwind.Core
             supplier.Products.Add(new Product("Strawberries", supplier));
             supplier.Products.Add(new Product("Apples", supplier));
 
-            Assert.That(supplier.Products.Count, Is.EqualTo(2));
+            supplier.Products.Count.ShouldEqual(2);
         }
     }
 }

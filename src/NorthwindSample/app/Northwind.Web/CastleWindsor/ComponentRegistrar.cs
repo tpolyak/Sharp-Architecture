@@ -10,11 +10,9 @@ using Castle.Core.Configuration;
 using Northwind.Web.WcfServices;
 using Northwind.Wcf;
 using Northwind.WcfServices;
-using System;
 using Castle.Core;
 using Castle.Facilities.FactorySupport;
 using Castle.Core.Interceptor;
-using Northwind.ApplicationServices;
 
 namespace Northwind.Web.CastleWindsor
 {
@@ -31,7 +29,10 @@ namespace Northwind.Web.CastleWindsor
         }
 
         private static void AddApplicationServicesTo(IWindsorContainer container) {
-            container.AddComponent("dashboardService", typeof(DashboardService));
+            container.Register(
+                AllTypes.Pick()
+                .FromAssemblyNamed("Northwind.ApplicationServices")
+                .WithService.FirstInterface());
         }
 
         private static void AddWcfServiceFactoriesTo(IWindsorContainer container) {

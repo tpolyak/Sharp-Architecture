@@ -1,10 +1,10 @@
-﻿using NUnit.Framework;
-using SharpArch.Core.PersistenceSupport;
+﻿using Northwind.Core.DataInterfaces;
+using NUnit.Framework;
 using Northwind.Core;
 using Rhino.Mocks;
 using System.Collections.Generic;
 using Northwind.ApplicationServices;
-using NUnit.Framework.SyntaxHelpers;
+using SharpArch.Testing.NUnit;
 
 namespace Tests.Northwind.ApplicationServices
 {
@@ -17,27 +17,22 @@ namespace Tests.Northwind.ApplicationServices
 
             DashboardService.DashboardSummaryDto summary = dashboardService.GetDashboardSummary();
 
-            Assert.That(summary.SuppliersCarryingMostProducts, Is.Not.Null);
-            Assert.That(summary.SuppliersCarryingMostProducts.Count, Is.EqualTo(1));
-            Assert.That(summary.SuppliersCarryingMostProducts[0].CompanyName, Is.EqualTo("Codai"));
-            Assert.That(summary.SuppliersCarryingMostProducts[0].Products.Count, Is.EqualTo(2));
+            summary.SuppliersCarryingMostProducts.ShouldNotBeNull();
+            summary.SuppliersCarryingMostProducts.Count.ShouldEqual(1);
+            summary.SuppliersCarryingMostProducts[0].CompanyName.ShouldEqual("Codai");
+            summary.SuppliersCarryingMostProducts[0].Products.Count.ShouldEqual(2);
 
-            Assert.That(summary.SuppliersCarryingFewestProducts, Is.Not.Null);
-            Assert.That(summary.SuppliersCarryingFewestProducts.Count, Is.EqualTo(1));
-            Assert.That(summary.SuppliersCarryingFewestProducts[0].CompanyName, Is.EqualTo("Acme"));
-            Assert.That(summary.SuppliersCarryingFewestProducts[0].Products.Count, Is.EqualTo(1));
+            summary.SuppliersCarryingFewestProducts.ShouldNotBeNull();
+            summary.SuppliersCarryingFewestProducts.Count.ShouldEqual(1);
+            summary.SuppliersCarryingFewestProducts[0].CompanyName.ShouldEqual("Acme");
+            summary.SuppliersCarryingFewestProducts[0].Products.Count.ShouldEqual(1);
         }
 
-        private IRepository<Supplier> CreateMockSupplierRepository() {
-            MockRepository mocks = new MockRepository();
+        private ISupplierRepository CreateMockSupplierRepository() {
 
-            IRepository<Supplier> mockedRepository = mocks.StrictMock<IRepository<Supplier>>();
-            Expect.Call(mockedRepository.GetAll())
-                .Return(CreateSuppliers());
-
-            mocks.Replay(mockedRepository);
-
-            return mockedRepository;
+            ISupplierRepository repository = MockRepository.GenerateMock<ISupplierRepository>( );
+            repository.Expect(r => r.GetAll()).Return(CreateSuppliers());
+            return repository;
         }
 
         private IList<Supplier> CreateSuppliers() {
