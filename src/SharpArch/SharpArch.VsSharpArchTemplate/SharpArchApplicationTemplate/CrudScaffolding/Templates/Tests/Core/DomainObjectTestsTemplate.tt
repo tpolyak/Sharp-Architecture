@@ -9,8 +9,8 @@ public class DomainObjectTestsTemplate : BaseTemplate
 #>
 using NUnit.Framework;
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Testing;
+using SharpArch.Testing.NUnit;
 
 namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
 {
@@ -65,7 +65,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
 			PopIndent();
 			#>
 
-            Assert.That(instance.Equals(instanceToCompareTo));
+			instance.ShouldEqual(instanceToCompareTo);
         }
     }
 }
