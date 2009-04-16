@@ -10,7 +10,7 @@ public class DomainObjectTestsTemplate : BaseTemplate
 using NUnit.Framework;
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
 using SharpArch.Testing;
-using SharpArch.Testing.Unit;
+using SharpArch.Testing.NUnit;
 
 namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
 {

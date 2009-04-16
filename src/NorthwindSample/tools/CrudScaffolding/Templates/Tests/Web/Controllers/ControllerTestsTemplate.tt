@@ -114,7 +114,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
             mockedRepository.Expect(mr => mr.SaveOrUpdate(null)).IgnoreArguments().Return(Create<#= EntityScaffoldingDetails.EntityName #>());
             mockedRepository.Expect(mr => mr.Delete(null)).IgnoreArguments();
 
-			IDbContext mockedDbContext = MockRepository.CreateStub<IDbContect>();
+			IDbContext mockedDbContext = MockRepository.CreateStub<IDbContext>();
 			mockedDbContext.Stub(c => c.CommitChanges());
 			mockedRepository.Stub(mr => mr.DbContext).Return(mockedDbContext);
             
