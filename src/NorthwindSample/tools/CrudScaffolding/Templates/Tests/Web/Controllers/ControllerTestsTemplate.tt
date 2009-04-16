@@ -108,13 +108,13 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
 
         private IRepository<<#= EntityScaffoldingDetails.EntityName #>> CreateMock<#= EntityScaffoldingDetails.EntityName #>Repository() {
 
-            IRepository<<#= EntityScaffoldingDetails.EntityName #>> mockedRepository = MockRepository.CreateMock<IRepository<<#= EntityScaffoldingDetails.EntityName #>>>();
+            IRepository<<#= EntityScaffoldingDetails.EntityName #>> mockedRepository = MockRepository.GenerateMock<IRepository<<#= EntityScaffoldingDetails.EntityName #>>>();
             mockedRepository.Expect(mr => mr.GetAll()).Return(Create<#= EntityScaffoldingDetails.EntityNamePlural #>());
             mockedRepository.Expect(mr => mr.Get(1)).IgnoreArguments().Return(Create<#= EntityScaffoldingDetails.EntityName #>());
             mockedRepository.Expect(mr => mr.SaveOrUpdate(null)).IgnoreArguments().Return(Create<#= EntityScaffoldingDetails.EntityName #>());
             mockedRepository.Expect(mr => mr.Delete(null)).IgnoreArguments();
 
-			IDbContext mockedDbContext = MockRepository.CreateStub<IDbContext>();
+			IDbContext mockedDbContext = MockRepository.GenerateStub<IDbContext>();
 			mockedDbContext.Stub(c => c.CommitChanges());
 			mockedRepository.Stub(mr => mr.DbContext).Return(mockedDbContext);
             
