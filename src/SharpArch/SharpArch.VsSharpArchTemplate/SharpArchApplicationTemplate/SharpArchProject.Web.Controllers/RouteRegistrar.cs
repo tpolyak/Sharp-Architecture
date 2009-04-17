@@ -25,7 +25,8 @@ namespace $safeprojectname$
             
             // Routing config for the root area
             routes.CreateArea("Root", "$safeprojectname$",
-                routes.MapRoute(null, "{controller}/{action}", new { controller = "Home", action = "Index" })
+                routes.MapRoute(null, "{controller}/{action}", new { controller = "Home", action = "Index" }),
+                routes.MapRoute(null, "{controller}/{action}/{id}")
             );
         }
     }
