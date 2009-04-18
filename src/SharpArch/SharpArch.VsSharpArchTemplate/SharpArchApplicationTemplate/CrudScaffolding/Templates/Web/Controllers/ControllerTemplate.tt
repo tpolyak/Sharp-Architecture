@@ -73,7 +73,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
         [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, [ModelBinder(typeof(DefaultModelBinder))] <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
+        public ActionResult Edit(int id, <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
             <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
             TransferFormValuesTo(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate, <#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
