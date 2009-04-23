@@ -6,6 +6,7 @@ using System;
 using SharpArch.Core.DomainModel;
 using System.Linq;
 using SharpArch.Core;
+using System.Reflection;
 
 namespace SharpArch.Web.ModelBinder
 {
@@ -84,6 +85,45 @@ namespace SharpArch.Web.ModelBinder
         protected override void OnPropertyValidated(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value) {
         }
 
+        /// <summary>
+        /// Uses the default implementation to get the model properties to be updated and adds in the "Id" property if available
+        /// </summary>
+        protected override PropertyDescriptorCollection GetModelProperties(ControllerContext controllerContext, ModelBindingContext bindingContext) {
+            PropertyDescriptorCollection modelProperties = base.GetModelProperties(controllerContext, bindingContext);
+            AddIdPropertyIfAvailableTo(modelProperties, bindingContext);
+            return modelProperties;
+        }
+
+        private void AddIdPropertyIfAvailableTo(PropertyDescriptorCollection modelProperties, ModelBindingContext bindingContext) {
+            PropertyDescriptor idProperty =
+                (from PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)
+                 where property.Name == ID_PROPERTY_NAME
+                 select property).SingleOrDefault();
+
+            if (idProperty != null && !modelProperties.Contains(idProperty)) {
+                modelProperties.Add(idProperty);
+            }
+        }
+
+        protected override void SetProperty(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value) {
+            SetIdPropertyIfAvailable(bindingContext, propertyDescriptor, value);
+
+            base.SetProperty(controllerContext, bindingContext, propertyDescriptor, value);
+        }
+
+        private static void SetIdPropertyIfAvailable(ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value) {
+            if (propertyDescriptor.Name == ID_PROPERTY_NAME) {
+                Type idType = propertyDescriptor.PropertyType;
+                object typedId = Convert.ChangeType(value, idType);
+
+                // Set the value of the protected Id property
+                //propertyDescriptor.SetValue(bindingContext.Model, typedId);
+                PropertyInfo idProperty = bindingContext.ModelType.GetProperty(ID_PROPERTY_NAME,
+                    BindingFlags.Public | BindingFlags.Instance);
+                idProperty.SetValue(bindingContext.Model, typedId, null);
+            }
+        }
+
         #region Overridable (but not yet overridden) Methods
 
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
@@ -92,10 +132,6 @@ namespace SharpArch.Web.ModelBinder
 
         protected override object CreateModel(ControllerContext controllerContext, ModelBindingContext bindingContext, Type modelType) {
             return base.CreateModel(controllerContext, bindingContext, modelType);
-        }
-
-        protected override PropertyDescriptorCollection GetModelProperties(ControllerContext controllerContext, ModelBindingContext bindingContext) {
-            return base.GetModelProperties(controllerContext, bindingContext);
         }
 
         protected override bool OnModelUpdating(ControllerContext controllerContext, ModelBindingContext bindingContext) {
@@ -107,5 +143,7 @@ namespace SharpArch.Web.ModelBinder
         }
 
         #endregion
+
+        private const string ID_PROPERTY_NAME = "Id";
     }
 }
