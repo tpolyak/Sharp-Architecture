@@ -8,12 +8,14 @@ public class CreateTemplate : BaseTemplate
 	{
 #>
 <%@ Page Title="Create <#= EntityScaffoldingDetails.EntityName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
-	Inherits="System.Web.Mvc.ViewPage<<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>.<#= EntityScaffoldingDetails.EntityName #>>" %>
+	Inherits="System.Web.Mvc.ViewPage<<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>.<#= EntityScaffoldingDetails.EntityNamePlural #>Controller.<#= EntityScaffoldingDetails.EntityName #>FormViewModel>" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-	<h2>Create <#= EntityScaffoldingDetails.EntityName #></h2>
+
+	<h1>Create <#= EntityScaffoldingDetails.EntityName #></h1>
 
 	<% Html.RenderPartial("<#= EntityScaffoldingDetails.EntityName #>Form", ViewData); %>
+
 </asp:Content>
 <#+
 	}

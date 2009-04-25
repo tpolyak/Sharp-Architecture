@@ -165,6 +165,9 @@ public class EntityProperty {
 			if (TypeName == "string") {
 				return "\"" + defaultValueForTests.ToString() + "\"";
 			}
+			else if (TypeName == "bool") {
+				return defaultValueForTests.ToString().ToLower();
+			}
 			else if (TypeName == "char") {
 				return "'" + defaultValueForTests.ToString() + "'";
 			}

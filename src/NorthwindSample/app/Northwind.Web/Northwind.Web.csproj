@@ -196,11 +196,6 @@
     <Content Include="Views\Customers\Create.aspx" />
     <Content Include="Views\Customers\Index.aspx" />
     <Content Include="Views\Home\Index.aspx" />
-    <Content Include="Views\Organization\Employees\Create.aspx" />
-    <Content Include="Views\Organization\Employees\Edit.aspx" />
-    <Content Include="Views\Organization\Employees\EmployeeForm.ascx" />
-    <Content Include="Views\Organization\Employees\Index.aspx" />
-    <Content Include="Views\Organization\Employees\Show.aspx" />
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Web.config" />
     <Content Include="Content\Site.css" />
@@ -240,6 +235,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Dashboard\Index.aspx" />
+    <Content Include="Views\Organization\Employees\Create.aspx" />
+    <Content Include="Views\Organization\Employees\Edit.aspx" />
+    <Content Include="Views\Organization\Employees\EmployeeForm.ascx" />
+    <Content Include="Views\Organization\Employees\Index.aspx" />
+    <Content Include="Views\Organization\Employees\Show.aspx" />
     <Content Include="Views\Territories\Index.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

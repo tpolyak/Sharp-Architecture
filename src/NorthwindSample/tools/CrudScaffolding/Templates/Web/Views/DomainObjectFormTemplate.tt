@@ -10,14 +10,22 @@ public class DomainObjectFormTemplate : BaseTemplate
 	{
 #>
 <%@ Control Language="C#" AutoEventWireup="true"
-	Inherits="System.Web.Mvc.ViewUserControl<<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>.<#= EntityScaffoldingDetails.EntityName #>>" %>
+	Inherits="System.Web.Mvc.ViewUserControl<<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>.<#= EntityScaffoldingDetails.EntityNamePlural #>Controller.<#= EntityScaffoldingDetails.EntityName #>FormViewModel>" %>
 <%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>" %>
+<%@ Import Namespace="<#= SolutionName #>.Web.Controllers" %>
+<#+ if (EntityScaffoldingDetails.NamespaceHierarchy != null) { 
+#><%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>" %><#+ 
+	} #> 
+
+<% if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) { %>
+    <p id="pageMessage"><%= ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]%></p>
+<% } %>
 
 <%= Html.ValidationSummary() %>
 
 <% using (Html.BeginForm()) { %>
     <%= Html.AntiForgeryToken() %>
-    <%= Html.Hidden("id", (ViewData.Model != null) ? ViewData.Model.Id : 0) %>
+    <%= Html.Hidden("<#= EntityScaffoldingDetails.EntityName #>.Id", (ViewData.Model.<#= EntityScaffoldingDetails.EntityName #> != null) ? ViewData.Model.<#= EntityScaffoldingDetails.EntityName #>.Id : 0)%>
 
     <ul>
 	<#+
@@ -27,7 +35,7 @@ public class DomainObjectFormTemplate : BaseTemplate
 			<label for="<#= EntityScaffoldingDetails.EntityName #>_<#= property.PropertyName #>"><#= property.PropertyName #>:</label>
 			<div>
 				<%= Html.TextBox("<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>", 
-					(ViewData.Model != null) ? ViewData.Model.<#= property.PropertyName #>.ToString() : "")%>
+					(ViewData.Model.<#= EntityScaffoldingDetails.EntityName #> != null) ? ViewData.Model.<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>.ToString() : "")%>
 			</div>
 			<%= Html.ValidationMessage("<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>")%>
 		</li>
@@ -37,7 +45,7 @@ public class DomainObjectFormTemplate : BaseTemplate
     <li>
             <%= Html.SubmitButton("btnSave", "Save <#= EntityScaffoldingDetails.EntityName #>") %>
 	        <%= Html.Button("btnCancel", "Cancel", HtmlButtonType.Button, 
-	                        "window.location.href = '" + ResolveUrl("~") + "<#= (EntityScaffoldingDetails.NamespaceHierarchy != null && EntityScaffoldingDetails.NamespaceHierarchy.Length > 0) ? (AppendNamespaceHierarchyTo("").Substring(1).Replace(".", "/") + "/") : "" #><#= EntityScaffoldingDetails.EntityNamePlural #>';") %>
+				    "window.location.href = '" + Html.BuildUrlFromExpression<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>(c => c.Index()) + "';") %>
         </li>
     </ul>
 <% } %>

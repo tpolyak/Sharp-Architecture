@@ -3,6 +3,7 @@ using SharpArch.Core.CommonValidator;
 using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using CommonServiceLocator.WindsorAdapter;
 using Microsoft.Practices.ServiceLocation;
+using SharpArch.Core.PersistenceSupport;
 
 namespace Tests
 {
@@ -10,7 +11,8 @@ namespace Tests
     {
         public static void Init() {
             IWindsorContainer container = new WindsorContainer();
-            container.AddComponent("validator", typeof(IValidator), typeof(Validator));
+            container.AddComponent("validator", 
+                typeof(IValidator), typeof(Validator));
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
     }

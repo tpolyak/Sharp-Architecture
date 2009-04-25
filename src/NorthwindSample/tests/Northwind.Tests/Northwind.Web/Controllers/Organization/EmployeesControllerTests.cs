@@ -1,20 +1,22 @@
-﻿using NUnit.Framework;
+using System;
 using MvcContrib.TestHelper;
-using Northwind.Web.Controllers.Organization;
-using SharpArch.Core.PersistenceSupport;
-using Northwind.Core.Organization;
+using NUnit.Framework;
 using Rhino.Mocks;
-using System.Web.Mvc;
-using System.Collections.Generic;
+using SharpArch.Core.PersistenceSupport;
 using SharpArch.Testing;
-using SharpArch.Core.DomainModel;
-using SharpArch.Core;
-using Castle.Windsor;
-using Microsoft.Practices.ServiceLocation;
-using CommonServiceLocator.WindsorAdapter;
-using SharpArch.Core.CommonValidator;
-using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using SharpArch.Testing.NUnit;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using Northwind.Core.Organization;
+using Northwind.Web.Controllers;
+using Northwind.Web.Controllers.Organization;
+using Castle.Windsor;
+using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
+using SharpArch.Core.CommonValidator;
+using CommonServiceLocator.WindsorAdapter;
+using Microsoft.Practices.ServiceLocation;
+using SharpArch.Core.DomainModel;
+using SharpArch.Core; 
 
 namespace Tests.Northwind.Web.Controllers.Organization
 {
@@ -23,8 +25,10 @@ namespace Tests.Northwind.Web.Controllers.Organization
     {
         [SetUp]
         public void SetUp() {
+            // By default, and typically, we'd simply use the CRUD scaffolding generated call to ServiceLocatorInitializer.Init();
+            // but since we need a custom duplicate checker, we'll do it locally
             InitServiceLocator();
-
+            
             controller = new EmployeesController(CreateMockEmployeeRepository());
         }
 
@@ -36,98 +40,126 @@ namespace Tests.Northwind.Web.Controllers.Organization
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
 
+        /// <summary>
+        /// Add a couple of objects to the list within CreateEmployees and change the 
+        /// "ShouldEqual(0)" within this test to the respective number.
+        /// </summary>
         [Test]
         public void CanListEmployees() {
             ViewResult result = controller.Index().AssertViewRendered();
 
             result.ViewData.Model.ShouldNotBeNull();
-            (result.ViewData.Model as List<Employee>).Count.ShouldEqual(2);
+            (result.ViewData.Model as List<Employee>).Count.ShouldEqual(0);
         }
 
         [Test]
         public void CanShowEmployee() {
             ViewResult result = controller.Show(1).AssertViewRendered();
 
-            result.ViewData.Model.ShouldNotBeNull();
+			result.ViewData.ShouldNotBeNull();
+			
             (result.ViewData.Model as Employee).Id.ShouldEqual(1);
         }
 
         [Test]
         public void CanInitEmployeeCreation() {
             ViewResult result = controller.Create().AssertViewRendered();
+            
+            result.ViewData.Model.ShouldNotBeNull();
+            result.ViewData.Model.ShouldBeOfType(typeof(EmployeesController.EmployeeFormViewModel));
+            (result.ViewData.Model as EmployeesController.EmployeeFormViewModel).Employee.ShouldBeNull();
+        }
 
-            result.ViewData.Model.ShouldBeNull();
+        [Test]
+        public void CanEnsureEmployeeCreationIsValid() {
+            Employee employeeFromForm = new Employee();
+            ViewResult result = controller.Create(employeeFromForm).AssertViewRendered();
+
+            result.ViewData.Model.ShouldNotBeNull();
+            result.ViewData.Model.ShouldBeOfType(typeof(EmployeesController.EmployeeFormViewModel));
         }
 
         [Test]
         public void CanCreateEmployee() {
-            Employee employeeFromForm = new Employee
-                                        {
-                FirstName = "Jackie",
-                LastName = "Daniels",
-                PhoneExtension = 350
-            };
-
+            Employee employeeFromForm = CreateTransientEmployee();
             RedirectToRouteResult redirectResult = controller.Create(employeeFromForm)
                 .AssertActionRedirect().ToAction("Index");
-            controller.TempData["message"].ToString().ShouldContain("was successfully created");
+            controller.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()].ToString()
+				.ShouldContain("was successfully created");
+        }
+
+        [Test]
+        public void CanUpdateEmployee() {
+            Employee employeeFromForm = CreateTransientEmployee();
+            EntityIdSetter.SetIdOf<int>(employeeFromForm, 1);
+            RedirectToRouteResult redirectResult = controller.Edit(employeeFromForm)
+                .AssertActionRedirect().ToAction("Index");
+            controller.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()].ToString()
+				.ShouldContain("was successfully updated");
         }
 
         [Test]
         public void CanInitEmployeeEdit() {
             ViewResult result = controller.Edit(1).AssertViewRendered();
 
-            result.ViewData.Model.ShouldNotBeNull();
-            (result.ViewData.Model as Employee).Id.ShouldEqual(1);
-        }
-
-        [Test]
-        public void CanUpdateEmployee() {
-            Employee employeeFromForm = new Employee() {
-                FirstName = "Jackie",
-                LastName = "Daniels",
-                PhoneExtension = 350
-            };
-            RedirectToRouteResult redirectResult = controller.Edit(1, employeeFromForm)
-                .AssertActionRedirect().ToAction("Index");
-            controller.TempData["message"].ShouldEqual("Daniels, Jackie was successfully updated.");
+			result.ViewData.Model.ShouldNotBeNull();
+            result.ViewData.Model.ShouldBeOfType(typeof(EmployeesController.EmployeeFormViewModel));
+            (result.ViewData.Model as EmployeesController.EmployeeFormViewModel).Employee.Id.ShouldEqual(1);
         }
 
         [Test]
         public void CanDeleteEmployee() {
             RedirectToRouteResult redirectResult = controller.Delete(1)
                 .AssertActionRedirect().ToAction("Index");
-            controller.TempData["message"].ShouldEqual("The employee was successfully deleted.");
+            
+            controller.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()].ToString()
+				.ShouldContain("was successfully deleted");
         }
 
+		#region Create Mock Employee Repository
+
         private IRepository<Employee> CreateMockEmployeeRepository() {
-            IRepository<Employee> repository = MockRepository.GenerateMock<IRepository<Employee>>( );
-            repository.Expect(r => r.GetAll()).Return(CreateEmployees());
-            repository.Expect(r => r.Get(1)).IgnoreArguments().Return(CreateEmployee());
-            repository.Expect(r => r.SaveOrUpdate(null)).IgnoreArguments().Return(CreateEmployee());
-            repository.Expect(r => r.Delete(null)).IgnoreArguments();
 
+            IRepository<Employee> mockedRepository = MockRepository.GenerateMock<IRepository<Employee>>();
+            mockedRepository.Expect(mr => mr.GetAll()).Return(CreateEmployees());
+            mockedRepository.Expect(mr => mr.Get(1)).IgnoreArguments().Return(CreateEmployee());
+            mockedRepository.Expect(mr => mr.SaveOrUpdate(null)).IgnoreArguments().Return(CreateEmployee());
+            mockedRepository.Expect(mr => mr.Delete(null)).IgnoreArguments();
 
-            IDbContext dbContext = MockRepository.GenerateStub<IDbContext>();
-            dbContext.Stub(c => c.CommitChanges());
-            repository.Stub(r => r.DbContext).Return(dbContext);
-
-            return repository;
+			IDbContext mockedDbContext = MockRepository.GenerateStub<IDbContext>();
+			mockedDbContext.Stub(c => c.CommitChanges());
+			mockedRepository.Stub(mr => mr.DbContext).Return(mockedDbContext);
+            
+            return mockedRepository;
         }
 
         private Employee CreateEmployee() {
-            Employee employee = new Employee("Johnny", "Appleseed");
-            EntityIdSetter.SetIdOf(employee, 1);
+            Employee employee = CreateTransientEmployee();
+            EntityIdSetter.SetIdOf<int>(employee, 1);
             return employee;
         }
 
         private List<Employee> CreateEmployees() {
             List<Employee> employees = new List<Employee>();
 
-            employees.Add(new Employee("John", "Wayne"));
-            employees.Add(new Employee("Joe", "Bradshaw"));
+            // Create a number of domain object instances here and add them to the list
 
             return employees;
+        }
+        
+        #endregion
+
+        /// <summary>
+        /// Creates a valid, transient Employee; typical of something retrieved back from a form submission
+        /// </summary>
+        private Employee CreateTransientEmployee() {
+            Employee employee = new Employee() {
+				FirstName = "Jackie",
+				LastName = "Daniels",
+				PhoneExtension = 5491
+            };
+            
+            return employee;
         }
 
         private EmployeesController controller;

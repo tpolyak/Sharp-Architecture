@@ -12,13 +12,16 @@ public class IndexTemplate : BaseTemplate
 <%@ Page Title="<#= EntityScaffoldingDetails.EntityNamePlural #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
 	Inherits="System.Web.Mvc.ViewPage<IEnumerable<<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>.<#= EntityScaffoldingDetails.EntityName #>>>" %>
 <%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>" %>
-<%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>" %>
+<%@ Import Namespace="<#= SolutionName #>.Web.Controllers" %>
+<#+ if (EntityScaffoldingDetails.NamespaceHierarchy != null) { 
+#><%@ Import Namespace="<#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>" %><#+ 
+	} #> 
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-    <h2><#= EntityScaffoldingDetails.EntityNamePlural #></h2>
+    <h1><#= EntityScaffoldingDetails.EntityNamePlural #></h1>
 
-    <% if (ViewContext.TempData["message"] != null){ %>
-        <p><%= ViewContext.TempData["message"]%></p>
+    <% if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) { %>
+        <p id="pageMessage"><%= ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]%></p>
     <% } %>
 
     <table>

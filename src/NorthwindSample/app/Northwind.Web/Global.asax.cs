@@ -17,6 +17,7 @@ using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
 using SharpArch.Web.Areas;
 using SharpArch.Web.CommonValidator;
+using SharpArch.Web.ModelBinder;
 
 namespace Northwind.Web
 {
@@ -30,6 +31,8 @@ namespace Northwind.Web
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
+
+            ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
 
             IWindsorContainer container = InitializeServiceLocator();
 

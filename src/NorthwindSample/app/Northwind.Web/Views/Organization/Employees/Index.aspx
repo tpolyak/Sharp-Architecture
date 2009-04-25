@@ -1,32 +1,34 @@
-﻿<%@ Page Title="Employees" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
-    Inherits="System.Web.Mvc.ViewPage<IEnumerable<Northwind.Core.Organization.Employee>>" %>
+<%@ Page Title="Employees" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
+	Inherits="System.Web.Mvc.ViewPage<IEnumerable<Northwind.Core.Organization.Employee>>" %>
 <%@ Import Namespace="Northwind.Core.Organization" %>
-<%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
+<%@ Import Namespace="Northwind.Web.Controllers" %>
+<%@ Import Namespace="Northwind.Web.Controllers.Organization" %> 
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
-    <h2>Employees</h2>
+    <h1>Employees</h1>
 
-    <% if (ViewContext.TempData["message"] != null){ %>
-        <p><%= ViewContext.TempData["message"]%></p>
+    <% if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) { %>
+        <p id="pageMessage"><%= ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]%></p>
     <% } %>
 
     <table>
         <thead>
             <tr>
-                <th>
-                    Full Name
-                </th>
-                <th colspan="3">
-                    Action
-                </th>
+			    <th>FirstName</th>
+			    <th>LastName</th>
+			    <th>PhoneExtension</th>
+			    <th colspan="3">Action</th>
             </tr>
         </thead>
+
 		<%
 		foreach (Employee employee in ViewData.Model) { %>
 			<tr>
-				<td><%= employee.FullName %></td>
-				<td><%=Html.ActionLink<EmployeesController>(c => c.Show(employee.Id), "Details ")%></td>
-				<td><%=Html.ActionLink<EmployeesController>(c => c.Edit(employee.Id), "Edit")%></td>
+				<td><%= employee.FirstName %></td>
+				<td><%= employee.LastName %></td>
+				<td><%= employee.PhoneExtension %></td>
+				<td><%=Html.ActionLink<EmployeesController>( c => c.Show( employee.Id ), "Details ") %></td>
+				<td><%=Html.ActionLink<EmployeesController>( c => c.Edit( employee.Id ), "Edit") %></td>
 				<td>
     				<% using (Html.BeginForm<EmployeesController>(c => c.Delete(employee.Id))) { %>
                         <%= Html.AntiForgeryToken() %>
