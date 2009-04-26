@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Castle.MicroKernel.Registration;
+using Castle.Windsor;
+using CommonServiceLocator.WindsorAdapter;
+using Microsoft.Practices.ServiceLocation;
+using MvcContrib.Castle;
+using NHibernate.Cfg;
+using SharpArch.Data.NHibernate;
+using SharpArch.Web.NHibernate;
+using SharpArch.Web.Castle;
+using SharpArch.Web.Areas;
+using SharpArch.Web.CommonValidator;
+using SharpArch.Web.ModelBinder;
+using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Reflection;
-using NHibernate.Cfg;
-using Castle.Windsor;
-using MvcContrib.Castle;
-using Castle.MicroKernel.Registration;
-using SharpArch.Data.NHibernate;
-using SharpArch.Web.NHibernate;
-using SharpArch.Web.Castle;
-using Microsoft.Practices.ServiceLocation;
-using CommonServiceLocator.WindsorAdapter;
-using SharpArch.Web.Areas;
-using SharpArch.Web.CommonValidator;
 using $solutionname$.Web.Controllers;
 using $solutionname$.Data.NHibernateMaps;
 using $safeprojectname$.CastleWindsor;
@@ -30,6 +31,8 @@ namespace $safeprojectname$
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
+
+            ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
 
             InitializeServiceLocator();
 

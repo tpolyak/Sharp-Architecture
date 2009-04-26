@@ -45,47 +45,52 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
         }
 
         public ActionResult Create() {
-            return View();
+            <#= EntityScaffoldingDetails.EntityName #>FormViewModel viewModel = <#= EntityScaffoldingDetails.EntityName #>FormViewModel.Create<#= EntityScaffoldingDetails.EntityName #>FormViewModel();
+            return View(viewModel);
         }
 
         [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Create(<#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
-            if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>.IsValid()) {
+            if (ViewData.ModelState.IsValid && <#= EntityScaffoldingDetails.EntityNameCamelCase #>.IsValid()) {
                 <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.SaveOrUpdate(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
-                TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully created.";
+                TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = 
+					"The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully created.";
                 return RedirectToAction("Index");
             }
 
-            MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState,
-                <#= EntityScaffoldingDetails.EntityNameCamelCase #>.ValidationResults());
-            return View();
+            <#= EntityScaffoldingDetails.EntityName #>FormViewModel viewModel = <#= EntityScaffoldingDetails.EntityName #>FormViewModel.Create<#= EntityScaffoldingDetails.EntityName #>FormViewModel();
+            viewModel.<#= EntityScaffoldingDetails.EntityName #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>;
+            return View(viewModel);
         }
 
         [Transaction]
         public ActionResult Edit(int id) {
-            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
-            return View(<#= EntityScaffoldingDetails.EntityNameCamelCase #>);
+            <#= EntityScaffoldingDetails.EntityName #>FormViewModel viewModel = <#= EntityScaffoldingDetails.EntityName #>FormViewModel.Create<#= EntityScaffoldingDetails.EntityName #>FormViewModel();
+            viewModel.<#= EntityScaffoldingDetails.EntityName #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
+            return View(viewModel);
         }
 
         [ValidateAntiForgeryToken]
         [Transaction]
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Edit(int id, <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
-            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(id);
+        public ActionResult Edit(<#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>) {
+            <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate = <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.Get(<#= EntityScaffoldingDetails.EntityNameCamelCase #>.Id);
             TransferFormValuesTo(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate, <#= EntityScaffoldingDetails.EntityNameCamelCase #>);
 
-            if (<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate.IsValid()) {
-                TempData["message"] = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully updated.";
+            if (ViewData.ModelState.IsValid && <#= EntityScaffoldingDetails.EntityNameCamelCase #>.IsValid()) {
+                TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = 
+					"The <#= EntityScaffoldingDetails.EntityNameCamelCase #> was successfully updated.";
                 return RedirectToAction("Index");
             }
             else {
                 <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository.DbContext.RollbackTransaction();
-                MvcValidationAdapter.TransferValidationMessagesTo(ViewData.ModelState, 
-                    <#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate.ValidationResults());
-                return View(<#= EntityScaffoldingDetails.EntityNameCamelCase #>ToUpdate);
+
+				<#= EntityScaffoldingDetails.EntityName #>FormViewModel viewModel = <#= EntityScaffoldingDetails.EntityName #>FormViewModel.Create<#= EntityScaffoldingDetails.EntityName #>FormViewModel();
+				viewModel.<#= EntityScaffoldingDetails.EntityName #> = <#= EntityScaffoldingDetails.EntityNameCamelCase #>;
+				return View(viewModel);
             }
         }
 
@@ -124,8 +129,28 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
                 resultMessage = "The <#= EntityScaffoldingDetails.EntityNameCamelCase #> could not be found for deletion. It may already have been deleted.";
             }
 
-            TempData["Message"] = resultMessage;
+            TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] = resultMessage;
             return RedirectToAction("Index");
+        }
+
+		/// <summary>
+		/// Holds data to be passed to the <#= EntityScaffoldingDetails.EntityName #> form for creates and edits
+		/// </summary>
+        public class <#= EntityScaffoldingDetails.EntityName #>FormViewModel
+        {
+            private <#= EntityScaffoldingDetails.EntityName #>FormViewModel() { }
+
+			/// <summary>
+			/// Creation method for creating the view model. Services may be passed to the creation 
+			/// method to instantiate items such as lists for drop down boxes.
+			/// </summary>
+            public static <#= EntityScaffoldingDetails.EntityName #>FormViewModel Create<#= EntityScaffoldingDetails.EntityName #>FormViewModel() {
+                <#= EntityScaffoldingDetails.EntityName #>FormViewModel viewModel = new <#= EntityScaffoldingDetails.EntityName #>FormViewModel();
+                
+                return viewModel;
+            }
+
+            public <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityName #> { get; internal set; }
         }
 
         private readonly IRepository<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository;

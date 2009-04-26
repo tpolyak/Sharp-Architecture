@@ -5,8 +5,6 @@ Roadmap for 1.0 GA Release
 ----------------------------------------------
 
 * Support multiple databases
-* Develop or include a more advanced form binder with CRUD scaffolding
-* Add more examples to Northwind sample project including:  Unit of Work, and Application Services
 
 ----------------------------------------------
 ----------------------------------------------
@@ -15,11 +13,12 @@ On the trunk
 ----------------------------------------------
 
 New and exciting in this release:
-* We now have a community site at *LINK COMING SOON* (a flippin' ginormous thank you to Kyle Baley for setting this up)
+* We now have a community site at http://www.sharparchitecture.net (a flippin' ginormous thank you to Kyle Baley for setting this up)
 * Compatible with ASP.NET MVC 1.0 and NHibernate 2.1 Alpha 1
 * Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl)
 * Fluent NHibernate now using configuration classes
 * Support for WCF has been added as SharpArch.Wcf (thanks Frank Laub)
+* SharpModelBinder has been introduced for better form binding, including Entity associations
 
 -------
 
@@ -42,7 +41,10 @@ Assembly Dependencies:
 
 -------
 
-Upgrading to S#arp Architecture 1.0 from RC 2 to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects):
+Required Upgrade Steps
+
+Upgrading to S#arp Architecture 1.0 from RC 2 requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects):
+
 #) If you have any previous versions of ASP.NET MVC installed, uninstall them and install ASP.NET MVC 1.0
 #) Create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is easier.)
 #) Upgrade to Fluent NHibernate class conventions within YourProject.Data (You can look at the Northwind sample project for implementation examples but the Northwind DB is far from consistent and so there's an assortment of conventions and overrides in the Northwind sample project; accordingly, you'll have better luck having VS generate a S#arp Architecture project and then look at the internals of the generated project.):
@@ -69,23 +71,49 @@ Upgrading to S#arp Architecture 1.0 from RC 2 to accommodate upgraded dependenci
 	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
 #) Within YourProject.Web/NHibernate.config, add the following property:
 	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
-#) (Optionally) Replace hardcoded links to areas with Html.ActionLinkForAreas<>.  You'll also likely want to add the following to your web.config's namespaces tag so that you don't have to import it for every ActionLinkForAreas:  <add namespace="SharpArch.Web.Areas" />
 
 -------
 
-Changes to /src:
+Change Log
 
-Solution Wide:
+Solution Wide Changes:
+
 * Updated all dependencies; only NHibernate and Fluent NHibernate had breaking changes which were disussed in the upgrade process above
+
+Changes to SharpArch:
 
 SharpArch.Wcf:
 * Added class library to support WCF
 
 SharpArch.Web
-* /Areas/LinkForAreasExtensions.cs:  Added this class to provide the strongly typed ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<>.
+* /Areas/LinkForAreasExtensions.cs:  Added this class to provide the strongly typed ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<>.  Accordingly, you can now replace hardcoded links to areas with Html.ActionLinkForAreas<>.  You'll also likely want to add the following to your web.config's namespaces tag so that you don't have to import it for every ActionLinkForAreas:  <add namespace="SharpArch.Web.Areas" />
+* /ModelBinder/SharpModelBinder.cs:  Added this model binder to replace the use of DefaultModelBinder (see documentation for details)
+* /ModelBinder/EntityValueProviderResult.cs:  Added this support class for SharpModelBinder (see documentation for details)
+
+Changes to Northwind (all changes also made to VS project template and Employee CRUD pages):
 
 CrudScaffolding
+* /Templates/Tests/Web/Controllers/ControllerTestsTemplate.tt:  Modified CanEnsureEntityNameCreationIsValid() to account for fact that ModelState is not being modified during testing (it'll redirect due to invalid entity, but it won't show errors in the ModelState by default)
+* /Templates/Web/Controllers/ControllerTemplate.tt:
+	- Added an EntityNameFormViewModel as a DTO between the controller and the entity form in both the Create/Edit (GET) action methods
+	- Modified Create/Edit (POST) to account for SharpModelBinder behavior
+* /Templates/Web/Views/DomainObjectFormTemplate.tt:
+	- Replaced "id" hidden input id to be "EntityName.Id" to support SharpModelBinder
+	- Now inherits from ViewUserControl with a generic parameter of a form view model DTO to make it easier to send other items to the 	form such as lists for drop down boxes
+	- Changed hidden "id" input to be named "EntityName.Id" to support binding within SharpModelBinder
+	- Changed cancel button to use Html.BuildUrlFromExpression instead of hardcoding the back link
+* /Templates/Web/Views/EditTemplate.tt:
+	- Got rid of redundant passing of ViewData to user control
+	- Added use of enum for looking for page message so that the ViewData index is strongly typed
 * /Templates/Web/Views/IndexTemplate.tt:  Now using Html.BuildUrlFromExpression for the URL behind the cancel button (more strongly typed)
+* /Templates/Web/Views/Show.tt:  Wrapped all outputs within Server.HtmlEncode() to protect against JavaScript injection attacks
+* /Templates/Web/Views/*.tt:  Changed <h2> to <h1> at top of pages since they're primary page titles
+
+Northwind.Web
+* /Global.asax.cs:  Added SharpModelBinder as the default binder with "ModelBinders.Binders.DefaultBinder = new SharpModelBinder();"
+
+Northwind.Web.Controllers
+* /ControllerEnums.cs:  Added this class to hold, at the very least, a strongly typed enum for global items added to ViewData.
 
 ----------------------------------------------
 ----------------------------------------------

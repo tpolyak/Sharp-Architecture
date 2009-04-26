@@ -75,6 +75,7 @@
 		<Reference Include="System.Xml" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Include="ControllerEnums.cs" />
 		<Compile Include="HomeController.cs" />
 		<Compile Include="PLACE_HOLDER_COMMON_ASSEMLY_INFO_LOCATION">
 			<Link>Properties\CommonAssemblyInfo.cs</Link>
