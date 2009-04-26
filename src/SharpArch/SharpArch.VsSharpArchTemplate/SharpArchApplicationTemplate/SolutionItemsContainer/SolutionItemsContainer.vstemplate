@@ -69,6 +69,8 @@
 				<ProjectItem>System.Web.Mvc.dll</ProjectItem>
 				<ProjectItem>System.Web.Mvc.xml</ProjectItem>
 				<ProjectItem>System.Web.Routing.dll</ProjectItem>
+                <ProjectItem>SharpArch.Wcf.dll</ProjectItem>
+                <ProjectItem>SharpArch.Wcf.pdb</ProjectItem>
 			</Folder>
 		</Project>
 	</TemplateContent>
