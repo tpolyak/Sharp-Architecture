@@ -12,15 +12,16 @@ namespace SharpArch.Web.JsonNet
     /// </summary>
     public class JsonNetResult : ActionResult
     {
-        public Encoding ContentEncoding { get; set; }
-        public string ContentType { get; set; }
-        public object Data { get; set; }
+        public JsonNetResult() : this(null, null, null) { }
+        public JsonNetResult(Object data) : this(data, null, null) { }
+        public JsonNetResult(Object data, String contentType) : this(data, contentType, null) { }
 
-        public JsonSerializerSettings SerializerSettings { get; set; }
-        public Formatting Formatting { get; set; }
-
-        public JsonNetResult() {
+        public JsonNetResult(Object data, String contentType, Encoding encoding) {
             SerializerSettings = new JsonSerializerSettings();
+
+            Data = data;
+            ContentType = contentType;
+            ContentEncoding = encoding;
         }
 
         public override void ExecuteResult(ControllerContext context) {
@@ -43,5 +44,11 @@ namespace SharpArch.Web.JsonNet
                 writer.Flush();
             }
         }
+
+        public Encoding ContentEncoding { get; set; }
+        public string ContentType { get; set; }
+        public object Data { get; set; }
+        public JsonSerializerSettings SerializerSettings { get; set; }
+        public Formatting Formatting { get; set; }
     }
 }

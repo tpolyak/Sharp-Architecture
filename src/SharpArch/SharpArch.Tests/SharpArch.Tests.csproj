@@ -54,6 +54,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=3.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.Validator, Version=1.0.0.4000, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\NHibernate.Validator.dll</HintPath>
@@ -89,6 +93,7 @@
     <Compile Include="SharpArch.Core\CommonValidator\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
     <Compile Include="SharpArch.Core\SafeServiceLocatorTests.cs" />
     <Compile Include="SharpArch.Web\CommonValidator\MvcValidationAdapterTests.cs" />
+    <Compile Include="SharpArch.Web\JsonNet\JsonNetResultTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpArch.Core.NHibernateValidator\SharpArch.Core.NHibernateValidator.csproj">
