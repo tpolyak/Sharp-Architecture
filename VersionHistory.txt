@@ -9,6 +9,7 @@ New and exciting in this release:
 * Compatible with ASP.NET MVC 1.0 and NHibernate 2.1 Alpha 1
 * Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl!)
 * Fluent NHibernate now using configuration classes
+* (Re)Introduced support for IIS 7 integrated mode
 * Support for WCF has been added as SharpArch.Wcf (thanks Frank Laub!)
 * SharpModelBinder has been introduced for better form binding, including Entity associations
 * Support for multiple databases (thanks Russell Thatcher, David Longnecker, James Broome and Howard van Rooijen for suggestions and input!)
@@ -40,6 +41,8 @@ Upgrading to S#arp Architecture 1.0 from RC 2 requires a few steps to accommodat
 
 #) If you have any previous versions of ASP.NET MVC installed, uninstall them and install ASP.NET MVC 1.0
 #) Create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is easier)
+#) Upgrade YourProject.Tests/YourProject.Data/NHibernateMaps/MappingIntegrationTests.cs to accommodate the changes that were made to support multiple database (if not done, you will likely have breaking unit tests).  To do so, compare your file to the one at http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/tests/Northwind.Tests/Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs.  The necessary change is the introduction of the session factory key.
+#) Within YourProject.Web/Global.asax.cs, migrate the call to NHibernateSession.Init() from the Global.asax.cs class' Init() method to its Application_BeginRequest() method using the following as an example:  http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/app/Northwind.Web/Global.asax.cs
 #) Upgrade to Fluent NHibernate class conventions within YourProject.Data (You can look at the Northwind sample project for implementation examples but the Northwind DB is far from consistent and so there's an assortment of conventions and overrides in the Northwind sample project; accordingly, you'll have better luck having VS generate a S#arp Architecture project and then look at the internals of the generated project.):
 	*) Add a folder under /NHibernateMaps and add convention classes (see VS generated project for examples)
 	*) Within /NHibernateMaps/AutoPersistenceModelGenerator.cs, modify mappings setup to use new convention-per-class approach (see VS generated project for example)
@@ -64,7 +67,6 @@ Upgrading to S#arp Architecture 1.0 from RC 2 requires a few steps to accommodat
 	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
 #) Within YourProject.Web/NHibernate.config, add the following property:
 	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
-#) Upgrade YourProject.Tests/YourProject.Data/NHibernateMaps/MappingIntegrationTests.cs to accommodate the changes that were made to support multiple database (if not done, you will likely have breaking unit tests).  To do so, compare your file to the one at http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/tests/Northwind.Tests/Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs.  The necessary change is the introduction of the session factory key.
 
 -------
 
@@ -81,6 +83,7 @@ SharpArch.Data:
 * Possibly BREAKING CHANGE (but not likely) ~ /NHibernate/DbContext.cs:  Removed singleton behavior and added constructor parameter for session factory key to support multiple databases.
 * /NHibernate/EntityDuplicateChecker.cs:  Added factory key lookup for support of multiple databases.
 * Possibly BREAKING CHANGE (but not likely) ~ /NHibernate/ISessionStorage.cs:  Added FactoryKey property to support look-up for multiple database support and also moved this interface to its own file - I prefer having one class/interface per file.
+* /NHibernate/NHibernateInitializer.cs:  Added this class to assist with initializing the NHibernate session once and only once; this was introduced to help support running in IIS 7 integrated mode.
 * Possibly BREAKING CHANGE (but not likely) ~ /NHibernate/NHibernateSession.cs:  Changed SessionFactory and Storage to be Dictionary objects to support multiple databases; added plural named properties of each, accordingly.  The singular version remain for backward compatibility and to make it easier to maintain a single database application.
 * /NHibernate/Repository.cs:  Added factory key lookup for support of multiple databases.  Also now passing factory key to DB context, accordingly.
 * /NHibernate/SessionFactoryAttribute.cs:  Introduced this attribute to be used on repositories to designate which session factory its associated with.  It does not need to be used for single database scenarios or for your "default" database.
@@ -120,7 +123,9 @@ Northwind.Tests
 * /Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs:  Introduced factory key to isolate the integration tests session factory from the other tests.  Also set the SessionFactory and Storage to null before and after running the test for backwards compatibility reasons; in this way, existing tests that assume a single database don't have to be modified to account for the fact that a different session factory is being used by the MappingIntegrationTests class.
 
 Northwind.Web
-* /Global.asax.cs:  Added SharpModelBinder as the default binder with "ModelBinders.Binders.DefaultBinder = new SharpModelBinder();"
+* /Global.asax.cs:
+	- Added SharpModelBinder as the default binder with "ModelBinders.Binders.DefaultBinder = new SharpModelBinder();"
+	- Moved initialization of NHibernate session to Application_BeginRequest with new NHibernateInitializer to support IIS 7 integrated mode
 
 Northwind.Web.Controllers
 * /ControllerEnums.cs:  Added this class to hold, at the very least, a strongly typed enum for global items added to ViewData.

@@ -57,28 +57,25 @@ namespace Northwind.Web
         }
 
         /// <summary>
-        /// Due to issues on IIS7, the NHibernate initialization must occur in Init().
-        /// But Init() may be invoked more than once; accordingly, we introduce a thread-safe
-        /// mechanism to ensure it's only initialized once.
-        /// 
-        /// See http://msdn.microsoft.com/en-us/magazine/cc188793.aspx for explanation details.
+        /// Due to issues on IIS7, the NHibernate initialization cannot reside in Init() but
+        /// must only be called once.  Consequently, we invoke a thread-safe singleton class to 
+        /// ensure it's only initialized once.
         /// </summary>
-        public override void Init() {
-            base.Init();
+        protected void Application_BeginRequest(object sender, EventArgs e) {
+            NHibernateInitializer.Instance().InitializeNHibernateOnce(
+                () => InitializeNHibernateSession());
+        }
 
-            // Only allow the NHibernate session to be initialized once
-            if (!wasNHibernateInitialized) {
-                lock (lockObject) {
-                    if (!wasNHibernateInitialized) {
-                        NHibernateSession.Init(new WebSessionStorage(this),
-                            new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
-                            new AutoPersistenceModelGenerator().Generate(),
-                            Server.MapPath("~/NHibernate.config"));
-
-                        wasNHibernateInitialized = true;
-                    }
-                }
-            }
+        /// <summary>
+        /// If you need to communicate to multiple databases, you'd add a line to this method to
+        /// initialize the other database as well.
+        /// </summary>
+        private void InitializeNHibernateSession() {
+            NHibernateSession.Init(
+                new WebSessionStorage(this),
+                new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
+                new AutoPersistenceModelGenerator().Generate(),
+                Server.MapPath("~/NHibernate.config"));
         }
 
         protected void Application_Error(object sender, EventArgs e) {
@@ -86,12 +83,5 @@ namespace Northwind.Web
             Exception ex = Server.GetLastError();
             ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
-
-        private static bool wasNHibernateInitialized = false;
-
-        /// <summary>
-        /// Private, static object used only for synchronization
-        /// </summary>
-        private static object lockObject = new object();
     }
 }
