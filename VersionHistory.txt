@@ -10,8 +10,8 @@ New and exciting in this release:
 * Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl!)
 * Fluent NHibernate now using configuration classes
 * Support for WCF has been added as SharpArch.Wcf (thanks Frank Laub!)
-* Support for multiple databases (thanks Russell Thatcher and David Longnecker for examples!)
 * SharpModelBinder has been introduced for better form binding, including Entity associations
+* Support for multiple databases (thanks Russell Thatcher, David Longnecker, James Broome and Howard van Rooijen for suggestions and input!)
 
 -------
 
