@@ -1,6 +1,7 @@
 ﻿using System.ServiceModel;
 using SharpArch.Data.NHibernate;
 using NHibernate;
+using System;
 
 namespace SharpArch.Wcf.NHibernate
 {
@@ -24,6 +25,12 @@ namespace SharpArch.Wcf.NHibernate
                     return;
                 
                 nHibernateSessionInstanceExtension.Session = value;
+            }
+        }
+
+        public string FactoryKey {
+            get {
+                return NHibernateSession.DefaultFactoryKey;
             }
         }
     }

@@ -105,7 +105,10 @@ namespace SharpArch.Data.NHibernate
         }
 
         private ISession Session {
-            get { return NHibernateSession.Current; }
+            get {
+                string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
+                return NHibernateSession.CurrentFor(factoryKey);
+            }
         }
 
         private readonly DateTime UNINITIALIZED_DATETIME = default(DateTime);

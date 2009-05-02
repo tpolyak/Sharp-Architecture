@@ -27,12 +27,20 @@ namespace SharpArch.Data.NHibernate
     public class RepositoryWithTypedId<T, IdT> : IRepositoryWithTypedId<T, IdT>
     {
         protected virtual ISession Session {
-            get { return NHibernateSession.Current; }
+            get {
+                string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
+                return NHibernateSession.CurrentFor(factoryKey);
+            }
         }
 
         public virtual IDbContext DbContext {
             get {
-                return SharpArch.Data.NHibernate.DbContext.Instance;
+                if (dbContext == null) {
+                    string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
+                    dbContext = new DbContext(factoryKey);
+                }
+
+                return dbContext;
             }
         }
 
@@ -92,5 +100,7 @@ namespace SharpArch.Data.NHibernate
             Session.SaveOrUpdate(entity);
             return entity;
         }
+
+        private IDbContext dbContext;
     }
 }
