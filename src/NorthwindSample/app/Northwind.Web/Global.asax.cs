@@ -56,6 +56,13 @@ namespace Northwind.Web
             return container;
         }
 
+        public override void Init() {
+            base.Init();
+
+            // The WebSessionStorage must be created during the Init() to tie in HttpApplication events
+            webSessionStorage = new WebSessionStorage(this);
+        }
+
         /// <summary>
         /// Due to issues on IIS7, the NHibernate initialization cannot reside in Init() but
         /// must only be called once.  Consequently, we invoke a thread-safe singleton class to 
@@ -72,7 +79,7 @@ namespace Northwind.Web
         /// </summary>
         private void InitializeNHibernateSession() {
             NHibernateSession.Init(
-                new WebSessionStorage(this),
+                webSessionStorage,
                 new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
                 new AutoPersistenceModelGenerator().Generate(),
                 Server.MapPath("~/NHibernate.config"));
@@ -83,5 +90,7 @@ namespace Northwind.Web
             Exception ex = Server.GetLastError();
             ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
+
+        private WebSessionStorage webSessionStorage;
     }
 }
