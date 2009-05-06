@@ -124,6 +124,19 @@ namespace SharpArch.Web.ModelBinder
             }
         }
 
+        /// <summary>
+        /// The base implementatoin of this looks to see if a property value provided via a form is 
+        /// bindable to the property and adds an error to the ModelState if it's not.  For example, if 
+        /// a text box is left blank and the binding property is of type int, then the base implementation
+        /// will add an error with the message "A value is required." to the ModelState.  We don't want 
+        /// this to occur as we want these type of validation problems to be verified by our business rules.
+        /// </summary>
+        protected override bool OnPropertyValidating(ControllerContext controllerContext, 
+            ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value) {
+
+            return true;
+        }
+
         #region Overridable (but not yet overridden) Methods
 
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext) {
@@ -136,10 +149,6 @@ namespace SharpArch.Web.ModelBinder
 
         protected override bool OnModelUpdating(ControllerContext controllerContext, ModelBindingContext bindingContext) {
             return base.OnModelUpdating(controllerContext, bindingContext);
-        }
-
-        protected override bool OnPropertyValidating(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value) {
-            return base.OnPropertyValidating(controllerContext, bindingContext, propertyDescriptor, value);
         }
 
         #endregion
