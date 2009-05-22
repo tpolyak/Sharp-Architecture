@@ -10,6 +10,8 @@ namespace SharpArch.Core.DomainModel
     public class BaseObjectEqualityComparer : IEqualityComparer<BaseObject>
     {
         public bool Equals(BaseObject firstObject, BaseObject secondObject) {
+            // While SQL would return false for the following condition, returning true when 
+            // comparing two null values is consistent with the C# language
             if (firstObject == null && secondObject == null)
                 return true;
 
