@@ -56,6 +56,7 @@
     <Compile Include="CommonValidator\IValidator.cs" />
     <Compile Include="DomainModel\BaseObject.cs" />
     <Compile Include="DesignByContract.cs" />
+    <Compile Include="DomainModel\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModel\Entity.cs" />
     <Compile Include="DomainModel\IEntityWithTypedId.cs" />
     <Compile Include="DomainModel\IHasAssignedId.cs" />
