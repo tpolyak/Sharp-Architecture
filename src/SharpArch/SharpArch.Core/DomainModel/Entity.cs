@@ -64,8 +64,6 @@ namespace SharpArch.Core.DomainModel
 
         #endregion
 
-        private int? cachedHashcode;
-
         #region Entity comparison support
 
         /// <summary>
@@ -105,19 +103,24 @@ namespace SharpArch.Core.DomainModel
                 HasSameObjectSignatureAs(compareTo);
         }
 
-        /// <summary>
-        /// Simply here to keep the compiler from complaining.
-        /// </summary>
         public override int GetHashCode() {
             if(cachedHashcode.HasValue)
                 return cachedHashcode.Value;
-            if(IsTransient())
-            {
+
+            if (IsTransient()) {
                 cachedHashcode = base.GetHashCode();
-                return cachedHashcode.Value;
+            }
+            else {
+                unchecked {
+                    // It's possible for two objects to return the same hash code based on 
+                    // identically valued properties, even if they're of two different types, 
+                    // so we include the object's type in the hash calculation
+                    int hashCode = GetType().GetHashCode();
+                    cachedHashcode = (hashCode * HASH_MULTIPLIER) ^ Id.GetHashCode();
+                }
             }
 
-            return Id.GetHashCode();
+            return cachedHashcode.Value;
         }
 
         /// <summary>
@@ -129,6 +132,17 @@ namespace SharpArch.Core.DomainModel
                   !compareTo.IsTransient() &&
                   Id.Equals(compareTo.Id);
         }
+
+        private int? cachedHashcode;
+
+        /// <summary>
+        /// To help ensure hashcode uniqueness, a carefully selected random number multiplier 
+        /// is used within the calculation.  Goodrich and Tamassia's Data Structures and
+        /// Algorithms in Java asserts that 31, 33, 37, 39 and 41 will produce the fewest number
+        /// of collissions.  See http://computinglife.wordpress.com/2008/11/20/why-do-hash-functions-use-prime-numbers/
+        /// for more information.
+        /// </summary>
+        private const int HASH_MULTIPLIER = 31;
 
         #endregion
     }

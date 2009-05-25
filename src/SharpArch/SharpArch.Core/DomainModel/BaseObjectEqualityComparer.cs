@@ -6,10 +6,17 @@ namespace SharpArch.Core.DomainModel
     /// Provides a comparer for supporting LINQ methods such as Intersect, Union and Distinct.
     /// This may be used for comparing objects of type <see cref="BaseObject" /> and anything 
     /// that derives from it, such as <see cref="Entity" /> and <see cref="ValueObject" />.
+    /// 
+    /// WARNING NOTE:  Microsoft decided that set operators such as Intersect, Union and 
+    /// Distinct should not use the IEqualityComparer's Equals() method when comparing objects, 
+    /// but should instead use IEqualityComparer's GetHashCode() method.  Two instances of 
+    /// <see cref="BaseObject"/> will only return the same HashCode if they have at least one
+    /// [DomainSignature] decorated property and those 
+    /// expect 
     /// </summary>
-    public class BaseObjectEqualityComparer : IEqualityComparer<BaseObject>
+    public class BaseObjectEqualityComparer<T> : IEqualityComparer<T> where T : BaseObject
     {
-        public bool Equals(BaseObject firstObject, BaseObject secondObject) {
+        public bool Equals(T firstObject, T secondObject) {
             // While SQL would return false for the following condition, returning true when 
             // comparing two null values is consistent with the C# language
             if (firstObject == null && secondObject == null)
@@ -21,7 +28,7 @@ namespace SharpArch.Core.DomainModel
             return firstObject.Equals(secondObject);
         }
 
-        public int GetHashCode(BaseObject obj) {
+        public int GetHashCode(T obj) {
             return obj.GetHashCode();
         }
     }

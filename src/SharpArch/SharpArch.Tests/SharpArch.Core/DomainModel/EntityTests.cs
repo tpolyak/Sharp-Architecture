@@ -2,6 +2,7 @@
 using SharpArch.Core.DomainModel;
 using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Testing;
+using System.Collections.Generic;
 
 namespace Tests.SharpArch.Core.DomainModel
 {
@@ -138,22 +139,32 @@ namespace Tests.SharpArch.Core.DomainModel
         }
 
         [Test]
-        [Ignore("This behavior has changed, no longer an entity changes his hashcode on the fly when domain signature changes")]
-        public void CanComputeConsistentHashWithDomainSignatureProperties() {
+        public void KeepsConsistentHashThroughLifetimeOfTransientObject() {
             ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
-            int defaultHash = object1.GetHashCode();
+            int initialHash = object1.GetHashCode();
 
             object1.Age = 13;
-            int domainSignatureAffectedHash = object1.GetHashCode();
-            Assert.AreNotEqual(defaultHash, domainSignatureAffectedHash);
-
-            // Name property isn't a domain signature property and shouldn't affect the hash
             object1.Name = "Foo";
-            Assert.AreEqual(domainSignatureAffectedHash, object1.GetHashCode());
 
-            // Changing a domain signature property will impact the hash generated
+            Assert.AreEqual(initialHash, object1.GetHashCode());
+
             object1.Age = 14;
-            Assert.AreNotEqual(domainSignatureAffectedHash, object1.GetHashCode());
+            Assert.AreEqual(initialHash, object1.GetHashCode());
+        }
+
+        [Test]
+        public void KeepsConsistentHashThroughLifetimeOfPersistentObject() {
+            ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
+            EntityIdSetter.SetIdOf<int>(object1, 1);
+            int initialHash = object1.GetHashCode();
+
+            object1.Age = 13;
+            object1.Name = "Foo";
+
+            Assert.AreEqual(initialHash, object1.GetHashCode());
+
+            object1.Age = 14;
+            Assert.AreEqual(initialHash, object1.GetHashCode());
         }
 
         [Test]
@@ -404,6 +415,7 @@ namespace Tests.SharpArch.Core.DomainModel
             // Even though the "business value signatures" are different, the persistent Ids 
             // were the same.  Call me crazy, but I put that much trust into persisted Ids.
             Assert.That(object1, Is.EqualTo(object2));
+            Assert.That(object1.GetHashCode(), Is.EqualTo(object2.GetHashCode()));
 
             ObjectWithIntId object3 = new ObjectWithIntId() { Name = "Acme" };
 
