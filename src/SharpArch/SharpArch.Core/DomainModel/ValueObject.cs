@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 
 namespace SharpArch.Core.DomainModel
@@ -31,11 +30,11 @@ namespace SharpArch.Core.DomainModel
                 .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
 
             Check.Ensure(!invalidlyDecoratedProperties.Any(),
-                "Properties were found within " + GetType().ToString() + " having the " +
-                "[DomainSignature] attribute. The domain signature of a value object includes all " +
-                "of the properties of the object by convention; consequently, adding [DomainSignature] " +
-                "to the properties of a value object's properties is misleading and should be removed. " +
-                "Alternatively, you can inherit from Entity if that fits your needs better.");
+                "Properties were found within " + GetType() + @" having the
+                [DomainSignature] attribute. The domain signature of a value object includes all
+                of the properties of the object by convention; consequently, adding [DomainSignature]
+                to the properties of a value object's properties is misleading and should be removed. 
+                Alternatively, you can inherit from Entity if that fits your needs better.");
 
             return GetType().GetProperties();
         }

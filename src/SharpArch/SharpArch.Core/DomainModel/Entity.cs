@@ -64,6 +64,8 @@ namespace SharpArch.Core.DomainModel
 
         #endregion
 
+        private int? cachedHashcode;
+
         #region Entity comparison support
 
         /// <summary>
@@ -107,7 +109,15 @@ namespace SharpArch.Core.DomainModel
         /// Simply here to keep the compiler from complaining.
         /// </summary>
         public override int GetHashCode() {
-            return base.GetHashCode();
+            if(cachedHashcode.HasValue)
+                return cachedHashcode.Value;
+            if(IsTransient())
+            {
+                cachedHashcode = base.GetHashCode();
+                return cachedHashcode.Value;
+            }
+
+            return Id.GetHashCode();
         }
 
         /// <summary>

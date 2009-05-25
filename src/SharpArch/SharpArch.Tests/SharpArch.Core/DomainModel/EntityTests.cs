@@ -1,7 +1,5 @@
-﻿using System.IO;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SharpArch.Core.DomainModel;
-using System.Xml.Serialization;
 using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Testing;
 
@@ -19,21 +17,143 @@ namespace Tests.SharpArch.Core.DomainModel
         }
 
         [Test]
+        public void Transient_entity_without_domain_signature_should_return_consistent_hashcode()
+        {
+            var sut = new ObjectWithNoDomainSignatureProperties();
+
+            Assert.That(sut.GetHashCode(), Is.EqualTo(sut.GetHashCode()));
+        }
+
+        [Test]
+        public void Two_transient_entities_without_signature_properties_generate_different_hashcodes()
+        {
+            var sut1 = new ObjectWithNoDomainSignatureProperties();
+            var sut2 = new ObjectWithNoDomainSignatureProperties();
+            
+            Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        public void Entity_with_no_signature_properties_preserves_hashcode_when_transitioning_from_transient_to_persistent()
+        {
+            var sut = new ObjectWithNoDomainSignatureProperties();
+
+            Assert.That(sut.IsTransient());
+
+            var hashcodeWhenTransient = sut.GetHashCode();
+
+            sut.SetIdTo(1);
+
+            Assert.That(sut.IsTransient(), Is.False);
+            Assert.That(sut.GetHashCode(), Is.EqualTo(hashcodeWhenTransient));
+        }
+
+        [Test]
+        public void Two_persistent_entities_with_no_signature_properties_and_different_ids_generate_different_hashcodes()
+        {
+            var sut1 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
+            var sut2 = new ObjectWithNoDomainSignatureProperties().SetIdTo(2);
+
+            Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        public void Two_persistent_entities_with_no_signature_properties_and_equal_ids_generate_equal_hashcodes()
+        {
+            var sut1 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
+            var sut2 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
+
+            Assert.That(sut1.GetHashCode(), Is.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        public void Transient_entity_with_domain_signature_should_return_consistent_hashcode()
+        {
+            var sut = new ObjectWithOneDomainSignatureProperty { Age = 1 };
+
+            Assert.That(sut.GetHashCode(), Is.EqualTo(sut.GetHashCode()));
+        }
+
+        [Test]
+        public void Two_transient_entities_with_different_values_of_domain_signature_generate_different_hashcodes()
+        {
+            var sut1 = new ObjectWithOneDomainSignatureProperty {Age = 1};
+            var sut2 = new ObjectWithOneDomainSignatureProperty {Age = 2};
+
+            Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        public void Two_transient_entitites_with_equal_values_of_domain_signature_generate_equal_hashcodes()
+        {
+            var sut1 = new ObjectWithOneDomainSignatureProperty { Age = 1 };
+            var sut2 = new ObjectWithOneDomainSignatureProperty { Age = 1 };
+
+            Assert.That(sut1.GetHashCode(), Is.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        public void Transient_entity_with_domain_signature_preserves_hashcode_temporarily_when_its_domain_signature_changes()
+        {
+            var sut = new ObjectWithOneDomainSignatureProperty { Age = 1 };
+
+            var initialHashcode = sut.GetHashCode();
+
+            sut.Age = 2;
+
+            Assert.That(sut.GetHashCode(), Is.EqualTo(initialHashcode));
+        }
+
+        [Test]
+        public void Entity_with_domain_signature_preserves_hashcode_when_transitioning_from_transient_to_persistent()
+        {
+            var sut = new ObjectWithOneDomainSignatureProperty {Age = 1};
+
+            Assert.That(sut.IsTransient());
+
+            var hashcodeWhenTransient = sut.GetHashCode();
+
+            sut.SetIdTo(1);
+
+            Assert.That(sut.IsTransient(), Is.False);
+            Assert.That(sut.GetHashCode(), Is.EqualTo(hashcodeWhenTransient));
+        }
+
+        [Test]
+        public void Two_persistent_entities_with_equal_domain_signature_and_different_ids_generate_different_hashcodes()
+        {
+            var sut1 = new ObjectWithOneDomainSignatureProperty {Age = 1}.SetIdTo(1);
+            var sut2 = new ObjectWithOneDomainSignatureProperty {Age = 1}.SetIdTo(2);
+
+            Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        public void Two_persistent_entities_with_different_domain_signature_and_equal_ids_generate_equal_hashcodes()
+        {
+            var sut1 = new ObjectWithOneDomainSignatureProperty {Age = 1}.SetIdTo(1);
+            var sut2 = new ObjectWithOneDomainSignatureProperty {Age = 2}.SetIdTo(1);
+
+            Assert.That(sut1.GetHashCode(), Is.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        [Ignore("This behavior has changed, no longer an entity changes his hashcode on the fly when domain signature changes")]
         public void CanComputeConsistentHashWithDomainSignatureProperties() {
             ObjectWithOneDomainSignatureProperty object1 = new ObjectWithOneDomainSignatureProperty();
             int defaultHash = object1.GetHashCode();
 
             object1.Age = 13;
-            int domainSignatureEffectedHash = object1.GetHashCode();
-            Assert.AreNotEqual(defaultHash, domainSignatureEffectedHash);
+            int domainSignatureAffectedHash = object1.GetHashCode();
+            Assert.AreNotEqual(defaultHash, domainSignatureAffectedHash);
 
             // Name property isn't a domain signature property and shouldn't affect the hash
             object1.Name = "Foo";
-            Assert.AreEqual(domainSignatureEffectedHash, object1.GetHashCode());
+            Assert.AreEqual(domainSignatureAffectedHash, object1.GetHashCode());
 
-            // Changing a domain signature property will impace the hash generated
+            // Changing a domain signature property will impact the hash generated
             object1.Age = 14;
-            Assert.AreNotEqual(domainSignatureEffectedHash, object1.GetHashCode());
+            Assert.AreNotEqual(domainSignatureAffectedHash, object1.GetHashCode());
         }
 
         [Test]
