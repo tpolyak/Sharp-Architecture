@@ -7,12 +7,9 @@ namespace SharpArch.Core.DomainModel
     /// This may be used for comparing objects of type <see cref="BaseObject" /> and anything 
     /// that derives from it, such as <see cref="Entity" /> and <see cref="ValueObject" />.
     /// 
-    /// WARNING NOTE:  Microsoft decided that set operators such as Intersect, Union and 
-    /// Distinct should not use the IEqualityComparer's Equals() method when comparing objects, 
-    /// but should instead use IEqualityComparer's GetHashCode() method.  Two instances of 
-    /// <see cref="BaseObject"/> will only return the same HashCode if they have at least one
-    /// [DomainSignature] decorated property and those 
-    /// expect 
+    /// NOTE:  Microsoft decided that set operators such as Intersect, Union and Distinct should 
+    /// not use the IEqualityComparer's Equals() method when comparing objects, but should instead 
+    /// use IEqualityComparer's GetHashCode() method.
     /// </summary>
     public class BaseObjectEqualityComparer<T> : IEqualityComparer<T> where T : BaseObject
     {

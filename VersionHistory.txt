@@ -79,6 +79,10 @@ Solution Wide Changes:
 =======
 Changes to SharpArch:
 
+SharpArch.Core:
+* /DomainModel/BaseObjectEqualityComparer.cs:  Added this class to provide support for LINQ set operators, such as Intersect.
+* /DomainModel/Entity.cs:  Modified the GetHashCode to cache the hashcode calculation and to use the object's Id in the calculation for persistent objects.  This was done because GetHashCode() was previously ignoring the Id property for Entities; therefore, two Entity instances which didn't have any domain signature properties were returning different hashcode values even if they had the same Id.
+
 SharpArch.Data:
 * Possibly BREAKING CHANGE (but not likely) ~ /NHibernate/DbContext.cs:  Removed singleton behavior and added constructor parameter for session factory key to support multiple databases.
 * /NHibernate/EntityDuplicateChecker.cs:  Added factory key lookup for support of multiple databases.
