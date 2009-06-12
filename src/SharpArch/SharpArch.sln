@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing.MbUnit", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Wcf", "SharpArch.Wcf\SharpArch.Wcf.csproj", "{F7F5E614-3B4E-43EC-8F8A-CB46B89A3827}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.WcfClient.Castle", "SharpArch.WcfClient.Castle\SharpArch.WcfClient.Castle.csproj", "{A3B21E07-F25F-46D3-B4DE-EA29A0A4A831}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{F7F5E614-3B4E-43EC-8F8A-CB46B89A3827}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7F5E614-3B4E-43EC-8F8A-CB46B89A3827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7F5E614-3B4E-43EC-8F8A-CB46B89A3827}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B21E07-F25F-46D3-B4DE-EA29A0A4A831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B21E07-F25F-46D3-B4DE-EA29A0A4A831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B21E07-F25F-46D3-B4DE-EA29A0A4A831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B21E07-F25F-46D3-B4DE-EA29A0A4A831}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
