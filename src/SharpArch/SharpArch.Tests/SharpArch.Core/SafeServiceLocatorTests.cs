@@ -6,7 +6,6 @@ using Castle.Windsor;
 using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
 using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace Tests.SharpArch.Core
 {

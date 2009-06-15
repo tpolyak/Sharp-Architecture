@@ -20,7 +20,7 @@ namespace SharpArch.Testing.NUnit.NHibernate
         public static void InitializeDatabase() {
             InitializeNHibernateSession();
             IDbConnection connection = NHibernateSession.Current.Connection;
-            new SchemaExport(cfg).Execute(false, true, false, true, connection, null);
+            new SchemaExport(cfg).Execute(false, true, false, connection, null);
         }
 
         public static void InitializeNHibernateSession() {

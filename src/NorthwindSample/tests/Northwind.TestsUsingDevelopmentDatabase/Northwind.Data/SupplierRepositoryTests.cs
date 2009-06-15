@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Northwind.Core.DataInterfaces;
 using Northwind.Core;
-using NUnit.Framework.SyntaxHelpers;
 using System.Diagnostics;
 using SharpArch.Data.NHibernate;
 using Northwind.Data;

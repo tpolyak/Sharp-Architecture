@@ -2,7 +2,6 @@
 using SharpArch.Core.DomainModel;
 using System.Reflection;
 using System.Collections.Generic;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Testing;
 using System.Linq;
 

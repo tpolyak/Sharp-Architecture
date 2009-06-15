@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using Northwind.Web.Controllers;
 using System.Web.Mvc;
-using NUnit.Framework.SyntaxHelpers;
 using Rhino.Mocks;
 using MvcContrib.TestHelper;
 

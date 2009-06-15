@@ -41,9 +41,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Validator, Version=1.2.0.1001, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
-      <HintPath>..\..\..\bin\NHibernate.Validator.dll</HintPath>
-    </Reference>
+    <Reference Include="NHibernate.Validator, Version=1.2.0.1004, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>

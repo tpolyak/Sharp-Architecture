@@ -9,6 +9,7 @@ using FluentNHibernate.Cfg;
 using System.Reflection;
 using FluentNHibernate.AutoMap;
 using System.Linq;
+using FluentNHibernate.Cfg.Db;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -22,42 +23,49 @@ namespace SharpArch.Data.NHibernate
         #region Init() overloads
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies) {
-            return Init(storage, mappingAssemblies, null, null, null, null);
+            return Init(storage, mappingAssemblies, null, null, null, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile) {
-            return Init(storage, mappingAssemblies, null, cfgFile, null, null);
+            return Init(storage, mappingAssemblies, null, cfgFile, null, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, IDictionary<string ,string> cfgProperties) {
-            return Init(storage, mappingAssemblies, null, null, cfgProperties, null);
+            return Init(storage, mappingAssemblies, null, null, cfgProperties, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile, string validatorCfgFile) {
-            return Init(storage, mappingAssemblies, null, cfgFile, null, validatorCfgFile);
+            return Init(storage, mappingAssemblies, null, cfgFile, null, validatorCfgFile, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel) {
-            return Init(storage, mappingAssemblies, autoPersistenceModel, null, null, null);
+            return Init(storage, mappingAssemblies, autoPersistenceModel, null, null, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, string cfgFile) {
-            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, null);
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, IDictionary<string, string> cfgProperties) {
-            return Init(storage, mappingAssemblies, autoPersistenceModel, null, cfgProperties, null);
+            return Init(storage, mappingAssemblies, autoPersistenceModel, null, cfgProperties, null, null);
         }
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, string cfgFile, string validatorCfgFile) {
-            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile);
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile, null);
+        }
+
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies,
+            AutoPersistenceModel autoPersistenceModel, string cfgFile,
+            IDictionary<string, string> cfgProperties, string validatorCfgFile) {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile, null);
         }
 
         #endregion
 
         public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, 
             AutoPersistenceModel autoPersistenceModel, string cfgFile, 
-            IDictionary<string, string> cfgProperties, string validatorCfgFile) {
+            IDictionary<string, string> cfgProperties, string validatorCfgFile,
+            IPersistenceConfigurer persistenceConfigurer) {
 
             Check.Require(storage != null, "storage mechanism was null but must be provided");
             Check.Require(!SessionFactories.ContainsKey(storage.FactoryKey), 
@@ -67,29 +75,39 @@ namespace SharpArch.Data.NHibernate
             ConfigureNHibernateValidator(cfg, validatorCfgFile);
 
             SessionFactories.Add(
-                storage.FactoryKey, 
-                CreateSessionFactoryFor(mappingAssemblies, autoPersistenceModel, cfg));
+                storage.FactoryKey,
+                CreateSessionFactoryFor(mappingAssemblies, autoPersistenceModel, cfg, persistenceConfigurer));
 
             Storages.Add(storage.FactoryKey, storage);
 
             return cfg;
         }
 
-        private static ISessionFactory CreateSessionFactoryFor(string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, Configuration cfg) {
-            return Fluently.Configure(cfg)
-                .Mappings(m => {
+        private static ISessionFactory CreateSessionFactoryFor(string[] mappingAssemblies,
+            AutoPersistenceModel autoPersistenceModel, Configuration cfg, 
+            IPersistenceConfigurer persistenceConfigurer) {
+
+            FluentConfiguration fluentConfiguration = Fluently.Configure(cfg);
+
+            if (persistenceConfigurer != null) {
+                fluentConfiguration.Database(persistenceConfigurer);
+            }
+
+            fluentConfiguration.Mappings(m => {
                     foreach (var mappingAssembly in mappingAssemblies) {
                         var assembly = Assembly.LoadFrom(MakeLoadReadyAssemblyName(mappingAssembly));
 
                         m.HbmMappings.AddFromAssembly(assembly);
-                        m.FluentMappings.AddFromAssembly(assembly);
+                        m.FluentMappings.AddFromAssembly(assembly)
+                            .ConventionDiscovery.AddAssembly(assembly);
                     }
 
                     if (autoPersistenceModel != null) {
                         m.AutoMappings.Add(autoPersistenceModel);
                     }
-                })
-                .BuildSessionFactory();
+                });
+
+            return fluentConfiguration.BuildSessionFactory();
         }
 
         public static void RegisterInterceptor(IInterceptor interceptor) {

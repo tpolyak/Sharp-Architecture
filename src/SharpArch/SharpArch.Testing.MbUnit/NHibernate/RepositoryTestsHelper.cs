@@ -19,11 +19,10 @@ namespace SharpArch.Testing.MbUnit.NHibernate
         private static Configuration cfg;
         private static ISessionFactory sessionFactory;
 
-        public static void InitializeDatabase( )
-        {
-            InitializeNHibernateSession( );
+        public static void InitializeDatabase() {
+            InitializeNHibernateSession();
             var connection = NHibernateSession.Current.Connection;
-            new SchemaExport( cfg ).Execute( false, true, false, true, connection, null );
+            new SchemaExport(cfg).Execute(false, true, false, connection, null);
         }
 
         public static void InitializeNHibernateSession( )

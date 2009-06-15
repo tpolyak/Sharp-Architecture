@@ -139,8 +139,8 @@
             <summary>
             Compares the two strings (case-insensitive).
             </summary>
-            <param name="left"></param>
-            <param name="right"></param>
+            <param name="actual"></param>
+            <param name="expected"></param>
         </member>
         <member name="M:MvcContrib.TestHelper.GeneralTestExtensions.ShouldNotBeNull(System.Object,System.String)">
             <summary>
@@ -417,6 +417,11 @@
             Gets the QueryString that built controllers will have set internally when created with InitializeController
             </summary>
             <value>The NameValueCollection QueryString</value>
+        </member>
+        <member name="P:MvcContrib.TestHelper.TestControllerBuilder.AcceptTypes">
+            <summary>
+            Gets or sets the AcceptTypes property of Request that built controllers will have set internally when created with InitializeController
+            </summary>
         </member>
         <member name="P:MvcContrib.TestHelper.TestControllerBuilder.Session">
             <summary>

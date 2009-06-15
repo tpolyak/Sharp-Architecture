@@ -1,6 +1,6 @@
 ----------------------------------------------
 ----------------------------------------------
-On the trunk
+S#arp Architecture 1.0 RTM
 ----------------------------------------------
 ----------------------------------------------
 
@@ -8,9 +8,10 @@ New and exciting in this release:
 * We now have a community site at http://www.sharparchitecture.net (a flippin' ginormous thank you to Kyle Baley for setting this up)
 * Compatible with ASP.NET MVC 1.0 and NHibernate 2.1 Alpha 1
 * Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl!)
+* All upgraded dependencies including NHibernate 2.1.0 Beta 1
 * Fluent NHibernate now using configuration classes
 * (Re)Introduced support for IIS 7 integrated mode
-* Support for WCF has been added as SharpArch.Wcf (thanks Frank Laub!)
+* Support for WCF has been added as SharpArch.Wcf for server support and SharpArch.WcfClient.Castle for auto-closing of the connection on the client (thanks Frank Laub!)
 * SharpModelBinder has been introduced for better form binding, including Entity associations
 * Support for multiple databases (thanks Russell Thatcher, David Longnecker, James Broome and Howard van Rooijen for suggestions and input!)
 
@@ -18,37 +19,50 @@ New and exciting in this release:
 
 Assembly Dependencies:
 * ASP.NET MVC 1.0
-* ASP.NET MVC 1.0 Futures (signed with SharpArch.snk)
-* Castle 1.0 RC3 (rev 1068)
-* Fluent NHibernate 0.1 (rev 430)
+* ASP.NET MVC 1.0 Futures
+* Castle Windsor 2.0
+* Fluent NHibernate 0.1 (rev 531) built against NHibernate 2.1 Beta 1
 * jQuery 1.3.2
-* Json.NET 3.5 Beta 2
+* Json.NET 3.5 Beta 3
+* log4net 1.2.10.0
 * Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
-* MvcContrib for MVC 1.0 (rev 912)
-* NHibernate 2.1.0.1001 Alpha 1
-* NHibernate.Linq 1.0 (rev 817)
-* NHibernate.Validator 1.2.0.1001 (rev 817)
-* NUnit 2.4.8
+* MvcContrib for MVC 1.0 (rev 946)
+* NHibernate 2.1.0.2001 (2.1 Beta 1)
+* NHibernate.Linq 1.0 (rev 901)
+* NHibernate.Validator 1.2.0.1004 (rev 905)
+* NUnit 2.5.0.9122 (Installer in /tools)
 * Rhino.Mocks 3.5.0.1337
 * System.Data.SQLite.DLL 1.0.60.0
-* T4 Toolbox 9.1.20.1
+* T4 Toolbox 9.5.20.1 (Installer in /tools)
 
 -------
 
 Required Upgrade Steps
 
-Upgrading to S#arp Architecture 1.0 from RC 2 requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects):
+Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects).  Each of the following steps is prefixed with the dependency that that the upgrade step is associated with:
 
-#) If you have any previous versions of ASP.NET MVC installed, uninstall them and install ASP.NET MVC 1.0
-#) Create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is easier)
-#) Upgrade YourProject.Tests/YourProject.Data/NHibernateMaps/MappingIntegrationTests.cs to accommodate the changes that were made to support multiple database (if not done, you will likely have breaking unit tests).  To do so, compare your file to the one at http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/tests/Northwind.Tests/Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs.  The necessary change is the introduction of the session factory key.
-#) Within YourProject.Web/Global.asax.cs, migrate the call to NHibernateSession.Init() from the Global.asax.cs class' Init() method to its Application_BeginRequest() method using the following as an example:  http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/app/Northwind.Web/Global.asax.cs
-#) If you're using Fluent NHibernate Auto Mapping, upgrade to Fluent NHibernate class conventions within YourProject.Data (You can look at the Northwind sample project for implementation examples but the Northwind DB is far from consistent and so there's an assortment of conventions and overrides in the Northwind sample project; accordingly, you'll have better luck having VS generate a S#arp Architecture project and then look at the internals of the generated project.):
+#) ASP.NET MVC:  If you have any previous versions of ASP.NET MVC installed, you must uninstall them and optionally may install ASP.NET MVC 1.0
+
+#) NUnit:  Install NUnit 2.5 using the installer found within /tools (optionally uninstalling previous versions)
+
+#) NUnit:  Drop any usings of "using NUnit.Framework.SyntaxHelpers;" - this namespace no longer exists and has been merged into the NUnit.Framework namespace
+
+#) T4 Toolbox:  Uninstall any previous version of T4 Toolbox and install T4 Toolbox 9.5 (installer found in /tools)
+
+#) SharpArch:  To easily update all the assembly references in your existing project, create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is simpler.)
+
+#) SharpArch:  Upgrade YourProject.Tests/YourProject.Data/NHibernateMaps/MappingIntegrationTests.cs to accommodate the changes that were made to support multiple databases (if not done, you will likely have breaking unit tests).  To do so, compare your MappingIntegrationTests.cs to the one at http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/tests/Northwind.Tests/Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs.  The necessary change is the introduction of the session factory key.
+
+#) SharpArch:  Within YourProject.Web/Global.asax.cs, migrate the call to NHibernateSession.Init() from the Global.asax.cs class' Init() method to its Application_BeginRequest() method using the following as an example:  http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/app/Northwind.Web/Global.asax.cs
+
+#) Fluent NHibernate: Within Fluent NHibernate class maps and overrides, replace .WithKeyColumn("YourColumnName") with .KeyColumnNames.Add("YourColumnName")
+
+#) Fluent NHibernate: If you're using Fluent NHibernate Auto Mapping, upgrade to Fluent NHibernate class conventions within YourProject.Data (You can look at the Northwind sample project for implementation examples but the Northwind DB is far from consistent and so there's an assortment of conventions and overrides in the Northwind sample project; accordingly, you'll have better luck having VS generate a S#arp Architecture project and then look at the internals of the generated project.):
 	*) Add a folder under /NHibernateMaps and add convention classes (see VS generated project for examples)
 	*) Within /NHibernateMaps/AutoPersistenceModelGenerator.cs, modify mappings setup to use new convention-per-class approach (see VS generated project for example)
 	*) See http://wiki.fluentnhibernate.org/show/ConvertingToNewStyleConventions for further guidance
-#) Within Fluent NHibernate class maps and overrides, replace .WithKeyColumn("YourColumnName") with .KeyColumnNames.Add("YourColumnName")
-#) Within YourProject.Tests.YourProject.Data.NHibernateMaps.MappingIntegrationTests.cs, modify CanConfirmDatabaseMatchesMappings() to reflect the following:
+
+#) NHibernate:  Within YourProject.Tests.YourProject.Data.NHibernateMaps.MappingIntegrationTests.cs, modify CanConfirmDatabaseMatchesMappings() to reflect the following:
     [Test]
     public void CanConfirmDatabaseMatchesMappings() {
         IDictionary<string, IClassMetadata> allClassMetadata = 
@@ -59,13 +73,55 @@ Upgrading to S#arp Architecture 1.0 from RC 2 requires a few steps to accommodat
                  .SetMaxResults(0).List();
         }
     }
-#) Within YourProject.Tests, add a reference to NHibernate.ByteCode.Castle.dll
-#) Within YourProject.Web, add a reference to NHibernate.ByteCode.Castle.dll
-#) Within YourProject.Tests/App.config, remove the assemly redirects for NHibernate and Iesi.Collections (but you should still have one for NUnit)
-#) Within YourProject.Web/Web.config, remove the assemly redirects for NHibernate and Iesi.Collections
-#) Within YourProject.Tests/Hibernate.cfg.xml, add the following property:
+
+#) NHibernate:  Within YourProject.Tests, add a reference to NHibernate.ByteCode.Castle.dll
+
+#) NHibernate:  Within YourProject.Web, add a reference to NHibernate.ByteCode.Castle.dll
+
+#) NHibernate, NUnit, Castle:  Within YourProject.Tests/App.config, remove the assemly redirects for NHibernate and Iesi.Collections, and NUnit
+
+#) NHibernate, Castle:  Within YourProject.Tests/App.config, configure assemly redirects to reflect the following:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Core" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="1.1.0.0"/>
+            </dependentAssembly>
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+            </dependentAssembly>
+            <dependentAssembly>
+                <assemblyIdentity name="NHibernate" publicKeyToken="aa95f207798dfdb4" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.2001"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+
+#) NHibernate, Castle:  Within YourProject.Web/Web.config, configure assemly redirects to reflect the following:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Core" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="1.1.0.0"/>
+            </dependentAssembly>
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+            </dependentAssembly>
+            <dependentAssembly>
+                <assemblyIdentity name="NHibernate" publicKeyToken="aa95f207798dfdb4" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.2001"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+
+#) NHibernate:  Within YourProject.Tests/Hibernate.cfg.xml, add the following property:
 	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
-#) Within YourProject.Web/NHibernate.config, add the following property:
+
+#) NHibernate:  Within YourProject.Web/NHibernate.config, add the following property:
 	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
 
 -------
@@ -74,7 +130,7 @@ Change Log
 
 Solution Wide Changes:
 
-* Updated all dependencies; only NHibernate and Fluent NHibernate had breaking changes which were disussed in the upgrade process above
+* Updated all dependencies; only NHibernate and Fluent NHibernate had breaking changes, which were addresed in the upgrade steps above
 
 =======
 Changes to SharpArch:
@@ -89,8 +145,12 @@ SharpArch.Data:
 * Possibly BREAKING CHANGE (but not likely) ~ /NHibernate/ISessionStorage.cs:  Added FactoryKey property to support look-up for multiple database support and also moved this interface to its own file - I prefer having one class/interface per file.
 * /NHibernate/NHibernateInitializer.cs:  Added this class to assist with initializing the NHibernate session once and only once; this was introduced to help support running in IIS 7 integrated mode.
 * Possibly BREAKING CHANGE (but not likely) ~ /NHibernate/NHibernateSession.cs:  Changed SessionFactory and Storage to be Dictionary objects to support multiple databases; added plural named properties of each, accordingly.  The singular version remain for backward compatibility and to make it easier to maintain a single database application.
+* /NHibernate/NHibernateSession.cs:  Within CreateSessionFactoryFor(), added ".ConventionDiscovery.AddAssembly(assembly);" calls after "m.FluentMappings.AddFromAssembly(assembly)" for altering non-automapped conventions. (Issue-101)
 * /NHibernate/Repository.cs:  Added factory key lookup for support of multiple databases.  Also now passing factory key to DB context, accordingly.
 * /NHibernate/SessionFactoryAttribute.cs:  Introduced this attribute to be used on repositories to designate which session factory its associated with.  It does not need to be used for single database scenarios or for your "default" database.
+
+SharpArch.Testing.NUnit:
+* /NHibernate/RepositoryTestsHelper.cs:  Dropped the previously 4th parameter, a bool for formatting, to support the modified signature of NHibernate's SchemaExport.Execute()
 
 SharpArch.Wcf:
 * Added this class library to support WCF.  WCF does NOT currently support multiple databases.

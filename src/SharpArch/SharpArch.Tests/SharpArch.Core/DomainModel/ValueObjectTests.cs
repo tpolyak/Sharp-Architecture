@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using SharpArch.Core.DomainModel;
 using SharpArch.Core;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace Tests.SharpArch.Core.DomainModel
 {

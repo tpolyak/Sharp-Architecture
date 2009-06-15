@@ -2,7 +2,6 @@
 using SharpArch.Data.NHibernate;
 using Northwind.Core.Organization;
 using SharpArch.Core.PersistenceSupport;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Testing.NUnit.NHibernate;
 
 namespace Tests.Northwind.Data.Organization

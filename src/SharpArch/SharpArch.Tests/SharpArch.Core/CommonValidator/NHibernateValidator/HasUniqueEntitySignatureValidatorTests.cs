@@ -9,7 +9,6 @@ using NHibernate.Validator;
 using SharpArch.Core.DomainModel;
 using SharpArch.Core;
 using System.Diagnostics;
-using NUnit.Framework.SyntaxHelpers;
 using System;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Core.NHibernateValidator;

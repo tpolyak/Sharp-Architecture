@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using NHibernate.Validator.Constraints;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Core.CommonValidator;
 using System.Collections.Generic;
 using System.Linq;

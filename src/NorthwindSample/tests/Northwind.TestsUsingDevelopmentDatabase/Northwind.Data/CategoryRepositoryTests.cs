@@ -5,7 +5,6 @@ using Northwind.Core;
 using Northwind.Data;
 using System.Diagnostics;
 using SharpArch.Core.DomainModel;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Data.NHibernate;
 using SharpArch.Testing.NUnit.NHibernate;
 

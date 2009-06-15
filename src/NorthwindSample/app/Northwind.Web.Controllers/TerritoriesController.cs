@@ -21,6 +21,8 @@ namespace Northwind.Web.Controllers
             IList<TerritoryDto> territories = null;
 
             // WCF service closing advice taken from http://msdn.microsoft.com/en-us/library/aa355056.aspx
+            // As alternative to this verbose-ness, use the SharpArch.WcfClient.Castle.WcfSessionFacility
+            // for automatically closing the WCF service.
             try {
                 territories = territoriesWcfService.GetTerritories();
                 territoriesWcfService.Close();

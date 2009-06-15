@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using SharpArch.Web.JsonNet;
-using NUnit.Framework.SyntaxHelpers;
 using System.Text;
 
 namespace Tests.SharpArch.Web.JsonNet

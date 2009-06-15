@@ -7,52 +7,55 @@ using System.ServiceModel;
 
 namespace SharpArch.WcfClient.Castle
 {
-	public class WcfSessionFacility : IFacility
-	{
-		public const string ManageWcfSessionsKey = "ManageWcfSessions";
+    /// <summary>
+    /// This facility may be registered within your web application to automatically look for and close
+    /// WCF connections.  This eliminates all the redundant code for closing the connection and aborting
+    /// if any appropriate exceptions are encountered.  See documentation for setting up and using this
+    /// Castle facility.
+    /// </summary>
+    public class WcfSessionFacility : IFacility
+    {
+        public const string ManageWcfSessionsKey = "ManageWcfSessions";
 
-		#region IFacility Members
+        public void Init(IKernel kernel, IConfiguration facilityConfig) {
+            kernel.ComponentDestroyed += new ComponentInstanceDelegate(kernel_ComponentDestroyed);
+        }
 
-		public void Init(IKernel kernel, IConfiguration facilityConfig) {
-			kernel.ComponentDestroyed += new ComponentInstanceDelegate(kernel_ComponentDestroyed);
-		}
+        void kernel_ComponentDestroyed(ComponentModel model, object instance) {
+            bool shouldManage = false;
+            object value = model.ExtendedProperties[ManageWcfSessionsKey];
 
-		void kernel_ComponentDestroyed(ComponentModel model, object instance) {
-			bool shouldManage = false;
-			object value = model.ExtendedProperties[ManageWcfSessionsKey];
-			if (value != null) {
-				shouldManage = (bool)value;
-			}
-			if (!shouldManage)
-				return;
+            if (value != null) {
+                shouldManage = (bool)value;
+            }
+            
+            if (!shouldManage)
+                return;
 
-			ICommunicationObject obj = instance as ICommunicationObject;
-			if (obj != null) {
-				try {
-					if (obj.State != CommunicationState.Faulted) {
-						obj.Close();
-					}
-					else {
-						obj.Abort();
-					}
-				}
-				catch (CommunicationException) {
-					obj.Abort();
-				}
-				catch (System.TimeoutException) {
-					obj.Abort();
-				}
-				catch (Exception) {
-					obj.Abort();
-					throw;
-				}
-			}
-		}
+            ICommunicationObject communicationObject = instance as ICommunicationObject;
 
-		public void Terminate() {
-		}
+            if (communicationObject != null) {
+                try {
+                    if (communicationObject.State != CommunicationState.Faulted) {
+                        communicationObject.Close();
+                    }
+                    else {
+                        communicationObject.Abort();
+                    }
+                }
+                catch (CommunicationException) {
+                    communicationObject.Abort();
+                }
+                catch (System.TimeoutException) {
+                    communicationObject.Abort();
+                }
+                catch (Exception) {
+                    communicationObject.Abort();
+                    throw;
+                }
+            }
+        }
 
-		#endregion
-	}
-
+        public void Terminate() { }
+    }
 }

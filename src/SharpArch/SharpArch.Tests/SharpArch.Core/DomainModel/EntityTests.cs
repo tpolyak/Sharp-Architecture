@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using SharpArch.Core.DomainModel;
-using NUnit.Framework.SyntaxHelpers;
 using SharpArch.Testing;
 using System.Collections.Generic;
 
