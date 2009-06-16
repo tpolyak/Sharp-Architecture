@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Northwind.ApplicationServices\DashboardServiceTests.cs" />
+    <Compile Include="Northwind.Data\TestDoubles\MockEmployeeRepositoryFactory.cs" />
+    <Compile Include="Northwind.Data\TestDoubles\MockTerritoryRepositoryFactory.cs" />
     <Compile Include="Northwind.Wcf\Dtos\EmployeeDtoTests.cs" />
     <Compile Include="Northwind.Wcf\Dtos\RegionDtoTests.cs" />
     <Compile Include="Northwind.Wcf\Dtos\TerritoryDtoTests.cs" />

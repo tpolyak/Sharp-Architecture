@@ -9,16 +9,25 @@ using NHibernate.Validator.Engine;
 using System.Text;
 using SharpArch.Web.CommonValidator;
 using SharpArch.Core;
+using Northwind.Core;
+using System.Linq;
 
 namespace Northwind.Web.Controllers.Organization
 {
     [HandleError]
     public class EmployeesController : Controller
     {
-        public EmployeesController(IRepository<Employee> employeeRepository) {
+        /// <param name="territoriesRepository">This service dependency will be used by the controller 
+        /// to populate the view model with a listing of all the available territories to select from.
+        /// Instead of passing this to the controller, the repository could instead be used by an 
+        /// application service, which would be injected into this controller, to populate the view
+        /// model.</param>
+        public EmployeesController(IRepository<Employee> employeeRepository, IRepository<Territory> territoriesRepository) {
             Check.Require(employeeRepository != null, "employeeRepository may not be null");
+            Check.Require(territoriesRepository != null, "territoriesRepository may not be null");
 
             this.employeeRepository = employeeRepository;
+            this.territoriesRepository = territoriesRepository;
         }
 
         /// <summary>
@@ -40,7 +49,7 @@ namespace Northwind.Web.Controllers.Organization
         }
 
         public ActionResult Create() {
-            EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel();
+            EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel(territoriesRepository);
             return View(viewModel);
         }
 
@@ -56,7 +65,7 @@ namespace Northwind.Web.Controllers.Organization
                 return RedirectToAction("Index");
             }
 
-            EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel();
+            EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel(territoriesRepository);
             viewModel.Employee = employee;
             return View(viewModel);
         }
@@ -66,7 +75,7 @@ namespace Northwind.Web.Controllers.Organization
         /// </summary>
         [Transaction]
         public ActionResult Edit(int id) {
-            EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel();
+            EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel(territoriesRepository);
             viewModel.Employee = employeeRepository.Get(id);
             return View(viewModel);
         }
@@ -90,7 +99,7 @@ namespace Northwind.Web.Controllers.Organization
             else {
                 employeeRepository.DbContext.RollbackTransaction();
 
-				EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel();
+                EmployeeFormViewModel viewModel = EmployeeFormViewModel.CreateEmployeeFormViewModel(territoriesRepository);
 				viewModel.Employee = employee;
 				return View(viewModel);
             }
@@ -144,15 +153,22 @@ namespace Northwind.Web.Controllers.Organization
 			/// Creation method for creating the view model. Services may be passed to the creation 
 			/// method to instantiate items such as lists for drop down boxes.
 			/// </summary>
-            public static EmployeeFormViewModel CreateEmployeeFormViewModel() {
+            /// <param name="territoriesRepository">Service needed to get all the territories that 
+            /// are available for association with the employee.</param>
+            public static EmployeeFormViewModel CreateEmployeeFormViewModel(IRepository<Territory> territoriesRepository) {
                 EmployeeFormViewModel viewModel = new EmployeeFormViewModel();
+
+                viewModel.AvailableTerritories =
+                    territoriesRepository.GetAll().OrderBy(territory => territory.Description).ToList();
                 
                 return viewModel;
             }
 
             public Employee Employee { get; internal set; }
+            public IList<Territory> AvailableTerritories { get; internal set; }
         }
 
         private readonly IRepository<Employee> employeeRepository;
+        private readonly IRepository<Territory> territoriesRepository;
     }
 }

@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Mvc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -78,7 +79,9 @@
     <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
     <Compile Include="CommonValidator\ValidatableModelBinder.cs" />
     <Compile Include="JsonNet\JsonNetResult.cs" />
+    <Compile Include="ModelBinder\EntityCollectionValueProviderResult.cs" />
     <Compile Include="ModelBinder\EntityValueProviderResult.cs" />
+    <Compile Include="ModelBinder\GenericRepositoryFactory.cs" />
     <Compile Include="ModelBinder\SharpModelBinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NHibernate\TransactionAttribute.cs" />

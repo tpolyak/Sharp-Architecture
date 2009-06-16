@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.ComponentModel;
 using SharpArch.Core.CommonValidator;
+using System;
 
 namespace SharpArch.Web.CommonValidator
 {
@@ -12,6 +13,9 @@ namespace SharpArch.Web.CommonValidator
     /// issues during the binding process itself.  More information about this approach is described
     /// by David Hayden at http://codebetter.com/blogs/david.hayden/archive/2009/02/03/an-aha-moment-on-mvc-validation-extensibility-in-defaultmodelbinder-bye-to-idataerrorinfo.aspx.
     /// </summary>
+    [Obsolete("This binder is very limited in nature.  While it remains for backward compatibility, it " +
+        "is highly recommended to instead use SharpArch.Web.ModelBinder.SharpModelBinder which is much " +
+        "more seamlessly integrated with the SharpArch libraries and repository support.")]
     public class ValidatableModelBinder : DefaultModelBinder
     {
         protected override void OnModelUpdated(ControllerContext controllerContext, 

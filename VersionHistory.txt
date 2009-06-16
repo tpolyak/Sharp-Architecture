@@ -5,15 +5,15 @@ S#arp Architecture 1.0 RTM
 ----------------------------------------------
 
 New and exciting in this release:
-* We now have a community site at http://www.sharparchitecture.net (a flippin' ginormous thank you to Kyle Baley for setting this up)
-* Compatible with ASP.NET MVC 1.0 and NHibernate 2.1 Alpha 1
-* Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl!)
+* Compatible with ASP.NET MVC 1.0
 * All upgraded dependencies including NHibernate 2.1.0 Beta 1
+* We now have a community site at http://www.sharparchitecture.net (a flippin' ginormous thank you to Kyle Baley for setting this up)
+* Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl!)
 * Fluent NHibernate now using configuration classes
 * (Re)Introduced support for IIS 7 integrated mode
 * Support for WCF has been added as SharpArch.Wcf for server support and SharpArch.WcfClient.Castle for auto-closing of the connection on the client (thanks Frank Laub!)
-* SharpModelBinder has been introduced for better form binding, including Entity associations
-* Support for multiple databases (thanks Russell Thatcher, David Longnecker, James Broome and Howard van Rooijen for suggestions and input!)
+* SharpModelBinder has been introduced for much better form binding, including support for all association types; e.g., one-to-one, one-to-many, and many-to-one Entity associations
+* Support for multiple databases outside of WCF communications (thanks Russell Thatcher, David Longnecker, James Broome and Howard van Rooijen for suggestions and input!)
 
 -------
 
@@ -158,6 +158,7 @@ SharpArch.Wcf:
 SharpArch.Web
 * /Areas/LinkForAreasExtensions.cs:  Added this class to provide the strongly typed ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<>.
 * /Areas/LinkForAreasExtensions.cs:  Added this class to provide the strongly typed ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<>.  Accordingly, you can now replace hardcoded links to areas with Html.ActionLinkForAreas<>.  You'll also likely want to add the following to your web.config's namespaces tag so that you don't have to import it for every ActionLinkForAreas:  <add namespace="SharpArch.Web.Areas" />
+* /CommonValidator/ValidatableModelBinder.cs:  Marked this as obsolete in favor of using SharpModelBinder (referenced next)
 * /ModelBinder/SharpModelBinder.cs:  Added this model binder to replace the use of DefaultModelBinder (see documentation for details)
 * /ModelBinder/EntityValueProviderResult.cs:  Added this support class for SharpModelBinder (see documentation for details)
 * /NHibernate/WebSessionStorage:  Added overloaded constructor to accept a factory key to support multiple database sessions.

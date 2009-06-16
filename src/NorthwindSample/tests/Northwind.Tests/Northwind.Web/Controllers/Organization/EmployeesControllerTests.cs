@@ -16,7 +16,8 @@ using SharpArch.Core.CommonValidator;
 using CommonServiceLocator.WindsorAdapter;
 using Microsoft.Practices.ServiceLocation;
 using SharpArch.Core.DomainModel;
-using SharpArch.Core; 
+using SharpArch.Core;
+using Tests.Northwind.Data.TestDoubles; 
 
 namespace Tests.Northwind.Web.Controllers.Organization
 {
@@ -28,8 +29,11 @@ namespace Tests.Northwind.Web.Controllers.Organization
             // By default, and typically, we'd simply use the CRUD scaffolding generated call to ServiceLocatorInitializer.Init();
             // but since we need a custom duplicate checker, we'll do it locally
             InitServiceLocator();
-            
-            controller = new EmployeesController(CreateMockEmployeeRepository());
+
+            controller = new EmployeesController(
+                    MockEmployeeRepositoryFactory.CreateMockEmployeeRepository(),
+                    MockTerritoryRepositoryFactory.CreateMockTerritoryRepository()
+                );
         }
 
         public void InitServiceLocator() {
@@ -81,7 +85,7 @@ namespace Tests.Northwind.Web.Controllers.Organization
 
         [Test]
         public void CanCreateEmployee() {
-            Employee employeeFromForm = CreateTransientEmployee();
+            Employee employeeFromForm = MockEmployeeRepositoryFactory.CreateTransientEmployee();
             RedirectToRouteResult redirectResult = controller.Create(employeeFromForm)
                 .AssertActionRedirect().ToAction("Index");
             controller.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()].ToString()
@@ -90,7 +94,7 @@ namespace Tests.Northwind.Web.Controllers.Organization
 
         [Test]
         public void CanUpdateEmployee() {
-            Employee employeeFromForm = CreateTransientEmployee();
+            Employee employeeFromForm = MockEmployeeRepositoryFactory.CreateTransientEmployee();
             EntityIdSetter.SetIdOf<int>(employeeFromForm, 1);
             RedirectToRouteResult redirectResult = controller.Edit(employeeFromForm)
                 .AssertActionRedirect().ToAction("Index");
@@ -114,52 +118,6 @@ namespace Tests.Northwind.Web.Controllers.Organization
             
             controller.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()].ToString()
 				.ShouldContain("was successfully deleted");
-        }
-
-		#region Create Mock Employee Repository
-
-        private IRepository<Employee> CreateMockEmployeeRepository() {
-
-            IRepository<Employee> mockedRepository = MockRepository.GenerateMock<IRepository<Employee>>();
-            mockedRepository.Expect(mr => mr.GetAll()).Return(CreateEmployees());
-            mockedRepository.Expect(mr => mr.Get(1)).IgnoreArguments().Return(CreateEmployee());
-            mockedRepository.Expect(mr => mr.SaveOrUpdate(null)).IgnoreArguments().Return(CreateEmployee());
-            mockedRepository.Expect(mr => mr.Delete(null)).IgnoreArguments();
-
-			IDbContext mockedDbContext = MockRepository.GenerateStub<IDbContext>();
-			mockedDbContext.Stub(c => c.CommitChanges());
-			mockedRepository.Stub(mr => mr.DbContext).Return(mockedDbContext);
-            
-            return mockedRepository;
-        }
-
-        private Employee CreateEmployee() {
-            Employee employee = CreateTransientEmployee();
-            EntityIdSetter.SetIdOf<int>(employee, 1);
-            return employee;
-        }
-
-        private List<Employee> CreateEmployees() {
-            List<Employee> employees = new List<Employee>();
-
-            // Create a number of domain object instances here and add them to the list
-
-            return employees;
-        }
-        
-        #endregion
-
-        /// <summary>
-        /// Creates a valid, transient Employee; typical of something retrieved back from a form submission
-        /// </summary>
-        private Employee CreateTransientEmployee() {
-            Employee employee = new Employee() {
-				FirstName = "Jackie",
-				LastName = "Daniels",
-				PhoneExtension = 5491
-            };
-            
-            return employee;
         }
 
         private EmployeesController controller;

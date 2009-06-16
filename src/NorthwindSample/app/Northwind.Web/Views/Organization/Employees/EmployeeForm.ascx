@@ -3,6 +3,7 @@
 <%@ Import Namespace="Northwind.Core.Organization" %>
 <%@ Import Namespace="Northwind.Web.Controllers" %>
 <%@ Import Namespace="Northwind.Web.Controllers.Organization" %> 
+<%@ Import Namespace="Northwind.Core" %>
 
 <% if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) { %>
     <p id="pageMessage"><%= ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]%></p>
@@ -43,6 +44,34 @@
 					(ViewData.Model.Employee != null) ? ViewData.Model.Employee.PhoneExtension.ToString() : "")%>
 			</div>
 			<%= Html.ValidationMessage("Employee.PhoneExtension")%>
+		</li>
+		<li>
+			<label for="Employee_Territories">Territories:</label>
+            <span id="Employee_Territories">
+                <table>
+                    <tr>
+                    <% for (int i = 0; i < ViewData.Model.AvailableTerritories.Count(); i++) {
+                        if (i > 0 && i % 4 == 0) {
+                           %></tr><tr><%
+                        }
+
+                        Territory territory = ViewData.Model.AvailableTerritories[i];
+                        %>
+                        <td>
+                            <!-- 
+                            It's very important that the name of the checkbox has a "." in it so that 
+                            the binder sees it as a property value.
+                            -->
+                            <input type="checkbox" name="Employee.Territories" value="<%= territory.Id %>" <%
+                                if (ViewData.Model.Employee != null && ViewData.Model.Employee.Territories.Contains(territory)) { 
+                                    %>checked="checked"<% 
+                                } %>/> 
+                            <%= territory.Description%>
+                        </td>
+                    <% } %>
+                    </tr>
+                </table>
+            </span>
 		</li>
 	    <li>
             <%= Html.SubmitButton("btnSave", "Save Employee") %>

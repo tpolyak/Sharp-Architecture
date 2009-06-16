@@ -42,37 +42,16 @@ namespace SharpArch.Web.ModelBinder
 
             object typedId = Convert.ChangeType(rawId, idType);
 
-            object entity = GetEntityFor(typedId);
+            object entity = GetEntityFor(typedId, idType);
+
             return entity;
         }
 
-        private object GetEntityFor(object typedId) {
-            object entityRepository = GetEntityRepository();
+        private object GetEntityFor(object typedId, Type idType) {
+            object entityRepository = GenericRepositoryFactory.CreateEntityRepositoryFor(propertyType, idType);
 
             return entityRepository.GetType()
                 .InvokeMember("Get", BindingFlags.InvokeMethod, null, entityRepository, new[] { typedId });
-        }
-
-        public object GetEntityRepository() {
-            Type genericRepositoryType = typeof(IRepository<>);
-            Type concreteRepositoryType = genericRepositoryType.MakeGenericType(new Type[] { propertyType });
-
-            object repository;
-
-            try {
-                repository = ServiceLocator.Current.GetService(concreteRepositoryType);
-            }
-            catch (NullReferenceException) {
-                throw new NullReferenceException("ServiceLocator has not been initialized; " +
-                    "I was trying to retrieve " + concreteRepositoryType.ToString());
-            }
-            catch (ActivationException) {
-                throw new ActivationException("The needed dependency of type " + concreteRepositoryType.Name +
-                    " could not be located with the ServiceLocator. You'll need to register it with " +
-                    "the Common Service Locator (CSL) via your IoC's CSL adapter.");
-            }
-
-            return repository;
         }
 
         private Type propertyType;

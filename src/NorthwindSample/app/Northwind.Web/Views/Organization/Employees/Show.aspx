@@ -1,6 +1,7 @@
 <%@ Page Title="Employee Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
 	Inherits="System.Web.Mvc.ViewPage<Northwind.Core.Organization.Employee>" %>
 <%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
+<%@ Import Namespace="Northwind.Core" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 
@@ -18,6 +19,18 @@
 		<li>
 			<label for="Employee_PhoneExtension">PhoneExtension:</label>
             <span id="Employee_PhoneExtension"><%= Server.HtmlEncode(ViewData.Model.PhoneExtension.ToString()) %></span>
+		</li>
+		<li>
+			<label for="Employee_Territories">Territories:</label>
+            <span id="Employee_Territories">
+                <ul>
+                    <%
+                        foreach (Territory territory in ViewData.Model.Territories) { %>
+                            <li><%= territory.Description %></li>
+                        <% }
+                    %>
+                </ul>
+            </span>
 		</li>
 	    <li class="buttons">
             <%= Html.Button("btnBack", "Back", HtmlButtonType.Button, 
