@@ -13,15 +13,17 @@ namespace Tests.SharpArch.Core
         }
 
         [Test]
-        [ExpectedException(typeof(PreconditionException))]
         public void CanEnforcePrecondition() {
-            Assert.AreEqual("-20%", ConvertToPercentage(-.2m));
+            Assert.Throws<PreconditionException>(
+                () => ConvertToPercentage(-.2m)
+            );
         }
 
         [Test]
-        [ExpectedException(typeof(PostconditionException))]
         public void CanEnforcePostcondition() {
-            Assert.AreEqual("200%", ConvertToPercentage(2m));
+            Assert.Throws<PostconditionException>(
+                () => ConvertToPercentage(2m)
+            );
         }
 
         private string ConvertToPercentage(decimal fractionalPercentage) {

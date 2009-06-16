@@ -70,11 +70,13 @@ namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
         }
 
         [Test]
-        [ExpectedException(typeof(PreconditionException))]
         public void MayNotUseValidatorWithEntityHavingDifferentIdType() {
             ObjectWithStringIdAndValidatorForIntId invalidCombination = 
                 new ObjectWithStringIdAndValidatorForIntId() { Name = "whatever" };
-            IEnumerable<IValidationResult> invalidValues = invalidCombination.ValidationResults();
+
+            Assert.Throws<PreconditionException>(
+                () => invalidCombination.ValidationResults()
+            );
         }
 
         private class DuplicateCheckerStub : IEntityDuplicateChecker

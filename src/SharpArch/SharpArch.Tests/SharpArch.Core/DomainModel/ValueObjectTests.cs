@@ -8,12 +8,13 @@ namespace Tests.SharpArch.Core.DomainModel
     public class ValueObjectTests
     {
         [Test]
-        [ExpectedException(typeof(PostconditionException))]
         public void CannotHaveValueObjectWithDomainSignatureProperties() {
             ValueObjectWithDomainSignature invalidValueObject =
                 new ValueObjectWithDomainSignature();
 
-            invalidValueObject.GetSignatureProperties();
+            Assert.Throws<PreconditionException>(
+                () => invalidValueObject.GetSignatureProperties()
+            );
         }
 
         [Test]

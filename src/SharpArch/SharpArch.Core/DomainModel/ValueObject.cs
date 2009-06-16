@@ -29,7 +29,7 @@ namespace SharpArch.Core.DomainModel
             IEnumerable<PropertyInfo> invalidlyDecoratedProperties = GetType().GetProperties()
                 .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
 
-            Check.Ensure(!invalidlyDecoratedProperties.Any(),
+            Check.Require(!invalidlyDecoratedProperties.Any(),
                 "Properties were found within " + GetType() + @" having the
                 [DomainSignature] attribute. The domain signature of a value object includes all
                 of the properties of the object by convention; consequently, adding [DomainSignature]
