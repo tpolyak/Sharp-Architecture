@@ -99,10 +99,12 @@ namespace Tests.Northwind.Data
         }
 
         [Test]
-        [ExpectedException(typeof(PreconditionException))]
         public void CanNotSaveOrUpdateEntityWithAssignedId() {
             Customer customer = GetCustomerById();
-            customerRepository.SaveOrUpdate(customer);
+
+            Assert.Throws<PreconditionException>(
+                () => customerRepository.SaveOrUpdate(customer)
+            );
         }
 
         private Customer GetCustomerById() {
