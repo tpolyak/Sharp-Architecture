@@ -59,7 +59,6 @@
     <Compile Include="NHibernate\RepositoryTestsBase.cs" />
     <Compile Include="NHibernate\RepositoryBehaviorSpecificationTestsBase.cs" />
     <Compile Include="NHibernate\DatabaseRepositoryTestsBase.cs" />
-    <Compile Include="NHibernate\RepositoryTestsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxHelpers.cs" />
   </ItemGroup>
@@ -71,6 +70,10 @@
     <ProjectReference Include="..\SharpArch.Data\SharpArch.Data.csproj">
       <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
       <Name>SharpArch.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">
+      <Project>{230DF364-CC54-440A-AA02-31A0E2964AC3}</Project>
+      <Name>SharpArch.Testing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

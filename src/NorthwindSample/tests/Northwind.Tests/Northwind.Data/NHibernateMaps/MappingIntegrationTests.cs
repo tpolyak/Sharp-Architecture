@@ -7,6 +7,7 @@ using NHibernate;
 using System;
 using System.Collections.Generic;
 using NHibernate.Metadata;
+using SharpArch.Testing.NHibernate;
 
 namespace Tests.Northwind.Data.NHibernateMaps
 {

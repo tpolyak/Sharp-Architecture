@@ -1,13 +1,6 @@
-﻿using FluentNHibernate.AutoMap;
+﻿using SharpArch.Data.NHibernate;
 using NUnit.Framework;
-using System.Configuration;
-using System.IO;
-using NHibernate.Cfg;
-using System.Collections.Specialized;
-using SharpArch.Core;
-using FluentNHibernate;
-using System.Reflection;
-using SharpArch.Data.NHibernate;
+using SharpArch.Testing.NHibernate;
 
 namespace SharpArch.Testing.NUnit.NHibernate
 {

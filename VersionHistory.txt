@@ -39,7 +39,7 @@ Assembly Dependencies:
 
 Required Upgrade Steps
 
-Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects).  Each of the following steps is prefixed with the dependency that that the upgrade step is associated with:
+Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects).  For reference, each of the following steps is prefixed with the dependency that that the upgrade step is associated with:
 
 #) ASP.NET MVC:  If you have any previous versions of ASP.NET MVC installed, you must uninstall them and optionally may install ASP.NET MVC 1.0
 
@@ -47,9 +47,13 @@ Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accomm
 
 #) NUnit:  Drop any usings of "using NUnit.Framework.SyntaxHelpers;" - this namespace no longer exists and has been merged into the NUnit.Framework namespace
 
+#) NUnit:  Change any use of ExpectedException attributes to use Assert.Throws instead; see http://mint.litemedia.se/2009/05/30/new-expectedexception-model-in-nunit-25/ for details
+
 #) T4 Toolbox:  Uninstall any previous version of T4 Toolbox and install T4 Toolbox 9.5 (installer found in /tools)
 
 #) SharpArch:  To easily update all the assembly references in your existing project, create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is simpler.)
+
+#) SharpArch:  Within YourProject.Tests/YourProject.Data/NHibernateMaps/MappingIntegrationTests.cs, add a reference to "using SharpArch.Testing.NHibernate;" to accommodate the move of RepositoryTestsHelper to the new namespace.
 
 #) SharpArch:  Upgrade YourProject.Tests/YourProject.Data/NHibernateMaps/MappingIntegrationTests.cs to accommodate the changes that were made to support multiple databases (if not done, you will likely have breaking unit tests).  To do so, compare your MappingIntegrationTests.cs to the one at http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/tests/Northwind.Tests/Northwind.Data/NHibernateMaps/MappingIntegrationTests.cs.  The necessary change is the introduction of the session factory key.
 
@@ -149,8 +153,9 @@ SharpArch.Data:
 * /NHibernate/Repository.cs:  Added factory key lookup for support of multiple databases.  Also now passing factory key to DB context, accordingly.
 * /NHibernate/SessionFactoryAttribute.cs:  Introduced this attribute to be used on repositories to designate which session factory its associated with.  It does not need to be used for single database scenarios or for your "default" database.
 
-SharpArch.Testing.NUnit:
+SharpArch.Testing.NUnit/MbUnit:
 * /NHibernate/RepositoryTestsHelper.cs:  Dropped the previously 4th parameter, a bool for formatting, to support the modified signature of NHibernate's SchemaExport.Execute()
+* BREAKING CHANGE ~ /NHibernate/RepositoryTestsHelper.cs:  Moved this helper class to SharpArch.Testing.NHibernate as it does not have dependencies on NUnit nor on MbUnit
 
 SharpArch.Wcf:
 * Added this class library to support WCF.  WCF does NOT currently support multiple databases.

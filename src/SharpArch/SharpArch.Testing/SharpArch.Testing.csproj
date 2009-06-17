@@ -33,7 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=0.1.0.0, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate, Version=2.1.0.2001, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -45,12 +48,17 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="EntityIdSetter.cs" />
+    <Compile Include="NHibernate\RepositoryTestsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpArch.Core\SharpArch.Core.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Data\SharpArch.Data.csproj">
+      <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
+      <Name>SharpArch.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

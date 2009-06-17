@@ -1,12 +1,6 @@
-﻿using FluentNHibernate;
-using NHibernate.Cfg;
-using NHibernate.Tool.hbm2ddl;
+﻿using SharpArch.Data.NHibernate;
 using NUnit.Framework;
-using SharpArch.Core;
-using System;
-using SharpArch.Data.NHibernate;
-using System.Configuration;
-using System.Data;
+using SharpArch.Testing.NHibernate;
 
 namespace SharpArch.Testing.NUnit.NHibernate
 {

@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Configuration;
 using System.Reflection;
 using FluentNHibernate.AutoMap;
-using SharpArch.Core;
-using NHibernate.Cfg;
-using System.Data;
-using NHibernate.Tool.hbm2ddl;
-using SharpArch.Data.NHibernate;
-using System.Configuration;
-using SharpArch.Data.NHibernate.FluentNHibernate;
 using NHibernate;
+using NHibernate.Tool.hbm2ddl;
+using SharpArch.Core;
+using SharpArch.Data.NHibernate;
+using SharpArch.Data.NHibernate.FluentNHibernate;
+using Configuration = NHibernate.Cfg.Configuration;
+using System.Data;
 
-namespace SharpArch.Testing.NUnit.NHibernate
+namespace SharpArch.Testing.NHibernate
 {
     /// <summary>
     /// Provides helper methods for consolidating duplicated code from test fixture base classes.
@@ -37,7 +37,7 @@ namespace SharpArch.Testing.NUnit.NHibernate
         }
 
         public static string[] GetMappingAssemblies() {
-            string mappingAssembliesSetting = ConfigurationSettings.AppSettings["nhibernate.mapping.assembly"];
+            string mappingAssembliesSetting = ConfigurationManager.AppSettings["nhibernate.mapping.assembly"];
 
             Check.Require(!string.IsNullOrEmpty(mappingAssembliesSetting),
                 "Please add an AppSetting to your app.config for 'nhibernate.mapping.assembly.' This setting " +

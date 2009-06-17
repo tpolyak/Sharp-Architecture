@@ -1,5 +1,6 @@
 ﻿using MbUnit.Framework;
 using SharpArch.Data.NHibernate;
+using SharpArch.Testing.NHibernate;
 
 namespace SharpArch.Testing.MbUnit.NHibernate
 {
@@ -18,17 +19,15 @@ namespace SharpArch.Testing.MbUnit.NHibernate
     public abstract class DatabaseRepositoryTestsBase
     {
         [SetUp]
-        public virtual void SetUp( )
-        {
-            RepositoryTestsHelper.InitializeNHibernateSession( );
-            NHibernateSession.Current.BeginTransaction( );
+        public virtual void SetUp() {
+            RepositoryTestsHelper.InitializeNHibernateSession();
+            NHibernateSession.Current.BeginTransaction();
         }
 
         [TearDown]
-        public virtual void TearDown( )
-        {
-            NHibernateSession.Current.Transaction.Rollback( );
-            NHibernateSession.Storage.Session.Dispose( );
+        public virtual void TearDown() {
+            NHibernateSession.Current.Transaction.Rollback();
+            NHibernateSession.Storage.Session.Dispose();
         }
     }
 }

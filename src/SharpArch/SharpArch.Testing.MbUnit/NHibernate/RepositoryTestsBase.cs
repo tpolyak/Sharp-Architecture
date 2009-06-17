@@ -1,5 +1,6 @@
 ﻿using MbUnit.Framework;
 using SharpArch.Data.NHibernate;
+using SharpArch.Testing.NHibernate;
 
 namespace SharpArch.Testing.MbUnit.NHibernate
 {
