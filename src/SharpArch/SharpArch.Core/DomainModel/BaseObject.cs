@@ -66,7 +66,7 @@ namespace SharpArch.Core.DomainModel
         /// <summary>
         /// You may override this method to provide your own comparison routine.
         /// </summary>
-        protected virtual bool HasSameObjectSignatureAs(BaseObject compareTo) {
+        public virtual bool HasSameObjectSignatureAs(BaseObject compareTo) {
             IEnumerable<PropertyInfo> signatureProperties = GetSignatureProperties();
 
             foreach (PropertyInfo property in signatureProperties) {

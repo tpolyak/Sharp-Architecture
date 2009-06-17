@@ -140,6 +140,7 @@ Solution Wide Changes:
 Changes to SharpArch:
 
 SharpArch.Core:
+* Possibly BREAKING CHANGE (but not likely) ~ /DomainModel/BaseObject.cs:  Changed HasSameObjectSignatureAs() to be public instead of protected since GetSignatureProperties() is also public and is a useful method to expose.  This will cause a build error if you've overridden this method; to fix, simply change the visibility of the overridden method to public.
 * /DomainModel/BaseObjectEqualityComparer.cs:  Added this class to provide support for LINQ set operators, such as Intersect.
 * /DomainModel/Entity.cs:  Modified the GetHashCode to cache the hashcode calculation and to use the object's Id in the calculation for persistent objects.  This was done because GetHashCode() was previously ignoring the Id property for Entities; therefore, two Entity instances which didn't have any domain signature properties were returning different hashcode values even if they had the same Id.
 
