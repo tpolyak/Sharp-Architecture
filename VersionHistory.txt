@@ -168,7 +168,7 @@ SharpArch.Web
 * /ModelBinder/SharpModelBinder.cs:  Added this model binder to replace the use of DefaultModelBinder (see documentation for details)
 * /ModelBinder/EntityValueProviderResult.cs:  Added this support class for SharpModelBinder (see documentation for details)
 * /NHibernate/WebSessionStorage:  Added overloaded constructor to accept a factory key to support multiple database sessions.
-* /NHibernate/TransactionAttribute:  Added option for passing in factory key to support multiple database.
+* /NHibernate/TransactionAttribute:  Added option for passing in factory key to support multiple database.  Also modified this transaction to rollback the transaction if a problem is encountered.
 
 =======
 Changes to Northwind (all changes also made to VS project template and Employee CRUD pages):
