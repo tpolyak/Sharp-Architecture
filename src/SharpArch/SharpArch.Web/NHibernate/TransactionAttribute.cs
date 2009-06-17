@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using SharpArch.Data.NHibernate;
 using System;
+using NHibernate;
 
 namespace SharpArch.Web.NHibernate
 {
@@ -22,13 +23,21 @@ namespace SharpArch.Web.NHibernate
             NHibernateSession.CurrentFor(GetEffectiveFactoryKey()).BeginTransaction();
 		}
 
-		public override void OnActionExecuted(ActionExecutedContext filterContext) {
+        public override void OnActionExecuted(ActionExecutedContext filterContext) {
             string effectiveFactoryKey = GetEffectiveFactoryKey();
 
-            if (filterContext.Exception == null && NHibernateSession.CurrentFor(effectiveFactoryKey).Transaction.IsActive) {
-                NHibernateSession.CurrentFor(effectiveFactoryKey).Transaction.Commit();
+            ITransaction currentTransaction = 
+                NHibernateSession.CurrentFor(effectiveFactoryKey).Transaction;
+
+            if (currentTransaction.IsActive) {
+                if (filterContext.Exception == null) {
+                    currentTransaction.Commit();
+                }
+                else {
+                    currentTransaction.Rollback();
+                }
             }
-		}
+        }
 
         private string GetEffectiveFactoryKey() {
             return String.IsNullOrEmpty(factoryKey)
