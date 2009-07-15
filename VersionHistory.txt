@@ -84,8 +84,6 @@ Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accomm
 
 #) NHibernate:  Within YourProject.Web, add a reference to NHibernate.ByteCode.Castle.dll
 
-#) NHibernate, NUnit, Castle:  Within YourProject.Tests/App.config, remove the assemly redirects for NHibernate and Iesi.Collections, and NUnit
-
 #) Castle:  Within YourProject.Tests/App.config, configure assemly redirects to reflect the following:
 
     <runtime>
