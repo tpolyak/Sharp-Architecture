@@ -10,7 +10,7 @@ Both files do the same thing but ClickToBuild.bat includes a pause so that you c
 -- How's this release organized?
 --------------------------------------------
 
-* /docs/:  Contains comprehensive documentation, Sharp_Architecture_Reference_Guide.doc, and a diagram of what a S#arp Architecture project looks like.
+* /docs/:  Contains a link to comprehensive, online documentation at http://wiki.sharparchitecture.net/, and a diagram of what a S#arp Architecture project looks like.
 
 * /bin/:  Holds released SharpArch assemblies and third party dependencies needed by a S#arp Architecture project.
 
