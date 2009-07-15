@@ -146,6 +146,7 @@ SharpArch.Testing.NUnit/MbUnit:
 
 SharpArch.Web:
 * /CommonValidator/MvcValidationAdapter.cs:  Added method overload to allow custom prefix to model state errors instead of the class name.
+* /ModelBinder/EntityValueProviderResult.cs:  Added support for Guid Ids
 
 SharpArch.Wcf:
 * Added this class library to support WCF.  WCF does NOT currently support multiple databases.

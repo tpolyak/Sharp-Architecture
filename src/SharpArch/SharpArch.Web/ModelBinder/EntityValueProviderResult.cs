@@ -40,11 +40,19 @@ namespace SharpArch.Web.ModelBinder
             if (string.IsNullOrEmpty(rawId))
                 return null;
 
-            object typedId = Convert.ChangeType(rawId, idType);
 
-            object entity = GetEntityFor(typedId, idType);
+            try {
+                object typedId =
+                    (idType == typeof(Guid))
+                        ? new Guid(rawId)
+                        : Convert.ChangeType(rawId, idType);
 
-            return entity;
+                return GetEntityFor(typedId, idType);
+            }
+            // If the Id conversion failed for any reason, just return null
+            catch (Exception) {
+                return null;
+            }
         }
 
         private object GetEntityFor(object typedId, Type idType) {
