@@ -4,6 +4,7 @@ using NHibernate.Validator.Engine;
 using System;
 using System.Collections.ObjectModel;
 using SharpArch.Core.CommonValidator;
+using SharpArch.Data.NHibernate;
 
 namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
 {
@@ -15,7 +16,7 @@ namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
     {
         static Validator()
         {
-            validator = new ValidatorEngine();
+            validator = NHibernateSession.ValidatorEngine ?? new ValidatorEngine();
         }
 
         public bool IsValid(object value) {

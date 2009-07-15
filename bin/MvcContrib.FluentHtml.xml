@@ -590,17 +590,19 @@
             Generate a literal (text inside a span element).
             </summary>
         </member>
-        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor(System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor(System.String,System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
             <summary>
             Generates a literal element (span).
             </summary>
+            <param name="name">The name of the element.</param>
             <param name="forMember">Expression indicating the view model member assocaited with the element</param>
             <param name="behaviors">Behaviors to apply to the element</param>
         </member>
-        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor">
+        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor(System.String)">
             <summary>
             Generates a literal element (span).
             </summary>
+            <param name="name">The name of the element.</param>
         </member>
         <member name="T:MvcContrib.FluentHtml.Elements.MultiSelect">
             <summary>
@@ -635,6 +637,31 @@
             <param name="behaviors">Behaviors to apply to the element</param>
         </member>
         <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect.Selected(System.Collections.IEnumerable)">
+            <summary>
+            Set the selected values.
+            </summary>
+            <param name="selectedValues">Values matching the values of options to be selected.</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.MultiSelect`1">
+            <summary>
+            Generate a select HTML element with multiselect attribute = 'true.'
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect`1.#ctor(System.String)">
+            <summary>
+            Generate a select HTML element with multiselect attribute = 'true.'
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect`1.#ctor(System.String,System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+            <summary>
+            Generate a select HTML element with multiselect attribute = 'true'
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+            <param name="forMember">Expression indicating the view model member assocaited with the element</param>
+            <param name="behaviors">Behaviors to apply to the element</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect`1.Selected(System.Collections.IEnumerable)">
             <summary>
             Set the selected values.
             </summary>
@@ -713,6 +740,32 @@
             <param name="behaviors">Behaviors to apply to the element.</param>
         </member>
         <member name="M:MvcContrib.FluentHtml.Elements.Select.Selected(System.Object)">
+            <summary>
+            Set the selected option.
+            </summary>
+            <param name="selectedValue">A value matching the option to be selected.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.Select`1">
+            <summary>
+            Generate and HTML select element.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Select`1.#ctor(System.String)">
+            <summary>
+            Generate an HTML select element.
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Select`1.#ctor(System.String,System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+            <summary>
+            Generate an HTML select element.
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+            <param name="forMember">Expression indicating the model member assocaited with the element.</param>
+            <param name="behaviors">Behaviors to apply to the element.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Select`1.Selected(System.Object)">
             <summary>
             Set the selected option.
             </summary>
@@ -867,6 +920,14 @@
             Generate an HTML span element.
             </summary>
             <param name="view">The view.</param>
+            <param name="value">The inner text.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.Literal(System.Web.Mvc.IViewDataContainer,System.String,System.Object)">
+            <summary>
+            Generate an HTML span element.
+            </summary>
+            <param name="view">The view.</param>
+            <param name="name">The name of the element.</param>
             <param name="value">The inner text.</param>
         </member>
         <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.FormLiteral(System.Web.Mvc.IViewDataContainer,System.String)">

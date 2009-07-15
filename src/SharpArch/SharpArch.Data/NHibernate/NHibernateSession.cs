@@ -190,6 +190,12 @@ namespace SharpArch.Data.NHibernate
             }
         }
 
+        /// <summary>
+        /// Provides an access to configured<see cref="ValidatorEngine"/>.
+        /// </summary>
+        /// <value>The validator engine.</value>
+        public static ValidatorEngine ValidatorEngine { get; set; }
+
         private static void RemoveOneAndOnlySessionFactory() {
             Check.Require(SessionFactories.Count <= 1, "This may only be invoked if SessionFactories " +
                 "contains 1 or fewer items; it currently contains " + SessionFactories.Count);
@@ -309,6 +315,8 @@ namespace SharpArch.Data.NHibernate
 
             // Register validation listeners with the current NHib configuration
             ValidatorInitializer.Initialize(cfg, engine);
+
+            ValidatorEngine = engine;
         }
 
         private static IInterceptor RegisteredInterceptor;

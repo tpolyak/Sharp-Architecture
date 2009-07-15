@@ -303,6 +303,22 @@
             <param name="action">An expression which identifies the action to redirect to on the controller of type <typeparamref name="T"/></param>
             <returns>A <see cref="T:System.Web.Mvc.RedirectToRouteResult"/> pointing to the action specified by the <paramref name="action"/> expression</returns>
         </member>
+        <member name="M:MvcContrib.ControllerExtensions.RemoveReferenceTypesFromRouteValues(System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            The ExpressionHelper.GetRouteValuesFromExpression() method in MVC Futures will 
+            put all parameters from the lambda expression into the route value dictionary,
+            but if the parameter is a reference type, that doesn't make sense and leads to 
+            URLs like http://mysite.com/account/add?model=MyProject.AccountViewModel and
+            extraneous errors in ModelState.  So we'll strip out those reference types
+            in here.
+            
+            If you really wanted to have a reference type in the route value dictionary,
+            you should override ToString() in the object and have it return something 
+            meaningful that could be added to the route value dictionary.  If you do that,
+            this method will see the route value as a string and will not strip it out.
+            </summary>
+            <param name="dictionary"></param>
+        </member>
         <member name="M:MvcContrib.ControllerExtensions.IsController(System.Type)">
             <summary>
             Determines whether the specified type is a controller
@@ -1217,13 +1233,6 @@
             </summary>
             <param name="name"></param>
         </member>
-        <member name="M:MvcContrib.UI.Grid.ColumnBuilder`1.ExpressionToName``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
-            <summary>
-            Grabs the property name from a member expression.
-            </summary>
-            <param name="expression">The expression</param>
-            <returns>The name of the property</returns>
-        </member>
         <member name="T:MvcContrib.UI.Grid.GridColumn`1">
             <summary>
             Column for the grid
@@ -1296,7 +1305,7 @@
             Custom item renderer
             </summary>
         </member>
-        <member name="M:MvcContrib.UI.Grid.GridColumn`1.#ctor(System.Func{`0,System.Object},System.String)">
+        <member name="M:MvcContrib.UI.Grid.GridColumn`1.#ctor(System.Func{`0,System.Object},System.String,System.Type)">
             <summary>
             Creates a new instance of the GridColumn class
             </summary>
@@ -1316,6 +1325,12 @@
         <member name="P:MvcContrib.UI.Grid.GridColumn`1.DisplayName">
             <summary>
             Display name for the column
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridColumn`1.ColumnType">
+            <summary>
+            The type of the object being rendered for thsi column. 
+            Note: this will return null if the type cannot be inferred.
             </summary>
         </member>
         <member name="P:MvcContrib.UI.Grid.GridColumn`1.CustomHeaderRenderer">
@@ -2310,6 +2325,12 @@
             <summary>
             Text for the 'last' link
             </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Pager.Pager.Link(System.Func{System.Int32,System.String})">
+            <summary>
+            Uses a lambda expression to generate the URL for the page links.
+            </summary>
+            <param name="urlBuilder">Lambda expression for generating the URL used in the page links</param>
         </member>
         <member name="T:MvcContrib.UI.Pager.PaginationExtensions">
             <summary>

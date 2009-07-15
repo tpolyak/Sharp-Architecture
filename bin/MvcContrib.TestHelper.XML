@@ -35,6 +35,13 @@
             <param name="result">The result to convert.</param>
             <returns></returns>
         </member>
+        <member name="M:MvcContrib.TestHelper.ActionResultHelper.AssertPartialViewRendered(System.Web.Mvc.ActionResult)">
+            <summary>
+            Asserts that the action result is a RenderPartialViewResult
+            </summary>
+            <param name="result">The result to convert</param>
+            <returns></returns>
+        </member>
         <member name="M:MvcContrib.TestHelper.ActionResultHelper.AssertHttpRedirect(System.Web.Mvc.ActionResult)">
             <summary>
             Asserts that the action result is a HttpRedirectResult.
@@ -83,12 +90,29 @@
             <param name="value">The expected value.</param>
             <returns></returns>
         </member>
+        <member name="M:MvcContrib.TestHelper.ActionResultHelper.GetStronglyTypedParameter(System.Web.Mvc.RedirectToRouteResult,System.Web.Mvc.Controller,System.String)">
+            <summary>
+            Gets a parameter from a RedirectToRouteResult.
+            </summary>
+            <param name="result">The result to check.</param>
+            <param name="controller">The controller that you redirected FROM.</param>
+            <param name="paramName">The name of the parameter to check for.</param>
+            <returns></returns>
+        </member>
         <member name="M:MvcContrib.TestHelper.ActionResultHelper.ForView(System.Web.Mvc.ViewResult,System.String)">
             <summary>
             Asserts that a RenderViewResult is rendering the specified view.
             </summary>
             <param name="result">The result to check.</param>
             <param name="viewName">The name of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.ActionResultHelper.ForView(System.Web.Mvc.PartialViewResult,System.String)">
+            <summary>
+            Asserts that a RenderPartialViewResult is rendering the specified partial view
+            </summary>
+            <param name="result">The result to check</param>
+            <param name="partialViewName">The name of the partial view</param>
             <returns></returns>
         </member>
         <member name="M:MvcContrib.TestHelper.ActionResultHelper.ToUrl(System.Web.Mvc.RedirectResult,System.String)">
@@ -98,6 +122,16 @@
             <param name="result">The result to check</param>
             <param name="url">The URL that the result should be redirecting to.</param>
             <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.ActionResultHelper.WithViewData``1(System.Web.Mvc.PartialViewResult)">
+            <summary>
+            Asserts that a RenderViewResult's value has been set using a strongly typed value, returning that value if successful.
+            If the type is a reference type, a view data set to null will be returned as null.
+            If the type is a value type, a view data set to null will throw an exception.
+            </summary>
+            <typeparam name="TViewData">The custom type for the view data.</typeparam>
+            <param name="actionResult">The result to check.</param>
+            <returns>The ViewData in it's strongly-typed form.</returns>
         </member>
         <member name="M:MvcContrib.TestHelper.ActionResultHelper.WithViewData``1(System.Web.Mvc.ViewResult)">
             <summary>

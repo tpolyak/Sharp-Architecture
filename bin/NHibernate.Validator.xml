@@ -72,8 +72,11 @@
         </member>
         <member name="M:NHibernate.Validator.Engine.ClassValidator.#ctor(System.Type)">
             <summary>
-            Create the validator engine for this entity type
+            Create the validator engine for this entity type. 
             </summary>
+            <remarks>
+            Used in Unit Testing.
+            </remarks>
             <param name="entityType"></param>
         </member>
         <member name="M:NHibernate.Validator.Engine.ClassValidator.#ctor(System.Type,System.Resources.ResourceManager,System.Globalization.CultureInfo,NHibernate.Validator.Engine.ValidatorMode)">
@@ -81,6 +84,9 @@
             Create the validator engine for a particular entity class, using a resource bundle
             for message rendering on violation
             </summary>
+            <remarks>
+            Used in Unit Testing.
+            </remarks>
             <param name="entityType">entity type</param>
             <param name="resourceManager"></param>
             <param name="culture">The CultureInfo for the <paramref name="entityType"/>.</param>
@@ -91,6 +97,9 @@
             Create the validator engine for a particular entity class, using a resource bundle
             for message rendering on violation
             </summary>
+            <remarks>
+            Used in Unit Testing.
+            </remarks>
             <param name="entityType">entity type</param>
             <param name="resourceManager"></param>
             <param name="userInterpolator">Custom interpolator.</param>
@@ -644,6 +653,11 @@
         <member name="F:NHibernate.Validator.Cfg.Environment.MappingLoaderClass">
             <summary>
             Mapping loader implementor.
+            </summary>
+        </member>
+        <member name="F:NHibernate.Validator.Cfg.Environment.ConstraintValidatorFactory">
+            <summary>
+            Constraint Validator Factory used to create Validators.
             </summary>
         </member>
         <member name="F:NHibernate.Validator.Cfg.Environment.ValidatorMode">

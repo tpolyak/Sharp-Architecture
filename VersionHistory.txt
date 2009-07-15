@@ -21,15 +21,15 @@ Assembly Dependencies:
 * ASP.NET MVC 1.0
 * ASP.NET MVC 1.0 Futures
 * Castle Windsor 2.0
-* Fluent NHibernate 0.1 (rev 531) built against NHibernate 2.1 Beta 1
+* Fluent NHibernate 0.1 (rev 539) built against NHibernate 2.1 CR 1
 * jQuery 1.3.2
-* Json.NET 3.5 Beta 3
+* Json.NET 3.5 Beta 4
 * log4net 1.2.10.0
 * Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
-* MvcContrib for MVC 1.0 (rev 946)
-* NHibernate 2.1.0.2001 (2.1 Beta 1)
-* NHibernate.Linq 1.0 (rev 901)
-* NHibernate.Validator 1.2.0.1004 (rev 905)
+* MvcContrib for MVC 1.0 (rev 959)
+* NHibernate 2.1.0.3001 (2.1 CR 1)
+* NHibernate.Linq 1.0 (rev 935)
+* NHibernate.Validator 1.2.0.1004 (rev 935)
 * NUnit 2.5.0.9122 (Installer in /tools)
 * Rhino.Mocks 3.5.0.1337
 * System.Data.SQLite.DLL 1.0.60.0
@@ -49,7 +49,9 @@ Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accomm
 
 #) NUnit:  Change any use of ExpectedException attributes to use Assert.Throws instead; see http://mint.litemedia.se/2009/05/30/new-expectedexception-model-in-nunit-25/ for details
 
-#) T4 Toolbox:  Uninstall any previous version of T4 Toolbox and install T4 Toolbox 9.5 (installer found in /tools)
+#) T4 Toolbox:  Uninstall any previous version of T4 Toolbox and install T4 Toolbox 9.5.20.1 (installer found in /tools)
+
+#) T4 Toolbox:  Replace your version of CrudScaffolding/EntityScaffoldingDetails.tt and CrudScaffolding/Templates/ScaffoldingGenerator.tt with updated versions from http://sharp-architecture.googlecode.com/svn/trunk/src/NorthwindSample/tools/CrudScaffolding/
 
 #) SharpArch:  To easily update all the assembly references in your existing project, create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is simpler.)
 
@@ -84,40 +86,24 @@ Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accomm
 
 #) NHibernate, NUnit, Castle:  Within YourProject.Tests/App.config, remove the assemly redirects for NHibernate and Iesi.Collections, and NUnit
 
-#) NHibernate, Castle:  Within YourProject.Tests/App.config, configure assemly redirects to reflect the following:
+#) Castle:  Within YourProject.Tests/App.config, configure assemly redirects to reflect the following:
 
     <runtime>
         <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
             <dependentAssembly>
-                <assemblyIdentity name="Castle.Core" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
-                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="1.1.0.0"/>
-            </dependentAssembly>
-            <dependentAssembly>
                 <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
                 <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
-            </dependentAssembly>
-            <dependentAssembly>
-                <assemblyIdentity name="NHibernate" publicKeyToken="aa95f207798dfdb4" culture="neutral"/>
-                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.2001"/>
             </dependentAssembly>
         </assemblyBinding>
     </runtime>
 
-#) NHibernate, Castle:  Within YourProject.Web/Web.config, configure assemly redirects to reflect the following:
+#) Castle:  Within YourProject.Web/Web.config, configure assemly redirects to reflect the following:
 
     <runtime>
         <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
             <dependentAssembly>
-                <assemblyIdentity name="Castle.Core" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
-                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="1.1.0.0"/>
-            </dependentAssembly>
-            <dependentAssembly>
                 <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
                 <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
-            </dependentAssembly>
-            <dependentAssembly>
-                <assemblyIdentity name="NHibernate" publicKeyToken="aa95f207798dfdb4" culture="neutral"/>
-                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.2001"/>
             </dependentAssembly>
         </assemblyBinding>
     </runtime>
@@ -157,6 +143,9 @@ SharpArch.Data:
 SharpArch.Testing.NUnit/MbUnit:
 * /NHibernate/RepositoryTestsHelper.cs:  Dropped the previously 4th parameter, a bool for formatting, to support the modified signature of NHibernate's SchemaExport.Execute()
 * BREAKING CHANGE ~ /NHibernate/RepositoryTestsHelper.cs:  Moved this helper class to SharpArch.Testing.NHibernate as it does not have dependencies on NUnit nor on MbUnit
+
+SharpArch.Web:
+* /CommonValidator/MvcValidationAdapter.cs:  Added method overload to allow custom prefix to model state errors instead of the class name.
 
 SharpArch.Wcf:
 * Added this class library to support WCF.  WCF does NOT currently support multiple databases.

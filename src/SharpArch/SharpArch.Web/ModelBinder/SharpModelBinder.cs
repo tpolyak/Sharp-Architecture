@@ -37,7 +37,8 @@ namespace SharpArch.Web.ModelBinder
 
             // Transfer any errors exposed by IValidator to the ModelState
             if (bindingContext.Model is IValidatable) {
-                MvcValidationAdapter.TransferValidationMessagesTo(bindingContext.ModelState,
+                MvcValidationAdapter.TransferValidationMessagesTo(
+                    bindingContext.ModelName, bindingContext.ModelState,
                     ((IValidatable)bindingContext.Model).ValidationResults());
             }
         }

@@ -225,6 +225,136 @@
             <param name="expression">Expression to get property from</param>
             <returns>many-to-many part</returns>
         </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.WithTable(System.String)">
+            <summary>
+            Sets the table for the class.
+            </summary>
+            <param name="tableName">Table name</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.SchemaIs(System.String)">
+            <summary>
+            Sets the hibernate-mapping schema for this class.
+            </summary>
+            <param name="schema">Schema name</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.AutoImport">
+            <summary>
+            Sets the hibernate-mapping auto-import for this class.
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.LazyLoad">
+            <summary>
+            Sets this entity to be lazy-loaded (overrides the default lazy load configuration).
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.ImportType``1">
+            <summary>
+            Imports an existing type for use in the mapping.
+            </summary>
+            <typeparam name="TImport">Type to import.</typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.ReadOnly">
+            <summary>
+            Set the mutability of this class, sets the mutable attribute.
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.DynamicUpdate">
+            <summary>
+            Sets this entity to be dynamic update
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.IClassMap.DynamicInsert">
+            <summary>
+            Sets this entity to be dynamic insert
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.IClassMap.OptimisticLock">
+            <summary>
+            Sets the optimistic locking strategy
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.IClassMap.Not">
+            <summary>
+            Inverse next boolean
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.SetAttribute(System.String,System.String)">
+            <summary>
+            Set an attribute on the xml element produced by this class mapping.
+            </summary>
+            <param name="name">Attribute name</param>
+            <param name="value">Attribute value</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.SchemaIs(System.String)">
+            <summary>
+            Sets the hibernate-mapping schema for this class.
+            </summary>
+            <param name="schema">Schema name</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.AutoImport">
+            <summary>
+            Sets the hibernate-mapping auto-import for this class.
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.WithTable(System.String)">
+            <summary>
+            Sets the table for the class.
+            </summary>
+            <param name="tableName">Table name</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.LazyLoad">
+            <summary>
+            Sets this entity to be lazy-loaded (overrides the default lazy load configuration).
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.WithTable(System.String,System.Action{FluentNHibernate.Mapping.JoinPart{`0}})">
+            <summary>
+            Sets additional tables for the class via the NH 2.0 Join element.
+            </summary>
+            <param name="tableName">Joined table name</param>
+            <param name="action">Joined table mapping</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ImportType``1">
+            <summary>
+            Imports an existing type for use in the mapping.
+            </summary>
+            <typeparam name="TImport">Type to import.</typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ReadOnly">
+            <summary>
+            Set the mutability of this class, sets the mutable attribute.
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.DynamicUpdate">
+            <summary>
+            Sets this entity to be dynamic update
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.DynamicInsert">
+            <summary>
+            Sets this entity to be dynamic insert
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.ClassMap`1.Cache">
+            <summary>
+            Specify caching for this entity.
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.ClassMap`1.DefaultAccess">
+            <summary>
+            Set the default access and naming strategies for this entire mapping.
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.ClassMap`1.Not">
+            <summary>
+            Inverse next boolean
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.ClassMap`1.OptimisticLock">
+            <summary>
+            Sets the optimistic locking strategy
+            </summary>
+        </member>
         <member name="M:FluentNHibernate.Mapping.ISubclass.LazyLoad">
             <summary>
             Sets whether this subclass is lazy loaded
@@ -1311,136 +1441,6 @@
         <member name="T:FluentNHibernate.Conventions.Defaults.HasManyToManyMethodAccessorBackingFieldNamingConvention">
             <summary>
             Default HasManyToMany backing field naming convention
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.WithTable(System.String)">
-            <summary>
-            Sets the table for the class.
-            </summary>
-            <param name="tableName">Table name</param>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.SchemaIs(System.String)">
-            <summary>
-            Sets the hibernate-mapping schema for this class.
-            </summary>
-            <param name="schema">Schema name</param>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.AutoImport">
-            <summary>
-            Sets the hibernate-mapping auto-import for this class.
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.LazyLoad">
-            <summary>
-            Sets this entity to be lazy-loaded (overrides the default lazy load configuration).
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.ImportType``1">
-            <summary>
-            Imports an existing type for use in the mapping.
-            </summary>
-            <typeparam name="TImport">Type to import.</typeparam>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.ReadOnly">
-            <summary>
-            Set the mutability of this class, sets the mutable attribute.
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.DynamicUpdate">
-            <summary>
-            Sets this entity to be dynamic update
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.IClassMap.DynamicInsert">
-            <summary>
-            Sets this entity to be dynamic insert
-            </summary>
-        </member>
-        <member name="P:FluentNHibernate.Mapping.IClassMap.OptimisticLock">
-            <summary>
-            Sets the optimistic locking strategy
-            </summary>
-        </member>
-        <member name="P:FluentNHibernate.Mapping.IClassMap.Not">
-            <summary>
-            Inverse next boolean
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.SetAttribute(System.String,System.String)">
-            <summary>
-            Set an attribute on the xml element produced by this class mapping.
-            </summary>
-            <param name="name">Attribute name</param>
-            <param name="value">Attribute value</param>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.SchemaIs(System.String)">
-            <summary>
-            Sets the hibernate-mapping schema for this class.
-            </summary>
-            <param name="schema">Schema name</param>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.AutoImport">
-            <summary>
-            Sets the hibernate-mapping auto-import for this class.
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.WithTable(System.String)">
-            <summary>
-            Sets the table for the class.
-            </summary>
-            <param name="tableName">Table name</param>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.LazyLoad">
-            <summary>
-            Sets this entity to be lazy-loaded (overrides the default lazy load configuration).
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.WithTable(System.String,System.Action{FluentNHibernate.Mapping.JoinPart{`0}})">
-            <summary>
-            Sets additional tables for the class via the NH 2.0 Join element.
-            </summary>
-            <param name="tableName">Joined table name</param>
-            <param name="action">Joined table mapping</param>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ImportType``1">
-            <summary>
-            Imports an existing type for use in the mapping.
-            </summary>
-            <typeparam name="TImport">Type to import.</typeparam>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ReadOnly">
-            <summary>
-            Set the mutability of this class, sets the mutable attribute.
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.DynamicUpdate">
-            <summary>
-            Sets this entity to be dynamic update
-            </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.DynamicInsert">
-            <summary>
-            Sets this entity to be dynamic insert
-            </summary>
-        </member>
-        <member name="P:FluentNHibernate.Mapping.ClassMap`1.Cache">
-            <summary>
-            Specify caching for this entity.
-            </summary>
-        </member>
-        <member name="P:FluentNHibernate.Mapping.ClassMap`1.DefaultAccess">
-            <summary>
-            Set the default access and naming strategies for this entire mapping.
-            </summary>
-        </member>
-        <member name="P:FluentNHibernate.Mapping.ClassMap`1.Not">
-            <summary>
-            Inverse next boolean
-            </summary>
-        </member>
-        <member name="P:FluentNHibernate.Mapping.ClassMap`1.OptimisticLock">
-            <summary>
-            Sets the optimistic locking strategy
             </summary>
         </member>
         <member name="T:FluentNHibernate.Cfg.FluentMappingsContainer">
