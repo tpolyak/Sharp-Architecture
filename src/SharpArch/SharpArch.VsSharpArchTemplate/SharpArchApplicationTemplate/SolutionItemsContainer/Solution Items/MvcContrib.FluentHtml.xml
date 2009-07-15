@@ -4,19 +4,24 @@
         <name>MvcContrib.FluentHtml</name>
     </assembly>
     <members>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.IModelStateHandler">
+            <summary>
+            Used internally by the ValidationBehavior to handle ModelState values for a particular element type.
+            </summary>
+        </member>
         <member name="T:MvcContrib.FluentHtml.Behaviors.ISupportsMaxLength">
             <summary>
             Marker interface indicating that a particular element supports the maxlength HTML attribute.
             </summary>
         </member>
-        <member name="T:MvcContrib.FluentHtml.Elements.CheckBox">
+        <member name="T:MvcContrib.FluentHtml.Elements.Button">
             <summary>
-            Generate an HTML input element of type 'checkbox.'
+            Generate an HTML input element of type 'button.'
             </summary>
         </member>
-        <member name="T:MvcContrib.FluentHtml.Elements.CheckBoxBase`1">
+        <member name="T:MvcContrib.FluentHtml.Elements.ButtonBase`1">
             <summary>
-            Base class for HTML input element of type 'checkbox.'
+            Base class for HTML input element of type '.'
             </summary>
         </member>
         <member name="T:MvcContrib.FluentHtml.Elements.Input`1">
@@ -66,9 +71,35 @@
             </summary>
             <param name="name">The name of the attribute.</param>
         </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.IElement.RemoveAttr(System.String)">
+            <summary>
+            Remove an attribute.
+            </summary>
+            <param name="name">The name of the attribute to remove.</param>
+        </member>
         <member name="P:MvcContrib.FluentHtml.Elements.IElement.Builder">
             <summary>
             TagBuilder object used to generate HTML.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.FluentHtml.Elements.IElement.TagRenderMode">
+            <summary>
+            How the tag should be closed.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.FluentHtml.Elements.IElement.LabelBeforeText">
+            <summary>
+            The text for the label rendered before the element.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.FluentHtml.Elements.IElement.LabelAfterText">
+            <summary>
+            The text for the label rendered after the element.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.FluentHtml.Elements.IElement.LabelClass">
+            <summary>
+            The class for labels rendered before or after the element.
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "P:MvcContrib.FluentHtml.Elements.IMemberElement.ForMember" -->
@@ -104,19 +135,6 @@
             <param name="value">The value for the attribute.</param>
             <returns></returns>
         </member>
-        <member name="M:MvcContrib.FluentHtml.Elements.Element`1.SetAttr(System.String,System.Object)">
-            <summary>
-            Set the value of the specified attribute.
-            </summary>
-            <param name="name">The name of the attribute.</param>
-            <param name="value">The value of the attribute.</param>
-        </member>
-        <member name="M:MvcContrib.FluentHtml.Elements.Element`1.GetAttr(System.String)">
-            <summary>
-            Get the value of the specified attribute.
-            </summary>
-            <param name="name">The name of the attribute.</param>
-        </member>
         <member name="M:MvcContrib.FluentHtml.Elements.Element`1.Attr(System.String,System.Object)">
             <summary>
             Set the value of a specified attribute.
@@ -150,28 +168,36 @@
             </summary>
             <param name="value">The inner text of the label.</param>
         </member>
-        <member name="M:MvcContrib.FluentHtml.Elements.Element`1.RemoveAttr(System.String)">
-            <summary>
-            Remove an attribute.
-            </summary>
-            <param name="name">The name of the attribute to remove.</param>
-        </member>
-        <member name="P:MvcContrib.FluentHtml.Elements.Element`1.Builder">
+        <member name="P:MvcContrib.FluentHtml.Elements.Element`1.MvcContrib#FluentHtml#Elements#IElement#Builder">
             <summary>
             TagBuilder object used to generate HTML for elements.
             </summary>
         </member>
-        <member name="P:MvcContrib.FluentHtml.Elements.Element`1.TagRenderMode">
-            <summary>
-            How the tag should be closed.
-            </summary>
-        </member>
-        <!-- Badly formed XML comment ignored for member "P:MvcContrib.FluentHtml.Elements.Element`1.ForMember" -->
         <member name="M:MvcContrib.FluentHtml.Elements.DisableableElement`1.Disabled(System.Boolean)">
             <summary>
             Set the disabled attribute.
             </summary>
             <param name="value">Whether the element should be disabled.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.ISupportsAutoLabeling.SetAutoLabel">
+            <summary>
+            If no label before has been explicitly set, set the label before using the element name.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.ISupportsAutoLabeling.SetAutoLabelAfter">
+            <summary>
+            If no label after has been explicitly set, set the label after using the element name.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.FormElement`1.AutoLabel">
+            <summary>
+            If no label has been explicitly set, set the label using the element name.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.FormElement`1.AutoLabelAfter">
+            <summary>
+            If no label before has been explicitly set, set the label before using the element name.
+            </summary>
         </member>
         <member name="P:MvcContrib.FluentHtml.Elements.FormElement`1.TagRenderMode">
             <summary>
@@ -189,6 +215,29 @@
             Set the 'size' attribute.
             </summary>
             <param name="value">The value for the attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Button.#ctor(System.String)">
+            <summary>
+            Generate an HTML input element of type 'button.'
+            </summary>
+            <param name="text">Value of the 'value' and 'name' attributes. Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Button.#ctor(System.String,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+            <summary>
+            Generate an HTML input element of type 'button.'
+            </summary>
+            <param name="text">Value of the 'value' and 'name' attributes. Also used to derive the 'id' attribute.</param>
+            <param name="behaviors">Behaviors to apply to the element.</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.CheckBox">
+            <summary>
+            Generate an HTML input element of type 'checkbox.'
+            </summary>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.CheckBoxBase`1">
+            <summary>
+            Base class for HTML input element of type 'checkbox.'
+            </summary>
         </member>
         <member name="M:MvcContrib.FluentHtml.Elements.CheckBoxBase`1.Checked(System.Boolean)">
             <summary>
@@ -242,6 +291,66 @@
             Specify the class for the input and label elements of each item.
             </summary>
             <param name="value">A format string.</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.Label">
+            <summary>
+            Generate a label (provides no visual difference, but can be tied to an input element to help with naviagation).
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.LabelBase`1.Value(System.Object)">
+            <summary>
+            Set the inner text of the span element.
+            </summary>
+            <param name="value">The value of the inner text.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.LabelBase`1.Format(System.String)">
+            <summary>
+            Specify a format string to be applied to the value.  The format string can be either a
+            specification (e.g., '$#,##0.00') or a placeholder (e.g., '{0:$#,##0.00}').
+            </summary>
+            <param name="value">A format string.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Label.#ctor(System.String,System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+            <summary>
+            Generates a label element.
+            </summary>
+            <param name="forElement">Value to be used for the 'for' attribute of the element.  Should be the 'id' of the input element this label is for.</param>
+            <param name="forMember">Expression indicating the view model member assocaited with the element.</param>
+            <param name="behaviors">Behaviors to apply to the element.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Label.#ctor(System.String)">
+            <summary>
+            Generates a label element.
+            </summary>
+            <param name="forElement">Value to be used for the 'for' attribute of the element.  Should be the 'id' of the input element this label is for.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Label.#ctor">
+            <summary>
+            Generates a label element.
+            </summary>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.ResetButton">
+            <summary>
+            Generate an HTML input element of type 'Reset.'
+            </summary>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.ResetButtonBase`1">
+            <summary>
+            Base class for HTML input element of type 'Reset.'
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.ResetButton.#ctor(System.String)">
+            <summary>
+            Generate an HTML input element of type 'Reset.'
+            </summary>
+            <param name="text">Value of the 'value' and 'name' attributes. Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.ResetButton.#ctor(System.String,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+            <summary>
+            Generate an HTML input element of type 'Reset.'
+            </summary>
+            <param name="text">Value of the 'value' and 'name' attributes. Also used to derive the 'id' attribute.</param>
+            <param name="behaviors">Behaviors to apply to the element.</param>
         </member>
         <member name="T:MvcContrib.FluentHtml.Elements.Index">
             <summary>
@@ -415,6 +524,32 @@
             </summary>
             <param name="value">A format string.</param>
         </member>
+        <member name="M:MvcContrib.FluentHtml.ModelStateDictionaryExtensions.AddModelError``1(System.Web.Mvc.ModelStateDictionary,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String)">
+            <summary>
+            Adds an error to the current model state.
+            </summary>
+            <typeparam name="T">The view model your view is using.</typeparam>
+            <param name="modelState">The current model state.</param>
+            <param name="keyExpression">An expression specifying the property on the view model to add an error for.</param>
+            <param name="errorMessage">The error message you're adding for the specified property.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.ModelStateDictionaryExtensions.AddModelError``1(System.Web.Mvc.ModelStateDictionary,System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.Exception)">
+            <summary>
+            Adds an error to the current model state.
+            </summary>
+            <typeparam name="T">The view model your view is using.</typeparam>
+            <param name="modelState">The current model state.</param>
+            <param name="keyExpression">An expression specifying the property on the view model to add an error for.</param>
+            <param name="exception">The exception you're adding for the specified property.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.StringExtensions.PascalCaseToPhrase(System.String)">
+            <summary>
+            Converts pascal case string into a phrase.  Treats consecutive capital 
+            letters as a word.  For example, 'HasABCDAcronym' would be tranformed to
+            'Has ABCD Acronym'
+            </summary>
+            <param name="s">A string containing pascal case words</param>
+        </member>
         <member name="T:MvcContrib.FluentHtml.Elements.SubmitButtonBase`1">
             <summary>
             Base class for HTML input element of type 'submit.'
@@ -455,17 +590,19 @@
             Generate a literal (text inside a span element).
             </summary>
         </member>
-        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor(System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor(System.String,System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
             <summary>
             Generates a literal element (span).
             </summary>
+            <param name="name">The name of the element.</param>
             <param name="forMember">Expression indicating the view model member assocaited with the element</param>
             <param name="behaviors">Behaviors to apply to the element</param>
         </member>
-        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor">
+        <member name="M:MvcContrib.FluentHtml.Elements.Literal.#ctor(System.String)">
             <summary>
             Generates a literal element (span).
             </summary>
+            <param name="name">The name of the element.</param>
         </member>
         <member name="T:MvcContrib.FluentHtml.Elements.MultiSelect">
             <summary>
@@ -500,6 +637,31 @@
             <param name="behaviors">Behaviors to apply to the element</param>
         </member>
         <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect.Selected(System.Collections.IEnumerable)">
+            <summary>
+            Set the selected values.
+            </summary>
+            <param name="selectedValues">Values matching the values of options to be selected.</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.MultiSelect`1">
+            <summary>
+            Generate a select HTML element with multiselect attribute = 'true.'
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect`1.#ctor(System.String)">
+            <summary>
+            Generate a select HTML element with multiselect attribute = 'true.'
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect`1.#ctor(System.String,System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+            <summary>
+            Generate a select HTML element with multiselect attribute = 'true'
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+            <param name="forMember">Expression indicating the view model member assocaited with the element</param>
+            <param name="behaviors">Behaviors to apply to the element</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect`1.Selected(System.Collections.IEnumerable)">
             <summary>
             Set the selected values.
             </summary>
@@ -578,6 +740,32 @@
             <param name="behaviors">Behaviors to apply to the element.</param>
         </member>
         <member name="M:MvcContrib.FluentHtml.Elements.Select.Selected(System.Object)">
+            <summary>
+            Set the selected option.
+            </summary>
+            <param name="selectedValue">A value matching the option to be selected.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Elements.Select`1">
+            <summary>
+            Generate and HTML select element.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Select`1.#ctor(System.String)">
+            <summary>
+            Generate an HTML select element.
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Select`1.#ctor(System.String,System.Linq.Expressions.MemberExpression,System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker})">
+            <summary>
+            Generate an HTML select element.
+            </summary>
+            <param name="name">Value of the 'name' attribute of the element.  Also used to derive the 'id' attribute.</param>
+            <param name="forMember">Expression indicating the model member assocaited with the element.</param>
+            <param name="behaviors">Behaviors to apply to the element.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.Select`1.Selected(System.Object)">
             <summary>
             Set the selected option.
             </summary>
@@ -706,11 +894,40 @@
             <param name="view">The view.</param>
             <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
         </member>
+        <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.Button(System.Web.Mvc.IViewDataContainer,System.String)">
+            <summary>
+            Generate an HTML input element of type 'button.'
+            </summary>
+            <param name="view">The view.</param>
+            <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.ResetButton(System.Web.Mvc.IViewDataContainer,System.String)">
+            <summary>
+            Generate an HTML input element of type 'reset.'
+            </summary>
+            <param name="view">The view.</param>
+            <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.Label(System.Web.Mvc.IViewDataContainer,System.String)">
+            <summary>
+            Generate an HTML label element;
+            </summary>
+            <param name="view">The view.</param>
+            <param name="forName">The id of the target element to point to in the 'for' attribute.</param>
+        </member>
         <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.Literal(System.Web.Mvc.IViewDataContainer,System.Object)">
             <summary>
             Generate an HTML span element.
             </summary>
             <param name="view">The view.</param>
+            <param name="value">The inner text.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.Literal(System.Web.Mvc.IViewDataContainer,System.String,System.Object)">
+            <summary>
+            Generate an HTML span element.
+            </summary>
+            <param name="view">The view.</param>
+            <param name="name">The name of the element.</param>
             <param name="value">The inner text.</param>
         </member>
         <member name="M:MvcContrib.FluentHtml.ViewDataContainerExtensions.FormLiteral(System.Web.Mvc.IViewDataContainer,System.String)">
@@ -814,6 +1031,14 @@
             <param name="view">The view.</param>
             <param name="expression">Expression indicating the ViewModel member associated with the element.</param>
         </member>
+        <member name="M:MvcContrib.FluentHtml.ViewModelContainerExtensions.Label``1(MvcContrib.FluentHtml.IViewModelContainer{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+            <summary>
+            Generate an HTML label element, point its "for" attribute to the input element from the provided expression, and set its inner text from the ViewModel based on the expression provided.
+            </summary>
+            <typeparam name="T">The type of the ViewModel.</typeparam>
+            <param name="view">The view.</param>
+            <param name="expression">Expression indicating the ViewModel member that has an input element associated with it.</param>
+        </member>
         <member name="M:MvcContrib.FluentHtml.ViewModelContainerExtensions.Literal``1(MvcContrib.FluentHtml.IViewModelContainer{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
             <summary>
             Generate an HTML span element and set its inner text from the ViewModel based on the expression provided.
@@ -861,7 +1086,7 @@
         <member name="M:MvcContrib.FluentHtml.ViewModelContainerExtensions.ValidationMessage``1(MvcContrib.FluentHtml.IViewModelContainer{``0},System.Linq.Expressions.Expression{System.Func{``0,System.Object}},System.String)">
             <summary>
             If ModelState contains an error for the specified view model member, generate an HTML span element with the 
-            specified message as inner text, or with the ModelState error message is the specified message is null.  If no
+            specified message as inner text, or with the ModelState error message if the specified message is null.  If no
             class is specified the class attribute of the span element will be 'field-validation-error'.
             </summary>
             <typeparam name="T">The type of the ViewModel.</typeparam>

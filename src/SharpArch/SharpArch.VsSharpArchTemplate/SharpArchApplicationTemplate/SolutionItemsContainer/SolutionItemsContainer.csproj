@@ -35,6 +35,7 @@
     </ItemGroup>
     <ItemGroup>
         <Content Include="CommonAssemblyInfo.cs" />
+        <Content Include="Solution Items\Antlr3.Runtime.dll" />
         <Content Include="Solution Items\Castle.Core.dll" />
         <Content Include="Solution Items\Castle.Core.xml" />
         <Content Include="Solution Items\Castle.DynamicProxy2.dll" />
@@ -75,10 +76,11 @@
         <Content Include="Solution Items\NHibernate.xml" />
         <Content Include="Solution Items\SharpArch.Core.dll" />
         <Content Include="Solution Items\SharpArch.Core.NHibernateValidator.dll" />
-        <Content Include="Solution Items\SharpArch.Core.NHibernateValidator.pdb" />
         <Content Include="Solution Items\SharpArch.Data.dll" />
         <Content Include="Solution Items\SharpArch.Wcf.dll" />
         <Content Include="Solution Items\SharpArch.Wcf.pdb" />
+        <Content Include="Solution Items\SharpArch.WcfClient.Castle.dll" />
+        <Content Include="Solution Items\SharpArch.WcfClient.Castle.pdb" />
         <Content Include="Solution Items\SharpArch.Web.dll" />
         <Content Include="Solution Items\SharpArch.Web.Castle.dll" />
         <Content Include="Solution Items\SharpArch.Core.pdb" />

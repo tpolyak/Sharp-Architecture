@@ -19,6 +19,7 @@
                 <ProjectItem>MvcContrib.TestHelper.dll</ProjectItem>
 				<ProjectItem>MvcContrib.TestHelper.xml</ProjectItem>
 				<ProjectItem>nunit.framework.dll</ProjectItem>
+				<ProjectItem>nunit.framework.xml</ProjectItem>
 				<ProjectItem>Rhino.Mocks.dll</ProjectItem>
 				<ProjectItem>Rhino.Mocks.xml</ProjectItem>
 				<ProjectItem>SharpArch.Testing.dll</ProjectItem>

@@ -7,6 +7,7 @@ using NHibernate;
 using NHibernate.Metadata;
 using System;
 using $solutionname$.Data.NHibernateMaps;
+using SharpArch.Testing.NHibernate;
 
 namespace Tests.$solutionname$.Data.NHibernateMaps
 {

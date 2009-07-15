@@ -34,6 +34,7 @@
         <Content Include="Solution Items\MvcContrib.TestHelper.dll" />
 		<Content Include="Solution Items\MvcContrib.TestHelper.xml" />
 		<Content Include="Solution Items\nunit.framework.dll" />
+		<Content Include="Solution Items\nunit.framework.xml" />
         <Content Include="Solution Items\Rhino.Mocks.dll" />
         <Content Include="Solution Items\Rhino.Mocks.xml" />
         <Content Include="Solution Items\SharpArch.Testing.dll" />

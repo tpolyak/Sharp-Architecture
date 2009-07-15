@@ -2643,6 +2643,33 @@
             <param name="descriptor">The descriptor.</param>
             <returns></returns>
         </member>
+        <member name="M:Castle.MicroKernel.Registration.ComponentRegistration`1.UsingFactoryMethod``1(Castle.MicroKernel.Registration.Function{``0})">
+            <summary>
+            Uses a factory method to instantiate the component.
+            Requires the <see cref="T:Castle.Facilities.FactorySupport.FactorySupportFacility"/> to be installed.
+            </summary>
+            <typeparam name="T">Implementation type</typeparam>
+            <param name="factoryMethod">Factory method</param>
+            <returns></returns>
+        </member>
+        <member name="M:Castle.MicroKernel.Registration.ComponentRegistration`1.UsingFactoryMethod``1(System.Converter{Castle.MicroKernel.IKernel,``0})">
+            <summary>
+            Uses a factory method to instantiate the component.
+            Requires the <see cref="T:Castle.Facilities.FactorySupport.FactorySupportFacility"/> to be installed.
+            </summary>
+            <typeparam name="T">Implementation type</typeparam>
+            <param name="factoryMethod">Factory method</param>
+            <returns></returns>
+        </member>
+        <member name="M:Castle.MicroKernel.Registration.ComponentRegistration`1.UsingFactory``2(System.Converter{``0,``1})">
+            <summary>
+            Uses a factory to instantiate the component
+            </summary>
+            <typeparam name="U">Factory type. This factory has to be registered in the kernel.</typeparam>
+            <typeparam name="V">Implementation type.</typeparam>
+            <param name="factory">Factory invocation</param>
+            <returns></returns>
+        </member>
         <member name="P:Castle.MicroKernel.Registration.ComponentRegistration`1.Name">
             <summary>
             The name of the component. Will become the key for the component in the kernel.
@@ -2690,6 +2717,24 @@
             For example singleton and transient (also known as 'factory').
             </summary>
             <value>The with lifestyle.</value>
+        </member>
+        <member name="T:Castle.MicroKernel.Registration.KernelToT`1">
+            <summary>
+            Helper wrapper around Converter
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Castle.MicroKernel.Registration.GenericFactoryWithKernel`1">
+            <summary>
+            Helper factory class
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Castle.MicroKernel.Registration.GenericFactory`1">
+            <summary>
+            Helper factory class
+            </summary>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="T:Castle.MicroKernel.Registration.ComponentRegistration">
             <summary>

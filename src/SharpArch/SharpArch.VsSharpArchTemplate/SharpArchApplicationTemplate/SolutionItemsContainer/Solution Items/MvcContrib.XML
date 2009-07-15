@@ -175,6 +175,13 @@
             </summary>
             <param name="filterContext"></param>
         </member>
+        <member name="T:MvcContrib.Filters.PassParametersDuringRedirectAttribute">
+            <summary>
+            When placed on a controller or action, this attribute will ensure
+            that parameters passed into RedirectToAction&lt;T&gt;() will get
+            passed to the controller or action that this attribute is placed on.
+            </summary>
+        </member>
         <member name="T:MvcContrib.Filters.RescueAttribute">
             <summary>
             Filter attribute for handling errors.
@@ -295,6 +302,22 @@
             <param name="controller">The instance of the controller which provides access to this method</param>
             <param name="action">An expression which identifies the action to redirect to on the controller of type <typeparamref name="T"/></param>
             <returns>A <see cref="T:System.Web.Mvc.RedirectToRouteResult"/> pointing to the action specified by the <paramref name="action"/> expression</returns>
+        </member>
+        <member name="M:MvcContrib.ControllerExtensions.RemoveReferenceTypesFromRouteValues(System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            The ExpressionHelper.GetRouteValuesFromExpression() method in MVC Futures will 
+            put all parameters from the lambda expression into the route value dictionary,
+            but if the parameter is a reference type, that doesn't make sense and leads to 
+            URLs like http://mysite.com/account/add?model=MyProject.AccountViewModel and
+            extraneous errors in ModelState.  So we'll strip out those reference types
+            in here.
+            
+            If you really wanted to have a reference type in the route value dictionary,
+            you should override ToString() in the object and have it return something 
+            meaningful that could be added to the route value dictionary.  If you do that,
+            this method will see the route value as a string and will not strip it out.
+            </summary>
+            <param name="dictionary"></param>
         </member>
         <member name="M:MvcContrib.ControllerExtensions.IsController(System.Type)">
             <summary>
@@ -931,6 +954,226 @@
              CleanTabBuilder: <li></li>
             </summary>
         </member>
+        <member name="T:MvcContrib.UI.DataList.DataList`1">
+            <summary>
+            By default, the DataList displays the items in a single column, However, you can specify any number of columns.
+            </summary>
+            <example>
+            <code>
+                  Html.DataList(_dataSource)
+                      .NumberOfColumns(3)
+                      .RepeatHorizontally()
+                      .CellTemplate(x =&gt; { Writer.Write(x.ToLower()); })
+                      .CellCondition(x =&gt; x == &quot;test1&quot;)
+                      .EmptyDateSourceTemplate(() =&gt; { Writer.Write(&quot;There is no data available.&quot;); })
+                      .NoItemTemplate(() =&gt; { Writer.Write(&quot;No Data.&quot;); });
+            </code>
+            </example>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.IO.TextWriter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcContrib.UI.DataList.DataList`1"/> class.
+            </summary>
+            <param name="dataSource">The data source.</param>
+            <param name="writer">The writer.</param>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.IO.TextWriter,MvcContrib.Hash)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcContrib.UI.DataList.DataList`1"/> class.
+            </summary>
+            <param name="dataSource">The data source.</param>
+            <param name="writer">The writer.</param>
+            <param name="tableAttributes">The table attributes.</param>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.CellTemplate(System.Action{`0})">
+            <summary>
+            The main cell template.
+            </summary>
+            <param name="contentTemplate">The template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.EmptyDateSourceTemplate(System.Action)">
+            <summary>
+            If you provide an empty date source the it will use this template in the first cell.
+            </summary>
+            <param name="template">The template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.NoItemTemplate(System.Action)">
+            <summary>
+            If you have lets say two items and you repeat 3 times
+            then one cell is going to be empty so fill it with this template.
+            </summary>
+            <param name="template">The template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.CellCondition(System.Func{`0,System.Boolean})">
+            <summary>
+            Filters the items that will be rendered (This should normally be done in the database)
+            </summary>
+            <param name="func">The condition to check.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.CellAttributes(System.Func{System.Object,System.Object}[])">
+            <summary>
+            Attributes that go on every cell (&lt;td id=&quot;foo&quot; class=&quot;bar&quot;&gt;).
+            </summary>
+            <example>CellAttributes(id =&gt; &quot;foo&quot;, @class =&gt; &quot;bar&quot;)</example>
+            <param name="attributes">The attributes.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.ShouldRenderCell(`0)">
+            <summary>
+            Checks if a item should be rendered, this checks <see cref="M:MvcContrib.UI.DataList.DataList`1.CellCondition(System.Func{`0,System.Boolean})"/>.
+            </summary>
+            <param name="item">The item.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.NumberOfColumns(System.Int32)">
+            <summary>
+            The amount of Columns to render.
+            </summary>
+            <param name="amount">The amount.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.RepeatVertically">
+            <summary>
+            Repeats the items vertically.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.RepeatHorizontally">
+            <summary>
+            Repeats the items horizontally.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.RenderCell(`0)">
+            <summary>
+            Renders the cell.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.Render">
+            <summary>
+            Renders this DataList.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataList`1.ToString">
+            <summary>
+            Renders to the TextWriter, and returns null. 
+            This is by design so that it can be used with inline syntax in views.
+            </summary>
+            <returns>null</returns>
+        </member>
+        <member name="P:MvcContrib.UI.DataList.DataList`1.RepeatDirection">
+            <summary>
+            Gets or sets the repeat direction.
+            </summary>
+            <value>The repeat direction.</value>
+        </member>
+        <member name="P:MvcContrib.UI.DataList.DataList`1.RepeatColumns">
+            <summary>
+            Gets or sets the the amount of columns to display.
+            </summary>
+            <remarks>
+            If this property is set to 0, the DataList will displays its items in a single row or column, based on the value of the RepeatDirection property.
+            </remarks>
+            <value>The repeat columns.</value>
+        </member>
+        <member name="P:MvcContrib.UI.DataList.DataList`1.ItemRenderer">
+            <summary>
+            Gets or sets the item renderer. You should use <see cref="M:MvcContrib.UI.DataList.DataList`1.CellTemplate(System.Action{`0})"/>
+            </summary>
+            <value>The item renderer.</value>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataListExtensions.DataList``1(System.Web.Mvc.HtmlHelper,System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Create a DataList.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="helper">The helper.</param>
+            <param name="dataSource">The data source.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.DataList.DataListExtensions.DataList``1(System.Web.Mvc.HtmlHelper,System.Collections.Generic.IEnumerable{``0},System.Func{System.Object,System.Object}[])">
+            <summary>
+            Create a DataList.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="helper">The helper.</param>
+            <param name="dataSource">The data source.</param>
+            <param name="tableAttributes">The table attributes.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcContrib.UI.Grid.GridModel`1">
+            <summary>
+            Default model for grid
+            </summary>
+        </member>
+        <member name="T:MvcContrib.UI.Grid.IGridModel`1">
+            <summary>
+            Defines a grid model
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.#ctor">
+            <summary>
+            Creates a new instance of the GridModel class
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Empty(System.String)">
+            <summary>
+            Text that will be displayed when the grid has no data.
+            </summary>
+            <param name="emptyText">Text to display</param>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Func{System.Object,System.Object}[])">
+            <summary>
+            Defines additional attributes for the grid.
+            </summary>
+            <param name="hash"></param>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Defines additional attributes for the grid
+            </summary>
+            <param name="attributes"></param>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.RenderUsing(MvcContrib.UI.Grid.IGridRenderer{`0})">
+            <summary>
+            Specifies the Renderer to use with this grid. If omitted, the HtmlTableGridRenderer will be used. 
+            </summary>
+            <param name="renderer">The Renderer to use</param>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridModel`1.Column">
+            <summary>
+            Column builder for this grid model
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridModel`1.MvcContrib#UI#Grid#IGridModel{T}#Sections">
+            <summary>
+            Section overrides for this grid model.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridModel`1.Sections">
+            <summary>
+            Section overrides for this grid model.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.HtmlAttributeRendererExtensions.BuildHtmlAttributes(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Converts the specified attributes dictionary of key-value pairs into a string of HTML attributes. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.HtmlAttributeRendererExtensions.BuildHtmlAttributes(System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
+            <summary>
+            Converts the specified attributes dictionary of key-value pairs into a string of HTML attributes. 
+            </summary>
+            <param name="startSpace">Should it start with a space if <param name="attributes"/> isn't empty.</param>
+            <returns></returns>
+        </member>
         <member name="T:MvcContrib.UI.Grid.ActionSyntax.ActionSyntaxExtensions">
             <summary>
             Extension methods for the Grid that enable the alternative 'Action' syntax for rendering custom sections.
@@ -989,13 +1232,6 @@
             Specifies that a custom column should be constructed with the specified name.
             </summary>
             <param name="name"></param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.ColumnBuilder`1.ExpressionToName``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
-            <summary>
-            Grabs the property name from a member expression.
-            </summary>
-            <param name="expression">The expression</param>
-            <returns>The name of the property</returns>
         </member>
         <member name="T:MvcContrib.UI.Grid.GridColumn`1">
             <summary>
@@ -1069,7 +1305,7 @@
             Custom item renderer
             </summary>
         </member>
-        <member name="M:MvcContrib.UI.Grid.GridColumn`1.#ctor(System.Func{`0,System.Object},System.String)">
+        <member name="M:MvcContrib.UI.Grid.GridColumn`1.#ctor(System.Func{`0,System.Object},System.String,System.Type)">
             <summary>
             Creates a new instance of the GridColumn class
             </summary>
@@ -1084,6 +1320,17 @@
         <member name="P:MvcContrib.UI.Grid.GridColumn`1.Name">
             <summary>
             Name of the column
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridColumn`1.DisplayName">
+            <summary>
+            Display name for the column
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridColumn`1.ColumnType">
+            <summary>
+            The type of the object being rendered for thsi column. 
+            Note: this will return null if the type cannot be inferred.
             </summary>
         </member>
         <member name="P:MvcContrib.UI.Grid.GridColumn`1.CustomHeaderRenderer">
@@ -1104,60 +1351,6 @@
         <member name="P:MvcContrib.UI.Grid.GridColumn`1.Attributes">
             <summary>
             Additional attributes for the cell
-            </summary>
-        </member>
-        <member name="T:MvcContrib.UI.Grid.GridModel`1">
-            <summary>
-            Default model for grid
-            </summary>
-        </member>
-        <member name="T:MvcContrib.UI.Grid.IGridModel`1">
-            <summary>
-            Defines a grid model
-            </summary>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.#ctor">
-            <summary>
-            Creates a new instance of the GridModel class
-            </summary>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.Empty(System.String)">
-            <summary>
-            Text that will be displayed when the grid has no data.
-            </summary>
-            <param name="emptyText">Text to display</param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Func{System.Object,System.Object}[])">
-            <summary>
-            Defines additional attributes for the grid.
-            </summary>
-            <param name="hash"></param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Defines additional attributes for the grid
-            </summary>
-            <param name="attributes"></param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.RenderUsing(MvcContrib.UI.Grid.IGridRenderer{`0})">
-            <summary>
-            Specifies the Renderer to use with this grid. If omitted, the HtmlTableGridRenderer will be used. 
-            </summary>
-            <param name="renderer">The Renderer to use</param>
-        </member>
-        <member name="P:MvcContrib.UI.Grid.GridModel`1.Column">
-            <summary>
-            Column builder for this grid model
-            </summary>
-        </member>
-        <member name="P:MvcContrib.UI.Grid.GridModel`1.MvcContrib#UI#Grid#IGridModel{T}#Sections">
-            <summary>
-            Section overrides for this grid model.
-            </summary>
-        </member>
-        <member name="P:MvcContrib.UI.Grid.GridModel`1.Sections">
-            <summary>
-            Section overrides for this grid model.
             </summary>
         </member>
         <member name="T:MvcContrib.UI.Grid.Grid`1">
@@ -1336,6 +1529,11 @@
         <member name="M:MvcContrib.UI.Grid.GridExtensions.HeaderRowAttributes``1(MvcContrib.UI.Grid.IGridSections{``0},System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             Specifies custom attributes for the header row.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridExtensions.AutoGenerateColumns``1(MvcContrib.UI.Grid.Syntax.IGrid{``0})">
+            <summary>
+            Specifies that the grid's columns should be automatically generated from the public properties on the model object.
             </summary>
         </member>
         <member name="T:MvcContrib.UI.Grid.GridRenderer`1">
@@ -2127,6 +2325,12 @@
             <summary>
             Text for the 'last' link
             </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Pager.Pager.Link(System.Func{System.Int32,System.String})">
+            <summary>
+            Uses a lambda expression to generate the URL for the page links.
+            </summary>
+            <param name="urlBuilder">Lambda expression for generating the URL used in the page links</param>
         </member>
         <member name="T:MvcContrib.UI.Pager.PaginationExtensions">
             <summary>

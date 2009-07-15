@@ -1,4 +1,4 @@
-﻿<#@ assembly name="SharpArch.Core.dll" #>
+<#@ assembly name="SharpArch.Core.dll" #>
 <#@ assembly name="Inflector.Net.dll" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System" #>
@@ -48,6 +48,26 @@ public class EntityScaffoldingDetails {
 	public string[] NamespaceHierarchy {
 		get { return namespaceHierarchy; }
 		protected set { namespaceHierarchy = value; }
+	}
+	
+    /// <summary>
+	/// Returns the namespace of the entity delimitted.  Note that it adds the delimiter to the end 
+	/// before returning.  What follows are entity name => namespace results, assuming you pass in "." as the delimiter.
+	/// Horse => ""
+	/// Farm.Horse => "Farm."
+	/// Industry.Farm.Horse => "Industry.Farm."
+    /// </summary>
+	public string GetNamespaceDelimitedWith(string delimiter) {
+		if (NamespaceHierarchy == null)
+			return "";
+		
+		string delimitedNamespace = NamespaceHierarchy[0];
+		
+		for (int i=1; i < NamespaceHierarchy.Length; i++) {
+			delimitedNamespace += delimiter + NamespaceHierarchy[i];
+		}
+		
+		return delimitedNamespace + delimiter;
 	}
 
     /// <summary>

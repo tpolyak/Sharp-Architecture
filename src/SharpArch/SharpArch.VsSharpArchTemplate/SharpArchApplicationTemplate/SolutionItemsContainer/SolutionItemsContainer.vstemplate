@@ -17,6 +17,7 @@
 		<Project TargetFileName="SolutionItemsContainer.csproj" File="SolutionItemsContainer.csproj">
 			<ProjectItem ReplaceParameters="true" TargetFileName="CommonAssemblyInfo.cs">CommonAssemblyInfo.cs</ProjectItem>
 			<Folder Name="Solution Items">
+				<ProjectItem>Antlr3.Runtime.dll</ProjectItem>
 				<ProjectItem>Castle.Core.dll</ProjectItem>
 				<ProjectItem>Castle.Core.xml</ProjectItem>
 				<ProjectItem>Castle.DynamicProxy2.dll</ProjectItem>
@@ -57,7 +58,6 @@
 				<ProjectItem>NHibernate.xml</ProjectItem>
 				<ProjectItem>SharpArch.Core.dll</ProjectItem>
                 <ProjectItem>SharpArch.Core.NHibernateValidator.dll</ProjectItem>
-                <ProjectItem>SharpArch.Core.NHibernateValidator.pdb</ProjectItem>
                 <ProjectItem>SharpArch.Data.dll</ProjectItem>
 				<ProjectItem>SharpArch.Web.dll</ProjectItem>
                 <ProjectItem>SharpArch.Web.Castle.dll</ProjectItem>
@@ -71,6 +71,8 @@
 				<ProjectItem>System.Web.Routing.dll</ProjectItem>
                 <ProjectItem>SharpArch.Wcf.dll</ProjectItem>
                 <ProjectItem>SharpArch.Wcf.pdb</ProjectItem>
+                <ProjectItem>SharpArch.WcfClient.Castle.dll</ProjectItem>
+                <ProjectItem>SharpArch.WcfClient.Castle.pdb</ProjectItem>
 			</Folder>
 		</Project>
 	</TemplateContent>
