@@ -109,6 +109,13 @@ namespace Northwind.Web.Controllers.Organization
 			employeeToUpdate.FirstName = employeeFromForm.FirstName;
 			employeeToUpdate.LastName = employeeFromForm.LastName;
 			employeeToUpdate.PhoneExtension = employeeFromForm.PhoneExtension;
+
+            // Update the territory selections with those from the form
+            employeeToUpdate.Territories.Clear();
+
+            foreach (Territory territory in employeeFromForm.Territories) {
+                employeeToUpdate.Territories.Add(territory);
+            }
         }
 
         /// <summary>
