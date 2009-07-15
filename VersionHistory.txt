@@ -6,8 +6,9 @@ S#arp Architecture 1.0 RTM
 
 New and exciting in this release:
 * Compatible with ASP.NET MVC 1.0
-* All upgraded dependencies including NHibernate 2.1.0 Beta 1
-* We now have a community site at http://www.sharparchitecture.net (a flippin' ginormous thank you to Kyle Baley for setting this up)
+* All upgraded dependencies including NHibernate 2.1 CR 1
+* We now have a community site at http://www.sharparchitecture.net, still a work in progress (a flippin' ginormous thank you to Kyle Baley for setting this up)
+* S#arp Architecture documentation may now be found at http://wiki.sharparchitecture.net, still a work in progress  (a huge thanks to Joe Lowrance for migrating the docs)
 * Strongly typed action link for areas (SharpArch.Web.Areas.ActionLinkForAreas<> and BuildUrlFromExpressionForAreas<> - thanks Brad Buhrkuhl!)
 * Fluent NHibernate now using configuration classes
 * (Re)Introduced support for IIS 7 integrated mode
