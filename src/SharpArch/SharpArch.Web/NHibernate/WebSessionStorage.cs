@@ -1,62 +1,56 @@
 ﻿using System;
 using System.Web;
 using NHibernate;
+using SharpArch.Data;
 using SharpArch.Data.NHibernate;
 
 namespace SharpArch.Web.NHibernate
 {
-    public class WebSessionStorage : ISessionStorage
-    {
-        /// <summary>
-        /// Creates a WebSessionStorage instance for a single DB session.
-        /// </summary>
-        public WebSessionStorage(HttpApplication app) : this(app, null) { }
+	public class WebSessionStorage : ISessionStorage
+	{
+		public WebSessionStorage(HttpApplication app)
+		{
+			app.EndRequest += Application_EndRequest;
+		}
 
-        /// <summary>
-        /// Creates a WebSessionStorage instance for multiple databases. Each 
-        /// WebSessionStorage must be given a unique factoryKey for each database
-        /// that it will be connecting to.  The factoryKey will be referenced when
-        /// decorating repositories with <see cref="SessionFactoryAttribute"/>.
-        /// </summary>
-        /// <param name="factoryKey">An example would be "MyOtherDb"</param>
-        public WebSessionStorage(HttpApplication app, string factoryKey) {
-            app.EndRequest += Application_EndRequest;
+		public ISession GetSessionForKey(string factoryKey)
+		{
+			SimpleSessionStorage storage = GetSimpleSessionStorage();
+			return storage.GetSessionForKey(factoryKey);
+		}
 
-            if (!string.IsNullOrEmpty(factoryKey)) {
-                this.factoryKey = factoryKey;
-            }
-            // If a unique session identifier was not provided, then set a default identifier
-            else {
-                this.factoryKey = NHibernateSession.DefaultFactoryKey;
-            }
-        }
+		public void SetSessionForKey(string factoryKey, ISession session)
+		{
+			SimpleSessionStorage storage = GetSimpleSessionStorage();
+			storage.SetSessionForKey(factoryKey, session);
+		}
 
-        public ISession Session {
-            get {
-                HttpContext context = HttpContext.Current;
-                ISession session = context.Items[factoryKey] as ISession;
-                return session;
-            }
-            set {
-                HttpContext context = HttpContext.Current;
-                context.Items[factoryKey] = value;
-            }
-        }
+		public System.Collections.Generic.IEnumerable<ISession> GetAllSessions()
+		{
+			SimpleSessionStorage storage = GetSimpleSessionStorage();
+			return storage.GetAllSessions();
+		}
 
-        public string FactoryKey {
-            get { return factoryKey; }
-        }
+		private SimpleSessionStorage GetSimpleSessionStorage()
+		{
+			HttpContext context = HttpContext.Current;
+			SimpleSessionStorage storage = context.Items[HttpContextSessionStorageKey] as SimpleSessionStorage;
+			if (storage == null)
+			{
+				storage = new SimpleSessionStorage();
+				context.Items[HttpContextSessionStorageKey] = storage;
+			}
+			return storage;
+		}
 
-        private void Application_EndRequest(object sender, EventArgs e) {
-            ISession session = Session;
+		private static readonly string HttpContextSessionStorageKey = "HttpContextSessionStorageKey";
 
-            if (session != null) {
-                session.Close();
-                HttpContext context = HttpContext.Current;
-                context.Items.Remove(factoryKey);
-            }
-        }
+		private void Application_EndRequest(object sender, EventArgs e)
+		{
+			NHibernateSession.CloseAllSessions();
 
-        private string factoryKey;
-    }
+			HttpContext context = HttpContext.Current;
+			context.Items.Remove(HttpContextSessionStorageKey);
+		}
+	}
 }

@@ -18,23 +18,32 @@ namespace SharpArch.Testing.NHibernate
     public class RepositoryTestsHelper
     {
         public static void InitializeDatabase() {
-            InitializeNHibernateSession();
+            Configuration cfg = InitializeNHibernateSession();
             IDbConnection connection = NHibernateSession.Current.Connection;
             new SchemaExport(cfg).Execute(false, true, false, connection, null);
         }
 
-        public static void InitializeNHibernateSession() {
-            if (cfg != null) {
-                NHibernateSession.Storage = new SimpleSessionStorage();
-                NHibernateSession.SessionFactory = sessionFactory;
-            }
-            else {
-                string[] mappingAssemblies = GetMappingAssemblies();
-                AutoPersistenceModel autoPersistenceModel = GetAutoPersistenceModel(mappingAssemblies);
-                cfg = NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoPersistenceModel);
-                sessionFactory = NHibernateSession.SessionFactory;
-            }
+        public static Configuration InitializeNHibernateSession() {
+            string[] mappingAssemblies = GetMappingAssemblies();
+            AutoPersistenceModel autoPersistenceModel = GetAutoPersistenceModel(mappingAssemblies);
+            return NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoPersistenceModel);
         }
+
+		public static void Shutdown()
+		{
+			NHibernateSession.CloseAllSessions();
+			NHibernateSession.Reset();
+		}
+
+		public static void FlushSessionAndEvict(object instance)
+		{
+			// Commits any changes up to this point to the database
+			NHibernateSession.Current.Flush();
+
+			// Evicts the instance from the current session so that it can be loaded during testing;
+			// this gives the test a clean slate, if you will, to work with
+			NHibernateSession.Current.Evict(instance);
+		}
 
         public static string[] GetMappingAssemblies() {
             string mappingAssembliesSetting = ConfigurationManager.AppSettings["nhibernate.mapping.assembly"];
@@ -62,8 +71,5 @@ namespace SharpArch.Testing.NHibernate
 
             return null;
         }
-
-        private static Configuration cfg;
-        private static ISessionFactory sessionFactory;
-    }
+	}
 }

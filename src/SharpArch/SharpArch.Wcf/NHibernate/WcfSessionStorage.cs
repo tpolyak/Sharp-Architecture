@@ -5,33 +5,39 @@ using System;
 
 namespace SharpArch.Wcf.NHibernate
 {
-    public class WcfSessionStorage : ISessionStorage
-    {
-        public ISession Session {
-            get {
-                SessionInstanceExtension nHibernateSessionInstanceExtension =
-                    OperationContext.Current.InstanceContext.Extensions.Find<SessionInstanceExtension>();
+	public class WcfSessionStorage : ISessionStorage
+	{
+		#region ISessionStorage Members
 
-                if (nHibernateSessionInstanceExtension == null)
-                    return null;
-                
-                return nHibernateSessionInstanceExtension.Session;
-            }
-            set {
-                SessionInstanceExtension nHibernateSessionInstanceExtension =
-                    OperationContext.Current.InstanceContext.Extensions.Find<SessionInstanceExtension>();
+		public ISession GetSessionForKey(string factoryKey)
+		{
+			SessionInstanceExtension instance = GetSessionInstanceExtension();
+			return instance.GetSessionForKey(factoryKey);
+		}
 
-                if (nHibernateSessionInstanceExtension == null)
-                    return;
-                
-                nHibernateSessionInstanceExtension.Session = value;
-            }
-        }
+		public void SetSessionForKey(string factoryKey, ISession session)
+		{
+			SessionInstanceExtension instance = GetSessionInstanceExtension();
+			instance.SetSessionForKey(factoryKey, session);
+		}
 
-        public string FactoryKey {
-            get {
-                return NHibernateSession.DefaultFactoryKey;
-            }
-        }
-    }
+		public System.Collections.Generic.IEnumerable<ISession> GetAllSessions()
+		{
+			SessionInstanceExtension instance = GetSessionInstanceExtension();
+			return instance.GetAllSessions();
+		}
+
+		#endregion
+
+		private SessionInstanceExtension GetSessionInstanceExtension()
+		{
+			SessionInstanceExtension instance =
+				OperationContext.Current.InstanceContext.Extensions.Find<SessionInstanceExtension>();
+
+			if (instance == null)
+				throw new Exception("SessionInstanceExtension not found in current OperationContext");
+
+			return instance;
+		}
+	}
 }

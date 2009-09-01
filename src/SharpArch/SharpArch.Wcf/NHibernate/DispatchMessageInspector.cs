@@ -6,23 +6,16 @@ using ISession = NHibernate.ISession;
 
 namespace SharpArch.Wcf.NHibernate
 {
-    internal class DispatchMessageInspector : IDispatchMessageInspector
-    {
-        public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext) {
-            return NHibernateSession.Current;
-        }
+	internal class DispatchMessageInspector : IDispatchMessageInspector
+	{
+		public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
+		{
+			return null;
+		}
 
-        public void BeforeSendReply(ref Message reply, object correlationState) {
-            ISession session = correlationState as ISession;
-
-            if (session == null)
-                return;
-
-            if (session.IsOpen)
-                session.Close();
-
-            if (NHibernateSession.Storage != null)
-                NHibernateSession.Storage.Session = null;
-        }
-    }
+		public void BeforeSendReply(ref Message reply, object correlationState)
+		{
+			NHibernateSession.CloseAllSessions();
+		}
+	}
 }

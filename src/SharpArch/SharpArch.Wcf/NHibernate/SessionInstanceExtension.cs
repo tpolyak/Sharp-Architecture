@@ -12,12 +12,25 @@ namespace SharpArch.Wcf.NHibernate
         public void Attach(InstanceContext owner) { }
         public void Detach(InstanceContext owner) { }
 
-        public ISession Session { get; set; }
+		#region ISessionStorage Members
 
-        public string FactoryKey {
-            get {
-                return NHibernateSession.DefaultFactoryKey;
-            }
-        }
-    }
+		public ISession GetSessionForKey(string factoryKey)
+		{
+			return storage.GetSessionForKey(factoryKey);
+		}
+
+		public void SetSessionForKey(string factoryKey, ISession session)
+		{
+			storage.SetSessionForKey(factoryKey, session);
+		}
+
+		public System.Collections.Generic.IEnumerable<ISession> GetAllSessions()
+		{
+			return storage.GetAllSessions();
+		}
+
+		#endregion
+
+		private SimpleSessionStorage storage = new SimpleSessionStorage();
+	}
 }

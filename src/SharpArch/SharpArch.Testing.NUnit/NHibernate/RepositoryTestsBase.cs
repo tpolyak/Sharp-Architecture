@@ -23,17 +23,12 @@ namespace SharpArch.Testing.NUnit.NHibernate
 
         [TearDown]
         public virtual void TearDown() {
-            NHibernateSession.Storage.Session.Dispose();
-        }
+			RepositoryTestsHelper.Shutdown();
+		}
 
         protected void FlushSessionAndEvict(object instance) {
-            // Commits any changes up to this point to the database
-            NHibernateSession.Storage.Session.Flush();
-
-            // Evicts the instance from the current session so that it can be loaded during testing;
-            // this gives the test a clean slate, if you will, to work with
-            NHibernateSession.Storage.Session.Evict(instance);
-        }
+			RepositoryTestsHelper.FlushSessionAndEvict(instance);
+		}
 
         protected abstract void LoadTestData();
     }

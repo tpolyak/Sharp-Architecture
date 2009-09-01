@@ -1,39 +1,47 @@
 ﻿using NHibernate;
+using System.Collections.Generic;
 
 namespace SharpArch.Data.NHibernate
 {
     public class SimpleSessionStorage : ISessionStorage
     {
-        /// <summary>
-        /// Creates a SimpleSessionStorage instance for a single DB session.
-        /// </summary>
-        public SimpleSessionStorage() : this(null) { }
+		private Dictionary<string, ISession> storage = new Dictionary<string, ISession>();
 
-        /// <summary>
-        /// Creates a SimpleSessionStorage instance for multiple databases. Each 
-        /// SimpleSessionStorage must be given a unique factoryKey for each database
-        /// that it will be connecting to.  The factoryKey will be referenced when
-        /// decorating repositories with <see cref="SessionFactoryAttribute"/>.
-        /// </summary>
-        /// <param name="factoryKey">An example would be "MyOtherDb"</param>
-        public SimpleSessionStorage(string factoryKey) {
-            if (!string.IsNullOrEmpty(factoryKey)) {
-                this.factoryKey = factoryKey;
-            }
-            // If a unique session identifier was not provided, then set a default identifier
-            else {
-                this.factoryKey = NHibernateSession.DefaultFactoryKey;
-            }
-        }
+		public SimpleSessionStorage() { }
 
-        public ISession Session { get; set; }
+		/// <summary>
+		/// Returns the session associated with the specified factoryKey or
+		/// null if the specified factoryKey is not found.
+		/// </summary>
+		/// <param name="factoryKey"></param>
+		/// <returns></returns>
+		public ISession GetSessionForKey(string factoryKey)
+		{
+			ISession session;
+			if (!this.storage.TryGetValue(factoryKey, out session))
+				return null;
+			return session;
+		}
 
-        public string FactoryKey {
-            get {
-                return factoryKey;
-            }
-        }
+		/// <summary>
+		/// Stores the session into a dictionary using the specified factoryKey.
+		/// If a session already exists by the specified factoryKey, 
+		/// it gets overwritten by the new session passed in.
+		/// </summary>
+		/// <param name="factoryKey"></param>
+		/// <param name="session"></param>
+		public void SetSessionForKey(string factoryKey, ISession session)
+		{
+			this.storage[factoryKey] = session;
+		}
 
-        private string factoryKey;
-    }
+		/// <summary>
+		/// Returns all the values of the internal dictionary of sessions.
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<ISession> GetAllSessions()
+		{
+			return this.storage.Values;
+		}
+	}
 }
