@@ -1,8 +1,10 @@
 using FluentNHibernate.AutoMap;
+using System;
 
 namespace SharpArch.Data.NHibernate.FluentNHibernate
 {
-    public interface IAutoPersistenceModelGenerator
+	[CLSCompliant(false)]
+	public interface IAutoPersistenceModelGenerator
     {
         AutoPersistenceModel Generate();
     }
