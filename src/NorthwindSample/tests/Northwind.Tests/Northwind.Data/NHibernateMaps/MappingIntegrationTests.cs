@@ -21,36 +21,28 @@ namespace Tests.Northwind.Data.NHibernateMaps
     {
         [SetUp]
         public virtual void SetUp() {
-            NHibernateSession.SessionFactory = null;
-            NHibernateSession.Storage = null;
-
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
-            NHibernateSession.Init(new SimpleSessionStorage(factoryKey), mappingAssemblies, 
+            NHibernateSession.Init(
+				new SimpleSessionStorage(), 
+				mappingAssemblies, 
                 new AutoPersistenceModelGenerator().Generate(),
                 "../../../../app/Northwind.Web/NHibernate.config");
         }
 
         [Test]
         public void CanConfirmDatabaseMatchesMappings() {
-            IDictionary<string, IClassMetadata> allClassMetadata = 
-                NHibernateSession.SessionFactories[factoryKey].GetAllClassMetadata();
+			var allClassMetadata = NHibernateSession.GetDefaultSessionFactory().GetAllClassMetadata();
 
-            foreach (KeyValuePair<string, IClassMetadata> entry in allClassMetadata) {
-                NHibernateSession.CurrentFor(factoryKey).CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
+            foreach (var entry in allClassMetadata) {
+                NHibernateSession.Current.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
                      .SetMaxResults(0).List();
             }
         }
 
         [TearDown]
         public virtual void TearDown() {
-            if (NHibernateSession.Storages[factoryKey].Session != null) {
-                NHibernateSession.Storages[factoryKey].Session.Dispose();
-            }
-
-            NHibernateSession.SessionFactory = null;
-            NHibernateSession.Storage = null;
-        }
-
-        string factoryKey = "nhibernate.tests_using_live_database";
+			NHibernateSession.CloseAllSessions();
+			NHibernateSession.Reset();
+		}
     }
 }
