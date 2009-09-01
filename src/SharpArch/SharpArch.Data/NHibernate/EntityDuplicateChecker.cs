@@ -43,7 +43,7 @@ namespace SharpArch.Data.NHibernate
                     criteria.Add(
                         Expression.Eq(signatureProperty.Name, (int) propertyValue));
                 }
-                else if (propertyType.IsSubclassOf(typeof(Entity))) {
+				else if (propertyType.IsSubclassOf(typeof(IEntityWithTypedId<IdT>))) {
                     AppendEntityCriteriaTo(criteria, signatureProperty, propertyValue);
                 }
                 else if (propertyType == typeof(DateTime)) {
