@@ -16,19 +16,21 @@ namespace SharpArch.Data.NHibernate
         public bool DoesDuplicateExistWithTypedIdOf<IdT>(IEntityWithTypedId<IdT> entity) {
             Check.Require(entity != null, "Entity may not be null when checking for duplicates");
 
-            FlushMode previousFlushMode = Session.FlushMode;
+			ISession session = GetSessionFor(entity);
+
+            FlushMode previousFlushMode = session.FlushMode;
 
             // We do NOT want this to flush pending changes as checking for a duplicate should 
             // only compare the object against data that's already in the database
-            Session.FlushMode = FlushMode.Never;
+            session.FlushMode = FlushMode.Never;
 
-            ICriteria criteria = Session.CreateCriteria(entity.GetType())
+            ICriteria criteria = session.CreateCriteria(entity.GetType())
                 .Add(Expression.Not(Expression.Eq("Id", entity.Id)))
                 .SetMaxResults(1);
 
             AppendSignaturePropertyCriteriaTo<IdT>(criteria, entity);
             bool doesDuplicateExist = criteria.List().Count > 0;
-            Session.FlushMode = previousFlushMode;
+            session.FlushMode = previousFlushMode;
             return doesDuplicateExist;
         }
 
@@ -104,12 +106,11 @@ namespace SharpArch.Data.NHibernate
             }
         }
 
-        private ISession Session {
-            get {
-                string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
-                return NHibernateSession.CurrentFor(factoryKey);
-            }
-        }
+		private ISession GetSessionFor(object entity)
+		{
+			string factoryKey = SessionFactoryAttribute.GetKeyFrom(entity);
+			return NHibernateSession.CurrentFor(factoryKey);
+		}
 
         private readonly DateTime UNINITIALIZED_DATETIME = default(DateTime);
     }
