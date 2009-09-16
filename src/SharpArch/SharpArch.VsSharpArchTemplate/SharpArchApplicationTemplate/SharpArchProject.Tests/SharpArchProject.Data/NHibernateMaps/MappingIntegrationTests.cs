@@ -1,12 +1,9 @@
-﻿using NUnit.Framework;
-using SharpArch.Testing.NUnit.NHibernate;
-using SharpArch.Data.NHibernate;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Metadata;
-using System;
+using NUnit.Framework;
 using $solutionname$.Data.NHibernateMaps;
+using SharpArch.Data.NHibernate;
 using SharpArch.Testing.NHibernate;
 
 namespace Tests.$solutionname$.Data.NHibernateMaps
@@ -20,40 +17,37 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
     /// </summary>
     [TestFixture]
     [Category("DB Tests")]
-    public class MappingIntegrationTests
-    {
+    public class MappingIntegrationTests {
+        #region Setup/Teardown
+
         [SetUp]
         public virtual void SetUp() {
-            NHibernateSession.SessionFactory = null;
-            NHibernateSession.Storage = null;
 
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
-            NHibernateSession.Init(new SimpleSessionStorage(factoryKey), mappingAssemblies, 
-                new AutoPersistenceModelGenerator().Generate(),
-                "../../../../app/$solutionname$.Web/NHibernate.config");
-        }
-
-        [Test]
-        public void CanConfirmDatabaseMatchesMappings() {
-            IDictionary<string, IClassMetadata> allClassMetadata = 
-                NHibernateSession.SessionFactories[factoryKey].GetAllClassMetadata();
-
-            foreach (KeyValuePair<string, IClassMetadata> entry in allClassMetadata) {
-                NHibernateSession.CurrentFor(factoryKey).CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
-                     .SetMaxResults(0).List();
-            }
+            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies,
+                                   new AutoPersistenceModelGenerator().Generate(),
+                                   "../../../../app/$solutionname$.Web/NHibernate.config");
         }
 
         [TearDown]
-        public virtual void TearDown() {
-            if (NHibernateSession.Storages[factoryKey].Session != null) {
-                NHibernateSession.Storages[factoryKey].Session.Dispose();
-            }
-
-            NHibernateSession.SessionFactory = null;
-            NHibernateSession.Storage = null;
+        public virtual void TearDown()
+        {
+            NHibernateSession.CloseAllSessions();
+            NHibernateSession.Reset();
         }
 
-        string factoryKey = "nhibernate.tests_using_live_database";
+        #endregion
+
+        [Test]
+        public void CanConfirmDatabaseMatchesMappings()
+        {
+            var allClassMetadata = NHibernateSession.GetDefaultSessionFactory().GetAllClassMetadata();
+
+            foreach (var entry in allClassMetadata)
+            {
+                NHibernateSession.Current.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
+                     .SetMaxResults(0).List();
+            }
+        }
     }
 }

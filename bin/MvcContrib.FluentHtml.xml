@@ -466,6 +466,12 @@
             </summary>
             <param name="value">The value of the inner text.</param>
         </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.LiteralBase`1.Html(System.String)">
+            <summary>
+            Set the inner HTML of the span element.
+            </summary>
+            <param name="value">The HTML.</param>
+        </member>
         <member name="M:MvcContrib.FluentHtml.Elements.LiteralBase`1.Format(System.String)">
             <summary>
             Specify a format string to be applied to the value.  The format string can be either a
@@ -620,6 +626,35 @@
             Set the 'size' attribute.
             </summary>
             <param name="value">The value of the 'size' attribute.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.SelectBase`1.FirstOption(MvcContrib.FluentHtml.Elements.Option)">
+            <summary>
+            Uses the specified open as the first option in the select.
+            </summary>
+            <param name="firstOption">The first option</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.SelectBase`1.FirstOption(System.String)">
+            <summary>
+            Specifies the text for the first option. The value for the first option will be an empty string.
+            </summary>
+            <param name="text">The text for the first option</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.SelectBase`1.FirstOption(System.String,System.String)">
+            <summary>
+            Specifies the value and text for the first option.
+            </summary>
+            <param name="value">The value for the first option. If ommitted, will default to an empty string.</param>
+            <param name="text">The text for the first option. If ommitted, will the default to an empty string.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.SelectBase`1.HideFirstOptionWhen(System.Boolean)">
+            <summary>
+            Hides the first option when the value passed in is true. 
+            </summary>
+            <param name="hideFirstOption">True to hide the first option, otherwise false.</param>
             <returns></returns>
         </member>
         <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect.#ctor(System.String)">
@@ -1134,6 +1169,27 @@
             </summary>
             <param name="view">The view.</param>
             <param name="text">Value of the 'value' and 'name' attributes.  Also used to derive the 'id' attribute.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.ViewModelContainerExtensions.RenderPartial``2(MvcContrib.FluentHtml.IViewModelContainer{``0},System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Web.Mvc.ViewDataDictionary)">
+            <summary>
+            Renders a partial
+            </summary>
+            <typeparam name="T">The type of the ViewModel.</typeparam>
+            <typeparam name="TPartialViewModel">The type of model of the partial.</typeparam>
+            <param name="view">The view.</param>
+            <param name="partialViewName">The name of the partial to render.</param>
+            <param name="modelExpression">Expression of the model for the partial.</param>
+            <param name="viewData">View data for the partial. (If the view data has a Model, it will be replaced by the model as specified in the expression parameter, if it is not null.)</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.ViewModelContainerExtensions.RenderPartial``2(MvcContrib.FluentHtml.IViewModelContainer{``0},System.String,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Renders a partial
+            </summary>
+            <typeparam name="T">The type of the ViewModel.</typeparam>
+            <typeparam name="TPartialViewModel">The type of model of the partial.</typeparam>
+            <param name="view">The view.</param>
+            <param name="partialViewName">The name of the partial to render.</param>
+            <param name="modelExpression">Expression of the model for the partial.</param>
         </member>
     </members>
 </doc>

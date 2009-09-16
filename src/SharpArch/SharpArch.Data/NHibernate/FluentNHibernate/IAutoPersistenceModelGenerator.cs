@@ -1,4 +1,4 @@
-using FluentNHibernate.AutoMap;
+using FluentNHibernate.Automapping;
 using System;
 
 namespace SharpArch.Data.NHibernate.FluentNHibernate

@@ -7,7 +7,7 @@ using SharpArch.Core;
 using FluentNHibernate;
 using FluentNHibernate.Cfg;
 using System.Reflection;
-using FluentNHibernate.AutoMap;
+using FluentNHibernate.Automapping;
 using System.Linq;
 using FluentNHibernate.Cfg.Db;
 using System;
@@ -286,7 +286,7 @@ namespace SharpArch.Data.NHibernate
 
 					m.HbmMappings.AddFromAssembly(assembly);
 					m.FluentMappings.AddFromAssembly(assembly)
-						.ConventionDiscovery.AddAssembly(assembly);
+						.Conventions.AddAssembly(assembly);
 				}
 
 				if (autoPersistenceModel != null)

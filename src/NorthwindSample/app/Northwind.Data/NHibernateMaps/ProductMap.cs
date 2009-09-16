@@ -1,15 +1,15 @@
-﻿using FluentNHibernate.AutoMap;
+﻿using FluentNHibernate.Automapping;
 using Northwind.Core;
 using SharpArch.Data.NHibernate.FluentNHibernate;
-using FluentNHibernate.AutoMap.Alterations;
+using FluentNHibernate.Automapping.Alterations;
 
 namespace Northwind.Data.NHibernateMappings
 {
     public class ProductMap : IAutoMappingOverride<Product>
     {
-        public void Override(AutoMap<Product> mapping) {
+        public void Override(AutoMapping<Product> mapping) {
             mapping.Id(x => x.Id, "ProductID")
-                .WithUnsavedValue(0)
+                .UnsavedValue(0)
                 .GeneratedBy.Identity();
 
             mapping.References(x => x.Supplier, "SupplierID");
