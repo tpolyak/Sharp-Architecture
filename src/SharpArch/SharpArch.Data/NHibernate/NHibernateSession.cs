@@ -261,6 +261,12 @@ namespace SharpArch.Data.NHibernate
 		/// </summary>
 		public static readonly string DefaultFactoryKey = "nhibernate.current_session";
 
+        /// <summary>
+        /// An application-specific implementation of ISessionStorage must be setup either thru
+        /// <see cref="InitStorage" /> or one of the <see cref="Init" /> overloads. 
+        /// </summary>
+        public static ISessionStorage Storage { get; set; }
+
 		#endregion
 
 		#region Private Methods
@@ -346,12 +352,6 @@ namespace SharpArch.Data.NHibernate
 		/// factory with a key of <see cref="DefaultFactoryKey" />.
 		/// </summary>
 		private static Dictionary<string, ISessionFactory> sessionFactories = new Dictionary<string, ISessionFactory>();
-
-		/// <summary>
-		/// An application-specific implementation of ISessionStorage must be setup either thru
-		/// <see cref="InitStorage" /> or one of the <see cref="Init" /> overloads. 
-		/// </summary>
-		private static ISessionStorage Storage { get; set; }
 
 		#endregion
 	}
