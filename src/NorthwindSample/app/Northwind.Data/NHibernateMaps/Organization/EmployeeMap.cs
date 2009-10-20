@@ -1,16 +1,16 @@
-﻿using FluentNHibernate.AutoMap;
+﻿using FluentNHibernate.Automapping;
 using Northwind.Core.Organization;
 using Northwind.Core;
 using SharpArch.Data.NHibernate.FluentNHibernate;
-using FluentNHibernate.AutoMap.Alterations;
+using FluentNHibernate.Automapping.Alterations;
 
 namespace Northwind.Data.NHibernateMappings.Organization
 {
     public class EmployeeMap : IAutoMappingOverride<Employee>
     {
-        public void Override(AutoMap<Employee> mapping) {
+        public void Override(AutoMapping<Employee> mapping) {
             mapping.Id(x => x.Id, "EmployeeID")
-                .WithUnsavedValue(0)
+                .UnsavedValue(0)
                 .GeneratedBy.Identity();
 
             // No need to specify the column name when it's the same as the property name
@@ -19,9 +19,9 @@ namespace Northwind.Data.NHibernateMappings.Organization
             mapping.Map(x => x.PhoneExtension, "Extension");
 
             mapping.HasManyToMany<Territory>(x => x.Territories)
-                .WithTableName("EmployeeTerritories")
-                .WithParentKeyColumn("EmployeeID")
-                .WithChildKeyColumn("TerritoryID")
+                .Table("EmployeeTerritories")
+                .ParentKeyColumn("EmployeeID")
+                .ChildKeyColumn("TerritoryID")
                 .AsBag();
         }
     }

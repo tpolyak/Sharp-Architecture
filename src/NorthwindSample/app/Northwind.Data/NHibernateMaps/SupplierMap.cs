@@ -1,24 +1,24 @@
-﻿using FluentNHibernate.AutoMap;
+﻿using FluentNHibernate.Automapping;
 using Northwind.Core;
 using SharpArch.Data.NHibernate.FluentNHibernate;
-using FluentNHibernate.AutoMap.Alterations;
+using FluentNHibernate.Automapping.Alterations;
 
 namespace Northwind.Data.NHibernateMappings
 {
     public class SupplierMap : IAutoMappingOverride<Supplier>
     {
-        public void Override(AutoMap<Supplier> mapping) {
-            mapping.SetAttribute("lazy", "false");
+        public void Override(AutoMapping<Supplier> mapping) {
+            mapping.Not.LazyLoad();
 
             mapping.Id(x => x.Id, "SupplierID")
-                .WithUnsavedValue(0)
+                .UnsavedValue(0)
                 .GeneratedBy.Identity();
 
             mapping.Map(x => x.CompanyName);
 
-            mapping.HasMany<Product>(x => x.Products)
+            mapping.HasMany(x => x.Products)
                 .Inverse()
-                .KeyColumnNames.Add("SupplierID")
+                .KeyColumn("SupplierID")
                 .AsBag();
         }
     }

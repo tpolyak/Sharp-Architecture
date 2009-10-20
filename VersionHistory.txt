@@ -1,3 +1,23 @@
+==================================================
+S#arp Architecture 1.0 with Upgraded Dependencies:
+==================================================
+Upgraded primarily to use more recent Fluent NHibernate.  Other dependencies are also upgraded.
+
+Visual Studio template and Northwind sample also updated.
+
+Key Updated Dependencies:
+
+Fluent NHibernate 1.0 (Rev 593)
+NHibernate 2.1.0.4000
+NHibernate Linq 1.0 (Rev 4000)
+
+Supporting dependencies were updated as needed.
+
+BREAKING CHANGES:
+
+Due to changes in Fluent NHibernate, some code in existing applications will have to be changed.  See Tom Cabanski's blog for more information
+at http://tomcabanski.spaces.live.com/blog/cns!E0D3617496209F45!124.entry. 
+
 ----------------------------------------------
 ----------------------------------------------
 S#arp Architecture 1.0 RTM

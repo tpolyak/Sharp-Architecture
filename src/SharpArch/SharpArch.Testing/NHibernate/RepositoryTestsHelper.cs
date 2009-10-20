@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Reflection;
-using FluentNHibernate.AutoMap;
+using FluentNHibernate.Automapping;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 using SharpArch.Core;

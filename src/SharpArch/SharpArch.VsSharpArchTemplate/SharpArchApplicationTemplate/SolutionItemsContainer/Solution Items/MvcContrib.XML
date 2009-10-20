@@ -1645,6 +1645,60 @@
         <member name="P:MvcContrib.UI.DomQuery.Ids">
             <summary>The list of raw id's that are included in the query string.</summary>
         </member>
+        <member name="F:MvcContrib.UI.Html.ModelVisualizerExtension.HtmlContainer">
+            <summary>
+            Snipped that allows the rendered table to be collapsed
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Html.ModelVisualizerExtension.ModelVisualizer(System.Web.Mvc.HtmlHelper)">
+            <summary>
+            Renders Model as table
+            </summary>
+            <param name="htmlHelper"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Html.ModelVisualizerExtension.RenderSelectListTable(System.Collections.Generic.IEnumerable{System.Web.Mvc.SelectListItem})">
+            <summary>
+            render items of SelectList (ie for DropDown)
+            </summary>
+            <param name="selectListToRender"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Html.ModelVisualizerExtension.RenderObjectTable(System.Object)">
+            <summary>
+            Render properties of an object as table
+            </summary>
+            <param name="objectToRender"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Html.ModelVisualizerExtension.RenderGenericList(System.Collections.IEnumerable)">
+            <summary>
+            Render list of objects
+            </summary>
+            <param name="listToRender"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Html.ModelVisualizerExtension.IsMicrosoftType(System.Type)">
+            <summary>
+            Framework types are rendered with "ToString"
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Html.ModelVisualizerExtension.RenderDictionaryTable(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Enables Rendering of typed Model and untyped ViewData
+            </summary>
+            <param name="viewData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Html.ModelVisualizerExtension.ModelToHtmlTable(System.Object)">
+            <summary>
+            render object as table
+            </summary>
+            <param name="objectToRender"></param>
+            <returns></returns>
+        </member>
         <member name="T:MvcContrib.UI.LegacyGrid.GridColumn`1">
             <summary>
             A column to be rendered as part of a grid.
@@ -2352,6 +2406,11 @@
             <param name="helper">The HTML Helper</param>
             <param name="pagination">The datasource</param>
             <returns>A Pager component</returns>
+        </member>
+        <member name="T:MvcContrib.UrlHelperExtensions">
+            <summary>
+            Extension methods for UrlHelper
+            </summary>
         </member>
         <member name="M:MvcContrib.ViewDataExtensions.Add``1(System.Collections.Generic.IDictionary{System.String,System.Object},``0)">
             <summary>
