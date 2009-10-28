@@ -4,8 +4,8 @@ S#arp Architecture 1.0 Q3 2009 (Pending RTM)
 
 New and exciting in this release:
 * Upgraded dependencies including NHibernate 2.1 GA, Fluent NHibernate 1.0 and NHibernate LINQ 1.0
-* New Many-to-Many convention added to VS project template
-* New DB schema generation (as a unit test) added to VS project template
+* New Many-to-Many convention added to VS project template (thanks John Ledger!)
+* New DB schema generation (as a unit test) added to VS project template (thanks indomitablehef!)
 
 -------
 
