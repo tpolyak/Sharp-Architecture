@@ -5,6 +5,8 @@ using NUnit.Framework;
 using $solutionname$.Data.NHibernateMaps;
 using SharpArch.Data.NHibernate;
 using SharpArch.Testing.NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 
 namespace Tests.$solutionname$.Data.NHibernateMaps
 {
@@ -17,30 +19,24 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
     /// </summary>
     [TestFixture]
     [Category("DB Tests")]
-    public class MappingIntegrationTests {
-        #region Setup/Teardown
-
+    public class MappingIntegrationTests 
+    {
         [SetUp]
         public virtual void SetUp() {
-
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
-            NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies,
+            configuration = NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies,
                                    new AutoPersistenceModelGenerator().Generate(),
                                    "../../../../app/$solutionname$.Web/NHibernate.config");
         }
 
         [TearDown]
-        public virtual void TearDown()
-        {
+        public virtual void TearDown() {
             NHibernateSession.CloseAllSessions();
             NHibernateSession.Reset();
         }
 
-        #endregion
-
         [Test]
-        public void CanConfirmDatabaseMatchesMappings()
-        {
+        public void CanConfirmDatabaseMatchesMappings() {
             var allClassMetadata = NHibernateSession.GetDefaultSessionFactory().GetAllClassMetadata();
 
             foreach (var entry in allClassMetadata)
@@ -49,5 +45,16 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
                      .SetMaxResults(0).List();
             }
         }
+
+        /// <summary>
+        /// Generates and outputs the database schema SQL to the console
+        /// </summary>
+        [Test]
+        public void CanGenerateDatabaseSchema() {
+            var session = NHibernateSession.GetDefaultSessionFactory().OpenSession();
+            new SchemaExport(configuration).Execute(true, false, false, session.Connection, null);
+        }
+
+        private Configuration configuration;
     }
 }

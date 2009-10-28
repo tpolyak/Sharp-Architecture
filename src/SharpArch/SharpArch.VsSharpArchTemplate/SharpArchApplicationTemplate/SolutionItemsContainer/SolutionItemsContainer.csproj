@@ -77,10 +77,6 @@
         <Content Include="Solution Items\SharpArch.Core.dll" />
         <Content Include="Solution Items\SharpArch.Core.NHibernateValidator.dll" />
         <Content Include="Solution Items\SharpArch.Data.dll" />
-        <Content Include="Solution Items\SharpArch.Wcf.dll" />
-        <Content Include="Solution Items\SharpArch.Wcf.pdb" />
-        <Content Include="Solution Items\SharpArch.WcfClient.Castle.dll" />
-        <Content Include="Solution Items\SharpArch.WcfClient.Castle.pdb" />
         <Content Include="Solution Items\SharpArch.Web.dll" />
         <Content Include="Solution Items\SharpArch.Web.Castle.dll" />
         <Content Include="Solution Items\SharpArch.Core.pdb" />

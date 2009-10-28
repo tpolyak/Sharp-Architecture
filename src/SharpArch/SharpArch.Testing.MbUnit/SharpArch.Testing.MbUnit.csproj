@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BehaviorSpecificationTestsBase.cs" />
     <Compile Include="NHibernate\DatabaseRepositoryTestsBase.cs" />
@@ -88,9 +88,6 @@
       <Project>{230DF364-CC54-440A-AA02-31A0E2964AC3}</Project>
       <Name>SharpArch.Testing</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

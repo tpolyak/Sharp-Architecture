@@ -18,7 +18,10 @@
 			<Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps">
 				<ProjectItem ReplaceParameters="true" TargetFileName="AutoPersistenceModelGenerator.cs">AutoPersistenceModelGenerator.cs</ProjectItem>
 				<Folder Name="Conventions" TargetFolderName="Conventions">
+					<ProjectItem ReplaceParameters="true" TargetFileName="ForeignKeyConvention.cs">ForeignKeyConvention.cs</ProjectItem>
 					<ProjectItem ReplaceParameters="true" TargetFileName="HasManyConvention.cs">HasManyConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="HasManyToManyConvention.cs">HasManyToManyConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="ManyToManyTableNameConvention.cs">ManyToManyTableNameConvention.cs</ProjectItem>
 					<ProjectItem ReplaceParameters="true" TargetFileName="PrimaryKeyConvention.cs">PrimaryKeyConvention.cs</ProjectItem>
 					<ProjectItem ReplaceParameters="true" TargetFileName="ReferenceConvention.cs">ReferenceConvention.cs</ProjectItem>
 					<ProjectItem ReplaceParameters="true" TargetFileName="TableNameConvention.cs">TableNameConvention.cs</ProjectItem>

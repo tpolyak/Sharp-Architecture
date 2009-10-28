@@ -44,10 +44,13 @@ namespace $safeprojectname$.NHibernateMaps
         {
             return c =>
             {
-                c.Add<PrimaryKeyConvention>();
-                c.Add<ReferenceConvention>();
-                c.Add<HasManyConvention>();
-                c.Add<TableNameConvention>();
+                c.Add<$solutionname$.Data.NHibernateMaps.Conventions.ForeignKeyConvention>();
+                c.Add<$solutionname$.Data.NHibernateMaps.Conventions.HasManyConvention>();
+                c.Add<$solutionname$.Data.NHibernateMaps.Conventions.HasManyToManyConvention>();
+                c.Add<$solutionname$.Data.NHibernateMaps.Conventions.ManyToManyTableNameConvention>();
+                c.Add<$solutionname$.Data.NHibernateMaps.Conventions.PrimaryKeyConvention>();
+                c.Add<$solutionname$.Data.NHibernateMaps.Conventions.ReferenceConvention>();
+                c.Add<$solutionname$.Data.NHibernateMaps.Conventions.TableNameConvention>();
             };
         }
 

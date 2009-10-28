@@ -11,13 +11,12 @@ using FluentNHibernate.Automapping;
 using System.Linq;
 using FluentNHibernate.Cfg.Db;
 using System;
+using System.IO;
 
 namespace SharpArch.Data.NHibernate
 {
 	public static class NHibernateSession
 	{
-		#region Initialization & Configuration
-
 		#region Init() overloads
 
 		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies)
@@ -127,10 +126,6 @@ namespace SharpArch.Data.NHibernate
 			return cfg;
 		}
 
-		#endregion
-
-		#region Properties
-
 		/// <summary>
 		/// Provides an access to configured<see cref="ValidatorEngine"/>.
 		/// </summary>
@@ -155,9 +150,6 @@ namespace SharpArch.Data.NHibernate
 			}
 		}
 
-		#endregion
-
-		#region Public Methods
 		public static void RegisterInterceptor(IInterceptor interceptor)
 		{
 			Check.Require(interceptor != null, "interceptor may not be null");
@@ -236,25 +228,27 @@ namespace SharpArch.Data.NHibernate
 		/// <summary>
 		/// Return an ISessionFactory based on the specified factoryKey.
 		/// </summary>
-		/// <param name="factoryKey"></param>
-		/// <returns></returns>
 		public static ISessionFactory GetSessionFactoryFor(string factoryKey)
 		{
+            if (!sessionFactories.ContainsKey(factoryKey))
+                return null;
+
 			return sessionFactories[factoryKey];
 		}
+
+        public static void RemoveSessionFactoryFor(string factoryKey) {
+            if (GetSessionFactoryFor(factoryKey) != null) {
+                sessionFactories.Remove(factoryKey);
+            }
+        }
 
 		/// <summary>
 		/// Returns the default ISessionFactory using the DefaultFactoryKey.
 		/// </summary>
-		/// <returns></returns>
 		public static ISessionFactory GetDefaultSessionFactory()
 		{
 			return GetSessionFactoryFor(DefaultFactoryKey);
 		}
-
-		#endregion
-
-		#region Public Fields
 
 		/// <summary>
 		/// The default factory key used if only one database is being communicated with.
@@ -266,10 +260,6 @@ namespace SharpArch.Data.NHibernate
         /// <see cref="InitStorage" /> or one of the <see cref="Init" /> overloads. 
         /// </summary>
         public static ISessionStorage Storage { get; set; }
-
-		#endregion
-
-		#region Private Methods
 
 		private static ISessionFactory CreateSessionFactoryFor(
 			string[] mappingAssemblies,
@@ -318,10 +308,13 @@ namespace SharpArch.Data.NHibernate
 			if (cfgProperties != null)
 				cfg.AddProperties(cfgProperties);
 
-			if (string.IsNullOrEmpty(cfgFile))
-				return cfg.Configure();
+            if (string.IsNullOrEmpty(cfgFile) == false)
+                return cfg.Configure(cfgFile);
 
-			return cfg.Configure(cfgFile);
+            if (File.Exists("Hibernate.cfg.xml"))
+                return cfg.Configure();
+
+            return cfg;
 		}
 
 		private static void ConfigureNHibernateValidator(Configuration cfg, string validatorCfgFile)
@@ -339,10 +332,6 @@ namespace SharpArch.Data.NHibernate
 			ValidatorEngine = engine;
 		}
 
-		#endregion
-
-		#region Private Fields
-
 		private static IInterceptor RegisteredInterceptor;
 
 		/// <summary>
@@ -352,7 +341,5 @@ namespace SharpArch.Data.NHibernate
 		/// factory with a key of <see cref="DefaultFactoryKey" />.
 		/// </summary>
 		private static Dictionary<string, ISessionFactory> sessionFactories = new Dictionary<string, ISessionFactory>();
-
-		#endregion
 	}
 }

@@ -69,10 +69,6 @@
 				<ProjectItem>System.Web.Mvc.dll</ProjectItem>
 				<ProjectItem>System.Web.Mvc.xml</ProjectItem>
 				<ProjectItem>System.Web.Routing.dll</ProjectItem>
-                <ProjectItem>SharpArch.Wcf.dll</ProjectItem>
-                <ProjectItem>SharpArch.Wcf.pdb</ProjectItem>
-                <ProjectItem>SharpArch.WcfClient.Castle.dll</ProjectItem>
-                <ProjectItem>SharpArch.WcfClient.Castle.pdb</ProjectItem>
 			</Folder>
 		</Project>
 	</TemplateContent>
