@@ -13,7 +13,7 @@ namespace SharpArch.Core.PersistenceSupport
     public interface IDbContext
     {
         void CommitChanges();
-        void BeginTransaction();
+        IDisposable BeginTransaction();
         void CommitTransaction();
         void RollbackTransaction();
     }

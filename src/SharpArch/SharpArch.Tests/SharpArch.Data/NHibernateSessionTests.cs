@@ -15,7 +15,7 @@ namespace Tests.SharpArch.Data
 
         [Test]
         public void CanInitializeWithConfigFile() {
-            var configFile = "SharpArch.Data\\sample-nhibernate-config.xml";
+            var configFile = "sqlite-nhibernate-config.xml";
             var mappingAssemblies = new string[] { };
             var configuration = NHibernateSession.Init(
                 new SimpleSessionStorage(),
@@ -26,7 +26,7 @@ namespace Tests.SharpArch.Data
 
         [Test]
         public void CanInitializeWithPersistenceConfigurerAndConfigFile() {
-            var configFile = "SharpArch.Data\\sample-nhibernate-config.xml";
+            var configFile = "sqlite-nhibernate-config.xml";
             var persistenceConfigurer = SQLiteConfiguration.Standard
                 .ConnectionString(c => c.Is("Data Source=:memory:;Version=3;New=True;"))
                 .ProxyFactoryFactory("NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle");

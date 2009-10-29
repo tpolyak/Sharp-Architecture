@@ -1,6 +1,7 @@
 ﻿using SharpArch.Core.PersistenceSupport;
 using NHibernate;
 using SharpArch.Core;
+using System;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -27,8 +28,8 @@ namespace SharpArch.Data.NHibernate
             Session.Flush();
         }
 
-        public void BeginTransaction() {
-            Session.BeginTransaction();
+        public IDisposable BeginTransaction() {
+            return Session.BeginTransaction();
         }
 
         public void CommitTransaction() {
