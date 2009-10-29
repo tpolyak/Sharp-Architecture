@@ -47,7 +47,10 @@ namespace SharpArch.Web.ModelBinder
                 if (string.IsNullOrEmpty(rawId))
                     return null;
 
-                object typedId = Convert.ChangeType(rawId, idType);
+                object typedId = 
+                    (idType == typeof(Guid))
+                        ? new Guid(rawId)
+                        : Convert.ChangeType(rawId, idType);
 
                 object entity = GetEntityFor(typedId, idType);
                 entities.SetValue(entity, i);

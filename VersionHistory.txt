@@ -28,7 +28,11 @@ Required Upgrade Steps and Changes:
 
 Change Log
 
+SharpArch.Core:
+* /PersistenceSupport/IDbContext.cs:  Modified BeginTransaction to return an IDisposable for use with the "using" statment. (Issue 17)
+
 SharpArch.Data:
+* /NHibernate/DbContext.cs:  Now returns the ITransaction as IDisposable for use with "using" statements. (Issue 17)
 * /NHibernate/NHibernateSession.cs:
 	- Modified ConfigureNHibernate() to allow configuration of NHibernate without a config file; allows you to use FNH exclusively.
 	- GetSessionFactoryFor() now returns null if the supplied factory key was not found; this would previously blow up.
@@ -38,10 +42,13 @@ SharpArch.Tests:
 
 SharpArch.VsSharpArchTemplate
 * Removed WCF assemblies from VS generated project (these are moving to the Contrib project)
-* /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/PrimaryKeyConvention.cs:  Changed default Id generation to use the HiLo algorithm.  Requires a hibernate_unique_key table with a next_hi int column.
+* /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/PrimaryKeyConvention.cs:  Changed default Id generation to use the HiLo algorithm.  Requires a hibernate_unique_key table with a next_hi int column. (Issue 5)
 * /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/ForeignKeyConvention.cs, HasManyToManyConvention.cs, ManyToManyTableNameConvention.cs:  Added classes to support Many-to-Many convention.
 * /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/AutoPersistenceModelGenerator.cs:  Modified GetConventions() to account for new Many-to-Many convention.
 * /SharpArchApplicationTemplate/SharpArchProject.Tests/SharpArchProject.Data/NHibernateMaps/MappingIntegrationTests.cs:  Added CanGenerateDatabaseSchema() test to output database schema SQL to console.
+
+SharpArch.Web:
+* /ModelBinder/EntityCollectionValueProviderResult.cs: Fixed problem with GUID Ids. (Issue 12)
 
 ----------------------------------------------
 ----------------------------------------------
