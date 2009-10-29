@@ -7,7 +7,7 @@ namespace $safeprojectname$.NHibernateMaps.Conventions {
         {
             instance.Column("Id");
             instance.UnsavedValue("0");
-            instance.GeneratedBy.Identity();
+            instance.GeneratedBy.HiLo("1000");
         }
     }
 }

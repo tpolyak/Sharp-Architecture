@@ -99,7 +99,7 @@ namespace SharpArch.Data.NHibernate
 		public static void InitStorage(ISessionStorage storage)
 		{
 			Check.Require(storage != null, "storage mechanism was null but must be provided");
-			Check.Require(Storage == null, "A storage mechanism was has already been configured for this application");
+			Check.Require(Storage == null, "A storage mechanism has already been configured for this application");
 			Storage = storage;
 		}
 

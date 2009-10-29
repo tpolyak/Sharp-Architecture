@@ -6,6 +6,7 @@ New and exciting in this release:
 * Upgraded dependencies including NHibernate 2.1 GA, Fluent NHibernate 1.0 and NHibernate LINQ 1.0
 * New Many-to-Many convention added to VS project template (thanks John Ledger!)
 * New DB schema generation (as a unit test) added to VS project template (thanks indomitablehef!)
+* VS generated project now uses the HiLo algorithm for identity generation
 
 -------
 
@@ -37,6 +38,7 @@ SharpArch.Tests:
 
 SharpArch.VsSharpArchTemplate
 * Removed WCF assemblies from VS generated project (these are moving to the Contrib project)
+* /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/PrimaryKeyConvention.cs:  Changed default Id generation to use the HiLo algorithm.  Requires a hibernate_unique_key table with a next_hi int column.
 * /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/ForeignKeyConvention.cs, HasManyToManyConvention.cs, ManyToManyTableNameConvention.cs:  Added classes to support Many-to-Many convention.
 * /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/AutoPersistenceModelGenerator.cs:  Modified GetConventions() to account for new Many-to-Many convention.
 * /SharpArchApplicationTemplate/SharpArchProject.Tests/SharpArchProject.Data/NHibernateMaps/MappingIntegrationTests.cs:  Added CanGenerateDatabaseSchema() test to output database schema SQL to console.
