@@ -5,6 +5,7 @@ using System;
 using NHibernate.Criterion;
 using SharpArch.Core;
 using SharpArch.Core.PersistenceSupport;
+using System.Linq;
 
 namespace SharpArch.Data.NHibernate
 {
@@ -43,8 +44,10 @@ namespace SharpArch.Data.NHibernate
                     criteria.Add(
                         Expression.Eq(signatureProperty.Name, (int) propertyValue));
                 }
-				else if (propertyType.IsSubclassOf(typeof(IEntityWithTypedId<IdT>))) {
-                    AppendEntityCriteriaTo(criteria, signatureProperty, propertyValue);
+                else if (propertyType.GetInterfaces()
+                    .Any(x => x.IsGenericType && 
+                         x.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>))) {
+                    AppendEntityCriteriaTo<IdT>(criteria, signatureProperty, propertyValue);
                 }
                 else if (propertyType == typeof(DateTime)) {
                     AppendDateTimePropertyCriteriaTo(criteria, signatureProperty, propertyValue);
@@ -95,11 +98,11 @@ namespace SharpArch.Data.NHibernate
             }
         }
 
-        private static void AppendEntityCriteriaTo(ICriteria criteria, 
+        private static void AppendEntityCriteriaTo<IdT>(ICriteria criteria, 
             PropertyInfo signatureProperty, object propertyValue) {
             if (propertyValue != null) {
                 criteria.Add(Expression.Eq(signatureProperty.Name + ".Id",
-                    ((Entity)propertyValue).Id));
+                    ((IEntityWithTypedId<IdT>)propertyValue).Id));
             }
             else {
                 criteria.Add(Expression.IsNull(signatureProperty.Name + ".Id"));
