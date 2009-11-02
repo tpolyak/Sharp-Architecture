@@ -34,7 +34,7 @@ SharpArch.Core:
 SharpArch.Data:
 * /NHibernate/DbContext.cs:  Now returns the ITransaction as IDisposable for use with "using" statements. (Issue 17)
 * /NHibernate/NHibernateSession.cs:
-	- Modified ConfigureNHibernate() to allow configuration of NHibernate without a config file; allows you to use FNH exclusively.
+	- Modified ConfigureNHibernate() to allow configuration of NHibernate without a config file; allows you to use FNH exclusively. (Patch from Kyle)
 	- GetSessionFactoryFor() now returns null if the supplied factory key was not found; this would previously blow up.
 
 SharpArch.Tests:
