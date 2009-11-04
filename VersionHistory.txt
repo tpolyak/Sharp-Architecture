@@ -1,28 +1,60 @@
 ==================================================
-S#arp Architecture 1.0 Q3 2009 (Pending RTM)
+S#arp Architecture 1.0 Q3 2009
 ==================================================
 
 New and exciting in this release:
-* Upgraded dependencies including NHibernate 2.1 GA, Fluent NHibernate 1.0 and NHibernate LINQ 1.0
+* Upgraded dependencies including NHibernate 2.1.1 GA, Fluent NHibernate 1.0 and NHibernate LINQ 1.0
 * New Many-to-Many convention added to VS project template (thanks John Ledger!)
 * New DB schema generation (as a unit test) added to VS project template (thanks indomitablehef!)
 * VS generated project now uses the HiLo algorithm for identity generation
+* S#arp Architecture is now HornGet compatible (http://preview.tinyurl.com/ydoolwh)
+* S#arp Architecture has moved to GitHub (http://github.com/codai/Sharp-Architecture)
+* The wiki documentation has gotten much more complete (http://wiki.sharparchitecture.net)
+* A contrib project, led by Tom Cabanski, is well afoot (http://wiki.sharparchitecture.net/SharpArchContrib.ashx)
 
 -------
 
-Assembly Dependencies:
-* Fluent NHibernate 1.0 (Rev 593)
-* NHibernate 2.1.0.4000
-* NHibernate Linq 1.0 (Rev 4000)
+Assembly Dependencies ("^" notes upgraded dependencies):
+* ASP.NET MVC 1.0
+* ASP.NET MVC 1.0 Futures
+* Castle Windsor 2.0
+^ Fluent NHibernate 1.0.0.594 built with NHibernate 2.1.1 GA
+* jQuery 1.3.2
+^ Json.NET 3.5 Release 5
+* log4net 1.2.10.0
+* Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
+^ MvcContrib 1.0.0.9
+^ NHibernate 2.1.1 GA
+^ NHibernate.Linq 1.0.0.4000 (rev 1101) built with NHibernate 2.1.1 GA
+^ NHibernate.Validator 1.2.0.2003 (rev 1101) built with NHibernate 2.1.1 GA
+^ NUnit NUnit-2.5.2.9222.msi (Installer in /tools)
+^ Rhino.Mocks 3.6
+* System.Data.SQLite.DLL 1.0.60.0
+* T4 Toolbox 9.5.20.1 (Installer in /tools - not upgraded to latest due to flux)
 
 -------
 
 Required Upgrade Steps and Changes:
 
-* Some breaking changes were introduced with the latest dependencies, especially Fluent NHibernate.  With much kudos to Tom Cabanski, he has written three blog posts describing upgrade steps from 1.0 RTM and changes made to the code:
+#) Grab the latest dependencies from /bin and copy them to YourProject/lib and YourProject/tools/lib.  To make it easy to figure out which DLLs go into which folder, create a new project with the included VS Project Template and copy the DLLs out of the lib folders, respectively.
+
+#) Fluent NHibernate: Some breaking changes were introduced with the latest Fluent NHibernate.  With many kudos to Tom Cabanski, he has written three blog posts describing upgrade steps from 1.0 RTM and changes made to the code:
 	1) http://tomcabanski.spaces.live.com/blog/cns!E0D3617496209F45!124.entry
 	2) http://tomcabanski.spaces.live.com/blog/cns!E0D3617496209F45!125.entry
 	3) http://tomcabanski.spaces.live.com/blog/cns!E0D3617496209F45!166.entry
+
+#) NUnit: Install NUnit 2.5.2 using the installer found in /tools (optionally uninstalling previous versions)
+
+#) Castle: Within YourProject.Tests/App.config, you may drop the following assembly redirect if it exists:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
 
 -------
 

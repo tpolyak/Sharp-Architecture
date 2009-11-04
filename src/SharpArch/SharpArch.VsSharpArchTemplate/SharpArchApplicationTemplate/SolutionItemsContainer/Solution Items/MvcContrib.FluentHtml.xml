@@ -4,6 +4,47 @@
         <name>MvcContrib.FluentHtml</name>
     </assembly>
     <members>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.IBehavior`1">
+            <summary>
+            Generic implementation of behavior for an <see cref="T:MvcContrib.FluentHtml.Behaviors.IBehaviorMarker"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.IBehavior`1.Execute(`0)">
+            <summary>
+            Perform behavior modification on an object.
+            </summary>
+            <param name="behavee">The object to modify based on the behavior.</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.BehaviorMarkerExtensions">
+            <summary>
+            Extensions for IBehaviorMarker
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorMarkerExtensions.ApplyTo``1(System.Collections.Generic.IEnumerable{MvcContrib.FluentHtml.Behaviors.IBehaviorMarker},``0)">
+            <summary>
+            Apply behaviors to an object.
+            </summary>
+            <param name="behaviors">The behaviors to apply.</param>
+            <param name="target">The target element to apply behaviors to.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorMarkerExtensions.ApplyTo``1(MvcContrib.FluentHtml.Behaviors.IBehaviorMarker,``0)">
+            <summary>
+            Apply behavior to an object.
+            </summary>
+            <param name="behavior">The behavior to apply.</param>
+            <param name="target">The target element to apply behavior to.</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.IBehaviorsContainer">
+            <summary>
+            Contract for any class implementing a list of custom behaviors.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.FluentHtml.Behaviors.IBehaviorsContainer.Behaviors">
+            <summary>
+            The collection of <see cref="T:MvcContrib.FluentHtml.Behaviors.IBehaviorMarker"/> objects.
+            </summary>
+        </member>
         <member name="T:MvcContrib.FluentHtml.Behaviors.IModelStateHandler">
             <summary>
             Used internally by the ValidationBehavior to handle ModelState values for a particular element type.

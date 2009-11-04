@@ -136,9 +136,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="sqlite-nhibernate-config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -14,8 +14,7 @@ namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
     /// </summary>
     public class Validator : SharpArch.Core.CommonValidator.IValidator
     {
-        static Validator()
-        {
+        static Validator() {
             validator = NHibernateSession.ValidatorEngine ?? new ValidatorEngine();
         }
 

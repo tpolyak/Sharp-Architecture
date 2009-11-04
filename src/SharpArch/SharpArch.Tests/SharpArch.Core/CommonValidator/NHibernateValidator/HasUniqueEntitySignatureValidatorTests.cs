@@ -29,10 +29,12 @@ namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
 
         public void InitServiceLocatorInitializer() {
             IWindsorContainer container = new WindsorContainer();
+            
             container.AddComponent("duplicateChecker",
                 typeof(IEntityDuplicateChecker), typeof(DuplicateCheckerStub));
             container.AddComponent("validator",
                 typeof(IValidator), typeof(Validator));
+
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }
 

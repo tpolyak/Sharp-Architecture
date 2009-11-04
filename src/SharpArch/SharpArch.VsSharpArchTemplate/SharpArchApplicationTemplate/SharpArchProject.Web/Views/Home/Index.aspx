@@ -7,7 +7,7 @@
     <h3>
         What next?</h3>
     <p>
-        Your S#arp Architecture project is now setup and ready to go.  The only tasks remaining 
+        Your S#arp Architecture 1.0 Q3 2009 project is now setup and ready to go.  The only tasks remaining 
         are to:
         <ol>
             <li>
