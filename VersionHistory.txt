@@ -10,7 +10,7 @@ New and exciting in this release:
 * S#arp Architecture is now HornGet compatible (http://preview.tinyurl.com/ydoolwh)
 * S#arp Architecture has moved to GitHub (http://github.com/codai/Sharp-Architecture)
 * The wiki documentation has gotten much more complete (http://wiki.sharparchitecture.net)
-* A contrib project, led by Tom Cabanski, is well afoot (http://wiki.sharparchitecture.net/SharpArchContrib.ashx)
+* A contrib project, led by Tom Cabanski, is well underway (http://wiki.sharparchitecture.net/SharpArchContrib.ashx)
 
 -------
 
@@ -73,6 +73,7 @@ SharpArch.Tests:
 * /SharpArch.Data/NHibernateSessionTests.cs:  Added this set of tests to demonstrate how to initialize NHibernate with and without a config file.
 
 SharpArch.VsSharpArchTemplate
+* Added MvcContrib.FluentHtml to YourProject.Web along with namespace inclusion in its web.config
 * Removed WCF assemblies from VS generated project (these are moving to the Contrib project)
 * /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/PrimaryKeyConvention.cs:  Changed default Id generation to use the HiLo algorithm.  Requires a hibernate_unique_key table with a next_hi int column. (Issue 5)
 * /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/ForeignKeyConvention.cs, HasManyToManyConvention.cs, ManyToManyTableNameConvention.cs:  Added classes to support Many-to-Many convention.

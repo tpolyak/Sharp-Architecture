@@ -92,6 +92,28 @@
             An object containing the parameters for a route. The parameters are retrieved via reflection by examining the properties of the object. Typically created using object initializer syntax.
             </summary>
         </member>
+        <member name="T:MvcContrib.ActionResults.RedirectToRouteResult`1">
+            <summary>
+            Represents a result that performs a redirect using a lambda expression to generate the route values.
+            </summary>
+            <typeparam name="T">Type of controller</typeparam>
+        </member>
+        <member name="M:MvcContrib.ActionResults.RedirectToRouteResult`1.#ctor(System.Linq.Expressions.Expression{System.Action{`0}})">
+            <summary>
+            Creates a new instance of the RedirectToRouteResult class.
+            </summary>
+            <param name="expression"></param>
+        </member>
+        <member name="M:MvcContrib.ActionResults.RedirectToRouteResult`1.#ctor(System.Linq.Expressions.Expression{System.Action{`0}},MvcContrib.ActionResults.ExpressionToRouteValueConverter{`0})">
+            <summary>
+            Creates a new instance of the RedirectToRouteResult class using the specified ExpressionParser
+            </summary>
+        </member>
+        <member name="P:MvcContrib.ActionResults.RedirectToRouteResult`1.Expression">
+            <summary>
+            The route values.
+            </summary>
+        </member>
         <member name="T:MvcContrib.ActionResults.XmlResult">
             <summary>
             Action result that serializes the specified object into XML and outputs it to the response stream.
@@ -270,6 +292,17 @@
             passed to the controller or action that this attribute is placed on.
             </summary>
         </member>
+        <member name="M:MvcContrib.Filters.PassParametersDuringRedirectAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
+            <summary>
+            Loads parameters from TempData into the ActionParameters dictionary.
+            </summary>
+            <param name="filterContext"></param>
+        </member>
+        <member name="M:MvcContrib.Filters.PassParametersDuringRedirectAttribute.OnActionExecuted(System.Web.Mvc.ActionExecutedContext)">
+            <summary>
+            Stores any parameters passed to the generic RedirectToAction method in TempData.
+            </summary>
+        </member>
         <member name="T:MvcContrib.Filters.RescueAttribute">
             <summary>
             Filter attribute for handling errors.
@@ -390,22 +423,6 @@
             <param name="controller">The instance of the controller which provides access to this method</param>
             <param name="action">An expression which identifies the action to redirect to on the controller of type <typeparamref name="T"/></param>
             <returns>A <see cref="T:System.Web.Mvc.RedirectToRouteResult"/> pointing to the action specified by the <paramref name="action"/> expression</returns>
-        </member>
-        <member name="M:MvcContrib.ControllerExtensions.RemoveReferenceTypesFromRouteValues(System.Web.Routing.RouteValueDictionary)">
-            <summary>
-            The ExpressionHelper.GetRouteValuesFromExpression() method in MVC Futures will 
-            put all parameters from the lambda expression into the route value dictionary,
-            but if the parameter is a reference type, that doesn't make sense and leads to 
-            URLs like http://mysite.com/account/add?model=MyProject.AccountViewModel and
-            extraneous errors in ModelState.  So we'll strip out those reference types
-            in here.
-            
-            If you really wanted to have a reference type in the route value dictionary,
-            you should override ToString() in the object and have it return something 
-            meaningful that could be added to the route value dictionary.  If you do that,
-            this method will see the route value as a string and will not strip it out.
-            </summary>
-            <param name="dictionary"></param>
         </member>
         <member name="M:MvcContrib.ControllerExtensions.IsController(System.Type)">
             <summary>
