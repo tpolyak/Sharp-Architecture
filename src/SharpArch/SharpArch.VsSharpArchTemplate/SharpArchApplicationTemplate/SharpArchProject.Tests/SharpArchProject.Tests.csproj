@@ -151,6 +151,10 @@
         <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
+		<ProjectReference Include="..\$solutionname$.ApplicationServices\$solutionname$.ApplicationServices.csproj">
+			<Project>$guidAssignedToApplicationServices$</Project>
+			<Name>$solutionname$.ApplicationServices</Name>
+		</ProjectReference>
         <ProjectReference Include="..\..\app\$solutionname$.Web.Controllers\$solutionname$.Web.Controllers.csproj">
             <Project>$guidAssignedToControllers$</Project>
             <Name>$solutionname$.Controllers</Name>
