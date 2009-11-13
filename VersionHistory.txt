@@ -1,5 +1,5 @@
 ==================================================
-S#arp Architecture 1.0 Q3 2009
+S#arp Architecture 1.0 Q3 2009 for Visual Studio 2008
 ==================================================
 
 New and exciting in this release:
@@ -11,13 +11,14 @@ New and exciting in this release:
 * S#arp Architecture has moved to GitHub (http://github.com/codai/Sharp-Architecture)
 * The wiki documentation has gotten much more complete (http://wiki.sharparchitecture.net)
 * A contrib project, led by Tom Cabanski, is well underway (http://wiki.sharparchitecture.net/SharpArchContrib.ashx)
+* WCF support within S#arp Architecture has been deprecated...it's moving to Sharp Contrib
 
 -------
 
 Assembly Dependencies ("^" notes upgraded dependencies):
 * ASP.NET MVC 1.0
 * ASP.NET MVC 1.0 Futures
-* Castle Windsor 2.0
+^ Castle Windsor 2.0
 ^ Fluent NHibernate 1.0.0.594 built with NHibernate 2.1.1 GA
 * jQuery 1.3.2
 ^ Json.NET 3.5 Release 5
@@ -30,7 +31,7 @@ Assembly Dependencies ("^" notes upgraded dependencies):
 ^ NUnit NUnit-2.5.2.9222.msi (Installer in /tools)
 ^ Rhino.Mocks 3.6
 * System.Data.SQLite.DLL 1.0.60.0
-* T4 Toolbox 9.5.20.1 (Installer in /tools - not upgraded to latest due to flux)
+* T4 Toolbox 9.5.20.1 (Installer in /tools - not upgraded to latest available)
 
 -------
 
