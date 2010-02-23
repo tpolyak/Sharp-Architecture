@@ -23,5 +23,10 @@ namespace SharpArch.Core.CommonValidator
         /// Holds the message describing the validation result for the ClassContext and/or PropertyContext
         /// </summary>
         string Message { get; }
+
+		/// <summary>
+		/// The value that was determined to be invalid
+		/// </summary>
+		object AttemptedValue { get; }
     }
 }

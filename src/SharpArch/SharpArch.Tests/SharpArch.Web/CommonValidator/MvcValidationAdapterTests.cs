@@ -31,10 +31,16 @@ namespace Tests.SharpArch.Web.CommonValidator
             Assert.That(modelStateDictionary.Count, Is.EqualTo(3));
             Assert.That(modelStateDictionary["TransactionAttribute.Property1"].Errors[0].ErrorMessage,
                 Is.EqualTo("Message 1"));
+			Assert.That(modelStateDictionary["TransactionAttribute.Property1"].Value.AttemptedValue,
+				Is.EqualTo("Test 1"));
             Assert.That(modelStateDictionary["MvcValidationAdapter.Property2"].Errors[0].ErrorMessage,
                 Is.EqualTo("Message 2"));
+			Assert.That(modelStateDictionary["MvcValidationAdapter.Property2"].Value.AttemptedValue,
+				Is.EqualTo("Test 2"));
             Assert.That(modelStateDictionary["MvcValidationAdapterTests.Property3"].Errors[0].ErrorMessage,
                 Is.EqualTo("Message 3"));
+			Assert.That(modelStateDictionary["MvcValidationAdapterTests.Property3"].Value.AttemptedValue,
+				Is.EqualTo("Test 3"));
         }
     }
 }
