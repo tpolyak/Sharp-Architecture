@@ -18,13 +18,13 @@ namespace Tests.SharpArch.Web.CommonValidator
             IList<IValidationResult> invalidValues = new List<IValidationResult>();
             invalidValues.Add(
                 new ValidationResult(
-                    new InvalidValue("Message 1", typeof(TransactionAttribute), "Property1", "Test 1", null)));
+                    new InvalidValue("Message 1", typeof(TransactionAttribute), "Property1", "Test 1", null, null)));
             invalidValues.Add(
                 new ValidationResult(
-                    new InvalidValue("Message 2", typeof(MvcValidationAdapter), "Property2", "Test 2", null)));
+                    new InvalidValue("Message 2", typeof(MvcValidationAdapter), "Property2", "Test 2", null, null)));
             invalidValues.Add(
                 new ValidationResult(
-                    new InvalidValue("Message 3", GetType(), "Property3", "Test 3", null)));
+                    new InvalidValue("Message 3", GetType(), "Property3", "Test 3", null, null)));
 
             MvcValidationAdapter.TransferValidationMessagesTo(modelStateDictionary, invalidValues);
 
