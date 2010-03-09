@@ -77,24 +77,9 @@ namespace SharpArch.Web.ModelBinder
         {
         }
 
-        /// <summary>
-        /// Uses the default implementation to get the model properties to be updated and adds in the "Id" property if available
-        /// </summary>
-        protected override PropertyDescriptorCollection GetModelProperties(
-            ControllerContext controllerContext, ModelBindingContext bindingContext)
-        {
-
-            PropertyDescriptorCollection modelProperties = base.GetModelProperties(controllerContext, bindingContext);
-
-            AddIdPropertyIfAvailableTo(modelProperties, bindingContext);
-
-            return modelProperties;
-        }
-
         protected override void SetProperty(ControllerContext controllerContext,
             ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value)
         {
-
             SetIdProperty(bindingContext, propertyDescriptor, value);
             SetEntityCollectionProperty(bindingContext, propertyDescriptor, value);
 
@@ -194,19 +179,6 @@ namespace SharpArch.Web.ModelBinder
             return replacementValueProvider;
         }
 
-        private void AddIdPropertyIfAvailableTo(PropertyDescriptorCollection modelProperties, ModelBindingContext bindingContext)
-        {
-            PropertyDescriptor idProperty =
-                (from PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)
-                 where property.Name == ID_PROPERTY_NAME
-                 select property).SingleOrDefault();
-
-            if (idProperty != null && !modelProperties.Contains(idProperty))
-            {
-                modelProperties.Add(idProperty);
-            }
-        }
-
         /// <summary>
         /// If the property being bound is an Id property, then use reflection to get past the 
         /// protected visibility of the Id property, accordingly.
@@ -280,6 +252,17 @@ namespace SharpArch.Web.ModelBinder
 
         protected override bool OnModelUpdating(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
+            //handle the Id property
+            PropertyDescriptor idProperty =
+                (from PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)
+                 where property.Name == ID_PROPERTY_NAME
+                 select property).SingleOrDefault();
+
+            if ( idProperty != null)
+            {
+                BindProperty(controllerContext,bindingContext,idProperty);
+            }
+
             return base.OnModelUpdating(controllerContext, bindingContext);
         }
 

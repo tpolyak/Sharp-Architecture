@@ -24,7 +24,7 @@
 			<label for="Employee_FirstName">FirstName:</label>
 			<div>
 				<%= Html.TextBox("Employee.FirstName", 
-					(ViewData.Model.Employee != null) ? ViewData.Model.Employee.FirstName.ToString() : "")%>
+					(ViewData.Model.Employee != null) ? ViewData.Model.Employee.FirstName : "")%>
 			</div>
 			<%= Html.ValidationMessage("Employee.FirstName")%>
 		</li>
@@ -32,7 +32,7 @@
 			<label for="Employee_LastName">LastName:</label>
 			<div>
 				<%= Html.TextBox("Employee.LastName", 
-					(ViewData.Model.Employee != null) ? ViewData.Model.Employee.LastName.ToString() : "")%>
+					(ViewData.Model.Employee != null) ? ViewData.Model.Employee.LastName : "")%>
 			</div>
 			<%= Html.ValidationMessage("Employee.LastName")%>
 		</li>

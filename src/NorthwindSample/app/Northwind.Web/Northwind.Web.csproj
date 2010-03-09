@@ -157,6 +157,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CastleWindsor\ComponentRegistrar.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -247,6 +251,7 @@
     <Content Include="Views\Organization\Employees\Show.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Default.aspx" />
     <Content Include="Views\Organization\Web.config" />
   </ItemGroup>
   <ItemGroup>
