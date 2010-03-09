@@ -78,9 +78,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Areas\LinkForAreasExtensions.cs" />
-    <Compile Include="Areas\AreaRouteHelper.cs" />
     <Compile Include="Areas\AreaViewEngine.cs" />
+    <Compile Include="Areas\LinkForAreasExtensions.cs" />
     <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
     <Compile Include="CommonValidator\ValidatableModelBinder.cs" />
     <Compile Include="JsonNet\JsonNetResult.cs" />

@@ -163,7 +163,8 @@ namespace SharpArch.Web.ModelBinder
             //bool couldGetDefaultResult =
             //    bindingContext.ValueProvider.TryGetValue(valueProviderKey, out defaultResult);
 
-            //if (couldGetDefaultResult) {
+            //if (couldGetDefaultResult)
+            //{
             //    ValueProviderResult replacementValueProvider =
             //        CreateReplacementValueProviderOf(typeOfReplacementValueProvider, propertyType, defaultResult);
 
