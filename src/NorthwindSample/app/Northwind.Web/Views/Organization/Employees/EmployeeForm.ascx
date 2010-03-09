@@ -1,9 +1,8 @@
 <%@ Control Language="C#" AutoEventWireup="true"
 	Inherits="System.Web.Mvc.ViewUserControl<Northwind.Web.Controllers.Organization.EmployeesController.EmployeeFormViewModel>" %>
-<%@ Import Namespace="Northwind.Core.Organization" %>
 <%@ Import Namespace="Northwind.Web.Controllers" %>
-<%@ Import Namespace="Northwind.Web.Controllers.Organization" %> 
 <%@ Import Namespace="Northwind.Core" %>
+<%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
 
 <% if (ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()] != null) { %>
     <p id="pageMessage"><%= ViewContext.TempData[ControllerEnums.GlobalViewDataProperty.PageMessage.ToString()]%></p>

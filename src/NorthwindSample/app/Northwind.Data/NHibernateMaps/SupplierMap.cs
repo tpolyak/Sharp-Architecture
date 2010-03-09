@@ -1,6 +1,5 @@
 ﻿using FluentNHibernate.Automapping;
 using Northwind.Core;
-using SharpArch.Data.NHibernate.FluentNHibernate;
 using FluentNHibernate.Automapping.Alterations;
 
 namespace Northwind.Data.NHibernateMappings

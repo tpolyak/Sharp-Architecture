@@ -26,12 +26,11 @@
                     </p>
                     <h2>Example Pages</h2>
                     <ul>
-                        <li><%= Html.ActionLinkForAreas<HomeController>(c => c.Index(), "Home") %></li>
-                        <li><%= Html.ActionLinkForAreas<CategoriesController>(c => c.Index(), "List Categories") %></li>
-                        <li><%= Html.ActionLinkForAreas<CustomersController>(c => c.Index(), "List Customers with Lazily Loaded Orders")%></li>
-                        <li><%= Html.ActionLinkForAreas<EmployeesController>(c => c.Index(), "Employee CRUD with Validation")%></li>
-                        <li><%= Html.ActionLinkForAreas<DashboardController>(c => c.Index(), "Dashboard Controller using an 'Application Service'")%></li>
-                        <li><%= Html.ActionLinkForAreas<TerritoriesController>(c => c.Index(), "Territories Pulled via WCF")%></li>
+                        <li><%= Html.ActionLinkForAreas<HomeController>(a => a.Index(), "Home") %></li>
+                        <li><%= Html.ActionLinkForAreas<CategoriesController>(a => a.Index(), "List Categories") %></li>
+                        <li><%= Html.ActionLinkForAreas<CustomersController>(a => a.Index(),"List Customers with Lazily Loaded Orders")%></li>
+                        <li><%= Html.ActionLinkForAreas<EmployeesController>(a => a.Index(), "Employee CRUD with Validation")%></li>
+                        <li><%= Html.ActionLinkForAreas<DashboardController>(a => a.Index(),"Dashboard Controller using an 'Application Service'")%></li>
                     </ul>
                 </div>
                 <!--/leftColumn-->

@@ -10,4 +10,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Northwind.Core")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d87e8032-116d-4c66-8366-102b3bb19852")]
+[assembly: Guid("e6b55803-aded-4562-a227-4f362c91c2b8")]

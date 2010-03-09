@@ -1,6 +1,5 @@
 ﻿using FluentNHibernate.Conventions;
 using FluentNHibernate.Mapping;
-using Northwind.Core;
 
 namespace Northwind.Data.NHibernateMaps.Conventions
 {

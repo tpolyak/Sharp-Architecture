@@ -10,4 +10,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Northwind.Web.Controllers")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c644f3f8-e748-4b2c-be6a-394875caabb0")]
+[assembly: Guid("efd8613b-4cd3-46a6-8db8-c4a19dc6ac18")]

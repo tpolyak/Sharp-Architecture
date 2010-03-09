@@ -1,23 +1,19 @@
 ﻿using System;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Reflection;
 using Castle.Windsor;
-using Northwind.Core;
-using Northwind.Data.NHibernateMaps;
-using Northwind.Web.Controllers;
-using MvcContrib.Castle;
-using Northwind.Web.CastleWindsor;
-using SharpArch.Core.DomainModel;
-using SharpArch.Data.NHibernate;
-using SharpArch.Web.NHibernate;
-using SharpArch.Web.Castle;
-using Microsoft.Practices.ServiceLocation;
 using CommonServiceLocator.WindsorAdapter;
+using Microsoft.Practices.ServiceLocation;
+using MvcContrib.Castle;
+using Northwind.Data.NHibernateMaps;
+using Northwind.Web.CastleWindsor;
+using Northwind.Web.Controllers;
+using SharpArch.Data.NHibernate;
 using SharpArch.Web.Areas;
-using SharpArch.Web.CommonValidator;
 using SharpArch.Web.ModelBinder;
+using SharpArch.Web.NHibernate;
 
 namespace Northwind.Web
 {
@@ -26,7 +22,8 @@ namespace Northwind.Web
 
     public class MvcApplication : HttpApplication
     {
-        protected void Application_Start() {
+        protected void Application_Start()
+        {
             log4net.Config.XmlConfigurator.Configure();
 
             ViewEngines.Engines.Clear();
@@ -36,6 +33,7 @@ namespace Northwind.Web
 
             IWindsorContainer container = InitializeServiceLocator();
 
+            AreaRegistration.RegisterAllAreas();
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
 
@@ -44,7 +42,8 @@ namespace Northwind.Web
         /// WindsorController to the container.  Also associate the Controller 
         /// with the WindsorContainer ControllerFactory.
         /// </summary>
-        protected virtual IWindsorContainer InitializeServiceLocator() {
+        protected virtual IWindsorContainer InitializeServiceLocator()
+        {
             IWindsorContainer container = new WindsorContainer();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
@@ -56,7 +55,8 @@ namespace Northwind.Web
             return container;
         }
 
-        public override void Init() {
+        public override void Init()
+        {
             base.Init();
 
             // The WebSessionStorage must be created during the Init() to tie in HttpApplication events
@@ -68,7 +68,8 @@ namespace Northwind.Web
         /// must only be called once.  Consequently, we invoke a thread-safe singleton class to 
         /// ensure it's only initialized once.
         /// </summary>
-        protected void Application_BeginRequest(object sender, EventArgs e) {
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
             NHibernateInitializer.Instance().InitializeNHibernateOnce(
                 () => InitializeNHibernateSession());
         }
@@ -77,7 +78,8 @@ namespace Northwind.Web
         /// If you need to communicate to multiple databases, you'd add a line to this method to
         /// initialize the other database as well.
         /// </summary>
-        private void InitializeNHibernateSession() {
+        private void InitializeNHibernateSession()
+        {
             NHibernateSession.Init(
                 webSessionStorage,
                 new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
@@ -85,7 +87,8 @@ namespace Northwind.Web
                 Server.MapPath("~/NHibernate.config"));
         }
 
-        protected void Application_Error(object sender, EventArgs e) {
+        protected void Application_Error(object sender, EventArgs e)
+        {
             // Useful for debugging
             Exception ex = Server.GetLastError();
             ReflectionTypeLoadException reflectionTypeLoadException = ex as ReflectionTypeLoadException;
