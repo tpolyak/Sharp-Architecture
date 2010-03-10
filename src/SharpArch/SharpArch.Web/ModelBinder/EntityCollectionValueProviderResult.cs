@@ -3,9 +3,6 @@ using System.Globalization;
 using System;
 using SharpArch.Core;
 using System.Linq;
-using System.ComponentModel;
-using SharpArch.Core.PersistenceSupport;
-using Microsoft.Practices.ServiceLocation;
 using System.Reflection;
 using SharpArch.Core.DomainModel;
 
