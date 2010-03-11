@@ -10,7 +10,6 @@ using System.ComponentModel;
 
 namespace Northwind.Core
 {
-    [TypeConverter(typeof(TerritoryConverter))]
     public class Territory : EntityWithTypedId<string>, IHasAssignedId<string>
     {
         public Territory() {
@@ -54,31 +53,5 @@ namespace Northwind.Core
         public virtual IList<Employee> Employees { get; protected set; }
 
         private const int ID_MAX_LENGTH = 20;
-
-        public class TerritoryConverter : TypeConverter
-        {
-            public override bool CanConvertFrom(ITypeDescriptorContext context,
-      Type sourceType)
-            {
-
-                if ( sourceType == typeof(string) )
-                {
-                    return true;
-                }
-                return base.CanConvertFrom(context, sourceType);
-            }
-
-            public override object ConvertFrom(ITypeDescriptorContext context,
-     CultureInfo culture, object value)
-            {
-                if ( value is string )
-                {
-                    Territory returnVal = new Territory();
-                    returnVal.SetAssignedIdTo(value as string);
-                    return returnVal;
-                }
-                return base.ConvertFrom(context, culture, value);
-            }
-        }
     }
 }
