@@ -5,7 +5,6 @@ using SharpArch.Web.CommonValidator;
 using System;
 using SharpArch.Core.DomainModel;
 using System.Linq;
-using SharpArch.Core;
 using System.Reflection;
 using System.Collections.Generic;
 using Iesi.Collections.Generic;
@@ -15,6 +14,31 @@ namespace SharpArch.Web.ModelBinder
 {
     public class SharpModelBinder : DefaultModelBinder
     {
+        /// <summary>
+        /// Called when the model is updating. We handle updating the Id property here because it gets filtered out
+        /// of the normal MVC2 property binding.
+        /// </summary>
+        /// <param name="controllerContext">The context within which the controller operates. The context information includes the controller, HTTP content, request context, and route data.</param>
+        /// <param name="bindingContext">The context within which the model is bound. The context includes information such as the model object, model name, model type, property filter, and value provider.</param>
+        /// <returns>
+        /// true if the model is updating; otherwise, false.
+        /// </returns>
+        protected override bool OnModelUpdating(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            //handle the Id property
+            PropertyDescriptor idProperty =
+                (from PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)
+                 where property.Name == ID_PROPERTY_NAME
+                 select property).SingleOrDefault();
+
+            if ( idProperty != null )
+            {
+                BindProperty(controllerContext, bindingContext, idProperty);
+            }
+
+            return base.OnModelUpdating(controllerContext, bindingContext);
+        }
+
         /// <summary>
         /// After the model is updated, there may be a number of ModelState errors added by ASP.NET MVC for 
         /// and data casting problems that it runs into while binding the object.  This gets rid of those
@@ -48,25 +72,31 @@ namespace SharpArch.Web.ModelBinder
             }
         }
 
-        protected override void BindProperty(ControllerContext controllerContext,
-            ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
+        protected override object GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
         {
-
             Type propertyType = propertyDescriptor.PropertyType;
 
-            if (IsEntityType(propertyType))
+            if ( IsEntityType(propertyType) )
             {
-                ReplaceValueProviderWithCustomValueProvider(bindingContext, propertyDescriptor,
-                    propertyType, typeof(EntityValueProviderResult));
+                ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+
+                EntityValueProviderResult entityValueProviderResult = new EntityValueProviderResult(valueProviderResult, propertyType);
+
+                return entityValueProviderResult.ConvertTo(propertyType);
             }
-            else if (IsSimpleGenericBindableEntityCollection(propertyType))
+            else if ( IsSimpleGenericBindableEntityCollection(propertyType) )
             {
-                ReplaceValueProviderWithCustomValueProvider(bindingContext, propertyDescriptor,
-                    propertyType, typeof(EntityCollectionValueProviderResult));
+                ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+
+                EntityCollectionValueProviderResult entityCollectionValueProviderResult = new EntityCollectionValueProviderResult(valueProviderResult, propertyType);
+
+                return entityCollectionValueProviderResult.ConvertTo(propertyType);
             }
 
-            base.BindProperty(controllerContext, bindingContext, propertyDescriptor);
+            return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, propertyBinder);
         }
+
+
 
         /// <summary>
         /// The base implementation of this uses IDataErrorInfo to check for validation errors and 
@@ -100,20 +130,20 @@ namespace SharpArch.Web.ModelBinder
             return true;
         }
 
-        private bool IsModelErrorAddedByMvc(ModelError modelError)
+        private static bool IsModelErrorAddedByMvc(ModelError modelError)
         {
             return modelError.Exception != null &&
                 modelError.Exception.GetType().Equals(typeof(InvalidOperationException));
         }
 
-        private bool IsMvcModelBinderFormatException(ModelError modelError)
+        private static bool IsMvcModelBinderFormatException(ModelError modelError)
         {
             return modelError.Exception != null &&
                 modelError.Exception.InnerException != null &&
                 modelError.Exception.InnerException.GetType().Equals(typeof(FormatException));
         }
 
-        private bool IsEntityType(Type propertyType)
+        private static bool IsEntityType(Type propertyType)
         {
             bool isEntityType = propertyType.GetInterfaces()
                 .Any(type => type.IsGenericType &&
@@ -122,7 +152,7 @@ namespace SharpArch.Web.ModelBinder
             return isEntityType;
         }
 
-        private bool IsSimpleGenericBindableEntityCollection(Type propertyType)
+        private static bool IsSimpleGenericBindableEntityCollection(Type propertyType)
         {
             bool isSimpleGenericBindableCollection =
                 propertyType.IsGenericType &&
@@ -136,54 +166,11 @@ namespace SharpArch.Web.ModelBinder
             return isSimpleGenericBindableEntityCollection;
         }
 
-        private void ReplaceValueProviderWithCustomValueProvider(ModelBindingContext bindingContext,
-            PropertyDescriptor propertyDescriptor, Type propertyType, Type typeOfReplacementValueProvider)
-        {
-
-            //string valueProviderKey =
-            //    CreateSubPropertyName(bindingContext.ModelName, propertyDescriptor.Name);
-
-            //ValueProviderResult defaultResult;
-
-            //bool couldGetDefaultResult =
-            //    bindingContext.ValueProvider.TryGetValue(valueProviderKey, out defaultResult);
-
-            //if (couldGetDefaultResult)
-            //{
-            //    ValueProviderResult replacementValueProvider =
-            //        CreateReplacementValueProviderOf(typeOfReplacementValueProvider, propertyType, defaultResult);
-
-            //    bindingContext.ValueProvider.Remove(valueProviderKey);
-            //    bindingContext.ValueProvider.Add(valueProviderKey, replacementValueProvider);
-            //}
-        }
-
-        private ValueProviderResult CreateReplacementValueProviderOf(Type typeOfReplacementValueProvider,
-            Type propertyType, ValueProviderResult defaultResult)
-        {
-
-            ValueProviderResult replacementValueProvider = null;
-
-            if (typeOfReplacementValueProvider == typeof(EntityValueProviderResult))
-            {
-                replacementValueProvider = new EntityValueProviderResult(defaultResult, propertyType);
-            }
-            else if (typeOfReplacementValueProvider == typeof(EntityCollectionValueProviderResult))
-            {
-                replacementValueProvider = new EntityCollectionValueProviderResult(defaultResult, propertyType);
-            }
-
-            Check.Ensure(replacementValueProvider != null, "The desired value provider, " +
-                    typeOfReplacementValueProvider.ToString() + ", does not match any custom value provider.");
-
-            return replacementValueProvider;
-        }
-
         /// <summary>
         /// If the property being bound is an Id property, then use reflection to get past the 
         /// protected visibility of the Id property, accordingly.
         /// </summary>
-        private void SetIdProperty(ModelBindingContext bindingContext,
+        private static void SetIdProperty(ModelBindingContext bindingContext,
             PropertyDescriptor propertyDescriptor, object value)
         {
 
@@ -216,7 +203,7 @@ namespace SharpArch.Web.ModelBinder
         /// If the property being bound is a simple, generic collection of entiy objects, then use 
         /// reflection to get past the protected visibility of the collection property, if necessary.
         /// </summary>
-        private void SetEntityCollectionProperty(ModelBindingContext bindingContext,
+        private static void SetEntityCollectionProperty(ModelBindingContext bindingContext,
             PropertyDescriptor propertyDescriptor, object value)
         {
 
@@ -250,22 +237,11 @@ namespace SharpArch.Web.ModelBinder
             return base.CreateModel(controllerContext, bindingContext, modelType);
         }
 
-        protected override bool OnModelUpdating(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        protected override void BindProperty(ControllerContext controllerContext,
+    ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
         {
-            //handle the Id property
-            PropertyDescriptor idProperty =
-                (from PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)
-                 where property.Name == ID_PROPERTY_NAME
-                 select property).SingleOrDefault();
-
-            if ( idProperty != null)
-            {
-                BindProperty(controllerContext,bindingContext,idProperty);
-            }
-
-            return base.OnModelUpdating(controllerContext, bindingContext);
+            base.BindProperty(controllerContext, bindingContext, propertyDescriptor);
         }
-
         #endregion
 
         private const string ID_PROPERTY_NAME = "Id";
