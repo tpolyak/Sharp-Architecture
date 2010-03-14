@@ -48,7 +48,8 @@ namespace SharpArch.Web.ModelBinder
                 //use the EntityValueBinder
                 return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, new EntityValueBinder());
             }
-            else if ( IsSimpleGenericBindableEntityCollection(propertyType) )
+            
+            if ( IsSimpleGenericBindableEntityCollection(propertyType) )
             {
                 //use the EntityValueCollectionBinder
                 return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, new EntityCollectionValueBinder());
@@ -64,8 +65,7 @@ namespace SharpArch.Web.ModelBinder
             {
                 SetIdProperty(bindingContext, propertyDescriptor, value);
             }
-            else if ( value as IEnumerable != null &&
-                IsSimpleGenericBindableEntityCollection(propertyDescriptor.PropertyType) )
+            else if (value as IEnumerable != null && IsSimpleGenericBindableEntityCollection(propertyDescriptor.PropertyType))
             {
                 SetEntityCollectionProperty(bindingContext, propertyDescriptor, value);
             }
@@ -91,7 +91,8 @@ namespace SharpArch.Web.ModelBinder
                 propertyType.IsGenericType &&
                 (propertyType.GetGenericTypeDefinition() == typeof(IList<>) ||
                  propertyType.GetGenericTypeDefinition() == typeof(ICollection<>) ||
-                 propertyType.GetGenericTypeDefinition() == typeof(ISet<>));
+                 propertyType.GetGenericTypeDefinition() == typeof(ISet<>) ||
+                 propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
             bool isSimpleGenericBindableEntityCollection =
                 isSimpleGenericBindableCollection && IsEntityType(propertyType.GetGenericArguments().First());
@@ -128,6 +129,7 @@ namespace SharpArch.Web.ModelBinder
             idProperty.SetValue(bindingContext.Model, typedId, null);
         }
 
+
         /// <summary>
         /// If the property being bound is a simple, generic collection of entiy objects, then use 
         /// reflection to get past the protected visibility of the collection property, if necessary.
@@ -136,13 +138,16 @@ namespace SharpArch.Web.ModelBinder
             PropertyDescriptor propertyDescriptor, object value)
         {
             object entityCollection = propertyDescriptor.GetValue(bindingContext.Model);
-            Type entityCollectionType = entityCollection.GetType();
-
-            foreach ( object entity in (value as IEnumerable) )
+            if (entityCollection != value)
             {
-                entityCollectionType.InvokeMember("Add",
-                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, null, entityCollection,
-                    new object[] { entity });
+                Type entityCollectionType = entityCollection.GetType();
+
+                foreach (object entity in (value as IEnumerable))
+                {
+                    entityCollectionType.InvokeMember("Add",
+                                                      BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, null, entityCollection,
+                                                      new object[] { entity });
+                }
             }
         }
 
