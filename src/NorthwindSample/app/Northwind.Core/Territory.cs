@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace Northwind.Core
 {
-    public class Territory : EntityWithTypedId<string>, IHasAssignedId<string>
+    public class Territory : EntityWithTypedId<string> //, IHasAssignedId<string>
     {
         public Territory() {
             InitMembers();

@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.ComponentModel;
-using SharpArch.Core.CommonValidator;
-using SharpArch.Web.CommonValidator;
+using SharpArch.Core.CommonValidator; //TODO: Can we remove these classes now?
+using SharpArch.Web.CommonValidator; //TODO: Can we remove these classes now?
 using System;
 using SharpArch.Core.DomainModel;
 using System.Linq;
@@ -25,51 +25,18 @@ namespace SharpArch.Web.ModelBinder
         /// </returns>
         protected override bool OnModelUpdating(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            //handle the Id property
-            PropertyDescriptor idProperty =
-                (from PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)
-                 where property.Name == ID_PROPERTY_NAME
-                 select property).SingleOrDefault();
-
-            if ( idProperty != null )
+            if ( IsEntityType(bindingContext.ModelType) )
             {
+                //handle the Id property
+                PropertyDescriptor idProperty =
+                    (from PropertyDescriptor property in TypeDescriptor.GetProperties(bindingContext.ModelType)
+                     where property.Name == ID_PROPERTY_NAME
+                     select property).SingleOrDefault();
+
                 BindProperty(controllerContext, bindingContext, idProperty);
-            }
 
+            }
             return base.OnModelUpdating(controllerContext, bindingContext);
-        }
-
-        /// <summary>
-        /// After the model is updated, there may be a number of ModelState errors added by ASP.NET MVC for 
-        /// and data casting problems that it runs into while binding the object.  This gets rid of those
-        /// casting errors and uses the registered IValidator to populate the ModelState with any validation
-        /// errors.
-        /// </summary>
-        protected override void OnModelUpdated(ControllerContext controllerContext, ModelBindingContext bindingContext)
-        {
-            foreach (string key in bindingContext.ModelState.Keys)
-            {
-                for (int i = 0; i < bindingContext.ModelState[key].Errors.Count; i++)
-                {
-                    ModelError modelError = bindingContext.ModelState[key].Errors[i];
-
-                    // Get rid of all the MVC errors except those associated with parsing info; e.g., parsing DateTime fields
-                    if (IsModelErrorAddedByMvc(modelError) && !IsMvcModelBinderFormatException(modelError))
-                    {
-                        bindingContext.ModelState[key].Errors.RemoveAt(i);
-                        // Decrement the counter since we've shortened the list
-                        i--;
-                    }
-                }
-            }
-
-            // Transfer any errors exposed by IValidator to the ModelState
-            if (bindingContext.Model is IValidatable)
-            {
-                MvcValidationAdapter.TransferValidationMessagesTo(
-                    bindingContext.ModelName, bindingContext.ModelState,
-                    ((IValidatable)bindingContext.Model).ValidationResults());
-            }
         }
 
         protected override object GetPropertyValue(ControllerContext controllerContext, ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, IModelBinder propertyBinder)
@@ -78,69 +45,35 @@ namespace SharpArch.Web.ModelBinder
 
             if ( IsEntityType(propertyType) )
             {
-                ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-
-                EntityValueProviderResult entityValueProviderResult = new EntityValueProviderResult(valueProviderResult, propertyType);
-
-                return entityValueProviderResult.ConvertTo(propertyType);
+                //use the EntityValueBinder
+                return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, new EntityValueBinder());
             }
-            else if ( IsSimpleGenericBindableEntityCollection(propertyType) )
+            
+            if ( IsSimpleGenericBindableEntityCollection(propertyType) )
             {
-                ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-
-                EntityCollectionValueProviderResult entityCollectionValueProviderResult = new EntityCollectionValueProviderResult(valueProviderResult, propertyType);
-
-                return entityCollectionValueProviderResult.ConvertTo(propertyType);
+                //use the EntityValueCollectionBinder
+                return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, new EntityCollectionValueBinder());
             }
 
             return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, propertyBinder);
         }
 
-
-
-        /// <summary>
-        /// The base implementation of this uses IDataErrorInfo to check for validation errors and 
-        /// adds them to the ModelState. This override prevents that from occurring by doing nothing at all.
-        /// </summary>
-        protected override void OnPropertyValidated(ControllerContext controllerContext,
-            ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value)
-        {
-        }
-
         protected override void SetProperty(ControllerContext controllerContext,
             ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value)
         {
-            SetIdProperty(bindingContext, propertyDescriptor, value);
-            SetEntityCollectionProperty(bindingContext, propertyDescriptor, value);
+            if ( propertyDescriptor.Name == ID_PROPERTY_NAME )
+            {
+                SetIdProperty(bindingContext, propertyDescriptor, value);
+            }
+            else if (value as IEnumerable != null && IsSimpleGenericBindableEntityCollection(propertyDescriptor.PropertyType))
+            {
+                SetEntityCollectionProperty(bindingContext, propertyDescriptor, value);
+            }
+            else
+            {
+                base.SetProperty(controllerContext, bindingContext, propertyDescriptor, value);
+            }
 
-            base.SetProperty(controllerContext, bindingContext, propertyDescriptor, value);
-        }
-
-        /// <summary>
-        /// The base implementatoin of this looks to see if a property value provided via a form is 
-        /// bindable to the property and adds an error to the ModelState if it's not.  For example, if 
-        /// a text box is left blank and the binding property is of type int, then the base implementation
-        /// will add an error with the message "A value is required." to the ModelState.  We don't want 
-        /// this to occur as we want these type of validation problems to be verified by our business rules.
-        /// </summary>
-        protected override bool OnPropertyValidating(ControllerContext controllerContext,
-            ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value)
-        {
-
-            return true;
-        }
-
-        private static bool IsModelErrorAddedByMvc(ModelError modelError)
-        {
-            return modelError.Exception != null &&
-                modelError.Exception.GetType().Equals(typeof(InvalidOperationException));
-        }
-
-        private static bool IsMvcModelBinderFormatException(ModelError modelError)
-        {
-            return modelError.Exception != null &&
-                modelError.Exception.InnerException != null &&
-                modelError.Exception.InnerException.GetType().Equals(typeof(FormatException));
         }
 
         private static bool IsEntityType(Type propertyType)
@@ -158,7 +91,8 @@ namespace SharpArch.Web.ModelBinder
                 propertyType.IsGenericType &&
                 (propertyType.GetGenericTypeDefinition() == typeof(IList<>) ||
                  propertyType.GetGenericTypeDefinition() == typeof(ICollection<>) ||
-                 propertyType.GetGenericTypeDefinition() == typeof(ISet<>));
+                 propertyType.GetGenericTypeDefinition() == typeof(ISet<>) ||
+                 propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
             bool isSimpleGenericBindableEntityCollection =
                 isSimpleGenericBindableCollection && IsEntityType(propertyType.GetGenericArguments().First());
@@ -173,31 +107,28 @@ namespace SharpArch.Web.ModelBinder
         private static void SetIdProperty(ModelBindingContext bindingContext,
             PropertyDescriptor propertyDescriptor, object value)
         {
+            Type idType = propertyDescriptor.PropertyType;
+            object typedId = Convert.ChangeType(value, idType);
 
-            if (propertyDescriptor.Name == ID_PROPERTY_NAME)
+            // First, look to see if there's an Id property declared on the entity itself; 
+            // e.g., using the new keyword
+            PropertyInfo idProperty = bindingContext.ModelType
+                .GetProperty(propertyDescriptor.Name,
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+            // If an Id property wasn't found on the entity, then grab the Id property from
+            // the entity base class
+            if ( idProperty == null )
             {
-                Type idType = propertyDescriptor.PropertyType;
-                object typedId = Convert.ChangeType(value, idType);
-
-                // First, look to see if there's an Id property declared on the entity itself; 
-                // e.g., using the new keyword
-                PropertyInfo idProperty = bindingContext.ModelType
+                idProperty = bindingContext.ModelType
                     .GetProperty(propertyDescriptor.Name,
-                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-
-                // If an Id property wasn't found on the entity, then grab the Id property from
-                // the entity base class
-                if (idProperty == null)
-                {
-                    idProperty = bindingContext.ModelType
-                        .GetProperty(propertyDescriptor.Name,
-                            BindingFlags.Public | BindingFlags.Instance);
-                }
-
-                // Set the value of the protected Id property
-                idProperty.SetValue(bindingContext.Model, typedId, null);
+                        BindingFlags.Public | BindingFlags.Instance);
             }
+
+            // Set the value of the protected Id property
+            idProperty.SetValue(bindingContext.Model, typedId, null);
         }
+
 
         /// <summary>
         /// If the property being bound is a simple, generic collection of entiy objects, then use 
@@ -206,19 +137,16 @@ namespace SharpArch.Web.ModelBinder
         private static void SetEntityCollectionProperty(ModelBindingContext bindingContext,
             PropertyDescriptor propertyDescriptor, object value)
         {
-
-            if (value as IEnumerable != null &&
-                IsSimpleGenericBindableEntityCollection(propertyDescriptor.PropertyType))
+            object entityCollection = propertyDescriptor.GetValue(bindingContext.Model);
+            if (entityCollection != value)
             {
-
-                object entityCollection = propertyDescriptor.GetValue(bindingContext.Model);
                 Type entityCollectionType = entityCollection.GetType();
 
                 foreach (object entity in (value as IEnumerable))
                 {
                     entityCollectionType.InvokeMember("Add",
-                        BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, null, entityCollection,
-                        new object[] { entity });
+                                                      BindingFlags.Public | BindingFlags.Instance | BindingFlags.InvokeMethod, null, entityCollection,
+                                                      new object[] { entity });
                 }
             }
         }
@@ -241,6 +169,24 @@ namespace SharpArch.Web.ModelBinder
     ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor)
         {
             base.BindProperty(controllerContext, bindingContext, propertyDescriptor);
+        }
+
+        protected override void OnPropertyValidated(ControllerContext controllerContext,
+            ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value)
+        {
+            base.OnPropertyValidated(controllerContext, bindingContext, propertyDescriptor, value);
+        }
+
+        protected override bool OnPropertyValidating(ControllerContext controllerContext,
+            ModelBindingContext bindingContext, PropertyDescriptor propertyDescriptor, object value)
+        {
+
+            return base.OnPropertyValidating(controllerContext, bindingContext, propertyDescriptor, value);
+        }
+
+        protected override void OnModelUpdated(ControllerContext controllerContext, ModelBindingContext bindingContext)
+        {
+            base.OnModelUpdated(controllerContext, bindingContext);
         }
         #endregion
 
