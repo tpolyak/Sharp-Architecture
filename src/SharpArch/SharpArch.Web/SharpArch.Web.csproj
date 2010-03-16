@@ -83,7 +83,7 @@
     <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
     <Compile Include="CommonValidator\ValidatableModelBinder.cs" />
     <Compile Include="JsonNet\JsonNetResult.cs" />
-    <Compile Include="ModelBinder\BaseEntityValueBinder.cs" />
+    <Compile Include="ModelBinder\ValueBinderHelper.cs" />
     <Compile Include="ModelBinder\EntityCollectionValueBinder.cs" />
     <Compile Include="ModelBinder\EntityValueBinder.cs" />
     <Compile Include="ModelBinder\GenericRepositoryFactory.cs" />

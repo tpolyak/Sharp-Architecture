@@ -5,7 +5,7 @@ using SharpArch.Core.DomainModel;
 
 namespace SharpArch.Web.ModelBinder
 {
-    class EntityValueBinder : BaseEntityValueBinder
+    class EntityValueBinder : SharpModelBinder
     {
         #region Implementation of IModelBinder
 
@@ -22,30 +22,35 @@ namespace SharpArch.Web.ModelBinder
 
             ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
-            Type entityInterfaceType = modelType.GetInterfaces()
-                .First(interfaceType => interfaceType.IsGenericType
-                    && interfaceType.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
-
-            Type idType = entityInterfaceType.GetGenericArguments().First();
-            string rawId = (valueProviderResult.RawValue as string[]).First();
-
-            if ( string.IsNullOrEmpty(rawId) )
-                return null;
-
-            try
+            if ( valueProviderResult != null )
             {
-                object typedId =
-                    (idType == typeof(Guid))
-                        ? new Guid(rawId)
-                        : Convert.ChangeType(rawId, idType);
+                Type entityInterfaceType = modelType.GetInterfaces()
+                    .First(interfaceType => interfaceType.IsGenericType
+                                            && interfaceType.GetGenericTypeDefinition() == typeof (IEntityWithTypedId<>));
 
-                return GetEntityFor(modelType, typedId, idType);
+                Type idType = entityInterfaceType.GetGenericArguments().First();
+                string rawId = (valueProviderResult.RawValue as string[]).First();
+
+                if (string.IsNullOrEmpty(rawId))
+                    return null;
+
+                try
+                {
+                    object typedId =
+                        (idType == typeof (Guid))
+                            ? new Guid(rawId)
+                            : Convert.ChangeType(rawId, idType);
+
+                    return ValueBinderHelper.GetEntityFor(modelType, typedId, idType);
+                }
+                    // If the Id conversion failed for any reason, just return null
+                catch (Exception)
+                {
+                    return null;
+                }
             }
-            // If the Id conversion failed for any reason, just return null
-            catch ( Exception )
-            {
-                return null;
-            }
+
+            return base.BindModel(controllerContext, bindingContext);
         }
 
         #endregion

@@ -5,7 +5,7 @@ using SharpArch.Core.DomainModel;
 
 namespace SharpArch.Web.ModelBinder
 {
-    class EntityCollectionValueBinder : BaseEntityValueBinder
+    class EntityCollectionValueBinder : DefaultModelBinder
     {
         #region Implementation of IModelBinder
 
@@ -18,36 +18,42 @@ namespace SharpArch.Web.ModelBinder
         /// <param name="controllerContext">The controller context.</param><param name="bindingContext">The binding context.</param>
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            Type collectionEntityType = bindingContext.ModelType;
+            Type collectionType = bindingContext.ModelType;
+            Type collectionEntityType = collectionType.GetGenericArguments().First();
 
             ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
-            int countOfEntityIds = (valueProviderResult.RawValue as string[]).Length;
-            Array entities = Array.CreateInstance(collectionEntityType, countOfEntityIds);
-
-            Type entityInterfaceType = collectionEntityType.GetInterfaces()
-                .First(interfaceType => interfaceType.IsGenericType
-                    && interfaceType.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
-
-            Type idType = entityInterfaceType.GetGenericArguments().First();
-
-            for ( int i = 0; i < countOfEntityIds; i++ )
+            if (valueProviderResult != null)
             {
-                string rawId = (valueProviderResult.RawValue as string[])[i];
+                int countOfEntityIds = (valueProviderResult.RawValue as string[]).Length;
+                Array entities = Array.CreateInstance(collectionEntityType, countOfEntityIds);
 
-                if ( string.IsNullOrEmpty(rawId) )
-                    return null;
+                Type entityInterfaceType = collectionEntityType.GetInterfaces()
+                    .First(interfaceType => interfaceType.IsGenericType
+                                            && interfaceType.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
 
-                object typedId = 
-                    (idType == typeof(Guid))
-                        ? new Guid(rawId)
-                        : Convert.ChangeType(rawId, idType);
+                Type idType = entityInterfaceType.GetGenericArguments().First();
 
-                object entity = GetEntityFor(collectionEntityType, typedId, idType);
-                entities.SetValue(entity, i);
+                for ( int i = 0; i < countOfEntityIds; i++ )
+                {
+                    string rawId = (valueProviderResult.RawValue as string[])[i];
+
+                    if ( string.IsNullOrEmpty(rawId) )
+                        return null;
+
+                    object typedId = 
+                        (idType == typeof(Guid))
+                            ? new Guid(rawId)
+                            : Convert.ChangeType(rawId, idType);
+
+                    object entity = ValueBinderHelper.GetEntityFor(collectionEntityType, typedId, idType);
+                    entities.SetValue(entity, i);
+                }
+
+                //base.BindModel(controllerContext, bindingContext);
+                return entities;
             }
-
-            return entities;
+            return base.BindModel(controllerContext, bindingContext);
         }
 
         #endregion
