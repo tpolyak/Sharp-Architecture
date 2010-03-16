@@ -9,7 +9,6 @@ using Moq;
 using NUnit.Framework;
 using SharpArch.Core.DomainModel;
 using SharpArch.Core.PersistenceSupport;
-using SharpArch.Data.NHibernate;
 using SharpArch.Web.ModelBinder;
 
 namespace Tests.SharpArch.Web.ModelBinder
@@ -28,9 +27,6 @@ namespace Tests.SharpArch.Web.ModelBinder
                                      {
                                          {"Employee.Id", id.ToString()},
                                          {"Employee.Name", employeeName},
-                                         //{"Employee.Reports", "3"}, // these don't work without a repository configured.
-                                         //{"Employee.Reports", "4"},
-                                         {"Employee.Manager", "12"}
                                      };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
@@ -68,8 +64,47 @@ namespace Tests.SharpArch.Web.ModelBinder
                                      {
                                          {"Employee.Id", id.ToString()},
                                          {"Employee.Name", employeeName},
-                                         {"Employee.Reports", "3"}, // these don't work without a repository configured.
+                                         {"Employee.Reports", "3"}, 
                                          {"Employee.Reports", "4"},
+                                         {"Employee.Manager", "12"}
+                                     };
+
+            var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
+            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
+
+            var bindingContext = new ModelBindingContext
+            {
+                ModelName = "Employee",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
+
+            DefaultModelBinder target = new SharpModelBinder();
+
+            ControllerContext controllerContext = new ControllerContext();
+
+            // Act
+            Employee result = (Employee)target.BindModel(controllerContext, bindingContext);
+
+            // Assert
+            Assert.AreEqual(id, result.Id);
+            Assert.AreEqual(employeeName, result.Name);
+            Assert.AreEqual(2,result.Reports.Count);
+        }
+
+        [Test]
+        public void CanBindModelWithEntityCollection()
+        {
+            int id = 2;
+            string employeeName = "Michael";
+
+            // Arrange
+            var formCollection = new NameValueCollection
+                                     {
+                                         {"Employee.Id", id.ToString()},
+                                         {"Employee.Name", employeeName},
+                                         {"Employee.Reports[0].Name", "Michael"},
+                                         {"Employee.Reports[1].Name", "Alec"},
                                          {"Employee.Manager", "12"}
                                      };
 
@@ -97,23 +132,20 @@ namespace Tests.SharpArch.Web.ModelBinder
         }
 
         [Test]
-        public void CanBindModelWithEntityCollection()
+        public void CanBindModelWithNestedEntities()
         {
             int id = 2;
             string employeeName = "Michael";
-            string employee2Id = "3";
-            string employee2Name = "Alec";
+            string managerName = "Tobias";
+            string managerManagerName = "Scott";
 
             // Arrange
             var formCollection = new NameValueCollection
                                      {
                                          {"Employee.Id", id.ToString()},
                                          {"Employee.Name", employeeName},
-                                         //{"Employee.Reports[0].Id", "3"}, // these don't work without a repository configured.
-                                         //{"Employee.Reports[1].Id", "4"},
-                                         {"Employee.Reports[0].Name", "Michael"}, // these don't work without a repository configured.
-                                         {"Employee.Reports[1].Name", "Alec"},
-                                         {"Employee.Manager", "12"}
+                                         {"Employee.Manager.Name", managerName},
+                                         {"Employee.Manager.Manager.Name", managerManagerName}
                                      };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
@@ -136,7 +168,8 @@ namespace Tests.SharpArch.Web.ModelBinder
             // Assert
             Assert.AreEqual(id, result.Id);
             Assert.AreEqual(employeeName, result.Name);
-            Assert.GreaterOrEqual(result.Reports.Count, 2);
+            Assert.AreEqual(managerName, result.Manager.Name);
+            Assert.AreEqual(managerManagerName, result.Manager.Manager.Name);
         }
 
         [TestFixtureSetUp]

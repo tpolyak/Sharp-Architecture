@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Web.Mvc;
 using SharpArch.Core.DomainModel;
 
@@ -24,7 +21,6 @@ namespace SharpArch.Web.ModelBinder
             Type collectionType = bindingContext.ModelType;
             Type collectionEntityType = collectionType.GetGenericArguments().First();
 
-            bool containsPrefix = bindingContext.ValueProvider.ContainsPrefix(bindingContext.ModelName);
             ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
             if (valueProviderResult != null)
@@ -50,7 +46,7 @@ namespace SharpArch.Web.ModelBinder
                             ? new Guid(rawId)
                             : Convert.ChangeType(rawId, idType);
 
-                    object entity = GetEntityFor(collectionEntityType, typedId, idType);
+                    object entity = ValueBinderHelper.GetEntityFor(collectionEntityType, typedId, idType);
                     entities.SetValue(entity, i);
                 }
 
@@ -61,14 +57,5 @@ namespace SharpArch.Web.ModelBinder
         }
 
         #endregion
-
-        
-        protected static object GetEntityFor(Type collectionEntityType, object typedId, Type idType)
-        {
-            object entityRepository = GenericRepositoryFactory.CreateEntityRepositoryFor(collectionEntityType, idType);
-
-            return entityRepository.GetType()
-                .InvokeMember("Get", BindingFlags.InvokeMethod, null, entityRepository, new[] { typedId });
-        }
     }
 }
