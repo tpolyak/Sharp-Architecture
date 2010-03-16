@@ -1,7 +1,5 @@
 ﻿using System.Web.Mvc;
 using System.ComponentModel;
-using SharpArch.Core.CommonValidator; //TODO: Can we remove these classes now?
-using SharpArch.Web.CommonValidator; //TODO: Can we remove these classes now?
 using System;
 using SharpArch.Core.DomainModel;
 using System.Linq;
