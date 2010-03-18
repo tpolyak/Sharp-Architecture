@@ -19,6 +19,7 @@ namespace SharpArchApplicationWizard
         /// </summary>
         private static string solutionName;
         private static string guidAssignedToCore = "{00000000-0000-0000-0000-000000000000}";
+        private static string guidAssignedToDB = "{00000000-0000-0000-0000-000000000000}";
         private static string guidAssignedToData = "{00000000-0000-0000-0000-000000000000}";
         private static string guidAssignedToApplicationServices = "{00000000-0000-0000-0000-000000000000}";
         private static string guidAssignedToControllers = "{00000000-0000-0000-0000-000000000000}";
@@ -56,6 +57,7 @@ namespace SharpArchApplicationWizard
         private static void AddProjectGuidsTo(Dictionary<string, string> replacementsDictionary) {
             replacementsDictionary.Add("$guidAssignedToCore$", guidAssignedToCore);
             replacementsDictionary.Add("$guidAssignedToData$", guidAssignedToData);
+            replacementsDictionary.Add("$guidAssignedToDB$", guidAssignedToDB);
             replacementsDictionary.Add("$guidAssignedToApplicationServices$", guidAssignedToApplicationServices);
             replacementsDictionary.Add("$guidAssignedToControllers$", guidAssignedToControllers);
         }
@@ -76,8 +78,16 @@ namespace SharpArchApplicationWizard
                     Project movedProject = MoveProjectTo("\\tools\\", project, "Code Generation");
                     ExcludeProjectFromBuildProcess(movedProject);
                 }
+                else if (project.Name == "CrudScaffoldingForEnterpriseApp") {
+                    Project movedProject = MoveProjectTo("\\tools\\", project, "Code Generation");
+                    ExcludeProjectFromBuildProcess(movedProject);
+                }
                 else if (project.Name == GetSolutionName() + ".Tests") {
                     MoveProjectTo("\\tests\\", project);
+                }
+                else if (project.Name == GetSolutionName() + ".DB") {
+                    Project movedProject = MoveProjectTo("\\db\\", project);
+                    ExcludeProjectFromBuildProcess(movedProject);
                 }
                 else if (project.Name == GetSolutionName() + ".Web.Controllers" ||
                     project.Name == GetSolutionName() + ".ApplicationServices" ||
@@ -127,6 +137,9 @@ namespace SharpArchApplicationWizard
             else if (project.Name == GetSolutionName() + ".Data") {
                 guidAssignedToData = projectGuidNodes[0].InnerText;
             }
+            else if (project.Name == GetSolutionName() + ".DB") {
+                guidAssignedToDB = projectGuidNodes[0].InnerText;
+            }
         }
 
         private bool IsProjectReferredByOtherProjects(Project project) {
@@ -167,6 +180,7 @@ namespace SharpArchApplicationWizard
                         Log("ExcludeProjectFromBuildProcess: Setting build to false for project " + solutionContext.ProjectName +
                             " within the " + solutionConfiguration.Name + " configuration");
                         solutionContext.ShouldBuild = false;
+                        solutionContext.ShouldDeploy = false;
                     }
                 }
             }
@@ -197,7 +211,16 @@ namespace SharpArchApplicationWizard
                 Directory.Move(originalLocation, targetLocation);
 
                 if (!string.IsNullOrEmpty(solutionFolderName)) {
-                    SolutionFolder solutionFolder = (SolutionFolder)solution.AddSolutionFolder(solutionFolderName).Object;
+                    SolutionFolder solutionFolder;
+                    Project solutionFolderAsProject = FindProjectByName(solution, solutionFolderName);
+
+                    if (solutionFolderAsProject != null) {
+                        solutionFolder = solutionFolderAsProject.Object as SolutionFolder;
+                    }
+                    else {
+                        solutionFolder = (SolutionFolder) solution.AddSolutionFolder(solutionFolderName).Object;
+                    }
+
                     Log("MoveProjectTo: Adding " + projectName + " to solution folder " + targetLocation);
                     return solutionFolder.AddFromFile(targetLocation + "\\" + projectName + ".csproj");
                 }
@@ -210,6 +233,15 @@ namespace SharpArchApplicationWizard
                 throw new ApplicationException("Couldn't find " + originalLocation + " to move");
             }
         }
+
+        public static Project FindProjectByName(Solution2 solution, string name) {
+            foreach (Project project in solution.Projects) {
+                if (project.Name == name)
+                    return project;
+            }
+
+            return null;
+        } 
 
         /// <summary>
         /// This does any manual value replacement on project files when it can't be handled 
