@@ -39,12 +39,10 @@
         <Content Include="Solution Items\Rhino.Mocks.xml" />
         <Content Include="Solution Items\SharpArch.Testing.dll" />
         <Content Include="Solution Items\SharpArch.Testing.NUnit.dll" />
-        <Content Include="Solution Items\SharpArch.Testing.NUnit.pdb" />
-        <Content Include="Solution Items\SharpArch.Testing.pdb" />
         <Content Include="Solution Items\System.Data.SQLite.DLL" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

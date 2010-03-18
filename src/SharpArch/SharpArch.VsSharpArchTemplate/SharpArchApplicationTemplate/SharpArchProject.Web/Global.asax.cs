@@ -21,7 +21,7 @@ using $safeprojectname$.CastleWindsor;
 
 namespace $safeprojectname$
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    // Note: For instructions on enabling IIS6 or IIS7 classic mode,
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : HttpApplication
@@ -36,12 +36,13 @@ namespace $safeprojectname$
 
             InitializeServiceLocator();
 
+			AreaRegistration.RegisterAllAreas();
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
         }
 
         /// <summary>
-        /// Instantiate the container and add all Controllers that derive from 
-        /// WindsorController to the container.  Also associate the Controller 
+        /// Instantiate the container and add all Controllers that derive from
+        /// WindsorController to the container.  Also associate the Controller
         /// with the WindsorContainer ControllerFactory.
         /// </summary>
         protected virtual void InitializeServiceLocator() {
@@ -63,7 +64,7 @@ namespace $safeprojectname$
 
         /// <summary>
         /// Due to issues on IIS7, the NHibernate initialization cannot reside in Init() but
-        /// must only be called once.  Consequently, we invoke a thread-safe singleton class to 
+        /// must only be called once.  Consequently, we invoke a thread-safe singleton class to
         /// ensure it's only initialized once.
         /// </summary>
         protected void Application_BeginRequest(object sender, EventArgs e) {

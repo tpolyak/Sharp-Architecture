@@ -24,8 +24,6 @@
 				<ProjectItem>Rhino.Mocks.xml</ProjectItem>
 				<ProjectItem>SharpArch.Testing.dll</ProjectItem>
 				<ProjectItem>SharpArch.Testing.NUnit.dll</ProjectItem>
-				<ProjectItem>SharpArch.Testing.NUnit.pdb</ProjectItem>
-				<ProjectItem>SharpArch.Testing.pdb</ProjectItem>
 				<ProjectItem>System.Data.SQLite.DLL</ProjectItem>
 			</Folder>
 		</Project>

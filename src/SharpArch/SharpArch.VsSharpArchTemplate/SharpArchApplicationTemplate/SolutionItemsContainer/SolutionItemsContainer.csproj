@@ -77,9 +77,9 @@
         <Content Include="Solution Items\NHibernate.Validator.xml" />
         <Content Include="Solution Items\NHibernate.xml" />
         <Content Include="Solution Items\SharpArch.Core.dll" />
-	<Content Include="Solution Items\SharpArch.Core.pdb" />
+	   	<Content Include="Solution Items\SharpArch.Core.pdb" />
         <Content Include="Solution Items\SharpArch.Core.NHibernateValidator.dll" />
-	<Content Include="Solution Items\SharpArch.Core.NHibernateValidator.pdb" />
+		<Content Include="Solution Items\SharpArch.Core.NHibernateValidator.pdb" />
         <Content Include="Solution Items\SharpArch.Data.dll" />
         <Content Include="Solution Items\SharpArch.Data.pdb" />
         <Content Include="Solution Items\SharpArch.Web.Castle.dll" />
@@ -92,7 +92,7 @@
 		<Content Include="Solution Items\System.Web.Routing.dll" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
