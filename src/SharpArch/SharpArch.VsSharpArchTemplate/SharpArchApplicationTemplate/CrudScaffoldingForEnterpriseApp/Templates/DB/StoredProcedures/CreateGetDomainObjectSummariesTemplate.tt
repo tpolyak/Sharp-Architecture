@@ -1,0 +1,31 @@
+﻿<#+
+public class CreateGetDomainObjectSummariesTemplate : BaseTemplate
+{
+	public CreateGetDomainObjectSummariesTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { }
+
+	protected override void RenderCore()
+	{
+#>
+IF EXISTS (SELECT name FROM sysobjects WHERE name = 'Get<#= EntityScaffoldingDetails.EntityName #>Summaries' AND type = 'P')
+DROP PROCEDURE Get<#= EntityScaffoldingDetails.EntityName #>Summaries
+GO
+
+CREATE PROCEDURE Get<#= EntityScaffoldingDetails.EntityName #>Summaries
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT Id<#+
+		         foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
+			        Write(", " + property.PropertyName);
+		         }
+
+                 WriteLine("");
+		     #>
+	FROM <#= EntityScaffoldingDetails.EntityNamePlural #>
+END
+<#+
+	}
+}
+#>

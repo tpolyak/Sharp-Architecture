@@ -7,6 +7,7 @@ using SharpArch.Data.NHibernate;
 using SharpArch.Testing.NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
+using System.IO;
 
 namespace Tests.$solutionname$.Data.NHibernateMaps
 {
@@ -39,8 +40,7 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
         public void CanConfirmDatabaseMatchesMappings() {
             var allClassMetadata = NHibernateSession.GetDefaultSessionFactory().GetAllClassMetadata();
 
-            foreach (var entry in allClassMetadata)
-            {
+            foreach (var entry in allClassMetadata) {
                 NHibernateSession.Current.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
                      .SetMaxResults(0).List();
             }
@@ -52,7 +52,10 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
         [Test]
         public void CanGenerateDatabaseSchema() {
             var session = NHibernateSession.GetDefaultSessionFactory().OpenSession();
-            new SchemaExport(configuration).Execute(true, false, false, session.Connection, null);
+
+            using (TextWriter stringWriter = new StreamWriter("../../../../db/$solutionname$.DB/Schema/UnitTestGeneratedSchema.sql")) {
+                new SchemaExport(configuration).Execute(true, false, false, session.Connection, stringWriter);
+            }
         }
 
         private Configuration configuration;
