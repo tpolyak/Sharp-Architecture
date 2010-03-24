@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+﻿    using System.Reflection;
+=======
 ﻿using System.Reflection;
+>>>>>>> 2c6ce7d88dae11916512d4be0743b583b0e00083
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

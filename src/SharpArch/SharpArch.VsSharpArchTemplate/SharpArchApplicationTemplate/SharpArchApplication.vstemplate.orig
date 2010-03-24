@@ -1,5 +1,49 @@
 <VSTemplate Version="2.0.0" Type="ProjectGroup"
     xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+<<<<<<< HEAD
+    <TemplateData>
+        <Name>S#arp Architecture Application</Name>
+        <Description>Template for the creation of a S#arp Architecture project.</Description>
+        <Icon>__TemplateIcon.ico</Icon>
+        <CreateNewFolder>false</CreateNewFolder>
+        <ProjectType>CSharp</ProjectType>
+    </TemplateData>
+    <TemplateContent>
+        <ProjectCollection>
+            <ProjectTemplateLink ProjectName="SolutionItemsContainer">
+                SolutionItemsContainer\SolutionItemsContainer.vstemplate
+            </ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="ToolsSolutionItemsContainer">
+                ToolsSolutionItemsContainer\ToolsSolutionItemsContainer.vstemplate
+            </ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="$safeprojectname$.Core">
+                SharpArchProject.Core\SharpArchProject.Core.vstemplate
+            </ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="$safeprojectname$.ApplicationServices">
+				SharpArchProject.ApplicationServices\SharpArchProject.ApplicationServices.vstemplate
+			</ProjectTemplateLink>
+			<ProjectTemplateLink ProjectName="$safeprojectname$.Data">
+                SharpArchProject.Data\SharpArchProject.Data.vstemplate
+            </ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="$safeprojectname$.Web.Controllers">
+                SharpArchProject.Web.Controllers\SharpArchProject.Web.Controllers.vstemplate
+            </ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="$safeprojectname$.Tests">
+                SharpArchProject.Tests\SharpArchProject.Tests.vstemplate
+            </ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="$safeprojectname$.Web">
+                SharpArchProject.Web\SharpArchProject.Web.vstemplate
+            </ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="CrudScaffolding">
+                CrudScaffolding\CrudScaffolding.vstemplate
+            </ProjectTemplateLink>
+        </ProjectCollection>
+    </TemplateContent>
+    <WizardExtension>
+        <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, Custom=null</Assembly>
+        <FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
+    </WizardExtension>
+=======
   <TemplateData>
     <Name>S#arp Architecture Application</Name>
     <Description>Template for the creation of a S#arp Architecture project.</Description>
@@ -48,4 +92,5 @@
     <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, Custom=null</Assembly>
     <FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
   </WizardExtension>
+>>>>>>> 2c6ce7d88dae11916512d4be0743b583b0e00083
 </VSTemplate>
