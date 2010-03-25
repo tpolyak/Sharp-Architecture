@@ -30,12 +30,35 @@ namespace SharpArch.Web.NHibernate
                 NHibernateSession.CurrentFor(effectiveFactoryKey).Transaction;
 
             if (currentTransaction.IsActive) {
-                if (filterContext.Exception == null) {
-                    currentTransaction.Commit();
-                }
-                else {
+                if ((filterContext.Exception != null) && (filterContext.ExceptionHandled))
+                {
                     currentTransaction.Rollback();
                 }
+            }
+        }
+
+        public override void OnResultExecuted(ResultExecutedContext filterContext)
+        {
+            string effectiveFactoryKey = GetEffectiveFactoryKey();
+
+            ITransaction currentTransaction =
+                NHibernateSession.CurrentFor(effectiveFactoryKey).Transaction;
+
+            base.OnResultExecuted(filterContext);
+            try
+            {
+                if ((filterContext.Exception != null) && (!filterContext.ExceptionHandled))
+                {
+                    currentTransaction.Rollback();
+                }
+                else
+                {
+                    currentTransaction.Commit();
+                }
+            }
+            finally
+            {
+                currentTransaction.Dispose();
             }
         }
 
