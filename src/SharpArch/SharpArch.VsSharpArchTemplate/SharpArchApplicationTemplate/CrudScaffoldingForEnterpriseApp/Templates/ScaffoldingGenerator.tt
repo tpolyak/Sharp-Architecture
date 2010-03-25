@@ -1,5 +1,6 @@
 <#@ include file="./Templates/BaseTemplate.tt" #>
 <#@ include file="./Templates/Web/Controllers/ControllerTemplate.tt" #>
+<#@ include file="./Templates/Web/Controllers/AreaRegistrationTemplate.tt" #>
 <#@ include file="./Templates/Core/ActionConfirmationTemplate.tt" #>
 <#@ include file="./Templates/Core/DomainObjectTemplate.tt" #>
 <#@ include file="./Templates/Tests/Web/Controllers/ControllerTestsTemplate.tt" #>
@@ -284,7 +285,7 @@ public class ScaffoldingGenerator : Generator
 				IDomainObjectRepositoryTemplate iDomainObjectRepositoryTemplate = 
 					new IDomainObjectRepositoryTemplate(solutionName, entityScaffoldingDetails);
 
-				string outputFile = solutionName + ".Core\\RepositoryInterfaces\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
+				string outputFile = "RepositoryInterfaces\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
 				string outputProject = appFolderRelativePath + solutionName + ".Core\\" + solutionName + ".Core.csproj";
 				RenderFileToProject(iDomainObjectRepositoryTemplate, outputFile, outputProject);
 			}
@@ -386,7 +387,20 @@ public class ScaffoldingGenerator : Generator
 			else {
 				Log("File already exists " + targetPath + fileName);
 			}
-		}
+            
+            fileName = "AreaRegistration.cs";
+
+            if (entityScaffoldingDetails.NamespaceHierarchy != null && ! File.Exists(targetPath + fileName)) {
+                AreaRegistrationTemplate areaRegistrationTemplate = 
+                    new AreaRegistrationTemplate(solutionName, entityScaffoldingDetails);
+
+                string outputFile = entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
+                string outputProject = targetPathRoot + solutionName + ".Web.Controllers.csproj";
+                RenderFileToProject(areaRegistrationTemplate, outputFile, outputProject);
+            }
+            else {
+                Log("File already exists " + targetPath + fileName);
+	        }
 		else {
 			Log("Skipped generation of controller and controller tests");
 		}

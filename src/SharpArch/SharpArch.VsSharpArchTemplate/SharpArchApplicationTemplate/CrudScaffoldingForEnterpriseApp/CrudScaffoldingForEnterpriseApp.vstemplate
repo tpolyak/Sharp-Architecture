@@ -70,6 +70,7 @@
         <Folder Name="Web" TargetFolderName="Web">
           <Folder Name="Controllers" TargetFolderName="Controllers">
             <ProjectItem ReplaceParameters="false" TargetFileName="ControllerTemplate.tt">ControllerTemplate.tt</ProjectItem>
+			<ProjectItem ReplaceParameters="false" TargetFileName="AreaRegistrationTemplate.tt">AreaRegistrationTemplate.tt</ProjectItem>
           </Folder>
           <Folder Name="Views" TargetFolderName="Views">
             <ProjectItem ReplaceParameters="false" TargetFileName="CreateTemplate.tt">CreateTemplate.tt</ProjectItem>

@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{00000000-0000-0000-0000-000000000000}</ProjectGuid>
+    <ProjectGuid>{E2A85425-669F-4D65-AE54-06CE0ACABB35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpArch.Scaffolding</RootNamespace>
@@ -77,12 +77,10 @@
     </None>
     <None Include="Templates\DB\StoredProcedures\CreateGetDomainObjectSummariesTemplate.tt">
     </None>
-    <None Include="Templates\Web\Controllers\ControllerTemplate.tt">
-    </None>
+    <None Include="Templates\Web\Controllers\ControllerTemplate.tt" />
     <None Include="Templates\Core\DomainObjectTemplate.tt">
     </None>
-    <None Include="Templates\ScaffoldingGenerator.tt">
-    </None>
+    <None Include="Templates\ScaffoldingGenerator.tt" />
     <None Include="Templates\Tests\Web\Controllers\ControllerTestsTemplate.tt">
     </None>
     <None Include="Templates\Tests\Core\DomainObjectTestsTemplate.tt">
@@ -117,6 +115,9 @@
     <None Include="Templates\Tests\ApplicationServices\DomainObjectMgmtServiceTestsTemplate.tt">
     </None>
     <None Include="Templates\Tests\Core\DomainObjectInstanceFactoryTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Controllers\AreaRegistrationTemplate.tt">
+      <LastGenOutput>AreaRegistrationTemplate.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
