@@ -399,7 +399,7 @@ public class ScaffoldingGenerator : Generator
                 RenderFileToProject(areaRegistrationTemplate, outputFile, outputProject);
             }
             else {
-                Log("File already exists " + targetPath + fileName);
+                Log("File already exists " + targetPath + fileName); }
 	        }
 		else {
 			Log("Skipped generation of controller and controller tests");
