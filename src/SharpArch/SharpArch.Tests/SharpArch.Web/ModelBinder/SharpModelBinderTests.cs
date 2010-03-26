@@ -7,7 +7,9 @@ using CommonServiceLocator.WindsorAdapter;
 using Microsoft.Practices.ServiceLocation;
 using Moq;
 using NUnit.Framework;
+using SharpArch.Core.CommonValidator;
 using SharpArch.Core.DomainModel;
+using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using SharpArch.Core.PersistenceSupport;
 using SharpArch.Web.ModelBinder;
 
@@ -149,7 +151,7 @@ namespace Tests.SharpArch.Web.ModelBinder
                                      };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
+            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof (Employee));
 
             var bindingContext = new ModelBindingContext
             {
@@ -179,8 +181,8 @@ namespace Tests.SharpArch.Web.ModelBinder
             var windsorContainer = new WindsorContainer();
             mockRepository.Setup(r => r.Get(It.IsAny<int>())).Returns((int newId) =>new Employee(newId));
 
-            windsorContainer.Register(
-                Component.For<IRepositoryWithTypedId<Employee, int>>().Instance(mockRepository.Object));
+            windsorContainer.Register(Component.For<IRepositoryWithTypedId<Employee, int>>().Instance(mockRepository.Object));
+            windsorContainer.AddComponent("validator", typeof(IValidator), typeof(Validator));
 
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(windsorContainer));
