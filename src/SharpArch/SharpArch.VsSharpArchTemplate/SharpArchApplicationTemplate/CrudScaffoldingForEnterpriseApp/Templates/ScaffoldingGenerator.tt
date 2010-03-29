@@ -387,8 +387,8 @@ public class ScaffoldingGenerator : Generator
 			else {
 				Log("File already exists " + targetPath + fileName);
 			}
-            
-            fileName = "AreaRegistration.cs";
+
+            fileName = AppendNamespaceHierarchyTo("").Replace(".", "/").Trim('/') + "AreaRegistration.cs";
 
             if (entityScaffoldingDetails.NamespaceHierarchy != null && ! File.Exists(targetPath + fileName)) {
                 AreaRegistrationTemplate areaRegistrationTemplate = 
@@ -573,5 +573,19 @@ public class ScaffoldingGenerator : Generator
 	private readonly string solutionName;
 	
 	private const string LOG_FILE_NAME = "CrudScaffolding.log";
+
+    protected string AppendNamespaceHierarchyTo(string namespacePath)
+    {
+        if (entityScaffoldingDetails.NamespaceHierarchy == null ||
+            entityScaffoldingDetails.NamespaceHierarchy.Length == 0)
+            return namespacePath;
+
+        foreach (string namespaceToAppend in entityScaffoldingDetails.NamespaceHierarchy)
+        {
+            namespacePath += "." + namespaceToAppend;
+        }
+
+        return namespacePath;
+    }
 }
 #>

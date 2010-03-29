@@ -15,7 +15,7 @@ protected override void RenderCore()
 namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
 {
 
-public class AreaRegistration : System.Web.Mvc.AreaRegistration
+public class <#= AppendNamespaceHierarchyTo("").Replace(".", "/").Trim('/') #>AreaRegistration : System.Web.Mvc.AreaRegistration
 {
     public override string AreaName {
         get {
