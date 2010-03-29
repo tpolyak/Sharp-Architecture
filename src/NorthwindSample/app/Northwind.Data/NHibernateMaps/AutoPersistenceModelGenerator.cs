@@ -35,8 +35,10 @@ namespace Northwind.Data.NHibernateMaps
             };
         }
 
-        private Action<IConventionFinder> GetConventions() {
-            return c => {
+        private Action<IConventionFinder> GetConventions()
+        {
+            return c =>
+            {
                 c.Add<PrimaryKeyConvention>();
                 c.Add<HasManyConvention>();
                 c.Add<TableNameConvention>();
@@ -46,7 +48,8 @@ namespace Northwind.Data.NHibernateMaps
         /// <summary>
         /// Provides a filter for only including types which inherit from the IEntityWithTypedId interface.
         /// </summary>
-        private bool GetAutoMappingFilter(Type t) {
+        private bool GetAutoMappingFilter(Type t)
+        {
             return t.GetInterfaces().Any(x =>
                  x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
         }

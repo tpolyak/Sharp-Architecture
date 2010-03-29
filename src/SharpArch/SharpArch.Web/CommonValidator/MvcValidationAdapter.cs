@@ -3,6 +3,7 @@ using SharpArch.Core;
 using System;
 using System.Collections.Generic;
 using SharpArch.Core.CommonValidator;
+using System.Globalization;
 
 namespace SharpArch.Web.CommonValidator
 {
@@ -38,9 +39,10 @@ namespace SharpArch.Web.CommonValidator
                     (!string.IsNullOrEmpty(validationResult.PropertyName)
                         ? "." + validationResult.PropertyName
                         : "");
-
+				key = key.Trim('.'); //fixes issue where key ends up as .PropertyName instead of object.PropertyName or just PropertyName
                 modelStateDictionary.AddModelError(key, validationResult.Message);
-                modelStateDictionary.SetModelValue(key, new ValueProviderResult(null, null, null));
+				modelStateDictionary.SetModelValue(key, new ValueProviderResult(validationResult.AttemptedValue ?? "", (validationResult.AttemptedValue ?? "").ToString(), CultureInfo.CurrentCulture)); //Fixes problem where invalid fields get blanked out.
+            	//modelStateDictionary.SetModelValue(key, new ValueProviderResult(null, null, null));
             }
 
             return modelStateDictionary;

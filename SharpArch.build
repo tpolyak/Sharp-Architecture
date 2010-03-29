@@ -8,7 +8,7 @@
 
 	<!-- Version -->
 	<property name="version.major" value="1"/>
-	<property name="version.minor" value="0"/>
+	<property name="version.minor" value="5"/>
 	<property name="version.build" value="0"/>
 	<property name="version.revision" value="0" />
 	<property name="project.fullversion" value="${version.major}.${version.minor}.${version.build}" dynamic="true" />
@@ -19,14 +19,14 @@
 	<property name="solution.file" value="${solution.dir}\${project::get-name()}.sln"/>
 	<property name="results.dir" value="${build.dir}\results" />
 	<property name="docs.dir" value="docs" />
-	
+
 	<!-- Assemblies -->
 	<property name="test.assembly" value="${project::get-name()}.Tests.dll" />
 
 	<!-- User targets -->
 	<target name="build-and-package" depends="build, package"></target>
 	<target name="build" depends="compile, test"></target>
-	
+
 	<target name="clean" description="Delete Automated Build artifacts">
 		<delete dir="${build.dir}" if="${directory::exists(build.dir)}"/>
 	</target>
@@ -61,10 +61,10 @@
 
 	<target name="compile" description="Compiles the solution" depends="clean, version">
 		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
-				  commandline='${solution.file} /t:Clean /p:Configuration=${project.config} /p:Platform="Any CPU" /v:q' 
+				  commandline='${solution.file} /t:Clean /p:Configuration=${project.config} /p:Platform="Any CPU" /v:q'
 					workingdir="." />
 		<exec program="${framework::get-framework-directory(framework::get-target-framework())}\msbuild.exe"
-				  commandline='${solution.file} /t:Rebuild /p:Configuration=${project.config} /p:Platform="Any CPU" /v:q' 
+				  commandline='${solution.file} /t:Rebuild /p:Configuration=${project.config} /p:Platform="Any CPU" /v:q'
 					workingdir="." />
 	</target>
 
@@ -74,7 +74,7 @@
 				<include name="/**/bin/${project.config}/**" />
 			</fileset>
 		</copy>
-	</target>	
+	</target>
 
 	<target name="test" depends="move-for-test">
 		<nunit2 failonerror="true" verbose="true">

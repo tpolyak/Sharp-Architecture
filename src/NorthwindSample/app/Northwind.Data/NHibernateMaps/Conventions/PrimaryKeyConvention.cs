@@ -1,5 +1,4 @@
 ﻿using FluentNHibernate.Conventions;
-using FluentNHibernate.Mapping;
 
 namespace Northwind.Data.NHibernateMaps.Conventions
 {
@@ -7,7 +6,9 @@ namespace Northwind.Data.NHibernateMaps.Conventions
     {
         public void Apply(FluentNHibernate.Conventions.Instances.IIdentityInstance instance)
         {
-            instance.Column(instance.EntityType.Name + "ID");
+            instance.Column("Id");
+            instance.UnsavedValue("0");
+            //instance.GeneratedBy.HiLo("1000");
         }
     }
 }

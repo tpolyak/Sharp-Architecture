@@ -1,12 +1,9 @@
 ﻿using System.Web.Mvc;
 using System.Linq.Expressions;
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using Microsoft.Web.Mvc.Internal;
+using ExpressionHelper = Microsoft.Web.Mvc.Internal.ExpressionHelper;
 
 namespace SharpArch.Web.Areas
 {
@@ -55,7 +52,7 @@ namespace SharpArch.Web.Areas
 
         private static string GetQueryStringArguments<TController>(HtmlHelper helper, Expression<Action<TController>> action, string linkText) where TController : Controller {
             RouteValueDictionary routingValues = ExpressionHelper.GetRouteValuesFromExpression(action);
-            string routeLinkFromMvc = helper.RouteLink(linkText, routingValues);
+            string routeLinkFromMvc = helper.RouteLink(linkText, routingValues).ToString();
 
             string routePortion = GetRoutePortionFrom(routeLinkFromMvc);
 

@@ -1,7 +1,7 @@
 <%@ Page Title="Employee Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
 	Inherits="System.Web.Mvc.ViewPage<Northwind.Core.Organization.Employee>" %>
-<%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
 <%@ Import Namespace="Northwind.Core" %>
+<%@ Import Namespace="Northwind.Web.Controllers.Organization" %>
 
 <asp:Content ContentPlaceHolderID="MainContentPlaceHolder" runat="server">
 

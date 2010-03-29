@@ -213,10 +213,13 @@ namespace SharpArch.Data.NHibernate
 		/// </summary>
 		public static void Reset()
 		{
-			foreach (ISession session in Storage.GetAllSessions())
-			{
-				session.Dispose();
-			}
+		    if (Storage != null)
+		    {
+		        foreach (ISession session in Storage.GetAllSessions())
+		        {
+		            session.Dispose();
+		        }
+		    }
 
 			sessionFactories.Clear();
 

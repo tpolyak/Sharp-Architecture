@@ -1,5 +1,4 @@
-﻿using SharpArch.Data.NHibernate;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SharpArch.Testing.NHibernate;
 
 namespace SharpArch.Testing.NUnit.NHibernate

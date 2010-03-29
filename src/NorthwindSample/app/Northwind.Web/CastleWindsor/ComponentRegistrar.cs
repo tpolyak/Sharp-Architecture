@@ -1,4 +1,7 @@
 ﻿using Castle.Windsor;
+using Northwind.Wcf;
+using Northwind.WcfServices;
+using Northwind.Web.WcfServices;
 using SharpArch.Core.PersistenceSupport.NHibernate;
 using SharpArch.Data.NHibernate;
 using SharpArch.Core.PersistenceSupport;
@@ -7,9 +10,6 @@ using Castle.MicroKernel.Registration;
 using SharpArch.Core.CommonValidator;
 using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 using Castle.Core.Configuration;
-using Northwind.Web.WcfServices;
-using Northwind.Wcf;
-using Northwind.WcfServices;
 using Castle.Core;
 using Castle.Facilities.FactorySupport;
 using Castle.Core.Interceptor;
@@ -35,7 +35,8 @@ namespace Northwind.Web.CastleWindsor
                 .WithService.FirstInterface());
         }
 
-        private static void AddWcfServiceFactoriesTo(IWindsorContainer container) {
+        private static void AddWcfServiceFactoriesTo(IWindsorContainer container)
+        {
             container.AddFacility("factories", new FactorySupportFacility());
             container.AddComponent("standard.interceptor", typeof(StandardInterceptor));
 
@@ -47,7 +48,7 @@ namespace Northwind.Web.CastleWindsor
             config.Attributes["factoryId"] = factoryKey;
             config.Attributes["factoryCreate"] = "Create";
             container.Kernel.ConfigurationStore.AddComponentConfiguration(serviceKey, config);
-            container.Kernel.AddComponent(serviceKey, typeof(ITerritoriesWcfService), 
+            container.Kernel.AddComponent(serviceKey, typeof(ITerritoriesWcfService),
                 typeof(TerritoriesWcfServiceClient), LifestyleType.PerWebRequest);
         }
 

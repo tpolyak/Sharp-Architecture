@@ -21,7 +21,7 @@ using <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>;
 <#+ if (EntityScaffoldingDetails.NamespaceHierarchy != null) { 
 #>using <#= SolutionName + ".Core" #>;<#+ } #> 
 
-namespace Tests.<#= SolutionName #>.ApplicationServices
+namespace Tests.<#= AppendNamespaceHierarchyTo(SolutionName + ".ApplicationServices") #>
 {
     [TestFixture]
     public class <#= EntityScaffoldingDetails.EntityName #>ManagementServiceTests

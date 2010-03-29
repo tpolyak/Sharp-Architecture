@@ -1,5 +1,6 @@
 <#@ include file="./Templates/BaseTemplate.tt" #>
 <#@ include file="./Templates/Web/Controllers/ControllerTemplate.tt" #>
+<#@ include file="./Templates/Web/Controllers/AreaRegistrationTemplate.tt" #>
 <#@ include file="./Templates/Core/DomainObjectTemplate.tt" #>
 <#@ include file="./Templates/Tests/Web/Controllers/ControllerTestsTemplate.tt" #>
 <#@ include file="./Templates/Tests/Core/DomainObjectTestsTemplate.tt" #>
@@ -137,6 +138,22 @@ public class ScaffoldingGenerator : Generator
 			else {
 				Log("File already exists " + targetPath + fileName);
 			}
+
+            fileName = AppendNamespaceHierarchyTo("").Replace(".", "/").Trim('/') + "AreaRegistration.cs";
+
+            if (entityScaffoldingDetails.NamespaceHierarchy != null && !File.Exists(targetPath + fileName))
+            {
+                AreaRegistrationTemplate areaRegistrationTemplate =
+                    new AreaRegistrationTemplate(solutionName, entityScaffoldingDetails);
+
+                string outputFile = entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
+                string outputProject = targetPathRoot + solutionName + ".Web.Controllers.csproj";
+                RenderFileToProject(areaRegistrationTemplate, outputFile, outputProject);
+            }
+            else
+            {
+                Log("File already exists " + targetPath + fileName);
+            }
 		}
 		else {
 			Log("Skipped generation of controller and controller tests");
@@ -297,5 +314,19 @@ public class ScaffoldingGenerator : Generator
 	private readonly string solutionName;
 	
 	private const string LOG_FILE_NAME = "CrudScaffolding.log";
+
+    protected string AppendNamespaceHierarchyTo(string namespacePath)
+    {
+        if (entityScaffoldingDetails.NamespaceHierarchy == null ||
+            entityScaffoldingDetails.NamespaceHierarchy.Length == 0)
+            return namespacePath;
+
+        foreach (string namespaceToAppend in entityScaffoldingDetails.NamespaceHierarchy)
+        {
+            namespacePath += "." + namespaceToAppend;
+        }
+
+        return namespacePath;
+    }
 }
 #>

@@ -16,7 +16,7 @@
     <TemplateContent>
         <Project TargetFileName="SharpArchProject.Core.csproj" File="SharpArchProject.Core.csproj" ReplaceParameters="true">
             <ProjectItem ReplaceParameters="true" TargetFileName="Class1.cs">Class1.cs</ProjectItem>
-            <Folder Name="DataInterfaces" TargetFolderName="DataInterfaces" />
+            <Folder Name="RepositoryInterfaces" TargetFolderName="RepositoryInterfaces" />
             <Folder Name="Properties" TargetFolderName="Properties">
                 <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
             </Folder>
