@@ -1,4 +1,25 @@
 ==================================================
+S#arp Architecture 1.5 2010 for Visual Studio 2008
+==================================================
+
+New and exciting in this release:
+* Compatible with ASP.NET MVC 2.0 RTM
+* Upgraded dependencies including NHibernate 2.1.2.4, Fluent NHibernate 1.0.0.629, Castle.Core 1.2, Castle Windsor 2.1. See complete list below
+* Added Enterprise CRUD scaffolding (thanks Billy)
+* Updated CRUD scaffolding (both normal and enterprise) to make use of MVC Areas
+* Updated Northwind sample to MVC 2 and updated assemblies.
+* New SharpModelBinder.cs (thanks Michael Aird)
+* Updated target platform to x86 from Any so that the SQL lite tests will pass
+* Upgraded jQuery to 1.4.2
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
+^ ASP.NET MVC 2.0
+^ ASP.NET MVC 2.0 futures
+
+
+==================================================
 S#arp Architecture 1.0 Q3 2009 for Visual Studio 2008
 ==================================================
 

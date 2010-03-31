@@ -30,7 +30,7 @@ public class ShowTemplate : BaseTemplate
 	#>
     <li class="buttons">
             <%= Html.Button("btnBack", "Back", HtmlButtonType.Button, 
-                "window.location.href = '" + Html.BuildUrlFromExpression<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>(c => c.Index()) + "';") %>
+                "window.location.href = '" + Html.BuildUrlFromExpressionForAreas<<#= EntityScaffoldingDetails.EntityNamePlural #>Controller>(c => c.Index()) + "';") %>
         </li>
 	</ul>
 

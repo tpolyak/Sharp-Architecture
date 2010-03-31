@@ -26,10 +26,10 @@ namespace SharpArch.Web.Areas
 
             MethodCallExpression methodCall = GetMethodCall(action);
             string actionName = methodCall.Method.Name;
-            string arguments = GetQueryStringArguments(helper, action, linkText);
+            string arguments = GetQueryStringArguments(helper, action, linkText, controllerUrlName, actionName);
 
             return string.Format(linkTemplate,
-                helper.ViewContext.HttpContext.Request.ApplicationPath == "/" 
+                helper.ViewContext.HttpContext.Request.ApplicationPath == "/"
                     ? helper.ViewContext.HttpContext.Request.ApplicationPath
                     : helper.ViewContext.HttpContext.Request.ApplicationPath + "/",
                 !string.IsNullOrEmpty(areaUrl)
@@ -50,14 +50,27 @@ namespace SharpArch.Web.Areas
             return GetRoutePortionFrom(actionLink);
         }
 
-        private static string GetQueryStringArguments<TController>(HtmlHelper helper, Expression<Action<TController>> action, string linkText) where TController : Controller {
+        private static string GetQueryStringArguments<TController>(HtmlHelper helper,
+            Expression<Action<TController>> action, string linkText, string controllerUrlName, string actionName)
+            where TController : Controller {
+
             RouteValueDictionary routingValues = ExpressionHelper.GetRouteValuesFromExpression(action);
             string routeLinkFromMvc = helper.RouteLink(linkText, routingValues).ToString();
 
             string routePortion = GetRoutePortionFrom(routeLinkFromMvc);
+            string controllerAndActionUrlPortion = controllerUrlName + "/" + actionName;
 
+            // If there's a "?" in the querystring, then take everything from the "?" 
+            // and onwards as the parameters to the URL
             if (routePortion.IndexOf('?') > -1) {
                 return routePortion.Substring(routePortion.IndexOf('?'));
+            }
+            // If the controllerAndActionUrlPortion + "/" is found in the querystring, then it implies
+            // that there are parameters, so take everything after the controllerAndActionUrlPortion, 
+            // including the "/"
+            else if (routePortion.IndexOf(controllerAndActionUrlPortion + "/") > -1) {
+                return routePortion.Substring(routePortion.IndexOf(controllerAndActionUrlPortion + "/") +
+                    controllerAndActionUrlPortion.Length);
             }
             else {
                 return "";
