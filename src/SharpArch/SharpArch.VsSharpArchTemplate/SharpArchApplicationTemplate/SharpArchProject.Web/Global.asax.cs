@@ -4,7 +4,6 @@ using CommonServiceLocator.WindsorAdapter;
 using Microsoft.Practices.ServiceLocation;
 using MvcContrib.Castle;
 using NHibernate.Cfg;
-using SharpArch.Core.NHibernateValidator.ValidatorProvider;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.NHibernate;
 using SharpArch.Web.Castle;
@@ -32,11 +31,8 @@ namespace $safeprojectname$
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
-			
-			DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
-            ModelValidatorProviders.Providers.Add(new NHibernateValidatorProvider()); //Server side validation provider
 
-            ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
+			ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
 
             InitializeServiceLocator();
 
