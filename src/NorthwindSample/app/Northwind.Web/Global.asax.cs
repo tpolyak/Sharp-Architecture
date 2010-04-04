@@ -10,6 +10,7 @@ using MvcContrib.Castle;
 using Northwind.Data.NHibernateMaps;
 using Northwind.Web.CastleWindsor;
 using Northwind.Web.Controllers;
+using SharpArch.Core.NHibernateValidator.ValidatorProvider;
 using SharpArch.Data.NHibernate;
 using SharpArch.Web.Areas;
 using SharpArch.Web.ModelBinder;
@@ -28,6 +29,9 @@ namespace Northwind.Web
 
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new AreaViewEngine());
+
+            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+            ModelValidatorProviders.Providers.Add(new NHibernateValidatorProvider()); //Server side validation provider
 
             ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
 
