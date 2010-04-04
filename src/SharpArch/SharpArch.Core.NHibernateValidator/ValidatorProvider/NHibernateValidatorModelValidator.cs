@@ -22,11 +22,12 @@ namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
         {
             var validationResults = _validator.GetInvalidValues(Metadata.Model);
 
-            return validationResults.Select(validationResult => new ModelValidationResult
-                                                                    {
-                                                                        MemberName = validationResult.PropertyName,
-                                                                        Message = validationResult.Message
-                                                                    });
+            foreach (var validationResult in validationResults)
+            {
+                yield return
+                    new ModelValidationResult { MemberName = validationResult.PropertyName, Message = validationResult.Message };
+
+            }
         }
     }
 }
