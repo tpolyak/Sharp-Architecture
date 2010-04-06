@@ -19,7 +19,6 @@ namespace SharpArchApplicationWizard
         /// </summary>
         private static string solutionName;
         private static string guidAssignedToCore = "{00000000-0000-0000-0000-000000000000}";
-        private static string guidAssignedToDB = "{00000000-0000-0000-0000-000000000000}";
         private static string guidAssignedToData = "{00000000-0000-0000-0000-000000000000}";
         private static string guidAssignedToApplicationServices = "{00000000-0000-0000-0000-000000000000}";
         private static string guidAssignedToControllers = "{00000000-0000-0000-0000-000000000000}";
@@ -57,7 +56,6 @@ namespace SharpArchApplicationWizard
         private static void AddProjectGuidsTo(Dictionary<string, string> replacementsDictionary) {
             replacementsDictionary.Add("$guidAssignedToCore$", guidAssignedToCore);
             replacementsDictionary.Add("$guidAssignedToData$", guidAssignedToData);
-            replacementsDictionary.Add("$guidAssignedToDB$", guidAssignedToDB);
             replacementsDictionary.Add("$guidAssignedToApplicationServices$", guidAssignedToApplicationServices);
             replacementsDictionary.Add("$guidAssignedToControllers$", guidAssignedToControllers);
         }
@@ -84,10 +82,6 @@ namespace SharpArchApplicationWizard
                 }
                 else if (project.Name == GetSolutionName() + ".Tests") {
                     MoveProjectTo("\\tests\\", project);
-                }
-                else if (project.Name == GetSolutionName() + ".DB") {
-                    Project movedProject = MoveProjectTo("\\db\\", project);
-                    ExcludeProjectFromBuildProcess(movedProject);
                 }
                 else if (project.Name == GetSolutionName() + ".Web.Controllers" ||
                     project.Name == GetSolutionName() + ".ApplicationServices" ||
@@ -136,9 +130,6 @@ namespace SharpArchApplicationWizard
             }
             else if (project.Name == GetSolutionName() + ".Data") {
                 guidAssignedToData = projectGuidNodes[0].InnerText;
-            }
-            else if (project.Name == GetSolutionName() + ".DB") {
-                guidAssignedToDB = projectGuidNodes[0].InnerText;
             }
         }
 

@@ -4,7 +4,7 @@ public class IDomainObjectManagementServiceTemplate : BaseTemplate
 	public IDomainObjectManagementServiceTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".ApplicationServices") 
         ActionConfirmation Delete(int id);
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

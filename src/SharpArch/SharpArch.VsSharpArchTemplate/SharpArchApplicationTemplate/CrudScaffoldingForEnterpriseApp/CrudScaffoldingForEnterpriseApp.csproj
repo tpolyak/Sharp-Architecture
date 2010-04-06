@@ -75,8 +75,6 @@
     </None>
     <None Include="Templates\Data\Repositories\DomainObjectRepositoryTemplate.tt">
     </None>
-    <None Include="Templates\DB\StoredProcedures\CreateGetDomainObjectSummariesTemplate.tt">
-    </None>
     <None Include="Templates\Web\Controllers\ControllerTemplate.tt" />
     <None Include="Templates\Core\DomainObjectTemplate.tt">
     </None>

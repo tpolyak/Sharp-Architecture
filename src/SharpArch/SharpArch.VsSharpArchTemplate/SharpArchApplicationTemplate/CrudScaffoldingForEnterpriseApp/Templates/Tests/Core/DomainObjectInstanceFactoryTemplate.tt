@@ -4,7 +4,7 @@ public class DomainObjectInstanceFactoryTemplate : BaseTemplate
 	public DomainObjectInstanceFactoryTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using System;
@@ -33,7 +33,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
         }
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

@@ -6,7 +6,7 @@ public class DomainObjectTemplate : BaseTemplate
 	public DomainObjectTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using System;
@@ -35,7 +35,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>
 		#>
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

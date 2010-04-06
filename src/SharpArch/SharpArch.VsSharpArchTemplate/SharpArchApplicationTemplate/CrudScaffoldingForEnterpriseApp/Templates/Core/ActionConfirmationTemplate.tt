@@ -4,7 +4,7 @@ public class ActionConfirmationTemplate : BaseTemplate
 	public ActionConfirmationTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 namespace <#= SolutionName #>.Core
@@ -32,7 +32,7 @@ namespace <#= SolutionName #>.Core
         public object Value { get; set; }
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

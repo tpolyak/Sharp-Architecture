@@ -4,7 +4,7 @@ public class DomainObjectManagementServiceTestsTemplate : BaseTemplate
 	public DomainObjectManagementServiceTestsTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using NUnit.Framework;
@@ -253,7 +253,7 @@ namespace Tests.<#= AppendNamespaceHierarchyTo(SolutionName + ".ApplicationServi
         private I<#= EntityScaffoldingDetails.EntityName #>ManagementService <#= EntityScaffoldingDetails.EntityNameCamelCase #>ManagementService;
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

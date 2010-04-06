@@ -6,7 +6,7 @@ public class DomainObjectDtoTemplate : BaseTemplate
 	public DomainObjectDtoTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using System;
@@ -27,7 +27,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Core.QueryDtos") #>
 		#>
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

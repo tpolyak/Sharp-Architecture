@@ -6,7 +6,7 @@ public class DomainObjectRepositoryTemplate : BaseTemplate
 	public DomainObjectRepositoryTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using SharpArch.Data.NHibernate;
@@ -31,7 +31,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Data.Repositories") #>
         }
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

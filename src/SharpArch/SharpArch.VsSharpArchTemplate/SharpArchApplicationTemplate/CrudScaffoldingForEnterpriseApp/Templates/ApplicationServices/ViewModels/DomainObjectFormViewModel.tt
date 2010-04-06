@@ -4,7 +4,7 @@ public class DomainObjectFormViewModel : BaseTemplate
 	public DomainObjectFormViewModel(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
@@ -16,7 +16,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".ApplicationServices.Vi
         public <#= EntityScaffoldingDetails.EntityName #> <#= EntityScaffoldingDetails.EntityName #> { get; set; }
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

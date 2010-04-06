@@ -4,7 +4,7 @@ public class DomainObjectManagementServiceTemplate : BaseTemplate
 	public DomainObjectManagementServiceTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using System.Collections.Generic;
@@ -134,7 +134,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".ApplicationServices") 
         I<#= EntityScaffoldingDetails.EntityName #>Repository <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository;
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

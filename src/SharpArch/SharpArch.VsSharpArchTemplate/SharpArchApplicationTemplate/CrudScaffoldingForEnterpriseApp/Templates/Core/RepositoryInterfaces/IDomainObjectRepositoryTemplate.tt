@@ -4,7 +4,7 @@ public class IDomainObjectRepositoryTemplate : BaseTemplate
 	public IDomainObjectRepositoryTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using SharpArch.Core.PersistenceSupport;
@@ -19,7 +19,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Core.RepositoryInterfa
         IList<<#= EntityScaffoldingDetails.EntityName #>Dto> Get<#= EntityScaffoldingDetails.EntityName #>Summaries();
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

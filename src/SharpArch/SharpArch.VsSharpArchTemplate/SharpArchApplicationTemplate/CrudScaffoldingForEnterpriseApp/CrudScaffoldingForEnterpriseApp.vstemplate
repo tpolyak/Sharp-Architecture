@@ -48,11 +48,6 @@
             <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectRepositoryTemplate.tt">DomainObjectRepositoryTemplate.tt</ProjectItem>
           </Folder>
         </Folder>
-        <Folder Name="DB" TargetFolderName="DB">
-          <Folder Name="StoredProcedures" TargetFolderName="StoredProcedures">
-            <ProjectItem ReplaceParameters="false" TargetFileName="CreateGetDomainObjectSummariesTemplate.tt">CreateGetDomainObjectSummariesTemplate.tt</ProjectItem>
-          </Folder>
-        </Folder>
         <Folder Name="Tests" TargetFolderName="Tests">
           <Folder Name="ApplicationServices" TargetFolderName="ApplicationServices">
             <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectMgmtServiceTestsTemplate.tt">DomainObjectMgmtServiceTestsTemplate.tt</ProjectItem>

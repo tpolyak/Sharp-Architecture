@@ -12,7 +12,6 @@
 <#@ include file="./Templates/Web/Views/EditTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/IndexTemplate.tt" #>
 <#@ include file="./Templates/Web/Views/ShowTemplate.tt" #>
-<#@ include file="./Templates/DB/StoredProcedures/CreateGetDomainObjectSummariesTemplate.tt" #>
 <#@ include file="./Templates/Core/RepositoryInterfaces/IDomainObjectRepositoryTemplate.tt" #>
 <#@ include file="./Templates/Core/QueryDtos/DomainObjectDtoTemplate.tt" #>
 <#@ include file="./Templates/Data/Repositories/DomainObjectRepositoryTemplate.tt" #>
@@ -33,7 +32,7 @@ public class ScaffoldingGenerator : Generator
 		// While calling this method within the constructor of this class
 		// violates command/query separation, I want to make it very difficult to forget invoking it.
 		DeleteT4OutputLog();
-		
+
 		this.entityScaffoldingDetails = entityScaffoldingDetails;
 		this.solutionName = solutionName;
 
@@ -52,28 +51,27 @@ public class ScaffoldingGenerator : Generator
 	}
 
     /// <summary>
-	/// Removes any T4 output log generated on previous generation runs.  If you don't do this, 
+	/// Removes any T4 output log generated on previous generation runs.  If you don't do this,
 	/// the templating mechanism will delete the files listed in the existing log file before
 	/// generating new files.
     /// </summary>
 	public void DeleteT4OutputLog() {
-		ProjectItem t4ToolboxOuputLog = 
+		ProjectItem t4ToolboxOuputLog =
 			TransformationContext.FindProjectItem("ScaffoldingGeneratorCommand.tt.log");
-		
+
 		if (t4ToolboxOuputLog != null) {
 			t4ToolboxOuputLog.Remove();
 			t4ToolboxOuputLog.Delete();
 		}
 	}
-	
+
 	protected override void RunCore() {
 		// Get rid of the existing generation log
 		File.Delete(logsFolderPath + LOG_FILE_NAME);
-		
+
 		Log("Started adding generated files");
-		
+
         GenerateActionConfirmation();
-		GenerateSql();
 		GenerateNamedQuery();
 		GenerateDomainObjectInstanceFactoryForTests();
 		GenerateDomainObjectAndTests();
@@ -83,10 +81,10 @@ public class ScaffoldingGenerator : Generator
 		GenerateApplicationServiceAndTests();
 		GenerateControllerAndTests();
 		GenerateViews();
-		
+
 		Log("Finished adding generated files");
 	}
-	
+
     // The action confirmation only gets generated once for the entire project; it gets
     // checked every time the CRUD scaffolding generator runs to make sure it exists
 	private void GenerateActionConfirmation() {
@@ -95,7 +93,7 @@ public class ScaffoldingGenerator : Generator
 		string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 		if (! File.Exists(targetPath + fileName)) {
-			ActionConfirmationTemplate actionConfirmationTemplate = 
+			ActionConfirmationTemplate actionConfirmationTemplate =
 				new ActionConfirmationTemplate(solutionName, entityScaffoldingDetails);
 
 			string outputProject = appFolderRelativePath + solutionName + ".Core\\" + solutionName + ".Core.csproj";
@@ -105,7 +103,7 @@ public class ScaffoldingGenerator : Generator
 			Log("File already exists " + targetPath + fileName);
 		}
 	}
-	
+
 	private void GenerateDomainObjectInstanceFactoryForTests() {
 		if (DidRequestToGenerate(ArtifactToGenerate.ApplicationService) || DidRequestToGenerate(ArtifactToGenerate.Controller)) {
 			string fileName = entityScaffoldingDetails.EntityName + "InstanceFactory.cs";
@@ -113,7 +111,7 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectInstanceFactoryTemplate domainObjectInstanceFactoryTemplate = 
+				DomainObjectInstanceFactoryTemplate domainObjectInstanceFactoryTemplate =
 					new DomainObjectInstanceFactoryTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = solutionName + ".Core\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -126,28 +124,6 @@ public class ScaffoldingGenerator : Generator
 		}
 	}
 
-	private void GenerateSql() {
-		if (DidRequestToGenerate(ArtifactToGenerate.Sql)) {
-			string fileName = "CreateGet" + entityScaffoldingDetails.EntityName + "Summaries.sql";
-			string targetPath = dbFolderPath + solutionName + ".DB\\StoredProcedures\\";
-
-			if (! File.Exists(targetPath + fileName)) {
-				CreateGetDomainObjectSummariesTemplate createGetDomainObjectSummariesTemplate = 
-					new CreateGetDomainObjectSummariesTemplate(solutionName, entityScaffoldingDetails);
-
-				string outputFile = "StoredProcedures\\" + fileName;
-				string outputProject = dbFolderRelativePath + solutionName + ".DB\\" + solutionName + ".DB.csproj";
-				RenderFileToProject(createGetDomainObjectSummariesTemplate, outputFile, outputProject);
-			}
-			else {
-				Log("File already exists " + targetPath + fileName);
-			}
-		}
-		else {
-			Log("Skipped generation of SQL");
-		}
-	}
-
 	private void GenerateNamedQuery() {
 		if (DidRequestToGenerate(ArtifactToGenerate.NamedQuery)) {
 			string fileName = "Get" + entityScaffoldingDetails.EntityName + "Summaries.hbm.xml";
@@ -155,7 +131,7 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				GetDomainObjectSummariesHbmTemplate getDomainObjectSummariesHbmTemplate = 
+				GetDomainObjectSummariesHbmTemplate getDomainObjectSummariesHbmTemplate =
 					new GetDomainObjectSummariesHbmTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = "NamedQueries\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -179,7 +155,7 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectManagementServiceTestsTemplate domainObjectManagementServiceTestsTemplate = 
+				DomainObjectManagementServiceTestsTemplate domainObjectManagementServiceTestsTemplate =
 					new DomainObjectManagementServiceTestsTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = solutionName + ".ApplicationServices\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -196,7 +172,7 @@ public class ScaffoldingGenerator : Generator
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				IDomainObjectManagementServiceTemplate iDomainObjectManagementServiceTemplate = 
+				IDomainObjectManagementServiceTemplate iDomainObjectManagementServiceTemplate =
 					new IDomainObjectManagementServiceTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -213,7 +189,7 @@ public class ScaffoldingGenerator : Generator
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectManagementServiceTemplate domainObjectManagementServiceTemplate = 
+				DomainObjectManagementServiceTemplate domainObjectManagementServiceTemplate =
 					new DomainObjectManagementServiceTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -236,7 +212,7 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectFormViewModel domainObjectFormViewModel = 
+				DomainObjectFormViewModel domainObjectFormViewModel =
 					new DomainObjectFormViewModel(solutionName, entityScaffoldingDetails);
 
 				string outputFile = "ViewModels\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -259,7 +235,7 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectDtoTemplate domainObjectDtoTemplate = 
+				DomainObjectDtoTemplate domainObjectDtoTemplate =
 					new DomainObjectDtoTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = "QueryDtos\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -282,7 +258,7 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				IDomainObjectRepositoryTemplate iDomainObjectRepositoryTemplate = 
+				IDomainObjectRepositoryTemplate iDomainObjectRepositoryTemplate =
 					new IDomainObjectRepositoryTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = "RepositoryInterfaces\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -298,7 +274,7 @@ public class ScaffoldingGenerator : Generator
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectRepositoryTemplate domainObjectRepositoryTemplate = 
+				DomainObjectRepositoryTemplate domainObjectRepositoryTemplate =
 					new DomainObjectRepositoryTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = "Repositories\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -321,7 +297,7 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectTestsTemplate domainObjectTestsTemplate = 
+				DomainObjectTestsTemplate domainObjectTestsTemplate =
 					new DomainObjectTestsTemplate(solutionName, entityScaffoldingDetails);
 
 				string outputFile = solutionName + ".Core\\" + entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -337,9 +313,9 @@ public class ScaffoldingGenerator : Generator
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				DomainObjectTemplate domainObjectTemplate = 
+				DomainObjectTemplate domainObjectTemplate =
 					new DomainObjectTemplate(solutionName, entityScaffoldingDetails);
-				
+
 				string outputFile = entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
 				string outputProject = targetPathRoot + solutionName + ".Core.csproj";
 				RenderFileToProject(domainObjectTemplate, outputFile, outputProject);
@@ -360,10 +336,10 @@ public class ScaffoldingGenerator : Generator
 			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				ControllerTestsTemplate controllerTestsTemplate = 
+				ControllerTestsTemplate controllerTestsTemplate =
 					new ControllerTestsTemplate(solutionName, entityScaffoldingDetails);
 
-				string outputFile = solutionName + ".Web\\Controllers\\" + 
+				string outputFile = solutionName + ".Web\\Controllers\\" +
 					entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
 				string outputProject = testsFolderRelativePath + solutionName + ".Tests\\" + solutionName + ".Tests.csproj";
 				RenderFileToProject(controllerTestsTemplate, outputFile, outputProject);
@@ -377,9 +353,9 @@ public class ScaffoldingGenerator : Generator
 			targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot);
 
 			if (! File.Exists(targetPath + fileName)) {
-				ControllerTemplate controllerTemplate = 
+				ControllerTemplate controllerTemplate =
 					new ControllerTemplate(solutionName, entityScaffoldingDetails);
-				
+
 				string outputFile = entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
 				string outputProject = targetPathRoot + solutionName + ".Web.Controllers.csproj";
 				RenderFileToProject(controllerTemplate, outputFile, outputProject);
@@ -391,7 +367,7 @@ public class ScaffoldingGenerator : Generator
             fileName = AppendNamespaceHierarchyTo("").Replace(".", "/").Trim('/') + "AreaRegistration.cs";
 
             if (entityScaffoldingDetails.NamespaceHierarchy != null && ! File.Exists(targetPath + fileName)) {
-                AreaRegistrationTemplate areaRegistrationTemplate = 
+                AreaRegistrationTemplate areaRegistrationTemplate =
                     new AreaRegistrationTemplate(solutionName, entityScaffoldingDetails);
 
                 string outputFile = entityScaffoldingDetails.GetNamespaceDelimitedWith("\\") + fileName;
@@ -405,11 +381,11 @@ public class ScaffoldingGenerator : Generator
 			Log("Skipped generation of controller and controller tests");
 		}
 	}
-	
+
 	private void GenerateViews() {
 		if (DidRequestToGenerate(ArtifactToGenerate.Views)) {
 			string targetPathRoot = appFolderPath + solutionName + ".Web\\Views\\";
-			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot) + 
+			string targetPath = CreateDirectoriesAndAppendNamespacePathTo(targetPathRoot) +
 				entityScaffoldingDetails.EntityNamePlural + "\\";
 
 			if (! Directory.Exists(targetPath)) {
@@ -433,7 +409,7 @@ public class ScaffoldingGenerator : Generator
 		string fileName = entityScaffoldingDetails.EntityName + "Form.ascx";
 
 		if (! File.Exists(targetPath + fileName)) {
-			DomainObjectFormTemplate domainObjectFormTemplate = 
+			DomainObjectFormTemplate domainObjectFormTemplate =
 				new DomainObjectFormTemplate(solutionName, entityScaffoldingDetails);
 			RenderViewFile(domainObjectFormTemplate, targetPath + fileName);
 		}
@@ -453,7 +429,7 @@ public class ScaffoldingGenerator : Generator
 			Log("File already exists " + targetPath + fileName);
 		}
 	}
-	
+
 	private void GenerateEditView(string targetPath) {
 		string fileName = "Edit.aspx";
 
@@ -465,12 +441,12 @@ public class ScaffoldingGenerator : Generator
 			Log("File already exists " + targetPath + fileName);
 		}
 	}
-	
+
 	private void GenerateIndexView(string targetPath) {
 		string fileName = "Index.aspx";
 
 		if (! File.Exists(targetPath + fileName)) {
-			IndexTemplate indexTemplate = 
+			IndexTemplate indexTemplate =
 				new IndexTemplate(solutionName, entityScaffoldingDetails);
 			RenderViewFile(indexTemplate, targetPath + fileName);
 		}
@@ -478,7 +454,7 @@ public class ScaffoldingGenerator : Generator
 			Log("File already exists " + targetPath + fileName);
 		}
 	}
-	
+
 	private void GenerateShowView(string targetPath) {
 		string fileName = "Show.aspx";
 
@@ -506,37 +482,37 @@ public class ScaffoldingGenerator : Generator
 
         if (compileAsEmbeddedResource) {
             // Must upgrade to latest T4 Toolbox to leverage
-            //template.Output.BuildProperties["Build Action"] = "Embedded Resource";
+            template.Output.BuildAction = BuildAction.EmbeddedResource;
         }
 
 		template.Render();
 
 		Log(string.Format("Added file {0} to project {1}", outputFile, outputProject));
 	}
-	
+
     /// <summary>
 	/// Takes the namespace of the entity and verifies and creates, if necessary, a folder path after the provided
 	/// path which reflects the namespace of the entity.  For example, if you provide "C:\MyProject\" as the path and the
-	/// entity's namespace is "Organization.Whatever", then this method will verify and/or generate 
+	/// entity's namespace is "Organization.Whatever", then this method will verify and/or generate
 	/// "C:\MyProject\Organization\Whatever\".  It then returns the full path, e.g., "C:\MyProject\Organization\Whatever\"
     /// </summary>
 	private string CreateDirectoriesAndAppendNamespacePathTo(string path) {
 		if (entityScaffoldingDetails.NamespaceHierarchy == null)
 			return path;
-			
+
 		for (int i=0; i < entityScaffoldingDetails.NamespaceHierarchy.Length; i++) {
 			path += entityScaffoldingDetails.NamespaceHierarchy[i] + "\\";
 			Log("path = " + path + "; exists? " + Directory.Exists(path).ToString());
-			
+
 			if (! Directory.Exists(path)) {
 				Directory.CreateDirectory(path);
 				Log("Added directory " + path);
 			}
 		}
-		
+
 		return path;
 	}
-	
+
 	private bool DidRequestToGenerate(ArtifactToGenerate artifactToGenerate) {
 		// If specific artifacts were not designated, then assume creation
 		if (entityScaffoldingDetails.ArtifactsToGenerate == null)
@@ -547,7 +523,7 @@ public class ScaffoldingGenerator : Generator
 				return true;
             }
         }
-        
+
         return false;
 	}
 
@@ -559,19 +535,19 @@ public class ScaffoldingGenerator : Generator
 
 	private readonly EntityScaffoldingDetails entityScaffoldingDetails;
 	private readonly string logsFolderPath;
-	
+
 	private readonly string testsFolderPath;
 	private readonly string testsFolderRelativePath;
 
 	private readonly string appFolderPath;
 	private readonly string appFolderRelativePath;
-	
+
 	private readonly string dbFolderRelativePath;
 	private readonly string dbFolderPath;
-	
+
 	private readonly string solutionRootPath;
 	private readonly string solutionName;
-	
+
 	private const string LOG_FILE_NAME = "CrudScaffolding.log";
 
     protected string AppendNamespaceHierarchyTo(string namespacePath)

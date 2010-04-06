@@ -4,7 +4,7 @@ public class DomainObjectTestsTemplate : BaseTemplate
 	public DomainObjectTestsTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+	public override string TransformText()
 	{
 #>
 using NUnit.Framework;
@@ -69,7 +69,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Core") #>
         }
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>
