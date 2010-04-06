@@ -48,7 +48,7 @@ namespace SharpArch.Web.ModelBinder
                 //use the EntityValueBinder
                 return base.GetPropertyValue(controllerContext, bindingContext, propertyDescriptor, new EntityValueBinder());
             }
-            
+
             if ( IsSimpleGenericBindableEntityCollection(propertyType) )
             {
                 //use the EntityValueCollectionBinder
@@ -101,7 +101,7 @@ namespace SharpArch.Web.ModelBinder
         }
 
         /// <summary>
-        /// If the property being bound is an Id property, then use reflection to get past the 
+        /// If the property being bound is an Id property, then use reflection to get past the
         /// protected visibility of the Id property, accordingly.
         /// </summary>
         private static void SetIdProperty(ModelBindingContext bindingContext,
@@ -110,7 +110,7 @@ namespace SharpArch.Web.ModelBinder
             Type idType = propertyDescriptor.PropertyType;
             object typedId = Convert.ChangeType(value, idType);
 
-            // First, look to see if there's an Id property declared on the entity itself; 
+            // First, look to see if there's an Id property declared on the entity itself;
             // e.g., using the new keyword
             PropertyInfo idProperty = bindingContext.ModelType
                 .GetProperty(propertyDescriptor.Name,
@@ -131,7 +131,7 @@ namespace SharpArch.Web.ModelBinder
 
 
         /// <summary>
-        /// If the property being bound is a simple, generic collection of entiy objects, then use 
+        /// If the property being bound is a simple, generic collection of entiy objects, then use
         /// reflection to get past the protected visibility of the collection property, if necessary.
         /// </summary>
         private static void SetEntityCollectionProperty(ModelBindingContext bindingContext,
@@ -185,11 +185,45 @@ namespace SharpArch.Web.ModelBinder
         }
 
         protected override void OnModelUpdated(ControllerContext controllerContext, ModelBindingContext bindingContext)
-        {
-            base.OnModelUpdated(controllerContext, bindingContext);
-        }
-        #endregion
+		{
+			foreach (string key in bindingContext.ModelState.Keys)
+			{
+				for (int i = 0; i < bindingContext.ModelState[key].Errors.Count; i++)
+				{
+					ModelError modelError = bindingContext.ModelState[key].Errors[i];
 
+					// Get rid of all the MVC errors except those associated with parsing info; e.g., parsing DateTime fields
+					if (IsModelErrorAddedByMvc(modelError) && !IsMvcModelBinderFormatException(modelError))
+					{
+						bindingContext.ModelState[key].Errors.RemoveAt(i);
+						// Decrement the counter since we've shortened the list
+						i--;
+					}
+				}
+			}
+
+			// Transfer any errors exposed by IValidator to the ModelState
+			if (bindingContext.Model is IValidatable)
+			{
+				MvcValidationAdapter.TransferValidationMessagesTo(
+					bindingContext.ModelName, bindingContext.ModelState,
+					((IValidatable)bindingContext.Model).ValidationResults());
+			}
+		}
+		#endregion
+
+		private bool IsModelErrorAddedByMvc(ModelError modelError)
+		{
+			return modelError.Exception != null &&
+				modelError.Exception.GetType().Equals(typeof(InvalidOperationException));
+		}
+
+		private bool IsMvcModelBinderFormatException(ModelError modelError)
+		{
+			return modelError.Exception != null &&
+				modelError.Exception.InnerException != null &&
+				modelError.Exception.InnerException.GetType().Equals(typeof(FormatException));
+		}
         private const string ID_PROPERTY_NAME = "Id";
     }
 }
