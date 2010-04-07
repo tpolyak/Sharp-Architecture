@@ -77,7 +77,7 @@ namespace SharpArch.Data.NHibernate
 			IDictionary<string, string> cfgProperties,
 			string validatorCfgFile)
 		{
-			return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile, null);
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, null);
 		}
 
 		[CLSCompliant(false)]
