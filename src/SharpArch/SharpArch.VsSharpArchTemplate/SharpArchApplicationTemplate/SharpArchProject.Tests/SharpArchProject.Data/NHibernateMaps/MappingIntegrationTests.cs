@@ -53,7 +53,7 @@ namespace Tests.$solutionname$.Data.NHibernateMaps
         public void CanGenerateDatabaseSchema() {
             var session = NHibernateSession.GetDefaultSessionFactory().OpenSession();
 
-            using (TextWriter stringWriter = new StreamWriter("../../../../db/$solutionname$.DB/Schema/UnitTestGeneratedSchema.sql")) {
+            using (TextWriter stringWriter = new StreamWriter("../../../../db/schema/UnitTestGeneratedSchema.sql")) {
                 new SchemaExport(configuration).Execute(true, false, false, session.Connection, stringWriter);
             }
         }

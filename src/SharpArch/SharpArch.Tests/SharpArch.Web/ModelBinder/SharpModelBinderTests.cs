@@ -58,8 +58,6 @@ namespace Tests.SharpArch.Web.ModelBinder
         {
             int id = 2;
             string employeeName = "Michael";
-            string employee2Id = "3";
-            string employee2Name = "Alec";
 
             // Arrange
             var formCollection = new NameValueCollection

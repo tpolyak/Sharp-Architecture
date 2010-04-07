@@ -70,6 +70,8 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
                         saveOrUpdateConfirmation.Message;
                     return RedirectToAction("Index");
                 }
+            } else {
+                <#= EntityScaffoldingDetails.EntityNameCamelCase #> = null;
             }
 
             <#= EntityScaffoldingDetails.EntityName #>FormViewModel viewModel = 
