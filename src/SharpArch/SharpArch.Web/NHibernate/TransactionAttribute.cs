@@ -47,13 +47,15 @@ namespace SharpArch.Web.NHibernate
             base.OnResultExecuted(filterContext);
             try
             {
-                if ((filterContext.Exception != null) && (!filterContext.ExceptionHandled))
-                {
-                    currentTransaction.Rollback();
-                }
-                else
-                {
-                    currentTransaction.Commit();
+                if (currentTransaction.IsActive) {
+                    if ((filterContext.Exception != null) && (!filterContext.ExceptionHandled))
+                    {
+                        currentTransaction.Rollback();
+                    }
+                    else
+                    {
+                        currentTransaction.Commit();
+                    }
                 }
             }
             finally
