@@ -1,0 +1,82 @@
+<VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+	<TemplateData>
+		<Name>SharpArchProject.Core</Name>
+		<Description>S#arp Architecture Solution Items</Description>
+		<ProjectType>CSharp</ProjectType>
+		<ProjectSubType>
+		</ProjectSubType>
+		<SortOrder>1000</SortOrder>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>SolutionItems</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+		<Icon></Icon>
+	</TemplateData>
+	<TemplateContent>
+		<Project TargetFileName="SolutionItemsContainer.csproj" File="SolutionItemsContainer.csproj">
+			<ProjectItem ReplaceParameters="true" TargetFileName="CommonAssemblyInfo.cs">CommonAssemblyInfo.cs</ProjectItem>
+			<Folder Name="Solution Items">
+				<ProjectItem>Antlr3.Runtime.dll</ProjectItem>
+				<ProjectItem>Castle.Core.dll</ProjectItem>
+				<ProjectItem>Castle.Core.xml</ProjectItem>
+				<ProjectItem>Castle.DynamicProxy2.dll</ProjectItem>
+				<ProjectItem>Castle.DynamicProxy2.xml</ProjectItem>
+				<ProjectItem>Castle.DynamicProxy.license.txt</ProjectItem>
+		        <ProjectItem>Castle.MicroKernel.dll</ProjectItem>
+                <ProjectItem>Castle.MicroKernel.xml</ProjectItem>
+		        <ProjectItem>Castle.Services.Logging.Log4netIntegration.dll</ProjectItem>
+                <ProjectItem>Castle.Services.Logging.Log4netIntegration.xml</ProjectItem>
+				<ProjectItem>Castle.Windsor.dll</ProjectItem>
+				<ProjectItem>Castle.Windsor.xml</ProjectItem>
+				<ProjectItem>CommonServiceLocator.WindsorAdapter.dll</ProjectItem>
+				<ProjectItem>FluentNHibernate.dll</ProjectItem>
+				<ProjectItem>FluentNHibernate.XML</ProjectItem>
+		        <ProjectItem>Iesi.Collections.dll</ProjectItem>
+				<ProjectItem>Iesi.Collections.license.txt</ProjectItem>
+				<ProjectItem>Iesi.Collections.xml</ProjectItem>
+		        <ProjectItem>Inflector.Net.dll</ProjectItem>
+                <ProjectItem>log4net.dll</ProjectItem>
+				<ProjectItem>log4net.license.txt</ProjectItem>
+				<ProjectItem>log4net.xml</ProjectItem>
+				<ProjectItem>Microsoft.Practices.ServiceLocation.dll</ProjectItem>
+				<ProjectItem>Microsoft.Web.Mvc.dll</ProjectItem>
+				<ProjectItem>MvcContrib.Castle.dll</ProjectItem>
+				<ProjectItem>MvcContrib.Castle.xml</ProjectItem>
+				<ProjectItem>MvcContrib.dll</ProjectItem>
+				<ProjectItem>MvcContrib.xml</ProjectItem>
+				<ProjectItem>MvcContrib.FluentHtml.dll</ProjectItem>
+				<ProjectItem>MvcContrib.FluentHtml.xml</ProjectItem>
+		        <ProjectItem>Newtonsoft.Json.dll</ProjectItem>
+                <ProjectItem>Newtonsoft.Json.xml</ProjectItem>
+		        <ProjectItem>NHibernate.ByteCode.Castle.dll</ProjectItem>
+		        <ProjectItem>NHibernate.ByteCode.Castle.xml</ProjectItem>
+		        <ProjectItem>NHibernate.dll</ProjectItem>
+                <ProjectItem>NHibernate.license.txt</ProjectItem>
+				<ProjectItem>NHibernate.Linq.dll</ProjectItem>
+				<ProjectItem>NHibernate.Linq.xml</ProjectItem>
+				<ProjectItem>NHibernate.Validator.dll</ProjectItem>
+				<ProjectItem>NHibernate.Validator.xml</ProjectItem>
+				<ProjectItem>NHibernate.xml</ProjectItem>
+				<ProjectItem>SharpArch.Core.dll</ProjectItem>
+				<ProjectItem>SharpArch.Core.pdb</ProjectItem>
+		        <ProjectItem>SharpArch.Core.NHibernateValidator.dll</ProjectItem>
+				<ProjectItem>SharpArch.Core.NHibernateValidator.pdb</ProjectItem>
+                <ProjectItem>SharpArch.Data.dll</ProjectItem>
+				<ProjectItem>SharpArch.Data.pdb</ProjectItem>
+				<ProjectItem>SharpArch.Web.dll</ProjectItem>
+				<ProjectItem>SharpArch.Web.pdb</ProjectItem>
+		        <ProjectItem>SharpArch.Web.Castle.dll</ProjectItem>
+		        <ProjectItem>SharpArch.Web.Castle.pdb</ProjectItem>
+                <ProjectItem>System.Web.Abstractions.dll</ProjectItem>
+				<ProjectItem>System.Web.Mvc.dll</ProjectItem>
+				<ProjectItem>System.Web.Mvc.xml</ProjectItem>
+				<ProjectItem>System.Web.Routing.dll</ProjectItem>
+			</Folder>
+		</Project>
+	</TemplateContent>
+  <WizardExtension>
+    <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, Custom=null</Assembly>
+    <FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
+  </WizardExtension>
+</VSTemplate>

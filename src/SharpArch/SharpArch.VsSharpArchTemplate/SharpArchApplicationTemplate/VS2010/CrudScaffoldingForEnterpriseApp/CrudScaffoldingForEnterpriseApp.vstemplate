@@ -1,0 +1,85 @@
+<VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>CrudScaffoldingForEnterpriseApp</Name>
+    <Description>S#arp Architecture CRUD scaffolding generator for enterprise development</Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>CrudScaffoldingForEnterpriseApp</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon></Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="CrudScaffoldingForEnterpriseApp.csproj" File="CrudScaffoldingForEnterpriseApp.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="EntityScaffoldingDetails.tt">EntityScaffoldingDetails.tt</ProjectItem>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName="ScaffoldingGeneratorCommand.tt">ScaffoldingGeneratorCommand.tt</ProjectItem>
+      <Folder Name="Templates" TargetFolderName="Templates">
+        <ProjectItem ReplaceParameters="false" TargetFileName="ScaffoldingGenerator.tt">ScaffoldingGenerator.tt</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="BaseTemplate.tt">BaseTemplate.tt</ProjectItem>
+        <Folder Name="ApplicationServices" TargetFolderName="ApplicationServices">
+          <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectManagementServiceTemplate.tt">DomainObjectManagementServiceTemplate.tt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="IDomainObjectManagementServiceTemplate.tt">IDomainObjectManagementServiceTemplate.tt</ProjectItem>
+          <Folder Name="ViewModels" TargetFolderName="ViewModels">
+            <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectFormViewModel.tt">DomainObjectFormViewModel.tt</ProjectItem>
+          </Folder>
+        </Folder>
+        <Folder Name="Core" TargetFolderName="Core">
+          <ProjectItem ReplaceParameters="false" TargetFileName="ActionConfirmationTemplate.tt">ActionConfirmationTemplate.tt</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectTemplate.tt">DomainObjectTemplate.tt</ProjectItem>
+          <Folder Name="QueryDtos" TargetFolderName="QueryDtos">
+            <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectDtoTemplate.tt">DomainObjectDtoTemplate.tt</ProjectItem>
+          </Folder>
+          <Folder Name="RepositoryInterfaces" TargetFolderName="RepositoryInterfaces">
+            <ProjectItem ReplaceParameters="false" TargetFileName="IDomainObjectRepositoryTemplate.tt">IDomainObjectRepositoryTemplate.tt</ProjectItem>
+          </Folder>
+        </Folder>
+        <Folder Name="Data" TargetFolderName="Data">
+          <Folder Name="NamedQueries" TargetFolderName="NamedQueries">
+            <ProjectItem ReplaceParameters="false" TargetFileName="GetDomainObjectSummariesHbmTemplate.tt">GetDomainObjectSummariesHbmTemplate.tt</ProjectItem>
+          </Folder>
+          <Folder Name="Repositories" TargetFolderName="Repositories">
+            <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectRepositoryTemplate.tt">DomainObjectRepositoryTemplate.tt</ProjectItem>
+          </Folder>
+        </Folder>
+        <Folder Name="Tests" TargetFolderName="Tests">
+          <Folder Name="ApplicationServices" TargetFolderName="ApplicationServices">
+            <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectMgmtServiceTestsTemplate.tt">DomainObjectMgmtServiceTestsTemplate.tt</ProjectItem>
+          </Folder>
+          <Folder Name="Core" TargetFolderName="Core">
+            <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectInstanceFactoryTemplate.tt">DomainObjectInstanceFactoryTemplate.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectTestsTemplate.tt">DomainObjectTestsTemplate.tt</ProjectItem>
+          </Folder>
+          <Folder Name="Web" TargetFolderName="Web">
+            <Folder Name="Controllers" TargetFolderName="Controllers">
+              <ProjectItem ReplaceParameters="false" TargetFileName="ControllerTestsTemplate.tt">ControllerTestsTemplate.tt</ProjectItem>
+            </Folder>
+          </Folder>
+        </Folder>
+        <Folder Name="Web" TargetFolderName="Web">
+          <Folder Name="Controllers" TargetFolderName="Controllers">
+            <ProjectItem ReplaceParameters="false" TargetFileName="ControllerTemplate.tt">ControllerTemplate.tt</ProjectItem>
+			<ProjectItem ReplaceParameters="false" TargetFileName="AreaRegistrationTemplate.tt">AreaRegistrationTemplate.tt</ProjectItem>
+          </Folder>
+          <Folder Name="Views" TargetFolderName="Views">
+            <ProjectItem ReplaceParameters="false" TargetFileName="CreateTemplate.tt">CreateTemplate.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="DomainObjectFormTemplate.tt">DomainObjectFormTemplate.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="EditTemplate.tt">EditTemplate.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="IndexTemplate.tt">IndexTemplate.tt</ProjectItem>
+            <ProjectItem ReplaceParameters="false" TargetFileName="ShowTemplate.tt">ShowTemplate.tt</ProjectItem>
+          </Folder>
+        </Folder>
+      </Folder>
+    </Project>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, Custom=null</Assembly>
+    <FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
+  </WizardExtension>
+</VSTemplate>

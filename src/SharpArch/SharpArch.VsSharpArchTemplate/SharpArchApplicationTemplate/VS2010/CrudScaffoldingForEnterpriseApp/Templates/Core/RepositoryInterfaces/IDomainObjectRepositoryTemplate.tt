@@ -1,0 +1,25 @@
+﻿<#+
+public class IDomainObjectRepositoryTemplate : BaseTemplate
+{
+	public IDomainObjectRepositoryTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
+		: base(solutionName, entityScaffoldingDetails) { }
+
+	public override string TransformText()
+	{
+#>
+using SharpArch.Core.PersistenceSupport;
+using System.Collections.Generic;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core") #>;
+using <#= AppendNamespaceHierarchyTo(SolutionName + ".Core.QueryDtos") #>;
+
+namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Core.RepositoryInterfaces") #>
+{
+    public interface I<#= EntityScaffoldingDetails.EntityName #>Repository : IRepository<<#= EntityScaffoldingDetails.EntityName #>>
+    {
+        IList<<#= EntityScaffoldingDetails.EntityName #>Dto> Get<#= EntityScaffoldingDetails.EntityName #>Summaries();
+    }
+}
+<#+ return this.GenerationEnvironment.ToString();
+	}
+}
+#>

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProductVersion>9.0.21022</ProductVersion>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>$guid2$</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>SolutionItemsContainer</RootNamespace>
+        <AssemblyName>SolutionItemsContainer</AssemblyName>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Folder Include="Solution Items\" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="CommonAssemblyInfo.cs" />
+        <Content Include="Solution Items\Antlr3.Runtime.dll" />
+        <Content Include="Solution Items\Castle.Core.dll" />
+        <Content Include="Solution Items\Castle.Core.xml" />
+        <Content Include="Solution Items\Castle.DynamicProxy2.dll" />
+        <Content Include="Solution Items\Castle.DynamicProxy2.xml" />
+        <Content Include="Solution Items\Castle.DynamicProxy.license.txt" />
+        <Content Include="Solution Items\Castle.MicroKernel.dll" />
+        <Content Include="Solution Items\Castle.MicroKernel.xml" />
+        <Content Include="Solution Items\Castle.Services.Logging.Log4netIntegration.dll" />
+        <Content Include="Solution Items\Castle.Services.Logging.Log4netIntegration.xml" />
+        <Content Include="Solution Items\Castle.Windsor.dll" />
+        <Content Include="Solution Items\Castle.Windsor.xml" />
+        <Content Include="Solution Items\CommonServiceLocator.WindsorAdapter.dll" />
+        <Content Include="Solution Items\FluentNHibernate.dll" />
+        <Content Include="Solution Items\FluentNHibernate.XML" />
+        <Content Include="Solution Items\Iesi.Collections.dll" />
+        <Content Include="Solution Items\Iesi.Collections.license.txt" />
+        <Content Include="Solution Items\Iesi.Collections.xml" />
+        <Content Include="Solution Items\Inflector.Net.dll" />
+        <Content Include="Solution Items\log4net.dll" />
+        <Content Include="Solution Items\log4net.license.txt" />
+        <Content Include="Solution Items\log4net.xml" />
+        <Content Include="Solution Items\Microsoft.Practices.ServiceLocation.dll" />
+        <Content Include="Solution Items\Microsoft.Web.Mvc.dll" />
+        <Content Include="Solution Items\MvcContrib.Castle.dll" />
+		<Content Include="Solution Items\MvcContrib.Castle.xml" />
+		<Content Include="Solution Items\MvcContrib.dll" />
+		<Content Include="Solution Items\MvcContrib.xml" />
+		<Content Include="Solution Items\MvcContrib.FluentHtml.dll" />
+		<Content Include="Solution Items\MvcContrib.FluentHtml.xml" />
+		<Content Include="Solution Items\Newtonsoft.Json.dll" />
+        <Content Include="Solution Items\Newtonsoft.Json.xml" />
+        <Content Include="Solution Items\NHibernate.ByteCode.Castle.dll" />
+        <Content Include="Solution Items\NHibernate.ByteCode.Castle.xml" />
+        <Content Include="Solution Items\NHibernate.dll" />
+        <Content Include="Solution Items\NHibernate.license.txt" />
+        <Content Include="Solution Items\NHibernate.Linq.dll" />
+        <Content Include="Solution Items\NHibernate.Linq.xml" />
+        <Content Include="Solution Items\NHibernate.Validator.dll" />
+        <Content Include="Solution Items\NHibernate.Validator.xml" />
+        <Content Include="Solution Items\NHibernate.xml" />
+        <Content Include="Solution Items\SharpArch.Core.dll" />
+	   	<Content Include="Solution Items\SharpArch.Core.pdb" />
+        <Content Include="Solution Items\SharpArch.Core.NHibernateValidator.dll" />
+		<Content Include="Solution Items\SharpArch.Core.NHibernateValidator.pdb" />
+        <Content Include="Solution Items\SharpArch.Data.dll" />
+        <Content Include="Solution Items\SharpArch.Data.pdb" />
+        <Content Include="Solution Items\SharpArch.Web.Castle.dll" />
+        <Content Include="Solution Items\SharpArch.Web.Castle.pdb" />
+        <Content Include="Solution Items\SharpArch.Web.dll" />
+        <Content Include="Solution Items\SharpArch.Web.pdb" />
+        <Content Include="Solution Items\System.Web.Abstractions.dll" />
+        <Content Include="Solution Items\System.Web.Mvc.dll" />
+		<Content Include="Solution Items\System.Web.Mvc.xml" />
+		<Content Include="Solution Items\System.Web.Routing.dll" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+    <PropertyGroup>
+        <PostBuildEvent>
+        </PostBuildEvent>
+    </PropertyGroup>
+</Project>

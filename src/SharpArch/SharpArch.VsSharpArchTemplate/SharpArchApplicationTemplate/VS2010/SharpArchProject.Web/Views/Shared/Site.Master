@@ -1,0 +1,53 @@
+<%@ Master Language="C#" AutoEventWireup="true" 
+    Inherits="System.Web.Mvc.ViewMasterPage" %>
+<%@ Import Namespace="$solutionname$.Web.Controllers" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head id="Head1" runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+    <link href="<%= ResolveUrl("~") %>Content/Site.css" rel="stylesheet" type="text/css" />
+
+    <% // At bottom to facilitate other JS files to be loaded before page-by-page JS is loaded %>
+    <asp:ContentPlaceHolder ID="HeadContentPlaceHolder" runat="server">
+        <title>$solutionname$</title>
+    </asp:ContentPlaceHolder>
+</head>
+
+<body>
+    <div class="page">
+
+        <div id="mainContent">
+
+            <div class="columnsContainer">
+
+                <div class="leftColumn">
+                    <p>
+                        <%= Html.Image("~/Content/Images/sharp_arch.jpg") %>
+                    </p>
+                    <h2>$solutionname$ Pages</h2>
+                    <ul>
+                        <!-- We cannot use Html.ActionLink within a master page to link to a controller while using areas -->
+                        <li><%= Html.ActionLinkForAreas<HomeController>(c => c.Index(), "Home") %></li>
+                    </ul>
+                </div>
+                <!--/leftColumn-->
+
+                <div class="rightColumn">
+                    <asp:ContentPlaceHolder ID="MainContentPlaceHolder" runat="server" />
+                </div><!--/rightColumn-->
+
+                <div class="clear">
+                </div>
+
+            </div><!--/columnsContainer-->
+
+            <div id="sharpArchLogo"><%= Html.Image("~/Content/Images/sharp_arch_small.gif")%></div>
+
+        </div><!--/mainContent-->
+
+    </div><!--/page-->
+</body>
+</html>

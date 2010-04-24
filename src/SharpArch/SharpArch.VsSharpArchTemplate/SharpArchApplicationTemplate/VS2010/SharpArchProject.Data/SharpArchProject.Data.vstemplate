@@ -1,0 +1,39 @@
+<VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+	<TemplateData>
+		<Name>SharpArchProject.Data</Name>
+		<Description>S#arp Architecture project data layer</Description>
+		<ProjectType>CSharp</ProjectType>
+		<ProjectSubType>
+		</ProjectSubType>
+		<SortOrder>1000</SortOrder>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>SharpArchProject.Data</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+		<Icon></Icon>
+	</TemplateData>
+	<TemplateContent>
+		<Project TargetFileName="SharpArchProject.Data.csproj" File="SharpArchProject.Data.csproj" ReplaceParameters="true">
+			<Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps">
+				<ProjectItem ReplaceParameters="true" TargetFileName="AutoPersistenceModelGenerator.cs">AutoPersistenceModelGenerator.cs</ProjectItem>
+				<Folder Name="Conventions" TargetFolderName="Conventions">
+					<ProjectItem ReplaceParameters="true" TargetFileName="ForeignKeyConvention.cs">ForeignKeyConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="HasManyConvention.cs">HasManyConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="HasManyToManyConvention.cs">HasManyToManyConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="ManyToManyTableNameConvention.cs">ManyToManyTableNameConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="PrimaryKeyConvention.cs">PrimaryKeyConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="ReferenceConvention.cs">ReferenceConvention.cs</ProjectItem>
+					<ProjectItem ReplaceParameters="true" TargetFileName="TableNameConvention.cs">TableNameConvention.cs</ProjectItem>
+				</Folder>
+			</Folder>
+			<Folder Name="Properties" TargetFolderName="Properties">
+				<ProjectItem ReplaceParameters="true" TargetFileName="AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+			</Folder>
+		</Project>
+	</TemplateContent>
+	<WizardExtension>
+		<Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, Custom=null</Assembly>
+		<FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
+	</WizardExtension>
+</VSTemplate>

@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProductVersion>9.0.21022</ProductVersion>
+        <SchemaVersion>2.0</SchemaVersion>
+		<ProjectGuid>{00000000-0000-0000-0000-000000000000}</ProjectGuid>
+		<OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Tests</RootNamespace>
+        <AssemblyName>$safeprojectname$</AssemblyName>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+		<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Castle.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\Castle.Core.dll</HintPath>
+		  </Reference>
+		  <Reference Include="Castle.MicroKernel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\Castle.MicroKernel.dll</HintPath>
+		  </Reference>
+		  <Reference Include="Castle.Windsor, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\Castle.Windsor.dll</HintPath>
+		  </Reference>
+		  <Reference Include="CommonServiceLocator.WindsorAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\CommonServiceLocator.WindsorAdapter.dll</HintPath>
+		  </Reference>
+		  <Reference Include="FluentNHibernate, Version=1.0.0.636, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\FluentNHibernate.dll</HintPath>
+		  </Reference>
+		  <Reference Include="Inflector.Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\Inflector.Net.dll</HintPath>
+		  </Reference>
+		  <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+		  </Reference>
+		  <Reference Include="MvcContrib, Version=2.0.36.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\MvcContrib.dll</HintPath>
+		  </Reference>
+		  <Reference Include="MvcContrib.TestHelper, Version=2.0.36.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\tools\lib\MvcContrib.TestHelper.dll</HintPath>
+		  </Reference>
+		  <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\NHibernate.dll</HintPath>
+		  </Reference>
+		  <Reference Include="NHibernate.ByteCode.Castle, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\NHibernate.ByteCode.Castle.dll</HintPath>
+		  </Reference>
+		  <Reference Include="NHibernate.Validator, Version=1.2.0.3001, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\NHibernate.Validator.dll</HintPath>
+		  </Reference>
+		  <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\tools\lib\nunit.framework.dll</HintPath>
+		  </Reference>
+		  <Reference Include="Rhino.Mocks, Version=3.5.0.1337, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\tools\lib\Rhino.Mocks.dll</HintPath>
+		  </Reference>
+		  <Reference Include="SharpArch.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\SharpArch.Core.dll</HintPath>
+		  </Reference>
+		  <Reference Include="SharpArch.Core.NHibernateValidator, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\SharpArch.Core.NHibernateValidator.dll</HintPath>
+		  </Reference>
+		  <Reference Include="SharpArch.Data, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\SharpArch.Data.dll</HintPath>
+		  </Reference>
+		  <Reference Include="SharpArch.Testing, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\tools\lib\SharpArch.Testing.dll</HintPath>
+		  </Reference>
+		  <Reference Include="SharpArch.Testing.NUnit, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\tools\lib\SharpArch.Testing.NUnit.dll</HintPath>
+		  </Reference>
+		  <Reference Include="SharpArch.Web, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\lib\SharpArch.Web.dll</HintPath>
+		  </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core">
+            <RequiredTargetFramework>3.5</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="System.Data.SQLite, Version=1.0.60.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\tools\lib\System.Data.SQLite.DLL</HintPath>
+        </Reference>
+        <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\lib\System.Web.Mvc.dll</HintPath>
+        </Reference>
+        <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\lib\System.Web.Routing.dll</HintPath>
+			<RequiredTargetFramework>3.5</RequiredTargetFramework>
+		</Reference>
+        <Reference Include="System.Xml.Linq">
+            <RequiredTargetFramework>3.5</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="System.Data.DataSetExtensions">
+            <RequiredTargetFramework>3.5</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="$solutionname$.Web\Controllers\RouteRegistrarTests.cs" />
+        <Compile Include="$solutionname$.Data\NHibernateMaps\MappingIntegrationTests.cs" />
+		<Compile Include="$solutionname$.Data\TestDoubles\EntityDuplicateCheckerStub.cs" />
+		<Compile Include="PLACE_HOLDER_COMMON_ASSEMLY_INFO_LOCATION">
+          <Link>Properties\CommonAssemblyInfo.cs</Link>
+        </Compile>
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="ServiceLocatorInitializer.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="App.config" />
+    </ItemGroup>
+    <ItemGroup>
+		<ProjectReference Include="..\$solutionname$.ApplicationServices\$solutionname$.ApplicationServices.csproj">
+			<Project>$guidAssignedToApplicationServices$</Project>
+			<Name>$solutionname$.ApplicationServices</Name>
+		</ProjectReference>
+        <ProjectReference Include="..\..\app\$solutionname$.Web.Controllers\$solutionname$.Web.Controllers.csproj">
+            <Project>$guidAssignedToControllers$</Project>
+            <Name>$solutionname$.Controllers</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\..\app\$solutionname$.Core\$solutionname$.Core.csproj">
+            <Project>$guidAssignedToCore$</Project>
+            <Name>$solutionname$.Core</Name>
+        </ProjectReference>
+        <ProjectReference Include="..\..\app\$solutionname$.Data\$solutionname$.Data.csproj">
+            <Project>$guidAssignedToData$</Project>
+            <Name>$solutionname$.Data</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="Hibernate.cfg.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="$solutionname$.Core\" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

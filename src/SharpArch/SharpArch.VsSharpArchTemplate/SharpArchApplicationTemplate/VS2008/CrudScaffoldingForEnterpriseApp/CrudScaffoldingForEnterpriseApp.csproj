@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E2A85425-669F-4D65-AE54-06CE0ACABB35}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SharpArch.Scaffolding</RootNamespace>
+    <AssemblyName>SharpArch.Scaffolding</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+	<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+	<CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\PublicAssemblies\EnvDTE.dll</HintPath>
+    </Reference>
+    <Reference Include="Inflector.Net, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Inflector.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpArch.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\SharpArch.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PLACE_HOLDER_COMMON_ASSEMLY_INFO_LOCATION">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EntityScaffoldingDetails.tt">
+    </None>
+    <None Include="ScaffoldingGeneratorCommand.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ScaffoldingGeneratorCommand.txt</LastGenOutput>
+    </None>
+    <None Include="Templates\BaseTemplate.tt">
+    </None>
+    <None Include="Templates\Core\RepositoryInterfaces\IDomainObjectRepositoryTemplate.tt">
+    </None>
+    <None Include="Templates\Data\Repositories\DomainObjectRepositoryTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Controllers\ControllerTemplate.tt" />
+    <None Include="Templates\Core\DomainObjectTemplate.tt">
+    </None>
+    <None Include="Templates\ScaffoldingGenerator.tt" />
+    <None Include="Templates\Tests\Web\Controllers\ControllerTestsTemplate.tt">
+    </None>
+    <None Include="Templates\Tests\Core\DomainObjectTestsTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Views\CreateTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Views\EditTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Views\DomainObjectFormTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Views\IndexTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Views\ShowTemplate.tt">
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Templates\ApplicationServices\DomainObjectManagementServiceTemplate.tt">
+    </None>
+    <None Include="Templates\ApplicationServices\IDomainObjectManagementServiceTemplate.tt">
+    </None>
+    <None Include="Templates\ApplicationServices\ViewModels\DomainObjectFormViewModel.tt">
+    </None>
+    <None Include="Templates\Core\ActionConfirmationTemplate.tt">
+    </None>
+    <None Include="Templates\Core\QueryDtos\DomainObjectDtoTemplate.tt">
+    </None>
+    <None Include="Templates\Data\NamedQueries\GetDomainObjectSummariesHbmTemplate.tt">
+    </None>
+    <None Include="Templates\Tests\ApplicationServices\DomainObjectMgmtServiceTestsTemplate.tt">
+    </None>
+    <None Include="Templates\Tests\Core\DomainObjectInstanceFactoryTemplate.tt">
+    </None>
+    <None Include="Templates\Web\Controllers\AreaRegistrationTemplate.tt">
+      <LastGenOutput>AreaRegistrationTemplate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

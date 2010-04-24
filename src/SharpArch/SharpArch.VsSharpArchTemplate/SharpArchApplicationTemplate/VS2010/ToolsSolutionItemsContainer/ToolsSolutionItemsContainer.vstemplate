@@ -1,0 +1,35 @@
+<VSTemplate Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+	<TemplateData>
+		<Name>ToolsSolutionItemsContainer</Name>
+		<Description>S#arp Architecture Tools Solution Items</Description>
+		<ProjectType>CSharp</ProjectType>
+		<ProjectSubType>
+		</ProjectSubType>
+		<SortOrder>1000</SortOrder>
+		<CreateNewFolder>true</CreateNewFolder>
+		<DefaultName>ToolsSolutionItems</DefaultName>
+		<ProvideDefaultName>true</ProvideDefaultName>
+		<LocationField>Enabled</LocationField>
+		<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+        <Icon></Icon>
+	</TemplateData>
+	<TemplateContent>
+		<Project TargetFileName="ToolsSolutionItemsContainer.csproj" File="ToolsSolutionItemsContainer.csproj">
+			<Folder Name="Solution Items">
+                <ProjectItem>MvcContrib.TestHelper.dll</ProjectItem>
+				<ProjectItem>MvcContrib.TestHelper.xml</ProjectItem>
+				<ProjectItem>nunit.framework.dll</ProjectItem>
+				<ProjectItem>nunit.framework.xml</ProjectItem>
+				<ProjectItem>Rhino.Mocks.dll</ProjectItem>
+				<ProjectItem>Rhino.Mocks.xml</ProjectItem>
+				<ProjectItem>SharpArch.Testing.dll</ProjectItem>
+				<ProjectItem>SharpArch.Testing.NUnit.dll</ProjectItem>
+				<ProjectItem>System.Data.SQLite.DLL</ProjectItem>
+			</Folder>
+		</Project>
+	</TemplateContent>
+  <WizardExtension>
+    <Assembly>SharpArchApplicationWizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, Custom=null</Assembly>
+    <FullClassName>SharpArchApplicationWizard.WizardImplementation</FullClassName>
+  </WizardExtension>
+</VSTemplate>
