@@ -121,6 +121,7 @@
             <param name="customMapping">A lambda expression specifying additional settings for the key reference</param>
             <returns>The composite identity part fluent interface</returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:FluentNHibernate.Mapping.CompositeIdentityPart`1.ComponentCompositeIdentifier``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})" -->
         <member name="P:FluentNHibernate.Mapping.CompositeIdentityPart`1.Access">
             <summary>
             Set the access and naming strategy for this identity.
@@ -340,12 +341,31 @@
             </summary>
             <remarks>See http://nhforge.org/blogs/nhibernate/archive/2008/10/21/entity-name-in-action-a-strongly-typed-entity.aspx</remarks>
         </member>
-        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter``1(System.String)">
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter(System.String,System.String)">
             <overloads>
-            Applies a named filter to this one-to-many.
+            Applies a filter to this entity given it's name.
             </overloads>
             <summary>
-            Applies a named filter to this one-to-many.
+            Applies a filter to this entity given it's name.
+            </summary>
+            <param name="name">The filter's name</param>
+            <param name="condition">The condition to apply</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter(System.String)">
+            <overloads>
+            Applies a filter to this entity given it's name.
+            </overloads>
+            <summary>
+            Applies a filter to this entity given it's name.
+            </summary>
+            <param name="name">The filter's name</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter``1(System.String)">
+            <overloads>
+            Applies a named filter to this entity.
+            </overloads>
+            <summary>
+            Applies a named filter to this entity.
             </summary>
             <param name="condition">The condition to apply</param>
             <typeparam name="TFilter">
@@ -439,6 +459,13 @@
             Use auto mapping overrides defined in the assembly of T.
             </summary>
             <typeparam name="T">Type to get assembly from</typeparam>
+            <returns>AutoPersistenceModel</returns>
+        </member>
+        <member name="M:FluentNHibernate.Automapping.AutoPersistenceModel.UseOverridesFromAssembly(System.Reflection.Assembly)">
+            <summary>
+            Use auto mapping overrides defined in the assembly of T.
+            </summary>
+            <param name="assembly">Assembly to scan</param>
             <returns>AutoPersistenceModel</returns>
         </member>
         <member name="M:FluentNHibernate.Automapping.AutoPersistenceModel.Setup(System.Action{FluentNHibernate.AutoMappingExpressions})">
@@ -770,6 +797,19 @@
             <param name="sequenceName"></param>
             <param name="paramValues">Params configuration</param>
         </member>
+        <member name="M:FluentNHibernate.Conventions.Instances.GeneratorInstance.HiLo(System.String,System.String,System.String,System.String)">
+            <summary>
+            uses a hi/lo algorithm to efficiently generate identifiers of any integral type,
+            given a table and column (by default hibernate_unique_key and next_hi respectively)
+            as a source of hi values. The hi/lo algorithm generates identifiers that are unique
+            only for a particular database. Do not use this generator with a user-supplied connection.
+            requires a "special" database table to hold the next available "hi" value
+            </summary>
+            <param name="table">The table.</param>
+            <param name="column">The column.</param>
+            <param name="maxLo">The max lo.</param>
+            <param name="where">The where.</param>
+        </member>
         <member name="M:FluentNHibernate.Conventions.Instances.GeneratorInstance.HiLo(System.String,System.String,System.String)">
             <summary>
             uses a hi/lo algorithm to efficiently generate identifiers of any integral type, 
@@ -1001,6 +1041,49 @@
             A component that is declared external to a class mapping.
             </summary>
         </member>
+        <member name="M:FluentNHibernate.Visitors.IMappingModelVisitor.Visit(System.Collections.Generic.IEnumerable{FluentNHibernate.MappingModel.HibernateMapping})">
+            <summary>
+            This bad boy is the entry point to the visitor
+            </summary>
+            <param name="mappings"></param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.NaturalIdPart`1.Property(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Defines a property to be used for this natural-id.
+            </summary>
+            <param name="expression">A member access lambda expression for the property</param>
+            <returns>The natural id part fluent interface</returns>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.NaturalIdPart`1.Property(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>
+            Defines a property to be used for this natural-id with an explicit column name.
+            </summary>
+            <param name="expression">A member access lambda expression for the property</param>
+            <param name="columnName">The column name in the database to use for this natural id, or null to use the property name</param>
+            <returns>The natural id part fluent interface</returns>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.NaturalIdPart`1.Reference(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
+            <summary>
+            Defines a reference to be used as a many-to-one key for this natural-id with an explicit column name.
+            </summary>
+            <param name="expression">A member access lambda expression for the property</param>
+            <returns>The natural ID part fluent interface</returns>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.NaturalIdPart`1.Reference(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String)">
+            <summary>
+            Defines a reference to be used as a many-to-one key for this natural-id with an explicit column name.
+            </summary>
+            <param name="expression">A member access lambda expression for the property</param>
+            <param name="columnName">The column name in the database to use for this key, or null to use the property name</param>
+            <returns>The natural id part fluent interface</returns>
+        </member>
+        <member name="M:FluentNHibernate.Utils.StringLikeness.EditDistance(System.String,System.String)">
+            <SUMMARY>Computes the Levenshtein Edit Distance between two enumerables.</SUMMARY>
+            <TYPEPARAM name="T">The type of the items in the enumerables.</TYPEPARAM>
+            <PARAM name="x">The first enumerable.</PARAM>
+            <PARAM name="y">The second enumerable.</PARAM>
+            <RETURNS>The edit distance.</RETURNS>
+        </member>
         <member name="T:FluentNHibernate.MappingModel.ClassBased.ReferenceComponentMapping">
             <summary>
             A reference to a component which is declared externally. Contains properties
@@ -1124,6 +1207,19 @@
             </summary>
             <param name="sequenceName"></param>
             <param name="paramValues">Params configuration</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.GeneratorBuilder.HiLo(System.String,System.String,System.String,System.String)">
+            <summary>
+            uses a hi/lo algorithm to efficiently generate identifiers of any integral type,
+            given a table and column (by default hibernate_unique_key and next_hi respectively)
+            as a source of hi values. The hi/lo algorithm generates identifiers that are unique
+            only for a particular database. Do not use this generator with a user-supplied connection.
+            requires a "special" database table to hold the next available "hi" value
+            </summary>
+            <param name="table">The table.</param>
+            <param name="column">The column.</param>
+            <param name="maxLo">The max lo.</param>
+            <param name="where">The where.</param>
         </member>
         <member name="M:FluentNHibernate.Mapping.GeneratorBuilder.HiLo(System.String,System.String,System.String)">
             <summary>
@@ -1256,6 +1352,12 @@
             </summary>
             <param name="path">Path to folder for mappings</param>
             <returns>Auto mappings configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.AutoMappingsContainer.ExportTo(System.IO.TextWriter)">
+            <summary>
+            Sets the text writer to write the generated mappings to.
+            </summary>                
+            <returns>Fluent mappings configuration</returns>
         </member>
         <member name="M:FluentNHibernate.Cfg.AutoMappingsContainer.Apply(NHibernate.Cfg.Configuration)">
             <summary>
@@ -1711,6 +1813,12 @@
             Sets the export location for generated mappings
             </summary>
             <param name="path">Path to folder for mappings</param>
+            <returns>Fluent mappings configuration</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.FluentMappingsContainer.ExportTo(System.IO.TextWriter)">
+            <summary>
+            Sets the text writer to write the generated mappings to.
+            </summary>                
             <returns>Fluent mappings configuration</returns>
         </member>
         <member name="M:FluentNHibernate.Cfg.FluentMappingsContainer.Apply(NHibernate.Cfg.Configuration)">
@@ -2179,6 +2287,14 @@
             Use all locking
             </summary>
         </member>
+        <member name="M:FluentNHibernate.Mapping.ToManyBase`3.PropertyRef(System.String)">
+            <summary>
+            This method is used to set a different key column in this table to be used for joins.
+            The output is set as the property-ref attribute in the "key" subelement of the collection
+            </summary>
+            <param name="propertyRef">The name of the column in this table which is linked to the foreign key</param>
+            <returns>OneToManyPart</returns>
+        </member>
         <member name="M:FluentNHibernate.Mapping.ToManyBase`3.Component(System.Action{FluentNHibernate.Mapping.CompositeElementPart{`1}})">
             <summary>
             Maps this collection as a collection of components.
@@ -2221,6 +2337,25 @@
             <summary>
             Sets a custom collection type
             </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ToManyBase`3.ApplyFilter(System.String,System.String)">
+            <overloads>
+            Applies a filter to this entity given it's name.
+            </overloads>
+            <summary>
+            Applies a filter to this entity given it's name.
+            </summary>
+            <param name="name">The filter's name</param>
+            <param name="condition">The condition to apply</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ToManyBase`3.ApplyFilter(System.String)">
+            <overloads>
+            Applies a filter to this entity given it's name.
+            </overloads>
+            <summary>
+            Applies a filter to this entity given it's name.
+            </summary>
+            <param name="name">The filter's name</param>
         </member>
         <member name="M:FluentNHibernate.Mapping.ToManyBase`3.ApplyFilter``1(System.String)">
             <overloads>
@@ -2427,6 +2562,20 @@
             <param name="sequenceName"></param>
             <param name="paramValues">Params configuration</param>
         </member>
+        <member name="M:FluentNHibernate.Mapping.IdentityGenerationStrategyBuilder`1.HiLo(System.String,System.String,System.String,System.String)">
+            <summary>
+            uses a hi/lo algorithm to efficiently generate identifiers of any integral type,
+            given a table and column (by default hibernate_unique_key and next_hi respectively)
+            as a source of hi values. The hi/lo algorithm generates identifiers that are unique
+            only for a particular database. Do not use this generator with a user-supplied connection.
+            requires a "special" database table to hold the next available "hi" value
+            </summary>
+            <param name="table">The table.</param>
+            <param name="column">The column.</param>
+            <param name="maxLo">The max lo.</param>
+            <param name="where">The where.</param>
+            <returns></returns>
+        </member>
         <member name="M:FluentNHibernate.Mapping.IdentityGenerationStrategyBuilder`1.HiLo(System.String,System.String,System.String)">
             <summary>
             uses a hi/lo algorithm to efficiently generate identifiers of any integral type, 
@@ -2627,14 +2776,6 @@
             <summary>
             Inverts the next boolean
             </summary>
-        </member>
-        <member name="M:FluentNHibernate.Mapping.OneToManyPart`1.PropertyRef(System.String)">
-            <summary>
-            This method is used to set a different key column in this table to be used for joins.
-            The output is set as the property-ref attribute in the "key" subelement of the collection
-            </summary>
-            <param name="propertyRef">The name of the column in this table which is linked to the foreign key</param>
-            <returns>OneToManyPart</returns>
         </member>
         <member name="M:FluentNHibernate.Mapping.OneToManyPart`1.OrderBy(System.String)">
             <summary>

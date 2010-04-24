@@ -143,6 +143,564 @@
             <param name="actionResult">The result to check.</param>
             <returns>The ViewData in it's strongly-typed form.</returns>
         </member>
+        <member name="M:MvcContrib.TestHelper.AttributeExtensions.IsDecoratedWith``1(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            Will return true if the attributeTarget is decorated with an attribute of type TAttribute.
+            Will return false if not.
+            </summary>
+            <typeparam name="TAttribute"></typeparam>
+            <param name="attributeTarget"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.AttributeExtensions.GetAttribute``1(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            Will return true the first attribute of type TAttribute on the attributeTarget.
+            </summary>
+            <typeparam name="TAttribute"></typeparam>
+            <param name="attributeTarget"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MethodInfoExtensions.ActionName(System.Reflection.MethodInfo)">
+            <summary>
+            Will return the name of the action specified in the ActionNameAttribute for a method if it has an ActionNameAttribute.
+            Will return the name of the method otherwise.
+            </summary>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.Should(System.Action{System.Web.Mvc.ActionResult})">
+            <summary>
+            Shoulds the specified assertion.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void CreateReturnsOK()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .Should(x => x.AssertResultIs&lt;HeadResult>().StatusCode.ShouldBe(HttpStatusCode.OK))
+                           .WhenCalling(x => x.Create());
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="assertion">The assertion.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.ShouldController(System.Action{System.Web.Mvc.IController,System.Web.Mvc.ActionResult})">
+            <summary>
+            Shoulds the specified assertion.
+            This version also takes a reference to the mock controller for additional verifications
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void CreateReturnsOK()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .Should((controller, actionResult) => actionResult.AssertResultIs&lt;HeadResult>().StatusCode.ShouldBe(HttpStatusCode.OK))
+                           .WhenCalling(x => x.Create());
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="assertion"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithSetup(System.Action{System.Web.Mvc.IController})">
+            <summary>
+            Specifies setup on the mock controller.  This should be used when setting
+            up the test case.
+            <example>
+            <code>
+                GivenController.As&lt;UserController>()
+                    .WithSetup(x => x.SessionRepository = new Mock&lt;ISessionRepository>())
+                    .WhenCalling(x => x.Get());
+            </code>
+            </example>
+            </summary>
+            <param name="setupAction">An action that is used to setup values on the mock controller.  It is passed
+            an instance of the mock controller.</param>
+            <returns>An instance of this option to allow chaining.</returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithRequest(System.Action{System.Web.HttpRequestBase})">
+            <summary>
+            Creates the setup conditions for a <see cref="T:MvcContrib.TestHelper.FluentController.GivenController"/>.As with the <see cref="T:System.Web.Routing.RequestContext"/> to allow for mocking on the object.
+            This is the full version and there are shorter wrapper for specific headers <see cref="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithLocation(System.String)"/>, <see cref="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithReferrer(System.String)"/> and <see cref="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithUserAgent(System.String)"/>.
+            <example>
+            <code>
+                GivenController.As&lt;UserController&gt;()
+                    .Should(x =&gt; x.AssertResultIs&lt;HeadResult&gt;().StatusCode.ShouldBe(HttpStatusCode.OK))
+                    .WhenCalling(x =&gt; x.Show());
+            </code>
+            </example>
+            </summary>
+            <param name="setupAction">The setup action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithLocation(System.String)">
+            <summary>
+            Creates the Location Header on a Requestfor a <see cref="T:MvcContrib.TestHelper.FluentController.GivenController"/>.As with the <see cref="T:System.Web.Routing.RequestContext"/>.
+            <example>
+            <code>
+                GivenController.As&lt;UserController&gt;()
+                    .Should(x =&gt; x.WithLocation("http://from-somewhere.com"))
+                    .WhenCalling(x =&gt; x.Show());
+            </code>
+            </example>
+            </summary>
+            <param name="headerLocation">The header location.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithReferrer(System.String)">
+            <summary>
+            Creates the Referrer Header on a Requestfor a <see cref="T:MvcContrib.TestHelper.FluentController.GivenController"/>.As with the <see cref="T:System.Web.Routing.RequestContext"/>.
+            <example>
+            <code>
+                GivenController.As&lt;UserController&gt;()
+                    .Should(x =&gt; x.WithReferrer("http://referred-from-somewhereelse.org"))
+                    .WhenCalling(x =&gt; x.Show());
+            </code>
+            </example>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WithUserAgent(System.String)">
+            <summary>
+            Creates the UserAgent Header on a Requestfor a <see cref="T:MvcContrib.TestHelper.FluentController.GivenController"/>.As with the <see cref="T:System.Web.Routing.RequestContext"/>.
+            <example>
+            <code>
+                GivenController.As&lt;UserController&gt;()
+                    .Should(x =&gt; x.WithUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.12) Gecko/2009070611 Firefox/3.0.12 (.NET CLR 3.5.30729)"))
+                    .WhenCalling(x =&gt; x.Show());
+            </code>
+            </example>
+            </summary>
+            <param name="headerUserAgent">The header location.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.WhenCalling(System.Func{`0,System.Web.Mvc.ActionResult})">
+             <summary>
+             Whens the calling.  This returns void as it should be the last action in a chain of commands.
+             
+             <example>
+             <code>
+                [TestClass]
+                public class UserControllerRedirectsTest
+                {
+                    [TestMethod]
+                    public void SuccessfulCreateRedirectsToIndex()
+                    {
+                        GivenController.As&lt;UserController>()
+                            .ShouldRedirectTo("Index")
+                            .IfCallSucceeds()
+                            .WhenCalling(x => x.Create(null));
+                    }
+            
+                    [TestMethod]
+                    public void UnsuccessfulCreateDisplaysNew()
+                    {
+                        GivenController.As&lt;UserController>()
+                            .ShouldRenderView("New")
+                            .IfCallFails()
+                            .WhenCalling(x => x.Create(null));
+                    }
+            
+                    [TestMethod]
+                    public void NewReturnsItself()
+                    {
+                        GivenController.As&lt;UserController>()
+                            .ShouldRenderItself("New")
+                            .WhenCalling(x => x.New());
+                    }
+             </code>
+             </example>
+             </summary>
+             <param name="action">The action.</param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionRedirect.ShouldRedirectTo``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.String)">
+             <summary>
+             Shoulds the redirect to.
+             <example>
+             <code>
+                [TestClass]
+                public class UserControllerRedirectsTest
+                {
+                    [TestMethod]
+                    public void SuccessfulCreateRedirectsToIndex()
+                    {
+                        GivenController.As&lt;UserController>()
+                            .ShouldRedirectTo("Index")
+                            .IfCallSucceeds()
+                            .WhenCalling(x => x.Create(null));
+                    }
+            </code>
+             </example>
+             </summary>
+             <param name="fluentAction"></param>
+             <param name="action">The action.</param>
+             <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionRedirect.ShouldRedirectTo``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.String,System.String)">
+            <summary>
+            Shoulds the redirect to.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void SuccessfulCreateRedirectsToIndexActionOfHomeController()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .ShouldRedirectTo("Home", "Index")
+                           .IfCallSucceeds()
+                           .WhenCalling(x => x.Create(null));
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="fluentAction"></param>
+            <param name="controller">The controller of the action.</param>
+            <param name="action">The action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionRender.ShouldRenderView``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.String)">
+            <summary>
+            Shoulds the render view.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void UnsuccessfulCreateDisplaysNew()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .ShouldRenderView("New")
+                           .IfCallFails()
+                           .WhenCalling(x => x.Create(null));
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="fluentAction"></param>
+            <param name="viewName">Name of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionRender.ShouldRenderItself``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.String)">
+            <summary>
+            Shoulds the render itself.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void NewReturnsItself()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .ShouldRenderItself("New")
+                           .WhenCalling(x => x.New());
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="fluentAction"></param>
+            <param name="actionName">Name of the action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionRender.ShouldRenderPartial``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.String)">
+            <summary>
+            Shoulds the render partial.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void EditReturnsPartialAddress()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .ShouldRenderPartial("Address")
+                           .WhenCalling(x => x.Edit());
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="fluentAction"></param>
+            <param name="partialViewName">Partial name of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionReturn.ShouldReturnHead``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.Net.HttpStatusCode)">
+            <summary>
+            Shoulds the return head.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void NewReturnsItself()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .ShouldRenderItself("New")
+                           .WhenCalling(x => x.New());
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="fluentAction"></param>
+            <param name="statusCode">The status code.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionReturn.ShouldReturnFile``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.String)">
+            <summary>
+            Shoulds the return file.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void NewReturnsItself()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .ShouldReturnFile("C:\person.jpg")
+                           .WhenCalling(x => x.ShowImage());
+                   }
+            </code>
+            </example>
+            </summary>
+            <param name="fluentAction"></param>
+            <param name="fileDownloadName">Name of the file download.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ActionReturn.ShouldReturnEmpty``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0})">
+            <summary>
+            Shoulds the return empty.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void SaveToWatchListShouldReturnEmptyResult()
+                   {
+                       GivenController.As&lt;UserController>()
+                           .ShouldReturnEmpty()
+                           .WhenCalling(x => x.SaveToWatchList());
+                   }
+            </code>
+            </example>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.CallSuccess.IfCallSucceeds``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0})">
+            <summary>
+            Ifs the call succeeds.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void SuccessfulCreateRedirectsToIndex()
+                   {
+                       GivenController.As&lt;UserController>
+                           .ShouldRedirectTo("Index")
+                           .IfCallSucceeds()
+                           .WhenCalling(x => x.Create(null));
+                   }
+            </code>
+            </example>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.CallSuccess.IfCallSucceeds``2(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},``1)">
+            <summary>
+            If the call succeeds.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void SuccessfulCreateRedirectsToIndex()
+                   {
+                       GivenController.As&lt;UserController>
+                           .ShouldRedirectTo("Index")
+                           .IfCallSucceeds()
+                           .WhenCalling(x => x.Create(null));
+                   }
+            </code>
+            </example>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TResult">The type of the result.</typeparam>
+            <param name="action"></param>
+            <param name="model">The model.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.CallSuccess.IfCallFails``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0})">
+            <summary>
+            If the call fails.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void SuccessfulCreateRedirectsToIndex()
+                   {
+                       GivenController.As&lt;UserController>
+                           .ShouldRedirectTo("Index")
+                           .IfCallFails()
+                           .WhenCalling(x => x.Create(null));
+                   }
+            </code>
+            </example>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ControllerRedirect.ShouldRedirectTo``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},MvcContrib.SimplyRestful.RestfulAction)">
+            <summary>
+            Shoulds the redirect to.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void SuccessfulCreateRedirectsToIndex()
+                   {
+                       Controller&lt;UserController>
+                           .ShouldRedirectTo("Index")
+                           .IfCallSucceeds()
+                           .WhenCalling(x => x.Create(null));
+                   }
+            </code>
+            </example>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fluentAction">The fluent action.</param>
+            <param name="action">The action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ControllerRedirect.ShouldRedirectTo``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},System.String,MvcContrib.SimplyRestful.RestfulAction)">
+            <summary>
+            Shoulds the redirect to.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void SuccessfulCreateRedirectsToIndexActionOfHomeController()
+                   {
+                       Controller&lt;UserController>
+                           .ShouldRedirectTo("Home", "Index")
+                           .IfCallSucceeds()
+                           .WhenCalling(x => x.Create(null));
+                   }
+            </code>
+            </example>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fluentAction">The fluent action.</param>
+            <param name="controller">The controller of the action.</param>
+            <param name="action">The action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ControllerRender.ShouldRenderView``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},MvcContrib.SimplyRestful.RestfulAction)">
+            <summary>
+            Shoulds the render itself.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void NewReturnsItself()
+                   {
+                       Controller&lt;UserController>
+                           .ShouldRenderItself("New")
+                           .WhenCalling(x => x.New());
+                   }
+            </code>
+            </example>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fluentAction">The fluent action.</param>
+            <param name="action">The action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ControllerRender.ShouldRenderItself``1(MvcContrib.TestHelper.FluentController.ActionExpectations{``0},MvcContrib.SimplyRestful.RestfulAction)">
+            <summary>
+            Shoulds the render itself.
+            <example>
+            <code>
+               [TestClass]
+               public class UserControllerRedirectsTest
+               {
+                   [TestMethod]
+                   public void NewReturnsItself()
+                   {
+                       Controller&lt;UserController>
+                           .ShouldRenderItself("New")
+                           .WhenCalling(x => x.New());
+                   }
+            </code>
+            </example>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="fluentAction">The fluent action.</param>
+            <param name="action">The action.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcContrib.TestHelper.FluentController.GivenController">
+            <summary>
+            Given Controller provides a test context as a controller for writing tests around the flow of actions. 
+            <example>
+            This example provides the context of the UserController. In this case, the action redirects when create actions is complete
+            <code>
+                GivenController.As&lt;UserController>()
+                    .Should(x => x.AssertHttpRedirect())
+                    .WhenCalling(x => x.Create());
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.GivenController.As``1">
+            <summary>
+            As chains from a <seealso cref="T:MvcContrib.TestHelper.FluentController.GivenController"/>.
+            <example>
+            <code>GivenController.As&lt;UserController&gt;()</code>
+            </example>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ViewRender.ForViewOrItself``1(``0,System.String)">
+            <summary>
+            Asserts that a RenderViewResult is rendering the specified view.
+            </summary>
+            <param name="result">The result to check.</param>
+            <param name="viewName">The name of the view.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.FluentController.ViewRender.ForView``1(``0,System.String)">
+            <summary>
+            Asserts that a RenderViewResult is rendering the specified view.
+            </summary>
+            <param name="result">The result to check.</param>
+            <param name="viewName">The name of the view.</param>
+            <returns></returns>
+        </member>
         <member name="T:MvcContrib.TestHelper.AssertionException">
             <summary>
              This exception is thrown by the TestHelper extension methods.  This allows this project to be unit test framework agnostic.
@@ -174,6 +732,13 @@
             Compares the two strings (case-insensitive).
             </summary>
             <param name="actual"></param>
+            <param name="expected"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.GeneralTestExtensions.AssertStringContains(System.String,System.String)">
+            <summary>
+            Compares the two strings (case-insensitive).
+            </summary>
+            <param name="fullstring"></param>
             <param name="expected"></param>
         </member>
         <member name="M:MvcContrib.TestHelper.GeneralTestExtensions.ShouldNotBeNull(System.Object,System.String)">
@@ -341,9 +906,20 @@
             </summary>
         </member>
         <member name="T:MvcContrib.TestHelper.RouteTestingExtensions">
-            <summary>
-            Used to simplify testing routes.
-            </summary>
+             <summary>
+             Used to simplify testing routes and restful testing routes 
+             <example>
+             This tests that incoming PUT on resource is redirected to Update
+                         "~/banner/1"
+                           .WithMethod(HttpVerbs.Put)
+                           .ShouldMapTo&lt;BannerController>(action => action.Update(1));
+            
+             This tests that incoming POST was a faux PUT using the _method=PUT form parameter
+                         "~/banner/1"
+                           .WithMethod(HttpVerbs.Post, HttpVerbs.Put)
+                           .ShouldMapTo&lt;BannerController>(action => action.Update(1));
+             </example>
+             </summary>
         </member>
         <member name="M:MvcContrib.TestHelper.RouteTestingExtensions.WithMethod(System.String,System.String)">
             <summary>
@@ -369,6 +945,33 @@
             </summary>
             <param name="url">The app relative url to test.</param>
             <returns>A matching <see cref="T:System.Web.Routing.RouteData"/>, or null.</returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.RouteTestingExtensions.Route(System.String,System.Web.Mvc.HttpVerbs,System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Returns the corresponding route for the URL.  Returns null if no route was found.
+            </summary>
+            <param name="url">The URL.</param>
+            <param name="httpMethod">The HTTP method.</param>
+            <param name="formMethod">The form method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.RouteTestingExtensions.Route(System.String,System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Returns the corresponding route for the URL.  Returns null if no route was found.
+            </summary>
+            <param name="url">The URL.</param>
+            <param name="httpMethod">The HTTP method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.TestHelper.RouteTestingExtensions.WithMethod(System.String,System.Web.Mvc.HttpVerbs,System.Web.Mvc.HttpVerbs)">
+            <summary>
+            Asserts that the route matches the expression specified based on the incoming HttpMethod and FormMethod for Simply Restful routing.  Checks controller, action, and any method arguments
+            into the action as route values.
+            </summary>
+            <param name="relativeUrl">The relative URL.</param>
+            <param name="httpMethod">The HTTP method.</param>
+            <param name="formMethod">The form method.</param>
+            <returns></returns>
         </member>
         <member name="M:MvcContrib.TestHelper.RouteTestingExtensions.ShouldMapTo``1(System.Web.Routing.RouteData,System.Linq.Expressions.Expression{System.Func{``0,System.Web.Mvc.ActionResult}})">
             <summary>
@@ -554,9 +1157,21 @@
             <param name="name">Name of item to be returned.</param>
             <returns>The System.Web.HttpPostedFile specified by name.</returns>
         </member>
+        <member name="P:MvcContrib.TestHelper.WriteableHttpFileCollection.Item(System.Int32)">
+            <summary>
+            Gets the object with the specified index from the file collection.
+            </summary>
+            <param name="index">Index of item to be returned.</param>
+            <returns>The System.Web.HttpPostedFile specified by index.</returns>
+        </member>
         <member name="P:MvcContrib.TestHelper.WriteableHttpFileCollection.MvcContrib#TestHelper#IWriteableHttpFileCollection#Item(System.String)">
             <summary>
             Gets or sets the <see cref="T:System.Web.HttpPostedFileBase"/> with the specified name.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.TestHelper.WriteableHttpFileCollection.Count">
+            <summary>
+            Gets the file count of the underlying <see cref="T:System.Web.HttpFileCollectionBase"/>.
             </summary>
         </member>
     </members>
