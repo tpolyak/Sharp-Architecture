@@ -15,9 +15,77 @@ New and exciting in this release:
 -------
 
 Assembly Dependencies ("^" notes upgraded dependencies):
-^ ASP.NET MVC 2.0
-^ ASP.NET MVC 2.0 futures
+* ASP.NET MVC 2.0
+* ASP.NET MVC 2.0 Futures
+* Castle Windsor 2.1
+* Fluent NHibernate 1.0.0.629 built against NHibernate 2.1.2
+* jQuery 1.4.2
+* Json.NET 3.5 Beta 4
+* log4net 1.2.10.0
+* Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
+* MvcContrib 2.0.34.0
+* NHibernate 2.1.2.4
+* NHibernate.Linq 1.1.0.1001
+* NHibernate.Validator 1.2.0.3001
+* NUnit 2.5.0.9122 (Installer in /tools)
+* Rhino.Mocks 3.5.0.1337
+* System.Data.SQLite.DLL 1.0.60.0
+* T4 Toolbox 10.3 (Installer in /tools)
 
+-------
+
+Required Upgrade Steps and Changes:
+
+#) T4 Toolbox: Uninstall your current version and install the latest found in the /tools directory.
+
+#) Grab the latest dependencies from /bin and copy them to YourProject/lib and YourProject/tools/lib.  To make it easy to figure out which DLLs go into which folder, create a new project with the included VS Project Template and copy the DLLs out of the lib folders, respectively.
+
+#) Follow the instructions at http://www.asp.net/learn/whitepapers/aspnet-mvc2-upgrade-notes/ (skip steps 7 and 8) for upgrading your web project to an MVC 2 application.
+
+
+Upgrading to S#arp Architecture 1.5 RTM from 1.0 RTM requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects).  For reference, each of the following steps is prefixed with the dependency that that the upgrade step is associated with:
+
+#) ASP.NET MVC:  If you have any previous versions of ASP.NET MVC 2 installed, you must uninstall them and optionally may install ASP.NET MVC 2.0
+
+#) T4 Toolbox:  Uninstall any previous version of T4 Toolbox and install T4 Toolbox 10.3 (installer found in /tools)
+
+#) T4 Toolbox:  Replace your version of CrudScaffolding with updated version from http://github.com/codai/Sharp-Architecture/tree/master/src/NorthwindSample/tools/CrudScaffolding/
+
+#) SharpArch:  To easily update all the assembly references in your existing project, create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is simpler.)
+
+#) SharpArch:  Within YourProject.Web/Global.asax.cs, add AreaRegistration.RegisterAllAreas(); just above RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
+
+#) NHibernate:  
+
+#) Castle:  Within YourProject.Tests/App.config, configure assemly redirects to reflect the following:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+
+#) Castle:  Within YourProject.Web/Web.config, configure assemly redirects to reflect the following:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+
+#) NHibernate:  Within YourProject.Tests/Hibernate.cfg.xml, add the following property:
+	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
+
+#) NHibernate:  Within YourProject.Web/NHibernate.config, add the following property:
+	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
+
+#) Copy the CrudScaffolding and CrudScaffoldingForEnterpriseApp folders
 
 ==================================================
 S#arp Architecture 1.0 Q3 2009 for Visual Studio 2008

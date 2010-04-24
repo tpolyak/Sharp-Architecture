@@ -4,9 +4,9 @@
 public class ShowTemplate : BaseTemplate
 {
 	public ShowTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
-		: base(solutionName, entityScaffoldingDetails) { } 
+		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+    public override string TransformText()
 	{
 #>
 <%@ Page Title="<#= EntityScaffoldingDetails.EntityName #> Details" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
@@ -35,7 +35,7 @@ public class ShowTemplate : BaseTemplate
 	</ul>
 
 </asp:Content>
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

@@ -6,7 +6,7 @@ public class ControllerTemplate : BaseTemplate
 	public ControllerTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+    public override string TransformText()
 	{
 #>
 using System.Web.Mvc;
@@ -156,7 +156,7 @@ namespace <#= AppendNamespaceHierarchyTo(SolutionName + ".Web.Controllers") #>
         private readonly IRepository<<#= EntityScaffoldingDetails.EntityName #>> <#= EntityScaffoldingDetails.EntityNameCamelCase #>Repository;
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

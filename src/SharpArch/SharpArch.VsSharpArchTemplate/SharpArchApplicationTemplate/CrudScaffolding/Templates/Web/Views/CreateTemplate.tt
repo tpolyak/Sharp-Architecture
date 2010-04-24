@@ -4,7 +4,7 @@ public class CreateTemplate : BaseTemplate
 	public CreateTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+    public override string TransformText()
 	{
 #>
 <%@ Page Title="Create <#= EntityScaffoldingDetails.EntityName #>" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" AutoEventWireup="true" 
@@ -17,7 +17,7 @@ public class CreateTemplate : BaseTemplate
 	<% Html.RenderPartial("<#= EntityScaffoldingDetails.EntityName #>Form", ViewData); %>
 
 </asp:Content>
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>

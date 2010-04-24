@@ -6,7 +6,7 @@ public class ControllerTestsTemplate : BaseTemplate
 	public ControllerTestsTemplate(string solutionName, EntityScaffoldingDetails entityScaffoldingDetails) 
 		: base(solutionName, entityScaffoldingDetails) { }
 
-	protected override void RenderCore()
+    public override string TransformText()
 	{
 #>
 using System;
@@ -168,7 +168,7 @@ namespace <#= AppendNamespaceHierarchyTo("Tests." + SolutionName + ".Web.Control
         private <#= EntityScaffoldingDetails.EntityNamePlural #>Controller controller;
     }
 }
-<#+
+<#+ return this.GenerationEnvironment.ToString();
 	}
 }
 #>
