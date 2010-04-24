@@ -35,7 +35,7 @@
 			<SpecificVersion>False</SpecificVersion>
 			<HintPath>..\..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
 		</Reference>
-		<Reference Include="MvcContrib, Version=2.0.34.0, Culture=neutral, processorArchitecture=MSIL">
+		<Reference Include="MvcContrib, Version=2.0.36.0, Culture=neutral, processorArchitecture=MSIL">
 		  <SpecificVersion>False</SpecificVersion>
 		  <HintPath>..\..\lib\MvcContrib.dll</HintPath>
 		</Reference>
