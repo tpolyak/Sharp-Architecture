@@ -12,8 +12,8 @@ Optionally install the T4 Editor Community Edition from http://www.t4editor.net/
 Copy "<unzip location>\SharpArchApplicationTemplate_VS2010.zip" to "C:\Documents and Settings\<YOUR USERNAME>\My Documents\Visual Studio 2010\Templates\ProjectTemplates\Visual C#\Web\". (Other locations are also available for organizing your templates; see http://msdn.microsoft.com/en-us/library/y3kkate1.aspx for details.)
 
 
-From the same source folder, copy SharpArchApplicationWizard.dll to "C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE\"
-NOTE: use "C:\Program Files (x86)\Microsoft Visual Studio 9.0\Common7\IDE" on a 64bit system
+From the same source folder, copy SharpArchApplicationWizard.dll to "C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\"
+NOTE: use "C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE" on a 64bit system
 
 
 You’re now ready to create your S#arp Architecture project:
