@@ -1,10 +1,11 @@
 ==================================================
-S#arp Architecture 1.5 2010 for Visual Studio 2008
+S#arp Architecture 1.5 for Visual Studio 2008 and Visual Studio 2010
 ==================================================
 
 New and exciting in this release:
 * Compatible with ASP.NET MVC 2.0 RTM
-* Upgraded dependencies including NHibernate 2.1.2.4, Fluent NHibernate 1.0.0.629, Castle.Core 1.2, Castle Windsor 2.1. See complete list below
+* Compatible with both Visual Studio 2008 and 2010 (Separate Templates)
+* Upgraded dependencies including NHibernate 2.1.2.4, Fluent NHibernate 1.0.0.636, Castle.Core 1.2, Castle Windsor 2.1. See complete list below
 * Added Enterprise CRUD scaffolding (thanks Billy)
 * Updated CRUD scaffolding (both normal and enterprise) to make use of MVC Areas
 * Updated Northwind sample to MVC 2 and updated assemblies.
@@ -15,20 +16,20 @@ New and exciting in this release:
 -------
 
 Assembly Dependencies ("^" notes upgraded dependencies):
-* ASP.NET MVC 2.0
-* ASP.NET MVC 2.0 Futures
-* Castle Windsor 2.1
-* Fluent NHibernate 1.0.0.629 built against NHibernate 2.1.2
-* jQuery 1.4.2
+^ ASP.NET MVC 2.0
+^ ASP.NET MVC 2.0 Futures
+^ Castle Windsor 2.1
+^ Fluent NHibernate 1.0.0.636 built against NHibernate 2.1.2
+^ jQuery 1.4.2
 * Json.NET 3.5 Beta 4
 * log4net 1.2.10.0
 * Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
-* MvcContrib 2.0.34.0
-* NHibernate 2.1.2.4
-* NHibernate.Linq 1.1.0.1001
-* NHibernate.Validator 1.2.0.3001
-* NUnit 2.5.0.9122 (Installer in /tools)
-* Rhino.Mocks 3.5.0.1337
+^ MvcContrib 2.0.36.0
+^ NHibernate 2.1.2.4000
+^ NHibernate.Linq 1.1.0.1001
+^ NHibernate.Validator 1.2.0.3001
+^ NUnit 2.5.0.9122 (Installer in /tools)
+^ Rhino.Mocks 3.6.0.0
 * System.Data.SQLite.DLL 1.0.60.0
 * T4 Toolbox 10.3 (Installer in /tools)
 
@@ -51,11 +52,11 @@ Upgrading to S#arp Architecture 1.5 RTM from 1.0 RTM requires a few steps to acc
 
 #) T4 Toolbox:  Replace your version of CrudScaffolding with updated version from http://github.com/codai/Sharp-Architecture/tree/master/src/NorthwindSample/tools/CrudScaffolding/
 
+#) Enterprise Crud Scaffolding:  Create a new project from the updated templates and add the CrudScaffoldingForEnterpriseApps project located at /<New Project Name>/Tools/CrudScaffoldingForEnterpriseApp to your project. You will then need to create a folder named "schema" under the /db folder.
+
 #) SharpArch:  To easily update all the assembly references in your existing project, create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is simpler.)
 
 #) SharpArch:  Within YourProject.Web/Global.asax.cs, add AreaRegistration.RegisterAllAreas(); just above RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
-
-#) NHibernate:  
 
 #) Castle:  Within YourProject.Tests/App.config, configure assemly redirects to reflect the following:
 
@@ -63,7 +64,7 @@ Upgrading to S#arp Architecture 1.5 RTM from 1.0 RTM requires a few steps to acc
         <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
             <dependentAssembly>
                 <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
-                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.0"/>
             </dependentAssembly>
         </assemblyBinding>
     </runtime>
@@ -74,18 +75,82 @@ Upgrading to S#arp Architecture 1.5 RTM from 1.0 RTM requires a few steps to acc
         <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
             <dependentAssembly>
                 <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
-                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.0"/>
             </dependentAssembly>
         </assemblyBinding>
     </runtime>
+#) Areas:  	If you currently use areas, you will need to add an AreaRegistration file. The naming convention is <Area Name>AreaRegistration. To see an example file please go here: 
+			http://github.com/codai/Sharp-Architecture/tree/master/src/NorthwindSample/app/Northwind.Web.Controllers/Organization/OrganizationAreaRegistration.cs
+		   
+			You will need to convert your YourProject.Web.Controllers/RouteRegistrar.cs to use normal MVC 2 Map Routes. If my existing file looks as such:
+		   
+			using System.Web.Mvc;
+			using System.Web.Routing;
+			using SharpArch.Web.Areas;
 
-#) NHibernate:  Within YourProject.Tests/Hibernate.cfg.xml, add the following property:
-	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
+			namespace MyProject.Web.Controllers
+			{
+				public class RouteRegistrar
+				{
+					public static void RegisterRoutesTo(RouteCollection routes)
+					{
+						routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+						routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+						routes.IgnoreRoute("{*xsd}", new { xsd = @"(.*/)?.xsd(/.*)?" });
+						routes.IgnoreRoute("{*css}", new { css = @"(.*/)?.css(/.*)?" });
 
-#) NHibernate:  Within YourProject.Web/NHibernate.config, add the following property:
-	<property name="proxyfactory.factory_class">NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle</property>
+						routes.CreateArea("Administration/Scaffolding", "MyProject.Web.Controllers.Administration.Scaffolding",
+							routes.MapRoute(null, "Administration/Scaffolding/{controller}/{action}/{id}", new { action = "Index", id = "" })
+						);
 
-#) Copy the CrudScaffolding and CrudScaffoldingForEnterpriseApp folders
+						routes.CreateArea("Administration", "MyProject.Web.Controllers.Administration",
+							routes.MapRoute(null, "Administration/FacilityOperations/{action}/{id}", new{ controller = "FacilityOperations", action = "Index", id = ""}),
+							routes.MapRoute(null, "Administration/{controller}/{action}/{id}", new { controller = "Administration", action = "Index", id = "" })
+						);
+
+						//Root Area
+						routes.CreateArea("Default", "MyProject.Web.Controllers",
+							routes.MapRoute(null, "Fax/Refax/{faxNumber}/{id}/{message}", new { controller="Fax", action="Refax", faxNumber = "", id = "", message = "" }),
+							routes.MapRoute("ScheduleGrid", "Schedule/Show/{encId}/{departmentId}", new { controller = "Schedule", action = "Show", encId="", departmentId="" }),
+							routes.MapRoute("SchedulePopUp", "Schedule/PopUp/{encId}/{departmentId}", new { controller = "Schedule", action = "PopUp", encId = "", departmentId = "" }),
+							routes.MapRoute(null, "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = "" })
+						);
+					}
+				}
+			}
+			
+			It would look like this after my conversion:
+			
+			using System.Web.Mvc;
+			using System.Web.Routing;
+			using SharpArch.Web.Areas;
+
+			namespace MyProject.Web.Controllers
+			{
+				public class RouteRegistrar
+				{
+					public static void RegisterRoutesTo(RouteCollection routes)
+					{
+						routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+						routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+						routes.IgnoreRoute("{*xsd}", new { xsd = @"(.*/)?.xsd(/.*)?" });
+						routes.IgnoreRoute("{*css}", new { css = @"(.*/)?.css(/.*)?" });
+
+						
+						routes.MapRoute(null, "Fax/Refax/{faxNumber}/{id}/{message}", new { controller="Fax", action="Refax", faxNumber = "", id = UrlParameter.Optional, message = "" });
+						routes.MapRoute("ScheduleGrid", "Schedule/Show/{encId}/{departmentId}", new { controller = "Schedule", action = "Show", encId=UrlParameter.Optional, departmentId=UrlParameter.Optional });
+						routes.MapRoute("SchedulePopUp", "Schedule/PopUp/{encId}/{departmentId}", new { controller = "Schedule", action = "PopUp", encId = UrlParameter.Optional, departmentId = UrlParameter.Optional });
+						routes.MapRoute(null, "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+					}
+				}
+			}
+			
+-------
+
+Change Log
+
+Due to the amount of changes that occured with the conversion to MVC 2, an accurate record was not kept. This upgrade should be considered as volatile when upgrading a previous version. In most cases, there will be no issues,
+while others with large customized projects could encounter issues. 
 
 ==================================================
 S#arp Architecture 1.0 Q3 2009 for Visual Studio 2008
