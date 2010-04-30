@@ -77,7 +77,7 @@ namespace SharpArch.Data.NHibernate
 			IDictionary<string, string> cfgProperties,
 			string validatorCfgFile)
 		{
-            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, null);
+			return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, null);
 		}
 
 		[CLSCompliant(false)]
@@ -114,14 +114,37 @@ namespace SharpArch.Data.NHibernate
 			IPersistenceConfigurer persistenceConfigurer)
 		{
 			Configuration cfg = ConfigureNHibernate(cfgFile, cfgProperties);
-			ConfigureNHibernateValidator(cfg, validatorCfgFile);
 
+			return AddConfiguration(factoryKey, mappingAssemblies, autoPersistenceModel, cfg, validatorCfgFile, persistenceConfigurer);
+		}
+
+		[CLSCompliant(false)]
+		public static Configuration AddConfiguration(
+			string factoryKey,
+			string[] mappingAssemblies,
+			AutoPersistenceModel autoPersistenceModel,
+			Configuration cfg,
+			string validatorCfgFile,
+			IPersistenceConfigurer persistenceConfigurer)
+		{
+			ISessionFactory sessionFactory = CreateSessionFactoryFor(
+				mappingAssemblies, autoPersistenceModel, cfg, persistenceConfigurer);
+
+			return AddConfiguration(factoryKey, sessionFactory, cfg, validatorCfgFile);
+		}
+
+		[CLSCompliant(false)]
+		public static Configuration AddConfiguration(
+			string factoryKey,
+			ISessionFactory sessionFactory,
+			Configuration cfg,
+			string validatorCfgFile)
+		{
 			Check.Require(!sessionFactories.ContainsKey(factoryKey),
 				"A session factory has already been configured with the key of " + factoryKey);
 
-			sessionFactories.Add(
-				factoryKey,
-				CreateSessionFactoryFor(mappingAssemblies, autoPersistenceModel, cfg, persistenceConfigurer));
+			ConfigureNHibernateValidator(cfg, validatorCfgFile);
+			sessionFactories.Add(factoryKey, sessionFactory);
 
 			return cfg;
 		}
@@ -213,13 +236,13 @@ namespace SharpArch.Data.NHibernate
 		/// </summary>
 		public static void Reset()
 		{
-		    if (Storage != null)
-		    {
-		        foreach (ISession session in Storage.GetAllSessions())
-		        {
-		            session.Dispose();
-		        }
-		    }
+			if (Storage != null)
+			{
+				foreach (ISession session in Storage.GetAllSessions())
+				{
+					session.Dispose();
+				}
+			}
 
 			sessionFactories.Clear();
 
@@ -233,17 +256,17 @@ namespace SharpArch.Data.NHibernate
 		/// </summary>
 		public static ISessionFactory GetSessionFactoryFor(string factoryKey)
 		{
-            if (!sessionFactories.ContainsKey(factoryKey))
-                return null;
+			if (!sessionFactories.ContainsKey(factoryKey))
+				return null;
 
 			return sessionFactories[factoryKey];
 		}
 
-        public static void RemoveSessionFactoryFor(string factoryKey) {
-            if (GetSessionFactoryFor(factoryKey) != null) {
-                sessionFactories.Remove(factoryKey);
-            }
-        }
+		public static void RemoveSessionFactoryFor(string factoryKey) {
+			if (GetSessionFactoryFor(factoryKey) != null) {
+				sessionFactories.Remove(factoryKey);
+			}
+		}
 
 		/// <summary>
 		/// Returns the default ISessionFactory using the DefaultFactoryKey.
@@ -258,11 +281,11 @@ namespace SharpArch.Data.NHibernate
 		/// </summary>
 		public static readonly string DefaultFactoryKey = "nhibernate.current_session";
 
-        /// <summary>
-        /// An application-specific implementation of ISessionStorage must be setup either thru
-        /// <see cref="InitStorage" /> or one of the <see cref="Init" /> overloads. 
-        /// </summary>
-        public static ISessionStorage Storage { get; set; }
+		/// <summary>
+		/// An application-specific implementation of ISessionStorage must be setup either thru
+		/// <see cref="InitStorage" /> or one of the <see cref="Init" /> overloads. 
+		/// </summary>
+		public static ISessionStorage Storage { get; set; }
 
 		private static ISessionFactory CreateSessionFactoryFor(
 			string[] mappingAssemblies,
@@ -311,13 +334,13 @@ namespace SharpArch.Data.NHibernate
 			if (cfgProperties != null)
 				cfg.AddProperties(cfgProperties);
 
-            if (string.IsNullOrEmpty(cfgFile) == false)
-                return cfg.Configure(cfgFile);
+			if (string.IsNullOrEmpty(cfgFile) == false)
+				return cfg.Configure(cfgFile);
 
-            if (File.Exists("Hibernate.cfg.xml"))
-                return cfg.Configure();
+			if (File.Exists("Hibernate.cfg.xml"))
+				return cfg.Configure();
 
-            return cfg;
+			return cfg;
 		}
 
 		private static void ConfigureNHibernateValidator(Configuration cfg, string validatorCfgFile)
