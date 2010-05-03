@@ -1,5 +1,5 @@
-<#@ assembly name="[solution folder]\lib\SharpArch.Core.dll" #>
-<#@ assembly name="[solution folder]\lib\Inflector.Net.dll" #>
+<#@ assembly name="$(ProjectDir)$(OutDir)SharpArch.Core.dll" #>
+<#@ assembly name="$(ProjectDir)$(OutDir)Inflector.Net.dll" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System" #>
 <#@ import namespace="SharpArch.Core" #>
