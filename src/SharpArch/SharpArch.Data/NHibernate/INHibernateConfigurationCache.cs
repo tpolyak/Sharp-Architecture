@@ -11,11 +11,11 @@ namespace SharpArch.Data.NHibernate
         /// Load the <see cref="Configuration"/> object from a cache.
         /// </summary>
         /// <param name="configKey">Key value to provide a unique name to the cached <see cref="Configuration"/>.</param>
-        /// <param name="configFile">NHibernate configuration xml file.  This is used to determine if the 
+        /// <param name="configPath">NHibernate configuration xml file.  This is used to determine if the 
         /// cached <see cref="Configuration"/> is out of date or not.</param>
         /// <returns>If an up to date cached object is available, a <see cref="Configuration"/> 
         /// object, otherwise null.</returns>
-        Configuration LoadConfiguration(string configKey, string configFile, string[] mappingAssemblies);
+        Configuration LoadConfiguration(string configKey, string configPath, string[] mappingAssemblies);
 
         /// <summary>
         /// Save the <see cref="Configuration"/> object to a cache.

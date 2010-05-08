@@ -122,9 +122,9 @@ namespace SharpArch.Data.NHibernate
             IPersistenceConfigurer persistenceConfigurer) {
 
             Configuration config;
-
-            if (NHibernateSession.ConfigurationCache != null) {
-                config = NHibernateSession.ConfigurationCache.LoadConfiguration(factoryKey, cfgFile, mappingAssemblies);
+            INHibernateConfigurationCache configCache = NHibernateSession.ConfigurationCache;
+            if (configCache != null) {
+                config = configCache.LoadConfiguration(factoryKey, cfgFile, mappingAssemblies);
                 if (config != null) {
                     return AddConfiguration(
                         factoryKey,
@@ -142,8 +142,8 @@ namespace SharpArch.Data.NHibernate
                 validatorCfgFile,
                 persistenceConfigurer);
 
-            if (NHibernateSession.ConfigurationCache != null) {
-                NHibernateSession.ConfigurationCache.SaveConfiguration(factoryKey, config);
+            if (configCache != null) {
+                configCache.SaveConfiguration(factoryKey, config);
             }
 
             return config;
