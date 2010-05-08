@@ -1,4 +1,4 @@
-﻿<#@ assembly name="[solution folder]\lib\Inflector.Net.dll" #>
+﻿<#@ assembly name="$(ProjectDir)$(OutDir)Inflector.Net.dll" #>
 
 <#+
 public abstract class BaseTemplate : Template
