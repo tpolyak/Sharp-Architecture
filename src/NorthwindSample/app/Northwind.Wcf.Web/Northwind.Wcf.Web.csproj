@@ -62,21 +62,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
-    <Reference Include="SharpArch.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
+    <Reference Include="SharpArch, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\bin\SharpArch.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpArch.Data, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\bin\SharpArch.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpArch.Wcf, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\bin\SharpArch.Wcf.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpArch.Web.Castle, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\bin\SharpArch.Web.Castle.dll</HintPath>
+      <HintPath>..\..\..\..\bin\SharpArch.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
