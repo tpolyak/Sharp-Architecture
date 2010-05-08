@@ -9,8 +9,7 @@ namespace Tests.SharpArch.Data
     {
         [SetUp]
         public void SetUp() {
-            NHibernateSession.RemoveSessionFactoryFor(NHibernateSession.DefaultFactoryKey);
-            NHibernateSession.Storage = null;
+            NHibernateSession.Reset();
         }
 
         [Test]
@@ -53,6 +52,52 @@ namespace Tests.SharpArch.Data
                 mappingAssemblies, null, null, null, null, persistenceConfigurer);
 
             Assert.That(configuration, Is.Not.Null);
+
+        }
+
+        [Test]
+        public void CanInitializeWithConfigFileAndConfigurationFileCache() {
+            var configFile = "sqlite-nhibernate-config.xml";
+            var mappingAssemblies = new string[] { };
+            NHibernateSession.ConfigurationCache = new NHibernateConfigurationFileCache(
+                new string[] { "SharpArch.Core" });
+            var configuration = NHibernateSession.Init(
+                new SimpleSessionStorage(),
+                mappingAssemblies, configFile);
+            
+            Assert.That(configuration, Is.Not.Null);
+        }
+
+        [Test]
+        public void DoesInitializeFailWhenCachingFileDependencyCannotBeFound() {
+            Assert.Throws<System.IO.FileNotFoundException>(() =>
+            {
+                var configFile = "sqlite-nhibernate-config.xml";
+                var mappingAssemblies = new string[] { };
+                // Random Guid value as dependency file to cause the exception
+                NHibernateSession.ConfigurationCache = new NHibernateConfigurationFileCache(
+                    new string[] { System.Guid.NewGuid().ToString() });
+                var configuration = NHibernateSession.Init(
+                    new SimpleSessionStorage(),
+                    mappingAssemblies, configFile);
+            });
+        }
+
+        [Test]
+        public void DoesChangingTheConfigurationCacheAfterInitCauseException() {
+            Assert.Throws<System.InvalidOperationException>(() =>
+            {
+                var configFile = "sqlite-nhibernate-config.xml";
+                var mappingAssemblies = new string[] { };
+                NHibernateSession.ConfigurationCache = new NHibernateConfigurationFileCache(
+                    new string[] { "SharpArch.Core" });
+                var configuration = NHibernateSession.Init(
+                    new SimpleSessionStorage(),
+                    mappingAssemblies, configFile);
+                // Set ConfigurationCache to a different file cache object
+                NHibernateSession.ConfigurationCache = new NHibernateConfigurationFileCache(
+                    new string[] { "SharpArch.Core" });
+            });
 
         }
     }

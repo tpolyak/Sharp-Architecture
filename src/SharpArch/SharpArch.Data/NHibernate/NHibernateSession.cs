@@ -296,6 +296,7 @@ namespace SharpArch.Data.NHibernate
 			Storage = null;
 			RegisteredInterceptor = null;
 			ValidatorEngine = null;
+			ConfigurationCache = null;
 		}
 
 		/// <summary>
