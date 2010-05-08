@@ -5,8 +5,8 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.Serialization.Formatters.Binary;
     using global::NHibernate.Cfg;
+    using SharpArch.Core;
 
 
     /// <summary>
@@ -57,11 +57,11 @@
             string cachePath = CachedConfigPath(configKey);
             AppendToDependentFilePaths(mappingAssemblies);
             AppendToDependentFilePaths(configPath);
-            if (!IsCachedConfigCurrent(cachePath, configPath)) {
-                return null;
+            if (IsCachedConfigCurrent(cachePath, configPath)) {
+                return FileCache.RetrieveFromCache<Configuration>(cachePath);
             }
 
-            return RetrieveFromCache(cachePath);
+            return null;
         }
 
         /// <summary>
@@ -71,8 +71,8 @@
         /// <param name="config">Configuration object to save.</param>
         public void SaveConfiguration(string configKey, Configuration config) {
             string cachePath = CachedConfigPath(configKey);
-            StoreInCache(config, cachePath);
-            File.SetLastWriteTime(cachePath, GetMaxDependencyDate());
+            FileCache.StoreInCache<Configuration>(config, cachePath);
+            File.SetLastWriteTime(cachePath, GetMaxDependencyTime());
         }
 
         #endregion
@@ -80,70 +80,11 @@
         #region Protected Methods
 
         /// <summary>
-        /// Deserializes a data file into a <see cref="Configuration"/> object.
-        /// </summary>
-        /// <param name="path">Full path to file containing seralized data.</param>
-        /// <returns>Configuration object deseralized from data file.</returns>
-        /// <exception cref="ArgumentNullException">Thrown if the path parameter is null or empty.</exception>
-        protected virtual Configuration RetrieveFromCache(string path) {
-            if (string.IsNullOrEmpty(path))
-                throw new ArgumentNullException("path");
-
-            try {
-                using (FileStream file = File.Open(path, FileMode.Open)) {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    return bf.Deserialize(file) as Configuration;
-                }
-            }
-            catch {
-                // Return null if the Configuration object can't be deseralized
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Serialize the given Configuration object to a file at the given path.
-        /// </summary>
-        /// <param name="config">Configuration object to serialize.</param>
-        /// <param name="path">Path of the cache file to store the serialized data.</param>
-        /// <exception cref="ArgumentNullException">Thrown if the config parameter is null.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if the path parameter is null or empty.</exception>
-        protected virtual void StoreInCache(Configuration config, string path) {
-            if (config == null)
-                throw new ArgumentNullException("config");
-            if (string.IsNullOrEmpty(path))
-                throw new ArgumentNullException("path");
-
-            using (FileStream file = File.Open(path, FileMode.Create)) {
-                new BinaryFormatter().Serialize(file, config);
-            }
-        }
-
-
-        /// <summary>
-        /// Append the given file path to the dependentFilePaths list.
-        /// </summary>
-        /// <param name="paths">File path.</param>
-        protected virtual void AppendToDependentFilePaths(string path) {
-            this.dependentFilePaths.Add(FindFile(path));
-        }
-
-        /// <summary>
-        /// Append the given list of file paths to the dependentFilePaths list.
-        /// </summary>
-        /// <param name="paths"><see cref="IEnumerable{string}"/> list of file paths.</param>
-        protected virtual void AppendToDependentFilePaths(IEnumerable<string> paths) {
-            foreach (string path in paths) {
-                this.dependentFilePaths.Add(FindFile(path));
-            }
-        }
-
-        /// <summary>
         /// Tests if an existing cached configuration file is out of date or not.
         /// </summary>
         /// <param name="cachePath">Location of the cached</param>
         /// <param name="configPath"></param>
-        /// <returns></returns>
+        /// <returns>False if the cached config file is out of date, otherwise true.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the cachePath or configPath 
         /// parameters are null.</exception>
         protected virtual bool IsCachedConfigCurrent(string cachePath, string configPath) {
@@ -152,14 +93,14 @@
             if (string.IsNullOrEmpty(configPath))
                 throw new ArgumentNullException("configPath");
 
-            return (File.Exists(cachePath) && new FileInfo(cachePath).LastWriteTime > GetMaxDependencyDate());
+            return (File.Exists(cachePath) && (File.GetLastWriteTime(cachePath) >= GetMaxDependencyTime()));
         }
 
         /// <summary>
-        /// Returns the latest date from the list of dependent file paths.
+        /// Returns the latest file write time from the list of dependent file paths.
         /// </summary>
-        /// <returns></returns>
-        protected virtual DateTime GetMaxDependencyDate() {
+        /// <returns>Latest file write time, or '1/1/1980' if list is empty.</returns>
+        protected virtual DateTime GetMaxDependencyTime() {
             if ((this.dependentFilePaths == null) || (this.dependentFilePaths.Count == 0)) {
                 return DateTime.Parse("1/1/1980");
             }
@@ -176,7 +117,30 @@
         /// with other applications also using this cache feature.</remarks>
         protected virtual string CachedConfigPath(string configKey) {
             var fileName = string.Format("{0}-{1}.bin", configKey, Assembly.GetCallingAssembly().CodeBase.GetHashCode());
+            
             return Path.Combine(Path.GetTempPath(), fileName);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Append the given file path to the dependentFilePaths list.
+        /// </summary>
+        /// <param name="paths">File path.</param>
+        private void AppendToDependentFilePaths(string path) {
+            this.dependentFilePaths.Add(FindFile(path));
+        }
+
+        /// <summary>
+        /// Append the given list of file paths to the dependentFilePaths list.
+        /// </summary>
+        /// <param name="paths"><see cref="IEnumerable{string}"/> list of file paths.</param>
+        private void AppendToDependentFilePaths(IEnumerable<string> paths) {
+            foreach (string path in paths) {
+                this.dependentFilePaths.Add(FindFile(path));
+            }
         }
 
         /// <summary>
