@@ -91,7 +91,15 @@ namespace SharpArch.Data.NHibernate
 			IPersistenceConfigurer persistenceConfigurer)
 		{
 			InitStorage(storage);
-			return AddConfiguration(DefaultFactoryKey, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, persistenceConfigurer);
+            try {
+                return AddConfiguration(DefaultFactoryKey, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, persistenceConfigurer);
+            }
+            catch {
+                // If this NHibernate config throws an exception, null the Storage reference so 
+                // the config can be corrected without having to restart the web application.
+                Storage = null;
+                throw;
+            }
 		}
 
 		#endregion

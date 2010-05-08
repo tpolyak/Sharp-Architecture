@@ -54,10 +54,8 @@ namespace SharpArch.Web.Areas
             Expression<Action<TController>> action, string linkText, string controllerUrlName, string actionName)
             where TController : Controller {
 
-            RouteValueDictionary routingValues = ExpressionHelper.GetRouteValuesFromExpression(action);
-            string routeLinkFromMvc = helper.RouteLink(linkText, routingValues).ToString();
-
-            string routePortion = GetRoutePortionFrom(routeLinkFromMvc);
+            RouteValueDictionary routingValues = ExpressionHelper.GetRouteValuesFromExpression<TController>(action);
+            string routePortion = helper.RouteCollection.GetVirtualPath(helper.ViewContext.RequestContext, routingValues).VirtualPath;
             string controllerAndActionUrlPortion = controllerUrlName + "/" + actionName;
 
             // If there's a "?" in the querystring, then take everything from the "?" 

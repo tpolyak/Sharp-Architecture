@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 <#@ assembly name="$(ProjectDir)$(OutDir)SharpArch.Core.dll" #>
 <#@ assembly name="$(ProjectDir)$(OutDir)Inflector.Net.dll" #>
+=======
+﻿<#@ assembly name="$(SolutionDir)lib\SharpArch.Core.dll" #>
+<#@ assembly name="$(SolutionDir)lib\Inflector.Net.dll" #>
+>>>>>>> 57c9933f4242025356258580ca9d843172ce074a
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System" #>
 <#@ import namespace="SharpArch.Core" #>
