@@ -84,6 +84,8 @@ namespace Northwind.Web
         /// </summary>
         private void InitializeNHibernateSession()
         {
+            NHibernateSession.ConfigurationCache = new NHibernateConfigurationFileCache(
+                new string[] { "Northwind.Core" });
             NHibernateSession.Init(
                 webSessionStorage,
                 new string[] { Server.MapPath("~/bin/Northwind.Data.dll") },
