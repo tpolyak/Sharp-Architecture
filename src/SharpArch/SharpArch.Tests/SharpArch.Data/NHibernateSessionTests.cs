@@ -64,8 +64,28 @@ namespace Tests.SharpArch.Data
             var configuration = NHibernateSession.Init(
                 new SimpleSessionStorage(),
                 mappingAssemblies, configFile);
-            
+
             Assert.That(configuration, Is.Not.Null);
+        }
+
+        [Test]
+        public void CanInitializeWithConfigFileAndConfigurationFileCacheAndSecondDatabaseConfiguration() {
+            var configFile = "sqlite-nhibernate-config.xml";
+            var mappingAssemblies = new string[] { };
+            NHibernateSession.ConfigurationCache = new NHibernateConfigurationFileCache(
+                new string[] { "SharpArch.Core" });
+            var configuration1 = NHibernateSession.Init(
+                new SimpleSessionStorage(),
+                mappingAssemblies, configFile);
+            var configuration2 = NHibernateSession.AddConfiguration(
+                "secondDatabase",
+                new string[] { },
+                null,
+                configFile,
+                null, null, null);
+
+            Assert.That(configuration1, Is.Not.Null);
+            Assert.That(configuration2, Is.Not.Null);
         }
 
         [Test]
