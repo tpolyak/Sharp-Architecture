@@ -1,4 +1,42 @@
 ==================================================
+S#arp Architecture 1.5.2 for Visual Studio 2008 and Visual Studio 2010
+==================================================
+
+New and exciting in this release:
+* Merged the SharpArch.* assemblies into a single assembly (SharpArch.dll)
+* Updated both VS 2008 and 2010 templates to reflect the use of the merged assembly
+* Updated SharpArch.build with custom script that allows the merging of the assemblies. Copys new merged assembly in to the root /bin folder.
+* Updated VS 2010 template to account for changes in T4 Toolbox. It is no longer neccessary to build the CrudScaffolding projects prior to their use. (thanks Igor)
+* Updated CRUD scaffolding (both normal and enterprise) to use Html.LabelFor, Html.TextBoxFor, and Html.ValidationMessageFor crud templates. (thanks Igor)
+* Updated Northwind sample to use merged assembly
+* Fixed issues with BuildUrlFromExpressionForAreas (thanks Dan)
+* Fixed issue with NHibernateSession.Init - it was possible to encounter a NullReferenceException. (thanks Dan)
+* Added new Build bat file. ClickToBuildAndMerge.bat will build the solution and then merge the assemblies into one.
+* Added Moq back to bin
+* Updated the VS templates to reflect the proper tools reference in the cs.proj files. VS 2008 is now 3.5 and VS 2010 is now 4.0.
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
++ SharpArch.dll
+- SharpArch.*.dll
+
+-------
+
+Required Upgrade Steps and Changes:
+
+Upgrading to S#arp Architecture 1.5.2 from 1.5 RTM requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects).  For reference, each of the following steps is prefixed with the dependency that that the upgrade step is associated with:
+
+#) SharpArch:  Remove the SharpArch.*.dll from your projects /lib and /tools folders.
+
+#) SharpArch:  Add the SharpArch.dll to your projects /lib and /tools folders.
+
+#) SharpArch:  Remove the references to SharpArch.*.dll from all of your projects.
+
+#) SharpArch:  Add reference to SharpArch.dll to the projects that need references to any SharpArch.*.dll
+
+
+==================================================
 S#arp Architecture 1.5 for Visual Studio 2008 and Visual Studio 2010
 ==================================================
 

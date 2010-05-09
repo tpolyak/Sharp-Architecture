@@ -58,16 +58,8 @@
 				<ProjectItem>NHibernate.Validator.dll</ProjectItem>
 				<ProjectItem>NHibernate.Validator.xml</ProjectItem>
 				<ProjectItem>NHibernate.xml</ProjectItem>
-				<ProjectItem>SharpArch.Core.dll</ProjectItem>
-				<ProjectItem>SharpArch.Core.pdb</ProjectItem>
-		        <ProjectItem>SharpArch.Core.NHibernateValidator.dll</ProjectItem>
-				<ProjectItem>SharpArch.Core.NHibernateValidator.pdb</ProjectItem>
-                <ProjectItem>SharpArch.Data.dll</ProjectItem>
-				<ProjectItem>SharpArch.Data.pdb</ProjectItem>
-				<ProjectItem>SharpArch.Web.dll</ProjectItem>
-				<ProjectItem>SharpArch.Web.pdb</ProjectItem>
-		        <ProjectItem>SharpArch.Web.Castle.dll</ProjectItem>
-		        <ProjectItem>SharpArch.Web.Castle.pdb</ProjectItem>
+				<ProjectItem>SharpArch.dll</ProjectItem>
+				<ProjectItem>SharpArch.pdb</ProjectItem>
                 <ProjectItem>System.Web.Abstractions.dll</ProjectItem>
 				<ProjectItem>System.Web.Mvc.dll</ProjectItem>
 				<ProjectItem>System.Web.Mvc.xml</ProjectItem>

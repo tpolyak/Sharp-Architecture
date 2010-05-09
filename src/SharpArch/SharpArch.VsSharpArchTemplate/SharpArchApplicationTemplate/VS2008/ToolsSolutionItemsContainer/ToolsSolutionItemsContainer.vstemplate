@@ -22,8 +22,7 @@
 				<ProjectItem>nunit.framework.xml</ProjectItem>
 				<ProjectItem>Rhino.Mocks.dll</ProjectItem>
 				<ProjectItem>Rhino.Mocks.xml</ProjectItem>
-				<ProjectItem>SharpArch.Testing.dll</ProjectItem>
-				<ProjectItem>SharpArch.Testing.NUnit.dll</ProjectItem>
+				<ProjectItem>SharpArch.dll</ProjectItem>
 				<ProjectItem>System.Data.SQLite.DLL</ProjectItem>
 			</Folder>
 		</Project>
