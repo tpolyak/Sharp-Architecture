@@ -1,4 +1,4 @@
-<#@ assembly name="SharpArch.Core.dll" #>
+<#@ assembly name="SharpArch.dll" #>
 <#@ assembly name="Inflector.Net.dll" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System" #>
