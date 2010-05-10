@@ -39,6 +39,9 @@
             <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftAjax.js">MicrosoftAjax.js</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftMvcAjax.debug.js">MicrosoftMvcAjax.debug.js</ProjectItem>
             <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftMvcAjax.js">MicrosoftMvcAjax.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="jquery.validate.js">jquery.validate.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="jquery.validate.min.js">jquery.validate.min.js</ProjectItem>
+            <ProjectItem ReplaceParameters="true" TargetFileName="MicrosoftMvcJQueryValidation.js">MicrosoftMvcJQueryValidation.js</ProjectItem>
         </Folder>
       <Folder Name="Views" TargetFolderName="Views">
         <Folder Name="Home" TargetFolderName="Home">
