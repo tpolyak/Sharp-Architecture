@@ -23,6 +23,7 @@ public class DomainObjectFormTemplate : BaseTemplate
 
 <%= Html.ValidationSummary() %>
 
+<% Html.EnableClientValidation(); %>
 <% using (Html.BeginForm()) { %>
     <%= Html.AntiForgeryToken() %>
     <%= Html.Hidden("<#= EntityScaffoldingDetails.EntityName #>.Id", (ViewData.Model.<#= EntityScaffoldingDetails.EntityName #> != null) ? ViewData.Model.<#= EntityScaffoldingDetails.EntityName #>.Id : 0)%>
