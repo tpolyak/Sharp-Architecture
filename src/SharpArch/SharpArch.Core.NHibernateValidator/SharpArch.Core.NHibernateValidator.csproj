@@ -56,8 +56,12 @@
     <Compile Include="CommonValidatorAdapter\Validator.cs" />
     <Compile Include="HasUniqueDomainSignatureValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidatorProvider\NHibernateValidatorClientProvider.cs" />
+    <Compile Include="ValidatorProvider\NHibernateValidatorClientValidator.cs" />
     <Compile Include="ValidatorProvider\NHibernateValidatorModelValidator.cs" />
     <Compile Include="ValidatorProvider\NHibernateValidatorProvider.cs" />
+    <Compile Include="ValidatorProvider\RuleEmitterList.cs" />
+    <Compile Include="ValidatorProvider\ValidatorEngineFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SharpArch.snk" />

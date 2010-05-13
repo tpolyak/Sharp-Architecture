@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using NHibernate.Validator.Engine;
 
 namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
 {
+    /// <summary>
+    /// Server side model validator for NHVal
+    /// </summary>
     public class NHibernateValidatorModelValidator : ModelValidator
     {
         private readonly IClassValidator _validator;
@@ -26,7 +28,6 @@ namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
             {
                 yield return
                     new ModelValidationResult { MemberName = validationResult.PropertyName, Message = validationResult.Message };
-
             }
         }
     }
