@@ -10,6 +10,7 @@ using SharpArch.Web.Castle;
 using SharpArch.Web.Areas;
 using SharpArch.Web.CommonValidator;
 using SharpArch.Web.ModelBinder;
+using SharpArch.Core.NHibernateValidator.ValidatorProvider;
 using System;
 using System.Web;
 using System.Web.Mvc;
@@ -33,6 +34,8 @@ namespace $safeprojectname$
             ViewEngines.Engines.Add(new AreaViewEngine());
 
 			ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
+            
+            ModelValidatorProviders.Providers.Add(new NHibernateValidatorProvider());
 
             InitializeServiceLocator();
 
