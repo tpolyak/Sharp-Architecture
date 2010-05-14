@@ -45,6 +45,9 @@ namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
             var engine = ValidatorEngineFactory.ValidatorEngine;
 
             var validator = engine.GetClassValidator(metadata.ContainerType);
+            if (validator == null)
+                yield break;
+
             var constraints = validator.GetMemberConstraints(metadata.PropertyName).OfType<IRuleArgs>();
 
             var rules = new List<ModelClientValidationRule>();
@@ -61,6 +64,9 @@ namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
                     rules.Add(validationRule);
                 }
             }
+
+            if (rules.Count == 0)
+                yield break;
 
             yield return new NHibernateValidatorClientValidator(metadata, context, rules);
         }
