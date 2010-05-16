@@ -56,7 +56,6 @@
     <Compile Include="CommonValidatorAdapter\Validator.cs" />
     <Compile Include="HasUniqueDomainSignatureValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidatorProvider\NHibernateValidatorClientProvider.cs" />
     <Compile Include="ValidatorProvider\NHibernateValidatorClientValidator.cs" />
     <Compile Include="ValidatorProvider\NHibernateValidatorModelValidator.cs" />
     <Compile Include="ValidatorProvider\NHibernateValidatorProvider.cs" />

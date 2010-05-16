@@ -7,7 +7,7 @@ namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
     /// <summary>
     /// Server side model validator for NHVal
     /// </summary>
-    public class NHibernateValidatorModelValidator : ModelValidator
+    internal class NHibernateValidatorModelValidator : ModelValidator
     {
         private readonly IClassValidator _validator;
 

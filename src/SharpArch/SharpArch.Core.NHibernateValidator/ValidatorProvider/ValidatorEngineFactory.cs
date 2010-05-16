@@ -3,7 +3,7 @@ using NHibernate.Validator.Event;
 
 namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
 {
-    public class ValidatorEngineFactory
+    internal class ValidatorEngineFactory
     {
         public static ValidatorEngine ValidatorEngine
         {

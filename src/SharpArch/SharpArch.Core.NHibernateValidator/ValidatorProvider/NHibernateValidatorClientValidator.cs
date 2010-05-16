@@ -7,7 +7,7 @@ namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
     /// <summary>
     /// Simple validator class which overrides GetClientValidationRules to return a list of ModelClientValidationRules, which cause client side validation
     /// </summary>
-    public class NHibernateValidatorClientValidator : ModelValidator
+    internal class NHibernateValidatorClientValidator : ModelValidator
     {
         public NHibernateValidatorClientValidator(ModelMetadata metadata, ControllerContext controllerContext, List<ModelClientValidationRule> rules)
             : base(metadata, controllerContext)
