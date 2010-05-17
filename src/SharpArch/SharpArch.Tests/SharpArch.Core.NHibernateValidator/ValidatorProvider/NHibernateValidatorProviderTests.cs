@@ -18,10 +18,10 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
 
         class TestModel
         {
-            [NotNull]
+            [NotNull(Message = "not_null_message")]
             public string NotNullProperty { get; set; }
 
-            [NotEmpty]
+            [NotEmpty(Message = "not_empty_message")]
             public string NotEmptyStringProperty { get; set; }
         }
 
@@ -34,7 +34,7 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         }
         
         [Test]
-        public void NotNullProperty()
+        public void ClientValidation_NotNullProperty()
         {
             var modelMetadata =
                 ModelMetadata.FromLambdaExpression<TestModel, string>(x => x.NotNullProperty, _viewData);
@@ -50,8 +50,27 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
             var validationRule = validationRules[0];
 
             Assert.That(validationRule.ValidationType, Is.EqualTo("required"));
+            Assert.That(validationRule.ErrorMessage, Is.EqualTo("not_null_message"));
+        }
+        
+        [Test]
+        public void ClientValidation_NotEmptyStringProperty()
+        {
+            var modelMetadata =
+                ModelMetadata.FromLambdaExpression<TestModel, string>(x => x.NotEmptyStringProperty, _viewData);
 
-            //Assert.That(validationRule.ErrorMessage, Is.EqualTo(""));
+            var modelValidators = _validatorProvider.GetValidators(modelMetadata, _controllerContext);
+
+            Assert.That(modelValidators, Is.Not.Empty);
+
+            var validationRules = modelValidators.SelectMany(x => x.GetClientValidationRules()).ToList();
+
+            Assert.That(validationRules.Count, Is.EqualTo(1));
+
+            var validationRule = validationRules[0];
+
+            Assert.That(validationRule.ValidationType, Is.EqualTo("required"));
+            Assert.That(validationRule.ErrorMessage, Is.EqualTo("not_empty_message"));
         }
     }
 }
