@@ -270,11 +270,12 @@ namespace SharpArch.Data.NHibernate
 		/// </summary>
 		public static void CloseAllSessions()
 		{
-			foreach (ISession session in Storage.GetAllSessions())
-			{
-				if (session.IsOpen)
-					session.Close();
-			}
+            if(Storage != null)
+			    foreach (ISession session in Storage.GetAllSessions())
+			    {
+				    if (session.IsOpen)
+					    session.Close();
+			    }
 		}
 
 		/// <summary>
