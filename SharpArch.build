@@ -26,6 +26,7 @@
 
 	<!-- Assemblies -->
 	<property name="main.assembly.name" value="${build.dir}\SharpArch.dll" />
+	<property name="key.file" value="${solution.dir}\${project::get-name()}.Core\${project::get-name()}.snk" />
 	<property name="temp.assembly.name" value="${build.dir}\SharpArch.Core.dll" />
 	<property name="test.assembly" value="${project::get-name()}.Tests.dll" />	
 
@@ -54,6 +55,7 @@
 					{
 					private FileSet m_assemblies;
 					private string m_logFile;
+					private string m_keyFile;
 					private string m_outputFile;
 					private string m_primaryFile;
 					private bool internalize;
@@ -109,7 +111,24 @@
 					{
 					this.m_logFile = StringUtils.ConvertEmptyToNull(value);
 					}
-					}     
+					}
+
+					[TaskAttribute("keyfile")]
+					public virtual string KeyFile
+					{
+					get
+					{
+					if (this.m_keyFile == null)
+					{
+                    return null;
+					}
+					return this.Project.GetFullPath(this.m_keyFile);
+					}
+					set
+					{
+					this.m_keyFile = StringUtils.ConvertEmptyToNull(value);
+					}
+					}
 					
 					[TaskAttribute("primary", Required=true), StringValidator(AllowEmpty=false)]
 					public virtual string PrimaryFile
@@ -153,10 +172,14 @@
 					Log(Level.Info, "Executing ILMerge.exe");
 					Log(Level.Info, string.Format("/out:\"{0}\"", m_outputFile));
 					Log(Level.Info, string.Format("/log:\"{0}\"", m_logFile));
+					Log(Level.Info, string.Format("/keyfile:\"{0}\"", m_keyFile));
 					Arguments.Add(new Argument(string.Format("/out:\"{0}\"", m_outputFile)));
 					
 					Log(Level.Info, string.Format("assembly[{0}]: {1}", "primary", m_primaryFile));
 					Arguments.Add(new Argument(string.Format("\"{0}\"", m_primaryFile)));
+					
+					
+					Arguments.Add(new Argument(string.Format("/keyfile:\"{0}\"", m_keyFile)));
 					
 					for (int i = 0; i < m_assemblies.FileNames.Count; i++)
 					{
@@ -189,6 +212,7 @@
 			primary="${temp.assembly.name}"
 			program="${ilmerge.dir}\ilmerge.exe"
 			logfile="${log.file}"
+			keyfile="${key.file}"
 			internalize="false">
 			<assemblies>
 				<include name="${build.dir}\SharpArch.Core.NHibernateValidator.dll" />
