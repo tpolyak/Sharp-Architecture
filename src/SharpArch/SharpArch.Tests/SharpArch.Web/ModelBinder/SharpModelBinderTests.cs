@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
@@ -51,6 +52,74 @@ namespace Tests.SharpArch.Web.ModelBinder
             // Assert
             Assert.AreEqual(id, result.Id);
             Assert.AreEqual(employeeName, result.Name);
+        }
+
+        [Test]
+        public void CanBindSimpleModelWithGuidId()
+        {
+            Guid id = new Guid();
+            string territoryName = "Someplace, USA";
+
+            // Arrange
+            var formCollection = new NameValueCollection
+                                     {
+                                         {"Territory.Id", id.ToString()},
+                                         {"Territory.Name", territoryName},
+                                     };
+
+            var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
+            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
+
+            var bindingContext = new ModelBindingContext
+            {
+                ModelName = "Territory",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
+
+            DefaultModelBinder target = new SharpModelBinder();
+
+            ControllerContext controllerContext = new ControllerContext();
+
+            // Act
+            Territory result = (Territory)target.BindModel(controllerContext, bindingContext);
+
+            // Assert
+            Assert.AreEqual(id, result.Id);
+            Assert.AreEqual(territoryName, result.Name);
+        }
+
+        [Test]
+        public void CanBindSimpleModelWithGuidIdAndNullValue()
+        {
+            string territoryName = "Someplace, USA";
+
+            // Arrange
+            var formCollection = new NameValueCollection
+                                     {
+                                         {"Territory.Id", string.Empty},
+                                         {"Territory.Name", territoryName},
+                                     };
+
+            var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
+            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
+
+            var bindingContext = new ModelBindingContext
+            {
+                ModelName = "Territory",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
+
+            DefaultModelBinder target = new SharpModelBinder();
+
+            ControllerContext controllerContext = new ControllerContext();
+
+            // Act
+            Territory result = (Territory)target.BindModel(controllerContext, bindingContext);
+
+            // Assert
+            Assert.AreEqual(territoryName, result.Name);
         }
 
         [Test]
@@ -214,6 +283,11 @@ namespace Tests.SharpArch.Web.ModelBinder
             {
                 Id = id;
             }
+        }
+
+        public class Territory : EntityWithTypedId<Guid>
+        {
+            public string Name { get; set; }
         }
 
         #endregion

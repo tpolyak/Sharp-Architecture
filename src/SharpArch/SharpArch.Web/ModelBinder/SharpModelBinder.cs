@@ -108,7 +108,17 @@ namespace SharpArch.Web.ModelBinder
             PropertyDescriptor propertyDescriptor, object value)
         {
             Type idType = propertyDescriptor.PropertyType;
-            object typedId = Convert.ChangeType(value, idType);
+
+            object typedId;
+
+            if (value == null)
+            {
+                typedId = idType.IsValueType ? Activator.CreateInstance(idType) : null;
+            }
+            else
+            {
+                typedId = Convert.ChangeType(value, idType);
+            }
 
             // First, look to see if there's an Id property declared on the entity itself;
             // e.g., using the new keyword
