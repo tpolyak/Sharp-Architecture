@@ -118,7 +118,6 @@ namespace SharpArch.Web.ModelBinder
             {
                 typedId = Convert.ChangeType(value, idType);
             }
-            }
 
             // First, look to see if there's an Id property declared on the entity itself;
             // e.g., using the new keyword
