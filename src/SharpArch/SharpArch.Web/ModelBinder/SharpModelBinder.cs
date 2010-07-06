@@ -108,7 +108,6 @@ namespace SharpArch.Web.ModelBinder
             PropertyDescriptor propertyDescriptor, object value)
         {
             Type idType = propertyDescriptor.PropertyType;
-
             object typedId;
 
             if (value == null)
@@ -118,6 +117,7 @@ namespace SharpArch.Web.ModelBinder
             else
             {
                 typedId = Convert.ChangeType(value, idType);
+            }
             }
 
             // First, look to see if there's an Id property declared on the entity itself;
