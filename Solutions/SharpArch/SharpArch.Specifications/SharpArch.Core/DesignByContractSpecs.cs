@@ -93,9 +93,9 @@ namespace SharpArch.Specifications.SharpArch.Core
 
         Because of = () => result = Catch.Exception(() => ConvertToPercentage(-0.2m));
 
-        It should_not_throw_a_precondition_exception = () => result.ShouldBeNull();
+        It should_not_throw_an_exception = () => result.ShouldBeNull();
 
-        It should_call_the_fail_method_on_the_trace_listener = () => traceListener.AssertWasCalled(l => l.Fail(Arg<string>.Is.Anything));
+        It should_call_the_fail_method_on_the_trace_listener_for_precondition_and_postcondition_violations = () => traceListener.AssertWasCalled(l => l.Fail(Arg<string>.Is.Anything), o => o.Repeat.Twice());
     }
 
     [Subject(typeof(Check))]
@@ -109,7 +109,7 @@ namespace SharpArch.Specifications.SharpArch.Core
         {
             Check.UseAssertions = true;
             traceListener = MockRepository.GenerateMock<TraceListener>();
-            //Trace.Listeners.Clear();
+            Trace.Listeners.Clear();
             Trace.Listeners.Add(traceListener);
         };
 
