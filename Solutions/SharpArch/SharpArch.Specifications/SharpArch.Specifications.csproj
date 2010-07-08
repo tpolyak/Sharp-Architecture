@@ -31,6 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\ReferencedAssemblies\Castle\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.MicroKernel">
+      <HintPath>..\..\..\ReferencedAssemblies\Castle\Castle.MicroKernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\..\ReferencedAssemblies\Castle\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator.WindsorAdapter">
+      <HintPath>..\..\..\ReferencedAssemblies\Castle\CommonServiceLocator.WindsorAdapter.dll</HintPath>
+    </Reference>
     <Reference Include="Machine.Specifications">
       <HintPath>..\..\..\ReferencedAssemblies\Machine.Specifications\Machine.Specifications.dll</HintPath>
     </Reference>
@@ -40,6 +52,7 @@
     <Reference Include="Machine.Specifications.Mvc">
       <HintPath>..\..\..\ReferencedAssemblies\Machine.Specifications\Machine.Specifications.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\..\ReferencedAssemblies\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
@@ -51,8 +64,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharpArch.Core\DesignByContractSpecs.cs" />
+    <Compile Include="SharpArch.Core\SafeServiceLocatorSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Core.NHibernateValidator\SharpArch.Core.NHibernateValidator.csproj">
+      <Project>{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}</Project>
+      <Name>SharpArch.Core.NHibernateValidator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpArch.Core\SharpArch.Core.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Core</Name>
