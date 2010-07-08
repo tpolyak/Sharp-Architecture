@@ -5,8 +5,6 @@ src/SharpArch/CommonAssemblyInfo.cs
 Thumbs.db
 #Ignore files build by Visual Studio
 *.obj
-*.exe
-!ReferencedAssemblies/Machine.Specifications/mspec.exe
 *.pdb
 *.user
 *.aps
