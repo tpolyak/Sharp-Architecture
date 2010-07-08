@@ -24,7 +24,8 @@
                     return bf.Deserialize(file) as T;
                 }
             }
-            catch {
+            catch
+            {
                 // Return null if the object can't be deseralized
                 return null;
             }
