@@ -12,7 +12,7 @@
     </Choose>
   
   <Target Name="RunSpecs"
-          DependsOnTargets="CreateDrops">
+          DependsOnTargets="BuildSolutions;CreateDrops">
 
     <MakeDir Directories="$(DropsPath)\$(GlobalBuildVersionNumber)\MSpec"/>
     
