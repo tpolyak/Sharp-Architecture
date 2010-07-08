@@ -76,10 +76,17 @@
     <Compile Include="CommonValidator\IValidatable.cs" />
     <Compile Include="CommonValidator\IValidationResult.cs" />
     <Compile Include="CommonValidator\IValidator.cs" />
+    <Compile Include="DesignByContract\Check.cs" />
+    <Compile Include="DesignByContract\DesignByContractException.cs" />
+    <Compile Include="DesignByContract\InvariantException.cs" />
+    <Compile Include="DesignByContract\PostconditionException.cs" />
+    <Compile Include="DesignByContract\PreconditionException.cs" />
     <Compile Include="DomainModel\BaseObject.cs" />
-    <Compile Include="DesignByContract.cs" />
+    <Compile Include="DesignByContract\AssertionException.cs" />
     <Compile Include="DomainModel\BaseObjectEqualityComparer.cs" />
+    <Compile Include="DomainModel\DomainSignatureAttribute.cs" />
     <Compile Include="DomainModel\Entity.cs" />
+    <Compile Include="DomainModel\EntityWithTypedId.cs" />
     <Compile Include="DomainModel\IEntityWithTypedId.cs" />
     <Compile Include="DomainModel\IHasAssignedId.cs" />
     <Compile Include="DomainModel\ValidatableObject.cs" />
@@ -88,8 +95,10 @@
     <Compile Include="PersistenceSupport\IDbContext.cs" />
     <Compile Include="PersistenceSupport\IRepository.cs" />
     <Compile Include="PersistenceSupport\IEntityDuplicateChecker.cs" />
+    <Compile Include="PersistenceSupport\IRepositoryWithTypedId.cs" />
     <Compile Include="PersistenceSupport\NHibernate\INHibernateRepository.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="PersistenceSupport\NHibernate\INHibernateRepositoryWithTypedId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SafeServiceLocator.cs" />
   </ItemGroup>
