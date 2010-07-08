@@ -1,38 +1,36 @@
-using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-
 namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+
     /// <summary>
-    /// Will help easily convert rules to model client validation rules.
+    ///     Will help easily convert rules to model client validation rules.
     /// </summary>
     internal class RuleEmitterList<TInputBase>
     {
-        public delegate IEnumerable<ModelClientValidationRule> RuleEmitter(TInputBase item);
+        private readonly List<RuleEmitter> ruleEmitters = new List<RuleEmitter>();
 
-        private readonly List<RuleEmitter> _ruleEmitters = new List<RuleEmitter>();
+        public delegate IEnumerable<ModelClientValidationRule> RuleEmitter(TInputBase item);
 
         public void AddSingle<TSource>(Func<TSource, ModelClientValidationRule> emitter) where TSource : TInputBase
         {
-            _ruleEmitters.Add(x =>
-                                  {
-
-                                      if (x is TSource)
-                                      {
-                                          ModelClientValidationRule rule = emitter((TSource)x);
-                                          return rule == null ? null : new[] { rule };
-                                      }
-                                      else
-                                      {
-                                          return null;
-                                      }
-                                  });
+            this.ruleEmitters.Add(
+                x =>
+                    {
+                        if (x is TSource)
+                        {
+                            var rule = emitter((TSource)x);
+                            return rule == null ? null : new[] { rule };
+                        }
+                        
+                        return null;
+                    });
         }
 
         public IEnumerable<ModelClientValidationRule> EmitRules(TInputBase item)
         {
-            foreach (var emitter in _ruleEmitters)
+            foreach (var emitter in this.ruleEmitters)
             {
                 var emitterResult = emitter(item);
                 if (emitterResult != null)
@@ -41,7 +39,7 @@ namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
                 }
             }
 
-            return new ModelClientValidationRule[] { }; //No matching emitter, so return an empty set of rules
+            return new ModelClientValidationRule[] { }; // No matching emitter, so return an empty set of rules
         }
     }
 }

@@ -1,53 +1,54 @@
-﻿using System.Reflection;
-using System.Collections.Generic;
-using NHibernate.Validator.Engine;
-using System;
-using System.Collections.ObjectModel;
-using SharpArch.Core.CommonValidator;
-using SharpArch.Data.NHibernate;
-
-namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
+﻿namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+
+    using NHibernate.Validator.Engine;
+
+    using SharpArch.Core.CommonValidator;
+    using SharpArch.Data.NHibernate;
+
+    using IValidator = SharpArch.Core.CommonValidator.IValidator;
+
     /// <summary>
-    /// Provides an implementation of the <see cref="CommonValidator.IValidator" /> interface 
-    /// which relies on NHibernate validator
+    ///     Provides an implementation of the <see cref = "CommonValidator.IValidator" /> interface 
+    ///     which relies on NHibernate validator
     /// </summary>
-    public class Validator : SharpArch.Core.CommonValidator.IValidator
+    public class Validator : IValidator
     {
-        static Validator() {
-            validator = NHibernateSession.ValidatorEngine ?? new ValidatorEngine();
+        private static readonly ValidatorEngine ValidatorEngine;
+
+        static Validator()
+        {
+            ValidatorEngine = NHibernateSession.ValidatorEngine ?? new ValidatorEngine();
         }
 
-        public bool IsValid(object value) {
+        public bool IsValid(object value)
+        {
             Check.Require(value != null, "value to IsValid may not be null");
 
             return ValidatorEngine.IsValid(value);
         }
 
-        public ICollection<IValidationResult> ValidationResultsFor(object value) {
+        public ICollection<IValidationResult> ValidationResultsFor(object value)
+        {
             Check.Require(value != null, "value to ValidationResultsFor may not be null");
 
-            InvalidValue[] invalidValues = ValidatorEngine.Validate(value);
+            var invalidValues = ValidatorEngine.Validate(value);
 
             return ParseValidationResultsFrom(invalidValues);
         }
 
-        private ICollection<IValidationResult> ParseValidationResultsFrom(InvalidValue[] invalidValues) {
+        private static ICollection<IValidationResult> ParseValidationResultsFrom(IEnumerable<InvalidValue> invalidValues)
+        {
             ICollection<IValidationResult> validationResults = new Collection<IValidationResult>();
 
-            foreach (InvalidValue invalidValue in invalidValues) {
+            foreach (var invalidValue in invalidValues)
+            {
                 validationResults.Add(new ValidationResult(invalidValue));
             }
 
             return validationResults;
         }
-
-        private ValidatorEngine ValidatorEngine {
-            get {
-                return validator;
-            }
-        }
-
-        private static readonly ValidatorEngine validator;
     }
 }
