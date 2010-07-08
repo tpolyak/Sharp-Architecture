@@ -12,6 +12,8 @@ namespace SharpArch.Web.NHibernate
         /// </summary>
         public TransactionAttribute() { }
 
+        public bool RollbackOnModelStateError { get;  set; }
+
         /// <summary>
         /// Overrides the default <see cref="factoryKey" /> with a specific factory key
         /// </summary>
@@ -28,27 +30,27 @@ namespace SharpArch.Web.NHibernate
 
             ITransaction currentTransaction = 
                 NHibernateSession.CurrentFor(effectiveFactoryKey).Transaction;
-
+                
             if (currentTransaction.IsActive) {
-                if ((filterContext.Exception != null) && (filterContext.ExceptionHandled))
+                if (((filterContext.Exception != null) && (filterContext.ExceptionHandled)) || ShouldRollback(filterContext))
                 {
                     currentTransaction.Rollback();
                 }
             }
         }
 
-        public override void OnResultExecuted(ResultExecutedContext filterContext)
+	    public override void OnResultExecuted(ResultExecutedContext filterContext)
         {
             string effectiveFactoryKey = GetEffectiveFactoryKey();
 
             ITransaction currentTransaction =
                 NHibernateSession.CurrentFor(effectiveFactoryKey).Transaction;
-
+            
             base.OnResultExecuted(filterContext);
             try
             {
                 if (currentTransaction.IsActive) {
-                    if ((filterContext.Exception != null) && (!filterContext.ExceptionHandled))
+                    if (((filterContext.Exception != null) && (!filterContext.ExceptionHandled)) || ShouldRollback(filterContext))
                     {
                         currentTransaction.Rollback();
                     }
@@ -68,6 +70,11 @@ namespace SharpArch.Web.NHibernate
             return String.IsNullOrEmpty(factoryKey)
                     ? NHibernateSession.DefaultFactoryKey
                     : factoryKey;
+        }
+
+        private bool ShouldRollback(ControllerContext filterContext)
+        {
+            return RollbackOnModelStateError && !filterContext.Controller.ViewData.ModelState.IsValid;
         }
 
         /// <summary>

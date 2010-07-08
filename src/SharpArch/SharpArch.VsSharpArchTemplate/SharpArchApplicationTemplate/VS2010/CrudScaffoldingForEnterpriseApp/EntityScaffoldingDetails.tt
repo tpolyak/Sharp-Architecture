@@ -1,5 +1,5 @@
-<#@ assembly name="SharpArch.Core.dll" #>
-<#@ assembly name="Inflector.Net.dll" #>
+<#@ assembly name="$(SolutionDir)lib\SharpArch.dll" #>
+<#@ assembly name="$(SolutionDir)lib\Inflector.Net.dll" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System" #>
 <#@ import namespace="SharpArch.Core" #>
@@ -41,7 +41,7 @@ public class EntityScaffoldingDetails {
 	public string EntityNamePluralCamelCase {
 		get { return EntityNamePlural.Substring(0, 1).ToLower() + EntityNamePlural.Substring(1); }
 	}
-	
+
     /// <summary>
 	/// An array of namespace qualifiers, set in the constructor
     /// </summary>
@@ -49,9 +49,9 @@ public class EntityScaffoldingDetails {
 		get { return namespaceHierarchy; }
 		protected set { namespaceHierarchy = value; }
 	}
-	
+
     /// <summary>
-	/// Returns the namespace of the entity delimitted.  Note that it adds the delimiter to the end 
+	/// Returns the namespace of the entity delimitted.  Note that it adds the delimiter to the end
 	/// before returning.  What follows are entity name => namespace results, assuming you pass in "." as the delimiter.
 	/// Horse => ""
 	/// Farm.Horse => "Farm."
@@ -60,13 +60,13 @@ public class EntityScaffoldingDetails {
 	public string GetNamespaceDelimitedWith(string delimiter) {
 		if (NamespaceHierarchy == null)
 			return "";
-		
+
 		string delimitedNamespace = NamespaceHierarchy[0];
-		
+
 		for (int i=1; i < NamespaceHierarchy.Length; i++) {
 			delimitedNamespace += delimiter + NamespaceHierarchy[i];
 		}
-		
+
 		return delimitedNamespace + delimiter;
 	}
 
@@ -85,14 +85,14 @@ public class EntityScaffoldingDetails {
 		get { return entityProperties; }
 		protected set { entityProperties = value; }
 	}
-	
+
 	public bool HasAnyDomainSignatureProperties {
 		get {
 			foreach (EntityProperty entityProperty in EntityProperties) {
 				if (entityProperty.IsPartOfDomainSignature)
 					return true;
 			}
-		
+
 			return false;
 		}
 	}
@@ -119,7 +119,7 @@ public class EntityScaffoldingDetails {
 			EntityName = namespacedEntityName;
 		}
 	}
-	
+
 	private string entityName;
 	private ArtifactToGenerate[] artifactsToGenerate;
 	private string[] namespaceHierarchy;
@@ -127,10 +127,10 @@ public class EntityScaffoldingDetails {
 }
 
 public class EntityProperty {
-	public EntityProperty(string propertyName, string typeName, object defaultValueForTests) 
+	public EntityProperty(string propertyName, string typeName, object defaultValueForTests)
 		: this(propertyName, typeName, defaultValueForTests, null, false) { }
 
-	public EntityProperty(string propertyName, string typeName, object defaultValueForTests, string propertyAttributes) 
+	public EntityProperty(string propertyName, string typeName, object defaultValueForTests, string propertyAttributes)
 		: this(propertyName, typeName, defaultValueForTests, propertyAttributes, false) { }
 
     /// <summary>
@@ -146,14 +146,14 @@ public class EntityProperty {
     /// Default value that will assigned to the property within unit tests; e.g., "Whatever", 2, null
     /// </param>
     /// <param name="propertyAttributes">
-    /// Allows one to provide attribute details which will appear above the property name. E.g., if you want the 
+    /// Allows one to provide attribute details which will appear above the property name. E.g., if you want the
     /// property to be not-null, pass the following as the propertyAttributes value: "[NotNull(Message=\"May not be null\")]"
     /// Another example would include "[JsonProperty]".  Don't include "[DomainSignature]" in this property as that
     /// will get taken care of with the isPartOfDomainSignature parameter.
     /// </param>
     /// <param name="isPartOfDomainSignature">
-	/// If set to true, then gets the domain signature attribute added to it.  An entity does not 
-	/// have to have any domain signature properties; if none exist, only the Id will be used in the 
+	/// If set to true, then gets the domain signature attribute added to it.  An entity does not
+	/// have to have any domain signature properties; if none exist, only the Id will be used in the
 	/// comparison of one entity to another.
     /// </param>
 	public EntityProperty(string propertyName, string typeName, object defaultValueForTests, string propertyAttributes, bool isPartOfDomainSignature) {
@@ -180,7 +180,7 @@ public class EntityProperty {
 
 	public string GetDefaultValueForTests() {
 		string defaultValue = "null";
-		
+
 		if (defaultValueForTests != null) {
 			if (TypeName == "string") {
 				return "\"" + defaultValueForTests.ToString() + "\"";
@@ -201,7 +201,7 @@ public class EntityProperty {
 				return defaultValueForTests.ToString();
 			}
 		}
-		
+
 		return defaultValue;
 	}
 

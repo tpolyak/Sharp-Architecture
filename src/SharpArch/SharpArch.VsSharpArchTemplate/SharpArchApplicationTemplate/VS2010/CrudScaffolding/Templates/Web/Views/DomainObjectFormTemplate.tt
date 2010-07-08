@@ -23,6 +23,7 @@ public class DomainObjectFormTemplate : BaseTemplate
 
 <%= Html.ValidationSummary() %>
 
+<% Html.EnableClientValidation(); %>
 <% using (Html.BeginForm()) { %>
     <%= Html.AntiForgeryToken() %>
     <%= Html.Hidden("<#= EntityScaffoldingDetails.EntityName #>.Id", (ViewData.Model.<#= EntityScaffoldingDetails.EntityName #> != null) ? ViewData.Model.<#= EntityScaffoldingDetails.EntityName #>.Id : 0)%>
@@ -32,12 +33,9 @@ public class DomainObjectFormTemplate : BaseTemplate
 	foreach (EntityProperty property in EntityScaffoldingDetails.EntityProperties) {
 	#>
 	<li>
-			<label for="<#= EntityScaffoldingDetails.EntityName #>_<#= property.PropertyName #>"><#= property.PropertyName #>:</label>
-			<div>
-				<%= Html.TextBox("<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>", 
-					(ViewData.Model.<#= EntityScaffoldingDetails.EntityName #> != null) ? ViewData.Model.<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>.ToString() : "")%>
-			</div>
-			<%= Html.ValidationMessage("<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>")%>
+			<%= Html.LabelFor(m => m.<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>) %>
+			<div><%= Html.TextBoxFor(m => m.<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>) %></div>
+			<%= Html.ValidationMessageFor(m => m.<#= EntityScaffoldingDetails.EntityName #>.<#= property.PropertyName #>) %>
 		</li>
 	<#+
 	}

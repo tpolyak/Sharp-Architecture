@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -89,29 +89,9 @@
 			<SpecificVersion>False</SpecificVersion>
 			<HintPath>..\..\tools\lib\Rhino.Mocks.dll</HintPath>
 		  </Reference>
-		  <Reference Include="SharpArch.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+		  <Reference Include="SharpArch, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
 			<SpecificVersion>False</SpecificVersion>
-			<HintPath>..\..\lib\SharpArch.Core.dll</HintPath>
-		  </Reference>
-		  <Reference Include="SharpArch.Core.NHibernateValidator, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b5f559ae0ac4e006, processorArchitecture=MSIL">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>..\..\lib\SharpArch.Core.NHibernateValidator.dll</HintPath>
-		  </Reference>
-		  <Reference Include="SharpArch.Data, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>..\..\lib\SharpArch.Data.dll</HintPath>
-		  </Reference>
-		  <Reference Include="SharpArch.Testing, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>..\..\tools\lib\SharpArch.Testing.dll</HintPath>
-		  </Reference>
-		  <Reference Include="SharpArch.Testing.NUnit, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>..\..\tools\lib\SharpArch.Testing.NUnit.dll</HintPath>
-		  </Reference>
-		  <Reference Include="SharpArch.Web, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-			<SpecificVersion>False</SpecificVersion>
-			<HintPath>..\..\lib\SharpArch.Web.dll</HintPath>
+			<HintPath>..\..\lib\SharpArch.dll</HintPath>
 		  </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core">
