@@ -1,12 +1,15 @@
-﻿using NHibernate;
-using System.Collections.Generic;
-
-namespace SharpArch.Data.NHibernate
+﻿namespace SharpArch.Data.NHibernate
 {
+    using System.Collections.Generic;
+
+    using global::NHibernate;
+
     public interface ISessionStorage
     {
-		ISession GetSessionForKey(string factoryKey);
-		void SetSessionForKey(string factoryKey, ISession session);
-		IEnumerable<ISession> GetAllSessions();
+        IEnumerable<ISession> GetAllSessions();
+
+        ISession GetSessionForKey(string factoryKey);
+
+        void SetSessionForKey(string factoryKey, ISession session);
     }
 }

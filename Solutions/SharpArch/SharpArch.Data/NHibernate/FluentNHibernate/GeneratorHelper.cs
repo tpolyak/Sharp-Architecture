@@ -1,30 +1,27 @@
-﻿using System.Reflection;
-using System.Collections.Generic;
-using System;
-
-namespace SharpArch.Data.NHibernate.FluentNHibernate
+﻿namespace SharpArch.Data.NHibernate.FluentNHibernate
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
     /// <summary>
-    /// An optional helper class used to view the mapping file generated from a fluent nhibernate class mapper
+    ///     An optional helper class used to view the mapping file generated from a fluent nhibernate class mapper
     /// </summary>
-    /// <remarks>This is not necessary for Fluent Nhibernate to function properly.</remarks>
+    /// <remarks>
+    ///     This is not necessary for Fluent Nhibernate to function properly.
+    /// </remarks>
     public class GeneratorHelper
     {
-        public static IList<IMapGenerator> GetMapGenerators() {
-            IList<IMapGenerator> generators = new List<IMapGenerator>();
-            Assembly assembly = Assembly.GetAssembly(typeof(IMapGenerator));
+        private const string GeneratorInterface = "IMapGenerator";
 
-            foreach (Type type in assembly.GetTypes()) {
-                if (null == type.GetInterface(GENERATOR_INTERFACE)) continue;
-                var instance = Activator.CreateInstance(type) as IMapGenerator;
+        public static IList<IMapGenerator> GetMapGenerators()
+        {
+            var assembly = Assembly.GetAssembly(typeof(IMapGenerator));
 
-                if (instance != null)
-                    generators.Add(instance);
-            }
-
-            return generators;
+            return (from type in assembly.GetTypes()
+                    where null != type.GetInterface(GeneratorInterface)
+                    select Activator.CreateInstance(type)).OfType<IMapGenerator>().ToList();
         }
-
-        private const string GENERATOR_INTERFACE = "IMapGenerator";
     }
 }

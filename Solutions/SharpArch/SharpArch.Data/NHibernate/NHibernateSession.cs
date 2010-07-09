@@ -1,420 +1,466 @@
-﻿using System.Collections.Generic;
-using NHibernate;
-using NHibernate.Cfg;
-using NHibernate.Validator.Engine;
-using NHibernate.Validator.Cfg;
-using SharpArch.Core;
-using FluentNHibernate;
-using FluentNHibernate.Cfg;
-using System.Reflection;
-using FluentNHibernate.Automapping;
-using System.Linq;
-using FluentNHibernate.Cfg.Db;
-using System;
-using System.IO;
-
-namespace SharpArch.Data.NHibernate
+﻿namespace SharpArch.Data.NHibernate
 {
-	public static class NHibernateSession
-	{
-		#region Init() overloads
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Reflection;
 
-		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies)
-		{
-			return Init(storage, mappingAssemblies, null, null, null, null, null);
-		}
+    using global::FluentNHibernate.Automapping;
+    using global::FluentNHibernate.Cfg;
+    using global::FluentNHibernate.Cfg.Db;
 
-		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile)
-		{
-			return Init(storage, mappingAssemblies, null, cfgFile, null, null, null);
-		}
+    using global::NHibernate;
+    using global::NHibernate.Cfg;
+    using global::NHibernate.Validator.Cfg;
+    using global::NHibernate.Validator.Engine;
 
-		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, IDictionary<string, string> cfgProperties)
-		{
-			return Init(storage, mappingAssemblies, null, null, cfgProperties, null, null);
-		}
+    using SharpArch.Core;
 
-		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile, string validatorCfgFile)
-		{
-			return Init(storage, mappingAssemblies, null, cfgFile, null, validatorCfgFile, null);
-		}
+    public static class NHibernateSession
+    {
+        /// <summary>
+        ///     The default factory key used if only one database is being communicated with.
+        /// </summary>
+        public static readonly string DefaultFactoryKey = "nhibernate.current_session";
 
-		[CLSCompliant(false)]
-		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel)
-		{
-			return Init(storage, mappingAssemblies, autoPersistenceModel, null, null, null, null);
-		}
+        /// <summary>
+        ///     Maintains a dictionary of NHibernate session factories, one per database.  The key is 
+        ///     the "factory key" used to look up the associated database, and used to decorate respective
+        ///     repositories.  If only one database is being used, this dictionary contains a single
+        ///     factory with a key of <see cref = "DefaultFactoryKey" />.
+        /// </summary>
+        private static readonly Dictionary<string, ISessionFactory> SessionFactories =
+            new Dictionary<string, ISessionFactory>();
 
-		[CLSCompliant(false)]
-		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, string cfgFile)
-		{
-			return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, null, null);
-		}
+        private static IInterceptor registeredInterceptor;
 
-		[CLSCompliant(false)]
-		public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel, IDictionary<string, string> cfgProperties)
-		{
-			return Init(storage, mappingAssemblies, autoPersistenceModel, null, cfgProperties, null, null);
-		}
+        private static INHibernateConfigurationCache configurationCache;
 
-		[CLSCompliant(false)]
-		public static Configuration Init(
-			ISessionStorage storage, 
-			string[] mappingAssemblies,
-			AutoPersistenceModel autoPersistenceModel,
-			string cfgFile,
-			string validatorCfgFile)
-		{
-			return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile, null);
-		}
-
-		[CLSCompliant(false)]
-		public static Configuration Init(
-			ISessionStorage storage, 
-			string[] mappingAssemblies,
-			AutoPersistenceModel autoPersistenceModel,
-			string cfgFile,
-			IDictionary<string, string> cfgProperties,
-			string validatorCfgFile)
-		{
-			return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, null);
-		}
-
-		[CLSCompliant(false)]
-		public static Configuration Init(
-			ISessionStorage storage,
-			string[] mappingAssemblies,
-			AutoPersistenceModel autoPersistenceModel,
-			string cfgFile,
-			IDictionary<string, string> cfgProperties,
-			string validatorCfgFile,
-			IPersistenceConfigurer persistenceConfigurer)
-		{
-			InitStorage(storage);
-            try {
-                return AddConfiguration(DefaultFactoryKey, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, persistenceConfigurer);
+        /// <summary>
+        ///     Provides access to <see cref = "INHibernateConfigurationCache" /> object.
+        /// </summary>
+        /// <exception cref = "InvalidOperationException">
+        /// Thrown on Set if the Init method has already been called and the 
+        /// NHibernateSession.Storage property is not null.
+        /// </exception>
+        public static INHibernateConfigurationCache ConfigurationCache
+        {
+            get
+            {
+                return configurationCache;
             }
-            catch {
-                // If this NHibernate config throws an exception, null the Storage reference so 
-                // the config can be corrected without having to restart the web application.
-                Storage = null;
-                throw;
+
+            set
+            {
+                if (Storage != null)
+                {
+                    throw new InvalidOperationException("Cannot set the ConfigurationCache property after calling Init");
+                }
+
+                configurationCache = value;
             }
-		}
+        }
 
-		#endregion
+        /// <summary>
+        ///     Used to get the current NHibernate session if you're communicating with a single database.
+        ///     When communicating with multiple databases, invoke <see cref = "CurrentFor" /> instead.
+        /// </summary>
+        public static ISession Current
+        {
+            get
+            {
+                Check.Require(
+                    !IsConfiguredForMultipleDatabases(), 
+                    "The NHibernateSession.Current property may " +
+                    "only be invoked if you only have one NHibernate session factory; i.e., you're " +
+                    "only communicating with one database.  Since you're configured communications " +
+                    "with multiple databases, you should instead call CurrentFor(string factoryKey)");
 
-		public static void InitStorage(ISessionStorage storage)
-		{
-			Check.Require(storage != null, "storage mechanism was null but must be provided");
-			Check.Require(Storage == null, "A storage mechanism has already been configured for this application");
-			Storage = storage;
-		}
+                return CurrentFor(DefaultFactoryKey);
+            }
+        }
+
+        /// <summary>
+        ///     An application-specific implementation of ISessionStorage must be setup either thru
+        ///     <see cref = "InitStorage" /> or one of the <see cref = "Init" /> overloads.
+        /// </summary>
+        public static ISessionStorage Storage { get; set; }
+
+        /// <summary>
+        ///     Provides an access to configured<see cref = "ValidatorEngine" />.
+        /// </summary>
+        /// <value>The validator engine.</value>
+        public static ValidatorEngine ValidatorEngine { get; set; }
 
         [CLSCompliant(false)]
         public static Configuration AddConfiguration(
-            string factoryKey,
-            string[] mappingAssemblies,
-            AutoPersistenceModel autoPersistenceModel,
-            string cfgFile,
-            IDictionary<string, string> cfgProperties,
-            string validatorCfgFile,
-            IPersistenceConfigurer persistenceConfigurer) {
-
+            string factoryKey, 
+            string[] mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            string cfgFile, 
+            IDictionary<string, string> cfgProperties, 
+            string validatorCfgFile, 
+            IPersistenceConfigurer persistenceConfigurer)
+        {
             Configuration config;
-            INHibernateConfigurationCache configCache = NHibernateSession.ConfigurationCache;
-            if (configCache != null) {
+            var configCache = ConfigurationCache;
+            if (configCache != null)
+            {
                 config = configCache.LoadConfiguration(factoryKey, cfgFile, mappingAssemblies);
-                if (config != null) {
-                    return AddConfiguration(
-                        factoryKey,
-                        config.BuildSessionFactory(),
-                        config,
-                        validatorCfgFile);
+                if (config != null)
+                {
+                    return AddConfiguration(factoryKey, config.BuildSessionFactory(), config, validatorCfgFile);
                 }
             }
 
             config = AddConfiguration(
-                factoryKey,
-                mappingAssemblies,
-                autoPersistenceModel,
-                ConfigureNHibernate(cfgFile, cfgProperties),
-                validatorCfgFile,
+                factoryKey, 
+                mappingAssemblies, 
+                autoPersistenceModel, 
+                ConfigureNHibernate(cfgFile, cfgProperties), 
+                validatorCfgFile, 
                 persistenceConfigurer);
 
-            if (configCache != null) {
+            if (configCache != null)
+            {
                 configCache.SaveConfiguration(factoryKey, config);
             }
 
             return config;
         }
 
-		[CLSCompliant(false)]
-		public static Configuration AddConfiguration(
-			string factoryKey,
-			string[] mappingAssemblies,
-			AutoPersistenceModel autoPersistenceModel,
-			Configuration cfg,
-			string validatorCfgFile,
-			IPersistenceConfigurer persistenceConfigurer)
-		{
-			ISessionFactory sessionFactory = CreateSessionFactoryFor(
-				mappingAssemblies, autoPersistenceModel, cfg, persistenceConfigurer);
+        [CLSCompliant(false)]
+        public static Configuration AddConfiguration(
+            string factoryKey, 
+            string[] mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            Configuration cfg, 
+            string validatorCfgFile, 
+            IPersistenceConfigurer persistenceConfigurer)
+        {
+            var sessionFactory = CreateSessionFactoryFor(
+                mappingAssemblies, autoPersistenceModel, cfg, persistenceConfigurer);
 
-			return AddConfiguration(factoryKey, sessionFactory, cfg, validatorCfgFile);
-		}
+            return AddConfiguration(factoryKey, sessionFactory, cfg, validatorCfgFile);
+        }
 
-		[CLSCompliant(false)]
-		public static Configuration AddConfiguration(
-			string factoryKey,
-			ISessionFactory sessionFactory,
-			Configuration cfg,
-			string validatorCfgFile)
-		{
-			Check.Require(!sessionFactories.ContainsKey(factoryKey),
-				"A session factory has already been configured with the key of " + factoryKey);
+        [CLSCompliant(false)]
+        public static Configuration AddConfiguration(
+            string factoryKey, ISessionFactory sessionFactory, Configuration cfg, string validatorCfgFile)
+        {
+            Check.Require(
+                !SessionFactories.ContainsKey(factoryKey), 
+                "A session factory has already been configured with the key of " + factoryKey);
 
-			ConfigureNHibernateValidator(cfg, validatorCfgFile);
-			sessionFactories.Add(factoryKey, sessionFactory);
+            ConfigureNHibernateValidator(cfg, validatorCfgFile);
+            SessionFactories.Add(factoryKey, sessionFactory);
 
-			return cfg;
-		}
-
-		/// <summary>
-		/// Provides an access to configured<see cref="ValidatorEngine"/>.
-		/// </summary>
-		/// <value>The validator engine.</value>
-		public static ValidatorEngine ValidatorEngine { get; set; }
+            return cfg;
+        }
 
         /// <summary>
-        /// Provides access to <see cref="INHibernateConfigurationCache"/> object.
+        ///     This method is used by application-specific session storage implementations
+        ///     and unit tests. Its job is to walk thru existing cached sessions and Close() each one.
         /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown on Set if the Init method has 
-        /// already been called and the NHibernateSession.Storage property is not null.</exception>
-        public static INHibernateConfigurationCache ConfigurationCache {
-            get { return configurationCache; }
-            set {
-                if (Storage != null) {
-                    throw new InvalidOperationException("Cannot set the ConfigurationCache property after calling Init");
+        public static void CloseAllSessions()
+        {
+            if (Storage != null)
+            {
+                foreach (var session in Storage.GetAllSessions())
+                {
+                    if (session.IsOpen)
+                    {
+                        session.Close();
+                    }
                 }
-                configurationCache = value;
             }
         }
-        private static INHibernateConfigurationCache configurationCache;
 
-		/// <summary>
-		/// Used to get the current NHibernate session if you're communicating with a single database.
-		/// When communicating with multiple databases, invoke <see cref="CurrentFor()" /> instead.
-		/// </summary>
-		public static ISession Current
-		{
-			get
-			{
-				Check.Require(!IsConfiguredForMultipleDatabases(),
-					"The NHibernateSession.Current property may " +
-					"only be invoked if you only have one NHibernate session factory; i.e., you're " +
-					"only communicating with one database.  Since you're configured communications " +
-					"with multiple databases, you should instead call CurrentFor(string factoryKey)");
+        /// <summary>
+        ///     Used to get the current NHibernate session associated with a factory key; i.e., the key 
+        ///     associated with an NHibernate session factory for a specific database.
+        /// 
+        ///     If you're only communicating with one database, you should call <see cref = "Current" /> instead,
+        ///     although you're certainly welcome to call this if you have the factory key available.
+        /// </summary>
+        public static ISession CurrentFor(string factoryKey)
+        {
+            Check.Require(!string.IsNullOrEmpty(factoryKey), "factoryKey may not be null or empty");
+            Check.Require(Storage != null, "An ISessionStorage has not been configured");
+            Check.Require(
+                SessionFactories.ContainsKey(factoryKey), 
+                "An ISessionFactory does not exist with a factory key of " + factoryKey);
 
-				return CurrentFor(DefaultFactoryKey);
-			}
-		}
+            var session = Storage.GetSessionForKey(factoryKey);
 
-		public static void RegisterInterceptor(IInterceptor interceptor)
-		{
-			Check.Require(interceptor != null, "interceptor may not be null");
+            if (session == null)
+            {
+                if (registeredInterceptor != null)
+                {
+                    session = SessionFactories[factoryKey].OpenSession(registeredInterceptor);
+                }
+                else
+                {
+                    session = SessionFactories[factoryKey].OpenSession();
+                }
 
-			RegisteredInterceptor = interceptor;
-		}
+                Storage.SetSessionForKey(factoryKey, session);
+            }
 
-		public static bool IsConfiguredForMultipleDatabases()
-		{
-			return sessionFactories.Count > 1;
-		}
+            return session;
+        }
 
-		/// <summary>
-		/// Used to get the current NHibernate session associated with a factory key; i.e., the key 
-		/// associated with an NHibernate session factory for a specific database.
-		/// 
-		/// If you're only communicating with one database, you should call <see cref="Current" /> instead,
-		/// although you're certainly welcome to call this if you have the factory key available.
-		/// </summary>
-		public static ISession CurrentFor(string factoryKey)
-		{
-			Check.Require(!string.IsNullOrEmpty(factoryKey), "factoryKey may not be null or empty");
-			Check.Require(Storage != null, "An ISessionStorage has not been configured");
-			Check.Require(sessionFactories.ContainsKey(factoryKey), "An ISessionFactory does not exist with a factory key of " + factoryKey);
+        /// <summary>
+        ///     Returns the default ISessionFactory using the DefaultFactoryKey.
+        /// </summary>
+        public static ISessionFactory GetDefaultSessionFactory()
+        {
+            return GetSessionFactoryFor(DefaultFactoryKey);
+        }
 
-			ISession session = Storage.GetSessionForKey(factoryKey);
+        /// <summary>
+        ///     Return an ISessionFactory based on the specified factoryKey.
+        /// </summary>
+        public static ISessionFactory GetSessionFactoryFor(string factoryKey)
+        {
+            if (!SessionFactories.ContainsKey(factoryKey))
+            {
+                return null;
+            }
 
-			if (session == null)
-			{
-				if (RegisteredInterceptor != null)
-				{
-					session = sessionFactories[factoryKey].OpenSession(RegisteredInterceptor);
-				}
-				else
-				{
-					session = sessionFactories[factoryKey].OpenSession();
-				}
+            return SessionFactories[factoryKey];
+        }
 
-				Storage.SetSessionForKey(factoryKey, session);
-			}
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies)
+        {
+            return Init(storage, mappingAssemblies, null, null, null, null, null);
+        }
 
-			return session;
-		}
+        public static Configuration Init(ISessionStorage storage, string[] mappingAssemblies, string cfgFile)
+        {
+            return Init(storage, mappingAssemblies, null, cfgFile, null, null, null);
+        }
 
-		/// <summary>
-		/// This method is used by application-specific session storage implementations
-		/// and unit tests. Its job is to walk thru existing cached sessions and Close() each one.
-		/// </summary>
-		public static void CloseAllSessions()
-		{
-            if(Storage != null)
-			    foreach (ISession session in Storage.GetAllSessions())
-			    {
-				    if (session.IsOpen)
-					    session.Close();
-			    }
-		}
+        public static Configuration Init(
+            ISessionStorage storage, string[] mappingAssemblies, IDictionary<string, string> cfgProperties)
+        {
+            return Init(storage, mappingAssemblies, null, null, cfgProperties, null, null);
+        }
 
-		/// <summary>
-		/// To facilitate unit testing, this method will reset this object back to its
-		/// original state before it was configured.
-		/// </summary>
-		public static void Reset()
-		{
-			if (Storage != null)
-			{
-				foreach (ISession session in Storage.GetAllSessions())
-				{
-					session.Dispose();
-				}
-			}
+        public static Configuration Init(
+            ISessionStorage storage, string[] mappingAssemblies, string cfgFile, string validatorCfgFile)
+        {
+            return Init(storage, mappingAssemblies, null, cfgFile, null, validatorCfgFile, null);
+        }
 
-			sessionFactories.Clear();
+        [CLSCompliant(false)]
+        public static Configuration Init(
+            ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel)
+        {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, null, null, null, null);
+        }
 
-			Storage = null;
-			RegisteredInterceptor = null;
-			ValidatorEngine = null;
-			ConfigurationCache = null;
-		}
+        [CLSCompliant(false)]
+        public static Configuration Init(
+            ISessionStorage storage, 
+            string[] mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            string cfgFile)
+        {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, null, null);
+        }
 
-		/// <summary>
-		/// Return an ISessionFactory based on the specified factoryKey.
-		/// </summary>
-		public static ISessionFactory GetSessionFactoryFor(string factoryKey)
-		{
-			if (!sessionFactories.ContainsKey(factoryKey))
-				return null;
+        [CLSCompliant(false)]
+        public static Configuration Init(
+            ISessionStorage storage, 
+            string[] mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            IDictionary<string, string> cfgProperties)
+        {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, null, cfgProperties, null, null);
+        }
 
-			return sessionFactories[factoryKey];
-		}
+        [CLSCompliant(false)]
+        public static Configuration Init(
+            ISessionStorage storage, 
+            string[] mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            string cfgFile, 
+            string validatorCfgFile)
+        {
+            return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile, null);
+        }
 
-		public static void RemoveSessionFactoryFor(string factoryKey) {
-			if (GetSessionFactoryFor(factoryKey) != null) {
-				sessionFactories.Remove(factoryKey);
-			}
-		}
+        [CLSCompliant(false)]
+        public static Configuration Init(
+            ISessionStorage storage, 
+            string[] mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            string cfgFile, 
+            IDictionary<string, string> cfgProperties, 
+            string validatorCfgFile)
+        {
+            return Init(
+                storage, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, null);
+        }
 
-		/// <summary>
-		/// Returns the default ISessionFactory using the DefaultFactoryKey.
-		/// </summary>
-		public static ISessionFactory GetDefaultSessionFactory()
-		{
-			return GetSessionFactoryFor(DefaultFactoryKey);
-		}
+        [CLSCompliant(false)]
+        public static Configuration Init(
+            ISessionStorage storage, 
+            string[] mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            string cfgFile, 
+            IDictionary<string, string> cfgProperties, 
+            string validatorCfgFile, 
+            IPersistenceConfigurer persistenceConfigurer)
+        {
+            InitStorage(storage);
+            try
+            {
+                return AddConfiguration(
+                    DefaultFactoryKey, 
+                    mappingAssemblies, 
+                    autoPersistenceModel, 
+                    cfgFile, 
+                    cfgProperties, 
+                    validatorCfgFile, 
+                    persistenceConfigurer);
+            }
+            catch
+            {
+                // If this NHibernate config throws an exception, null the Storage reference so 
+                // the config can be corrected without having to restart the web application.
+                Storage = null;
+                throw;
+            }
+        }
 
-		/// <summary>
-		/// The default factory key used if only one database is being communicated with.
-		/// </summary>
-		public static readonly string DefaultFactoryKey = "nhibernate.current_session";
+        public static void InitStorage(ISessionStorage storage)
+        {
+            Check.Require(storage != null, "storage mechanism was null but must be provided");
+            Check.Require(Storage == null, "A storage mechanism has already been configured for this application");
+            Storage = storage;
+        }
 
-		/// <summary>
-		/// An application-specific implementation of ISessionStorage must be setup either thru
-		/// <see cref="InitStorage" /> or one of the <see cref="Init" /> overloads. 
-		/// </summary>
-		public static ISessionStorage Storage { get; set; }
+        public static bool IsConfiguredForMultipleDatabases()
+        {
+            return SessionFactories.Count > 1;
+        }
 
-		private static ISessionFactory CreateSessionFactoryFor(
-			string[] mappingAssemblies,
-			AutoPersistenceModel autoPersistenceModel,
-			Configuration cfg,
-			IPersistenceConfigurer persistenceConfigurer)
-		{
-			FluentConfiguration fluentConfiguration = Fluently.Configure(cfg);
+        public static void RegisterInterceptor(IInterceptor interceptor)
+        {
+            Check.Require(interceptor != null, "interceptor may not be null");
 
-			if (persistenceConfigurer != null)
-			{
-				fluentConfiguration.Database(persistenceConfigurer);
-			}
+            registeredInterceptor = interceptor;
+        }
 
-			fluentConfiguration.Mappings(m =>
-			{
-				foreach (var mappingAssembly in mappingAssemblies)
-				{
-					var assembly = Assembly.LoadFrom(MakeLoadReadyAssemblyName(mappingAssembly));
+        public static void RemoveSessionFactoryFor(string factoryKey)
+        {
+            if (GetSessionFactoryFor(factoryKey) != null)
+            {
+                SessionFactories.Remove(factoryKey);
+            }
+        }
 
-					m.HbmMappings.AddFromAssembly(assembly);
-					m.FluentMappings.AddFromAssembly(assembly)
-						.Conventions.AddAssembly(assembly);
-				}
+        /// <summary>
+        ///     To facilitate unit testing, this method will reset this object back to its
+        ///     original state before it was configured.
+        /// </summary>
+        public static void Reset()
+        {
+            if (Storage != null)
+            {
+                foreach (var session in Storage.GetAllSessions())
+                {
+                    session.Dispose();
+                }
+            }
 
-				if (autoPersistenceModel != null)
-				{
-					m.AutoMappings.Add(autoPersistenceModel);
-				}
-			});
+            SessionFactories.Clear();
 
-			return fluentConfiguration.BuildSessionFactory();
-		}
+            Storage = null;
+            registeredInterceptor = null;
+            ValidatorEngine = null;
+            ConfigurationCache = null;
+        }
 
-		private static string MakeLoadReadyAssemblyName(string assemblyName)
-		{
-			return (assemblyName.IndexOf(".dll") == -1)
-				? assemblyName.Trim() + ".dll"
-				: assemblyName.Trim();
-		}
+        private static Configuration ConfigureNHibernate(string cfgFile, IDictionary<string, string> cfgProperties)
+        {
+            var cfg = new Configuration();
 
-		private static Configuration ConfigureNHibernate(string cfgFile, IDictionary<string, string> cfgProperties)
-		{
-			Configuration cfg = new Configuration();
+            if (cfgProperties != null)
+            {
+                cfg.AddProperties(cfgProperties);
+            }
 
-			if (cfgProperties != null)
-				cfg.AddProperties(cfgProperties);
+            if (string.IsNullOrEmpty(cfgFile) == false)
+            {
+                return cfg.Configure(cfgFile);
+            }
 
-			if (string.IsNullOrEmpty(cfgFile) == false)
-				return cfg.Configure(cfgFile);
+            if (File.Exists("Hibernate.cfg.xml"))
+            {
+                return cfg.Configure();
+            }
 
-			if (File.Exists("Hibernate.cfg.xml"))
-				return cfg.Configure();
+            return cfg;
+        }
 
-			return cfg;
-		}
+        private static void ConfigureNHibernateValidator(Configuration cfg, string validatorCfgFile)
+        {
+            var engine = new ValidatorEngine();
 
-		private static void ConfigureNHibernateValidator(Configuration cfg, string validatorCfgFile)
-		{
-			ValidatorEngine engine = new ValidatorEngine();
+            if (string.IsNullOrEmpty(validatorCfgFile))
+            {
+                engine.Configure();
+            }
+            else
+            {
+                engine.Configure(validatorCfgFile);
+            }
 
-			if (string.IsNullOrEmpty(validatorCfgFile))
-				engine.Configure();
-			else
-				engine.Configure(validatorCfgFile);
+            // Register validation listeners with the current NHib configuration
+            cfg.Initialize(engine);
 
-			// Register validation listeners with the current NHib configuration
-			ValidatorInitializer.Initialize(cfg, engine);
+            ValidatorEngine = engine;
+        }
 
-			ValidatorEngine = engine;
-		}
+        private static ISessionFactory CreateSessionFactoryFor(
+            IEnumerable<string> mappingAssemblies, 
+            AutoPersistenceModel autoPersistenceModel, 
+            Configuration cfg, 
+            IPersistenceConfigurer persistenceConfigurer)
+        {
+            var fluentConfiguration = Fluently.Configure(cfg);
 
-		private static IInterceptor RegisteredInterceptor;
+            if (persistenceConfigurer != null)
+            {
+                fluentConfiguration.Database(persistenceConfigurer);
+            }
 
-		/// <summary>
-		/// Maintains a dictionary of NHibernate session factories, one per database.  The key is 
-		/// the "factory key" used to look up the associated database, and used to decorate respective
-		/// repositories.  If only one database is being used, this dictionary contains a single
-		/// factory with a key of <see cref="DefaultFactoryKey" />.
-		/// </summary>
-		private static Dictionary<string, ISessionFactory> sessionFactories = new Dictionary<string, ISessionFactory>();
-	}
+            fluentConfiguration.Mappings(
+                m =>
+                    {
+                        foreach (var mappingAssembly in mappingAssemblies)
+                        {
+                            var assembly = Assembly.LoadFrom(MakeLoadReadyAssemblyName(mappingAssembly));
+
+                            m.HbmMappings.AddFromAssembly(assembly);
+                            m.FluentMappings.AddFromAssembly(assembly).Conventions.AddAssembly(assembly);
+                        }
+
+                        if (autoPersistenceModel != null)
+                        {
+                            m.AutoMappings.Add(autoPersistenceModel);
+                        }
+                    });
+
+            return fluentConfiguration.BuildSessionFactory();
+        }
+
+        private static string MakeLoadReadyAssemblyName(string assemblyName)
+        {
+            return (assemblyName.IndexOf(".dll") == -1) ? assemblyName.Trim() + ".dll" : assemblyName.Trim();
+        }
+    }
 }

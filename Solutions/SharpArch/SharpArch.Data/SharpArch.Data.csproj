@@ -88,8 +88,10 @@
     <Compile Include="NHibernate\NHibernateConfigurationFileCache.cs" />
     <Compile Include="NHibernate\NHibernateInitializer.cs" />
     <Compile Include="NHibernate\NHibernateRepository.cs" />
+    <Compile Include="NHibernate\NHibernateRepositoryWithTypedId.cs" />
     <Compile Include="NHibernate\NHibernateSession.cs" />
     <Compile Include="NHibernate\Repository.cs" />
+    <Compile Include="NHibernate\RepositoryWithTypedId.cs" />
     <Compile Include="NHibernate\SessionFactoryAttribute.cs" />
     <Compile Include="NHibernate\SimpleSessionStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
