@@ -76,7 +76,12 @@
     </Compile>
     <Compile Include="CommonValidatorAdapter\ValidationResult.cs" />
     <Compile Include="CommonValidatorAdapter\Validator.cs" />
+    <Compile Include="HasUniqueDomainSignatureAttribute.cs" />
     <Compile Include="HasUniqueDomainSignatureValidator.cs" />
+    <Compile Include="HasUniqueDomainSignatureWithGuidIdAttribute.cs" />
+    <Compile Include="HasUniqueDomainSignatureWithGuidIdValidator.cs" />
+    <Compile Include="HasUniqueDomainSignatureWithStringIdAttribute.cs" />
+    <Compile Include="HasUniqueDomainSignatureWithStringIdValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidatorProvider\NHibernateValidatorClientValidator.cs" />
     <Compile Include="ValidatorProvider\NHibernateValidatorModelValidator.cs" />

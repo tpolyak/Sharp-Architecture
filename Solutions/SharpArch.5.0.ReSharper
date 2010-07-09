@@ -9,7 +9,6 @@
         <BLANK_LINES_AROUND_SINGLE_LINE_FIELD>1</BLANK_LINES_AROUND_SINGLE_LINE_FIELD>
         <BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE>1</BLANK_LINES_AROUND_SINGLE_LINE_INVOCABLE>
         <BLANK_LINES_BETWEEN_USING_GROUPS>1</BLANK_LINES_BETWEEN_USING_GROUPS>
-        <EXPLICIT_PRIVATE_MODIFIER>False</EXPLICIT_PRIVATE_MODIFIER>
         <FORCE_ATTRIBUTE_STYLE>SEPARATE</FORCE_ATTRIBUTE_STYLE>
         <FORCE_FOR_BRACES_STYLE>ALWAYS_ADD</FORCE_FOR_BRACES_STYLE>
         <FORCE_FOREACH_BRACES_STYLE>ALWAYS_ADD</FORCE_FOREACH_BRACES_STYLE>
@@ -41,6 +40,7 @@
         <PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>False</PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE>
         <PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>False</PLACE_TYPE_CONSTRAINTS_ON_SAME_LINE>
         <PLACE_WHILE_ON_NEW_LINE>True</PLACE_WHILE_ON_NEW_LINE>
+        <REDUNDANT_THIS_QUALIFIER_STYLE>ALWAYS_USE</REDUNDANT_THIS_QUALIFIER_STYLE>
         <SIMPLE_EMBEDDED_STATEMENT_STYLE>ON_SINGLE_LINE</SIMPLE_EMBEDDED_STATEMENT_STYLE>
         <SPACE_AFTER_TYPECAST_PARENTHESES>False</SPACE_AFTER_TYPECAST_PARENTHESES>
         <SPACE_AROUND_MULTIPLICATIVE_OP>True</SPACE_AROUND_MULTIPLICATIVE_OP>
@@ -145,7 +145,6 @@
                 <Static/>
                 <Name/>
             </Sort>
-            <Group Region="Constants and Fields"/>
         </Entry>
 
         <!-- constructors -->
@@ -161,7 +160,6 @@
                 <Kind Order="constructor destructor"/>
                 <Access Order="public internal protected-internal protected private"/>
             </Sort>
-            <Group Region="Constructors and Destructors"/>
         </Entry>
 
         <!-- delegates -->
@@ -174,7 +172,6 @@
                 <Static />
                 <Name/>
             </Sort>
-            <Group Region="Delegates"/>
         </Entry>
 
         <!-- events -->
@@ -187,7 +184,6 @@
                 <Static />
                 <Name/>
             </Sort>
-            <Group Region="Events"/>
         </Entry>
 
         <!-- enum -->
@@ -199,7 +195,6 @@
                 <Access Order="public internal protected-internal protected private" />
                 <Name/>
             </Sort>
-            <Group Region="Enums"/>
         </Entry>
 
         <!-- interfaces -->
@@ -211,7 +206,6 @@
                 <Access Order="public internal protected-internal protected private" />
                 <Name/>
             </Sort>
-            <Group Region="Interfaces"/>
         </Entry>
 
         <!-- properties -->
@@ -224,7 +218,6 @@
                 <Static/>
                 <Name/>
             </Sort>
-            <Group Region="Properties"/>
         </Entry>
 
         <!-- indexers -->
@@ -238,7 +231,6 @@
                 <Static/>
                 <Name/>
             </Sort>
-            <Group Region="Indexers"/>
         </Entry>
 
         <!-- operator -->
@@ -251,7 +243,6 @@
                 <Static/>
                 <Name/>
             </Sort>
-            <Group Region="Operators"/>
         </Entry>
 
         <!-- public methods -->
@@ -267,7 +258,6 @@
                 <Static/>
                 <Name/>
             </Sort>
-            <Group Region="Public Methods"/>
         </Entry>
 
         <!-- Implemented Interfaces -->
@@ -284,9 +274,6 @@
                 <Static/>
                 <Name/>
             </Sort>
-            <Group Region="Implemented Interfaces">
-                <ImplementsInterface Region="${ImplementsInterface}" />
-            </Group>
         </Entry>
 
         <!-- other methods -->
@@ -299,7 +286,6 @@
                 <Static/>
                 <Name/>
             </Sort>
-            <Group Region="Methods"/>
         </Entry>
 
         <!-- Nested structs -->

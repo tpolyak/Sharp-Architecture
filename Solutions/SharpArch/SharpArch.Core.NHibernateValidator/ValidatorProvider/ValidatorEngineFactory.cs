@@ -1,20 +1,21 @@
-using NHibernate.Validator.Engine;
-using NHibernate.Validator.Event;
-
 namespace SharpArch.Core.NHibernateValidator.ValidatorProvider
 {
+    using NHibernate.Validator.Cfg;
+    using NHibernate.Validator.Engine;
+    using NHibernate.Validator.Event;
+
     internal class ValidatorEngineFactory
     {
         public static ValidatorEngine ValidatorEngine
         {
             get
             {
-                if (NHibernate.Validator.Cfg.Environment.SharedEngineProvider == null)
+                if (Environment.SharedEngineProvider == null)
                 {
-                    NHibernate.Validator.Cfg.Environment.SharedEngineProvider = new NHibernateSharedEngineProvider();
+                    Environment.SharedEngineProvider = new NHibernateSharedEngineProvider();
                 }
 
-                return NHibernate.Validator.Cfg.Environment.SharedEngineProvider.GetEngine();
+                return Environment.SharedEngineProvider.GetEngine();
             }
         }
     }

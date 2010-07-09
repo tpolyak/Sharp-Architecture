@@ -1,31 +1,37 @@
-﻿using NHibernate.Validator.Engine;
-using System;
-using SharpArch.Core.CommonValidator;
-
-namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
+﻿namespace SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
 {
-    public class ValidationResult : SharpArch.Core.CommonValidator.IValidationResult
+    using System;
+
+    using NHibernate.Validator.Engine;
+
+    using SharpArch.Core.CommonValidator;
+
+    public class ValidationResult : IValidationResult
     {
-        public ValidationResult(InvalidValue invalidValue) {
+        public ValidationResult(InvalidValue invalidValue)
+        {
             Check.Require(invalidValue != null, "invalidValue may not be null");
 
-            ClassContext = invalidValue.EntityType;
-            PropertyName = invalidValue.PropertyName;
-            Message = invalidValue.Message;
-            InvalidValue = invalidValue;
-        	AttemptedValue = invalidValue.Value;
+            this.ClassContext = invalidValue.EntityType;
+            this.PropertyName = invalidValue.PropertyName;
+            this.Message = invalidValue.Message;
+            this.InvalidValue = invalidValue;
+            this.AttemptedValue = invalidValue.Value;
         }
 
+        public virtual object AttemptedValue { get; protected set; }
+
         public virtual Type ClassContext { get; protected set; }
-        public virtual string PropertyName { get; protected set; }
-        public virtual string Message { get; protected set; }
-		public virtual object AttemptedValue { get; protected set; }
 
         /// <summary>
-        /// This is not defined by IValidationResult but is useful for applications which are 
-        /// strictly using NHibernate Validator and need additional information about the 
-        /// validation problem.
+        ///     This is not defined by IValidationResult but is useful for applications which are 
+        ///     strictly using NHibernate Validator and need additional information about the 
+        ///     validation problem.
         /// </summary>
         public virtual InvalidValue InvalidValue { get; protected set; }
+
+        public virtual string Message { get; protected set; }
+
+        public virtual string PropertyName { get; protected set; }
     }
 }

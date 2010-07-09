@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-
-namespace SharpArch.Core.DomainModel
+﻿namespace SharpArch.Core.DomainModel
 {
+    using System.Collections.Generic;
+    using System.Reflection;
+
     /// <summary>
-    /// This serves as a base interface for <see cref="EntityWithTypedId"/> and 
-    /// <see cref="Entity"/>. Also provides a simple means to develop your own base entity.
+    ///     This serves as a base interface for <see cref="EntityWithTypedId{TId}" /> and 
+    ///     <see cref = "Entity" />. Also provides a simple means to develop your own base entity.
     /// </summary>
-    public interface IEntityWithTypedId<IdT>
+    public interface IEntityWithTypedId<TId>
     {
-        IdT Id { get; }
-        bool IsTransient();
+        TId Id { get; }
+
         IEnumerable<PropertyInfo> GetSignatureProperties();
+
+        bool IsTransient();
     }
 }
