@@ -1,5 +1,5 @@
-﻿using System.Reflection;
 using System;
+using System.Reflection;
 
 [assembly: AssemblyTitle("SharpArch.Wcf")]
 [assembly: AssemblyDescription("")]

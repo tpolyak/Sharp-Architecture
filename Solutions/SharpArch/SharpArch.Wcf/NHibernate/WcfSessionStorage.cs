@@ -1,43 +1,43 @@
-﻿using System.ServiceModel;
-using SharpArch.Data.NHibernate;
-using NHibernate;
-using System;
-
 namespace SharpArch.Wcf.NHibernate
 {
-	public class WcfSessionStorage : ISessionStorage
-	{
-		#region ISessionStorage Members
+    using System;
+    using System.Collections.Generic;
+    using System.ServiceModel;
 
-		public ISession GetSessionForKey(string factoryKey)
-		{
-			SessionInstanceExtension instance = GetSessionInstanceExtension();
-			return instance.GetSessionForKey(factoryKey);
-		}
+    using global::NHibernate;
 
-		public void SetSessionForKey(string factoryKey, ISession session)
-		{
-			SessionInstanceExtension instance = GetSessionInstanceExtension();
-			instance.SetSessionForKey(factoryKey, session);
-		}
+    using SharpArch.Data.NHibernate;
 
-		public System.Collections.Generic.IEnumerable<ISession> GetAllSessions()
-		{
-			SessionInstanceExtension instance = GetSessionInstanceExtension();
-			return instance.GetAllSessions();
-		}
+    public class WcfSessionStorage : ISessionStorage
+    {
+        public IEnumerable<ISession> GetAllSessions()
+        {
+            var instance = GetSessionInstanceExtension();
+            return instance.GetAllSessions();
+        }
 
-		#endregion
+        public ISession GetSessionForKey(string factoryKey)
+        {
+            var instance = GetSessionInstanceExtension();
+            return instance.GetSessionForKey(factoryKey);
+        }
 
-		private SessionInstanceExtension GetSessionInstanceExtension()
-		{
-			SessionInstanceExtension instance =
-				OperationContext.Current.InstanceContext.Extensions.Find<SessionInstanceExtension>();
+        public void SetSessionForKey(string factoryKey, ISession session)
+        {
+            var instance = GetSessionInstanceExtension();
+            instance.SetSessionForKey(factoryKey, session);
+        }
 
-			if (instance == null)
-				throw new Exception("SessionInstanceExtension not found in current OperationContext");
+        private static SessionInstanceExtension GetSessionInstanceExtension()
+        {
+            var instance = OperationContext.Current.InstanceContext.Extensions.Find<SessionInstanceExtension>();
 
-			return instance;
-		}
-	}
+            if (instance == null)
+            {
+                throw new Exception("SessionInstanceExtension not found in current OperationContext");
+            }
+
+            return instance;
+        }
+    }
 }

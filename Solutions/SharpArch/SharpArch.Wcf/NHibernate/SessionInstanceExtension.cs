@@ -1,36 +1,37 @@
-﻿using System.ServiceModel;
-using SharpArch.Data.NHibernate;
-using NHibernate;
-using System;
-
 namespace SharpArch.Wcf.NHibernate
 {
+    using System.Collections.Generic;
+    using System.ServiceModel;
+
+    using global::NHibernate;
+
+    using SharpArch.Data.NHibernate;
+
     internal class SessionInstanceExtension : IExtension<InstanceContext>, ISessionStorage
     {
-        public SessionInstanceExtension() { }
+        private readonly SimpleSessionStorage storage = new SimpleSessionStorage();
 
-        public void Attach(InstanceContext owner) { }
-        public void Detach(InstanceContext owner) { }
+        public void Attach(InstanceContext owner)
+        {
+        }
 
-		#region ISessionStorage Members
+        public void Detach(InstanceContext owner)
+        {
+        }
 
-		public ISession GetSessionForKey(string factoryKey)
-		{
-			return storage.GetSessionForKey(factoryKey);
-		}
+        public IEnumerable<ISession> GetAllSessions()
+        {
+            return this.storage.GetAllSessions();
+        }
 
-		public void SetSessionForKey(string factoryKey, ISession session)
-		{
-			storage.SetSessionForKey(factoryKey, session);
-		}
+        public ISession GetSessionForKey(string factoryKey)
+        {
+            return this.storage.GetSessionForKey(factoryKey);
+        }
 
-		public System.Collections.Generic.IEnumerable<ISession> GetAllSessions()
-		{
-			return storage.GetAllSessions();
-		}
-
-		#endregion
-
-		private SimpleSessionStorage storage = new SimpleSessionStorage();
-	}
+        public void SetSessionForKey(string factoryKey, ISession session)
+        {
+            this.storage.SetSessionForKey(factoryKey, session);
+        }
+    }
 }
