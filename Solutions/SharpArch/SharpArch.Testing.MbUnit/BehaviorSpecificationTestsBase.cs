@@ -1,40 +1,41 @@
-﻿using System;
-using MbUnit.Framework;
-
-namespace SharpArch.Testing.MbUnit
+﻿namespace SharpArch.Testing.MbUnit
 {
+    using System;
+
+    using global::MbUnit.Framework;
+
     /// <summary>
-    /// Provides a base class for BDD unit tests, as described at http://flux88.com/blog/the-transition-from-tdd-to-bdd/.
-    /// This is an optional base class which need not be used with unit tests.
+    ///     Provides a base class for BDD unit tests, as described at http://flux88.com/blog/the-transition-from-tdd-to-bdd/.
+    ///     This is an optional base class which need not be used with unit tests.
     /// </summary>
     public abstract class BehaviorSpecificationTestsBase
     {
         protected Exception ExceptionThrown { get; private set; }
 
         /// <summary>
-        /// Method used to setup the model that will be tested.  This includes creating mock objects,
-        /// preparing the model properties, preparing the database, etc.
+        ///     Perform actions upon the model.  Separate test methods would then be employed to verify
+        ///     the results of the system under test.
         /// </summary>
-        protected abstract void EstablishContext( );
+        protected abstract void Act();
 
         /// <summary>
-        /// Perform actions upon the model.  Separate test methods would then be employed to verify
-        /// the results of the system under test.
+        ///     Method used to setup the model that will be tested.  This includes creating mock objects,
+        ///     preparing the model properties, preparing the database, etc.
         /// </summary>
-        protected abstract void Act( );
+        protected abstract void EstablishContext();
 
         [SetUp]
-        protected virtual void SetUp( )
+        protected virtual void SetUp()
         {
-            EstablishContext( );
+            this.EstablishContext();
 
             try
             {
-                Act( );
+                this.Act();
             }
-            catch ( Exception exc )
+            catch (Exception exc)
             {
-                ExceptionThrown = exc;
+                this.ExceptionThrown = exc;
             }
         }
     }
