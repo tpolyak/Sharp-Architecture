@@ -1,56 +1,59 @@
-﻿using System;
-using System.Web;
-using NHibernate;
-using SharpArch.Data;
-using SharpArch.Data.NHibernate;
-
 namespace SharpArch.Web.NHibernate
 {
-	public class WebSessionStorage : ISessionStorage
-	{
-		public WebSessionStorage(HttpApplication app)
-		{
-			app.EndRequest += Application_EndRequest;
-		}
+    using System;
+    using System.Collections.Generic;
+    using System.Web;
 
-		public ISession GetSessionForKey(string factoryKey)
-		{
-			SimpleSessionStorage storage = GetSimpleSessionStorage();
-			return storage.GetSessionForKey(factoryKey);
-		}
+    using global::NHibernate;
 
-		public void SetSessionForKey(string factoryKey, ISession session)
-		{
-			SimpleSessionStorage storage = GetSimpleSessionStorage();
-			storage.SetSessionForKey(factoryKey, session);
-		}
+    using SharpArch.Data.NHibernate;
 
-		public System.Collections.Generic.IEnumerable<ISession> GetAllSessions()
-		{
-			SimpleSessionStorage storage = GetSimpleSessionStorage();
-			return storage.GetAllSessions();
-		}
+    public class WebSessionStorage : ISessionStorage
+    {
+        private const string HttpContextSessionStorageKey = "HttpContextSessionStorageKey";
 
-		private SimpleSessionStorage GetSimpleSessionStorage()
-		{
-			HttpContext context = HttpContext.Current;
-			SimpleSessionStorage storage = context.Items[HttpContextSessionStorageKey] as SimpleSessionStorage;
-			if (storage == null)
-			{
-				storage = new SimpleSessionStorage();
-				context.Items[HttpContextSessionStorageKey] = storage;
-			}
-			return storage;
-		}
+        public WebSessionStorage(HttpApplication app)
+        {
+            app.EndRequest += Application_EndRequest;
+        }
 
-		private static readonly string HttpContextSessionStorageKey = "HttpContextSessionStorageKey";
+        public IEnumerable<ISession> GetAllSessions()
+        {
+            var storage = GetSimpleSessionStorage();
+            return storage.GetAllSessions();
+        }
 
-		private void Application_EndRequest(object sender, EventArgs e)
-		{
-			NHibernateSession.CloseAllSessions();
+        public ISession GetSessionForKey(string factoryKey)
+        {
+            var storage = GetSimpleSessionStorage();
+            return storage.GetSessionForKey(factoryKey);
+        }
 
-			HttpContext context = HttpContext.Current;
-			context.Items.Remove(HttpContextSessionStorageKey);
-		}
-	}
+        public void SetSessionForKey(string factoryKey, ISession session)
+        {
+            var storage = GetSimpleSessionStorage();
+            storage.SetSessionForKey(factoryKey, session);
+        }
+
+        private static void Application_EndRequest(object sender, EventArgs e)
+        {
+            NHibernateSession.CloseAllSessions();
+
+            var context = HttpContext.Current;
+            context.Items.Remove(HttpContextSessionStorageKey);
+        }
+
+        private static SimpleSessionStorage GetSimpleSessionStorage()
+        {
+            var context = HttpContext.Current;
+            var storage = context.Items[HttpContextSessionStorageKey] as SimpleSessionStorage;
+            if (storage == null)
+            {
+                storage = new SimpleSessionStorage();
+                context.Items[HttpContextSessionStorageKey] = storage;
+            }
+
+            return storage;
+        }
+    }
 }

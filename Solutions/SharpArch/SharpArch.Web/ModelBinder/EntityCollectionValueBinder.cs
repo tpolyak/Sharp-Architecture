@@ -1,61 +1,63 @@
-﻿using System;
-using System.Linq;
-using System.Web.Mvc;
-using SharpArch.Core.DomainModel;
-
 namespace SharpArch.Web.ModelBinder
 {
-    class EntityCollectionValueBinder : DefaultModelBinder
-    {
-        #region Implementation of IModelBinder
+    using System;
+    using System.Linq;
+    using System.Web.Mvc;
 
+    using SharpArch.Core.DomainModel;
+
+    internal class EntityCollectionValueBinder : DefaultModelBinder
+    {
         /// <summary>
-        /// Binds the model to a value by using the specified controller context and binding context.
+        ///     Binds the model to a value by using the specified controller context and binding context.
         /// </summary>
         /// <returns>
-        /// The bound value.
+        ///     The bound value.
         /// </returns>
-        /// <param name="controllerContext">The controller context.</param><param name="bindingContext">The binding context.</param>
+        /// <param name = "controllerContext">The controller context.</param>
+        /// <param name = "bindingContext">The binding context.</param>
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            Type collectionType = bindingContext.ModelType;
-            Type collectionEntityType = collectionType.GetGenericArguments().First();
+            var collectionType = bindingContext.ModelType;
+            var collectionEntityType = collectionType.GetGenericArguments().First();
 
-            ValueProviderResult valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
 
             if (valueProviderResult != null)
             {
-                int countOfEntityIds = (valueProviderResult.RawValue as string[]).Length;
-                Array entities = Array.CreateInstance(collectionEntityType, countOfEntityIds);
+                var rawValue = valueProviderResult.RawValue as string[];
 
-                Type entityInterfaceType = collectionEntityType.GetInterfaces()
-                    .First(interfaceType => interfaceType.IsGenericType
-                                            && interfaceType.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
+                var countOfEntityIds = rawValue.Length;
+                var entities = Array.CreateInstance(collectionEntityType, countOfEntityIds);
 
-                Type idType = entityInterfaceType.GetGenericArguments().First();
+                var entityInterfaceType =
+                    collectionEntityType.GetInterfaces().First(
+                        interfaceType =>
+                        interfaceType.IsGenericType &&
+                        interfaceType.GetGenericTypeDefinition() == typeof(IEntityWithTypedId<>));
 
-                for ( int i = 0; i < countOfEntityIds; i++ )
+                var idType = entityInterfaceType.GetGenericArguments().First();
+
+                for (var i = 0; i < countOfEntityIds; i++)
                 {
-                    string rawId = (valueProviderResult.RawValue as string[])[i];
+                    var rawId = rawValue[i];
 
-                    if ( string.IsNullOrEmpty(rawId) )
+                    if (string.IsNullOrEmpty(rawId))
+                    {
                         return null;
+                    }
 
-                    object typedId = 
-                        (idType == typeof(Guid))
-                            ? new Guid(rawId)
-                            : Convert.ChangeType(rawId, idType);
+                    var typedId = (idType == typeof(Guid)) ? new Guid(rawId) : Convert.ChangeType(rawId, idType);
 
-                    object entity = ValueBinderHelper.GetEntityFor(collectionEntityType, typedId, idType);
+                    var entity = ValueBinderHelper.GetEntityFor(collectionEntityType, typedId, idType);
                     entities.SetValue(entity, i);
                 }
 
-                //base.BindModel(controllerContext, bindingContext);
+                // base.BindModel(controllerContext, bindingContext);
                 return entities;
             }
+
             return base.BindModel(controllerContext, bindingContext);
         }
-
-        #endregion
     }
 }
