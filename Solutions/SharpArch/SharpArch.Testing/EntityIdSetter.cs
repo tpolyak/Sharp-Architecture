@@ -1,25 +1,26 @@
-﻿using System.Reflection;
-using SharpArch.Core;
-using SharpArch.Core.DomainModel;
-
-namespace SharpArch.Testing
+﻿namespace SharpArch.Testing
 {
+    using System.Reflection;
+
+    using SharpArch.Core;
+    using SharpArch.Core.DomainModel;
+
     /// <summary>
-    /// For better data integrity, it is imperitive that the <see cref="Entity.Id"/>
-    /// property is read-only and set only by the ORM.  With that said, some unit tests need 
-    /// Id set to a particular value; therefore, this utility enables that ability.  This class should 
-    /// never be used outside of the testing project; instead, implement <see cref="IHasAssignedId{IdT}" /> to 
-    /// expose a public setter.
+    ///     For better data integrity, it is imperitive that the <see cref = "Entity.Id" />
+    ///     property is read-only and set only by the ORM.  With that said, some unit tests need 
+    ///     Id set to a particular value; therefore, this utility enables that ability.  This class should 
+    ///     never be used outside of the testing project; instead, implement <see cref = "IHasAssignedId{IdT}" /> to 
+    ///     expose a public setter.
     /// </summary>
     public static class EntityIdSetter
     {
         /// <summary>
-        /// Uses reflection to set the Id of a <see cref="EntityWithTypedId{IdT}" />.
+        ///     Uses reflection to set the Id of a <see cref = "EntityWithTypedId{IdT}" />.
         /// </summary>
-        public static void SetIdOf<IdT>(IEntityWithTypedId<IdT> entity, IdT id) {
+        public static void SetIdOf<TId>(IEntityWithTypedId<TId> entity, TId id)
+        {
             // Set the data property reflectively
-            PropertyInfo idProperty = entity.GetType().GetProperty("Id",
-                BindingFlags.Public | BindingFlags.Instance);
+            var idProperty = entity.GetType().GetProperty("Id", BindingFlags.Public | BindingFlags.Instance);
 
             Check.Ensure(idProperty != null, "idProperty could not be found");
 
@@ -27,7 +28,7 @@ namespace SharpArch.Testing
         }
 
         /// <summary>
-        /// Uses reflection to set the Id of a <see cref="EntityWithTypedId{IdT}" />.
+        ///     Uses reflection to set the Id of a <see cref = "EntityWithTypedId{IdT}" />.
         /// </summary>
         public static IEntityWithTypedId<TId> SetIdTo<TId>(this IEntityWithTypedId<TId> entity, TId id)
         {
