@@ -1,25 +1,30 @@
-﻿using MvcContrib.Binders;
-using Castle.Windsor;
-using System;
-using SharpArch.Core;
-
-namespace SharpArch.Web.Castle
+﻿namespace SharpArch.Web.Castle
 {
+    using System;
+
+    using global::Castle.Windsor;
+
+    using MvcContrib.Binders;
+
+    using SharpArch.Core;
+
     public class CastleSubControllerBinder : SubControllerBinder
     {
-        public CastleSubControllerBinder(IWindsorContainer container) {
+        private readonly IWindsorContainer container;
+
+        public CastleSubControllerBinder(IWindsorContainer container)
+        {
             Check.Require(container != null, "container may not be null");
 
             this.container = container;
         }
 
-        public override object CreateSubController(Type destinationType) {
-            object instance = container.Resolve(destinationType);
+        public override object CreateSubController(Type destinationType)
+        {
+            var instance = this.container.Resolve(destinationType);
             Check.Ensure(instance != null, destinationType + " not registered with CastleWindsor");
 
             return instance;
         }
-
-        private IWindsorContainer container;
     }
 }
