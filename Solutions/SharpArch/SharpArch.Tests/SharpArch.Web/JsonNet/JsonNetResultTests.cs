@@ -1,14 +1,17 @@
-﻿using NUnit.Framework;
-using SharpArch.Web.JsonNet;
-using System.Text;
-
 namespace Tests.SharpArch.Web.JsonNet
 {
+    using System.Text;
+
+    using NUnit.Framework;
+
+    using global::SharpArch.Web.JsonNet;
+
     [TestFixture]
     public class JsonNetResultTests
     {
         [Test]
-        public void CanCreateJsonNetResultUsingOverloadedConstructors() {
+        public void CanCreateJsonNetResultUsingOverloadedConstructors()
+        {
             JsonNetResult result;
 
             result = new JsonNetResult();

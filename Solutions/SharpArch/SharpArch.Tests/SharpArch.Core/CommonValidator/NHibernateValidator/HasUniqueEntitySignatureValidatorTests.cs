@@ -1,4 +1,4 @@
-﻿namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
+namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
 {
     using System;
     using System.Collections.Generic;
@@ -8,6 +8,10 @@
 
     using CommonServiceLocator.WindsorAdapter;
 
+    using Microsoft.Practices.ServiceLocation;
+
+    using NUnit.Framework;
+
     using global::SharpArch.Core;
     using global::SharpArch.Core.CommonValidator;
     using global::SharpArch.Core.DomainModel;
@@ -15,15 +19,9 @@
     using global::SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
     using global::SharpArch.Core.PersistenceSupport;
 
-    using Microsoft.Practices.ServiceLocation;
-
-    using NUnit.Framework;
-
     [TestFixture]
     public class HasUniqueObjectSignatureValidatorTests
     {
-        #region Public Methods
-
         [Test]
         public void CanVerifyThatDuplicateExistsDuringValidationProcess()
         {
@@ -32,7 +30,7 @@
 
             Assert.That(contractor.IsValid(), Is.False);
 
-            foreach (IValidationResult invalidValue in invalidValues)
+            foreach (var invalidValue in invalidValues)
             {
                 Debug.WriteLine(invalidValue.Message);
             }
@@ -86,25 +84,15 @@
             this.InitServiceLocatorInitializer();
         }
 
-        #endregion
-
         [HasUniqueDomainSignature]
         private class Contractor : Entity
         {
-            #region Properties
-
             [DomainSignature]
             public string Name { get; set; }
-
-            #endregion
         }
 
         private class DuplicateCheckerStub : IEntityDuplicateChecker
         {
-            #region Implemented Interfaces
-
-            #region IEntityDuplicateChecker
-
             public bool DoesDuplicateExistWithTypedIdOf<IdT>(IEntityWithTypedId<IdT> entity)
             {
                 Check.Require(entity != null);
@@ -128,43 +116,27 @@
                 // By default, simply return false for no duplicates found
                 return false;
             }
-
-            #endregion
-
-            #endregion
         }
 
         [HasUniqueDomainSignatureWithGuidId]
         private class ObjectWithGuidId : EntityWithTypedId<Guid>
         {
-            #region Properties
-
             [DomainSignature]
             public string Name { get; set; }
-
-            #endregion
         }
 
         [HasUniqueDomainSignature]
         private class ObjectWithStringIdAndValidatorForIntId : EntityWithTypedId<string>
         {
-            #region Properties
-
             [DomainSignature]
             public string Name { get; set; }
-
-            #endregion
         }
 
         [HasUniqueDomainSignatureWithStringId]
         private class User : EntityWithTypedId<string>
         {
-            #region Properties
-
             [DomainSignature]
             public string SSN { get; set; }
-
-            #endregion
         }
     }
 }

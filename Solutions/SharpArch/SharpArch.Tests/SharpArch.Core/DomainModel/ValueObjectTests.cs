@@ -1,26 +1,26 @@
-﻿using NUnit.Framework;
-using SharpArch.Core.DomainModel;
-using SharpArch.Core;
-
 namespace Tests.SharpArch.Core.DomainModel
 {
+    using NUnit.Framework;
+
+    using global::SharpArch.Core;
+    using global::SharpArch.Core.DomainModel;
+
     [TestFixture]
     public class ValueObjectTests
     {
         [Test]
-        public void CannotHaveValueObjectWithDomainSignatureProperties() {
-            ValueObjectWithDomainSignature invalidValueObject =
-                new ValueObjectWithDomainSignature();
+        public void CannotHaveValueObjectWithDomainSignatureProperties()
+        {
+            var invalidValueObject = new ValueObjectWithDomainSignature();
 
-            Assert.Throws<PreconditionException>(
-                () => invalidValueObject.GetSignatureProperties()
-            );
+            Assert.Throws<PreconditionException>(() => invalidValueObject.GetSignatureProperties());
         }
 
         [Test]
-        public void Equality_DifferentReferences_SameValues_True() {
-            DummyValueType valueObject1 = new DummyValueType { Id = 1, Name = "Luis" };
-            DummyValueType valueObject2 = new DummyValueType { Id = 1, Name = "Luis" };
+        public void Equality_DifferentReferences_SameValues_True()
+        {
+            var valueObject1 = new DummyValueType { Id = 1, Name = "Luis" };
+            var valueObject2 = new DummyValueType { Id = 1, Name = "Luis" };
             Assert.That(valueObject1, Is.Not.SameAs(valueObject2));
             Assert.That(valueObject1, Is.EqualTo(valueObject2));
             Assert.That(valueObject1.Equals(valueObject2));
@@ -31,75 +31,56 @@ namespace Tests.SharpArch.Core.DomainModel
         }
 
         [Test]
-        public void ShouldNotBeEqualWhenComparingDifferentTypes() {
-            var valType = new DummyValueType { Id = 1, Name = "Luis" };
-            var anotherType = new AnotherDummyValueType {
-                Id = 1,
-                Name = "Luis"
-            };
-            Assert.IsFalse(anotherType.Equals(valType));
-        }
-
-        [Test]
-        public void ShouldBeEqualWithSameReference() {
-            var valType = new DummyValueType();
-            Assert.AreEqual(valType, valType);
-        }
-
-        [Test]
-        public void ShouldBeEqualSameReferenceWithNonNullValues() {
+        public void ShouldBeEqualSameReferenceWithNonNullValues()
+        {
             var valType = new DummyValueType { Id = 1, Name = "Luis" };
             Assert.AreEqual(valType, valType);
         }
 
         [Test]
-        public void ShouldBeEqualWithDifferentReferences() {
+        public void ShouldBeEqualWithDifferentReferences()
+        {
             var valType = new DummyValueType { Id = 1, Name = "Luis" };
             var anotherValType = new DummyValueType { Id = 1, Name = "Luis" };
             Assert.AreEqual(anotherValType, valType);
         }
 
         [Test]
-        public void ShouldnotBeEqualWithDifferentReferencesAndDifferentIds() {
-            var valType = new DummyValueType { Id = 1, Name = "Luis" };
-            var anotherValType = new DummyValueType {
-                Id = 10,
-                Name = "Luis"
-            };
-            Assert.AreNotEqual(anotherValType, valType);
+        public void ShouldBeEqualWithSameReference()
+        {
+            var valType = new DummyValueType();
+            Assert.AreEqual(valType, valType);
         }
 
         [Test]
-        public void ShouldNotBeEqualToNull() {
-            var valType = new DummyValueType { Id = 1, Name = "Luis" };
-            Assert.AreNotEqual(null, valType);
-            Assert.AreNotEqual(valType, null);
-        }
-
-        [Test]
-        public void ShouldGenerateSameHashcodeWhenEquals() {
-            var valType = new DummyValueType { Id = 10, Name = "Miguel" };
-            var anotherValType = new DummyValueType {
-                Id = 10,
-                Name = "Miguel"
-            };
-            Assert.AreEqual(valType.GetHashCode(), anotherValType.GetHashCode());
-        }
-
-        [Test]
-        public void ShouldCompareAndReturnNotEqualWithOperators() {
+        public void ShouldCompareAndReturnNotEqualWithOperators()
+        {
             var valType = new DummyValueType { Id = 10, Name = "jose" };
-            var anotherValType = new DummyValueType {
-                Id = 20,
-                Name = "Rui"
-            };
+            var anotherValType = new DummyValueType { Id = 20, Name = "Rui" };
 
             Assert.IsFalse(valType == anotherValType);
             Assert.IsTrue(valType != anotherValType);
         }
 
         [Test]
-        public void ShouldNotBeEqualToNullWithOperators() {
+        public void ShouldGenerateSameHashcodeWhenEquals()
+        {
+            var valType = new DummyValueType { Id = 10, Name = "Miguel" };
+            var anotherValType = new DummyValueType { Id = 10, Name = "Miguel" };
+            Assert.AreEqual(valType.GetHashCode(), anotherValType.GetHashCode());
+        }
+
+        [Test]
+        public void ShouldNotBeEqualToNull()
+        {
+            var valType = new DummyValueType { Id = 1, Name = "Luis" };
+            Assert.AreNotEqual(null, valType);
+            Assert.AreNotEqual(valType, null);
+        }
+
+        [Test]
+        public void ShouldNotBeEqualToNullWithOperators()
+        {
             var valType = new DummyValueType { Id = 1, Name = "Luis" };
 
             Assert.IsFalse(null == valType);
@@ -108,21 +89,39 @@ namespace Tests.SharpArch.Core.DomainModel
             Assert.IsTrue(valType != null);
         }
 
-        public class DummyValueType : ValueObject
+        [Test]
+        public void ShouldNotBeEqualWhenComparingDifferentTypes()
         {
-            public int Id { get; set; }
-            public string Name { get; set; }
+            var valType = new DummyValueType { Id = 1, Name = "Luis" };
+            var anotherType = new AnotherDummyValueType { Id = 1, Name = "Luis" };
+            Assert.IsFalse(anotherType.Equals(valType));
+        }
+
+        [Test]
+        public void ShouldnotBeEqualWithDifferentReferencesAndDifferentIds()
+        {
+            var valType = new DummyValueType { Id = 1, Name = "Luis" };
+            var anotherValType = new DummyValueType { Id = 10, Name = "Luis" };
+            Assert.AreNotEqual(anotherValType, valType);
         }
 
         public class AnotherDummyValueType : ValueObject
         {
             public int Id { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        public class DummyValueType : ValueObject
+        {
+            public int Id { get; set; }
+
             public string Name { get; set; }
         }
 
         /// <summary>
-        /// This is a nonsense object; i.e., it doesn't make sense to have 
-        /// a value object with a domain signature.
+        ///     This is a nonsense object; i.e., it doesn't make sense to have 
+        ///     a value object with a domain signature.
         /// </summary>
         public class ValueObjectWithDomainSignature : ValueObject
         {

@@ -1,34 +1,23 @@
-﻿using NUnit.Framework;
-using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
-using NHibernate.Validator.Constraints;
-using SharpArch.Core.CommonValidator;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Tests.SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
 {
+    using System.Linq;
+
+    using NHibernate.Validator.Constraints;
+
+    using NUnit.Framework;
+
+    using global::SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
+
     [TestFixture]
     public class ValidatorTests
     {
         [Test]
-        public void CanValidateObject() {
-            Validator validator = new Validator();
+        public void CanRetriveValiationResults()
+        {
+            var validator = new Validator();
 
-            SomeObject invalidObject = new SomeObject();
-            Assert.That(validator.IsValid(invalidObject), Is.False);
-
-            SomeObject validObject = new SomeObject() {
-                Name = ""
-            };
-            Assert.That(validator.IsValid(validObject), Is.True);
-        }
-
-        [Test]
-        public void CanRetriveValiationResults() {
-            Validator validator = new Validator();
-
-            SomeObject invalidObject = new SomeObject();
-            ICollection<IValidationResult> results = validator.ValidationResultsFor(invalidObject);
+            var invalidObject = new SomeObject();
+            var results = validator.ValidationResultsFor(invalidObject);
 
             Assert.That(results.Count, Is.EqualTo(1));
             Assert.That(results.First().PropertyName, Is.EqualTo("Name"));
@@ -36,9 +25,21 @@ namespace Tests.SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
             Assert.That(results.First().Message, Is.EqualTo("Dude...the name please!!"));
         }
 
+        [Test]
+        public void CanValidateObject()
+        {
+            var validator = new Validator();
+
+            var invalidObject = new SomeObject();
+            Assert.That(validator.IsValid(invalidObject), Is.False);
+
+            var validObject = new SomeObject { Name = string.Empty };
+            Assert.That(validator.IsValid(validObject), Is.True);
+        }
+
         private class SomeObject
         {
-            [NotNull(Message="Dude...the name please!!")]
+            [NotNull(Message = "Dude...the name please!!")]
             public string Name { get; set; }
         }
     }
