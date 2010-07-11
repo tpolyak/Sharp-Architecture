@@ -68,6 +68,17 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
+    public class when_two_variables_that_reference_the_same_instance_of_an_entity_are_compared : specification_for_entity_with_typed_id
+    {
+        static EntityWithAllPropertiesPartOfDomainSignature entity1;
+        static EntityWithAllPropertiesPartOfDomainSignature entity2;
+
+        Establish context = () => entity1 = entity2 = new EntityWithAllPropertiesPartOfDomainSignature();
+
+        It should_treat_them_as_equal = () => entity1.Equals(entity2).ShouldBeTrue();
+    }
+
+    [Subject(typeof(EntityWithTypedId<>))]
     public class when_two_entities_with_all_properties_being_part_of_their_domain_signature_are_compared_and_all_property_values_are_the_same : specification_for_entity_with_typed_id
     {
         static EntityWithAllPropertiesPartOfDomainSignature entity1;
@@ -79,7 +90,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
                 entity2 = new EntityWithAllPropertiesPartOfDomainSignature { Property1 = "property 1", Property2 = 2, Property3 = true };
             };
 
-        It should_treat_them_as_equal = () => entity1.ShouldEqual(entity2);
+        It should_treat_them_as_equal = () => entity1.Equals(entity2).ShouldBeTrue();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -94,7 +105,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
             entity2 = new EntityWithAllPropertiesPartOfDomainSignature { Property1 = "property 1 different", Property2 = 2, Property3 = true };
         };
 
-        It should_treat_them_as_not_equal = () => entity1.ShouldNotEqual(entity2);
+        It should_treat_them_as_not_equal = () => entity1.Equals(entity2).ShouldBeFalse();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -109,7 +120,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
                 entity2 = new EntityWithSomePropertiesPartOfDomainSignature { Property1 = "property 1", Property2 = 2, Property3 = true };
             };
 
-        It should_treat_them_as_equal = () => entity1.ShouldEqual(entity2);
+        It should_treat_them_as_equal = () => entity1.Equals(entity2).ShouldBeTrue();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -124,7 +135,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
             entity2 = new EntityWithSomePropertiesPartOfDomainSignature { Property1 = "property 1 is different", Property2 = 2, Property3 = true };
         };
 
-        It should_treat_them_as_not_equal = () => entity1.ShouldNotEqual(entity2);
+        It should_treat_them_as_not_equal = () => entity1.Equals(entity2).ShouldBeFalse();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -139,7 +150,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
             entity2 = new EntityWithSomePropertiesPartOfDomainSignature { Property1 = "property 1", Property2 = 200, Property3 = true };
         };
 
-        It should_treat_them_as_equal = () => entity1.ShouldEqual(entity2);
+        It should_treat_them_as_equal = () => entity1.Equals(entity2).ShouldBeTrue();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -156,7 +167,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
             entity2.SetIdTo(10);
         };
 
-        It should_treat_them_as_equal = () => entity1.ShouldEqual(entity2);
+        It should_treat_them_as_equal = () => entity1.Equals(entity2).ShouldBeTrue();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -173,7 +184,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
             entity2.SetIdTo(20);
         };
 
-        It should_treat_them_as_not_equal = () => entity1.ShouldNotEqual(entity2);
+        It should_treat_them_as_not_equal = () => entity1.Equals(entity2).ShouldBeFalse();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -190,7 +201,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
                 entity2.Property2.SetIdTo(10);
             };
 
-        It should_treat_them_as_equal = () => entity1.ShouldEqual(entity2);
+        It should_treat_them_as_equal = () => entity1.Equals(entity2).ShouldBeTrue();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -207,7 +218,7 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
             entity2.Property2.SetIdTo(20);
         };
 
-        It should_treat_them_as_not_equal = () => entity1.ShouldNotEqual(entity2);
+        It should_treat_them_as_not_equal = () => entity1.Equals(entity2).ShouldBeFalse();
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
