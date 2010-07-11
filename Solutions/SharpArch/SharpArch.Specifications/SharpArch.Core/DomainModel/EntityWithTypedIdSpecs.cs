@@ -40,6 +40,20 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
             [DomainSignature]
             public bool Property3 { get; set; }
         }
+
+        protected class EntityWithAnotherEntityAsPartOfDomainSignature : EntityWithTypedId<int>
+        {
+            public EntityWithAnotherEntityAsPartOfDomainSignature()
+            {
+                this.Property2 = new EntityWithAllPropertiesPartOfDomainSignature();
+            }
+
+            [DomainSignature]
+            public string Property1 { get; set; }
+
+            [DomainSignature]
+            public EntityWithAllPropertiesPartOfDomainSignature Property2 { get; set; }
+        }
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
@@ -154,7 +168,18 @@ namespace SharpArch.Specifications.SharpArch.Core.DomainModel
     [Subject(typeof(EntityWithTypedId<>))]
     public class when_two_entities_that_have_another_entity_as_a_property_belonging_to_the_domain_signature_are_compared_and_the_properties_have_the_same_value : specification_for_entity_with_typed_id
     {
-        It should_treat_them_as_equal;
+        static EntityWithAnotherEntityAsPartOfDomainSignature entity1;
+        static EntityWithAnotherEntityAsPartOfDomainSignature entity2;
+
+        Establish context = () =>
+            {
+                entity1 = new EntityWithAnotherEntityAsPartOfDomainSignature { Property1 = "property 1" };
+                entity1.Property2.SetIdTo(10);
+                entity2 = new EntityWithAnotherEntityAsPartOfDomainSignature { Property1 = "property 1" };
+                entity2.Property2.SetIdTo(10);
+            };
+
+        It should_treat_them_as_equal = () => entity1.ShouldEqual(entity2);
     }
 
     [Subject(typeof(EntityWithTypedId<>))]
