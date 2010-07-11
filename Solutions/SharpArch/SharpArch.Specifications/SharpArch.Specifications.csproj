@@ -83,6 +83,10 @@
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">
+      <Project>{230DF364-CC54-440A-AA02-31A0E2964AC3}</Project>
+      <Name>SharpArch.Testing</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
