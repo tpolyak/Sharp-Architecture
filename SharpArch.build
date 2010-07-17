@@ -172,14 +172,14 @@
 					Log(Level.Info, "Executing ILMerge.exe");
 					Log(Level.Info, string.Format("/out:\"{0}\"", m_outputFile));
 					Log(Level.Info, string.Format("/log:\"{0}\"", m_logFile));
-					Log(Level.Info, string.Format("/keyfile:\"{0}\"", m_keyFile));
+					//Log(Level.Info, string.Format("/keyfile:\"{0}\"", m_keyFile));
 					Arguments.Add(new Argument(string.Format("/out:\"{0}\"", m_outputFile)));
 					
 					Log(Level.Info, string.Format("assembly[{0}]: {1}", "primary", m_primaryFile));
 					Arguments.Add(new Argument(string.Format("\"{0}\"", m_primaryFile)));
 					
 					
-					Arguments.Add(new Argument(string.Format("/keyfile:\"{0}\"", m_keyFile)));
+					//Arguments.Add(new Argument(string.Format("/keyfile:\"{0}\"", m_keyFile)));
 					
 					for (int i = 0; i < m_assemblies.FileNames.Count; i++)
 					{
