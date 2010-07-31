@@ -31,7 +31,7 @@
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 	<ItemGroup>
-		<Reference Include="FluentNHibernate, Version=1.0.0.636, Culture=neutral, processorArchitecture=MSIL">
+			<Reference Include="FluentNHibernate, Version=1.1.0.685, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
 			  <SpecificVersion>False</SpecificVersion>
 			  <HintPath>..\..\lib\FluentNHibernate.dll</HintPath>
 			</Reference>
