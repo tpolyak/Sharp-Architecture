@@ -16,7 +16,6 @@ namespace Northwind.Data.NHibernateMappings.Organization
             mapping.Map(x => x.FirstName);
             mapping.Map(x => x.LastName);
             mapping.Map(x => x.PhoneExtension, "Extension");
-            mapping.IgnoreProperty(x => x.FullName);
 
             mapping.HasManyToMany<Territory>(x => x.Territories)
                 .Table("EmployeeTerritories")

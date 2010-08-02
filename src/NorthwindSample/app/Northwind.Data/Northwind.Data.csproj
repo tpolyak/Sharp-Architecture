@@ -78,6 +78,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NHibernateMaps\AutoPersistenceModelGenerator.cs" />
+    <Compile Include="NHibernateMaps\NorthwindMappingConfiguration.cs" />
     <Compile Include="NHibernateMaps\OrderMap.cs" />
     <Compile Include="NHibernateMaps\Organization\EmployeeMap.cs" />
     <Compile Include="NHibernateMaps\ProductMap.cs" />

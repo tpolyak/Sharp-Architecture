@@ -17,6 +17,7 @@
 		<Project TargetFileName="SharpArchProject.Data.csproj" File="SharpArchProject.Data.csproj" ReplaceParameters="true">
 			<Folder Name="NHibernateMaps" TargetFolderName="NHibernateMaps">
 				<ProjectItem ReplaceParameters="true" TargetFileName="AutoPersistenceModelGenerator.cs">AutoPersistenceModelGenerator.cs</ProjectItem>
+				<ProjectItem ReplaceParameters="true" TargetFileName="AutomappingConfiguration.cs">AutomappingConfiguration.cs</ProjectItem>
 				<Folder Name="Conventions" TargetFolderName="Conventions">
 					<ProjectItem ReplaceParameters="true" TargetFileName="ForeignKeyConvention.cs">ForeignKeyConvention.cs</ProjectItem>
 					<ProjectItem ReplaceParameters="true" TargetFileName="HasManyConvention.cs">HasManyConvention.cs</ProjectItem>

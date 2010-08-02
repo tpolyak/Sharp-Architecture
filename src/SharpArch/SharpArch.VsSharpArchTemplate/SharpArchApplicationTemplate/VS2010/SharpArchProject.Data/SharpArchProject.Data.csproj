@@ -82,6 +82,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="NHibernateMaps\AutoPersistenceModelGenerator.cs" />
+		<Compile Include="NHibernateMaps\AutomappingConfiguration.cs" />
 		<Compile Include="NHibernateMaps\Conventions\ForeignKeyConvention.cs" />
 		<Compile Include="NHibernateMaps\Conventions\HasManyConvention.cs" />
 		<Compile Include="NHibernateMaps\Conventions\HasManyToManyConvention.cs" />
