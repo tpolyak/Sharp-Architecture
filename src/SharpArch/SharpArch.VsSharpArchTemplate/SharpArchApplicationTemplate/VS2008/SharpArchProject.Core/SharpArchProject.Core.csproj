@@ -48,11 +48,7 @@
 		   <Reference Include="SharpArch, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
 			 <SpecificVersion>False</SpecificVersion>
 			 <HintPath>..\..\lib\SharpArch.dll</HintPath>
-		   </Reference>
-		   <Reference Include="SharpArch.Core.NHibernateValidator, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-			 <SpecificVersion>False</SpecificVersion>
-			 <HintPath>..\..\lib\SharpArch.Core.NHibernateValidator.dll</HintPath>
-		   </Reference>
+		   </Reference>		   
         <Reference Include="System" />
         <Reference Include="System.Core">
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
