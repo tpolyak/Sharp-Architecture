@@ -1,4 +1,4 @@
-﻿namespace SharpArch.PackageManagement.Domain
+﻿namespace SharpArch.PackageManagement.Domain.Packages
 {
     #region Using Directives
 

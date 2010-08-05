@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.PackageManagement
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.PackageManagement.ActionHandler", "SharpArch-PackageManagement\SharpArch.PackageManagement.ActionHandler\SharpArch.PackageManagement.ActionHandler.csproj", "{ABDE731F-8025-480A-A2FC-CC9404179AC6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{6C3DEE68-6633-4899-B980-64339AB62651}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{4799185A-AFB0-428D-9B2C-29BCDFDF0B3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{59A31D18-9067-4B4D-930C-54113BAD4A83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,5 +58,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56BE3D9C-686D-426A-A49C-BC83FCAB670E} = {6C3DEE68-6633-4899-B980-64339AB62651}
+		{ABDE731F-8025-480A-A2FC-CC9404179AC6} = {4799185A-AFB0-428D-9B2C-29BCDFDF0B3C}
+		{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2} = {59A31D18-9067-4B4D-930C-54113BAD4A83}
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,7 @@
 
     using System.Xml.Serialization;
 
-    using SharpArch.PackageManagement.Domain;
+    using SharpArch.PackageManagement.Domain.Packages;
 
     #endregion
 

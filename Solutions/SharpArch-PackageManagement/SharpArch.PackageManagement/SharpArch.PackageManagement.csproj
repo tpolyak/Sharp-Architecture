@@ -38,13 +38,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Manifest.cs" />
-    <Compile Include="Domain\ManifestFile.cs" />
-    <Compile Include="Domain\Package.cs" />
+    <Compile Include="Contracts\Packager\IPackageProcessor.cs" />
+    <Compile Include="Contracts\Specifications\ILinqSpecification.cs" />
+    <Compile Include="Contracts\Packager\IDirectoryExclusionsSpecification.cs" />
+    <Compile Include="Contracts\Packager\IFileExclusionsSpecification.cs" />
+    <Compile Include="Contracts\Packager\ITokeniser.cs" />
+    <Compile Include="Contracts\Packager\IArtefactProcessor.cs" />
+    <Compile Include="Contracts\Tasks\IPackageTask.cs" />
+    <Compile Include="Domain\Packages\Manifest.cs" />
+    <Compile Include="Domain\Packages\ManifestFile.cs" />
+    <Compile Include="Domain\Packages\Package.cs" />
     <Compile Include="Factories\PackageFactory.cs" />
-    <Compile Include="Contracts\IPackageTask.cs" />
+    <Compile Include="Packager\FileSystemArtefactProcessor.cs" />
+    <Compile Include="Packager\PackageProcessor.cs" />
+    <Compile Include="Packager\Specifications\FileExclusionSpecification.cs" />
+    <Compile Include="Packager\Specifications\NonHiddenDirectoriesSpecification.cs" />
     <Compile Include="Packages\SharpArchitecturePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Specifications\AdHocSpecification.cs" />
+    <Compile Include="Specifications\QuerySpecification.cs" />
+    <Compile Include="Specifications\QuerySpecificationExtensions.cs" />
     <Compile Include="Tasks\FileCopyPackageTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

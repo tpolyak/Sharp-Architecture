@@ -3,11 +3,15 @@
     #region Using Directives
 
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
-    
-    using SharpArch.PackageManagement.Contracts;
+    using System.Linq;
+
+    using SharpArch.PackageManagement.Contracts.Packager;
+    using SharpArch.PackageManagement.Contracts.Tasks;
     using SharpArch.PackageManagement.Factories;
+    using SharpArch.PackageManagement.Packager;
     using SharpArch.PackageManagement.Packages;
 
     #endregion
@@ -17,12 +21,15 @@
         [Import]
         public IPackageTask PackageTask { get; set; }
 
+        [Import]
+        public IPackageProcessor PackageProcessor { get; set; }
+
         public static void Main(string[] args)
         {
             new Program().Run(args[0]);
         }
 
-        public void Run(string path)
+        private void Run(string path)
         {
             this.Compose();
 
@@ -32,7 +39,9 @@
 
             Console.WriteLine("Processing package '{0}'", package.Manifest.Name);
 
-            this.PackageTask.Execute(package);
+            //// this.PackageTask.Execute(package);
+            
+            this.PackageProcessor.Process(path, "MyTest.App");
         }
 
         private void Compose()

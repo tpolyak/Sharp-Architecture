@@ -6,8 +6,8 @@
     using System.ComponentModel.Composition;
     using System.IO;
 
-    using SharpArch.PackageManagement.Contracts;
-    using SharpArch.PackageManagement.Domain;
+    using SharpArch.PackageManagement.Contracts.Tasks;
+    using SharpArch.PackageManagement.Domain.Packages;
 
     #endregion
 
