@@ -47,7 +47,7 @@
 
             //// this.PackageTask.Execute(package);
 
-            //// this.PackageProcessor.Process(path, "MyTest.App");
+            this.PackageProcessor.Process(path, "MyTest.App");
         }
     }
 }

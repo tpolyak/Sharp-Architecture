@@ -13,12 +13,17 @@
     [Export(typeof(IManifestBuilder))]
     public class ManifestBuilder : IManifestBuilder
     {
-        [Import]
-        private IArtefactProcessor ArtefactProcessor { get; set; }
+        private readonly IArtefactProcessor artefactProcessor;
+
+        [ImportingConstructor]
+        public ManifestBuilder(IArtefactProcessor artefactProcessor)
+        {
+            this.artefactProcessor = artefactProcessor;
+        }
 
         public Manifest Build(string path)
         {
-            var files = this.ArtefactProcessor.RetrieveFiles(path);
+            var files = this.artefactProcessor.RetrieveFiles(path);
 
             var manifest = new Manifest();
 

@@ -11,13 +11,18 @@
     [Export(typeof(IPackageProcessor))]
     public class PackageProcessor : IPackageProcessor
     {
-        [Import("Selective")]
-        private IArtefactProcessor ArtefactProcessor { get; set; }
+        private readonly IArtefactProcessor artefactProcessor;
+
+        [ImportingConstructor]
+        public PackageProcessor([Import("Selective")]IArtefactProcessor artefactProcessor)
+        {
+            this.artefactProcessor = artefactProcessor;
+        }
 
         public void Process(string path, string name)
         {
-            var files = this.ArtefactProcessor.RetrieveFiles(path);
-            var directories = this.ArtefactProcessor.RetrieveFiles(path);
+            var files = this.artefactProcessor.RetrieveFiles(path);
+            var directories = this.artefactProcessor.RetrieveFiles(path);
         }
     }
 }

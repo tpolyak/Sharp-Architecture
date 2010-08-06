@@ -14,20 +14,24 @@
     [Export("Selective", typeof(IArtefactProcessor))]
     public class SelectiveFileSystemArtefactProcessor : FileSystemArtefactProcessor
     {
-        [Import(typeof(IDirectoryExclusionsSpecification))]
-        private IDirectoryExclusionsSpecification DirectoryExclusionsSpecification { get; set; }
+        private readonly IDirectoryExclusionsSpecification directoryExclusionsSpecification;
+        private readonly IFileExclusionsSpecification fileExclusionsSpecification;
 
-        [Import(typeof(IFileExclusionsSpecification))]
-        private IFileExclusionsSpecification FileExclusionsSpecification { get; set; }
+        [ImportingConstructor]
+        public SelectiveFileSystemArtefactProcessor(IDirectoryExclusionsSpecification directoryExclusionsSpecification, IFileExclusionsSpecification fileExclusionsSpecification)
+        {
+            this.directoryExclusionsSpecification = directoryExclusionsSpecification;
+            this.fileExclusionsSpecification = fileExclusionsSpecification;
+        }
 
         public override IEnumerable<string> RetrieveDirectories(string path)
         {
-            return this.DirectoryExclusionsSpecification.SatisfyingElementsFrom(base.RetrieveDirectories(path).AsQueryable());
+            return this.directoryExclusionsSpecification.SatisfyingElementsFrom(base.RetrieveDirectories(path).AsQueryable());
         }
 
         public override IEnumerable<string> RetrieveFiles(string path)
         {
-            return this.FileExclusionsSpecification.SatisfyingElementsFrom(base.RetrieveFiles(path).AsQueryable());
+            return this.fileExclusionsSpecification.SatisfyingElementsFrom(base.RetrieveFiles(path).AsQueryable());
         }
     }
 }

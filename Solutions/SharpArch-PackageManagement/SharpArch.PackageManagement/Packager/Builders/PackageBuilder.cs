@@ -13,12 +13,17 @@ namespace SharpArch.PackageManagement.Packager.Builders
     [Export(typeof(IPackageBuilder))]
     public class PackageBuilder : IPackageBuilder
     {
-        [Import]
-        private IManifestBuilder ManifestBuilder { get; set; }
+        private readonly IManifestBuilder manifestBuilder;
+
+        [ImportingConstructor]
+        public PackageBuilder(IManifestBuilder manifestBuilder)
+        {
+            this.manifestBuilder = manifestBuilder;
+        }
 
         public Package Build(string path)
         {
-            var package = new Package { Manifest = this.ManifestBuilder.Build(path) };
+            var package = new Package { Manifest = this.manifestBuilder.Build(path) };
 
             return package;
         }

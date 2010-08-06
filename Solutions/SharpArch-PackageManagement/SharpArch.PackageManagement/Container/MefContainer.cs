@@ -10,7 +10,7 @@ namespace SharpArch.PackageManagement.Container
 
     public class MefContainer
     {
-        public MefContainer()
+        protected MefContainer()
         {
             this.Compose();
         }
