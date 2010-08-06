@@ -6,10 +6,12 @@
     using System.Collections.Generic;
     using System.Xml.Serialization;
 
+    using SharpArch.PackageManagement.Contracts.Packages;
+
     #endregion
 
     [XmlRoot("Manifest")]
-    public class Manifest
+    public class Manifest : IPackageMetaData
     {
         public Manifest()
         {

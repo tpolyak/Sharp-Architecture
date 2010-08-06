@@ -39,19 +39,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Container\MefContainer.cs" />
+    <Compile Include="Contracts\Packager\Builders\IArchiveBuilder.cs" />
     <Compile Include="Contracts\Packager\Builders\IManifestBuilder.cs" />
     <Compile Include="Contracts\Packager\Builders\IPackageBuilder.cs" />
     <Compile Include="Contracts\Packager\Processors\IArtefactProcessor.cs" />
     <Compile Include="Contracts\Packager\Processors\IPackageProcessor.cs" />
     <Compile Include="Contracts\Packager\Specifications\IDirectoryExclusionsSpecification.cs" />
     <Compile Include="Contracts\Packager\Specifications\IFileExclusionsSpecification.cs" />
+    <Compile Include="Contracts\Packages\IPackageMetaData.cs" />
     <Compile Include="Contracts\Specifications\ILinqSpecification.cs" />
     <Compile Include="Contracts\Packager\ITokeniser.cs" />
     <Compile Include="Contracts\Tasks\IPackageTask.cs" />
     <Compile Include="Domain\Packages\Manifest.cs" />
     <Compile Include="Domain\Packages\ManifestFile.cs" />
     <Compile Include="Domain\Packages\Package.cs" />
+    <Compile Include="Domain\Packages\PackageMetaData.cs" />
     <Compile Include="Factories\PackageFactory.cs" />
+    <Compile Include="Packager\Builders\ArchiveBuilder.cs" />
     <Compile Include="Packager\Builders\ManifestBuilder.cs" />
     <Compile Include="Packager\Builders\PackageBuilder.cs" />
     <Compile Include="Packager\Processors\FileSystemArtefactProcessor.cs" />

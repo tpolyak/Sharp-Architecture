@@ -6,6 +6,7 @@ namespace SharpArch.PackageManagement.Packager.Builders
     using System.ComponentModel.Composition;
 
     using SharpArch.PackageManagement.Contracts.Packager.Builders;
+    using SharpArch.PackageManagement.Contracts.Packages;
     using SharpArch.PackageManagement.Domain.Packages;
 
     #endregion
@@ -21,11 +22,9 @@ namespace SharpArch.PackageManagement.Packager.Builders
             this.manifestBuilder = manifestBuilder;
         }
 
-        public Package Build(string path)
+        public Package Build(string path, IPackageMetaData packageMetaData)
         {
-            var package = new Package { Manifest = this.manifestBuilder.Build(path) };
-
-            return package;
+            return new Package { Manifest = this.manifestBuilder.Build(path, packageMetaData) };
         }
     }
 }
