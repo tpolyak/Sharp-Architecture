@@ -10,7 +10,7 @@
 
     public static class PackageFactory
     {
-        public static Package Create(string path)
+        public static Package Get(string path)
         {
             var package = new ICSharpCode.SharpZipLib.Zip.ZipFile(path);
             var manifestFile = package.GetEntry("manifest.xml");

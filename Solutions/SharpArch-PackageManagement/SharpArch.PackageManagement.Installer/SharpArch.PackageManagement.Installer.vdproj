@@ -158,7 +158,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:3.5.21022    "
+                "FrameworkVersion" = "8:3.5.21022     "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=76617"
                 }
@@ -349,7 +349,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Sharp Architecture Package Management"
         "ProductCode" = "8:{065FAF56-B72F-46F1-A5D9-1B3EE0C46764}"
-        "PackageCode" = "8:{86EA1573-A6C2-4FE7-8C0C-5F60C2ABCC50}"
+        "PackageCode" = "8:{4F7863BB-C020-4C03-9E97-D26E7C4F5414}"
         "UpgradeCode" = "8:{9A3E2F12-2445-4912-BA16-A532F72FD1EA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -469,7 +469,7 @@
                                 {
                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_0FB66D220FD94098B0CCBE03B92179BA"
                                     {
-                                    "Name" = "8:Create Sharp Architecture Solution Here"
+                                    "Name" = "8:Deploy Solution Package To Here"
                                     "Condition" = "8:"
                                     "AlwaysCreate" = "11:FALSE"
                                     "DeleteAtUninstall" = "11:FALSE"
@@ -494,6 +494,42 @@
                                                     "Condition" = "8:"
                                                     "Transitive" = "11:FALSE"
                                                     "ValueTypes" = "3:2"
+                                                    "Value" = "8:\"[TARGETDIR]Framework\\SharpArch.PackageManagement.ActionHandler.exe\" \"%1\""
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
+                                    "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_356A6898F3D1434BAD013F4B26C13154"
+                                    {
+                                    "Name" = "8:Create Solution Package From Here"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "DeleteAtUninstall" = "11:FALSE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                            "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_0A842A2B85A24DAE80F5F0C82EB3AEC3"
+                                            {
+                                            "Name" = "8:command"
+                                            "Condition" = "8:"
+                                            "AlwaysCreate" = "11:FALSE"
+                                            "DeleteAtUninstall" = "11:FALSE"
+                                            "Transitive" = "11:FALSE"
+                                                "Keys"
+                                                {
+                                                }
+                                                "Values"
+                                                {
+                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_5D53D0C3DBB6466EA19D23C1511EB38E"
+                                                    {
+                                                    "Name" = "8:"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
                                                     "Value" = "8:\"[TARGETDIR]Framework\\SharpArch.PackageManagement.ActionHandler.exe\" \"%1\""
                                                     }
                                                 }

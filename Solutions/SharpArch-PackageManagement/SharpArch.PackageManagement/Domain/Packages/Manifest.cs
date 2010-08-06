@@ -11,6 +11,11 @@
     [XmlRoot("Manifest")]
     public class Manifest
     {
+        public Manifest()
+        {
+            this.Files = new List<ManifestFile>();
+        }
+
         public string Author { get; set; }
 
         [XmlArray]

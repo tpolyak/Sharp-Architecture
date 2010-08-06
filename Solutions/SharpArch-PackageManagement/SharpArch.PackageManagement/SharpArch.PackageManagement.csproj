@@ -38,19 +38,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\Packager\IPackageProcessor.cs" />
+    <Compile Include="Container\MefContainer.cs" />
+    <Compile Include="Contracts\Packager\Builders\IManifestBuilder.cs" />
+    <Compile Include="Contracts\Packager\Builders\IPackageBuilder.cs" />
+    <Compile Include="Contracts\Packager\Processors\IArtefactProcessor.cs" />
+    <Compile Include="Contracts\Packager\Processors\IPackageProcessor.cs" />
+    <Compile Include="Contracts\Packager\Specifications\IDirectoryExclusionsSpecification.cs" />
+    <Compile Include="Contracts\Packager\Specifications\IFileExclusionsSpecification.cs" />
     <Compile Include="Contracts\Specifications\ILinqSpecification.cs" />
-    <Compile Include="Contracts\Packager\IDirectoryExclusionsSpecification.cs" />
-    <Compile Include="Contracts\Packager\IFileExclusionsSpecification.cs" />
     <Compile Include="Contracts\Packager\ITokeniser.cs" />
-    <Compile Include="Contracts\Packager\IArtefactProcessor.cs" />
     <Compile Include="Contracts\Tasks\IPackageTask.cs" />
     <Compile Include="Domain\Packages\Manifest.cs" />
     <Compile Include="Domain\Packages\ManifestFile.cs" />
     <Compile Include="Domain\Packages\Package.cs" />
     <Compile Include="Factories\PackageFactory.cs" />
-    <Compile Include="Packager\FileSystemArtefactProcessor.cs" />
-    <Compile Include="Packager\PackageProcessor.cs" />
+    <Compile Include="Packager\Builders\ManifestBuilder.cs" />
+    <Compile Include="Packager\Builders\PackageBuilder.cs" />
+    <Compile Include="Packager\Processors\FileSystemArtefactProcessor.cs" />
+    <Compile Include="Packager\Processors\PackageProcessor.cs" />
+    <Compile Include="Packager\Processors\SelectiveFileSystemArtefactProcessor.cs" />
     <Compile Include="Packager\Specifications\FileExclusionSpecification.cs" />
     <Compile Include="Packager\Specifications\NonHiddenDirectoriesSpecification.cs" />
     <Compile Include="Packages\SharpArchitecturePackage.cs" />
@@ -60,6 +66,7 @@
     <Compile Include="Specifications\QuerySpecificationExtensions.cs" />
     <Compile Include="Tasks\FileCopyPackageTask.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

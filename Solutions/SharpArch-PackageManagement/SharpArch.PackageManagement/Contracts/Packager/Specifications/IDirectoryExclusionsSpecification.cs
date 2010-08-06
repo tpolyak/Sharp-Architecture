@@ -1,4 +1,4 @@
-namespace SharpArch.PackageManagement.Contracts.Packager
+﻿namespace SharpArch.PackageManagement.Contracts.Packager.Specifications
 {
     using SharpArch.PackageManagement.Contracts.Specifications;
 

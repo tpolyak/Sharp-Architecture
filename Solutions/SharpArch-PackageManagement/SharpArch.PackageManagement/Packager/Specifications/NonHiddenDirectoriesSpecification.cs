@@ -7,6 +7,7 @@ namespace SharpArch.PackageManagement.Packager.Specifications
     using System.Linq;
 
     using SharpArch.PackageManagement.Contracts.Packager;
+    using SharpArch.PackageManagement.Contracts.Packager.Specifications;
     using SharpArch.PackageManagement.Specifications;
 
     #endregion

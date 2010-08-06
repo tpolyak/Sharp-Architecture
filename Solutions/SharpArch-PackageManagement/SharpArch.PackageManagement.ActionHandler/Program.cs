@@ -8,7 +8,10 @@
     using System.ComponentModel.Composition.Hosting;
     using System.Linq;
 
+    using SharpArch.PackageManagement.Container;
     using SharpArch.PackageManagement.Contracts.Packager;
+    using SharpArch.PackageManagement.Contracts.Packager.Builders;
+    using SharpArch.PackageManagement.Contracts.Packager.Processors;
     using SharpArch.PackageManagement.Contracts.Tasks;
     using SharpArch.PackageManagement.Factories;
     using SharpArch.PackageManagement.Packager;
@@ -16,7 +19,7 @@
 
     #endregion
 
-    public class Program
+    public class Program : MefContainer
     {
         [Import]
         public IPackageTask PackageTask { get; set; }
@@ -24,35 +27,27 @@
         [Import]
         public IPackageProcessor PackageProcessor { get; set; }
 
+        [Import]
+        public IPackageBuilder PackageBuilder { get; set; }
+
         public static void Main(string[] args)
         {
             new Program().Run(args[0]);
         }
-
+        
         private void Run(string path)
         {
-            this.Compose();
-
-            var package = PackageFactory.Create(SharpArchitecturePackage.Location);
+            var package = PackageFactory.Get(SharpArchitecturePackage.Location);
 
             package.Manifest.InstallRoot = path;
 
             Console.WriteLine("Processing package '{0}'", package.Manifest.Name);
 
-            //// this.PackageTask.Execute(package);
-            
-            this.PackageProcessor.Process(path, "MyTest.App");
-        }
+            var newPackage = this.PackageBuilder.Build(path);
 
-        private void Compose()
-        {
-            var catalog = new AggregateCatalog();
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            
-            catalog.Catalogs.Add(new DirectoryCatalog(baseDirectory));
-            var container = new CompositionContainer(catalog);
-         
-            container.ComposeParts(this);
+            //// this.PackageTask.Execute(package);
+
+            //// this.PackageProcessor.Process(path, "MyTest.App");
         }
     }
 }
