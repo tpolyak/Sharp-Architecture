@@ -5,13 +5,13 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SharpArch.PackageManagement
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.PackageManagement", "SharpArch-PackageManagement\SharpArch.PackageManagement\SharpArch.PackageManagement.csproj", "{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.PackageManagement.ActionHandler", "SharpArch-PackageManagement\SharpArch.PackageManagement.ActionHandler\SharpArch.PackageManagement.ActionHandler.csproj", "{ABDE731F-8025-480A-A2FC-CC9404179AC6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{6C3DEE68-6633-4899-B980-64339AB62651}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{4799185A-AFB0-428D-9B2C-29BCDFDF0B3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{59A31D18-9067-4B4D-930C-54113BAD4A83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.PackageManagement.ContextMenuHandler", "SharpArch-PackageManagement\SharpArch.PackageManagement.ContextMenuHandler\SharpArch.PackageManagement.ContextMenuHandler.csproj", "{AB83608F-1457-4EC7-B9CD-82813A222347}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,23 +45,23 @@ Global
 		{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2}.Release|x86.ActiveCfg = Release|Any CPU
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Debug|x86.ActiveCfg = Debug|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Debug|x86.Build.0 = Debug|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Release|Any CPU.ActiveCfg = Release|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Release|Mixed Platforms.Build.0 = Release|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Release|x86.ActiveCfg = Release|x86
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6}.Release|x86.Build.0 = Release|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Debug|x86.ActiveCfg = Debug|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Debug|x86.Build.0 = Debug|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Release|Any CPU.ActiveCfg = Release|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Release|Mixed Platforms.Build.0 = Release|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Release|x86.ActiveCfg = Release|x86
+		{AB83608F-1457-4EC7-B9CD-82813A222347}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{56BE3D9C-686D-426A-A49C-BC83FCAB670E} = {6C3DEE68-6633-4899-B980-64339AB62651}
-		{ABDE731F-8025-480A-A2FC-CC9404179AC6} = {4799185A-AFB0-428D-9B2C-29BCDFDF0B3C}
 		{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2} = {59A31D18-9067-4B4D-930C-54113BAD4A83}
+		{AB83608F-1457-4EC7-B9CD-82813A222347} = {4799185A-AFB0-428D-9B2C-29BCDFDF0B3C}
 	EndGlobalSection
 EndGlobal

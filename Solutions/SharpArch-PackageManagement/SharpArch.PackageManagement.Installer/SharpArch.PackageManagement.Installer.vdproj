@@ -21,44 +21,56 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_324B779BA9CD43B284B8637F85C1DD70"
+        "MsmKey" = "8:_20E2B175493421FC59C478A064E165EA"
+        "OwnerKey" = "8:_724E10457333461FBEE7ACF65161C098"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_6FE171031A1D789FD9A1C174AE42F608"
+        "OwnerKey" = "8:_724E10457333461FBEE7ACF65161C098"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_724E10457333461FBEE7ACF65161C098"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A465BE3A910EBEAEC1C179190E3EC7D2"
-        "OwnerKey" = "8:_324B779BA9CD43B284B8637F85C1DD70"
+        "MsmKey" = "8:_7F7049353E9BD6F422BB79FD1CF4F57B"
+        "OwnerKey" = "8:_724E10457333461FBEE7ACF65161C098"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_A465BE3A910EBEAEC1C179190E3EC7D2"
-        "OwnerKey" = "8:_A8E163A131256B9E53BBC381C1509000"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A8E163A131256B9E53BBC381C1509000"
-        "OwnerKey" = "8:_324B779BA9CD43B284B8637F85C1DD70"
+        "MsmKey" = "8:_7F7049353E9BD6F422BB79FD1CF4F57B"
+        "OwnerKey" = "8:_20E2B175493421FC59C478A064E165EA"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_324B779BA9CD43B284B8637F85C1DD70"
+        "OwnerKey" = "8:_724E10457333461FBEE7ACF65161C098"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A8E163A131256B9E53BBC381C1509000"
+        "OwnerKey" = "8:_6FE171031A1D789FD9A1C174AE42F608"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A465BE3A910EBEAEC1C179190E3EC7D2"
+        "OwnerKey" = "8:_20E2B175493421FC59C478A064E165EA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7F7049353E9BD6F422BB79FD1CF4F57B"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -158,7 +170,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:3.5.21022     "
+                "FrameworkVersion" = "8:3.5.21022       "
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=76617"
                 }
@@ -186,20 +198,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A465BE3A910EBEAEC1C179190E3EC7D2"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_20E2B175493421FC59C478A064E165EA"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Caliburn.Micro, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A465BE3A910EBEAEC1C179190E3EC7D2"
+                    "_20E2B175493421FC59C478A064E165EA"
                     {
-                    "Name" = "8:ICSharpCode.SharpZipLib.dll"
+                    "Name" = "8:Caliburn.Micro.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:ICSharpCode.SharpZipLib.dll"
+            "SourcePath" = "8:Caliburn.Micro.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CD13A421E6C74CD1A1284622386CB2CA"
@@ -217,20 +229,51 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A8E163A131256B9E53BBC381C1509000"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6FE171031A1D789FD9A1C174AE42F608"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:SharpArch.PackageManagement, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:CommandLine, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_A8E163A131256B9E53BBC381C1509000"
+                    "_6FE171031A1D789FD9A1C174AE42F608"
                     {
-                    "Name" = "8:SharpArch.PackageManagement.dll"
+                    "Name" = "8:CommandLine.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:SharpArch.PackageManagement.dll"
+            "SourcePath" = "8:CommandLine.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_CD13A421E6C74CD1A1284622386CB2CA"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7F7049353E9BD6F422BB79FD1CF4F57B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7F7049353E9BD6F422BB79FD1CF4F57B"
+                    {
+                    "Name" = "8:System.Windows.Interactivity.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.Windows.Interactivity.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CD13A421E6C74CD1A1284622386CB2CA"
@@ -349,7 +392,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Sharp Architecture Package Management"
         "ProductCode" = "8:{065FAF56-B72F-46F1-A5D9-1B3EE0C46764}"
-        "PackageCode" = "8:{4F7863BB-C020-4C03-9E97-D26E7C4F5414}"
+        "PackageCode" = "8:{19E298D3-074B-4AC8-A7ED-A321301550AF}"
         "UpgradeCode" = "8:{9A3E2F12-2445-4912-BA16-A532F72FD1EA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -469,7 +512,7 @@
                                 {
                                     "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_0FB66D220FD94098B0CCBE03B92179BA"
                                     {
-                                    "Name" = "8:Deploy Solution Package To Here"
+                                    "Name" = "8:Deploy Solution Package Here"
                                     "Condition" = "8:"
                                     "AlwaysCreate" = "11:FALSE"
                                     "DeleteAtUninstall" = "11:FALSE"
@@ -494,7 +537,7 @@
                                                     "Condition" = "8:"
                                                     "Transitive" = "11:FALSE"
                                                     "ValueTypes" = "3:2"
-                                                    "Value" = "8:\"[TARGETDIR]Framework\\SharpArch.PackageManagement.ActionHandler.exe\" \"%1\""
+                                                    "Value" = "8:\"[TARGETDIR]Framework\\SharpArch.PackageManagement.ContextMenuHandler.exe\" \"-d\" \"%1\""
                                                     }
                                                 }
                                             }
@@ -530,7 +573,7 @@
                                                     "Condition" = "8:"
                                                     "Transitive" = "11:FALSE"
                                                     "ValueTypes" = "3:1"
-                                                    "Value" = "8:\"[TARGETDIR]Framework\\SharpArch.PackageManagement.ActionHandler.exe\" \"%1\""
+                                                    "Value" = "8:\"[TARGETDIR]Framework\\SharpArch.PackageManagement.ContextMenuHandler.exe\" \"-c\" \"%1\""
                                                     }
                                                 }
                                             }
@@ -968,9 +1011,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_324B779BA9CD43B284B8637F85C1DD70"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_724E10457333461FBEE7ACF65161C098"
             {
-            "SourcePath" = "8:..\\SharpArch.PackageManagement.ActionHandler\\obj\\x86\\Debug\\SharpArch.PackageManagement.ActionHandler.exe"
+            "SourcePath" = "8:..\\SharpArch.PackageManagement.ContextMenuHandler\\obj\\x86\\Debug\\SharpArch.PackageManagement.ContextMenuHandler.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_CD13A421E6C74CD1A1284622386CB2CA"
@@ -990,7 +1033,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{ABDE731F-8025-480A-A2FC-CC9404179AC6}"
+            "OutputProjectGuid" = "8:{AB83608F-1457-4EC7-B9CD-82813A222347}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
