@@ -133,9 +133,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\HAL-9000 Brain Room Key.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Human Fat.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

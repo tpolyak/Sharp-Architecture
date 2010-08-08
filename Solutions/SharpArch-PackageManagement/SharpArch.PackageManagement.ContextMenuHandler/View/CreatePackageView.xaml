@@ -17,17 +17,17 @@
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
-            <Label Grid.Row="0" Grid.Column="0" Width="100">Template Name</Label>
+
+            <Label Grid.Row="0" Grid.Column="0" Width="Auto">Template Name</Label>
             <TextBox x:Name="Name" Grid.Row="0" Grid.Column="1" Width="250" />
 
-            <Label Grid.Row="1" Grid.Column="0" Width="100">Token</Label>
+            <Label Grid.Row="1" Grid.Column="0" Width="Auto">Token</Label>
             <TextBox x:Name="Token" Grid.Row="1" Grid.Column="1" Width="250" />
 
-            <Label Grid.Row="2" Grid.Column="0" Width="50">Author</Label>
+            <Label Grid.Row="2" Grid.Column="0" Width="Auto">Author</Label>
             <TextBox x:Name="Author" Grid.Row="2" Grid.Column="1" Width="250" />
 
-            <Label Grid.Row="3" Grid.Column="0" Width="50">Version</Label>
+            <Label Grid.Row="3" Grid.Column="0" Width="Auto">Version</Label>
             <TextBox x:Name="Version" Grid.Row="3" Grid.Column="1" Width="250" />
            
         </Grid>

@@ -3,9 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="72" d:DesignWidth="300">
-<StackPanel Height="72">
+             mc:Ignorable="d">
+<StackPanel>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -13,11 +12,13 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Width="50">Name</Label>
-            <TextBox x:Name="Name" Grid.Row="0" Grid.Column="1" Width="250" />
+            <Label Grid.Row="0" Grid.Column="0" Width="Auto">Package</Label>
+            <ComboBox x:Name="PackageList" Grid.Row="0" Grid.Column="1"></ComboBox>
+            <Label Grid.Row="1" Grid.Column="0" Width="Auto">Name</Label>
+            <TextBox x:Name="Name" Grid.Row="1" Grid.Column="1" Width="250" />
         </Grid>
         <Button x:Name="DeployPackage">Deploy Package</Button>
         <Button x:Name="Exit">Exit</Button>
