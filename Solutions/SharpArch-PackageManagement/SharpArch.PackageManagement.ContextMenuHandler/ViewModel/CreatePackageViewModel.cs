@@ -9,15 +9,32 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
     using Caliburn.Micro;
 
     using SharpArch.PackageManagement.ContextMenuHandler.Contracts;
+    using SharpArch.PackageManagement.Contracts.Packager.Builders;
+    using SharpArch.PackageManagement.Domain.Packages;
 
     #endregion
 
     [Export(typeof(ICreatePackageView))]
     public class CreatePackageViewModel : PropertyChangedBase, ICreatePackageView
     {
+        #region Fields
+
+        private readonly IArchiveBuilder archiveBuilder;
+        private readonly IPackageBuilder packageBuilder;
+
         private string name;
         private string author;
         private string version;
+        private string token;
+
+        #endregion
+
+        [ImportingConstructor]
+        public CreatePackageViewModel(IPackageBuilder packageBuilder, IArchiveBuilder archiveBuilder)
+        {
+            this.packageBuilder = packageBuilder;
+            this.archiveBuilder = archiveBuilder;
+        }
 
         public string Author
         {
@@ -36,7 +53,13 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
         public bool CanCreatePackage
         {
-            get { return !string.IsNullOrWhiteSpace(this.Author) && !string.IsNullOrWhiteSpace(this.Name) && !string.IsNullOrWhiteSpace(this.Version); }
+            get 
+            { 
+                return !string.IsNullOrWhiteSpace(this.Author) && 
+                       !string.IsNullOrWhiteSpace(this.Name) && 
+                       !string.IsNullOrWhiteSpace(this.Token) && 
+                       !string.IsNullOrWhiteSpace(this.Version); 
+            }
         }
 
         public string Name
@@ -60,6 +83,21 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             set;
         }
 
+        public string Token
+        {
+            get
+            {
+                return this.token;
+            }
+
+            set
+            {
+                this.token = value;
+                this.NotifyOfPropertyChange(() => this.Token);
+                this.NotifyOfPropertyChange(() => this.CanCreatePackage);
+            }
+        }
+
         public string Version
         {
             get
@@ -77,7 +115,11 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
         public void CreatePackage()
         {
-            MessageBox.Show(string.Format("Hello {0}!", this.Name));
+            var package = this.packageBuilder.Build(this.Path, new PackageMetaData { Author = this.Author, Name = this.Name, Version = this.Version });
+
+            // this.Tokenizer.Tokenize(package);
+
+            this.archiveBuilder.Build(package, this.Path);
         }
 
         public void Exit()

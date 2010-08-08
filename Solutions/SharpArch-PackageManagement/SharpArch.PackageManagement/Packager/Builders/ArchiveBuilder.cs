@@ -27,6 +27,7 @@ namespace SharpArch.PackageManagement.Packager.Builders
             }
 
             archive.CommitUpdate();
+            archive.Close();
         }
     }
 }

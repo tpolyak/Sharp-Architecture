@@ -36,6 +36,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Human Fat.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Caliburn.Micro">
       <HintPath>..\..\..\ReferencedAssemblies\Caliburn.Micro\Caliburn.Micro.dll</HintPath>
@@ -128,6 +131,12 @@
       <Project>{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2}</Project>
       <Name>SharpArch.PackageManagement</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\HAL-9000 Brain Room Key.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Human Fat.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

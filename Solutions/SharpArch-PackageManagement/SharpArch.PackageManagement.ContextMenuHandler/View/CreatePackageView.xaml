@@ -4,26 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="300">
+             d:DesignHeight="220" d:DesignWidth="300">
     <StackPanel>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Width="50">Author</Label>
-            <TextBox x:Name="Author" Grid.Row="0" Grid.Column="1" Width="250" />
+            
+            <Label Grid.Row="0" Grid.Column="0" Width="100">Template Name</Label>
+            <TextBox x:Name="Name" Grid.Row="0" Grid.Column="1" Width="250" />
 
-            <Label Grid.Row="1" Grid.Column="0" Width="50">Version</Label>
-            <TextBox x:Name="Version" Grid.Row="1" Grid.Column="1" Width="250" />
+            <Label Grid.Row="1" Grid.Column="0" Width="100">Token</Label>
+            <TextBox x:Name="Token" Grid.Row="1" Grid.Column="1" Width="250" />
 
-            <Label Grid.Row="2" Grid.Column="0" Width="50">Name</Label>
-            <TextBox x:Name="Name" Grid.Row="2" Grid.Column="1" Width="250" />
+            <Label Grid.Row="2" Grid.Column="0" Width="50">Author</Label>
+            <TextBox x:Name="Author" Grid.Row="2" Grid.Column="1" Width="250" />
+
+            <Label Grid.Row="3" Grid.Column="0" Width="50">Version</Label>
+            <TextBox x:Name="Version" Grid.Row="3" Grid.Column="1" Width="250" />
+           
         </Grid>
         <Button x:Name="CreatePackage">Create Package</Button>
         <Button x:Name="Exit">Exit</Button>

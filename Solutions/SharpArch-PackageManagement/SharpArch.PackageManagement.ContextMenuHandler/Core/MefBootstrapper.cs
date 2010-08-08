@@ -7,7 +7,9 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.Core
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
     using System.ComponentModel.Composition.Primitives;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
 
     using Caliburn.Micro;
 
@@ -59,6 +61,11 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.Core
             }
 
             throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            return new[] { Assembly.GetExecutingAssembly(), Assembly.LoadFrom(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SharpArch.PackageManagement.dll")) };
         }
     }
 }

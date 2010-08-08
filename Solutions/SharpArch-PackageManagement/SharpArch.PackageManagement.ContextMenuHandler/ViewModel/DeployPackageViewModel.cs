@@ -8,18 +8,30 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
     using Caliburn.Micro;
 
     using SharpArch.PackageManagement.ContextMenuHandler.Contracts;
+    using SharpArch.PackageManagement.Contracts.Packager.Processors;
+    using SharpArch.PackageManagement.Contracts.Tasks;
+    using SharpArch.PackageManagement.Factories;
+    using SharpArch.PackageManagement.Packages;
 
     #endregion
 
     [Export(typeof(IDeployPackageView))]
     public class DeployPackageViewModel : PropertyChangedBase, IDeployPackageView
     {
+        #region Fields
+
+        private readonly IPackageTask packageTask;
+        private readonly IPackageProcessor packageProcessor;
+
         private string name;
 
-        public string Path
+        #endregion
+
+        [ImportingConstructor]
+        public DeployPackageViewModel(IPackageTask packageTask, IPackageProcessor packageProcessor)
         {
-            get;
-            set;
+            this.packageTask = packageTask;
+            this.packageProcessor = packageProcessor;
         }
 
         public bool CanDeployPackage
@@ -42,9 +54,22 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             }
         }
 
+        public string Path
+        {
+            get;
+            set;
+        }
+
         public void DeployPackage()
         {
-            MessageBox.Show(string.Format("Deploy {0}!", this.Name));
+            // Package Repository
+            var package = PackageFactory.Get(SharpArchitecturePackage.Location);
+
+            package.Manifest.InstallRoot = this.Path;
+
+            this.packageTask.Execute(package);
+
+            this.packageProcessor.Process(this.Path, "MyTest.App");
         }
 
         public void Exit()
