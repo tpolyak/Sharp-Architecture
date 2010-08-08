@@ -123,6 +123,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpArch.PackageManagement\SharpArch.PackageManagement.csproj">
+      <Project>{9E8B79ED-9C17-485B-B1F9-8D33D8BB4BD2}</Project>
+      <Name>SharpArch.PackageManagement</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
