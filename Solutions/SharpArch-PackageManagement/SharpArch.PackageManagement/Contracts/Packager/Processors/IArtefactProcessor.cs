@@ -7,5 +7,7 @@
         IEnumerable<string> RetrieveDirectories(string path);
 
         IEnumerable<string> RetrieveFiles(string path);
+
+        IEnumerable<string> RetrieveFiles(string path, string filter);
     }
 }

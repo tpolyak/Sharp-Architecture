@@ -12,17 +12,27 @@
     {
         public static Package Get(string path)
         {
-            var package = new ICSharpCode.SharpZipLib.Zip.ZipFile(path);
-            var manifestFile = package.GetEntry("manifest.xml");
+            var package = new Package();
 
-            var manifestXmlStream = package.GetInputStream(manifestFile.ZipFileIndex);
+            try
+            {
+                var packageFile = new ICSharpCode.SharpZipLib.Zip.ZipFile(path);
+                var manifestFile = packageFile.GetEntry("manifest.xml");
 
-            var serializer = new XmlSerializer(typeof(Manifest));
-            var manifest = (Manifest)serializer.Deserialize(manifestXmlStream);
-            
-            manifest.Path = path;
+                var manifestXmlStream = packageFile.GetInputStream(manifestFile.ZipFileIndex);
 
-            return new Package { Manifest = manifest };
+                var serializer = new XmlSerializer(typeof(Manifest));
+                var manifest = (Manifest)serializer.Deserialize(manifestXmlStream);
+
+                manifest.Path = path;
+                
+                package = new Package { Manifest = manifest };
+            }
+            catch
+            {
+            }
+
+            return package;
         }
     }
 }

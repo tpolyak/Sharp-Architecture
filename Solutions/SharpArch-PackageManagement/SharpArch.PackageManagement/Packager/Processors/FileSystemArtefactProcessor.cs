@@ -17,7 +17,12 @@
     {
         public virtual IEnumerable<string> RetrieveFiles(string path)
         {
-            return Flatten(path, Directory.GetDirectories).SelectMany(dir => Directory.EnumerateFiles(dir, "*.*"));
+            return this.RetrieveFiles(path, "*.*");
+        }
+
+        public IEnumerable<string> RetrieveFiles(string path, string filter)
+        {
+            return Flatten(path, Directory.GetDirectories).SelectMany(dir => Directory.EnumerateFiles(dir, filter));
         }
 
         public virtual IEnumerable<string> RetrieveDirectories(string path)

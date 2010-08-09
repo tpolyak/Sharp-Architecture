@@ -5,10 +5,10 @@
 	<Version>1.0.0.1</Version>
   <InstallRoot>C:\TEMP</InstallRoot>
 	<Files>
-    <File>SamplePackage.exe</File>
-    <File>SamplePackage.exe.config</File>
-    <File>config\data.config</File>
-    <File InstallPath="$(InstallRoot)">config\settings.config</File>
-    <File InstallPath="$(windir)\System32">SamplePackage.cmd</File>
+    <File InstallPath="$(InstallRoot)\Sample-Console-App">SamplePackage.exe</File>
+    <File InstallPath="$(InstallRoot)\Sample-Console-App">SamplePackage.exe.config</File>
+    <File InstallPath="$(InstallRoot)\Sample-Console-App\config">config\data.config</File>
+    <File InstallPath="$(InstallRoot)\Sample-Console-App">config\settings.config</File>
+    <File InstallPath="$(InstallRoot)\Sample-Console-App">SamplePackage.cmd</File>
 	</Files>
 </Manifest>

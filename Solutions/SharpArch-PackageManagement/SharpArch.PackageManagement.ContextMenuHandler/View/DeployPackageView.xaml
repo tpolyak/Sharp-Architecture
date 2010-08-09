@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d">
+             xmlns:fwk="clr-namespace:SharpArch.PackageManagement.ContextMenuHandler.Framework" mc:Ignorable="d">
 <StackPanel>
         <Grid>
             <Grid.RowDefinitions>
@@ -15,10 +15,33 @@
                 <ColumnDefinition Width="70" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Width="Auto">Package</Label>
-            <ComboBox x:Name="PackageList" Grid.Row="0" Grid.Column="1"></ComboBox>
-            <Label Grid.Row="1" Grid.Column="0" Width="Auto">Name</Label>
-            <TextBox x:Name="Name" Grid.Row="1" Grid.Column="1" Width="250" />
+            <Label Grid.Row="0" 
+                   Grid.Column="0" 
+                   Width="Auto">Package</Label>
+            <fwk:HintTextDecorator 
+                HintText="Please select a package" 
+                Padding="3"
+                Grid.Row="0" 
+                Grid.Column="1" >
+                <ComboBox x:Name="PackageList"
+                      ItemsSource="{Binding Path=Packages}" 
+                      DisplayMemberPath="Manifest.Title" 
+                      SelectedValuePath="Manifest.Id" 
+                      SelectedItem="{Binding Path=SelectedPackage}"
+                      />
+            </fwk:HintTextDecorator>
+        	<Label Grid.Row="1" 
+                   Grid.Column="0" 
+                   Width="Auto">Name</Label>
+            <fwk:HintTextDecorator 
+                HintText="Please the new name for your solution" 
+                Padding="3"
+                Grid.Row="1" 
+                Grid.Column="1" >
+                <TextBox x:Name="Name" 
+                     Width="250" />
+            </fwk:HintTextDecorator>
+            
         </Grid>
         <Button x:Name="DeployPackage">Deploy Package</Button>
         <Button x:Name="Exit">Exit</Button>

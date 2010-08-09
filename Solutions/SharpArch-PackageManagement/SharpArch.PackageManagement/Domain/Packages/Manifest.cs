@@ -34,5 +34,11 @@
         public string Path { get; set; }
 
         public string Version { get; set; }
+
+        [XmlIgnore]
+        public string Title
+        {
+            get { return this.Name + " - " + this.Version; }
+        }
     }
 }
