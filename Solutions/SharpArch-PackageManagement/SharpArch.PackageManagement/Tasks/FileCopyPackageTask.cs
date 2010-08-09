@@ -16,12 +16,17 @@
     {
         private Manifest manifest;
 
+        public event EventHandler<PackageProgressEventArgs> Progress;
+
         public void Execute(Package package)
         {
             this.manifest = package.Manifest;
+            int progress = 0;
 
             foreach (var manifestFile in this.manifest.Files)
             {
+                progress++;
+
                 // Set destination to the Package default, unless the file has an override defined
                 string dest = String.IsNullOrEmpty(manifestFile.InstallPath) ? this.manifest.InstallRoot : manifestFile.InstallPath;
 
@@ -52,6 +57,16 @@
                 destFileStream.Close();
                 
                 stream.Close();
+                
+                this.OnProgressChanged(new PackageProgressEventArgs(this.manifest.Files.Count, progress));
+            }
+        }
+
+        protected virtual void OnProgressChanged(PackageProgressEventArgs e)
+        {
+            if (this.Progress != null)
+            {
+                this.Progress(this, e);
             }
         }
 

@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Container\MefContainer.cs" />
     <Compile Include="Contracts\Packager\Builders\IArchiveBuilder.cs" />
+    <Compile Include="Contracts\Packager\Builders\IClonePackageBuilder.cs" />
     <Compile Include="Contracts\Packager\Builders\IManifestBuilder.cs" />
     <Compile Include="Contracts\Packager\Builders\IPackageBuilder.cs" />
     <Compile Include="Contracts\Packager\Processors\IArtefactProcessor.cs" />
@@ -52,14 +53,16 @@
     <Compile Include="Contracts\Packages\IPackageMetaData.cs" />
     <Compile Include="Contracts\Packages\IPackageRepository.cs" />
     <Compile Include="Contracts\Specifications\ILinqSpecification.cs" />
-    <Compile Include="Contracts\Packager\ITokeniser.cs" />
+    <Compile Include="Contracts\Packager\Tokeniser\IPackageTokeniser.cs" />
     <Compile Include="Contracts\Tasks\IPackageTask.cs" />
     <Compile Include="Domain\Packages\Manifest.cs" />
     <Compile Include="Domain\Packages\ManifestFile.cs" />
     <Compile Include="Domain\Packages\Package.cs" />
     <Compile Include="Domain\Packages\PackageMetaData.cs" />
+    <Compile Include="Domain\Packages\PackageProgressEventArgs.cs" />
     <Compile Include="Factories\PackageFactory.cs" />
     <Compile Include="Packager\Builders\ArchiveBuilder.cs" />
+    <Compile Include="Packager\Builders\ClonePackageBuilder.cs" />
     <Compile Include="Packager\Builders\ManifestBuilder.cs" />
     <Compile Include="Packager\Builders\PackageBuilder.cs" />
     <Compile Include="Packager\Processors\FileSystemArtefactProcessor.cs" />
@@ -67,6 +70,7 @@
     <Compile Include="Packager\Processors\SelectiveFileSystemArtefactProcessor.cs" />
     <Compile Include="Packager\Specifications\FileExclusionSpecification.cs" />
     <Compile Include="Packager\Specifications\NonHiddenDirectoriesSpecification.cs" />
+    <Compile Include="Packager\Tokeniser\PackageTokeniser.cs" />
     <Compile Include="Repositories\PackageRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Specifications\AdHocSpecification.cs" />

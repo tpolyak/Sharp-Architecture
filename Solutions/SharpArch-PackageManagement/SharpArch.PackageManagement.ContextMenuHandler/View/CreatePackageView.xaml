@@ -6,7 +6,7 @@
              xmlns:fwk="clr-namespace:SharpArch.PackageManagement.ContextMenuHandler.Framework" 
              Title="Sharp Architecture - Package Management"
         Width="300"
-        Height="190"
+        Height="210"
              mc:Ignorable="d">
     <StackPanel>
         <Grid>
@@ -57,6 +57,7 @@
                 <TextBox x:Name="Version" Width="Auto" />
             </fwk:HintTextDecorator>
         </Grid>
+        <ProgressBar x:Name="progress" Width="Auto" Height="20"/>
         <Button x:Name="CreatePackage">Create Package</Button>
         <Button x:Name="Exit">Exit</Button>
     </StackPanel>

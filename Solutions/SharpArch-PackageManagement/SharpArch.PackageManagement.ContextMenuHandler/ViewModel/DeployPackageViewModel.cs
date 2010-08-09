@@ -36,6 +36,12 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         private PackageCollection packages;
         private string name;
 
+        private int maxProgress = 0;
+
+        private int currentProgress = 0;
+
+        private Package selectedPackage;
+
         #endregion
 
         [ImportingConstructor]
@@ -45,14 +51,50 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             this.packageProcessor = packageProcessor;
             this.packageRepository = packageRepository;
 
+            this.packageTask.Progress += this.OnPackageTaskProgress;
+
             Dispatcher = Application.Current.Dispatcher;
+        }
+        
+        private void OnPackageTaskProgress(object sender, PackageProgressEventArgs e)
+        {
+            this.CurrentProgress = e.CurrentValue;
+            this.MaxProgress = e.MaxValue;
         }
 
         #region Properties
 
         public bool CanDeployPackage
         {
-            get { return !string.IsNullOrWhiteSpace(this.Name); }
+            get { return !string.IsNullOrWhiteSpace(this.Name) && this.SelectedPackage != null; }
+        }
+
+        public int MaxProgress
+        {
+            get
+            {
+                return this.maxProgress;
+            }
+
+            set
+            {
+                this.maxProgress = value;
+                this.NotifyOfPropertyChange(() => this.MaxProgress);
+            }
+        }
+
+        public int CurrentProgress
+        {
+            get
+            {
+                return this.currentProgress;
+            }
+
+            set
+            {
+                this.currentProgress = value;
+                this.NotifyOfPropertyChange(() => this.CurrentProgress);
+            }
         }
 
         public string Name
@@ -70,7 +112,20 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             }
         }
 
-        public Package SelectedPackage { get; set; }
+        public Package SelectedPackage
+        {
+            get
+            {
+                return this.selectedPackage;
+            } 
+ 
+            set
+            {
+                this.selectedPackage = value;
+                this.NotifyOfPropertyChange(() => this.SelectedPackage);
+                this.NotifyOfPropertyChange(() => this.CanDeployPackage);
+            }
+        }
 
         public PackageCollection Packages
         {
@@ -111,7 +166,17 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
             package.Manifest.InstallRoot = this.Path;
 
-            this.packageTask.Execute(package);
+            Action workAction = delegate
+            {
+                var worker = new BackgroundWorker();
+                worker.DoWork += delegate
+                {
+                    this.packageTask.Execute(package);
+                };
+                worker.RunWorkerAsync();
+            };
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, workAction);
 
             this.packageProcessor.Process(this.Path, this.Name);
         }

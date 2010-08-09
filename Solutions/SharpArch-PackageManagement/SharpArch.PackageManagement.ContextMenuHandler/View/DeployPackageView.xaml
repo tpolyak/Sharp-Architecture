@@ -6,7 +6,7 @@
              xmlns:fwk="clr-namespace:SharpArch.PackageManagement.ContextMenuHandler.Framework" 
              Title="Sharp Architecture - Package Management"
              Width="300"
-             Height="135"
+             Height="160"
              mc:Ignorable="d">
 <StackPanel>
         <Grid>
@@ -22,18 +22,17 @@
             <Label Grid.Row="0" 
                    Grid.Column="0" 
                    Width="Auto">Package</Label>
-            <fwk:HintTextDecorator 
+            <fwk:HintTextDecorator
                 HintText="Please select a package" 
                 Padding="3"
-                Grid.Row="0" 
-                Grid.Column="1" >
+                Grid.Row="0"
+                Grid.Column="1">
                 <ComboBox x:Name="PackageList"
                       ItemsSource="{Binding Path=Packages}" 
                       DisplayMemberPath="Manifest.Title" 
                       SelectedValuePath="Manifest.Id" 
                       SelectedItem="{Binding Path=SelectedPackage}"
-                      Width="Auto"
-                      />
+                      Width="Auto" />
             </fwk:HintTextDecorator>
         	<Label Grid.Row="1" 
                    Grid.Column="0" 
@@ -43,11 +42,10 @@
                 Padding="3"
                 Grid.Row="1" 
                 Grid.Column="1" >
-                <TextBox x:Name="Name" 
-                     Width="Auto" />
+                <TextBox x:Name="Name" Width="Auto" Text="WhoCanHelpMe" />
             </fwk:HintTextDecorator>
-            
         </Grid>
+        <ProgressBar x:Name="progress" Width="Auto" Height="20" Minimum="0" Maximum="{Binding Path=MaxProgress}" Value="{Binding Path=CurrentProgress}" IsEnabled="{Binding Path=CanDeployPackage}"/>
         <Button x:Name="DeployPackage">Deploy Package</Button>
         <Button x:Name="Exit">Exit</Button>
     </StackPanel>

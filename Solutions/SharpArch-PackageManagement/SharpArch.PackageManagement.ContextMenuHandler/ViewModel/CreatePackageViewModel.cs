@@ -10,6 +10,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
     using SharpArch.PackageManagement.ContextMenuHandler.Contracts;
     using SharpArch.PackageManagement.Contracts.Packager.Builders;
+    using SharpArch.PackageManagement.Contracts.Packager.Tokeniser;
     using SharpArch.PackageManagement.Domain.Packages;
 
     #endregion
@@ -20,7 +21,9 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         #region Fields
 
         private readonly IArchiveBuilder archiveBuilder;
+        private readonly IClonePackageBuilder clonePackageBuilder;
         private readonly IPackageBuilder packageBuilder;
+        private readonly IPackageTokeniser packageTokeniser;
 
         private string name;
         private string author;
@@ -30,10 +33,12 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         #endregion
 
         [ImportingConstructor]
-        public CreatePackageViewModel(IPackageBuilder packageBuilder, IArchiveBuilder archiveBuilder)
+        public CreatePackageViewModel(IArchiveBuilder archiveBuilder, IClonePackageBuilder clonePackageBuilder, IPackageBuilder packageBuilder, IPackageTokeniser packageTokeniser)
         {
-            this.packageBuilder = packageBuilder;
             this.archiveBuilder = archiveBuilder;
+            this.clonePackageBuilder = clonePackageBuilder;
+            this.packageBuilder = packageBuilder;
+            this.packageTokeniser = packageTokeniser;
         }
 
         public string Author
@@ -116,10 +121,10 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         public void CreatePackage()
         {
             var package = this.packageBuilder.Build(this.Path, new PackageMetaData { Author = this.Author, Name = this.Name, Version = this.Version });
+            var clonedPackage = this.clonePackageBuilder.Build(package);
+            var tokenisedPackage = this.packageTokeniser.Tokenise(clonedPackage, this.Token);
 
-            // this.Tokenizer.Tokenize(package);
-
-            this.archiveBuilder.Build(package, this.Path);
+            this.archiveBuilder.Build(tokenisedPackage, this.Path);
         }
 
         public void Exit()
