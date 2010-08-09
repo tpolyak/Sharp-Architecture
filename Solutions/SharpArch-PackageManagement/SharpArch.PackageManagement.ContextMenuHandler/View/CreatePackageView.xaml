@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="220" d:DesignWidth="300">
+             xmlns:fwk="clr-namespace:SharpArch.PackageManagement.ContextMenuHandler.Framework" 
+             mc:Ignorable="d">
     <StackPanel>
         <Grid>
             <Grid.RowDefinitions>
@@ -18,18 +18,41 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Width="Auto">Template Name</Label>
-            <TextBox x:Name="Name" Grid.Row="0" Grid.Column="1" Width="250" />
-
+            <Label Grid.Row="0" Grid.Column="0" Width="Auto">Name</Label>
+            <fwk:HintTextDecorator 
+                HintText="Please enter a name for your new solution" 
+                Padding="3"
+                Grid.Row="0" 
+                Grid.Column="1">
+                <TextBox x:Name="Name" Width="250" />
+            </fwk:HintTextDecorator>
+            
             <Label Grid.Row="1" Grid.Column="0" Width="Auto">Token</Label>
-            <TextBox x:Name="Token" Grid.Row="1" Grid.Column="1" Width="250" />
-
+            <fwk:HintTextDecorator 
+                HintText="Please enter the phrase to tokenise" 
+                Padding="3"
+                Grid.Row="1"
+                Grid.Column="1">
+                <TextBox x:Name="Token" Width="250" />
+            </fwk:HintTextDecorator>
+            
             <Label Grid.Row="2" Grid.Column="0" Width="Auto">Author</Label>
-            <TextBox x:Name="Author" Grid.Row="2" Grid.Column="1" Width="250" />
-
+            <fwk:HintTextDecorator 
+                HintText="Please enter a name of the package author" 
+                Padding="3"
+                Grid.Row="2" 
+                Grid.Column="1">
+                <TextBox x:Name="Author" Width="250" />
+            </fwk:HintTextDecorator>
+            
             <Label Grid.Row="3" Grid.Column="0" Width="Auto">Version</Label>
-            <TextBox x:Name="Version" Grid.Row="3" Grid.Column="1" Width="250" />
-           
+            <fwk:HintTextDecorator 
+                HintText="Please enter package version" 
+                Padding="3"
+                Grid.Row="3" 
+                Grid.Column="1">
+                <TextBox x:Name="Version" Width="250" />
+            </fwk:HintTextDecorator>
         </Grid>
         <Button x:Name="CreatePackage">Create Package</Button>
         <Button x:Name="Exit">Exit</Button>
