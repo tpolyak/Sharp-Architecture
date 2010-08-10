@@ -18,7 +18,6 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
     using SharpArch.PackageManagement.Contracts.Packages;
     using SharpArch.PackageManagement.Contracts.Tasks;
     using SharpArch.PackageManagement.Domain.Packages;
-    using SharpArch.PackageManagement.Factories;
 
     using Action = System.Action;
 
@@ -54,12 +53,6 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             this.packageTask.Progress += this.OnPackageTaskProgress;
 
             Dispatcher = Application.Current.Dispatcher;
-        }
-        
-        private void OnPackageTaskProgress(object sender, PackageProgressEventArgs e)
-        {
-            this.CurrentProgress = e.CurrentValue;
-            this.MaxProgress = e.MaxValue;
         }
 
         #region Properties
@@ -166,6 +159,13 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
             package.Manifest.InstallRoot = this.Path;
 
+            this.ExecutePackage(package);
+
+            this.packageProcessor.Process(this.Path, this.Name);
+        }
+
+        private void ExecutePackage(Package package)
+        {
             Action workAction = delegate
             {
                 var worker = new BackgroundWorker();
@@ -177,8 +177,6 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             };
 
             Dispatcher.BeginInvoke(DispatcherPriority.Background, workAction);
-
-            this.packageProcessor.Process(this.Path, this.Name);
         }
 
         public void Exit()
@@ -199,6 +197,12 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
                 };
 
             Dispatcher.BeginInvoke(DispatcherPriority.Background, workAction);
+        }
+
+        private void OnPackageTaskProgress(object sender, PackageProgressEventArgs e)
+        {
+            this.CurrentProgress = e.CurrentValue;
+            this.MaxProgress = e.MaxValue;
         }
 
         private void RetrievePackages()
