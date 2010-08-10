@@ -49,6 +49,7 @@
     <Compile Include="Contracts\Packager\Builders\IPackageBuilder.cs" />
     <Compile Include="Contracts\Packager\Processors\IArtefactProcessor.cs" />
     <Compile Include="Contracts\Packager\Processors\IPackageProcessor.cs" />
+    <Compile Include="Contracts\Packager\Processors\IRenameFileProcessor.cs" />
     <Compile Include="Contracts\Packager\Specifications\IDirectoryExclusionsSpecification.cs" />
     <Compile Include="Contracts\Packager\Specifications\IFileExclusionsSpecification.cs" />
     <Compile Include="Contracts\Packages\IPackageMetaData.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Domain\Packager\Processors\CloneFileProcessor.cs" />
     <Compile Include="Domain\Packager\Processors\FileSystemArtefactProcessor.cs" />
     <Compile Include="Domain\Packager\Processors\PackageProcessor.cs" />
+    <Compile Include="Domain\Packager\Processors\RenameFileProcessor.cs" />
     <Compile Include="Domain\Packager\Processors\SelectiveFileSystemArtefactProcessor.cs" />
     <Compile Include="Domain\Packager\Specifications\FileExclusionSpecification.cs" />
     <Compile Include="Domain\Packager\Specifications\NonHiddenDirectoriesSpecification.cs" />
