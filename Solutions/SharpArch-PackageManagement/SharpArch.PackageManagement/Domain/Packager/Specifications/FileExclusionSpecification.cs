@@ -20,7 +20,7 @@
         public FileExclusionSpecification()
         {
             this.directoryExclusions = new List<string> { "bin", "obj", "debug", "release" };
-            this.fileExclusions = new List<string> { ".exe", ".cache", ".dll", ".pdb", ".jpg", ".png", ".gif", ".mst", ".msi", ".msm", ".gitignore", ".idx", ".pack" };
+            this.fileExclusions = new List<string> { ".exe", ".cache", ".dll", ".pdb", ".jpg", ".png", ".gif", ".mst", ".msi", ".msm", ".gitignore", ".idx", ".pack", ".user", ".suo" };
         }
 
         public override System.Linq.Expressions.Expression<System.Func<string, bool>> MatchingCriteria

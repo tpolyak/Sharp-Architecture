@@ -15,7 +15,7 @@ namespace SharpArch.PackageManagement.Infrastructure
             {
                 return Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Sharp-Architecture\Package-Repository\");
+                    @"SharpArch\Pkg-Repo\");
             }
         }
 
@@ -25,7 +25,7 @@ namespace SharpArch.PackageManagement.Infrastructure
             {
                 return Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Sharp-Architecture\Temp-Package-Repository\");
+                    @"SharpArch\Tmp-Pkg-Repo\");
             }
         }
     }

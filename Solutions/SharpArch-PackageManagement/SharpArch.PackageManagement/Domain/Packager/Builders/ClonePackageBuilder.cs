@@ -7,6 +7,7 @@
 
     using SharpArch.PackageManagement.Contracts.Packager.Builders;
     using SharpArch.PackageManagement.Contracts.Packager.Processors;
+    using SharpArch.PackageManagement.Domain.Factories;
     using SharpArch.PackageManagement.Domain.Packages;
     using SharpArch.PackageManagement.Infrastructure;
 
@@ -16,27 +17,42 @@
     public class ClonePackageBuilder : IClonePackageBuilder
     {
         private readonly ICloneFileProcessor cloneFileProcessor;
-        private readonly string temporaryRepositoryPath;
 
         [ImportingConstructor]
         public ClonePackageBuilder(ICloneFileProcessor cloneFileProcessor)
         {
             this.cloneFileProcessor = cloneFileProcessor;
-            this.temporaryRepositoryPath = FilePaths.TemporaryPackageRepository;
         }
 
         public Package Build(Package package)
         {
+            package.ClonedPath = Path.Combine(Path.Combine(FilePaths.TemporaryPackageRepository, package.Manifest.Id.ToString()), "Cloned");
+            package.TemplatePath = Path.Combine(Path.Combine(FilePaths.TemporaryPackageRepository, package.Manifest.Id.ToString()), "Template");
+
+            var manifestFilePath = this.PersistManifestFileAndReturnLocation(package);
+
             foreach (var file in package.Manifest.Files)
             {
-                var clonedPath = Path.Combine(this.temporaryRepositoryPath, file.File);
+                var clonedPath = Path.Combine(package.ClonedPath, file.File);
 
                 this.cloneFileProcessor.Process(Path.Combine(package.Manifest.Path, file.File), clonedPath);
 
                 file.File = clonedPath;
             }
+            
+            // Add the manifest file so that it will be tokenised.
+            package.Manifest.Files.Add(new ManifestFile { File = manifestFilePath });
 
             return package;
+        }
+
+        private string PersistManifestFileAndReturnLocation(Package package)
+        {
+            var manifestFilePath = Path.Combine(package.ClonedPath, "manifest.xml");
+
+            ManifestFactory.Save(manifestFilePath, package.Manifest);
+
+            return manifestFilePath;
         }
     }
 }

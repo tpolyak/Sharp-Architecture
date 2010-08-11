@@ -9,6 +9,7 @@
 
     using SharpArch.PackageManagement.Contracts.Packager.Builders;
     using SharpArch.PackageManagement.Domain.Packages;
+    using SharpArch.PackageManagement.Infrastructure;
 
     #endregion
 
@@ -17,13 +18,14 @@
     {
         public void Build(Package package, string path)
         {
-            var archive = ZipFile.Create(Path.Combine(path, package.Manifest.Name) + ".zip");
+            var archiveName = package.Manifest.Name.ToLowerInvariant().Replace(" ", "-") + "-v" + package.Manifest.Version;
+            var archive = ZipFile.Create(Path.Combine(FilePaths.PackageRepository, archiveName) + ".pkg");
             
             archive.BeginUpdate();
 
             foreach (var manifestFile in package.Manifest.Files)
             {
-                archive.Add(Path.Combine(path, manifestFile.File), manifestFile.File);
+                archive.Add(Path.Combine(path, manifestFile.File), manifestFile.File.Replace(package.TemplatePath, string.Empty));
             }
 
             archive.CommitUpdate();

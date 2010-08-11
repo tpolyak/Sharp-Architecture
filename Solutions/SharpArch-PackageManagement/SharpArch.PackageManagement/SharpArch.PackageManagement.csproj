@@ -44,6 +44,7 @@
     <Compile Include="Contracts\Framework\Specifications\ILinqSpecification.cs" />
     <Compile Include="Contracts\Packager\Builders\IArchiveBuilder.cs" />
     <Compile Include="Contracts\Packager\Builders\IClonePackageBuilder.cs" />
+    <Compile Include="Contracts\Packager\Processors\ICleanUpProcessor.cs" />
     <Compile Include="Contracts\Packager\Processors\ICloneFileProcessor.cs" />
     <Compile Include="Contracts\Packager\Builders\IManifestBuilder.cs" />
     <Compile Include="Contracts\Packager\Builders\IPackageBuilder.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Contracts\Packager\Processors\IPackageProcessor.cs" />
     <Compile Include="Contracts\Packager\Processors\IRenameFileProcessor.cs" />
     <Compile Include="Contracts\Packager\Specifications\IFileExclusionsSpecification.cs" />
+    <Compile Include="Contracts\Packager\Tokeniser\ITempateTokeniser.cs" />
     <Compile Include="Contracts\Packages\IPackageMetaData.cs" />
     <Compile Include="Contracts\Packages\IPackageRepository.cs" />
     <Compile Include="Contracts\Packager\Tokeniser\IPackageTokeniser.cs" />
@@ -62,6 +64,7 @@
     <Compile Include="Domain\Packager\Builders\ClonePackageBuilder.cs" />
     <Compile Include="Domain\Packager\Builders\ManifestBuilder.cs" />
     <Compile Include="Domain\Packager\Builders\PackageBuilder.cs" />
+    <Compile Include="Domain\Packager\Processors\CleanUpProcessor.cs" />
     <Compile Include="Domain\Packager\Processors\CloneFileProcessor.cs" />
     <Compile Include="Domain\Packager\Processors\FilteredFileSystemArtefactProcessor.cs" />
     <Compile Include="Domain\Packager\Processors\FileContentProcessor.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Domain\Packager\Processors\RenameFileProcessor.cs" />
     <Compile Include="Domain\Packager\Specifications\FileExclusionSpecification.cs" />
     <Compile Include="Domain\Packager\Tokeniser\PackageTokeniser.cs" />
+    <Compile Include="Domain\Packager\Tokeniser\TemplateTokeniser.cs" />
     <Compile Include="Domain\Packages\Manifest.cs" />
     <Compile Include="Domain\Packages\ManifestFile.cs" />
     <Compile Include="Domain\Packages\Package.cs" />

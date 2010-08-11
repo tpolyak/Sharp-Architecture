@@ -14,6 +14,13 @@ namespace SharpArch.PackageManagement.Domain.Packager.Processors
     {
         public void Process(string oldName, string newName)
         {
+            var file = new FileInfo(newName);
+
+            if (!file.Directory.Exists)
+            {
+                file.Directory.Create();
+            }
+
             File.Move(oldName, newName);
         }
     }

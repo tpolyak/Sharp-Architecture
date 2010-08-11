@@ -10,9 +10,11 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
     using SharpArch.PackageManagement.ContextMenuHandler.Contracts;
     using SharpArch.PackageManagement.Contracts.Packager.Builders;
+    using SharpArch.PackageManagement.Contracts.Packager.Processors;
     using SharpArch.PackageManagement.Contracts.Packager.Tokeniser;
     using SharpArch.PackageManagement.Domain.Factories;
     using SharpArch.PackageManagement.Domain.Packages;
+    using SharpArch.PackageManagement.Infrastructure;
 
     #endregion
 
@@ -22,6 +24,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         #region Fields
 
         private readonly IArchiveBuilder archiveBuilder;
+        private readonly ICleanUpProcessor cleanUpProcessor;
         private readonly IClonePackageBuilder clonePackageBuilder;
         private readonly IPackageBuilder packageBuilder;
         private readonly IPackageTokeniser packageTokeniser;
@@ -34,9 +37,15 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         #endregion
 
         [ImportingConstructor]
-        public CreatePackageViewModel(IArchiveBuilder archiveBuilder, IClonePackageBuilder clonePackageBuilder, IPackageBuilder packageBuilder, IPackageTokeniser packageTokeniser)
+        public CreatePackageViewModel(
+            IArchiveBuilder archiveBuilder, 
+            ICleanUpProcessor cleanUpProcessor, 
+            IClonePackageBuilder clonePackageBuilder,
+            IPackageBuilder packageBuilder,
+            IPackageTokeniser packageTokeniser)
         {
             this.archiveBuilder = archiveBuilder;
+            this.cleanUpProcessor = cleanUpProcessor;
             this.clonePackageBuilder = clonePackageBuilder;
             this.packageBuilder = packageBuilder;
             this.packageTokeniser = packageTokeniser;
@@ -123,16 +132,16 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         {
             var package = this.packageBuilder.Build(this.Path, new PackageMetaData { Author = this.Author, Name = this.Name, Version = this.Version });
 
-            ManifestFactory.Save(@"c:\temp\manifest.xml", package.Manifest);
             var clonedPackage = this.clonePackageBuilder.Build(package);
             var tokenisedPackage = this.packageTokeniser.Tokenise(clonedPackage, this.Token);
 
             this.archiveBuilder.Build(tokenisedPackage, this.Path);
+            this.cleanUpProcessor.Process(FilePaths.TemporaryPackageRepository);
         }
 
         public void Exit()
         {
-            App.Current.Shutdown();
+            Application.Current.Shutdown();
         }
     }
 }

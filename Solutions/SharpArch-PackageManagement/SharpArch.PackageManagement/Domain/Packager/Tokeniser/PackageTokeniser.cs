@@ -34,7 +34,7 @@
             return package;
         }
 
-        private static string Tokenise(string token, string value)
+        private static string Replace(string token, string value)
         {
             return Regex.Replace(value, token, match => "__NAME__");
         }
@@ -44,7 +44,7 @@
             foreach (var manifestFile in package.Manifest.Files)
             {
                 var contents = this.fileContentProcessor.ReadContents(manifestFile.File);
-                contents = Tokenise(token, contents);
+                contents = Replace(token, contents);
                 this.fileContentProcessor.WriteContents(manifestFile.File, contents);
             }
         }
@@ -53,10 +53,16 @@
         {
             foreach (var manifestFile in package.Manifest.Files)
             {
-                var tokenisedName = Tokenise(token, manifestFile.File);
+                var tokenisedName = Replace(token, manifestFile.File);
+                tokenisedName = this.RebaseToTemplatePath(package, tokenisedName);
                 this.renameFileProcessor.Process(manifestFile.File, tokenisedName);
                 manifestFile.File = tokenisedName;
             }
+        }
+
+        private string RebaseToTemplatePath(Package package, string tokenisedName)
+        {
+            return tokenisedName.Replace(package.ClonedPath, package.TemplatePath);
         }
     }
 }

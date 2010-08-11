@@ -160,8 +160,6 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             package.Manifest.InstallRoot = this.Path;
 
             this.ExecutePackage(package);
-
-            this.packageProcessor.Process(this.Path, this.Name);
         }
 
         private void ExecutePackage(Package package)
@@ -172,6 +170,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
                 worker.DoWork += delegate
                 {
                     this.packageTask.Execute(package);
+                    this.packageProcessor.Process(this.Path, this.Name);
                 };
                 worker.RunWorkerAsync();
             };
