@@ -171,6 +171,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
                 {
                     this.packageTask.Execute(package);
                     this.packageProcessor.Process(this.Path, this.Name);
+                    MessageBox.Show("Package Sucessfully Deployed");
                 };
                 worker.RunWorkerAsync();
             };

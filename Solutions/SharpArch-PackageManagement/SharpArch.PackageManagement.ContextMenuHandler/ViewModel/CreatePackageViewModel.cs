@@ -137,6 +137,8 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
             this.archiveBuilder.Build(tokenisedPackage, this.Path);
             this.cleanUpProcessor.Process(FilePaths.TemporaryPackageRepository);
+
+            MessageBox.Show("Package Created and Deployed to the Package Repository");
         }
 
         public void Exit()
