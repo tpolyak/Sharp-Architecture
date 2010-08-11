@@ -72,11 +72,11 @@ namespace SharpArch.PackageManagement.Specifications
     {
         static Package result;
 
-        Establish context = () => rename_file_processor.Stub(c => c.Rename("oldName", "newName")).IgnoreArguments();
+        Establish context = () => rename_file_processor.Stub(c => c.Process("oldName", "newName")).IgnoreArguments();
 
         Because of = () => result = subject.Tokenise(package_to_clone, "MyApp");
 
         It should_ask_the_rename_file_processor_to_rename_the_file = () =>
-            rename_file_processor.AssertWasCalled(c => c.Rename("oldName", "newName"), r => r.IgnoreArguments());
+            rename_file_processor.AssertWasCalled(c => c.Process("oldName", "newName"), r => r.IgnoreArguments());
     }
 }

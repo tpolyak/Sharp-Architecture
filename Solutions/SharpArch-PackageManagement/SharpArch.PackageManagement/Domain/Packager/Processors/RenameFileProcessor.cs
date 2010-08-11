@@ -12,7 +12,7 @@ namespace SharpArch.PackageManagement.Domain.Packager.Processors
     [Export(typeof(IRenameFileProcessor))]
     public class RenameFileProcessor : IRenameFileProcessor
     {
-        public void Rename(string oldName, string newName)
+        public void Process(string oldName, string newName)
         {
             File.Move(oldName, newName);
         }

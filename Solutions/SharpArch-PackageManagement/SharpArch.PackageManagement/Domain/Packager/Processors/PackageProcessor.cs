@@ -14,7 +14,7 @@
         private readonly IArtefactProcessor artefactProcessor;
 
         [ImportingConstructor]
-        public PackageProcessor([Import("Selective")]IArtefactProcessor artefactProcessor)
+        public PackageProcessor([Import("FilteredFileSystemArtefactProcessor")]IArtefactProcessor artefactProcessor)
         {
             this.artefactProcessor = artefactProcessor;
         }

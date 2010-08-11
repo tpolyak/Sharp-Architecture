@@ -11,22 +11,15 @@
 
     #endregion
 
-    [Export("Selective", typeof(IArtefactProcessor))]
-    public class SelectiveFileSystemArtefactProcessor : FileSystemArtefactProcessor
+    [Export("FilteredFileSystemArtefactProcessor", typeof(IArtefactProcessor))]
+    public class FilteredFileSystemArtefactProcessor : FileSystemArtefactProcessor
     {
-        private readonly IDirectoryExclusionsSpecification directoryExclusionsSpecification;
         private readonly IFileExclusionsSpecification fileExclusionsSpecification;
 
         [ImportingConstructor]
-        public SelectiveFileSystemArtefactProcessor(IDirectoryExclusionsSpecification directoryExclusionsSpecification, IFileExclusionsSpecification fileExclusionsSpecification)
+        public FilteredFileSystemArtefactProcessor(IFileExclusionsSpecification fileExclusionsSpecification)
         {
-            this.directoryExclusionsSpecification = directoryExclusionsSpecification;
             this.fileExclusionsSpecification = fileExclusionsSpecification;
-        }
-
-        public override IEnumerable<string> RetrieveDirectories(string path)
-        {
-            return this.directoryExclusionsSpecification.SatisfyingElementsFrom(base.RetrieveDirectories(path).AsQueryable());
         }
 
         public override IEnumerable<string> RetrieveFiles(string path)

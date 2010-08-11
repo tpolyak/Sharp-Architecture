@@ -11,6 +11,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
     using SharpArch.PackageManagement.ContextMenuHandler.Contracts;
     using SharpArch.PackageManagement.Contracts.Packager.Builders;
     using SharpArch.PackageManagement.Contracts.Packager.Tokeniser;
+    using SharpArch.PackageManagement.Domain.Factories;
     using SharpArch.PackageManagement.Domain.Packages;
 
     #endregion
@@ -121,6 +122,8 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
         public void CreatePackage()
         {
             var package = this.packageBuilder.Build(this.Path, new PackageMetaData { Author = this.Author, Name = this.Name, Version = this.Version });
+
+            ManifestFactory.Save(@"c:\temp\manifest.xml", package.Manifest);
             var clonedPackage = this.clonePackageBuilder.Build(package);
             var tokenisedPackage = this.packageTokeniser.Tokenise(clonedPackage, this.Token);
 

@@ -27,11 +27,9 @@
 
         public Package Build(Package package)
         {
-            string clonedPath;
-
             foreach (var file in package.Manifest.Files)
             {
-                clonedPath = Path.Combine(this.temporaryRepositoryPath, file.File);
+                var clonedPath = Path.Combine(this.temporaryRepositoryPath, file.File);
 
                 this.cloneFileProcessor.Process(Path.Combine(package.Manifest.Path, file.File), clonedPath);
 

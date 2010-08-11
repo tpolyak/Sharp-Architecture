@@ -18,7 +18,7 @@
         private readonly IArtefactProcessor artefactProcessor;
 
         [ImportingConstructor]
-        public ManifestBuilder(IArtefactProcessor artefactProcessor)
+        public ManifestBuilder([Import("FilteredFileSystemArtefactProcessor")]IArtefactProcessor artefactProcessor)
         {
             this.artefactProcessor = artefactProcessor;
         }
