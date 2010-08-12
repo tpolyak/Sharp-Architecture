@@ -3,6 +3,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
     #region Using Directives
 
     using System;
+    using System.ComponentModel;
     using System.ComponentModel.Composition;
     using System.Windows;
 
@@ -14,6 +15,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
     using SharpArch.PackageManagement.Contracts.Packager.Tokeniser;
     using SharpArch.PackageManagement.Domain.Factories;
     using SharpArch.PackageManagement.Domain.Packages;
+    using SharpArch.PackageManagement.Framework.Threading;
     using SharpArch.PackageManagement.Infrastructure;
 
     #endregion
@@ -130,6 +132,11 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
         public void CreatePackage()
         {
+            BackgroundWorkerManager.RunBackgroundWork(this.ExecuteCreatePackage, this.ExecuteCreatePackageComplete);
+        }
+
+        private void ExecuteCreatePackage()
+        {
             var package = this.packageBuilder.Build(this.Path, new PackageMetaData { Author = this.Author, Name = this.Name, Version = this.Version });
 
             var clonedPackage = this.clonePackageBuilder.Build(package);
@@ -137,8 +144,18 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
             this.archiveBuilder.Build(tokenisedPackage, this.Path);
             this.cleanUpProcessor.Process(FilePaths.TemporaryPackageRepository);
+        }
 
-            MessageBox.Show("Package Created and Deployed to the Package Repository");
+        private void ExecuteCreatePackageComplete(RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+               MessageBox.Show("Package Created and Deployed to the Package Repository");
+            }
+            else
+            {
+                // Do some error handling
+            }
         }
 
         public void Exit()

@@ -18,6 +18,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
     using SharpArch.PackageManagement.Contracts.Packages;
     using SharpArch.PackageManagement.Contracts.Tasks;
     using SharpArch.PackageManagement.Domain.Packages;
+    using SharpArch.PackageManagement.Framework.Threading;
 
     using Action = System.Action;
 
@@ -49,10 +50,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             this.packageTask = packageTask;
             this.packageProcessor = packageProcessor;
             this.packageRepository = packageRepository;
-
             this.packageTask.Progress += this.OnPackageTaskProgress;
-
-            Dispatcher = Application.Current.Dispatcher;
         }
 
         #region Properties
@@ -146,11 +144,6 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             set;
         }
 
-        private static Dispatcher Dispatcher
-        {
-            get; set;
-        }
-
         #endregion
 
         public void DeployPackage()
@@ -164,7 +157,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
         private void ExecutePackage(Package package)
         {
-            RunBackgroundWork(() => ExecutePackageCore(package), this.ExecutePackageComplete);
+            BackgroundWorkerManager.RunBackgroundWork(() => this.ExecutePackageCore(package), this.ExecutePackageComplete);
         }
 
         private void ExecutePackageComplete(RunWorkerCompletedEventArgs e)
@@ -184,20 +177,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
             this.packageTask.Execute(package);
             this.packageProcessor.Process(this.Path, this.Name);
         }
-
-        public static void RunBackgroundWork(Action work, Action<RunWorkerCompletedEventArgs> complete = null)
-        {
-            var worker = new BackgroundWorker();
-            worker.DoWork += delegate { work.Invoke(); };
-            
-            if (complete != null)
-            {
-                worker.RunWorkerCompleted += (sender, args) => complete.Invoke(args);
-            }
-
-            worker.RunWorkerAsync();
-        }
-
+        
         public void Exit()
         {
             Application.Current.Shutdown();
@@ -205,7 +185,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
         private void Initialise()
         {
-            RunBackgroundWork(this.RetrievePackages);
+            BackgroundWorkerManager.RunBackgroundWork(this.RetrievePackages);
         }
 
         private void OnPackageTaskProgress(object sender, PackageProgressEventArgs e)

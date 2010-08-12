@@ -84,6 +84,7 @@
     <Compile Include="Framework\Specifications\AdHocSpecification.cs" />
     <Compile Include="Framework\Specifications\QuerySpecification.cs" />
     <Compile Include="Framework\Specifications\QuerySpecificationExtensions.cs" />
+    <Compile Include="Framework\Threading\BackgroundWorkerManager.cs" />
     <Compile Include="Infrastructure\FilePaths.cs" />
     <Compile Include="Infrastructure\Repositories\PackageRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
