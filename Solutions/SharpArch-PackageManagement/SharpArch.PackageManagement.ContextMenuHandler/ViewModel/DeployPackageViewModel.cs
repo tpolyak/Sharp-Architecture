@@ -164,19 +164,38 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
         private void ExecutePackage(Package package)
         {
-            Action workAction = delegate
-            {
-                var worker = new BackgroundWorker();
-                worker.DoWork += delegate
-                {
-                    this.packageTask.Execute(package);
-                    this.packageProcessor.Process(this.Path, this.Name);
-                    MessageBox.Show("Package Sucessfully Deployed");
-                };
-                worker.RunWorkerAsync();
-            };
+            RunBackgroundWork(() => ExecutePackageCore(package), this.ExecutePackageComplete);
+        }
 
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, workAction);
+        private void ExecutePackageComplete(RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error == null)
+            {
+                MessageBox.Show("Package Sucessfully Deployed");
+            }
+            else
+            {
+                // Do some error handling
+            }
+        }
+
+        private void ExecutePackageCore(Package package)
+        {
+            this.packageTask.Execute(package);
+            this.packageProcessor.Process(this.Path, this.Name);
+        }
+
+        public static void RunBackgroundWork(Action work, Action<RunWorkerCompletedEventArgs> complete = null)
+        {
+            var worker = new BackgroundWorker();
+            worker.DoWork += delegate { work.Invoke(); };
+            
+            if (complete != null)
+            {
+                worker.RunWorkerCompleted += (sender, args) => complete.Invoke(args);
+            }
+
+            worker.RunWorkerAsync();
         }
 
         public void Exit()
@@ -186,17 +205,7 @@ namespace SharpArch.PackageManagement.ContextMenuHandler.ViewModel
 
         private void Initialise()
         {
-            Action workAction = delegate
-                {
-                    var worker = new BackgroundWorker();
-                    worker.DoWork += delegate
-                        {
-                            this.RetrievePackages();
-                        };
-                    worker.RunWorkerAsync();
-                };
-
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, workAction);
+            RunBackgroundWork(this.RetrievePackages);
         }
 
         private void OnPackageTaskProgress(object sender, PackageProgressEventArgs e)
