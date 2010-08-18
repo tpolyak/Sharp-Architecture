@@ -1,4 +1,41 @@
 ==================================================
+S#arp Architecture 1.6.0 for Visual Studio 2008 and Visual Studio 2010
+==================================================
+
+New and exciting in this release:
+* Added Configuration Caching for NHibernate (thanks Dan - SonOfMofo)
+* Fluent NHibernate upgraded to 1.1.0.635. (thanks Seif)
+* Added jquery.Validate.js and MicrosoftMvcJQueryValidation.js to generated web project and added references to them in master page. (thanks Igor)
+* Generated CRUD forms enable client side validation. (thanks Igor)
+* Updated factory assembly qualifier .svc file for Northwind sample Wcf.Web
+* Updated invalid config sections in web.config for 2008 and 2010 templates
+* Added NHibernateValidatorClientProvider and NHibernateValidatorProvider (thanks Igor)
+* Added Parameter to rollback transaction when ModelState is invalid (thanks Inventti)
+* Updated model binder to deal correctly with binding empty string to GUID Id types
+* Updated the WcfSessionStorage class to automatically fall back to either a default (SimpleSessionStorage) or a session storage implementation of choice 
+  whenever OperationContext.Current is null. This enables usage of NHibernate sessions in WCF host applications outside of WCF Operation methods without hassle.
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies)
++ FluentNhibernate.dll v1.1.0.635
+- FluentNHibernate.dll v1.0.0.636
+
+-------
+
+Required Upgrade Steps and Changes:
+
+Upgrading to S#arp Architecture 1.6 from 1.5.2 RTM requires the following steps:
+
+#) SharpArch:  Add the SharpArch.dll to your projects /lib and /tools/lib folders.
+
+#) SharpArch:  Add the FluentNHibernate.dll from the /bin to your /lib and /tools/lib folders.
+
+#) SharpArch:  Update the references in your project as needed
+
+
+
+==================================================
 S#arp Architecture 1.5.2 for Visual Studio 2008 and Visual Studio 2010
 ==================================================
 
