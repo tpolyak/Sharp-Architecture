@@ -51,7 +51,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\NHibernate.Linq.dll</HintPath>
     </Reference>
-    <Reference Include="SharpArch, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SharpArch, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\bin\SharpArch.dll</HintPath>
     </Reference>
