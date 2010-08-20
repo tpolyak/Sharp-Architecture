@@ -287,11 +287,13 @@
 	</target>
 
 	<target name="test" depends="move-for-test">
-		<nunit2 failonerror="true" verbose="true">
-			<formatter type="Xml" outputdir="${results.dir}" usefile="true" extension=".xml"/>
-			<formatter type="Plain" />
-			<test assemblyname="${build.dir}/${test.assembly}" />
-		</nunit2>
+    <mkdir dir="${results.dir}" />
+    <exec program="${lib.dir}\nunit\nunit-console-x86.exe">
+      <arg file="${build.dir}/${test.assembly}" />
+      <arg value="/xml=${results.dir}\TestResult.xml" />
+      <arg value="/nologo" />
+      <arg value="/nodots" />
+    </exec>
 	</target>
 
 	<target name="package" depends="compile">
