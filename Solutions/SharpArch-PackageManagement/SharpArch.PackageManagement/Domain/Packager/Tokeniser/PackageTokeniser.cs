@@ -36,7 +36,7 @@
 
         private static string Replace(string token, string value)
         {
-            return Regex.Replace(value, token, match => "__NAME__");
+            return Regex.Replace(value, token, match => "__NAME__", RegexOptions.IgnoreCase);
         }
 
         private void TokeniseFileContent(Package package, string token)
