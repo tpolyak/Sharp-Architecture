@@ -1,4 +1,6 @@
-﻿namespace SharpArch.PackageManagement.Domain.Packager.Processors
+﻿using System.Linq;
+
+namespace SharpArch.PackageManagement.Domain.Packager.Processors
 {
     #region Using Directives
 
@@ -37,7 +39,15 @@
                 this.templateTokeniser.Tokenise(file, name);
             }
 
-            this.cleanUpProcessor.Process(Path.Combine(path, "__NAME__"));
+            var directories = this.artefactProcessor.RetrieveDirectories(path).ToList();
+
+            foreach (var directory in directories)
+            {
+                if (directory.Contains("__NAME__"))
+                {
+                    this.cleanUpProcessor.Process(directory);
+                }
+            }
         }
     }
 }

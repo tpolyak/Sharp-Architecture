@@ -14,7 +14,10 @@ namespace SharpArch.PackageManagement.Domain.Packager.Processors
     {
         public void Process(string path)
         {
-            Directory.Delete(path, true);
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
         }
     }
 }
