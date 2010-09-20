@@ -18,56 +18,21 @@ namespace SharpArch.Specifications.SharpArch.Core
     using global::SharpArch.Core;
     using Machine.Specifications;
 
-    public class retreiving_an_object_from_the_file_cache
+    public class file_cache_specs
     {
-        [Subject("Retreiving an object from the file cache")]
-        public class when_specifying_an_empty_file_path
-        {
-            static Exception exception;
-
-            Because of = () => exception = Catch.Exception(() => FileCache.RetrieveFromCache<string>(string.Empty));
-
-            It should_throw_an_argument_exception = () =>
-                exception.ShouldBeOfType(typeof(ArgumentException));
-        }
-
-        [Subject("Retreiving an object from the file cache")]
-        public class when_specifying_a_null_file_path
-        {
-            static Exception exception;
-
-            Because of = () => exception = Catch.Exception(() => FileCache.RetrieveFromCache<string>(null));
-
-            It should_throw_an_argument_exception = () =>
-                exception.ShouldBeOfType(typeof(ArgumentException));
-        }
-
-        [Subject("Retreiving an object from the file cache")]
-        public class when_the_file_contents_are_invalid
-        {
-            static object result;
-
-            Establish context = () => File.WriteAllText("dummy.txt", "&&&");
-
-            Because of = () => result = FileCache.RetrieveFromCache<DummyType>("dummy.txt");
-
-            It should_return_null = () => result.ShouldBeNull();
-
-            Cleanup after = () => { if (File.Exists("dummy.txt")) File.Delete("dummy.txt"); };
-        }
-
-        [Subject("Retreiving an object from the file cache")]
-        public class when_the_file_contents_are_valid
+        [Subject(typeof(FileCache))]
+        public class when_retreiving_an_object_from_the_file_cache
         {
             static object result;
             static DummyType dummy = new DummyType { FirstProperty = "First" };
 
             Establish context = () =>
+            {
+                using (FileStream file = File.Open("dummy.txt", FileMode.Create))
                 {
-                    using (FileStream file = File.Open("dummy.txt", FileMode.Create)) {
-                        new BinaryFormatter().Serialize(file, dummy);
-                    }
-                };
+                    new BinaryFormatter().Serialize(file, dummy);
+                }
+            };
 
             Because of = () => result = FileCache.RetrieveFromCache<DummyType>("dummy.txt");
 
@@ -79,12 +44,45 @@ namespace SharpArch.Specifications.SharpArch.Core
 
             Cleanup after = () => { if (File.Exists("dummy.txt")) File.Delete("dummy.txt"); };
         }
-    }
 
-    public class storing_an_object_in_the_file_cache
-    {
-        [Subject("Storing an object in the file cache")]
-        public class when_trying_to_store_a_null_object
+        [Subject(typeof(FileCache))]
+        public class when_retreiving_an_object_from_the_file_cache_and_the_file_path_is_empty
+        {
+            static Exception exception;
+
+            Because of = () => exception = Catch.Exception(() => FileCache.RetrieveFromCache<string>(string.Empty));
+
+            It should_throw_an_argument_exception = () =>
+                exception.ShouldBeOfType(typeof(ArgumentException));
+        }
+
+        [Subject(typeof(FileCache))]
+        public class when_retreiving_an_object_from_the_file_cache_and_the_file_path_is_null
+        {
+            static Exception exception;
+
+            Because of = () => exception = Catch.Exception(() => FileCache.RetrieveFromCache<string>(null));
+
+            It should_throw_an_argument_exception = () =>
+                exception.ShouldBeOfType(typeof(ArgumentException));
+        }
+
+        [Subject(typeof(FileCache))]
+        public class when_retreiving_an_object_from_the_file_cache_and_the_file_contents_are_invalid
+        {
+            static object result;
+
+            Establish context = () => File.WriteAllText("dummy.txt", "&&&");
+
+            Because of = () => result = FileCache.RetrieveFromCache<DummyType>("dummy.txt");
+
+            It should_return_null = () => result.ShouldBeNull();
+
+            Cleanup after = () => { if (File.Exists("dummy.txt")) File.Delete("dummy.txt"); };
+        }
+ 
+        [Subject(typeof(FileCache))]
+        public class when_trying_to_store_a_null_object_in_the_file_cache
         {
             static Exception exception;
 
@@ -94,8 +92,8 @@ namespace SharpArch.Specifications.SharpArch.Core
                 exception.ShouldBeOfType(typeof(ArgumentException));
         }
 
-        [Subject("Storing an object in the file cache")]
-        public class when_specifying_an_empty_file_path
+        [Subject(typeof(FileCache))]
+        public class when_storing_an_object_in_the_file_cache_and_the_file_path_is_empty
         {
             static Exception exception;
             static DummyType dummy = new DummyType();
@@ -106,8 +104,8 @@ namespace SharpArch.Specifications.SharpArch.Core
                 exception.ShouldBeOfType(typeof(ArgumentException));
         }
 
-        [Subject("Storing an object in the file cache")]
-        public class when_specifying_a_valid_object
+        [Subject(typeof(FileCache))]
+        public class when_storing_an_object_in_the_file_cache
         {
             static DummyType dummy = new DummyType { FirstProperty = "First" };
 
@@ -117,11 +115,11 @@ namespace SharpArch.Specifications.SharpArch.Core
 
             Cleanup after = () => { if (File.Exists("dummy.txt")) File.Delete("dummy.txt"); };
         }
-    }
-
-    [Serializable]
-    public class DummyType
-    {
-        public string FirstProperty { get; set; }
+ 
+        [Serializable]
+        public class DummyType
+        {
+            public string FirstProperty { get; set; }
+        }
     }
 }

@@ -27,52 +27,55 @@ namespace SharpArch.Specifications.SharpArch.Core
 
     using Rhino.Mocks;
 
-    public class specification_for_safe_service_locator
+    public class safe_service_locator_specs
     {
-        Establish context = () => ServiceLocator.SetLocatorProvider(null);
-    }
-
-    [Subject(typeof(SafeServiceLocator<>))]
-    public class when_the_safe_service_locator_is_asked_for_a_service : specification_for_safe_service_locator
-    {
-        static IValidator result;
-
-        Establish context = () =>
+        public class specification_for_safe_service_locator
         {
-            var validator = MockRepository.GenerateMock<IValidator>();
-            IWindsorContainer container = new WindsorContainer();
-            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
-            container.Register(Component.For<IValidator>().Instance(validator));
-        };
+            Establish context = () => ServiceLocator.SetLocatorProvider(null);
+        }
 
-        Because of = () => result = SafeServiceLocator<IValidator>.GetService();
+        [Subject(typeof(SafeServiceLocator<>))]
+        public class when_the_safe_service_locator_is_asked_for_a_service : specification_for_safe_service_locator
+        {
+            static IValidator result;
 
-        It should_return_the_service = () => result.ShouldNotBeNull();
-    }
+            Establish context = () =>
+            {
+                var validator = MockRepository.GenerateMock<IValidator>();
+                IWindsorContainer container = new WindsorContainer();
+                ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
+                container.Register(Component.For<IValidator>().Instance(validator));
+            };
 
-    [Subject(typeof(SafeServiceLocator<>))]
-    public class when_the_safe_service_locator_is_asked_for_a_service_but_has_not_been_initialized : specification_for_safe_service_locator
-    {
-        static Exception result;
+            Because of = () => result = SafeServiceLocator<IValidator>.GetService();
 
-        Because of = () => result = Catch.Exception(() => SafeServiceLocator<IValidator>.GetService());
+            It should_return_the_correct_service = () => result.ShouldBeOfType(typeof(IValidator));
+        }
 
-        It should_throw_a_null_reference_exception = () => result.ShouldBeOfType<NullReferenceException>();
-    }
+        [Subject(typeof(SafeServiceLocator<>))]
+        public class when_the_safe_service_locator_is_asked_for_a_service_but_has_not_been_initialized : specification_for_safe_service_locator
+        {
+            static Exception result;
 
-    [Subject(typeof(SafeServiceLocator<>))]
-    public class when_the_safe_service_locator_is_asked_for_a_service_that_has_not_been_registered : specification_for_safe_service_locator
-    {
-        static Exception result;
+            Because of = () => result = Catch.Exception(() => SafeServiceLocator<IValidator>.GetService());
 
-        Establish context = () =>
+            It should_throw_a_null_reference_exception = () => result.ShouldBeOfType<NullReferenceException>();
+        }
+
+        [Subject(typeof(SafeServiceLocator<>))]
+        public class when_the_safe_service_locator_is_asked_for_a_service_that_has_not_been_registered : specification_for_safe_service_locator
+        {
+            static Exception result;
+
+            Establish context = () =>
             {
                 IWindsorContainer container = new WindsorContainer();
                 ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
             };
 
-        Because of = () => result = Catch.Exception(() => SafeServiceLocator<IValidator>.GetService());
+            Because of = () => result = Catch.Exception(() => SafeServiceLocator<IValidator>.GetService());
 
-        It should_throw_an_activation_exception = () => result.ShouldBeOfType<ActivationException>();
+            It should_throw_an_activation_exception = () => result.ShouldBeOfType<ActivationException>();
+        }        
     }
 }
