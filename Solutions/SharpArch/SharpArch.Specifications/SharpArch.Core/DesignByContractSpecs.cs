@@ -20,69 +20,72 @@ namespace SharpArch.Specifications.SharpArch.Core
 
     using Rhino.Mocks;
 
-    public class specification_for_design_by_contract
+    public class design_by_contract_specs
     {
-        protected static string ConvertToPercentage(decimal fractionalPercentage)
+        public class specification_for_design_by_contract
         {
-            Check.Require(fractionalPercentage > 0,
-                "fractionalPercentage must be > 0");
+            protected static string ConvertToPercentage(decimal fractionalPercentage)
+            {
+                Check.Require(fractionalPercentage > 0,
+                    "fractionalPercentage must be > 0");
 
-            decimal convertedValue = fractionalPercentage * 100;
+                decimal convertedValue = fractionalPercentage * 100;
 
-            // Yes, I could have enforced this outcome in the precondition, but then you
-            // wouldn't have seen the Check.Ensure in action, now would you?
-            Check.Ensure(convertedValue >= 0 && convertedValue <= 100,
-                "convertedValue was expected to be within 0-100, but was " + convertedValue);
+                // Yes, I could have enforced this outcome in the precondition, but then you
+                // wouldn't have seen the Check.Ensure in action, now would you?
+                Check.Ensure(convertedValue >= 0 && convertedValue <= 100,
+                    "convertedValue was expected to be within 0-100, but was " + convertedValue);
 
-            return Math.Round(convertedValue) + "%";
+                return Math.Round(convertedValue) + "%";
+            }
+
+            Cleanup after = () => Check.UseAssertions = false; // reset back to default state
         }
 
-    }
+        [Subject(typeof(Check))]
+        public class when_a_method_using_a_precondition_is_called_using_a_valid_argument : specification_for_design_by_contract
+        {
+            static Exception result;
 
-    [Subject(typeof(Check))]
-    public class when_a_method_using_a_precondition_is_called_using_a_valid_argument : specification_for_design_by_contract
-    {
-        static Exception result;
+            Establish context = () => Check.UseAssertions = false;
 
-        Establish context = () => Check.UseAssertions = false;
+            Because of = () => result = Catch.Exception(() => ConvertToPercentage(0.2m));
 
-        Because of = () => result = Catch.Exception(() => ConvertToPercentage(0.2m));
+            It should_not_throw_a_precondition_exception = () => result.ShouldBeNull();
+        }
 
-        It should_not_throw_a_precondition_exception = () => result.ShouldBeNull();
-    }
+        [Subject(typeof(Check))]
+        public class when_a_method_using_a_precondition_is_called_using_an_invalid_argument : specification_for_design_by_contract
+        {
+            static Exception result;
 
-    [Subject(typeof(Check))]
-    public class when_a_method_using_a_precondition_is_called_using_an_invalid_argument : specification_for_design_by_contract
-    {
-        static Exception result;
+            Establish context = () => Check.UseAssertions = false;
 
-        Establish context = () => Check.UseAssertions = false;
+            Because of = () => result = Catch.Exception(() => ConvertToPercentage(-0.2m));
 
-        Because of = () => result = Catch.Exception(() => ConvertToPercentage(-0.2m));
+            It should_throw_a_precondition_exception = () => result.ShouldBeOfType<PreconditionException>();
+        }
 
-        It should_throw_a_precondition_exception = () => result.ShouldBeOfType<PreconditionException>();
-    }
+        [Subject(typeof(Check))]
+        public class when_a_method_using_a_postcondition_results_in_an_invalid_return_value : specification_for_design_by_contract
+        {
+            static Exception result;
 
-    [Subject(typeof(Check))]
-    public class when_a_method_using_a_postcondition_results_in_an_invalid_return_value : specification_for_design_by_contract
-    {
-        static Exception result;
+            Establish context = () => Check.UseAssertions = false;
 
-        Establish context = () => Check.UseAssertions = false;
+            Because of = () => result = Catch.Exception(() => ConvertToPercentage(10m));
 
-        Because of = () => result = Catch.Exception(() => ConvertToPercentage(10m));
+            It should_throw_a_postcondition_exception = () => result.ShouldBeOfType<PostconditionException>();
+        }
 
-        It should_throw_a_postcondition_exception = () => result.ShouldBeOfType<PostconditionException>();
-    }
+        [Subject(typeof(Check))]
+        public class when_a_method_using_a_precondition_is_called_using_an_invalid_argument_and_use_assertions_has_been_set_to_true : specification_for_design_by_contract
+        {
+            static Exception result;
 
-    [Subject(typeof(Check))]
-    public class when_a_method_using_a_precondition_is_called_using_an_invalid_argument_and_use_assertions_has_been_set_to_true : specification_for_design_by_contract
-    {
-        static Exception result;
+            static TraceListener traceListener;
 
-        static TraceListener traceListener;
-
-        Establish context = () =>
+            Establish context = () =>
             {
                 Check.UseAssertions = true;
                 traceListener = MockRepository.GenerateMock<TraceListener>();
@@ -91,32 +94,33 @@ namespace SharpArch.Specifications.SharpArch.Core
                 Trace.Listeners.Add(traceListener);
             };
 
-        Because of = () => result = Catch.Exception(() => ConvertToPercentage(-0.2m));
+            Because of = () => result = Catch.Exception(() => ConvertToPercentage(-0.2m));
 
-        It should_not_throw_an_exception = () => result.ShouldBeNull();
+            It should_not_throw_an_exception = () => result.ShouldBeNull();
 
-        It should_call_the_fail_method_on_the_trace_listener_for_precondition_and_postcondition_violations = () => traceListener.AssertWasCalled(l => l.Fail(Arg<string>.Is.Anything), o => o.Repeat.Twice());
-    }
+            It should_call_the_fail_method_on_the_trace_listener_for_precondition_and_postcondition_violations = () => traceListener.AssertWasCalled(l => l.Fail(Arg<string>.Is.Anything), o => o.Repeat.Twice());
+        }
 
-    [Subject(typeof(Check))]
-    public class when_a_method_using_a_postcondition_results_in_an_invalid_return_value_and_use_assertions_has_been_set_to_true : specification_for_design_by_contract
-    {
-        static Exception result;
-
-        static TraceListener traceListener;
-
-        Establish context = () =>
+        [Subject(typeof(Check))]
+        public class when_a_method_using_a_postcondition_results_in_an_invalid_return_value_and_use_assertions_has_been_set_to_true : specification_for_design_by_contract
         {
-            Check.UseAssertions = true;
-            traceListener = MockRepository.GenerateMock<TraceListener>();
-            Trace.Listeners.Clear();
-            Trace.Listeners.Add(traceListener);
-        };
+            static Exception result;
 
-        Because of = () => result = Catch.Exception(() => ConvertToPercentage(10m));
+            static TraceListener traceListener;
 
-        It should_not_throw_a_postcondition_exception = () => result.ShouldBeNull();
+            Establish context = () =>
+            {
+                Check.UseAssertions = true;
+                traceListener = MockRepository.GenerateMock<TraceListener>();
+                Trace.Listeners.Clear();
+                Trace.Listeners.Add(traceListener);
+            };
 
-        It should_call_the_fail_method_on_the_trace_listener = () => traceListener.AssertWasCalled(l => l.Fail(Arg<string>.Is.Anything));
+            Because of = () => result = Catch.Exception(() => ConvertToPercentage(10m));
+
+            It should_not_throw_a_postcondition_exception = () => result.ShouldBeNull();
+
+            It should_call_the_fail_method_on_the_trace_listener = () => traceListener.AssertWasCalled(l => l.Fail(Arg<string>.Is.Anything));
+        }        
     }
 }

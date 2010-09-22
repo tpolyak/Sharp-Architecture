@@ -16,7 +16,7 @@
     {
         public bool IsValid(object value, IConstraintValidatorContext constraintValidatorContext)
         {
-            var entityToValidate = value as IEntityWithTypedId<int>;
+                var entityToValidate = value as IEntityWithTypedId<int>;
             Check.Require(
                 entityToValidate != null, 
                 "This validator must be used at the class level of an IDomainWithTypedId<int>. The type you provided was " + value.GetType());
