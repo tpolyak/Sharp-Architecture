@@ -1,4 +1,10 @@
 --------------------------------------------
+-- Templify
+--------------------------------------------
+
+We no longer support the use of the Visual Studio templates for installation of S#arp Architecture. With version 2.0, we have dropped support for Visual Studio 2008 altogether. To learn how to get a S#arp Architecture solution up and running, please go to http://blog.sharparchitecture.net/post/Using-Templify-to-create-a-new-Sarp-Architecture-solution.aspx
+
+--------------------------------------------
 -- Building S#arp Architecture
 --------------------------------------------
 
