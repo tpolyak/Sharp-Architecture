@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="PackageArtefacts" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <RunMSpecTests>True</RunMSpecTests>
+    <MSpecSpecificationAssemblies>"$(MSBuildProjectDirectory)\..\Solutions\SharpArch.Specifications\Bin\Release\SharpArch.Specifications.dll"</MSpecSpecificationAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssembliesToTestWithNUnit Include="$(SolutionsPath)\SharpArch.Tests\bin\Release\SharpArch.Tests.dll;" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <SolutionName>SharpArch</SolutionName>
+    <SolutionsPath>$(MSBuildProjectDirectory)\..\Solutions</SolutionsPath>
+    <BuildPath>$(MSBuildProjectDirectory)\..\BuildSystem</BuildPath>
+    <SolutionRoot>$(BuildPath)\..\..</SolutionRoot>
+  </PropertyGroup>
+
+  <Import Project="$(BuildPath)\BuildSystem.proj" />
+
+  <Target Name="Build"
+        DependsOnTargets="CleanSolution;
+                            UpdateAssemblyVersion;
+                            BuildSolutions;" />
+
+  <Target Name="RunSpecs"
+      DependsOnTargets="Build;
+                        RunMSpecSpecifications;" />
+
+  
+  <Target Name="PackageArtefacts"
+          DependsOnTargets="RunSpecs;
+                            BuildSuccess" />
+
+</Project>
