@@ -37,6 +37,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Specifications", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5029AAB4-E60E-4C71-8D40-9812DDBB4253}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{ED61719A-DB60-4E15-BCBB-BA6A71978E99}"
+	ProjectSection(SolutionItems) = preProject
+		..\Build\Build.cmd = ..\Build\Build.cmd
+		..\Build\Build.proj = ..\Build\Build.proj
+		..\Build\BuildAndPackage.cmd = ..\Build\BuildAndPackage.cmd
+		..\Build\BuildAndTest.cmd = ..\Build\BuildAndTest.cmd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
