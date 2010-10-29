@@ -135,7 +135,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharpArch.Core.NHibernateValidator\CommonValidatorAdapter\ValidatorTests.cs" />
-    <Compile Include="SharpArch.Core.NHibernateValidator\ValidatorProvider\NHibernateValidatorProviderTests.cs" />
+    <Compile Include="SharpArch.Core.NHibernateValidator\ValidatorProvider\NHibernateValidatorClientProviderTests.cs" />
     <Compile Include="SharpArch.Core\DesignByContractTests.cs" />
     <Compile Include="SharpArch.Core\DomainModel\BaseObjectEqualityComparerTests.cs" />
     <Compile Include="SharpArch.Core\DomainModel\EntityTests.cs" />
