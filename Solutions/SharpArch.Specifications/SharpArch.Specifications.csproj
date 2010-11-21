@@ -34,9 +34,6 @@
     <Reference Include="Castle.Core">
       <HintPath>..\..\ReferencedAssemblies\Castle\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.MicroKernel">
-      <HintPath>..\..\ReferencedAssemblies\Castle\Castle.MicroKernel.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\..\ReferencedAssemblies\Castle\Castle.Windsor.dll</HintPath>
     </Reference>

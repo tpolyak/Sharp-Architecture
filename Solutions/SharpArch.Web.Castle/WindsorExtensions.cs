@@ -16,7 +16,7 @@
             this ServiceDescriptor descriptor, string interfaceNamespace)
         {
             return descriptor.Select(
-                delegate(Type type, Type baseType)
+                delegate(Type type, Type[] baseType)
                     {
                         var interfaces =
                             type.GetInterfaces().Where(
