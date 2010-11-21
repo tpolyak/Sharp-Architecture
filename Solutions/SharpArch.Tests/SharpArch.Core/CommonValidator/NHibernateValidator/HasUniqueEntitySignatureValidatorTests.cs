@@ -4,6 +4,7 @@ namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
     using System.Collections.Generic;
     using System.Diagnostics;
 
+    using Castle.MicroKernel.Registration;
     using Castle.Windsor;
 
     using CommonServiceLocator.WindsorAdapter;
@@ -64,8 +65,17 @@ namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
         {
             IWindsorContainer container = new WindsorContainer();
 
-            container.AddComponent("duplicateChecker", typeof(IEntityDuplicateChecker), typeof(DuplicateCheckerStub));
-            container.AddComponent("validator", typeof(IValidator), typeof(Validator));
+            container.Register(
+                Component
+                    .For(typeof(IEntityDuplicateChecker))
+                    .ImplementedBy(typeof(DuplicateCheckerStub))
+                    .Named("duplicateChecker"));
+
+            container.Register(
+                Component
+                    .For(typeof(IValidator))
+                    .ImplementedBy(typeof(Validator))
+                    .Named("validator"));
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }

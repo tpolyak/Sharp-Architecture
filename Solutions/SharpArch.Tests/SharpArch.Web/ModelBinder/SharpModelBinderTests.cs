@@ -241,7 +241,11 @@ namespace Tests.SharpArch.Web.ModelBinder
 
             windsorContainer.Register(
                 Component.For<IRepositoryWithTypedId<Employee, int>>().Instance(mockRepository.Object));
-            windsorContainer.AddComponent("validator", typeof(IValidator), typeof(Validator));
+            windsorContainer.Register(
+                Component
+                    .For(typeof(IValidator))
+                    .ImplementedBy(typeof(Validator))
+                    .Named("validator"));
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(windsorContainer));
         }

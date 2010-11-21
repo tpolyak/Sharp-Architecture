@@ -2,6 +2,7 @@ namespace Tests.SharpArch.Core
 {
     using System;
 
+    using Castle.MicroKernel.Registration;
     using Castle.Windsor;
 
     using CommonServiceLocator.WindsorAdapter;
@@ -21,7 +22,11 @@ namespace Tests.SharpArch.Core
         public void CanReturnServiceIfInitializedAndRegistered()
         {
             IWindsorContainer container = new WindsorContainer();
-            container.AddComponent("validator", typeof(IValidator), typeof(Validator));
+            container.Register(
+                Component
+                    .For(typeof(IValidator))
+                    .ImplementedBy(typeof(Validator))
+                    .Named("validator"));
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
 
             var validatorService = SafeServiceLocator<IValidator>.GetService();
