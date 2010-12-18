@@ -2,10 +2,6 @@
 using Microsoft.Practices.ServiceLocation;
 using Castle.Windsor;
 using CommonServiceLocator.WindsorAdapter;
-using SharpArch.Core.PersistenceSupport.NHibernate;
-using Rhino.Mocks;
-using NHibernate.Validator.Engine;
-using NHibernate.Validator;
 using SharpArch.Core.DomainModel;
 using SharpArch.Core;
 using System.Diagnostics;
@@ -19,6 +15,8 @@ using SharpArch.Core.CommonValidator;
 
 namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
 {
+    using Castle.MicroKernel.Registration;
+
     [TestFixture]
     public class HasUniqueObjectSignatureValidatorTests
     {
@@ -29,11 +27,18 @@ namespace Tests.SharpArch.Core.CommonValidator.NHibernateValidator
 
         public void InitServiceLocatorInitializer() {
             IWindsorContainer container = new WindsorContainer();
-            
-            container.AddComponent("duplicateChecker",
-                typeof(IEntityDuplicateChecker), typeof(DuplicateCheckerStub));
-            container.AddComponent("validator",
-                typeof(IValidator), typeof(Validator));
+
+            container.Register(
+                Component
+                    .For(typeof(IEntityDuplicateChecker))
+                    .ImplementedBy(typeof(DuplicateCheckerStub))
+                    .Named("duplicateChecker"));
+
+            container.Register(
+                Component
+                    .For(typeof(IValidator))
+                    .ImplementedBy(typeof(Validator))
+                    .Named("validator"));
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }

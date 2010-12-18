@@ -9,6 +9,8 @@ using SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
 
 namespace Tests.SharpArch.Core
 {
+    using Castle.MicroKernel.Registration;
+
     [TestFixture]
     public class SafeServiceLocatorTests
     {
@@ -54,7 +56,11 @@ namespace Tests.SharpArch.Core
         [Test]
         public void CanReturnServiceIfInitializedAndRegistered() {
             IWindsorContainer container = new WindsorContainer();
-            container.AddComponent("validator", typeof(IValidator), typeof(Validator));
+            container.Register(
+                Component
+                    .For(typeof(IValidator))
+                    .ImplementedBy(typeof(Validator))
+                    .Named("validator"));
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
 
             IValidator validatorService = SafeServiceLocator<IValidator>.GetService();
