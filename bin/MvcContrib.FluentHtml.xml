@@ -35,6 +35,100 @@
             <param name="behavior">The behavior to apply.</param>
             <param name="target">The target element to apply behavior to.</param>
         </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorHelperExtensions.GetAttribute``1(MvcContrib.FluentHtml.Elements.IMemberElement)">
+            <summary>
+            Gets the attibute, if esists, of the specified type for the specified element.
+            </summary>
+            <typeparam name="T">The type of attribute to get.</typeparam>
+            <param name="element">The element.</param>
+            <returns>The attribute or null if not exists.</returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorHelperExtensions.GetAttribute``1(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Gets the attibute, if esists, of the specified type for the specified member expression.
+            </summary>
+            <typeparam name="T">The type of attribute to get.</typeparam>
+            <param name="expression">The member expression.</param>
+            <returns>The attribute or null if not exists.</returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorHelperExtensions.IsTextElement(MvcContrib.FluentHtml.Elements.IElement)">
+            <summary>
+            Determines whether this is an element that the user enters text into (e.g., input of type text or textarea)
+            </summary>
+            <param name="e">element</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorHelperExtensions.GetPropertyOrFieldType(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            Gets the type of the the member if it's a property or a field.
+            </summary>
+            <param name="m">The member expression</param>
+            <returns>The type or null if the member is not a property or field.</returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorHelperExtensions.IsNumber(System.Type)">
+            <summary>
+            Gets whether the type is a number.
+            </summary>
+            <param name="t">The type</param>
+            <returns>Whether it's a number.</returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorHelperExtensions.GetTypeWithoutNullability(System.Type)">
+            <summary>
+            Gets the type with nullability removed if exists.
+            </summary>
+            <param name="t">The type</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.BehaviorHelperExtensions.IsNullableType(System.Type)">
+            <summary>
+            Gets whether the types is a nullable type
+            </summary>
+            <param name="t">The type</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.RequiredCssClassBehavior">
+            <summary>
+            Adds a CSS class to the element if the it has an attribute of the specified type or 
+            if the model member is a non-nullable value type.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.RequiredCssClassBehavior.#ctor">
+            <summary>
+            Constructor.  Sets "required" as the class to add.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.RequiredCssClassBehavior.#ctor(System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="requiredClass">The class to add for required elements.</param>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.RequiredCssClassBehavior`1">
+            <summary>
+            Adds a CSS class to the element if the it has an attribute of the specified type or 
+            if the model member is a non-nullable value type.
+            </summary>
+            <typeparam name="TRequiredAttribute"></typeparam>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.IOrderedBehavior">
+            <summary>
+            Behavior the specifies an execution order.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.FluentHtml.Behaviors.IOrderedBehavior.Order">
+            <summary>
+            The order in which the behavior will execute with respect to other ordered behaviors.
+            </summary>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.IOrderedBehavior`1">
+            <summary>
+            Generic implementation of behavior <see cref="T:MvcContrib.FluentHtml.Behaviors.IOrderedBehavior"/>
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.IOrderedBehavior`1.Execute(`0)">
+            <summary>
+            Perform behavior modification on an object.
+            </summary>
+            <param name="behavee">The object to modify based on the behavior.</param>
+        </member>
         <member name="T:MvcContrib.FluentHtml.Behaviors.IBehaviorsContainer">
             <summary>
             Contract for any class implementing a list of custom behaviors.
@@ -54,6 +148,24 @@
             <summary>
             Marker interface indicating that a particular element supports the maxlength HTML attribute.
             </summary>
+        </member>
+        <member name="T:MvcContrib.FluentHtml.Behaviors.TypeCssClassBehavior">
+            <summary>
+            Adds CSS classes to the element based on the type of the member.  Specifically handles
+            number and date elements.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.TypeCssClassBehavior.#ctor">
+            <summary>
+            Constructor.  Sets "number" as the class to add for number elements and "date" for date element.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Behaviors.TypeCssClassBehavior.#ctor(System.String,System.String)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="numberClass">The class to use for number elements.</param>
+            <param name="dateClass">The class to use for date elements.</param>
         </member>
         <member name="T:MvcContrib.FluentHtml.Elements.Button">
             <summary>
@@ -128,6 +240,11 @@
             If no label after has been explicitly set, set the label after using the element name.
             </summary>
         </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.IElement.AddClass(System.String)">
+            <summary>
+            Adds the value to the CSS class attribute.
+            </summary>
+        </member>
         <member name="P:MvcContrib.FluentHtml.Elements.IElement.Builder">
             <summary>
             TagBuilder object used to generate HTML.
@@ -151,6 +268,11 @@
         <member name="P:MvcContrib.FluentHtml.Elements.IElement.LabelClass">
             <summary>
             The class for labels rendered before or after the element.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.FluentHtml.Elements.IElement.Metadata">
+            <summary>
+            Additional JSON metadata that should be added to the element's CSS Class attribute.
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "P:MvcContrib.FluentHtml.Elements.IMemberElement.ForMember" -->
@@ -337,6 +459,14 @@
             Specify the class for the input and label elements of each item.
             </summary>
             <param name="value">A format string.</param>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.CheckBoxListBase`1.EachOption(System.Action{MvcContrib.FluentHtml.Elements.CheckBox,System.Object,System.Int32})">
+            <summary>
+            An action performed after each CheckBox element has been created.  This is useful to
+            modify the element before is rendered.
+            </summary>
+            <param name="action">The action to perform. The parameters to the action are the CheckBox element, 
+            the option, and the position of the option.</param>
         </member>
         <member name="T:MvcContrib.FluentHtml.Elements.Label">
             <summary>
@@ -576,6 +706,14 @@
             </summary>
             <param name="value">A format string.</param>
         </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.RadioSetBase`1.EachOption(System.Action{MvcContrib.FluentHtml.Elements.RadioButton,System.Object,System.Int32})">
+            <summary>
+            An action performed after each RadioButton element has been created.  This is useful to
+            modify the element before is rendered.
+            </summary>
+            <param name="action">The action to perform. The parameters to the action are the RadioButton element, 
+            the option, and the position of the option.</param>
+        </member>
         <member name="M:MvcContrib.FluentHtml.Elements.TypeStamp.#ctor(System.String,System.Type)">
             <summary>
             Generates an HTML input element of type 'hidden' that denotes an instance type stamp
@@ -733,6 +871,14 @@
             </summary>
             <param name="hideFirstOption">True to hide the first option, otherwise false.</param>
             <returns></returns>
+        </member>
+        <member name="M:MvcContrib.FluentHtml.Elements.SelectBase`1.EachOption(System.Action{MvcContrib.FluentHtml.Elements.Option,System.Object,System.Int32})">
+            <summary>
+            An action performed after each Option element has been created.  This is useful to
+            modify the element before is rendered.
+            </summary>
+            <param name="action">The action to perform. The parameters to the action are the Option element, 
+            the option item, and the position of the option.</param>
         </member>
         <member name="M:MvcContrib.FluentHtml.Elements.MultiSelect.#ctor(System.String)">
             <summary>

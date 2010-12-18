@@ -133,6 +133,13 @@
             </summary>
             <param name="objectToSerialize">The object to serialize to XML.</param>
         </member>
+        <member name="M:MvcContrib.ActionResults.XmlResult.#ctor(System.Object,System.Xml.Serialization.XmlAttributeOverrides)">
+            <summary>
+            Creates a new instance of the XMLResult class.
+            </summary>
+            <param name="objectToSerialize">The object to serialize to XML.</param>
+            <param name="xmlAttributeOverrides"></param>
+        </member>
         <member name="M:MvcContrib.ActionResults.XmlResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
             <summary>
             Serialises the object that was passed into the constructor to XML and writes the corresponding XML to the result stream.
@@ -325,8 +332,8 @@
         <member name="T:MvcContrib.Filters.PassParametersDuringRedirectAttribute">
             <summary>
             When placed on a controller or action, this attribute will ensure
-            that parameters passed into RedirectToAction&lt;T&gt;() will get
-            passed to the controller or action that this attribute is placed on.
+            that reference-type-parameters (or value types which cannot be converted from a string) passed into 
+            RedirectToAction&lt;T&gt;() will get passed to the controller or action that this attribute is placed on.
             </summary>
         </member>
         <member name="M:MvcContrib.Filters.PassParametersDuringRedirectAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
@@ -684,6 +691,13 @@
             </summary>
             <param name="objectToConvert">The object to convert</param>
             <returns>A generic dictionary</returns>
+        </member>
+        <member name="M:MvcContrib.DictionaryExtensions.ToHtmlAttributes(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Converts a dictionary into a string of HTML attributes
+            </summary>
+            <param name="attributes"></param>
+            <returns></returns>
         </member>
         <member name="T:MvcContrib.HttpContextExtensions">
             <summary>
@@ -1520,64 +1534,27 @@
             <param name="tableAttributes">The table attributes.</param>
             <returns></returns>
         </member>
-        <member name="T:MvcContrib.UI.Grid.GridModel`1">
+        <member name="T:MvcContrib.UI.Grid.AutoColumnBuilder`1">
             <summary>
-            Default model for grid
+            Can be used to build column using metadata
             </summary>
         </member>
-        <member name="T:MvcContrib.UI.Grid.IGridModel`1">
+        <member name="T:MvcContrib.UI.Grid.ColumnBuilder`1">
             <summary>
-            Defines a grid model
+            Builds grid columns
             </summary>
         </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.#ctor">
+        <member name="M:MvcContrib.UI.Grid.ColumnBuilder`1.For(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
             <summary>
-            Creates a new instance of the GridModel class
+            Specifies a column should be constructed for the specified property.
             </summary>
+            <param name="propertySpecifier">Lambda that specifies the property for which a column should be constructed</param>
         </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.Empty(System.String)">
+        <member name="M:MvcContrib.UI.Grid.ColumnBuilder`1.For(System.String)">
             <summary>
-            Text that will be displayed when the grid has no data.
+            Specifies that a custom column should be constructed with the specified name.
             </summary>
-            <param name="emptyText">Text to display</param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Func{System.Object,System.Object}[])">
-            <summary>
-            Defines additional attributes for the grid.
-            </summary>
-            <param name="hash"></param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Collections.Generic.IDictionary{System.String,System.Object})">
-            <summary>
-            Defines additional attributes for the grid
-            </summary>
-            <param name="attributes"></param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.RenderUsing(MvcContrib.UI.Grid.IGridRenderer{`0})">
-            <summary>
-            Specifies the Renderer to use with this grid. If omitted, the HtmlTableGridRenderer will be used. 
-            </summary>
-            <param name="renderer">The Renderer to use</param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.GridModel`1.Sort(MvcContrib.UI.Grid.GridSortOptions)">
-            <summary>
-            Secifies that the grid is currently being sorted by the specified column in a particular direction.
-            </summary>
-        </member>
-        <member name="P:MvcContrib.UI.Grid.GridModel`1.Column">
-            <summary>
-            Column builder for this grid model
-            </summary>
-        </member>
-        <member name="P:MvcContrib.UI.Grid.GridModel`1.MvcContrib#UI#Grid#IGridModel{T}#Sections">
-            <summary>
-            Section overrides for this grid model.
-            </summary>
-        </member>
-        <member name="P:MvcContrib.UI.Grid.GridModel`1.Sections">
-            <summary>
-            Section overrides for this grid model.
-            </summary>
+            <param name="name"></param>
         </member>
         <member name="T:MvcContrib.UI.Grid.ActionSyntax.ActionSyntaxExtensions">
             <summary>
@@ -1621,23 +1598,6 @@
             <param name="action">The action to render</param>
             <returns></returns>
         </member>
-        <member name="T:MvcContrib.UI.Grid.ColumnBuilder`1">
-            <summary>
-            Builds grid columns
-            </summary>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.ColumnBuilder`1.For(System.Linq.Expressions.Expression{System.Func{`0,System.Object}})">
-            <summary>
-            Specifies a column should be constructed for the specified property.
-            </summary>
-            <param name="propertySpecifier">Lambda that specifies the property for which a column should be constructed</param>
-        </member>
-        <member name="M:MvcContrib.UI.Grid.ColumnBuilder`1.For(System.String)">
-            <summary>
-            Specifies that a custom column should be constructed with the specified name.
-            </summary>
-            <param name="name"></param>
-        </member>
         <member name="T:MvcContrib.UI.Grid.GridColumn`1">
             <summary>
             Column for the grid
@@ -1680,6 +1640,11 @@
             <param name="isVisible"></param>
             <returns></returns>
         </member>
+        <member name="M:MvcContrib.UI.Grid.IGridColumn`1.Encode(System.Boolean)">
+            <summary>
+            Determines whether or not the column should be encoded. Default is true.
+            </summary>
+        </member>
         <member name="M:MvcContrib.UI.Grid.IGridColumn`1.DoNotEncode">
             <summary>
             Do not HTML Encode the output
@@ -1707,6 +1672,21 @@
             </summary>
             <param name="isColumnSortable"></param>
             <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.IGridColumn`1.SortColumnName(System.String)">
+            <summary>
+            Specifies a custom name that should be used when sorting on this column
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.IGridColumn`1.InsertAt(System.Int32)">
+            <summary>
+            Specifies the position of a column. 
+            This is usually used in conjunction with the AutoGenerateColumns method 
+            in order to specify where additional custom columns should be placed.
+            </summary>
+            <param name="index">The index at which the column should be inserted</param>
         </member>
         <member name="P:MvcContrib.UI.Grid.IGridColumn`1.CustomHeaderRenderer">
             <summary>
@@ -1766,6 +1746,71 @@
             Additional attributes for the cell
             </summary>
         </member>
+        <member name="T:MvcContrib.UI.Grid.GridModel`1">
+            <summary>
+            Default model for grid
+            </summary>
+        </member>
+        <member name="T:MvcContrib.UI.Grid.IGridModel`1">
+            <summary>
+            Defines a grid model
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.#ctor">
+            <summary>
+            Creates a new instance of the GridModel class
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Empty(System.String)">
+            <summary>
+            Text that will be displayed when the grid has no data.
+            </summary>
+            <param name="emptyText">Text to display</param>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Func{System.Object,System.Object}[])">
+            <summary>
+            Defines additional attributes for the grid.
+            </summary>
+            <param name="hash"></param>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Attributes(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Defines additional attributes for the grid
+            </summary>
+            <param name="attributes"></param>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.RenderUsing(MvcContrib.UI.Grid.IGridRenderer{`0})">
+            <summary>
+            Specifies the Renderer to use with this grid. If omitted, the HtmlTableGridRenderer will be used. 
+            </summary>
+            <param name="renderer">The Renderer to use</param>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Sort(MvcContrib.UI.Grid.GridSortOptions)">
+            <summary>
+            Secifies that the grid is currently being sorted by the specified column in a particular direction.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.GridModel`1.Sort(MvcContrib.UI.Grid.GridSortOptions,System.String)">
+            <summary>
+            Specifies that the grid is currently being sorted by the specified column in a particular direction.
+            This overload allows you to specify a prefix.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridModel`1.Column">
+            <summary>
+            Column builder for this grid model
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridModel`1.MvcContrib#UI#Grid#IGridModel{T}#Sections">
+            <summary>
+            Section overrides for this grid model.
+            </summary>
+        </member>
+        <member name="P:MvcContrib.UI.Grid.GridModel`1.Sections">
+            <summary>
+            Section overrides for this grid model.
+            </summary>
+        </member>
         <member name="T:MvcContrib.UI.Grid.Grid`1">
             <summary>
             Defines a grid to be rendered.
@@ -1816,6 +1861,11 @@
         <member name="M:MvcContrib.UI.Grid.Syntax.IGridWithOptions`1.Sort(MvcContrib.UI.Grid.GridSortOptions)">
             <summary>
             Specifies that the grid is currently sorted
+            </summary>
+        </member>
+        <member name="M:MvcContrib.UI.Grid.Syntax.IGridWithOptions`1.Sort(MvcContrib.UI.Grid.GridSortOptions,System.String)">
+            <summary>
+            Specifies that the grid is sorted. Column links will have the specified prefix prepended.
             </summary>
         </member>
         <member name="M:MvcContrib.UI.Grid.Syntax.IGridWithOptions`1.Render">

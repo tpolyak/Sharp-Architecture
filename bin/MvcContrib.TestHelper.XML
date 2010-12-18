@@ -143,6 +143,58 @@
             <param name="actionResult">The result to check.</param>
             <returns>The ViewData in it's strongly-typed form.</returns>
         </member>
+        <member name="T:MvcContrib.TestHelper.MockFactories.FirstAvailableMockFactory">
+            <summary>
+            A mock factory that uses the first available mocking framework
+            to create mock objects.
+            </summary>
+            <remarks>
+            This factory will attempt to use <see cref="T:MvcContrib.TestHelper.MockFactories.RhinoMocksFactory"/>
+            first.  If Rhino Mocks isn't available, it will attempt to use
+            <see cref="T:MvcContrib.TestHelper.MockFactories.MoqFactory"/>.
+            </remarks>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.FirstAvailableMockFactory.#ctor">
+            <summary>
+            Initializes the factory.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.FirstAvailableMockFactory.#ctor(System.Type[])">
+            <summary>
+            Creates a factory that will use the first creatable factory type.
+            </summary>
+            <param name="factoryTypes"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.FirstAvailableMockFactory.DynamicMock``1">
+            <summary>
+            Creates a dynamic mock.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:MvcContrib.TestHelper.MockFactories.MoqFactory">
+            <summary>
+            Creates mock objects using Moq.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.MoqFactory.#cctor">
+            <summary>
+            Grabs references to static types.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.MoqFactory.#ctor">
+            <summary>
+            Creates a new factory.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if Moq isn't available.</exception>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.MoqFactory.DynamicMock``1">
+            <summary>
+            Creates a new dynamic mock.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
         <member name="M:MvcContrib.TestHelper.AttributeExtensions.IsDecoratedWith``1(System.Reflection.ICustomAttributeProvider)">
             <summary>
             Will return true if the attributeTarget is decorated with an attribute of type TAttribute.
@@ -167,6 +219,116 @@
             </summary>
             <param name="method"></param>
             <returns></returns>
+        </member>
+        <member name="T:MvcContrib.TestHelper.MockFactories.MoqProxy`1">
+            <summary>
+            Runtime proxy for a Moq proxy. 
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.MoqProxy`1.#ctor(System.Type)">
+            <summary>
+            Creates a new proxy. 
+            </summary>
+            <param name="mockType"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.MoqProxy`1.ReturnFor``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},``0)">
+            <summary>
+            Sets up the specified return value for the specified method call or property. 
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="expression"></param>
+            <param name="result"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.MoqProxy`1.CallbackFor``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Func{``0})">
+            <summary>
+            Sets up a callback function for the specified method call or property.
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="expression"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.MoqProxy`1.SetupProperty``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Sets up normal get/set property behavior. 
+            </summary>
+            <typeparam name="TProperty"></typeparam>
+            <param name="expression"></param>
+        </member>
+        <member name="P:MvcContrib.TestHelper.MockFactories.MoqProxy`1.Object">
+            <summary>
+            Gets the object. 
+            </summary>
+        </member>
+        <member name="T:MvcContrib.TestHelper.MockFactories.RhinoMocksFactory">
+            <summary>
+            Creates mock objects using Rhino Mocks dynamically. 
+            </summary>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksFactory.#cctor">
+            <summary>
+            Grabs references to Rhino Mocks types using reflection.
+            </summary>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksFactory.#ctor">
+            <summary>
+            Initializes the factory.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">Thrown if Rhino Mocks can't be loaded.</exception>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksFactory.DynamicMock``1">
+            <summary>
+            Creates a dynamic mock for the specified type.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:MvcContrib.TestHelper.MockFactories.RhinoMocksProxy`1">
+            <summary>
+            Proxy for a mock created by Rhino Mocks. 
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksProxy`1.#cctor">
+            <summary>
+            Grabs references to static types and generic methods to speed things up later. 
+            </summary>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksProxy`1.#ctor(`0,System.Object)">
+            <summary>
+            Creates a proxy for the specified dynamic mock that was created
+            from the specified mock repository. 
+            </summary>
+            <param name="dynamicMock"></param>
+            <param name="mockRepository"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksProxy`1.ReturnFor``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},``0)">
+            <summary>
+            Equivalent to SetupResult.For{TResult}().Return()
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="expression"></param>
+            <param name="result"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksProxy`1.CallbackFor``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},System.Func{``0})">
+            <summary>
+            Equivalent to SetupResult.For{TResult}().Do().
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="expression"></param>
+            <param name="callback"></param>
+        </member>
+        <member name="M:MvcContrib.TestHelper.MockFactories.RhinoMocksProxy`1.SetupProperty``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Equivalent to SetupResult.For{TResult}().PropertyBehavior().
+            </summary>
+            <typeparam name="TProperty"></typeparam>
+            <param name="expression"></param>
+        </member>
+        <member name="P:MvcContrib.TestHelper.MockFactories.RhinoMocksProxy`1.Object">
+            <summary>
+            Changes the mock mode to "Replay" and gets the underlying mock object.
+            </summary>
         </member>
         <member name="M:MvcContrib.TestHelper.FluentController.ActionExpectations`1.Should(System.Action{System.Web.Mvc.ActionResult})">
             <summary>
@@ -1025,7 +1187,18 @@
         </member>
         <member name="M:MvcContrib.TestHelper.TestControllerBuilder.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:MvcContrib.TestHelper.TestControllerBuilder"/> class.
+            Initializes a new instance of the <see cref="T:MvcContrib.TestHelper.TestControllerBuilder"/> class
+            using the first available mocking framework available.
+            </summary>
+            <remarks>
+            See FirstAvailableMockFactory for a description of the mocking framework
+            selection strategy. 
+            </remarks>
+        </member>
+        <member name="M:MvcContrib.TestHelper.TestControllerBuilder.#ctor(MvcContrib.TestHelper.MockFactories.IMockFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcContrib.TestHelper.TestControllerBuilder"/> class using
+            the specified mock factory to create any mock objects. 
             </summary>
         </member>
         <member name="M:MvcContrib.TestHelper.TestControllerBuilder.InitializeController(System.Web.Mvc.Controller)">

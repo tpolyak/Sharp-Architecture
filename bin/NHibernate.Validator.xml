@@ -1180,12 +1180,12 @@
             <summary>
             Interface implemented by the validator
             when a constraint may be represented in the
-            hibernate metadata
+            NHibernate metadata
             </summary>
         </member>
         <member name="M:NHibernate.Validator.Engine.IPersistentClassConstraint.Apply(NHibernate.Mapping.PersistentClass)">
             <summary>
-             Apply the constraint in the hibernate metadata
+             Apply the constraint in the NHibernate metadata
             </summary>
             <param name="persistentClass">PersistentClass</param>
         </member>
