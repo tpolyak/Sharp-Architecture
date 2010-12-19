@@ -49,7 +49,7 @@ namespace SharpArch.Web.Castle
             {
                 if (ControllerExtensions.IsController(type))
                 {
-                    container.Register(Component.For(type).Named("type.FullName.ToLower()").LifeStyle.Is(LifestyleType.Transient));
+                    container.Register(Component.For(type).Named(type.FullName.ToLower()).LifeStyle.Is(LifestyleType.Transient));
                 }
             }
 
