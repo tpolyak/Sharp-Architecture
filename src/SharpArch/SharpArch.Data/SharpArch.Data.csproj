@@ -75,11 +75,13 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="NHibernate\DbContext.cs" />
+    <Compile Include="NHibernate\DefaultSessionFactoryKeyProvider.cs" />
     <Compile Include="NHibernate\EntityDuplicateChecker.cs" />
     <Compile Include="NHibernate\FluentNHibernate\GeneratorHelper.cs" />
     <Compile Include="NHibernate\FluentNHibernate\IAutoPersistenceModelGenerator.cs" />
     <Compile Include="NHibernate\FluentNHibernate\IMapGenerator.cs" />
     <Compile Include="NHibernate\INHibernateConfigurationCache.cs" />
+    <Compile Include="NHibernate\ISessionFactoryKeyProvider.cs" />
     <Compile Include="NHibernate\ISessionStorage.cs" />
     <Compile Include="NHibernate\NHibernateConfigurationFileCache.cs" />
     <Compile Include="NHibernate\NHibernateInitializer.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="NHibernate\NHibernateSession.cs" />
     <Compile Include="NHibernate\Repository.cs" />
     <Compile Include="NHibernate\SessionFactoryAttribute.cs" />
+    <Compile Include="NHibernate\SessionFactoryKeyHelper.cs" />
     <Compile Include="NHibernate\SimpleSessionStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

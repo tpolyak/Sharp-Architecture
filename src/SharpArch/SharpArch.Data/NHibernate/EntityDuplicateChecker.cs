@@ -111,7 +111,7 @@ namespace SharpArch.Data.NHibernate
 
 		private ISession GetSessionFor(object entity)
 		{
-			string factoryKey = SessionFactoryAttribute.GetKeyFrom(entity);
+      string factoryKey = SessionFactoryKeyHelper.GetKey(entity);
 			return NHibernateSession.CurrentFor(factoryKey);
 		}
 

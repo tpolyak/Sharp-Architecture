@@ -35,6 +35,8 @@ namespace $safeprojectname$.CastleWindsor
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container) {
+            container.AddComponent("sessionFactoryKeyProvider",
+                typeof(ISessionFactoryKeyProvider), typeof(DefaultSessionFactoryKeyProvider));
             container.AddComponent("entityDuplicateChecker",
                 typeof(IEntityDuplicateChecker), typeof(EntityDuplicateChecker));
             container.AddComponent("repositoryType",

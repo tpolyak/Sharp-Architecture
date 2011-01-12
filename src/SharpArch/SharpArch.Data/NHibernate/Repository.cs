@@ -28,7 +28,7 @@ namespace SharpArch.Data.NHibernate
     {
         protected virtual ISession Session {
             get {
-                string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
+              string factoryKey = SessionFactoryKeyHelper.GetKey(this);
                 return NHibernateSession.CurrentFor(factoryKey);
             }
         }
@@ -36,7 +36,7 @@ namespace SharpArch.Data.NHibernate
         public virtual IDbContext DbContext {
             get {
                 if (dbContext == null) {
-                    string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
+                  string factoryKey = SessionFactoryKeyHelper.GetKey(this);
                     dbContext = new DbContext(factoryKey);
                 }
 
