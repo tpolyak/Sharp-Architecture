@@ -5,8 +5,14 @@ namespace SharpArch.Data.NHibernate
     /// <summary>
     /// Gets the session factory key.
     /// </summary>
+    /// <returns></returns>
+    string GetKey();
+
+    /// <summary>
+    /// Gets the session factory key.
+    /// </summary>
     /// <param name="anObject">An optional object that may have an attribute used to determine the session factory key.</param>
     /// <returns></returns>
-    string GetKey(object anObject);
+    string GetKeyFrom(object anObject);
   }
 }

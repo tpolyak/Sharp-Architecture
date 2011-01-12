@@ -7,12 +7,17 @@
   /// </summary>
   public class DefaultSessionFactoryKeyProvider : ISessionFactoryKeyProvider
   {
+    public string GetKey()
+    {
+      return NHibernateSession.DefaultFactoryKey;
+    }
+
     /// <summary>
     /// Gets the session factory key.
     /// </summary>
     /// <param name="anObject">An object that may have the <see cref="SessionFactoryAttribute"/> applied.</param>
     /// <returns></returns>
-    public string GetKey(object anObject)
+    public string GetKeyFrom(object anObject)
     {
       return SessionFactoryAttribute.GetKeyFrom(anObject);
     }

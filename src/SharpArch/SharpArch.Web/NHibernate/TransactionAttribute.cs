@@ -66,9 +66,10 @@ namespace SharpArch.Web.NHibernate
             }
         }
 
-        private string GetEffectiveFactoryKey() {
+        private string GetEffectiveFactoryKey() 
+        {
             return String.IsNullOrEmpty(factoryKey)
-                    ? NHibernateSession.DefaultFactoryKey
+                    ? SessionFactoryKeyHelper.GetKey()
                     : factoryKey;
         }
 
