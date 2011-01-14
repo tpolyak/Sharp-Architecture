@@ -40,9 +40,9 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         public void ClientValidation_LengthProperty()
         {
             ModelClientValidationRule validationRule = ClientValidation_AssertRule(
-                x => x.LengthProperty, "stringLength", "length_message");
-            Assert.That(validationRule.ValidationParameters["minimumLength"], Is.EqualTo(3));
-            Assert.That(validationRule.ValidationParameters["maximumLength"], Is.EqualTo(10));
+                x => x.LengthProperty, "length", "length_message");
+            Assert.That(validationRule.ValidationParameters["min"], Is.EqualTo(3));
+            Assert.That(validationRule.ValidationParameters["max"], Is.EqualTo(10));
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         {
             ModelClientValidationRule validationRule = ClientValidation_AssertRule(
                 x => x.MaxProperty, "range", "max_message");
-            Assert.That(validationRule.ValidationParameters["maximum"], Is.EqualTo(10));
+            Assert.That(validationRule.ValidationParameters["max"], Is.EqualTo(10));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         {
             ModelClientValidationRule validationRule = ClientValidation_AssertRule(
                 x => x.MinProperty, "range", "min_message");
-            Assert.That(validationRule.ValidationParameters["minimum"], Is.EqualTo(3));
+            Assert.That(validationRule.ValidationParameters["min"], Is.EqualTo(3));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         public void ClientValidation_PatternProperty()
         {
             ModelClientValidationRule validationRule = ClientValidation_AssertRule(
-                x => x.PatternProperty, "regularExpression", "pattern_message");
+                x => x.PatternProperty, "regex", "pattern_message");
             Assert.That(validationRule.ValidationParameters["pattern"], Is.EqualTo("[a-zA-Z]{3,10}"));
         }
 
@@ -86,8 +86,8 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         {
             ModelClientValidationRule validationRule = ClientValidation_AssertRule(
                 x => x.RangeProperty, "range", "range_message");
-            Assert.That(validationRule.ValidationParameters["minimum"], Is.EqualTo(3));
-            Assert.That(validationRule.ValidationParameters["maximum"], Is.EqualTo(10));
+            Assert.That(validationRule.ValidationParameters["min"], Is.EqualTo(3));
+            Assert.That(validationRule.ValidationParameters["max"], Is.EqualTo(10));
         }
 
         [SetUp]

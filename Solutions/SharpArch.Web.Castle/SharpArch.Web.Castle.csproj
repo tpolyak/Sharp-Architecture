@@ -62,10 +62,6 @@
     <Reference Include="Castle.Windsor, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\ReferencedAssemblies\Castle\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="MvcContrib, Version=2.0.34.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ReferencedAssemblies\MvcContrib\MvcContrib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -83,7 +79,7 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CastleSubControllerBinder.cs" />
+    <Compile Include="WindsorDependencyResolver.cs" />
     <Compile Include="WindsorExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -91,6 +87,10 @@
     <ProjectReference Include="..\SharpArch.Core\SharpArch.Core.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Web\SharpArch.Web.csproj">
+      <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
+      <Name>SharpArch.Web</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

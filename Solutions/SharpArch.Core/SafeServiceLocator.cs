@@ -30,8 +30,7 @@
                 throw new ActivationException(
                     "The needed dependency of type " + typeof(TDependency).Name +
                     " could not be located with the ServiceLocator. You'll need to register it with " +
-                    "the Common Service Locator (CSL) via your IoC's CSL adapter.", 
-                    ex);
+                    "the Common Service Locator (CSL) via your IoC's CSL adapter. " + ex.Message, ex);
             }
 
             return service;
