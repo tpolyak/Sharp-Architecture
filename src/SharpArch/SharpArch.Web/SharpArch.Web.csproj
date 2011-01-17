@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpArch.Web</RootNamespace>
     <AssemblyName>SharpArch.Web</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
     <FileUpgradeFlags>
@@ -32,6 +32,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,7 +61,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Mvc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\Microsoft.Web.Mvc.dll</HintPath>
     </Reference>
@@ -77,22 +78,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\System.Web.Abstractions.dll</HintPath>
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\bin\System.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Routing, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\bin\System.Web.Routing.dll</HintPath>
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -104,6 +92,7 @@
     <Compile Include="Areas\LinkForAreasExtensions.cs" />
     <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
     <Compile Include="CommonValidator\ValidatableModelBinder.cs" />
+    <Compile Include="ControllerExtensions.cs" />
     <Compile Include="JsonNet\JsonNetResult.cs" />
     <Compile Include="ModelBinder\ValueBinderHelper.cs" />
     <Compile Include="ModelBinder\EntityCollectionValueBinder.cs" />

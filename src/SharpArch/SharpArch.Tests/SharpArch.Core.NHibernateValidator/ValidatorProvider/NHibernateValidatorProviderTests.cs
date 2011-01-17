@@ -65,29 +65,29 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         [Test]
         public void ClientValidation_LengthProperty()
         {
-            var validationRule = ClientValidation_AssertRule(x => x.LengthProperty, "stringLength", "length_message");
-            Assert.That(validationRule.ValidationParameters["minimumLength"], Is.EqualTo(3));
-            Assert.That(validationRule.ValidationParameters["maximumLength"], Is.EqualTo(10));
+            var validationRule = ClientValidation_AssertRule(x => x.LengthProperty, "length", "length_message");
+            Assert.That(validationRule.ValidationParameters["min"], Is.EqualTo(3));
+            Assert.That(validationRule.ValidationParameters["max"], Is.EqualTo(10));
         }
 
         [Test]
         public void ClientValidation_MinPropertyProperty()
         {
             var validationRule = ClientValidation_AssertRule(x => x.MinProperty, "range", "min_message");
-            Assert.That(validationRule.ValidationParameters["minimum"], Is.EqualTo(3));
+            Assert.That(validationRule.ValidationParameters["min"], Is.EqualTo(3));
         }
 
         [Test]
         public void ClientValidation_MaxPropertyProperty()
         {
             var validationRule = ClientValidation_AssertRule(x => x.MaxProperty, "range", "max_message");
-            Assert.That(validationRule.ValidationParameters["maximum"], Is.EqualTo(10));
+            Assert.That(validationRule.ValidationParameters["max"], Is.EqualTo(10));
         }
 
         [Test]
         public void ClientValidation_PatternProperty()
         {
-            var validationRule = ClientValidation_AssertRule(x => x.PatternProperty, "regularExpression", "pattern_message");
+            var validationRule = ClientValidation_AssertRule(x => x.PatternProperty, "regex", "pattern_message");
             Assert.That(validationRule.ValidationParameters["pattern"], Is.EqualTo("[a-zA-Z]{3,10}"));
         }
 
@@ -95,8 +95,8 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
         public void ClientValidation_RangeProperty()
         {
             var validationRule = ClientValidation_AssertRule(x => x.RangeProperty, "range", "range_message");
-            Assert.That(validationRule.ValidationParameters["minimum"], Is.EqualTo(3));
-            Assert.That(validationRule.ValidationParameters["maximum"], Is.EqualTo(10));
+            Assert.That(validationRule.ValidationParameters["min"], Is.EqualTo(3));
+            Assert.That(validationRule.ValidationParameters["max"], Is.EqualTo(10));
         }
 
         private ModelClientValidationRule ClientValidation_AssertRule<TValue>(Expression<Func<TestModel, TValue>> property, string validationType, string errorMessate)

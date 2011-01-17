@@ -4,6 +4,7 @@ using SharpArch.Data.NHibernate;
 
 namespace Tests.SharpArch.Data
 {
+    [Ignore]
     [TestFixture]
     public class NHibernateSessionTests
     {

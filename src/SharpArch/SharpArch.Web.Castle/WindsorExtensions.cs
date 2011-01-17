@@ -10,8 +10,6 @@ namespace SharpArch.Web.Castle
     using global::Castle.Core;
     using global::Castle.Windsor;
 
-    using MvcContrib;
-
     public static class WindsorExtensions
     {
         /// <summary>

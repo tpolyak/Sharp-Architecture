@@ -91,15 +91,15 @@ namespace SharpArch.Data.NHibernate
 			IPersistenceConfigurer persistenceConfigurer)
 		{
 			InitStorage(storage);
-            try {
-                return AddConfiguration(DefaultFactoryKey, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, persistenceConfigurer);
-            }
-            catch {
-                // If this NHibernate config throws an exception, null the Storage reference so 
-                // the config can be corrected without having to restart the web application.
-                Storage = null;
-                throw;
-            }
+			try {
+				return AddConfiguration(DefaultFactoryKey, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, persistenceConfigurer);
+			}
+			catch {
+				// If this NHibernate config throws an exception, null the Storage reference so 
+				// the config can be corrected without having to restart the web application.
+				Storage = null;
+				throw;
+			}
 		}
 
 		#endregion
@@ -111,43 +111,43 @@ namespace SharpArch.Data.NHibernate
 			Storage = storage;
 		}
 
-        [CLSCompliant(false)]
-        public static Configuration AddConfiguration(
-            string factoryKey,
-            string[] mappingAssemblies,
-            AutoPersistenceModel autoPersistenceModel,
-            string cfgFile,
-            IDictionary<string, string> cfgProperties,
-            string validatorCfgFile,
-            IPersistenceConfigurer persistenceConfigurer) {
+		[CLSCompliant(false)]
+		public static Configuration AddConfiguration(
+			string factoryKey,
+			string[] mappingAssemblies,
+			AutoPersistenceModel autoPersistenceModel,
+			string cfgFile,
+			IDictionary<string, string> cfgProperties,
+			string validatorCfgFile,
+			IPersistenceConfigurer persistenceConfigurer) {
 
-            Configuration config;
-            INHibernateConfigurationCache configCache = NHibernateSession.ConfigurationCache;
-            if (configCache != null) {
-                config = configCache.LoadConfiguration(factoryKey, cfgFile, mappingAssemblies);
-                if (config != null) {
-                    return AddConfiguration(
-                        factoryKey,
-                        config.BuildSessionFactory(),
-                        config,
-                        validatorCfgFile);
-                }
-            }
+			Configuration config;
+			INHibernateConfigurationCache configCache = NHibernateSession.ConfigurationCache;
+			if (configCache != null) {
+				config = configCache.LoadConfiguration(factoryKey, cfgFile, mappingAssemblies);
+				if (config != null) {
+					return AddConfiguration(
+						factoryKey,
+						config.BuildSessionFactory(),
+						config,
+						validatorCfgFile);
+				}
+			}
 
-            config = AddConfiguration(
-                factoryKey,
-                mappingAssemblies,
-                autoPersistenceModel,
-                ConfigureNHibernate(cfgFile, cfgProperties),
-                validatorCfgFile,
-                persistenceConfigurer);
+			config = AddConfiguration(
+				factoryKey,
+				mappingAssemblies,
+				autoPersistenceModel,
+				ConfigureNHibernate(cfgFile, cfgProperties),
+				validatorCfgFile,
+				persistenceConfigurer);
 
-            if (configCache != null) {
-                configCache.SaveConfiguration(factoryKey, config);
-            }
+			if (configCache != null) {
+				configCache.SaveConfiguration(factoryKey, config);
+			}
 
-            return config;
-        }
+			return config;
+		}
 
 		[CLSCompliant(false)]
 		public static Configuration AddConfiguration(
@@ -186,21 +186,21 @@ namespace SharpArch.Data.NHibernate
 		/// <value>The validator engine.</value>
 		public static ValidatorEngine ValidatorEngine { get; set; }
 
-        /// <summary>
-        /// Provides access to <see cref="INHibernateConfigurationCache"/> object.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown on Set if the Init method has 
-        /// already been called and the NHibernateSession.Storage property is not null.</exception>
-        public static INHibernateConfigurationCache ConfigurationCache {
-            get { return configurationCache; }
-            set {
-                if (Storage != null) {
-                    throw new InvalidOperationException("Cannot set the ConfigurationCache property after calling Init");
-                }
-                configurationCache = value;
-            }
-        }
-        private static INHibernateConfigurationCache configurationCache;
+		/// <summary>
+		/// Provides access to <see cref="INHibernateConfigurationCache"/> object.
+		/// </summary>
+		/// <exception cref="InvalidOperationException">Thrown on Set if the Init method has 
+		/// already been called and the NHibernateSession.Storage property is not null.</exception>
+		public static INHibernateConfigurationCache ConfigurationCache {
+			get { return configurationCache; }
+			set {
+				if (Storage != null) {
+					throw new InvalidOperationException("Cannot set the ConfigurationCache property after calling Init");
+				}
+				configurationCache = value;
+			}
+		}
+		private static INHibernateConfigurationCache configurationCache;
 
 		/// <summary>
 		/// Used to get the current NHibernate session if you're communicating with a single database.
@@ -270,12 +270,12 @@ namespace SharpArch.Data.NHibernate
 		/// </summary>
 		public static void CloseAllSessions()
 		{
-            if(Storage != null)
-			    foreach (ISession session in Storage.GetAllSessions())
-			    {
-				    if (session.IsOpen)
-					    session.Close();
-			    }
+			if(Storage != null)
+				foreach (ISession session in Storage.GetAllSessions())
+				{
+					if (session.IsOpen)
+						session.Close();
+				}
 		}
 
 		/// <summary>
