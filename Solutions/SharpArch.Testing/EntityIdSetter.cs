@@ -2,8 +2,8 @@
 {
     using System.Reflection;
 
-    using SharpArch.Core;
-    using SharpArch.Core.DomainModel;
+    using SharpArch.Domain;
+    using SharpArch.Domain.DomainModel;
 
     /// <summary>
     ///     For better data integrity, it is imperitive that the <see cref = "Entity.Id" />

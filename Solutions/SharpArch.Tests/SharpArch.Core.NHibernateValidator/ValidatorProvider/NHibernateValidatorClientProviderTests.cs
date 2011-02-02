@@ -7,7 +7,7 @@
 #pragma warning disable 169
 // ReSharper disable InconsistentNaming
 
-namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
+namespace Tests.SharpArch.Domain.NHibernateValidator.ValidatorProvider
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Tests.SharpArch.Core.NHibernateValidator.ValidatorProvider
 
     using NUnit.Framework;
 
-    using global::SharpArch.Core.NHibernateValidator.ValidatorProvider;
+    using global::SharpArch.Domain.NHibernateValidator.ValidatorProvider;
 
     [TestFixture]
     public class NHibernateValidatorClientProviderTests

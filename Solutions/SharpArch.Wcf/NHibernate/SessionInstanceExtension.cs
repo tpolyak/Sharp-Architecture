@@ -5,7 +5,7 @@ namespace SharpArch.Wcf.NHibernate
 
     using global::NHibernate;
 
-    using SharpArch.Data.NHibernate;
+    using SharpArch.Infrastructure.NHibernate;
 
     internal class SessionInstanceExtension : IExtension<InstanceContext>, ISessionStorage
     {

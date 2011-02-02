@@ -22,7 +22,7 @@ namespace SharpArch.Wcf
         }
 
         /// <summary>
-        ///     Replicates the behavior of <see cref = "SharpArch.Core.SafeServiceLocator{T}" /> 
+        ///     Replicates the behavior of <see cref = "SharpArch.Domain.SafeServiceLocator{T}" /> 
         ///     to create an instance of the requested WCF service.
         /// </summary>
         public object GetInstance(InstanceContext instanceContext, Message message)

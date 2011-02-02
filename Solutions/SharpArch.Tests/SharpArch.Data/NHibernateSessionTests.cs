@@ -7,7 +7,7 @@ namespace Tests.SharpArch.Data
 
     using NUnit.Framework;
 
-    using global::SharpArch.Data.NHibernate;
+    using global::SharpArch.Infrastructure.NHibernate;
 
     [TestFixture]
     public class NHibernateSessionTests

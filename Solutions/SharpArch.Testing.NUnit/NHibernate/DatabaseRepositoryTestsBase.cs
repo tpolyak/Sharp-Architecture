@@ -2,7 +2,7 @@
 {
     using global::NUnit.Framework;
 
-    using SharpArch.Data.NHibernate;
+    using SharpArch.Infrastructure.NHibernate;
     using SharpArch.Testing.NHibernate;
 
     /// <summary>

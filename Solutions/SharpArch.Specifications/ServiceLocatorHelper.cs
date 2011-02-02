@@ -2,8 +2,8 @@
 {
     #region Using Directives
 
-    using global::SharpArch.Core.CommonValidator;
-    using global::SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
+    using global::SharpArch.Domain.CommonValidator;
+    using global::SharpArch.Domain.NHibernateValidator.CommonValidatorAdapter;
 
     using Microsoft.Practices.ServiceLocation;
 

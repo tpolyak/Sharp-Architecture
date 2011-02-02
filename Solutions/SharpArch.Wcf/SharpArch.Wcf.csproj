@@ -98,13 +98,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Core\SharpArch.Core.csproj">
+    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
-      <Name>SharpArch.Core</Name>
+      <Name>SharpArch.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharpArch.Data\SharpArch.Data.csproj">
+    <ProjectReference Include="..\SharpArch.Infrastructure\SharpArch.Infrastructure.csproj">
       <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
-      <Name>SharpArch.Data</Name>
+      <Name>SharpArch.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

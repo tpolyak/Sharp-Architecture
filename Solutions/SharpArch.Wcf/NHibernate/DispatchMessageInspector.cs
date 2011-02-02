@@ -4,7 +4,7 @@
     using System.ServiceModel.Channels;
     using System.ServiceModel.Dispatcher;
 
-    using SharpArch.Data.NHibernate;
+    using SharpArch.Infrastructure.NHibernate;
 
     internal class DispatchMessageInspector : IDispatchMessageInspector
     {

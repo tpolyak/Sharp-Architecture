@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Core", "SharpArch.Core\SharpArch.Core.csproj", "{E12E99BB-8732-441F-B3A6-861F0CE23D3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Domain", "SharpArch.Domain\SharpArch.Domain.csproj", "{E12E99BB-8732-441F-B3A6-861F0CE23D3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Data", "SharpArch.Data\SharpArch.Data.csproj", "{FD9CF06F-A44D-494C-AC23-AE278F9268B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Infrastructure", "SharpArch.Infrastructure\SharpArch.Infrastructure.csproj", "{FD9CF06F-A44D-494C-AC23-AE278F9268B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Web", "SharpArch.Web\SharpArch.Web.csproj", "{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Web.Mvc", "SharpArch.Web.Mvc\SharpArch.Web.Mvc.csproj", "{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Tests", "SharpArch.Tests\SharpArch.Tests.csproj", "{C201296D-09B7-4BAE-96F0-AB59F624DB36}"
 EndProject
@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing.NUnit", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing", "SharpArch.Testing\SharpArch.Testing.csproj", "{230DF364-CC54-440A-AA02-31A0E2964AC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Web.Castle", "SharpArch.Web.Castle\SharpArch.Web.Castle.csproj", "{EF04B10E-DF21-4380-A52E-B80337757017}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Web.Mvc.Castle", "SharpArch.Web.Mvc.Castle\SharpArch.Web.Mvc.Castle.csproj", "{EF04B10E-DF21-4380-A52E-B80337757017}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Core.NHibernateValidator", "SharpArch.Core.NHibernateValidator\SharpArch.Core.NHibernateValidator.csproj", "{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Domain.NHibernateValidator", "SharpArch.Domain.NHibernateValidator\SharpArch.Domain.NHibernateValidator.csproj", "{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpArch.Testing.MbUnit", "SharpArch.Testing.MbUnit\SharpArch.Testing.MbUnit.csproj", "{DFAD974A-3765-47AA-A6D0-BCFA73F7082D}"
 EndProject

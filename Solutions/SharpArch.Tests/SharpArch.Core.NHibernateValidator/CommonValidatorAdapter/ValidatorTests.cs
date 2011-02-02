@@ -1,4 +1,4 @@
-namespace Tests.SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
+namespace Tests.SharpArch.Domain.NHibernateValidator.CommonValidatorAdapter
 {
     using System.Linq;
 
@@ -6,7 +6,7 @@ namespace Tests.SharpArch.Core.NHibernateValidator.CommonValidatorAdapter
 
     using NUnit.Framework;
 
-    using global::SharpArch.Core.NHibernateValidator.CommonValidatorAdapter;
+    using global::SharpArch.Domain.NHibernateValidator.CommonValidatorAdapter;
 
     [TestFixture]
     public class ValidatorTests

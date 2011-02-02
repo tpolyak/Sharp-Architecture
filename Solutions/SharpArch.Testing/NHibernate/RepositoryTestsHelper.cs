@@ -9,9 +9,9 @@
 
     using global::NHibernate.Tool.hbm2ddl;
 
-    using SharpArch.Core;
-    using SharpArch.Data.NHibernate;
-    using SharpArch.Data.NHibernate.FluentNHibernate;
+    using SharpArch.Domain;
+    using SharpArch.Infrastructure.NHibernate;
+    using SharpArch.Infrastructure.NHibernate.FluentNHibernate;
 
     using Configuration = global::NHibernate.Cfg.Configuration;
 

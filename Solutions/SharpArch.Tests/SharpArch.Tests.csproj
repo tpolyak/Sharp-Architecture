@@ -127,42 +127,43 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharpArch.Core.NHibernateValidator\CommonValidatorAdapter\ValidatorTests.cs" />
     <Compile Include="SharpArch.Core.NHibernateValidator\ValidatorProvider\NHibernateValidatorClientProviderTests.cs" />
-    <Compile Include="SharpArch.Core\DesignByContractTests.cs" />
-    <Compile Include="SharpArch.Core\DomainModel\BaseObjectEqualityComparerTests.cs" />
-    <Compile Include="SharpArch.Core\DomainModel\EntityTests.cs" />
-    <Compile Include="SharpArch.Core\DomainModel\ValueObjectTests.cs" />
-    <Compile Include="SharpArch.Core\CommonValidator\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
-    <Compile Include="SharpArch.Core\SafeServiceLocatorTests.cs" />
+    <Compile Include="SharpArch.Domain\DesignByContractTests.cs" />
+    <Compile Include="SharpArch.Domain\DomainModel\BaseObjectEqualityComparerTests.cs" />
+    <Compile Include="SharpArch.Domain\DomainModel\EntityTests.cs" />
+    <Compile Include="SharpArch.Domain\DomainModel\ValueObjectTests.cs" />
+    <Compile Include="SharpArch.Domain\CommonValidator\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
+    <Compile Include="SharpArch.Domain\SafeServiceLocatorTests.cs" />
     <Compile Include="SharpArch.Data\NHibernateSessionTests.cs" />
-    <Compile Include="SharpArch.Web\CommonValidator\MvcValidationAdapterTests.cs" />
-    <Compile Include="SharpArch.Web\JsonNet\JsonNetResultTests.cs" />
-    <Compile Include="SharpArch.Web\ModelBinder\SharpModelBinderTests.cs" />
+    <Compile Include="SharpArch.Web.Mvc\CommonValidator\MvcValidationAdapterTests.cs" />
+    <Compile Include="SharpArch.Web.Mvc\JsonNet\JsonNetResultTests.cs" />
+    <Compile Include="SharpArch.Web.Mvc\ModelBinder\SharpModelBinderTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Core.NHibernateValidator\SharpArch.Core.NHibernateValidator.csproj">
+    <ProjectReference Include="..\SharpArch.Domain.NHibernateValidator\SharpArch.Domain.NHibernateValidator.csproj">
       <Project>{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}</Project>
-      <Name>SharpArch.Core.NHibernateValidator</Name>
+      <Name>SharpArch.Domain.NHibernateValidator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharpArch.Core\SharpArch.Core.csproj">
+    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
-      <Name>SharpArch.Core</Name>
+      <Name>SharpArch.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharpArch.Data\SharpArch.Data.csproj">
+    <ProjectReference Include="..\SharpArch.Infrastructure\SharpArch.Infrastructure.csproj">
       <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
-      <Name>SharpArch.Data</Name>
+      <Name>SharpArch.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">
       <Project>{230DF364-CC54-440A-AA02-31A0E2964AC3}</Project>
       <Name>SharpArch.Testing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharpArch.Web\SharpArch.Web.csproj">
+    <ProjectReference Include="..\SharpArch.Web.Mvc\SharpArch.Web.Mvc.csproj">
       <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
-      <Name>SharpArch.Web</Name>
+      <Name>SharpArch.Web.Mvc</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="sqlite-nhibernate-config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ namespace SharpArch.Wcf.NHibernate
 
     using global::NHibernate;
 
-    using SharpArch.Data.NHibernate;
+    using SharpArch.Infrastructure.NHibernate;
 
     public class WcfSessionStorage : ISessionStorage
     {
