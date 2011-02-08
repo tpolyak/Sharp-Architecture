@@ -188,6 +188,7 @@
 					}
 					
 					Arguments.Add(new Argument(string.Format("/log:\"{0}\"", m_logFile)));
+					Arguments.Add(new Argument(@"/targetplatform:v4, C:\Windows\Microsoft.NET\Framework\v4.0.30319"));
 					
 					if (Internalize)
 					{
