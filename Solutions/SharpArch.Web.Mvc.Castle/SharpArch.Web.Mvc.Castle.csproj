@@ -8,8 +8,8 @@
     <ProjectGuid>{EF04B10E-DF21-4380-A52E-B80337757017}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpArch.Web.Castle</RootNamespace>
-    <AssemblyName>SharpArch.Web.Castle</AssemblyName>
+    <RootNamespace>SharpArch.Web.Mvc.Castle</RootNamespace>
+    <AssemblyName>SharpArch.Web.Mvc.Castle</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
@@ -84,16 +84,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
-      <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
-      <Name>SharpArch.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpArch.Web.Mvc\SharpArch.Web.Mvc.csproj">
-      <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
-      <Name>SharpArch.Web</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -109,6 +99,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Web.Mvc\SharpArch.Web.Mvc.csproj">
+      <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
+      <Name>SharpArch.Web.Mvc</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

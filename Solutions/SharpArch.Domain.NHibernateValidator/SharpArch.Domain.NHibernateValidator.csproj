@@ -8,8 +8,8 @@
     <ProjectGuid>{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpArch.Core.NHibernateValidator</RootNamespace>
-    <AssemblyName>SharpArch.Core.NHibernateValidator</AssemblyName>
+    <RootNamespace>SharpArch.Domain.NHibernateValidator</RootNamespace>
+    <AssemblyName>SharpArch.Domain.NHibernateValidator</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -96,16 +96,6 @@
     <None Include="SharpArch.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
-      <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
-      <Name>SharpArch.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SharpArch.Infrastructure\SharpArch.Infrastructure.csproj">
-      <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
-      <Name>SharpArch.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -121,6 +111,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
+      <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
+      <Name>SharpArch.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Infrastructure\SharpArch.Infrastructure.csproj">
+      <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
+      <Name>SharpArch.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

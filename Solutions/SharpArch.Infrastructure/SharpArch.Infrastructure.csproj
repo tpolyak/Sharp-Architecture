@@ -8,8 +8,8 @@
     <ProjectGuid>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpArch.Data</RootNamespace>
-    <AssemblyName>SharpArch.Data</AssemblyName>
+    <RootNamespace>SharpArch.Infrastructure</RootNamespace>
+    <AssemblyName>SharpArch.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -101,12 +101,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
-      <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
-      <Name>SharpArch.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="SharpArch.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +119,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
+      <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
+      <Name>SharpArch.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,8 +8,8 @@
     <ProjectGuid>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpArch.Core</RootNamespace>
-    <AssemblyName>SharpArch.Core</AssemblyName>
+    <RootNamespace>SharpArch.Domain</RootNamespace>
+    <AssemblyName>SharpArch.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
