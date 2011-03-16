@@ -89,6 +89,7 @@
     <Compile Include="NHibernate\FluentNHibernate\IMapGenerator.cs" />
     <Compile Include="NHibernate\INHibernateConfigurationCache.cs" />
     <Compile Include="NHibernate\ISessionStorage.cs" />
+    <Compile Include="NHibernate\LinqRepository.cs" />
     <Compile Include="NHibernate\NHibernateConfigurationFileCache.cs" />
     <Compile Include="NHibernate\NHibernateInitializer.cs" />
     <Compile Include="NHibernate\NHibernateRepository.cs" />

@@ -96,6 +96,7 @@
     <Compile Include="DomainModel\ValueObject.cs" />
     <Compile Include="FileCache.cs" />
     <Compile Include="PersistenceSupport\IDbContext.cs" />
+    <Compile Include="PersistenceSupport\ILinqRepository.cs" />
     <Compile Include="PersistenceSupport\IRepository.cs" />
     <Compile Include="PersistenceSupport\IEntityDuplicateChecker.cs" />
     <Compile Include="PersistenceSupport\IRepositoryWithTypedId.cs" />
@@ -106,6 +107,11 @@
     <Compile Include="PersistenceSupport\RavenDb\IRavenDbRepositoryWithTypeId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SafeServiceLocator.cs" />
+    <Compile Include="Specifications\AdHoc.cs" />
+    <Compile Include="Specifications\ILinqSpecification.cs" />
+    <Compile Include="Specifications\ISpecification.cs" />
+    <Compile Include="Specifications\QuerySpecification.cs" />
+    <Compile Include="Specifications\QuerySpecificationExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SharpArch.snk" />

@@ -4,7 +4,7 @@
 
     using global::NHibernate.Linq;
 
-    using SharpArch.Core.PersistanceSupport;
+    using SharpArch.Domain.PersistanceSupport;
     using SharpArch.Domain.Specifications;
     using SharpArch.Infrastructure.NHibernate;
 
