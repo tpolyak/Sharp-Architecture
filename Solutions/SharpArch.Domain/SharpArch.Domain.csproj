@@ -100,11 +100,7 @@
     <Compile Include="PersistenceSupport\IRepository.cs" />
     <Compile Include="PersistenceSupport\IEntityDuplicateChecker.cs" />
     <Compile Include="PersistenceSupport\IRepositoryWithTypedId.cs" />
-    <Compile Include="PersistenceSupport\NHibernate\INHibernateRepository.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="PersistenceSupport\NHibernate\INHibernateRepositoryWithTypedId.cs" />
-    <Compile Include="PersistenceSupport\RavenDb\IRavenDbRepository.cs" />
-    <Compile Include="PersistenceSupport\RavenDb\IRavenDbRepositoryWithTypeId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SafeServiceLocator.cs" />
     <Compile Include="Specifications\AdHoc.cs" />

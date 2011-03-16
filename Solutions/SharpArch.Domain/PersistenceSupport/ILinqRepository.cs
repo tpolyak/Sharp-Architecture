@@ -1,4 +1,4 @@
-﻿namespace SharpArch.Domain.PersistanceSupport
+﻿namespace SharpArch.Domain.PersistenceSupport
 {
     using System.Linq;
 

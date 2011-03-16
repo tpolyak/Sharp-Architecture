@@ -133,7 +133,6 @@
     <Compile Include="SharpArch.Domain\DomainModel\ValueObjectTests.cs" />
     <Compile Include="SharpArch.Domain\CommonValidator\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
     <Compile Include="SharpArch.Domain\SafeServiceLocatorTests.cs" />
-    <Compile Include="SharpArch.Infrastructure\NHibernateSessionTests.cs" />
     <Compile Include="SharpArch.Web.Mvc\CommonValidator\MvcValidationAdapterTests.cs" />
     <Compile Include="SharpArch.Web.Mvc\JsonNet\JsonNetResultTests.cs" />
     <Compile Include="SharpArch.Web.Mvc\ModelBinder\SharpModelBinderTests.cs" />
