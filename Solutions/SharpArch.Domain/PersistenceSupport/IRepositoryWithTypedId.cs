@@ -27,5 +27,10 @@ namespace SharpArch.Domain.PersistenceSupport
         /// I'll let you guess what this does.
         /// </summary>
         void Delete(T entity);
+
+        /// <summary>
+        /// Takes in an instance of IQuery, calls ExecuteQuery and returns the results.
+        /// </summary>
+        IList<T> PerformQuery(IQuery<T> query);
     }
 }
