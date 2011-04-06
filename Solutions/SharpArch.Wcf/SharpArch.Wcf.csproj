@@ -59,9 +59,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ReferencedAssemblies\Microsoft\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -88,13 +85,6 @@
     </Compile>
     <Compile Include="ICloseableAndAbortable.cs" />
     <Compile Include="ServiceLocatorInstanceProvider.cs" />
-    <Compile Include="NHibernate\InstanceCreationInitializer.cs" />
-    <Compile Include="NHibernate\DispatchMessageInspector.cs" />
-    <Compile Include="NHibernate\SessionInstanceExtension.cs" />
-    <Compile Include="NHibernate\ServiceBehavior.cs" />
-    <Compile Include="NHibernate\ServiceHost.cs" />
-    <Compile Include="NHibernate\ServiceHostFactory.cs" />
-    <Compile Include="NHibernate\WcfSessionStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,12 +106,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Infrastructure\SharpArch.Infrastructure.csproj">
-      <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
-      <Name>SharpArch.Infrastructure</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

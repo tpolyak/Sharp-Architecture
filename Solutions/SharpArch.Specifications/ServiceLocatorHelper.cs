@@ -3,7 +3,6 @@
     #region Using Directives
 
     using global::SharpArch.Domain.CommonValidator;
-    using global::SharpArch.Domain.NHibernateValidator.CommonValidatorAdapter;
 
     using Microsoft.Practices.ServiceLocation;
 
@@ -20,20 +19,6 @@
             provider = MockRepository.GenerateStub<IServiceLocator>();
 
             ServiceLocator.SetLocatorProvider(() => provider);
-        }
-
-        public static IValidator AddValidator()
-        {
-            if (provider == null)
-            {
-                InitialiseServiceLocator();
-            }
-
-            var validator = new Validator();
-            provider.Stub(p => p.GetInstance<IValidator>()).Return(validator);
-            provider.Stub(p => p.GetService(typeof(IValidator))).Return(validator);
-
-            return validator;
         }
 
         public static T AddToServiceLocator<T>(this T o)

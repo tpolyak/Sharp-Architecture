@@ -91,9 +91,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BehaviorSpecificationTestsBase.cs" />
-    <Compile Include="NHibernate\DatabaseRepositoryTestsBase.cs" />
-    <Compile Include="NHibernate\RepositoryBehaviorSpecificationTestsBase.cs" />
-    <Compile Include="NHibernate\RepositoryTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -117,10 +114,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Infrastructure\SharpArch.Infrastructure.csproj">
-      <Project>{FD9CF06F-A44D-494C-AC23-AE278F9268B6}</Project>
-      <Name>SharpArch.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">
       <Project>{230DF364-CC54-440A-AA02-31A0E2964AC3}</Project>
       <Name>SharpArch.Testing</Name>

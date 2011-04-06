@@ -2,6 +2,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Web.Mvc;
 
@@ -18,7 +19,6 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
     using global::SharpArch.Domain.CommonValidator;
     using global::SharpArch.Domain.DomainModel;
-    using global::SharpArch.Domain.NHibernateValidator.CommonValidatorAdapter;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.Web.Mvc.ModelBinder;
 
@@ -236,15 +236,21 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
         public void SetUp()
         {
             var mockRepository = new Mock<IRepositoryWithTypedId<Employee, int>>();
+            var mockValidator = new Mock<IValidator>();
             var windsorContainer = new WindsorContainer();
+
             mockRepository.Setup(r => r.Get(It.IsAny<int>())).Returns((int newId) => new Employee(newId));
+            mockValidator.Setup(r => r.IsValid(It.IsAny<bool>())).Returns(true);
+            mockValidator.Setup(r => r.ValidationResultsFor(It.IsAny<object>())).Returns(new Collection<IValidationResult>());
 
             windsorContainer.Register(
-                Component.For<IRepositoryWithTypedId<Employee, int>>().Instance(mockRepository.Object));
+                Component
+                    .For<IRepositoryWithTypedId<Employee, int>>()
+                    .Instance(mockRepository.Object));
             windsorContainer.Register(
                 Component
                     .For(typeof(IValidator))
-                    .ImplementedBy(typeof(Validator))
+                    .Instance(mockValidator.Object)
                     .Named("validator"));
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(windsorContainer));

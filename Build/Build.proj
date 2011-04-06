@@ -12,9 +12,7 @@
 
   <ItemGroup>
     <MergeFiles Include="$(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.dll;
-                         $(SolutionsPath)\SharpArch.Domain.NHibernateValidator\bin\Release\SharpArch.Domain.NHibernateValidator.dll;
                          $(SolutionsPath)\SharpArch.WcfClient.Castle\bin\Release\SharpArch.WcfClient.Castle.dll;
-                         $(SolutionsPath)\SharpArch.Infrastructure\bin\Release\SharpArch.Infrastructure.dll;
                          $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
                          $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
                          $(SolutionsPath)\SharpArch.Web.Mvc.Castle\bin\Release\SharpArch.Web.Mvc.Castle.dll;

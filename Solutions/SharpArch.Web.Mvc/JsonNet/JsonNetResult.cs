@@ -2,6 +2,7 @@ namespace SharpArch.Web.Mvc.JsonNet
 {
     using System;
     using System.Text;
+    using System.Web;
     using System.Web.Mvc;
 
     using Newtonsoft.Json;
@@ -12,18 +13,17 @@ namespace SharpArch.Web.Mvc.JsonNet
     /// </summary>
     public class JsonNetResult : ActionResult
     {
-        public JsonNetResult()
-            : this(null, null, null)
+        #region Constructors and Destructors
+
+        public JsonNetResult() : this(null, null, null)
         {
         }
 
-        public JsonNetResult(object data)
-            : this(data, null, null)
+        public JsonNetResult(object data) : this(data, null, null)
         {
         }
 
-        public JsonNetResult(object data, string contentType)
-            : this(data, contentType, null)
+        public JsonNetResult(object data, string contentType) : this(data, contentType, null)
         {
         }
 
@@ -36,6 +36,10 @@ namespace SharpArch.Web.Mvc.JsonNet
             this.ContentEncoding = encoding;
         }
 
+        #endregion
+
+        #region Properties
+
         public Encoding ContentEncoding { get; set; }
 
         public string ContentType { get; set; }
@@ -47,6 +51,10 @@ namespace SharpArch.Web.Mvc.JsonNet
         [CLSCompliant(false)]
         public JsonSerializerSettings SerializerSettings { get; set; }
 
+        #endregion
+
+        #region Public Methods
+
         public override void ExecuteResult(ControllerContext context)
         {
             if (context == null)
@@ -54,7 +62,7 @@ namespace SharpArch.Web.Mvc.JsonNet
                 throw new ArgumentNullException("context");
             }
 
-            var response = context.HttpContext.Response;
+            HttpResponseBase response = context.HttpContext.Response;
 
             response.ContentType = !string.IsNullOrEmpty(this.ContentType) ? this.ContentType : "application/json";
 
@@ -65,11 +73,13 @@ namespace SharpArch.Web.Mvc.JsonNet
 
             if (this.Data != null)
             {
-                var writer = new JsonTextWriter(response.Output) { Formatting = this.Formatting };
-                var serializer = JsonSerializer.Create(this.SerializerSettings);
+                var writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
+                JsonSerializer serializer = JsonSerializer.Create(this.SerializerSettings);
                 serializer.Serialize(writer, this.Data);
                 writer.Flush();
             }
         }
+
+        #endregion
     }
 }

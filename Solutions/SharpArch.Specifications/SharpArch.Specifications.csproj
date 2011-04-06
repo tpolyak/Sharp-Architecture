@@ -78,14 +78,9 @@
     <Compile Include="SharpArch.Domain\DomainModel\EntityWithTypedIdSpecs.cs" />
     <Compile Include="SharpArch.Domain\FileCacheSpecs.cs" />
     <Compile Include="SharpArch.Domain\DesignByContractSpecs.cs" />
-    <Compile Include="SharpArch.Domain\NHibernateValidator\HasUniqueDomainSignatureSpecs.cs" />
     <Compile Include="SharpArch.Domain\SafeServiceLocatorSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpArch.Domain.NHibernateValidator\SharpArch.Domain.NHibernateValidator.csproj">
-      <Project>{37E5BBAC-99FB-44D0-AF49-CFA95332DCC1}</Project>
-      <Name>SharpArch.Domain.NHibernateValidator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Domain</Name>
