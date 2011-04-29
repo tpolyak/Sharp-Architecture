@@ -1,7 +1,6 @@
 namespace Tests.SharpArch.Domain
 {
     using System;
-    using System.Collections.Generic;
 
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
@@ -14,20 +13,23 @@ namespace Tests.SharpArch.Domain
 
     using global::SharpArch.Domain;
     using global::SharpArch.Domain.CommonValidator;
+    using global::SharpArch.NHibernate.NHibernateValidator.CommonValidatorAdapter;
 
     [TestFixture]
     public class SafeServiceLocatorTests
     {
-        #region Public Methods
-
         [Test]
         public void CanReturnServiceIfInitializedAndRegistered()
         {
             IWindsorContainer container = new WindsorContainer();
-            container.Register(Component.For(typeof(IValidator)).ImplementedBy(typeof(Validator)).Named("validator"));
+            container.Register(
+                Component
+                    .For(typeof(IValidator))
+                    .ImplementedBy(typeof(Validator))
+                    .Named("validator"));
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
 
-            IValidator validatorService = SafeServiceLocator<IValidator>.GetService();
+            var validatorService = SafeServiceLocator<IValidator>.GetService();
 
             Assert.That(validatorService, Is.Not.Null);
         }
@@ -41,7 +43,7 @@ namespace Tests.SharpArch.Domain
         [Test]
         public void WillBeInformedIfServiceLocatorNotInitialized()
         {
-            bool exceptionThrown = false;
+            var exceptionThrown = false;
 
             try
             {
@@ -59,7 +61,7 @@ namespace Tests.SharpArch.Domain
         [Test]
         public void WillBeInformedIfServiceNotRegistered()
         {
-            bool exceptionThrown = false;
+            var exceptionThrown = false;
 
             IWindsorContainer container = new WindsorContainer();
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
@@ -75,21 +77,6 @@ namespace Tests.SharpArch.Domain
             }
 
             Assert.That(exceptionThrown);
-        }
-
-        #endregion
-
-        public class Validator : IValidator
-        {
-            public bool IsValid(object value)
-            {
-                throw new NotImplementedException();
-            }
-
-            public ICollection<IValidationResult> ValidationResultsFor(object value)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

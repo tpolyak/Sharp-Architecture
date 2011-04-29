@@ -1,4 +1,4 @@
-﻿namespace SharpArch.Specifications
+﻿namespace SharpArch.Features.Specifications
 {
     #region Using Directives
 
@@ -7,6 +7,8 @@
     using Microsoft.Practices.ServiceLocation;
 
     using Rhino.Mocks;
+
+    using SharpArch.NHibernate.NHibernateValidator.CommonValidatorAdapter;
 
     #endregion
 
@@ -19,6 +21,20 @@
             provider = MockRepository.GenerateStub<IServiceLocator>();
 
             ServiceLocator.SetLocatorProvider(() => provider);
+        }
+
+        public static IValidator AddValidator()
+        {
+            if (provider == null)
+            {
+                InitialiseServiceLocator();
+            }
+
+            var validator = new Validator();
+            provider.Stub(p => p.GetInstance<IValidator>()).Return(validator);
+            provider.Stub(p => p.GetService(typeof(IValidator))).Return(validator);
+
+            return validator;
         }
 
         public static T AddToServiceLocator<T>(this T o)

@@ -66,6 +66,9 @@
     <Reference Include="CommonServiceLocator.WindsorAdapter">
       <HintPath>..\..\ReferencedAssemblies\Castle\CommonServiceLocator.WindsorAdapter.dll</HintPath>
     </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\FluentNHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\ReferencedAssemblies\Log4Net\log4net.dll</HintPath>
     </Reference>
@@ -81,6 +84,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ReferencedAssemblies\JSON\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Validator">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.Validator.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.4.7.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ReferencedAssemblies\NUnit\nunit.framework.dll</HintPath>
@@ -90,6 +99,7 @@
       <HintPath>..\..\ReferencedAssemblies\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -115,7 +125,13 @@
     <Compile Include="SharpArch.Domain\DomainModel\BaseObjectEqualityComparerTests.cs" />
     <Compile Include="SharpArch.Domain\DomainModel\EntityTests.cs" />
     <Compile Include="SharpArch.Domain\DomainModel\ValueObjectTests.cs" />
-    <Compile Include="SharpArch.Domain\SafeServiceLocatorTests.cs" />
+    <Compile Include="SharpArch.NHibernate\CommonValidatorAdapter\ValidatorTests.cs" />
+    <Compile Include="SharpArch.NHibernate\Mvc\MvcValidationAdapterTests.cs" />
+    <Compile Include="SharpArch.NHibernate\NHibernateSessionTests.cs" />
+    <Compile Include="SharpArch.NHibernate\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
+    <Compile Include="SharpArch.NHibernate\RepositoryTestsHelper.cs" />
+    <Compile Include="SharpArch.NHibernate\SafeServiceLocatorTests.cs" />
+    <Compile Include="SharpArch.NHibernate\ValidatorProvider\NHibernateValidatorClientProviderTests.cs" />
     <Compile Include="SharpArch.Web.Mvc\JsonNet\JsonNetResultTests.cs" />
     <Compile Include="SharpArch.Web.Mvc\ModelBinder\SharpModelBinderTests.cs" />
   </ItemGroup>
@@ -140,6 +156,14 @@
     <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpArch.NHibernate.Web.Mvc\SharpArch.NHibernate.Web.Mvc.csproj">
+      <Project>{AF4184EF-C352-446E-B189-8127E5F73CC9}</Project>
+      <Name>SharpArch.NHibernate.Web.Mvc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpArch.NHibernate\SharpArch.NHibernate.csproj">
+      <Project>{90410CA9-E3A5-4F6D-BD14-98705007E9FD}</Project>
+      <Name>SharpArch.NHibernate</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">
       <Project>{230DF364-CC54-440A-AA02-31A0E2964AC3}</Project>
