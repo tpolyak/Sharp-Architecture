@@ -9,6 +9,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedMember.Local
 
+/*
 namespace SharpArch.Specifications.NHibernate
 {
     using System;
@@ -190,3 +191,4 @@ namespace SharpArch.Specifications.NHibernate
         #endregion
     }
 }
+*/

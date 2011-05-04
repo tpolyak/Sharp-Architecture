@@ -1,3 +1,4 @@
+/*
 namespace SharpArch.Web.Mvc.CommonValidator
 {
     using System.Collections.Generic;
@@ -61,3 +62,4 @@ namespace SharpArch.Web.Mvc.CommonValidator
         }
     }
 }
+*/

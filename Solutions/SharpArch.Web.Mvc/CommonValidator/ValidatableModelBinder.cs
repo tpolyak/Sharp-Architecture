@@ -1,3 +1,4 @@
+/*
 namespace SharpArch.Web.Mvc.CommonValidator
 {
     using System;
@@ -51,3 +52,4 @@ namespace SharpArch.Web.Mvc.CommonValidator
         }
     }
 }
+*/
