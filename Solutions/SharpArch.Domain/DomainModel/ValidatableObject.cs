@@ -3,27 +3,21 @@
     using System;
     using System.Collections.Generic;
 
-    using SharpArch.Domain.CommonValidator;
+    using System.ComponentModel.DataAnnotations;
 
     [Serializable]
-    public abstract class ValidatableObject : BaseObject, IValidatable
+    public abstract class ValidatableObject : BaseObject
     {
-        private static IValidator Validator
-        {
-            get
-            {
-                return SafeServiceLocator<IValidator>.GetService();
-            }
-        }
-
         public virtual bool IsValid()
         {
-            return Validator.IsValid(this);
+            return this.ValidationResults().Count == 0;
         }
 
-        public virtual ICollection<IValidationResult> ValidationResults()
+        public virtual ICollection<ValidationResult> ValidationResults()
         {
-            return Validator.ValidationResultsFor(this);
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(this, new ValidationContext(this, null, null), validationResults);
+            return validationResults;
         }
     }
 }

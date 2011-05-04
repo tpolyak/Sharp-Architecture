@@ -63,6 +63,7 @@
       <HintPath>..\..\ReferencedAssemblies\JSON\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -76,9 +77,6 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="CommonValidator\IValidatable.cs" />
-    <Compile Include="CommonValidator\IValidationResult.cs" />
-    <Compile Include="CommonValidator\IValidator.cs" />
     <Compile Include="DesignByContract\Check.cs" />
     <Compile Include="DesignByContract\DesignByContractException.cs" />
     <Compile Include="DesignByContract\InvariantException.cs" />

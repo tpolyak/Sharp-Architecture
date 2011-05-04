@@ -2,13 +2,9 @@
 {
     #region Using Directives
 
-    using global::SharpArch.Domain.CommonValidator;
-
     using Microsoft.Practices.ServiceLocation;
 
     using Rhino.Mocks;
-
-    using SharpArch.NHibernate.NHibernateValidator.CommonValidatorAdapter;
 
     #endregion
 
@@ -23,19 +19,19 @@
             ServiceLocator.SetLocatorProvider(() => provider);
         }
 
-        public static IValidator AddValidator()
-        {
-            if (provider == null)
-            {
-                InitialiseServiceLocator();
-            }
+        //public static Validator AddValidator()
+        //{
+        //    if (provider == null)
+        //    {
+        //        InitialiseServiceLocator();
+        //    }
 
-            var validator = new Validator();
-            provider.Stub(p => p.GetInstance<IValidator>()).Return(validator);
-            provider.Stub(p => p.GetService(typeof(IValidator))).Return(validator);
+        //    var validator = new Validator();
+        //    provider.Stub(p => p.GetInstance<IValidator>()).Return(validator);
+        //    provider.Stub(p => p.GetService(typeof(IValidator))).Return(validator);
 
-            return validator;
-        }
+        //    return validator;
+        //}
 
         public static T AddToServiceLocator<T>(this T o)
         {

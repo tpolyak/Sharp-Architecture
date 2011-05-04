@@ -38,14 +38,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
-    <Compile Include="CommonValidator\ValidatableModelBinder.cs" />
-    <Compile Include="NHibernateValidator\ValidatorProvider\NHibernateValidatorClientProvider.cs" />
-    <Compile Include="NHibernateValidator\ValidatorProvider\NHibernateValidatorClientValidator.cs" />
-    <Compile Include="NHibernateValidator\ValidatorProvider\NHibernateValidatorModelValidator.cs" />
-    <Compile Include="NHibernateValidator\ValidatorProvider\NHibernateValidatorProvider.cs" />
-    <Compile Include="NHibernateValidator\ValidatorProvider\RuleEmitterList.cs" />
-    <Compile Include="NHibernateValidator\ValidatorProvider\ValidatorEngineFactory.cs" />
     <Compile Include="TransactionAttribute.cs" />
     <Compile Include="WebSessionStorage.cs" />
   </ItemGroup>

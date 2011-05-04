@@ -57,6 +57,9 @@
     <Reference Include="Castle.Core, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\..\ReferencedAssemblies\Castle\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\..\ReferencedAssemblies\Castle\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\ReferencedAssemblies\NHibernate\Iesi.Collections.dll</HintPath>
     </Reference>
@@ -92,6 +95,9 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Castle\WindsorControllerFactory.cs" />
+    <Compile Include="Castle\WindsorDependencyResolver.cs" />
+    <Compile Include="Castle\WindsorExtensions.cs" />
     <Compile Include="CommonValidator\MvcValidationAdapter.cs" />
     <Compile Include="CommonValidator\ValidatableModelBinder.cs" />
     <Compile Include="ControllerExtensions.cs" />

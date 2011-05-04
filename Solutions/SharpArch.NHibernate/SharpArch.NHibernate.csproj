@@ -53,14 +53,10 @@
     <Compile Include="NHibernateRepository.cs" />
     <Compile Include="NHibernateRepositoryWithTypedId.cs" />
     <Compile Include="NHibernateSession.cs" />
-    <Compile Include="NHibernateValidator\CommonValidatorAdapter\ValidationResult.cs" />
-    <Compile Include="NHibernateValidator\CommonValidatorAdapter\Validator.cs" />
+    <Compile Include="NHibernateValidator\DataAnnotationsEventListener.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureAttribute.cs" />
-    <Compile Include="NHibernateValidator\HasUniqueDomainSignatureValidator.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithGuidIdAttribute.cs" />
-    <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithGuidIdValidator.cs" />
-    <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithStringIdAttribute.cs" />
-    <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithStringIdValidator.cs" />
+    <Compile Include="Wcf\HasUniqueDomainSignatureWithStringIdAttribute.cs" />
     <Compile Include="SessionFactoryAttribute.cs" />
     <Compile Include="SimpleSessionStorage.cs" />
     <Compile Include="Wcf\DispatchMessageInspector.cs" />
@@ -70,6 +66,8 @@
     <Compile Include="Wcf\ServiceHostFactory.cs" />
     <Compile Include="Wcf\SessionInstanceExtension.cs" />
     <Compile Include="Wcf\WcfSessionStorage.cs" />
+    <Compile Include="Web\Mvc\TransactionAttribute.cs" />
+    <Compile Include="Web\Mvc\WebSessionStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
@@ -92,9 +90,16 @@
       <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.Validator.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ReferencedAssemblies\Mvc\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
