@@ -66,6 +66,8 @@
     <Compile Include="Wcf\ServiceHostFactory.cs" />
     <Compile Include="Wcf\SessionInstanceExtension.cs" />
     <Compile Include="Wcf\WcfSessionStorage.cs" />
+    <Compile Include="Wcf\WebServiceHost.cs" />
+    <Compile Include="Wcf\WebServiceHostFactory.cs" />
     <Compile Include="Web\Mvc\TransactionAttribute.cs" />
     <Compile Include="Web\Mvc\WebSessionStorage.cs" />
   </ItemGroup>
@@ -94,6 +96,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
