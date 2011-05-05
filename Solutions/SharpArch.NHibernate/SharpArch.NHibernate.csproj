@@ -2,21 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{90410CA9-E3A5-4F6D-BD14-98705007E9FD}</ProjectGuid>
+    <ProjectGuid>{0BD77F13-8DF6-4C16-9508-33AA4CF0677A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpArch.NHibernate</RootNamespace>
     <AssemblyName>SharpArch.NHibernate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,10 +30,35 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Validator">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.Validator.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ReferencedAssemblies\Mvc\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
     <Compile Include="Contracts\Repositories\INHibernateRepository.cs" />
     <Compile Include="Contracts\Repositories\INHibernateRepositoryWithTypeId.cs" />
     <Compile Include="DbContext.cs" />
@@ -56,10 +77,11 @@
     <Compile Include="NHibernateValidator\DataAnnotationsEventListener.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureAttribute.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithGuidIdAttribute.cs" />
-    <Compile Include="Wcf\HasUniqueDomainSignatureWithStringIdAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionFactoryAttribute.cs" />
     <Compile Include="SimpleSessionStorage.cs" />
     <Compile Include="Wcf\DispatchMessageInspector.cs" />
+    <Compile Include="Wcf\HasUniqueDomainSignatureWithStringIdAttribute.cs" />
     <Compile Include="Wcf\InstanceCreationInitializer.cs" />
     <Compile Include="Wcf\ServiceBehavior.cs" />
     <Compile Include="Wcf\ServiceHost.cs" />
@@ -80,33 +102,6 @@
       <Project>{F7F5E614-3B4E-43EC-8F8A-CB46B89A3827}</Project>
       <Name>SharpArch.Wcf</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="FluentNHibernate">
-      <HintPath>..\..\ReferencedAssemblies\NHibernate\FluentNHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate">
-      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate.Validator">
-      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.Validator.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Activation" />
-    <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ReferencedAssemblies\Mvc\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.XML" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -69,6 +69,17 @@ namespace SharpArch.Specifications.SharpArch.Domain.DomainModel
         }
 
         [Subject(typeof(EntityWithTypedId<>))]
+        public class just_testing : specification_for_entity_with_typed_id
+        {
+            static EntityWithAllPropertiesPartOfDomainSignature entity1;
+            static EntityWithAllPropertiesPartOfDomainSignature entity2;
+
+            Establish context = () => entity1 = entity2 = new EntityWithAllPropertiesPartOfDomainSignature();
+
+            private It should_treat_them_as_equal = () => entity1.Equals(entity2).Equals(true);
+        }
+
+        [Subject(typeof(EntityWithTypedId<>))]
         public class when_two_variables_that_reference_the_same_instance_of_an_entity_are_compared : specification_for_entity_with_typed_id
         {
             static EntityWithAllPropertiesPartOfDomainSignature entity1;

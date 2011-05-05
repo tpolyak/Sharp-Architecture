@@ -88,7 +88,7 @@
       <Name>SharpArch.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpArch.NHibernate\SharpArch.NHibernate.csproj">
-      <Project>{90410CA9-E3A5-4F6D-BD14-98705007E9FD}</Project>
+      <Project>{0BD77F13-8DF6-4C16-9508-33AA4CF0677A}</Project>
       <Name>SharpArch.NHibernate</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">

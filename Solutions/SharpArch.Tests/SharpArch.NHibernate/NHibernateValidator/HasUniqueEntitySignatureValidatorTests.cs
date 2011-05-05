@@ -2,6 +2,7 @@ namespace Tests.SharpArch.Domain.CommonValidator.NHibernateValidator
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Diagnostics;
 
     using Castle.MicroKernel.Registration;
@@ -14,11 +15,9 @@ namespace Tests.SharpArch.Domain.CommonValidator.NHibernateValidator
     using NUnit.Framework;
 
     using global::SharpArch.Domain;
-    using global::SharpArch.Domain.CommonValidator;
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.NHibernate.NHibernateValidator;
-    using global::SharpArch.NHibernate.NHibernateValidator.CommonValidatorAdapter;
 
     [TestFixture]
     public class HasUniqueObjectSignatureValidatorTests
@@ -27,13 +26,13 @@ namespace Tests.SharpArch.Domain.CommonValidator.NHibernateValidator
         public void CanVerifyThatDuplicateExistsDuringValidationProcess()
         {
             var contractor = new Contractor { Name = "Codai" };
-            IEnumerable<IValidationResult> invalidValues = contractor.ValidationResults();
+            IEnumerable<ValidationResult> invalidValues = contractor.ValidationResults();
 
             Assert.That(contractor.IsValid(), Is.False);
 
             foreach (var invalidValue in invalidValues)
             {
-                Debug.WriteLine(invalidValue.Message);
+                Debug.WriteLine(invalidValue.ErrorMessage);
             }
         }
 
@@ -70,12 +69,6 @@ namespace Tests.SharpArch.Domain.CommonValidator.NHibernateValidator
                     .For(typeof(IEntityDuplicateChecker))
                     .ImplementedBy(typeof(DuplicateCheckerStub))
                     .Named("duplicateChecker"));
-
-            container.Register(
-                Component
-                    .For(typeof(IValidator))
-                    .ImplementedBy(typeof(Validator))
-                    .Named("validator"));
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
         }

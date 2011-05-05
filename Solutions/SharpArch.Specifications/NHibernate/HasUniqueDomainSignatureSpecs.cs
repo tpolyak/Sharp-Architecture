@@ -9,7 +9,7 @@
 // ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedMember.Local
 
-/*
+
 namespace SharpArch.Specifications.NHibernate
 {
     using System;
@@ -27,14 +27,12 @@ namespace SharpArch.Specifications.NHibernate
 
     public class has_unique_domain_signature_specs
     {
-        public abstract class specification_for_has_unique_domain_signature_validator : Specification<HasUniqueDomainSignatureValidator>
+        public abstract class specification_for_has_unique_domain_signature_validator : Specification<HasUniqueDomainSignatureAttribute>
         {
             protected static IEntityDuplicateChecker entityDuplicateChecker;
 
             Establish context = () =>
             {
-                ServiceLocatorHelper.AddValidator();
-
                 entityDuplicateChecker = An<IEntityDuplicateChecker>();
                 entityDuplicateChecker.AddToServiceLocator();
             };
@@ -42,7 +40,7 @@ namespace SharpArch.Specifications.NHibernate
             Cleanup after = ServiceLocatorHelper.Reset;
         }
 
-        [Subject(typeof(HasUniqueDomainSignatureValidator))]
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
         public class when_validating_an_entity_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
         {
             static Contractor contractor;
@@ -65,7 +63,7 @@ namespace SharpArch.Specifications.NHibernate
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
-        [Subject(typeof(HasUniqueDomainSignatureWithGuidIdValidator))]
+        [Subject(typeof(HasUniqueDomainSignatureWithGuidIdAttribute))]
         public class when_validating_an_entity_with_a_guid_id_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
         {
             static ObjectWithGuidId objectWithGuidId1;
@@ -85,7 +83,7 @@ namespace SharpArch.Specifications.NHibernate
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
-        [Subject(typeof(HasUniqueDomainSignatureWithStringIdValidator))]
+        [Subject(typeof(HasUniqueDomainSignatureWithStringIdAttribute))]
         public class when_validating_an_entity_with_a_string_id_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
         {
             static User user;
@@ -105,7 +103,7 @@ namespace SharpArch.Specifications.NHibernate
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
-        [Subject(typeof(HasUniqueDomainSignatureValidator))]
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
         public class when_validating_an_entity_and_the_entity_is_unique : specification_for_has_unique_domain_signature_validator
         {
             static Contractor contractor;
@@ -125,7 +123,7 @@ namespace SharpArch.Specifications.NHibernate
             It should_say_the_entity_is_valid = () => result.ShouldBeTrue();
         }
 
-        [Subject(typeof(HasUniqueDomainSignatureValidator))]
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
         public class when_validating_an_entity_with_the_wrong_validator_type : specification_for_has_unique_domain_signature_validator
         {
             static ObjectWithStringIdAndValidatorForIntId entity;
@@ -191,4 +189,3 @@ namespace SharpArch.Specifications.NHibernate
         #endregion
     }
 }
-*/

@@ -99,6 +99,7 @@
       <HintPath>..\..\ReferencedAssemblies\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -157,12 +158,8 @@
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharpArch.NHibernate.Web.Mvc\SharpArch.NHibernate.Web.Mvc.csproj">
-      <Project>{AF4184EF-C352-446E-B189-8127E5F73CC9}</Project>
-      <Name>SharpArch.NHibernate.Web.Mvc</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SharpArch.NHibernate\SharpArch.NHibernate.csproj">
-      <Project>{90410CA9-E3A5-4F6D-BD14-98705007E9FD}</Project>
+      <Project>{0BD77F13-8DF6-4C16-9508-33AA4CF0677A}</Project>
       <Name>SharpArch.NHibernate</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">
