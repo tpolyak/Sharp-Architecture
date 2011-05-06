@@ -62,11 +62,13 @@
     <Compile Include="Contracts\Repositories\INHibernateRepository.cs" />
     <Compile Include="Contracts\Repositories\INHibernateRepositoryWithTypeId.cs" />
     <Compile Include="DbContext.cs" />
+    <Compile Include="DefaultSessionFactoryKeyProvider.cs" />
     <Compile Include="EntityDuplicateChecker.cs" />
     <Compile Include="FluentNHibernate\GeneratorHelper.cs" />
     <Compile Include="FluentNHibernate\IAutoPersistenceModelGenerator.cs" />
     <Compile Include="FluentNHibernate\IMapGenerator.cs" />
     <Compile Include="INHibernateConfigurationCache.cs" />
+    <Compile Include="ISessionFactoryKeyProvider.cs" />
     <Compile Include="ISessionStorage.cs" />
     <Compile Include="LinqRepository.cs" />
     <Compile Include="NHibernateConfigurationFileCache.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithGuidIdAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionFactoryAttribute.cs" />
+    <Compile Include="SessionFactoryKeyHelper.cs" />
     <Compile Include="SimpleSessionStorage.cs" />
     <Compile Include="Wcf\DispatchMessageInspector.cs" />
     <Compile Include="Wcf\HasUniqueDomainSignatureWithStringIdAttribute.cs" />
