@@ -69,7 +69,7 @@
 
         private static ISession GetSessionFor(object entity)
         {
-            var factoryKey = SessionFactoryAttribute.GetKeyFrom(entity);
+            var factoryKey = SessionFactoryKeyHelper.GetKeyFrom(entity);
             return NHibernateSession.CurrentFor(factoryKey);
         }
 

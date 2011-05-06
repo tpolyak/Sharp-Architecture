@@ -33,7 +33,7 @@ namespace SharpArch.NHibernate
             {
                 if (this.dbContext == null)
                 {
-                    string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
+                    string factoryKey = SessionFactoryKeyHelper.GetKeyFrom(this);
                     this.dbContext = new DbContext(factoryKey);
                 }
 
@@ -45,7 +45,7 @@ namespace SharpArch.NHibernate
         {
             get
             {
-                string factoryKey = SessionFactoryAttribute.GetKeyFrom(this);
+                string factoryKey = SessionFactoryKeyHelper.GetKeyFrom(this);
                 return NHibernateSession.CurrentFor(factoryKey);
             }
         }
