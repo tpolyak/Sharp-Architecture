@@ -1,4 +1,12 @@
 --------------------------------------------
+-- 2.0 Release Candidate
+--------------------------------------------
+
+This is a release candidate, use at your own risk. Please switch to the 1.9.6.0 for production releases:
+
+$ git checkout 1.9.6.0
+
+--------------------------------------------
 -- Templify
 --------------------------------------------
 
@@ -10,10 +18,9 @@ We no longer support the use of the Visual Studio templates for installation of 
 
 Perform the following command in GitBash:
 
-git clone git@github.com:sharparchitecture/Sharp-Architecture.git
-git checkout -b develop origin/develop
-git submodule init
-git submodule update
+$ git clone git@github.com:sharparchitecture/Sharp-Architecture.git
+$ git submodule init
+$ git submodule update
 
 Now you should have the latest development branch of SA 2.0 and submodules.
 
