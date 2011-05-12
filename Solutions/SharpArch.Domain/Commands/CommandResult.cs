@@ -1,8 +1,8 @@
 ﻿namespace SharpArch.Domain.Commands
 {
-    public class CommandResultBase : ICommandResult
+    public class CommandResult : ICommandResult
     {
-        protected CommandResultBase(bool success)
+        protected CommandResult(bool success)
         {
             this.Success = success;
         }

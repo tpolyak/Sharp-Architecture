@@ -77,9 +77,10 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CommandHandlerNotFoundException.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\CommandResultBase.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Commands\CommandResults.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
