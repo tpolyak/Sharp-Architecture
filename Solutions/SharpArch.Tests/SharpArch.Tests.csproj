@@ -87,6 +87,9 @@
     <Reference Include="NHibernate">
       <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.Validator">
       <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.Validator.dll</HintPath>
     </Reference>
@@ -103,17 +106,32 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.60.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ReferencedAssemblies\SQLLite\System.Data.SQLite.DLL</HintPath>
-    </Reference>
+    </Reference>    
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\ReferencedAssemblies\ASP.NET MVC\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <Choose>
+    <When Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'">
+      <ItemGroup>
+        <Reference Include="System.Data.SQLite, processorArchitecture=AMD64" Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\ReferencedAssemblies\SqlLite\x64\System.Data.SQLite.DLL</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="System.Data.SQLite, processorArchitecture=x86" Condition="$(PROCESSOR_ARCHITEW6432) == 'x86'">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\ReferencedAssemblies\SqlLite\System.Data.SQLite.DLL</HintPath>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
@@ -177,6 +195,11 @@
       <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
       <Name>SharpArch.Web.Mvc</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sqlite-nhibernate-config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
