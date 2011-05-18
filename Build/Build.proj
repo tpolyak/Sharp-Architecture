@@ -3,6 +3,7 @@
 
   <PropertyGroup>
     <RunMSpecTests>True</RunMSpecTests>
+	<MSpecRunner>mspec-clr4.exe</MSpecRunner>
     <MSpecSpecificationAssemblies>"$(MSBuildProjectDirectory)\..\Solutions\SharpArch.Specifications\Bin\Release\SharpArch.Specifications.dll"</MSpecSpecificationAssemblies>
   </PropertyGroup>
 
@@ -24,17 +25,9 @@
       <Flatten>False</Flatten>
     </PackageFiles>
 
-    <PackageFiles Include="$(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.dll;
-                         $(SolutionsPath)\SharpArch.WcfClient.Castle\bin\Release\SharpArch.WcfClient.Castle.dll;
-                         $(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.dll;
-                         $(SolutionsPath)\SharpArch.RavenDb\bin\Release\SharpArch.RavenDb.dll;
-                         $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
-                         $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
-                         $(SolutionsPath)\SharpArch.Testing\bin\Release\SharpArch.Testing.dll;
-                         $(SolutionsPath)\SharpArch.Testing.NUnit\bin\Release\SharpArch.Testing.NUnit.dll;">
-      <PackageName>$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).dlls.v$(GlobalBuildVersionNumber).zip</PackageName>
-      <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
-      <Flatten>True</Flatten>
+    <PackageFiles Include="$(DropsPath)\SharpArch.*.dll">
+      <PackageName>$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).dll.v$(GlobalBuildVersionNumber).zip</PackageName>
+      <WorkingDirectory>$(DropsPath)</WorkingDirectory>
     </PackageFiles>
   </ItemGroup>
   
@@ -52,13 +45,17 @@
                             UpdateAssemblyVersion;
                             BuildSolutions;" />
 
+  <Target Name="RunTests"
+          DependsOnTargets="Build;
+                            RunNUnitTests;" />
+							
   <Target Name="RunSpecs"
-      DependsOnTargets="Build;
-                        RunMSpecSpecifications;" />
+      DependsOnTargets="RunMSpecSpecifications;" />
 
   
   <Target Name="PackageArtefacts"
-          DependsOnTargets="RunSpecs;
+          DependsOnTargets="RunTests;
+	              						RunSpecs;		  
                             Package;
                             BuildSuccess" />
 
