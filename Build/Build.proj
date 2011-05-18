@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="PackageArtefacts" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
@@ -25,9 +25,17 @@
       <Flatten>False</Flatten>
     </PackageFiles>
 
-    <PackageFiles Include="$(DropsPath)\SharpArch.*.dll">
-      <PackageName>$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).dll.v$(GlobalBuildVersionNumber).zip</PackageName>
-      <WorkingDirectory>$(DropsPath)</WorkingDirectory>
+    <PackageFiles Include="$(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.dll;
+                         $(SolutionsPath)\SharpArch.WcfClient.Castle\bin\Release\SharpArch.WcfClient.Castle.dll;
+                         $(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.dll;
+                         $(SolutionsPath)\SharpArch.RavenDb\bin\Release\SharpArch.RavenDb.dll;
+                         $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
+                         $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
+                         $(SolutionsPath)\SharpArch.Testing\bin\Release\SharpArch.Testing.dll;
+                         $(SolutionsPath)\SharpArch.Testing.NUnit\bin\Release\SharpArch.Testing.NUnit.dll;">
+      <PackageName>$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).dlls.v$(GlobalBuildVersionNumber).zip</PackageName>
+      <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
+      <Flatten>True</Flatten>
     </PackageFiles>
   </ItemGroup>
   
