@@ -1,11 +1,10 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SharpArch.NHibernate")]
+[assembly: AssemblyTitle("SharpArch.RavenDb")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("SharpArch.NHibernate")]
-[assembly: Guid("2f9aa218-343d-47a5-9e10-5067a8ee5e9f")]
+[assembly: AssemblyProduct("SharpArch.RavenDb")]
+[assembly: Guid("2c1b083a-c31c-4584-aae3-dc21728e4e7d")]
