@@ -1,4 +1,4 @@
-namespace Tests.SharpArch.Domain.CommonValidator.NHibernateValidator
+﻿namespace Tests.SharpArch.Domain.DataAnnotationsValidator
 {
     using System;
     using System.Collections.Generic;
@@ -10,14 +10,14 @@ namespace Tests.SharpArch.Domain.CommonValidator.NHibernateValidator
 
     using CommonServiceLocator.WindsorAdapter;
 
-    using Microsoft.Practices.ServiceLocation;
-
-    using NUnit.Framework;
-
     using global::SharpArch.Domain;
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.NHibernate.NHibernateValidator;
+
+    using Microsoft.Practices.ServiceLocation;
+
+    using NUnit.Framework;
 
     [TestFixture]
     public class HasUniqueObjectSignatureValidatorTests

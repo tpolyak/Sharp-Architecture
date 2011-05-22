@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>SharpArch.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SharpArch.pfx</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -77,10 +77,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="EntityIdSetter.cs" />
+    <Compile Include="NHibernate\RepositoryTestsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SharpArch.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -104,6 +102,13 @@
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpArch.NHibernate\SharpArch.NHibernate.csproj">
+      <Project>{0BD77F13-8DF6-4C16-9508-33AA4CF0677A}</Project>
+      <Name>SharpArch.NHibernate</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SharpArch.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

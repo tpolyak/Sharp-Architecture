@@ -12,7 +12,7 @@
     <AssemblyName>SharpArch.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
@@ -106,7 +106,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>    
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\ReferencedAssemblies\ASP.NET MVC\System.Web.Mvc.dll</HintPath>
@@ -131,7 +131,6 @@
       </ItemGroup>
     </Otherwise>
   </Choose>
-
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
@@ -147,17 +146,14 @@
     <Compile Include="SharpArch.Domain\Commands\TestCommandHandler.cs" />
     <Compile Include="SharpArch.Domain\Commands\TestCommandResult.cs" />
     <Compile Include="SharpArch.Domain\Commands\ValidCommand.cs" />
+    <Compile Include="SharpArch.Domain\DataAnnotationsValidator\HasUniqueEntitySignatureValidatorTests.cs" />
     <Compile Include="SharpArch.Domain\DesignByContractTests.cs" />
     <Compile Include="SharpArch.Domain\DomainModel\BaseObjectEqualityComparerTests.cs" />
     <Compile Include="SharpArch.Domain\DomainModel\EntityTests.cs" />
     <Compile Include="SharpArch.Domain\DomainModel\ValueObjectTests.cs" />
-    <Compile Include="SharpArch.NHibernate\CommonValidatorAdapter\ValidatorTests.cs" />
-    <Compile Include="SharpArch.NHibernate\Mvc\MvcValidationAdapterTests.cs" />
     <Compile Include="SharpArch.NHibernate\NHibernateSessionTests.cs" />
-    <Compile Include="SharpArch.NHibernate\NHibernateValidator\HasUniqueEntitySignatureValidatorTests.cs" />
     <Compile Include="SharpArch.NHibernate\RepositoryTestsHelper.cs" />
     <Compile Include="SharpArch.NHibernate\SafeServiceLocatorTests.cs" />
-    <Compile Include="SharpArch.NHibernate\ValidatorProvider\NHibernateValidatorClientProviderTests.cs" />
     <Compile Include="SharpArch.Web.Mvc\JsonNet\JsonNetResultTests.cs" />
     <Compile Include="SharpArch.Web.Mvc\ModelBinder\SharpModelBinderTests.cs" />
   </ItemGroup>

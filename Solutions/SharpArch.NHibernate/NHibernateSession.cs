@@ -13,7 +13,6 @@
 
     using global::NHibernate;
     using global::NHibernate.Cfg;
-    using global::NHibernate.Validator.Cfg;
     using global::NHibernate.Validator.Engine;
 
     public static class NHibernateSession
@@ -152,7 +151,6 @@
                 !SessionFactories.ContainsKey(factoryKey), 
                 "A session factory has already been configured with the key of " + factoryKey);
 
-            ConfigureNHibernateValidator(cfg, validatorCfgFile);
             SessionFactories.Add(factoryKey, sessionFactory);
 
             return cfg;
@@ -404,25 +402,6 @@
             }
 
             return cfg;
-        }
-
-        private static void ConfigureNHibernateValidator(Configuration cfg, string validatorCfgFile)
-        {
-            var engine = new ValidatorEngine();
-
-            if (string.IsNullOrEmpty(validatorCfgFile))
-            {
-                engine.Configure();
-            }
-            else
-            {
-                engine.Configure(validatorCfgFile);
-            }
-
-            // Register validation listeners with the current NHib configuration
-            cfg.Initialize(engine);
-
-            ValidatorEngine = engine;
         }
 
         private static ISessionFactory CreateSessionFactoryFor(
