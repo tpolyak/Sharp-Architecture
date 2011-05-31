@@ -108,20 +108,17 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ReferencedAssemblies\SQLLite\x64\System.Data.SQLite.DLL</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\ReferencedAssemblies\ASP.NET MVC\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
-    <When Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'">
-      <ItemGroup>
-        <Reference Include="System.Data.SQLite, processorArchitecture=AMD64" Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'">
-          <SpecificVersion>False</SpecificVersion>
-          <HintPath>..\..\ReferencedAssemblies\SqlLite\x64\System.Data.SQLite.DLL</HintPath>
-        </Reference>
-      </ItemGroup>
-    </When>
+    <When Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'" />
     <Otherwise>
       <ItemGroup>
         <Reference Include="System.Data.SQLite, processorArchitecture=x86" Condition="$(PROCESSOR_ARCHITEW6432) == 'x86'">
