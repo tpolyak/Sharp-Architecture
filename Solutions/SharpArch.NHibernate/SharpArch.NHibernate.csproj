@@ -70,7 +70,6 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="Contracts\Repositories\INHibernateRepository.cs" />
     <Compile Include="Contracts\Repositories\INHibernateRepositoryWithTypeId.cs" />
     <Compile Include="DbContext.cs" />
