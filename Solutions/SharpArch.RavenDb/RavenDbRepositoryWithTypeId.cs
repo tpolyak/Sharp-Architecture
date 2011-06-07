@@ -62,6 +62,14 @@ namespace SharpArch.RavenDb
 
         #region IRepositoryWithTypedId<T,TIdT>
 
+        public virtual IDbContext DbContext 
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public void Delete(T entity)
         {
             this.context.Delete(entity);
