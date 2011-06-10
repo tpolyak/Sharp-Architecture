@@ -13,7 +13,10 @@
 
     using global::NHibernate;
     using global::NHibernate.Cfg;
+    using global::NHibernate.Event;
     using global::NHibernate.Validator.Engine;
+
+    using SharpArch.NHibernate.NHibernateValidator;
 
     public static class NHibernateSession
     {
@@ -432,6 +435,19 @@
                         {
                             m.AutoMappings.Add(autoPersistenceModel);
                         }
+                    });
+
+            fluentConfiguration.ExposeConfiguration(
+                e =>
+                    {
+                        e.EventListeners.PreInsertEventListeners = new IPreInsertEventListener[]
+                            {
+                                new DataAnnotationsEventListener()
+                            };
+                        e.EventListeners.PreUpdateEventListeners = new IPreUpdateEventListener[]
+                            {
+                                new DataAnnotationsEventListener()
+                            };
                     });
 
             return fluentConfiguration.BuildSessionFactory();
