@@ -9,7 +9,7 @@
     {
         public ICommandResults Process<TCommand>(TCommand command) where TCommand : ICommand
         {
-            Validator.ValidateObject(command, new ValidationContext(command, null, null));
+            Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
             var results = new CommandResults();
 

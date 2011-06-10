@@ -50,6 +50,14 @@ namespace Tests.SharpArch.Domain.Commands
         }
 
         [Test]
+        [ExpectedException(typeof(ValidationException))]
+        public void ThrowsIfCommandIsInvalidButNotRequired()
+        {
+          var testCommand = new InvalidCommand { Invalid = true };
+          _commandProcessor.Process(testCommand);
+        }
+
+        [Test]
         [ExpectedException(typeof(CommandHandlerNotFoundException))]
         public void ThrowsIfCommandHandlerNotFound()
         {

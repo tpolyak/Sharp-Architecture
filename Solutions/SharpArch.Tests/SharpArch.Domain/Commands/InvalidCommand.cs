@@ -8,5 +8,8 @@
     {
         [Required]
         public bool? Invalid { get; set; }
+
+        [Range(100, 199)]
+        public int InvalidInt { get; set; }
     }
 }
