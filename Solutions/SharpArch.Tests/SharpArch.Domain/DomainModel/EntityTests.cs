@@ -1,9 +1,8 @@
 namespace Tests.SharpArch.Domain.DomainModel
 {
-    using NUnit.Framework;
-
     using global::SharpArch.Domain.DomainModel;
-    using global::SharpArch.Testing;
+
+    using NUnit.Framework;
 
     [TestFixture]
     public class EntityTests
@@ -158,6 +157,7 @@ namespace Tests.SharpArch.Domain.DomainModel
             object2.Address = new AddressBeingDomainSignatureComparble
                 {
                     Address1 = "123 Smith Ln.", 
+
                     // Address2 isn't marked as being part of the domain signature; 
                     // therefore, it WON'T be used in the equality comparison
                     Address2 = "Suite 402", 

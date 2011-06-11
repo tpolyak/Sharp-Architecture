@@ -62,9 +62,6 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\ReferencedAssemblies\Microsoft\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Validator, Version=1.3.0.2001, Culture=neutral, PublicKeyToken=70154e18752585bd, processorArchitecture=MSIL">
-      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.Validator.dll</HintPath>
-    </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\ReferencedAssemblies\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
@@ -98,9 +95,9 @@
       <Project>{0BD77F13-8DF6-4C16-9508-33AA4CF0677A}</Project>
       <Name>SharpArch.NHibernate</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj">
-      <Project>{230DF364-CC54-440A-AA02-31A0E2964AC3}</Project>
-      <Name>SharpArch.Testing</Name>
+    <ProjectReference Include="..\SharpArch.Tests\SharpArch.Tests.csproj">
+      <Project>{C201296D-09B7-4BAE-96F0-AB59F624DB36}</Project>
+      <Name>SharpArch.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
