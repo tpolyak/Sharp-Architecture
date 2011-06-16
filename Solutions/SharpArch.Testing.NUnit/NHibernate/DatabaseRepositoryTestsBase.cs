@@ -3,7 +3,8 @@
     using global::NUnit.Framework;
 
     using SharpArch.NHibernate;
-    using SharpArch.Testing.NHibernate;
+
+    using Tests.SharpArch.NHibernate;
 
     /// <summary>
     ///     Initiates a transaction before each test is run and rolls back the transaction after

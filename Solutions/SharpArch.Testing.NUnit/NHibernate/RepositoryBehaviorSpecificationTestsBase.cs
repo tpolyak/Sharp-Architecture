@@ -2,7 +2,7 @@
 {
     using global::NUnit.Framework;
 
-    using SharpArch.Testing.NHibernate;
+    using Tests.SharpArch.NHibernate;
 
     /// <summary>
     ///     Provides a behavior driven approach to unit testsing data persisted to a database.  

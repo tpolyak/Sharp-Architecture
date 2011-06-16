@@ -2,7 +2,7 @@
 {
     using global::NUnit.Framework;
 
-    using SharpArch.Testing.NHibernate;
+    using Tests.SharpArch.NHibernate;
 
     /// <summary>
     ///     Provides a base class for running unit tests against an in-memory database created

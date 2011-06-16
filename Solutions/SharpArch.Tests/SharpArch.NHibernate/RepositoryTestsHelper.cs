@@ -1,4 +1,4 @@
-﻿namespace SharpArch.Testing.NHibernate
+﻿namespace Tests.SharpArch.NHibernate
 {
     using System;
     using System.Configuration;
@@ -9,9 +9,9 @@
 
     using global::NHibernate.Tool.hbm2ddl;
 
-    using SharpArch.Domain;
-    using SharpArch.NHibernate;
-    using SharpArch.NHibernate.FluentNHibernate;
+    using global::SharpArch.Domain;
+    using global::SharpArch.NHibernate;
+    using global::SharpArch.NHibernate.FluentNHibernate;
 
     using Configuration = global::NHibernate.Cfg.Configuration;
 
