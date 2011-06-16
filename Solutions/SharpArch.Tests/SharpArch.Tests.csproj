@@ -141,7 +141,6 @@
     <Compile Include="SharpArch.Domain\Commands\InvalidCommand.cs" />
     <Compile Include="SharpArch.Domain\Commands\TestCommand.cs" />
     <Compile Include="SharpArch.Domain\Commands\TestCommandHandler.cs" />
-    <Compile Include="SharpArch.Domain\Commands\TestCommandResult.cs" />
     <Compile Include="SharpArch.Domain\Commands\ValidCommand.cs" />
     <Compile Include="SharpArch.Domain\DataAnnotationsValidator\HasUniqueEntitySignatureValidatorTests.cs" />
     <Compile Include="SharpArch.Domain\DesignByContractTests.cs" />

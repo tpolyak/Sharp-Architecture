@@ -2,7 +2,7 @@
 {
     using NUnit.Framework;
 
-  [TestFixture]
+    [TestFixture]
     public class CommandTests
     {
         [Test]

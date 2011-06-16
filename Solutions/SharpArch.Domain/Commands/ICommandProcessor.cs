@@ -2,6 +2,6 @@
 {
     public interface ICommandProcessor
     {
-        ICommandResults Process<TCommand>(TCommand command) where TCommand : ICommand;
+        void Process<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }

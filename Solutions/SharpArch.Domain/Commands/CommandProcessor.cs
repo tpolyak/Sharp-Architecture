@@ -7,11 +7,9 @@
 
     public class CommandProcessor : ICommandProcessor
     {
-        public ICommandResults Process<TCommand>(TCommand command) where TCommand : ICommand
+        public void Process<TCommand>(TCommand command) where TCommand : ICommand
         {
             Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
-
-            var results = new CommandResults();
 
             var handlers = ServiceLocator.Current.GetAllInstances<ICommandHandler<TCommand>>();
             if (handlers == null || !handlers.Any())
@@ -19,12 +17,10 @@
                 throw new CommandHandlerNotFoundException(typeof(TCommand));
             }
 
-            foreach (var result in handlers.Select(handler => handler.Handle(command)))
+            foreach (var handler in handlers)
             {
-                results.AddResult(result);
+                handler.Handle(command);
             }
-
-            return results;
         }
     }
 }

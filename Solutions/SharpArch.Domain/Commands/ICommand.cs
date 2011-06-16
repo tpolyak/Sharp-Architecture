@@ -6,6 +6,7 @@
     public interface ICommand
     {
         bool IsValid();
+
         ICollection<ValidationResult> ValidationResults();
     }
 }

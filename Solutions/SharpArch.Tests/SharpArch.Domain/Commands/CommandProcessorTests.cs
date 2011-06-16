@@ -8,37 +8,37 @@ namespace Tests.SharpArch.Domain.Commands
 
     using CommonServiceLocator.WindsorAdapter;
 
-    using global::SharpArch.Domain.Commands;
-
     using Microsoft.Practices.ServiceLocation;
 
     using NUnit.Framework;
 
+    using global::SharpArch.Domain.Commands;
+
     [TestFixture]
     public class CommandProcessorTests
     {
-        private IList<ICommand> _handledCommands;
-        private IWindsorContainer _container;
-        private ICommandProcessor _commandProcessor;
+        private IList<ICommand> handledCommands;
+        private IWindsorContainer container;
+        private ICommandProcessor commandProcessor;
 
         [SetUp]
         public void SetUp()
         {
-            _handledCommands = new List<ICommand>();
-            _container = new WindsorContainer();
-            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(_container));
-            _commandProcessor = new CommandProcessor();
+            handledCommands = new List<ICommand>();
+            container = new WindsorContainer();
+            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
+            commandProcessor = new CommandProcessor();
         }
 
         [TearDown]
         public void TearDown()
         {
-            _handledCommands = null;
+            handledCommands = null;
 
-            _commandProcessor = null;
+            commandProcessor = null;
 
-            _container.Dispose();
-            _container = null;
+            container.Dispose();
+            container = null;
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Tests.SharpArch.Domain.Commands
         public void ThrowsIfCommandIsInvalid()
         {
             var testCommand = new InvalidCommand();
-            _commandProcessor.Process(testCommand);
+            commandProcessor.Process(testCommand);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Tests.SharpArch.Domain.Commands
         public void ThrowsIfCommandIsInvalidButNotRequired()
         {
           var testCommand = new InvalidCommand { Invalid = true };
-          _commandProcessor.Process(testCommand);
+          commandProcessor.Process(testCommand);
         }
 
         [Test]
@@ -62,50 +62,45 @@ namespace Tests.SharpArch.Domain.Commands
         public void ThrowsIfCommandHandlerNotFound()
         {
             var testCommand = new TestCommand();
-            _commandProcessor.Process(testCommand);
+            commandProcessor.Process(testCommand);
         }
 
         [Test]
         public void CanHandleSingleCommand()
         {
-            _container.Register(
+            container.Register(
               Component.For<ICommandHandler<TestCommand>>()
                 .UsingFactoryMethod(CreateCommandHandler<TestCommand>)
                 .LifeStyle.Transient);
 
             var testCommand = new TestCommand();
-            _commandProcessor.Process(testCommand);
+            commandProcessor.Process(testCommand);
 
-            Assert.AreEqual(1, _handledCommands.Count);
-            Assert.AreEqual(testCommand, _handledCommands[0]);
+            Assert.AreEqual(1, handledCommands.Count);
+            Assert.AreEqual(testCommand, handledCommands[0]);
         }
 
         [Test]
         public void CanHandleMultipleCommands()
         {
-            _container.Register(
+            container.Register(
               Component.For<ICommandHandler<TestCommand>>()
                 .UsingFactoryMethod(CreateCommandHandler<TestCommand>)
                 .Named("First handler")
                 .LifeStyle.Transient);
 
-            _container.Register(
+            container.Register(
               Component.For<ICommandHandler<TestCommand>>()
                 .UsingFactoryMethod(CreateCommandHandler<TestCommand>)
                 .Named("Second handler")
                 .LifeStyle.Transient);
 
             var testCommand = new TestCommand();
-            var results = _commandProcessor.Process(testCommand);
+            commandProcessor.Process(testCommand);
 
-            Assert.AreEqual(2, _handledCommands.Count);
-            Assert.AreEqual(testCommand, _handledCommands[0]);
-            Assert.AreEqual(testCommand, _handledCommands[1]);
-
-            Assert.IsTrue(results.Success);
-            Assert.AreEqual(2, results.Results.Length);
-            Assert.IsTrue(results.Results[0].Success);
-            Assert.IsTrue(results.Results[1].Success);
+            Assert.AreEqual(2, handledCommands.Count);
+            Assert.AreEqual(testCommand, handledCommands[0]);
+            Assert.AreEqual(testCommand, handledCommands[1]);
         }
 
         private TestCommandHandler<TCommand> CreateCommandHandler<TCommand>() where TCommand : ICommand
@@ -113,10 +108,9 @@ namespace Tests.SharpArch.Domain.Commands
             return new TestCommandHandler<TCommand>(OnHandle);
         }
 
-        private ICommandResult OnHandle<TCommand>(ICommandHandler<TCommand> handler, TCommand command) where TCommand : ICommand
+        private void OnHandle<TCommand>(ICommandHandler<TCommand> handler, TCommand command) where TCommand : ICommand
         {
-            _handledCommands.Add(command);
-            return new TestCommandResult(true);
+            handledCommands.Add(command);
         }
     }
 }

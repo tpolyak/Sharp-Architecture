@@ -81,13 +81,9 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CommandHandlerNotFoundException.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\CommandResult.cs" />
-    <Compile Include="Commands\CommandResults.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
     <Compile Include="Commands\ICommandProcessor.cs" />
-    <Compile Include="Commands\ICommandResult.cs" />
-    <Compile Include="Commands\ICommandResults.cs" />
     <Compile Include="DesignByContract\Check.cs" />
     <Compile Include="DesignByContract\DesignByContractException.cs" />
     <Compile Include="DesignByContract\InvariantException.cs" />
