@@ -78,7 +78,7 @@ namespace SharpArch.NHibernate.Web.Mvc
 
         private string GetEffectiveFactoryKey()
         {
-            return String.IsNullOrEmpty(this.factoryKey) ? NHibernateSession.DefaultFactoryKey : this.factoryKey;
+            return String.IsNullOrEmpty(factoryKey) ? SessionFactoryKeyHelper.GetKey() : factoryKey;
         }
 
         private bool ShouldRollback(ControllerContext filterContext)
