@@ -12,15 +12,21 @@
     {
         public bool OnPreUpdate(PreUpdateEvent @event)
         {
-            var entity = (Entity)@event.Entity;
-            Validator.ValidateObject(entity, new ValidationContext(entity, null, null), true);
+            if (@event.Entity is ValidatableObject)
+            {
+                var entity = @event.Entity;
+                Validator.ValidateObject(entity, new ValidationContext(entity, null, null), true);
+            }
             return false;
         }
 
         public bool OnPreInsert(PreInsertEvent @event)
         {
-            var entity = (Entity)@event.Entity;
-            Validator.ValidateObject(entity, new ValidationContext(entity, null, null), true);
+            if (@event.Entity is ValidatableObject)
+            {
+                var entity = (Entity)@event.Entity;
+                Validator.ValidateObject(entity, new ValidationContext(entity, null, null), true);
+            }
             return false;
         }
     }
