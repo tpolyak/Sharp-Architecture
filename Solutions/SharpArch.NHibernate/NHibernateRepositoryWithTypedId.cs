@@ -179,11 +179,6 @@ namespace SharpArch.NHibernate
             return criteria.List<T>();
         }
 
-        public IList<T> PerformQuery(IQuery<T> query)
-        {
-            return query.ExecuteQuery();
-        }
-
         /// <summary>
         ///     Although SaveOrUpdate _can_ be invoked to update an object with an assigned Id, you are 
         ///     hereby forced instead to use Save/Update for better clarity.

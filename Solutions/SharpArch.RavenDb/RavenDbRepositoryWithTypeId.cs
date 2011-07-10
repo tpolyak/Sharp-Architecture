@@ -76,11 +76,6 @@ namespace SharpArch.RavenDb
             this.context.SaveChanges();
         }
 
-        public IList<T> PerformQuery(IQuery<T> query)
-        {
-            throw new NotImplementedException();
-        }
-
         public T Get(TIdT id)
         {
             return this.FindOne(w => Equals(w.Id, id));

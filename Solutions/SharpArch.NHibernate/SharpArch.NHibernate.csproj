@@ -90,7 +90,6 @@
     <Compile Include="NHibernateValidator\DataAnnotationsEventListener.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureAttribute.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithGuidIdAttribute.cs" />
-    <Compile Include="NHibernateQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionFactoryAttribute.cs" />
     <Compile Include="SessionFactoryKeyHelper.cs" />
