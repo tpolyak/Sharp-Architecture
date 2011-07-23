@@ -108,7 +108,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=AMD64">
+    <Reference Include="System.Data.SQLite">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ReferencedAssemblies\SQLLite\x64\System.Data.SQLite.DLL</HintPath>
     </Reference>
@@ -121,7 +121,7 @@
     <When Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'" />
     <Otherwise>
       <ItemGroup>
-        <Reference Include="System.Data.SQLite, processorArchitecture=x86" Condition="$(PROCESSOR_ARCHITEW6432) == 'x86'">
+        <Reference Include="System.Data.SQLite">
           <SpecificVersion>False</SpecificVersion>
           <HintPath>..\..\ReferencedAssemblies\SqlLite\System.Data.SQLite.DLL</HintPath>
         </Reference>
