@@ -99,6 +99,9 @@
     <Compile Include="DomainModel\IHasAssignedId.cs" />
     <Compile Include="DomainModel\ValidatableObject.cs" />
     <Compile Include="DomainModel\ValueObject.cs" />
+    <Compile Include="Events\DomainEvents.cs" />
+    <Compile Include="Events\IDomainEvent.cs" />
+    <Compile Include="Events\IHandles.cs" />
     <Compile Include="FileCache.cs" />
     <Compile Include="PersistenceSupport\IDbContext.cs" />
     <Compile Include="PersistenceSupport\ILinqRepository.cs" />
