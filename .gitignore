@@ -19,3 +19,4 @@ error-*.xml
 *_mm_cache.bin
 *.dotCover
 StyleCop.Cache
+SpecificationReports
