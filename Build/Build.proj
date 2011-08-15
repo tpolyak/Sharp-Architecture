@@ -41,28 +41,28 @@
   
   
   <ItemGroup>
-    <NugetPackage Include="$(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.dll;">
+    <NugetPackage Include="$(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.dll;
+						   $(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.pdb;">
       <PackageName>SharpArch.Domain</PackageName>
-	  <nuspecFile>sharp-architecture-domain.nuspec</nuspecFile>
-	  <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
+	  <NuspecFile>sharp-architecture-domain.nuspec</NuspecFile>
     </NugetPackage>
 	
-	<NugetPackage Include="$(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.dll;">
+	<NugetPackage Include="$(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.dll;
+						   $(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.pdb;">
       <PackageName>SharpArch.NHibernate</PackageName>
-	  <nuspecFile>sharp-architecture-nh.nuspec</nuspecFile>
-	  <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
+	  <NuspecFile>sharp-architecture-nh.nuspec</NuspecFile>
     </NugetPackage>
 	
-	<NugetPackage Include="$(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.dll;">
+	<NugetPackage Include="$(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.dll;
+						   $(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.pdb;">
       <PackageName>SharpArch.RavenDB</PackageName>
-	  <nuspecFile>sharp-architecture-ravendb.nuspec</nuspecFile>
-	  <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
+	  <NuspecFile>sharp-architecture-ravendb.nuspec</NuspecFile>
     </NugetPackage>
 	
-	<NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;">
+	<NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
+						   $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.pdb;">
       <PackageName>SharpArch</PackageName>
-	  <nuspecFile>sharp-architecture.nuspec</nuspecFile>
-	  <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
+	  <NuspecFile>sharp-architecture.nuspec</NuspecFile>
     </NugetPackage>
   </ItemGroup>
   
@@ -70,7 +70,6 @@
     <SolutionName>SharpArch</SolutionName>
     <SolutionsPath>$(MSBuildProjectDirectory)\..\Solutions</SolutionsPath>
     <BuildPath>$(MSBuildProjectDirectory)\..\BuildSystem</BuildPath>
-    <SolutionRoot>$(BuildPath)\..\..</SolutionRoot>
   </PropertyGroup>
 
   <Import Project="$(BuildPath)\BuildSystem.proj" />

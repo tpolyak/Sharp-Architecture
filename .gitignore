@@ -20,3 +20,4 @@ error-*.xml
 *.dotCover
 StyleCop.Cache
 SpecificationReports
+NugetWorkspace
