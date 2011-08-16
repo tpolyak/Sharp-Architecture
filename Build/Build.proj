@@ -44,7 +44,7 @@
     <NugetPackage Include="$(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.dll;
 						   $(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.pdb;">
       <PackageName>SharpArch.Domain</PackageName>
-	  <NuspecFile>sharp-architecture-domain.nuspec</NuspecFile>
+	  <NuspecFile>SharpArch.Domain.nuspec</NuspecFile>
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.dll;
