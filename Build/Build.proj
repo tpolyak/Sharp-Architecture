@@ -61,8 +61,8 @@
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
 						   $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.pdb;">
-      <PackageName>SharpArch</PackageName>
-	  <NuspecFile>sharp-architecture.nuspec</NuspecFile>
+      <PackageName>SharpArch.Web.Mvc</PackageName>
+	  <NuspecFile>SharpArch.Web.Mvc.nuspec</NuspecFile>
     </NugetPackage>
   </ItemGroup>
   
