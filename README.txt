@@ -13,6 +13,12 @@ $ git checkout 1.9.6.0
 We no longer support the use of the Visual Studio templates for installation of S#arp Architecture. With version 2.0, we have dropped support for Visual Studio 2008 altogether. To learn how to get a S#arp Architecture solution up and running, please go to http://blog.sharparchitecture.net/post/Using-Templify-to-create-a-new-Sarp-Architecture-solution.aspx
 
 --------------------------------------------
+-- Downloads
+--------------------------------------------
+
+Downloads can always be found here: https://github.com/sharparchitecture/Sharp-Architecture/downloads
+
+--------------------------------------------
 -- Building S#arp Architecture
 --------------------------------------------
 
@@ -24,25 +30,31 @@ $ git submodule update
 
 Now you should have the latest development branch of SA 2.0 and submodules.
 
+Now go to /Build and run the Build.cmd or BuildAndPackage.cmd files to build S#arp Architecture
+
 --------------------------------------------
--- Building S#arp Architecture
+-- Documentation and Assemblies
 --------------------------------------------
 
-* /docs/:  Contains a link to comprehensive, online documentation at http://wiki.sharparchitecture.net/, and a diagram of what a S#arp Architecture project looks like.
+* /Artefacts/Documentation/:  Contains a link to comprehensive, online documentation at http://wiki.sharparchitecture.net/, and a diagram of what a S#arp Architecture project looks like.
 
-* /bin/:  Holds released SharpArch assemblies and third party dependencies needed by a S#arp Architecture project.
+* /Drops/<Version Number>/:  Holds released SharpArch assemblies - it does not include the third party library's that are needed by S#arp Architecture. You must run the BuildAndPackage.cmd file first.
 
 --------------------------------------------
 -- How's this release organized?
 --------------------------------------------
 
-* /VisualStudioTemplate/:  Contains artifacts for the support of the S#arp Architecture Visual Studio project template and an important fix to the T4 Toolbox (which supports CRUD scaffolding generation).
+* /Artefacts/:  Contains various artefacts for the project
 
-* /ClickToBuild.bat and /go.bat were discussed above.
+* /Build/:  Contains the .cmd files needed to build the solution 
+
+* /ReferencedAssemblies/:  Contains all of the required 3rd party assemblies. 
+
+* /RequiredPackages/: Contains the required tools needed to build S#arp Architecture.
 
 * /License.txt:  I'll let you guess what this is.
 
-* /SharpArch.build:  The NAnt build script used by /go.bat to build the SharpArch class libraries.
+* /Solutions/: This contains all of the source code in their various projects.
 
-* /VersionHistory.txt:  Details version numbers of dependencies, changes since previous releases, upgrade details, and a roadmap of what's coming.  This is an important document.
+* /VersionHistory.txt:  Details version numbers of dependencies, changes since previous releases, upgrade details, and a roadmap of what's coming.
 
