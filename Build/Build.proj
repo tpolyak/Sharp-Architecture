@@ -61,8 +61,8 @@
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
 						   $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.pdb;">
-      <PackageName>SharpArch.Web.Mvc</PackageName>
-	  <NuspecFile>SharpArch.Web.Mvc.nuspec</NuspecFile>
+      <PackageName>SharpArch.Web.Mvc.Castle</PackageName>
+	  <NuspecFile>SharpArch.Web.Mvc.Castle.nuspec</NuspecFile>
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
@@ -96,7 +96,7 @@
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.WcfClient.Castle\bin\Release\SharpArch.WcfClient.Castle.dll;
-						   $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.WcfClient.Castle.pdb;">
+						   $(SolutionsPath)\SharpArch.WcfClient.Castle\bin\Release\SharpArch.WcfClient.Castle.pdb;">
       <PackageName>SharpArch.WcfClient.Castle</PackageName>
 	  <NuspecFile>SharpArch.WcfClient.Castle.nuspec</NuspecFile>
     </NugetPackage>

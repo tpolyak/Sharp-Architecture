@@ -14,7 +14,7 @@
     <dependencies>
 	  <dependency id="SharpArch.Domain" version="(2.0,)" />
 	  <dependency id="SharpArch.RavenDB" version="(2.0,)" />
-	  <dependency id="SharpArch.Web.Mvc" version="(2.0,)" />
+	  <dependency id="SharpArch.Web.Mvc.Castle" version="(2.0,)" />
 	  <dependency id="Log4Net" version="1.2.10" />
     </dependencies>
   </metadata>
