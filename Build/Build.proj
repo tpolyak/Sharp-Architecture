@@ -56,7 +56,7 @@
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.dll;
 						   $(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.pdb;">
       <PackageName>SharpArch.RavenDB</PackageName>
-	  <NuspecFile>sharp-architecture-ravendb.nuspec</NuspecFile>
+	  <NuspecFile>SharpArch.RavenDB.nuspec</NuspecFile>
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
