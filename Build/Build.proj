@@ -50,7 +50,7 @@
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.dll;
 						   $(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.pdb;">
       <PackageName>SharpArch.NHibernate</PackageName>
-	  <NuspecFile>sharp-architecture-nh.nuspec</NuspecFile>
+	  <NuspecFile>SharpArch.NHibernate.nuspec</NuspecFile>
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.dll;
