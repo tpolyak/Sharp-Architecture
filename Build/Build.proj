@@ -70,6 +70,12 @@
       <PackageName>SharpArch.Wcf</PackageName>
 	  <NuspecFile>SharpArch.Wcf.nuspec</NuspecFile>
     </NugetPackage>
+	
+	<NugetPackage Include="$(SolutionRoot)\README.txt;
+						   $(SolutionRoot)\License.txt;">
+      <PackageName>sharp-architecture</PackageName>
+	  <NuspecFile>sharp-architecture.nuspec</NuspecFile>
+    </NugetPackage>
   </ItemGroup>
   
   <PropertyGroup>
