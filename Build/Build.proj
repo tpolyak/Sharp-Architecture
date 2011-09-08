@@ -64,6 +64,12 @@
       <PackageName>SharpArch.Web.Mvc</PackageName>
 	  <NuspecFile>SharpArch.Web.Mvc.nuspec</NuspecFile>
     </NugetPackage>
+	
+	<NugetPackage Include="$(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
+						   $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.pdb;">
+      <PackageName>SharpArch.Wcf</PackageName>
+	  <NuspecFile>SharpArch.Wcf.nuspec</NuspecFile>
+    </NugetPackage>
   </ItemGroup>
   
   <PropertyGroup>
