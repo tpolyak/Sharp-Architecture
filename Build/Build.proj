@@ -76,6 +76,12 @@
       <PackageName>sharp-architecture</PackageName>
 	  <NuspecFile>sharp-architecture.nuspec</NuspecFile>
     </NugetPackage>
+	
+	<NugetPackage Include="$(SolutionRoot)\README.txt;
+						   $(SolutionRoot)\License.txt;">
+      <PackageName>SharpArch.Web.RavenDB</PackageName>
+	  <NuspecFile>SharpArch.Web.RavenDB.nuspec</NuspecFile>
+    </NugetPackage>
   </ItemGroup>
   
   <PropertyGroup>
