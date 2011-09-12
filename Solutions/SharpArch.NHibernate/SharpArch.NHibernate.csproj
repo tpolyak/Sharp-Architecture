@@ -44,9 +44,6 @@
     <Reference Include="NHibernate">
       <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate.Validator">
-      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.Validator.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />

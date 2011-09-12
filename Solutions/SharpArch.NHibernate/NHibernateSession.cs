@@ -14,7 +14,7 @@
     using global::NHibernate;
     using global::NHibernate.Cfg;
     using global::NHibernate.Event;
-    using global::NHibernate.Validator.Engine;
+    // using global::NHibernate.Validator.Engine;
 
     using SharpArch.NHibernate.NHibernateValidator;
 
@@ -87,12 +87,6 @@
         ///     <see cref = "InitStorage" /> or one of the <see cref = "Init" /> overloads.
         /// </summary>
         public static ISessionStorage Storage { get; set; }
-
-        /// <summary>
-        ///     Provides an access to configured<see cref = "ValidatorEngine" />.
-        /// </summary>
-        /// <value>The validator engine.</value>
-        public static ValidatorEngine ValidatorEngine { get; set; }
 
         [CLSCompliant(false)]
         public static Configuration AddConfiguration(
@@ -381,7 +375,6 @@
 
             Storage = null;
             registeredInterceptor = null;
-            ValidatorEngine = null;
             ConfigurationCache = null;
         }
 
