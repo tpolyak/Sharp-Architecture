@@ -71,6 +71,12 @@
 	  <NuspecFile>SharpArch.Wcf.nuspec</NuspecFile>
     </NugetPackage>
 	
+	<NugetPackage Include="$(SolutionsPath)\SharpArch.Testing.NUnit\bin\Release\SharpArch.Testing.NUnit.dll;
+						   $(SolutionsPath)\SharpArch.Testing.NUnit\bin\Release\SharpArch.Testing.NUnit.pdb;">
+      <PackageName>SharpArch.Testing.NUnit</PackageName>
+	  <NuspecFile>SharpArch.Testing.NUnit.nuspec</NuspecFile>
+    </NugetPackage>
+	
 	<NugetPackage Include="$(SolutionRoot)\README.txt;
 						   $(SolutionRoot)\License.txt;">
       <PackageName>sharp-architecture</PackageName>
