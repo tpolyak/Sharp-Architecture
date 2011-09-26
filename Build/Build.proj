@@ -77,26 +77,22 @@
 	  <NuspecFile>SharpArch.Testing.NUnit.nuspec</NuspecFile>
     </NugetPackage>
 	
-	<NugetPackage Include="$(SolutionRoot)\README.txt;
-						   $(SolutionRoot)\License.txt;">
+	<NugetPackage Include="$(SolutionRoot)\License.txt;">
       <PackageName>sharp-architecture</PackageName>
 	  <NuspecFile>sharp-architecture.nuspec</NuspecFile>
     </NugetPackage>
 	
-	<NugetPackage Include="$(SolutionRoot)\README.txt;
-						   $(SolutionRoot)\License.txt;">
+	<NugetPackage Include="$(SolutionRoot)\License.txt;">
       <PackageName>SharpArch.Web.RavenDB</PackageName>
 	  <NuspecFile>SharpArch.Web.RavenDB.nuspec</NuspecFile>
     </NugetPackage>
 	
-	<NugetPackage Include="$(SolutionRoot)\README.txt;
-						   $(SolutionRoot)\License.txt;">
+	<NugetPackage Include="$(SolutionRoot)\License.txt;">
       <PackageName>SharpArch.Wcf.NHibernate</PackageName>
 	  <NuspecFile>SharpArch.Wcf.NHibernate.nuspec</NuspecFile>
     </NugetPackage>
 	
-	<NugetPackage Include="$(SolutionRoot)\README.txt;
-						   $(SolutionRoot)\License.txt;">
+	<NugetPackage Include="$(SolutionRoot)\License.txt;">
       <PackageName>SharpArch.Wcf.RavenDB</PackageName>
 	  <NuspecFile>SharpArch.Wcf.RavenDB.nuspec</NuspecFile>
     </NugetPackage>
