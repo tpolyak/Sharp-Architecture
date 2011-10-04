@@ -352,9 +352,9 @@ namespace Tests.SharpArch.Domain.DomainModel
             {
                 var deserialized = jsonSerializer.Deserialize<ObjectWithOneDomainSignatureProperty>(jsonReader);
                 Assert.IsNotNull(deserialized);
-                Assert.AreEqual(999, object1.Id);
-                Assert.AreEqual(13, object1.Age);
-                Assert.AreEqual("Foo", object1.Name);
+                Assert.AreEqual(999, deserialized.Id);
+                Assert.AreEqual(13, deserialized.Age);
+                Assert.AreEqual("Foo", deserialized.Name);
             }
         }
 
