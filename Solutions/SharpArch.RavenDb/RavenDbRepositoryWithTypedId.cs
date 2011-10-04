@@ -31,31 +31,27 @@ namespace SharpArch.RavenDb
 
         #region IRavenDbRepositoryWithTypedId<T,TIdT>
 
-        public IEnumerable<T> FindAll(Func<T, bool> where)
+        public IEnumerable<T> FindAll(Func<T, bool> where, bool waitForNonStaleResults = false)
         {
-            return this.context.Query<T>().Where(where);
+            return this.context.Query<T>().Customize(q => CustomizeQuery(q, waitForNonStaleResults)).Where(where);
         }
 
-        public T FindOne(Func<T, bool> where)
+        public T FindOne(Func<T, bool> where, bool waitForNonStaleResults = false)
         {
-            IEnumerable<T> foundList = this.context.Query<T>().Where(where);
-
-            if (foundList.Count() > 1)
+            IEnumerable<T> foundList = this.FindAll(where, waitForNonStaleResults);
+            try
+            {
+                return foundList.SingleOrDefault();
+            }
+            catch (InvalidOperationException ex)
             {
                 throw new InvalidOperationException("The query returned more than one result. Please refine your query.");
             }
-
-            if (foundList.Count() == 1)
-            {
-                return foundList.First();
-            }
-
-            return default(T);
         }
 
-        public T First(Func<T, bool> where)
+        public T First(Func<T, bool> where, bool waitForNonStaleResults = false)
         {
-            return this.context.Query<T>().First(where);
+            return this.FindAll(where, waitForNonStaleResults).First(where);
         }
 
         #endregion
@@ -86,12 +82,17 @@ namespace SharpArch.RavenDb
 
         public T Get(TIdT id)
         {
-            return this.FindOne(w => Equals(w.Id, id));
+            return this.context.Load<T>(id.ToString());
         }
 
         public IList<T> GetAll()
         {
             return this.context.Query<T>().ToList();
+        }
+
+        public IList<T> GetAll(IEnumerable<TIdT> ids)
+        {
+            return this.context.Load<T>(ids.Select(p => p.ToString()));
         }
 
         public T SaveOrUpdate(T entity)
@@ -105,5 +106,13 @@ namespace SharpArch.RavenDb
         #endregion
 
         #endregion
+
+        private static void CustomizeQuery(IDocumentQueryCustomization p, bool waitForNonStaleResults)
+        {
+            if (waitForNonStaleResults)
+            {
+                p.WaitForNonStaleResults();
+            }
+        }
     }
 }

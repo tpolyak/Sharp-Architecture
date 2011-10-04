@@ -9,11 +9,13 @@ namespace SharpArch.RavenDb.Contracts.Repositories
     {
         #region Public Methods
 
-        IEnumerable<T> FindAll(Func<T, bool> where);
+        IEnumerable<T> FindAll(Func<T, bool> where, bool waitForNonStaleResults = false);
 
-        T FindOne(Func<T, bool> where);
+        T FindOne(Func<T, bool> where, bool waitForNonStaleResults = false);
 
-        T First(Func<T, bool> where);
+        T First(Func<T, bool> where, bool waitForNonStaleResults = false);
+
+        IList<T> GetAll(IEnumerable<TIdT> ids);
 
         #endregion
     }
