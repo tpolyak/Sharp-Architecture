@@ -9,8 +9,8 @@ namespace SharpArch.RavenDb
     using SharpArch.Domain.DomainModel;
     using SharpArch.Domain.PersistenceSupport;
     using SharpArch.RavenDb.Contracts.Repositories;
-    
-    public class RavenDbRepositoryWithTypeId<T, TIdT> : IRavenDbRepositoryWithTypeId<T, TIdT> where T : Entity
+
+    public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT> where T : EntityWithTypedId<TIdT>
     {
         #region Constants and Fields
 
@@ -20,7 +20,7 @@ namespace SharpArch.RavenDb
 
         #region Constructors and Destructors
 
-        public RavenDbRepositoryWithTypeId(IDocumentSession context)
+        public RavenDbRepositoryWithTypedId(IDocumentSession context)
         {
             this.context = context;
         }
@@ -29,7 +29,7 @@ namespace SharpArch.RavenDb
 
         #region Implemented Interfaces
 
-        #region IRavenDbRepositoryWithTypeId<T,TIdT>
+        #region IRavenDbRepositoryWithTypedId<T,TIdT>
 
         public IEnumerable<T> FindAll(Func<T, bool> where)
         {
@@ -61,6 +61,14 @@ namespace SharpArch.RavenDb
         #endregion
 
         #region IRepositoryWithTypedId<T,TIdT>
+
+        protected IDocumentSession Session
+        {
+            get
+            {
+                return this.context;
+            }
+        }
 
         public virtual IDbContext DbContext 
         {

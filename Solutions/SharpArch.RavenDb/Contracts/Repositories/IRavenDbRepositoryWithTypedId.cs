@@ -5,7 +5,7 @@ namespace SharpArch.RavenDb.Contracts.Repositories
 
     using SharpArch.Domain.PersistenceSupport;
 
-    public interface IRavenDbRepositoryWithTypeId<T, TIdT> : IRepositoryWithTypedId<T, TIdT>
+    public interface IRavenDbRepositoryWithTypedId<T, TIdT> : IRepositoryWithTypedId<T, TIdT>
     {
         #region Public Methods
 
