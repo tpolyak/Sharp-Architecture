@@ -38,7 +38,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentNHibernate" />
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\FluentNHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\ReferencedAssemblies\Log4Net\log4net.dll</HintPath>
     </Reference>
@@ -54,7 +56,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\ReferencedAssemblies\Microsoft\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate" />
+    <Reference Include="NHibernate">
+	  <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\ReferencedAssemblies\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
