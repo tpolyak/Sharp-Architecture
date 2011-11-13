@@ -57,7 +57,7 @@
       <HintPath>..\..\ReferencedAssemblies\Microsoft\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-	  <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
+      <HintPath>..\..\ReferencedAssemblies\NHibernate\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\ReferencedAssemblies\RhinoMocks\Rhino.Mocks.dll</HintPath>
@@ -66,7 +66,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />    
+    <Reference Include="System.Data" />
   </ItemGroup>
   <Choose>
     <When Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'">

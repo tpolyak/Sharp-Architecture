@@ -18,6 +18,11 @@ namespace SharpArch.Specifications.NHibernate.Mappings
 
         }
 
+        public override bool IsComponent(Type type)
+        {
+            return typeof(ValueObject).IsAssignableFrom(type);
+        }
+
         public override bool IsId(Member member)
         {
             return member.Name == "Id";
