@@ -15,25 +15,24 @@ namespace SharpArch.Specifications.NHibernate
     using System;
 
     using global::SharpArch.Domain;
-    using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.Features.Specifications;
+    using global::SharpArch.NHibernate;
     using global::SharpArch.NHibernate.NHibernateValidator;
 
     using Machine.Specifications;
-    using Machine.Specifications.AutoMocking.Rhino;
 
-    using Rhino.Mocks;
+    using global::SharpArch.Testing.NUnit.NHibernate;
 
     public class has_unique_domain_signature_specs
     {
-        public abstract class specification_for_has_unique_domain_signature_validator : Specification<HasUniqueDomainSignatureAttribute>
+        public abstract class specification_for_has_unique_domain_signature_validator
         {
             protected static IEntityDuplicateChecker entityDuplicateChecker;
 
             Establish context = () =>
             {
-                entityDuplicateChecker = An<IEntityDuplicateChecker>();
+                entityDuplicateChecker = new EntityDuplicateChecker();
                 entityDuplicateChecker.AddToServiceLocator();
             };
 
@@ -43,22 +42,21 @@ namespace SharpArch.Specifications.NHibernate
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
         public class when_validating_an_entity_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
         {
-            static Contractor contractor;
+            static Contractor duplicateContractor;
             static bool result;
 
             Establish context = () =>
             {
-                contractor = new Contractor() { Name = "codai" };
-                entityDuplicateChecker.Stub(x => x.DoesDuplicateExistWithTypedIdOf(contractor)).Return(true);
+                var contractor = new Contractor() { Name = "codai" };
+                NHibernateSession.Current.Save(contractor);
+                RepositoryTestsHelper.FlushSessionAndEvict(contractor);
+                duplicateContractor = new Contractor() { Name = "codai" };
             };
 
             Because of = () =>
             {
-                result = contractor.IsValid();
+                result = duplicateContractor.IsValid();
             };
-
-            It should_ask_the_entity_duplicate_checker_if_a_duplicate_entity_exists = () =>
-                entityDuplicateChecker.AssertWasCalled(x => x.DoesDuplicateExistWithTypedIdOf(contractor));
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
@@ -66,19 +64,18 @@ namespace SharpArch.Specifications.NHibernate
         [Subject(typeof(HasUniqueDomainSignatureWithGuidIdAttribute))]
         public class when_validating_an_entity_with_a_guid_id_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
         {
-            static ObjectWithGuidId objectWithGuidId1;
+            static ObjectWithGuidId duplicateObjectWithGuidId;
             static bool result;
 
             Establish context = () =>
             {
-                objectWithGuidId1 = new ObjectWithGuidId { Name = "codai" };
-                entityDuplicateChecker.Stub(x => x.DoesDuplicateExistWithTypedIdOf(objectWithGuidId1)).Return(true);
+                var objectWithGuidId = new ObjectWithGuidId { Name = "codai" };
+                NHibernateSession.Current.Save(objectWithGuidId);
+                RepositoryTestsHelper.FlushSessionAndEvict(objectWithGuidId);
+                duplicateObjectWithGuidId = new ObjectWithGuidId { Name = "codai" };
             };
 
-            Because of = () => result = objectWithGuidId1.IsValid();
-
-            It should_ask_the_entity_duplicate_checker_if_a_duplicate_entity_exists = () =>
-                entityDuplicateChecker.AssertWasCalled(x => x.DoesDuplicateExistWithTypedIdOf(objectWithGuidId1));
+            Because of = () => result = duplicateObjectWithGuidId.IsValid();
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
@@ -86,19 +83,18 @@ namespace SharpArch.Specifications.NHibernate
         [Subject(typeof(HasUniqueDomainSignatureWithStringIdAttribute))]
         public class when_validating_an_entity_with_a_string_id_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
         {
-            static User user;
+            static User duplicateUser;
             static bool result;
 
             Establish context = () =>
             {
-                user = new User { SSN = "123-12-1234" };
-                entityDuplicateChecker.Stub(x => x.DoesDuplicateExistWithTypedIdOf(user)).Return(true);
+                var user = new User("user1", "123-12-1234");
+                NHibernateSession.Current.Save(user);
+                RepositoryTestsHelper.FlushSessionAndEvict(user);
+                duplicateUser = new User("user2", "123-12-1234");
             };
 
-            Because of = () => result = user.IsValid();
-
-            It should_ask_the_entity_duplicate_checker_if_a_duplicate_entity_exists = () =>
-                entityDuplicateChecker.AssertWasCalled(x => x.DoesDuplicateExistWithTypedIdOf(user));
+            Because of = () => result = duplicateUser.IsValid();
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
@@ -112,13 +108,9 @@ namespace SharpArch.Specifications.NHibernate
             Establish context = () =>
             {
                 contractor = new Contractor { Name = "the name" };
-                entityDuplicateChecker.Stub(x => x.DoesDuplicateExistWithTypedIdOf(contractor)).Return(false);
             };
 
             Because of = () => result = contractor.IsValid();
-
-            It should_ask_the_entity_duplicate_checker_if_a_duplicate_entity_exists = () =>
-                entityDuplicateChecker.AssertWasCalled(x => x.DoesDuplicateExistWithTypedIdOf(contractor));
 
             It should_say_the_entity_is_valid = () => result.ShouldBeTrue();
         }
@@ -139,53 +131,5 @@ namespace SharpArch.Specifications.NHibernate
 
             It should_throw_a_precondition_exception = () => result.ShouldBeOfType(typeof(PreconditionException));
         }
-
-        #region Private Methods
-
-        [HasUniqueDomainSignature]
-        class Contractor : Entity
-        {
-            #region Properties
-
-            [DomainSignature]
-            public string Name { get; set; }
-
-            #endregion
-        }
-
-        [HasUniqueDomainSignatureWithGuidId]
-        class ObjectWithGuidId : EntityWithTypedId<Guid>
-        {
-            #region Properties
-
-            [DomainSignature]
-            public string Name { get; set; }
-
-            #endregion
-        }
-
-        [HasUniqueDomainSignature]
-        class ObjectWithStringIdAndValidatorForIntId : EntityWithTypedId<string>
-        {
-            #region Properties
-
-            [DomainSignature]
-            public string Name { get; set; }
-
-            #endregion
-        }
-
-        [HasUniqueDomainSignatureWithStringId]
-        class User : EntityWithTypedId<string>
-        {
-            #region Properties
-
-            [DomainSignature]
-            public string SSN { get; set; }
-
-            #endregion
-        }
-
-        #endregion
     }
 }

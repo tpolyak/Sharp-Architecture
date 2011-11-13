@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,15 +39,7 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\..\ReferencedAssemblies\Castle\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor, Version=2.5.1.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\..\ReferencedAssemblies\Castle\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="CommonServiceLocator.WindsorAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\ReferencedAssemblies\Castle\CommonServiceLocator.WindsorAdapter.dll</HintPath>
-    </Reference>
+    <Reference Include="FluentNHibernate" />
     <Reference Include="log4net">
       <HintPath>..\..\ReferencedAssemblies\Log4Net\log4net.dll</HintPath>
     </Reference>
@@ -62,6 +55,7 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\ReferencedAssemblies\Microsoft\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate" />
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\ReferencedAssemblies\RhinoMocks\Rhino.Mocks.dll</HintPath>
     </Reference>
@@ -70,6 +64,9 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\ReferencedAssemblies\SQLLite\System.Data.SQLite.DLL</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyVersion.cs">
@@ -78,7 +75,15 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AssemblyContext.cs" />
     <Compile Include="NHibernate\HasUniqueDomainSignatureSpecs.cs" />
+    <Compile Include="NHibernate\Mappings\AutomappingConfiguration.cs" />
+    <Compile Include="NHibernate\Mappings\AutoPersistenceModelGenerator.cs" />
+    <Compile Include="NHibernate\Mappings\Conventions\CustomForeignKeyConvention.cs" />
+    <Compile Include="NHibernate\Mappings\Conventions\HasManyConvention.cs" />
+    <Compile Include="NHibernate\Mappings\Conventions\PrimaryKeyConvention.cs" />
+    <Compile Include="NHibernate\Mappings\Conventions\TableNameConvention.cs" />
+    <Compile Include="TestEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocatorHelper.cs" />
     <Compile Include="SharpArch.Domain\DomainModel\EntityWithTypedIdSpecs.cs" />
@@ -99,6 +104,14 @@
       <Project>{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}</Project>
       <Name>SharpArch.Testing.NUnit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Hibernate.cfg.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
