@@ -92,4 +92,23 @@ namespace SharpArch.Specifications
         [DomainSignature]
         public virtual EntityWithAllPropertiesPartOfDomainSignature Property2 { get; set; }
     }
+
+
+    [HasUniqueDomainSignature]
+    public class Song : Entity
+    {
+        [DomainSignature]
+        public virtual string SongTitle { get; set; }
+
+        [DomainSignature]
+        public virtual Band Performer { get; set; }
+    }
+
+    [HasUniqueDomainSignature]
+    public class Band : Entity
+    {
+        [DomainSignature]
+        public virtual string BandName { get; set; }
+        public virtual DateTime DateFormed { get; set; }
+    } 
 }

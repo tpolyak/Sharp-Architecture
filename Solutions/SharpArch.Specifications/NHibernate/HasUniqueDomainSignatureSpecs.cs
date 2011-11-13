@@ -131,5 +131,79 @@ namespace SharpArch.Specifications.NHibernate
 
             It should_throw_a_precondition_exception = () => result.ShouldBeOfType(typeof(PreconditionException));
         }
+
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
+        public class when_validating_a_unique_entity_that_has_another_entity_as_part_of_domain_signature : specification_for_has_unique_domain_signature_validator
+        {
+            static Song song;
+            static bool result;
+
+            private Establish context = () =>
+            {
+                var tigerlillies = new Band() { BandName = "The Tiger Lillies", DateFormed = DateTime.Now };
+                NHibernateSession.Current.Save(tigerlillies);
+                RepositoryTestsHelper.FlushSessionAndEvict(tigerlillies);
+                song = new Song() { Performer = tigerlillies, SongTitle = "Souvenirs" };
+            };
+
+            Because of = () => result = song.IsValid();
+
+            It should_say_the_entity_is_valid = () => result.ShouldBeTrue();
+        }
+
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
+        public class when_validating_a_unique_entity_that_has_a_null_value_domain_signature_property : specification_for_has_unique_domain_signature_validator
+        {
+            static Song song;
+            static bool result;
+
+            private Establish context = () =>
+            {
+                song = new Song() { SongTitle = "Souvenirs" };
+            };
+
+            Because of = () => result = song.IsValid();
+
+            It should_say_the_entity_is_valid = () => result.ShouldBeTrue();
+        }
+
+
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
+        public class when_validating_a_duplicate_entity_that_has_another_entity_as_part_of_domain_signature : specification_for_has_unique_domain_signature_validator
+        {
+            static Song duplicateSong;
+            static bool result;
+
+            private Establish context = () =>
+            {
+                var tragicRoundabout = new Band() { BandName = "Tragic Roundabout", DateFormed = DateTime.Now };
+                NHibernateSession.Current.Save(tragicRoundabout);
+                var song = new Song() { Performer = tragicRoundabout, SongTitle = "Prince Geek" };
+                NHibernateSession.Current.Save(song);
+                duplicateSong = new Song() { Performer = tragicRoundabout, SongTitle = "Prince Geek" };
+            };
+
+            Because of = () => result = duplicateSong.IsValid();
+
+            It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
+        }
+
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
+        public class when_validating_a_duplicate_entity_that_has_a_null_value_domain_signature_property : specification_for_has_unique_domain_signature_validator
+        {
+            static Song duplicateSong;
+            static bool result;
+
+            private Establish context = () =>
+            {
+                var song = new Song() { SongTitle = "Souvenirs" };
+                NHibernateSession.Current.Save(song);
+                duplicateSong = new Song() { SongTitle = "Souvenirs" };
+            };
+
+            Because of = () => result = duplicateSong.IsValid();
+
+            It should_say_the_entity_is_valid = () => result.ShouldBeFalse();
+        }
     }
 }
