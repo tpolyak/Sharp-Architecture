@@ -203,7 +203,26 @@ namespace SharpArch.Specifications.NHibernate
 
             Because of = () => result = duplicateSong.IsValid();
 
-            It should_say_the_entity_is_valid = () => result.ShouldBeFalse();
+            It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
+        }
+
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
+        public class when_validating_a_duplicate_entity_that_has_a_value_object_domain_signature_property : specification_for_has_unique_domain_signature_validator
+        {
+            static Customer duplicateCustomer;
+            static bool result;
+
+            private Establish context = () =>
+            {
+                var address = new Address() { PostCode = "N15MO", StreetAddress = "98 Baker Street" };
+                var customer = new Customer() { Name = "Sherlock Holmes", Address = address };
+                NHibernateSession.Current.Save(customer);
+                duplicateCustomer = new Customer() { Name = "Sherlock Holmes", Address = address};
+            };
+
+            Because of = () => result = duplicateCustomer.IsValid();
+
+            It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
     }
 }

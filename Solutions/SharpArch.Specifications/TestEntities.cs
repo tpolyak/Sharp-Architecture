@@ -111,4 +111,22 @@ namespace SharpArch.Specifications
         public virtual string BandName { get; set; }
         public virtual DateTime DateFormed { get; set; }
     } 
+
+    public class Address : ValueObject
+    {
+        public virtual string StreetAddress { get; set; }
+
+        public virtual string PostCode { get; set; }
+    }
+
+
+    [HasUniqueDomainSignature]
+    public class Customer : Entity
+    {
+        [DomainSignature]
+        public virtual string Name { get; set; }
+
+        [DomainSignature]
+        public virtual Address Address { get; set; }
+    }
 }
