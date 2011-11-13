@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,11 +62,26 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\ReferencedAssemblies\SQLLite\System.Data.SQLite.DLL</HintPath>
-    </Reference>
+    <Reference Include="System.Data" />    
   </ItemGroup>
+  <Choose>
+    <When Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'">
+      <ItemGroup>
+        <Reference Include="System.Data.SQLite">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\ReferencedAssemblies\SQLLite\x64\System.Data.SQLite.DLL</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="System.Data.SQLite">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\ReferencedAssemblies\SqlLite\System.Data.SQLite.DLL</HintPath>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
