@@ -21,3 +21,4 @@ error-*.xml
 StyleCop.Cache
 SpecificationReports
 NugetWorkspace
+Packages
