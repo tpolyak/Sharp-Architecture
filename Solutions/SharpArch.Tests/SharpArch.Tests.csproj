@@ -109,7 +109,7 @@
       <ItemGroup>
         <Reference Include="System.Data.SQLite">
           <SpecificVersion>False</SpecificVersion>
-          <HintPath>..\..\ReferencedAssemblies\SQLLite\x64\System.Data.SQLite.DLL</HintPath>
+          <HintPath>..\..\Packages\SQLitex64.1.0.66\lib\32\System.Data.SQLite.DLL</HintPath>
         </Reference>
       </ItemGroup>
     </When>
