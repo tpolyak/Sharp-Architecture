@@ -19,8 +19,8 @@
         {
             var entityToValidate = value as IEntityWithTypedId<int>;
             Check.Require(
-                entityToValidate != null, 
-                "This validator must be used at the class level of an IDomainWithTypedId<int>. The type you provided was " + value.GetType());
+                entityToValidate != null,
+                "This validator must be used at the class level of an IEntityWithTypedId<int>. The type you provided was " + value.GetType());
 
             var duplicateChecker = SafeServiceLocator<IEntityDuplicateChecker>.GetService();
             return ! duplicateChecker.DoesDuplicateExistWithTypedIdOf(entityToValidate);
