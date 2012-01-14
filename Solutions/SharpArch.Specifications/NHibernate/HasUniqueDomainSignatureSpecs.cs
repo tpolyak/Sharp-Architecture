@@ -13,6 +13,9 @@
 namespace SharpArch.Specifications.NHibernate
 {
     using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
 
     using global::SharpArch.Domain;
     using global::SharpArch.Domain.PersistenceSupport;
@@ -223,6 +226,26 @@ namespace SharpArch.Specifications.NHibernate
             Because of = () => result = duplicateCustomer.IsValid();
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
+        }
+
+        [Subject(typeof(HasUniqueDomainSignatureAttribute))]
+        public class When_validating_duplicate_entity_that_has_null_value_for_property_of_unique_entity_type : specification_for_has_unique_domain_signature_validator
+        {
+            static Album newAlbum;
+            static ICollection<ValidationResult> result;
+
+            private Establish context = () =>
+            {
+                var post = new Album() { Title = "Atom Heart Mother" };
+                NHibernateSession.Current.Save(post);
+                newAlbum = new Album() { Title = "Atom Heart Mother" };
+            };
+
+            Because of = () => result = newAlbum.ValidationResults();
+
+            It should_say_the_entity_is_invalid = () => result.Any(x => x.ErrorMessage.Contains("Album"));
+
+            It should_should_not_say_that_null_child_unique_entity_is_invalid = () => result.Any(x => x.ErrorMessage.Contains("Band"));
         }
     }
 }
