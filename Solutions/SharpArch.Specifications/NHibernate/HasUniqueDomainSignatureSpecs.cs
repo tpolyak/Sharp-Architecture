@@ -256,10 +256,10 @@ namespace SharpArch.Specifications.NHibernate
 
             private Establish context = () =>
             {
-                var tigerlillies = new Band() { BandName = "The Tiger Lillies", DateFormed = DateTime.Now };
+                var tigerlillies = new Band() { BandName = "King Prawn", DateFormed = DateTime.Now };
                 NHibernateSession.Current.Save(tigerlillies);
                 RepositoryTestsHelper.FlushSessionAndEvict(tigerlillies);
-                duplicate = new Band() { BandName = "The Tiger Lillies", DateFormed = DateTime.Now };
+                duplicate = new Band() { BandName = "King Prawn", DateFormed = DateTime.Now };
             };
 
             Because of = () => result = duplicate.ValidationResults();
