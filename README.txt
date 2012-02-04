@@ -1,12 +1,4 @@
 --------------------------------------------
--- 2.0 Release Candidate
---------------------------------------------
-
-This is a release candidate, use at your own risk. Please switch to the 1.9.6.0 for production releases:
-
-$ git checkout 1.9.6.0
-
---------------------------------------------
 -- Templify
 --------------------------------------------
 
@@ -44,17 +36,20 @@ Now go to /Build and run the Build.cmd or BuildAndPackage.cmd files to build S#a
 -- How's this release organized?
 --------------------------------------------
 
-* /Artefacts/:  Contains various artefacts for the project
+* /Artefacts/:  Contains various artefacts for the project.
 
-* /Build/:  Contains the .cmd files needed to build the solution 
+* /Build/:  Contains the .cmd files needed to build the solution.
+
+* /Common/: Contains files shared among the projects.
+
+* /NugetTemplates/: Contains templates used for generating S#arp Architecture nuget packages.
 
 * /ReferencedAssemblies/:  Contains all of the required 3rd party assemblies. 
 
-* /RequiredPackages/: Contains the required tools needed to build S#arp Architecture.
+* /Packages/: Contains the NuGet packages that S#arp Architecture depends on.
 
 * /License.txt:  I'll let you guess what this is.
 
 * /Solutions/: This contains all of the source code in their various projects.
 
 * /VersionHistory.txt:  Details version numbers of dependencies, changes since previous releases, upgrade details, and a roadmap of what's coming.
-
