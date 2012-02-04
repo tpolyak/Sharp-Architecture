@@ -106,6 +106,7 @@
     <Compile Include="FileCache.cs" />
     <Compile Include="PersistenceSupport\IDbContext.cs" />
     <Compile Include="PersistenceSupport\ILinqRepository.cs" />
+    <Compile Include="PersistenceSupport\ILinqRepositoryWithTypedId.cs" />
     <Compile Include="PersistenceSupport\IRepository.cs" />
     <Compile Include="PersistenceSupport\IEntityDuplicateChecker.cs" />
     <Compile Include="PersistenceSupport\IRepositoryWithTypedId.cs" />

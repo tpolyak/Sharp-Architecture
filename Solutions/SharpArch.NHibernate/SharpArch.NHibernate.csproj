@@ -84,6 +84,7 @@
     <Compile Include="ISessionFactoryKeyProvider.cs" />
     <Compile Include="ISessionStorage.cs" />
     <Compile Include="LinqRepository.cs" />
+    <Compile Include="LinqRepositoryWithTypedId.cs" />
     <Compile Include="NHibernateConfigurationFileCache.cs" />
     <Compile Include="NHibernateInitializer.cs" />
     <Compile Include="NHibernateRepository.cs" />
