@@ -1,6 +1,8 @@
 ﻿namespace SharpArch.NHibernate
 {
-    public class LinqRepository<T> : LinqRepositoryWithTypedId<T, int>
+    using SharpArch.Domain.PersistenceSupport;
+
+    public class LinqRepository<T> : LinqRepositoryWithTypedId<T, int>, ILinqRepository<T>
     {
     }
 }

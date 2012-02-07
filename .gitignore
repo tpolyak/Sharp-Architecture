@@ -23,3 +23,5 @@ SpecificationReports
 NugetWorkspace
 Packages
 Common/AssemblyVersion.cs
+*.DotSettings.user
+
