@@ -14,6 +14,8 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Solutions\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -56,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AsyncCtpLibrary">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\AsyncCtpLibrary.dll</HintPath>
+      <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\AsyncCtpLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Esent.Interop">
       <HintPath>..\..\ReferencedAssemblies\RavenDb\Esent.Interop.dll</HintPath>
@@ -72,16 +74,25 @@
       <HintPath>..\..\ReferencedAssemblies\RavenDb\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\Packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\..\Packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Abstractions.dll</HintPath>
+      <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Debug">
+      <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\Raven.Client.Debug.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Embedded">
       <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Client.Embedded.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Client.Lightweight.dll</HintPath>
+      <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.MvcIntegration">
+      <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Database">
       <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Database.dll</HintPath>
@@ -104,11 +115,14 @@
     <Reference Include="SpellChecker.Net">
       <HintPath>..\..\ReferencedAssemblies\RavenDb\SpellChecker.Net.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
