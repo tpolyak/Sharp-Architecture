@@ -6,7 +6,7 @@
     <authors>Sharp Architecture Dev Team</authors>
     <owners>Sharp Architecture Dev Team</owners>
     <licenseUrl>https://github.com/sharparchitecture/Sharp-Architecture/blob/master/License.txt</licenseUrl>
-	<iconUrl>https://github.com/sharparchitecture/Sharp-Architecture/blob/master/Artefacts/Documentation/Logo_100x100.png</iconUrl>
+	<iconUrl>https://github.com/sharparchitecture/Sharp-Architecture/raw/master/Artefacts/Documentation/Logo_100x100.png</iconUrl>
     <projectUrl>http://www.sharparchitecture.net/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds SharpArch.NHibernate persistance support to a WCF project.</description>
