@@ -7,6 +7,7 @@
 namespace SharpArch.Specifications
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.NHibernate.NHibernateValidator;
@@ -33,7 +34,7 @@ namespace SharpArch.Specifications
     }
 
     [HasUniqueDomainSignatureWithStringId]
-    class User : EntityWithTypedId<string>
+    public class User : EntityWithTypedId<string>
     {
         public User(string id, string SSN)
         {
@@ -104,13 +105,24 @@ namespace SharpArch.Specifications
         public virtual Band Performer { get; set; }
     }
 
-    [HasUniqueDomainSignature]
+    [HasUniqueDomainSignature(ErrorMessage = "Band already exists")]
     public class Band : Entity
     {
         [DomainSignature]
+        [Required]
         public virtual string BandName { get; set; }
         public virtual DateTime DateFormed { get; set; }
     } 
+
+    [HasUniqueDomainSignature(ErrorMessage = "Album already exists")]
+    public class Album : Entity
+    {
+        [DomainSignature]
+        [Required]
+        public virtual string Title { get; set; }
+
+        public virtual Band Author { get; set; }
+    }
 
     public class Address : ValueObject
     {

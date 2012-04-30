@@ -20,7 +20,8 @@ namespace SharpArch.Web.Mvc.ModelBinder
         {
             var modelType = bindingContext.ModelType;
 
-            var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
+            var valueProviderResult = bindingContext.ValueProvider.GetValue(bindingContext.ModelName) ??
+                        bindingContext.ValueProvider.GetValue(bindingContext.ModelName + ".Id");
 
             if (valueProviderResult != null)
             {
