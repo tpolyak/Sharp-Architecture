@@ -80,11 +80,6 @@ namespace SharpArch.RavenDb
             this.context.SaveChanges();
         }
 
-        public void Delete(TIdT id)
-        {
-            this.Delete(Get(id));
-        }
-
         public T Get(TIdT id)
         {
             return this.context.Load<T>(id.ToString());
