@@ -126,7 +126,6 @@ namespace SharpArch.RavenDb
         public T SaveOrUpdate(T entity)
         {
             this.session.Store(entity);
-            this.session.SaveChanges();
             return entity;
         }
     }
