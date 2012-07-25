@@ -9,9 +9,12 @@ namespace SharpArch.RavenDb
 
     using SharpArch.Domain.DomainModel;
     using SharpArch.Domain.PersistenceSupport;
+    using SharpArch.Domain.Specifications;
     using SharpArch.RavenDb.Contracts.Repositories;
 
-    public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT> where T : EntityWithTypedId<TIdT>
+    public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT>,
+        ILinqRepositoryWithTypedId<T, TIdT> 
+        where T : EntityWithTypedId<TIdT>
     {
         private readonly IDocumentSession session;
 
@@ -41,7 +44,7 @@ namespace SharpArch.RavenDb
 
         public IEnumerable<T> FindAll(Func<T, bool> where)
         {
-            return this.session.Query<T>().Where(where);
+            return this.FindAll().Where(where);
         }
 
         public T FindOne(Func<T, bool> where)
@@ -74,6 +77,37 @@ namespace SharpArch.RavenDb
             this.session.Advanced.Defer(new DeleteCommandData { Key = id.ToString() });
         }
 
+        public void Save(T entity)
+        {
+            this.SaveOrUpdate(entity);
+        }
+
+        public void SaveAndEvict(T entity)
+        {
+            this.SaveOrUpdate(entity);
+            this.session.Advanced.Evict(entity);
+        }
+
+        public T FindOne(TIdT id)
+        {
+            return this.Get(id);
+        }
+
+        public T FindOne(ILinqSpecification<T> specification)
+        {
+            return specification.SatisfyingElementsFrom(this.FindAll()).SingleOrDefault();
+        }
+
+        public IQueryable<T> FindAll()
+        {
+            return this.Session.Query<T>();
+        }
+
+        public IQueryable<T> FindAll(ILinqSpecification<T> specification)
+        {
+            return specification.SatisfyingElementsFrom(this.FindAll());
+        }
+
         public T Get(TIdT id)
         {
             return this.session.Load<T>(id.ToString());
@@ -81,7 +115,7 @@ namespace SharpArch.RavenDb
 
         public IList<T> GetAll()
         {
-            return this.session.Query<T>().ToList();
+            return this.FindAll().ToList();
         }
 
         public IList<T> GetAll(IEnumerable<TIdT> ids)
