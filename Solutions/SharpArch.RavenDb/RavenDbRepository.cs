@@ -10,16 +10,8 @@ namespace SharpArch.RavenDb
 
     public class RavenDbRepository<T> : RavenDbRepositoryWithTypedId<T, string>, IRavenDbRepository<T> where T : EntityWithTypedId<string>
     {
-        public RavenDbRepository(IDocumentSession context) : base(context)
+        public RavenDbRepository(IDocumentSession session) : base(session)
         {
-        }
-
-        public virtual IDbContext DbContext
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

@@ -15,15 +15,15 @@ namespace SharpArch.RavenDb
     {
         #region Constants and Fields
 
-        private readonly IDocumentSession context;
+        private readonly IDocumentSession session;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public RavenDbRepositoryWithTypedId(IDocumentSession context)
+        public RavenDbRepositoryWithTypedId(IDocumentSession session)
         {
-            this.context = context;
+            this.session = session;
         }
 
         #endregion
@@ -34,7 +34,7 @@ namespace SharpArch.RavenDb
 
         public IEnumerable<T> FindAll(Func<T, bool> where, bool waitForNonStaleResults = false)
         {
-            return this.context.Query<T>().Customize(q => CustomizeQuery(q, waitForNonStaleResults)).Where(where);
+            return this.session.Query<T>().Customize(q => CustomizeQuery(q, waitForNonStaleResults)).Where(where);
         }
 
         public T FindOne(Func<T, bool> where, bool waitForNonStaleResults = false)
@@ -63,7 +63,7 @@ namespace SharpArch.RavenDb
         {
             get
             {
-                return this.context;
+                return this.session;
             }
         }
 
@@ -77,35 +77,34 @@ namespace SharpArch.RavenDb
 
         public void Delete(T entity)
         {
-            this.context.Delete(entity);
-            this.context.SaveChanges();
+            this.session.Delete(entity);
+            this.session.SaveChanges();
         }
 
         public void Delete(TIdT id)
         {
-            this.context.Advanced.Defer(new DeleteCommandData { Key = id.ToString() });
+            this.session.Advanced.Defer(new DeleteCommandData { Key = id.ToString() });
         }
 
         public T Get(TIdT id)
         {
-            return this.context.Load<T>(id.ToString());
+            return this.session.Load<T>(id.ToString());
         }
 
         public IList<T> GetAll()
         {
-            return this.context.Query<T>().ToList();
+            return this.session.Query<T>().ToList();
         }
 
         public IList<T> GetAll(IEnumerable<TIdT> ids)
         {
-            return this.context.Load<T>(ids.Select(p => p.ToString()));
+            return this.session.Load<T>(ids.Select(p => p.ToString()));
         }
 
         public T SaveOrUpdate(T entity)
         {
-            this.context.Store(entity);
-            this.context.SaveChanges();
-
+            this.session.Store(entity);
+            this.session.SaveChanges();
             return entity;
         }
 
