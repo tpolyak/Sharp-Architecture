@@ -35,14 +35,15 @@ namespace SharpArch.RavenDb
 
         #region IRavenDbRepositoryWithTypedId<T,TIdT>
 
-        public IEnumerable<T> FindAll(Func<T, bool> where, bool waitForNonStaleResults = false)
+        public IEnumerable<T> FindAll(Func<T, bool> where)
         {
-            return this.session.Query<T>().Customize(q => CustomizeQuery(q, waitForNonStaleResults)).Where(where);
+            return this.session.Query<T>().Where(where);
         }
 
-        public T FindOne(Func<T, bool> where, bool waitForNonStaleResults = false)
+        public T FindOne(Func<T, bool> where)
         {
-            IEnumerable<T> foundList = this.FindAll(where, waitForNonStaleResults);
+            IEnumerable<T> foundList = this.FindAll(where);
+
             try
             {
                 return foundList.SingleOrDefault();
@@ -53,9 +54,9 @@ namespace SharpArch.RavenDb
             }
         }
 
-        public T First(Func<T, bool> where, bool waitForNonStaleResults = false)
+        public T First(Func<T, bool> where)
         {
-            return this.FindAll(where, waitForNonStaleResults).First(where);
+            return this.FindAll(where).First(where);
         }
 
         #endregion
@@ -115,12 +116,5 @@ namespace SharpArch.RavenDb
 
         #endregion
 
-        private static void CustomizeQuery(IDocumentQueryCustomization p, bool waitForNonStaleResults)
-        {
-            if (waitForNonStaleResults)
-            {
-                p.WaitForNonStaleResults();
-            }
-        }
     }
 }
