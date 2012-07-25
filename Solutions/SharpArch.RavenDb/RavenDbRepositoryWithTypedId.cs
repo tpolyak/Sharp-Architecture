@@ -13,27 +13,31 @@ namespace SharpArch.RavenDb
 
     public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT> where T : EntityWithTypedId<TIdT>
     {
-        #region Constants and Fields
-
         private readonly IDocumentSession session;
 
-        private IDbContext dbContext;
-
-        #endregion
-
-        #region Constructors and Destructors
+        private readonly IDbContext context;
 
         public RavenDbRepositoryWithTypedId(IDocumentSession session)
         {
             this.session = session;
-            this.dbContext = new DbContext(session);
+            this.context = new DbContext(session);
         }
 
-        #endregion
+        public IDocumentSession Session
+        {
+            get
+            {
+                return this.session;
+            }
+        }
 
-        #region Implemented Interfaces
-
-        #region IRavenDbRepositoryWithTypedId<T,TIdT>
+        public virtual IDbContext DbContext
+        {
+            get
+            {
+                return this.context;
+            }
+        }
 
         public IEnumerable<T> FindAll(Func<T, bool> where)
         {
@@ -57,26 +61,6 @@ namespace SharpArch.RavenDb
         public T First(Func<T, bool> where)
         {
             return this.FindAll(where).First(where);
-        }
-
-        #endregion
-
-        #region IRepositoryWithTypedId<T,TIdT>
-
-        protected IDocumentSession Session
-        {
-            get
-            {
-                return this.session;
-            }
-        }
-
-        public virtual IDbContext DbContext 
-        {
-            get
-            {
-                return this.dbContext;
-            }
         }
 
         public void Delete(T entity)
@@ -111,10 +95,5 @@ namespace SharpArch.RavenDb
             this.session.SaveChanges();
             return entity;
         }
-
-        #endregion
-
-        #endregion
-
     }
 }

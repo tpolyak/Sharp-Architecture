@@ -9,7 +9,7 @@ namespace SharpArch.RavenDb.Contracts.Repositories
 
     public interface IRavenDbRepositoryWithTypedId<T, TIdT> : IRepositoryWithTypedId<T, TIdT>
     {
-        #region Public Methods
+        IDocumentSession Session { get; }
 
         IEnumerable<T> FindAll(Func<T, bool> where);
 
@@ -18,7 +18,5 @@ namespace SharpArch.RavenDb.Contracts.Repositories
         T First(Func<T, bool> where);
 
         IList<T> GetAll(IEnumerable<TIdT> ids);
-
-        #endregion
     }
 }
