@@ -17,6 +17,8 @@ namespace SharpArch.RavenDb
 
         private readonly IDocumentSession session;
 
+        private IDbContext dbContext;
+
         #endregion
 
         #region Constructors and Destructors
@@ -24,6 +26,7 @@ namespace SharpArch.RavenDb
         public RavenDbRepositoryWithTypedId(IDocumentSession session)
         {
             this.session = session;
+            this.dbContext = new DbContext(session);
         }
 
         #endregion
@@ -71,7 +74,7 @@ namespace SharpArch.RavenDb
         {
             get
             {
-                throw new NotImplementedException();
+                return this.dbContext;
             }
         }
 
