@@ -6,23 +6,13 @@ namespace SharpArch.RavenDb
     using SharpArch.Domain.PersistenceSupport;
     using SharpArch.RavenDb.Contracts.Repositories;
 
-    public class RavenDbRepository<T> : RavenDbRepositoryWithTypedId<T, string>,
+    public class RavenDbRepository<T> : RavenDbRepositoryWithTypedId<T, int>,
         IRavenDbRepository<T>,
         ILinqRepository<T>
-        where T : EntityWithTypedId<string>
+        where T : EntityWithTypedId<int>
     {
         public RavenDbRepository(IDocumentSession session) : base(session)
         {
-        }
-
-        public void Delete(int id)
-        {
-            base.Delete(id.ToString());
-        }
-
-        public T FindOne(int id)
-        {
-            return base.FindOne(id.ToString());
         }
     }
 }
