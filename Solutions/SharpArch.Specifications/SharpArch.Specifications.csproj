@@ -71,20 +71,12 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\Packages\SQLitex64.1.0.66\lib\32\System.Data.SQLite.DLL</HintPath>
+      <HintPath>..\..\Packages\System.Data.SQLite.1.0.82.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\..\Packages\System.Data.SQLite.1.0.82.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <Choose>
-    <When Condition="$(PROCESSOR_ARCHITEW6432) == 'AMD64'">
-      <ItemGroup>
-        <Reference Include="System.Data.SQLite">
-          <SpecificVersion>False</SpecificVersion>
-          <HintPath>..\..\Packages\SQLitex64.1.0.66\lib\64\System.Data.SQLite.DLL</HintPath>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <Otherwise />
-  </Choose>
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
@@ -129,6 +121,12 @@
   <ItemGroup>
     <Content Include="Hibernate.cfg.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

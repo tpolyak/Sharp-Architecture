@@ -56,7 +56,7 @@ namespace SharpArch.RavenDb
             }
             catch (InvalidOperationException ex)
             {
-                throw new InvalidOperationException("The query returned more than one result. Please refine your query.");
+                throw new InvalidOperationException("The query returned more than one result. Please refine your query.", ex);
             }
         }
 

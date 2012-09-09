@@ -38,7 +38,6 @@
                          $(SolutionsPath)\SharpArch.RavenDb\bin\Release\SharpArch.RavenDb.dll;
                          $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
                          $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
-                         $(SolutionsPath)\SharpArch.Testing\bin\Release\SharpArch.Testing.dll;
                          $(SolutionsPath)\SharpArch.Testing.NUnit\bin\Release\SharpArch.Testing.NUnit.dll;">
       <PackageName>$(DropsPath)\$(SemanticVersion)\$(PackageName).dlls.v$(SemanticVersion).zip</PackageName>
       <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>

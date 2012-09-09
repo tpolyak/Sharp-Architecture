@@ -34,7 +34,7 @@ namespace SharpArch.NHibernate
             return specification.SatisfyingElementsFrom(this.Session.Query<T>()).SingleOrDefault();
         }
 
-        public void Save(T entity)
+        public new void Save(T entity)
         {
             try
             {

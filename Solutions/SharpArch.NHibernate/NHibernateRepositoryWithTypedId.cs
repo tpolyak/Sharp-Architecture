@@ -50,14 +50,6 @@ namespace SharpArch.NHibernate
             }
         }
 
-        IDbContext INHibernateRepositoryWithTypedId<T, TId>.DbContext
-        {
-            get
-            {
-                return this.DbContext;
-            }
-        }
-
         #endregion
 
         #region Implemented Interfaces
