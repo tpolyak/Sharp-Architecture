@@ -88,7 +88,6 @@
         /// </summary>
         public static ISessionStorage Storage { get; set; }
 
-        [CLSCompliant(false)]
         public static Configuration AddConfiguration(
             string factoryKey, 
             string[] mappingAssemblies, 
@@ -125,7 +124,6 @@
             return config;
         }
 
-        [CLSCompliant(false)]
         public static Configuration AddConfiguration(
             string factoryKey, 
             string[] mappingAssemblies, 
@@ -140,7 +138,6 @@
             return AddConfiguration(factoryKey, sessionFactory, cfg, validatorCfgFile);
         }
 
-        [CLSCompliant(false)]
         public static Configuration AddConfiguration(
             string factoryKey, ISessionFactory sessionFactory, Configuration cfg, string validatorCfgFile)
         {
@@ -248,14 +245,12 @@
             return Init(storage, mappingAssemblies, null, cfgFile, null, validatorCfgFile, null);
         }
 
-        [CLSCompliant(false)]
         public static Configuration Init(
             ISessionStorage storage, string[] mappingAssemblies, AutoPersistenceModel autoPersistenceModel)
         {
             return Init(storage, mappingAssemblies, autoPersistenceModel, null, null, null, null);
         }
 
-        [CLSCompliant(false)]
         public static Configuration Init(
             ISessionStorage storage, 
             string[] mappingAssemblies, 
@@ -265,7 +260,6 @@
             return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, null, null);
         }
 
-        [CLSCompliant(false)]
         public static Configuration Init(
             ISessionStorage storage, 
             string[] mappingAssemblies, 
@@ -275,7 +269,6 @@
             return Init(storage, mappingAssemblies, autoPersistenceModel, null, cfgProperties, null, null);
         }
 
-        [CLSCompliant(false)]
         public static Configuration Init(
             ISessionStorage storage, 
             string[] mappingAssemblies, 
@@ -286,7 +279,6 @@
             return Init(storage, mappingAssemblies, autoPersistenceModel, cfgFile, null, validatorCfgFile, null);
         }
 
-        [CLSCompliant(false)]
         public static Configuration Init(
             ISessionStorage storage, 
             string[] mappingAssemblies, 
@@ -299,7 +291,6 @@
                 storage, mappingAssemblies, autoPersistenceModel, cfgFile, cfgProperties, validatorCfgFile, null);
         }
 
-        [CLSCompliant(false)]
         public static Configuration Init(
             ISessionStorage storage, 
             string[] mappingAssemblies, 

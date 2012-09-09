@@ -3,9 +3,9 @@
 
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
-	<VersionMinor>0</VersionMinor>
-	<VersionPatch>4</VersionPatch>
-	<VersionPreRelease></VersionPreRelease>
+	<VersionMinor>1</VersionMinor>
+	<VersionPatch>0</VersionPatch>
+	<VersionPreRelease>RC</VersionPreRelease>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,9 +35,9 @@
     <PackageFiles Include="$(SolutionsPath)\SharpArch.Domain\bin\Release\SharpArch.Domain.dll;
                          $(SolutionsPath)\SharpArch.WcfClient.Castle\bin\Release\SharpArch.WcfClient.Castle.dll;
                          $(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.dll;
+                         $(SolutionsPath)\SharpArch.RavenDb\bin\Release\SharpArch.RavenDb.dll;
                          $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
                          $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
-                         $(SolutionsPath)\SharpArch.Testing\bin\Release\SharpArch.Testing.dll;
                          $(SolutionsPath)\SharpArch.Testing.NUnit\bin\Release\SharpArch.Testing.NUnit.dll;">
       <PackageName>$(DropsPath)\$(SemanticVersion)\$(PackageName).dlls.v$(SemanticVersion).zip</PackageName>
       <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
@@ -57,6 +57,12 @@
 						   $(SolutionsPath)\SharpArch.NHibernate\bin\Release\SharpArch.NHibernate.pdb;">
       <PackageName>SharpArch.NHibernate</PackageName>
 	  <NuspecFile>SharpArch.NHibernate.nuspec</NuspecFile>
+    </NugetPackage>
+	
+	<NugetPackage Include="$(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.dll;
+						   $(SolutionsPath)\SharpArch.RavenDB\bin\Release\SharpArch.RavenDB.pdb;">
+      <PackageName>SharpArch.RavenDB</PackageName>
+	  <NuspecFile>SharpArch.RavenDB.nuspec</NuspecFile>
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
@@ -83,8 +89,18 @@
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionRoot)\License.txt;">
+      <PackageName>SharpArch.Web.RavenDB</PackageName>
+	  <NuspecFile>SharpArch.Web.RavenDB.nuspec</NuspecFile>
+    </NugetPackage>
+	
+	<NugetPackage Include="$(SolutionRoot)\License.txt;">
       <PackageName>SharpArch.Wcf.NHibernate</PackageName>
 	  <NuspecFile>SharpArch.Wcf.NHibernate.nuspec</NuspecFile>
+    </NugetPackage>
+	
+	<NugetPackage Include="$(SolutionRoot)\License.txt;">
+      <PackageName>SharpArch.Wcf.RavenDB</PackageName>
+	  <NuspecFile>SharpArch.Wcf.RavenDB.nuspec</NuspecFile>
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.WcfClient.Castle\bin\Release\SharpArch.WcfClient.Castle.dll;
