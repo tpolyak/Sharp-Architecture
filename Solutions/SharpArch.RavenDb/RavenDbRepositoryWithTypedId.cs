@@ -13,7 +13,7 @@ namespace SharpArch.RavenDb
     using SharpArch.RavenDb.Contracts.Repositories;
 
     public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT>,
-        ILinqRepositoryWithTypedId<T, TIdT> 
+        ILinqRepositoryWithTypedId<T, TIdT>
     {
         private readonly IDocumentSession session;
 
@@ -68,12 +68,18 @@ namespace SharpArch.RavenDb
         public void Delete(T entity)
         {
             this.session.Delete(entity);
-            this.session.SaveChanges();
         }
 
         public void Delete(TIdT id)
         {
-            this.session.Advanced.Defer(new DeleteCommandData { Key = id.ToString() });
+            if (id is ValueType)
+            {
+                this.Delete(this.Get(id));
+            }
+            else
+            {
+                this.session.Advanced.Defer(new DeleteCommandData { Key = id.ToString() });
+            }
         }
 
         public void Save(T entity)
@@ -109,6 +115,11 @@ namespace SharpArch.RavenDb
 
         public T Get(TIdT id)
         {
+            if (id is ValueType)
+            {
+                return this.session.Load<T>(id as ValueType);
+            }
+
             return this.session.Load<T>(id.ToString());
         }
 
