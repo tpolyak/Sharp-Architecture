@@ -13,7 +13,7 @@
     <language>en-US</language>
     <dependencies>
       <dependency id="RavenDB.Client" version="[1.0,2.0)" />
-	  <dependency id="SharpArch.Domain" version="2.0" />
+	  <dependency id="SharpArch.Domain" version="[2.0,3.0)" />
     </dependencies>
   </metadata>
 </package>
