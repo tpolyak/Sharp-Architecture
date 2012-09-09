@@ -14,7 +14,6 @@ namespace SharpArch.RavenDb
 
     public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT>,
         ILinqRepositoryWithTypedId<T, TIdT> 
-        where T : EntityWithTypedId<TIdT>
     {
         private readonly IDocumentSession session;
 

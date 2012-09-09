@@ -9,7 +9,6 @@ namespace SharpArch.RavenDb
     public class RavenDbRepository<T> : RavenDbRepositoryWithTypedId<T, int>,
         IRavenDbRepository<T>,
         ILinqRepository<T>
-        where T : EntityWithTypedId<int>
     {
         public RavenDbRepository(IDocumentSession session) : base(session)
         {
