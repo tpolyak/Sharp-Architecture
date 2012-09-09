@@ -1,6 +1,8 @@
 namespace SharpArch.RavenDb.Contracts.Repositories
 {
-    public interface IRavenDbRepository<T> : IRavenDbRepositoryWithTypedId<T, string>
+    using SharpArch.Domain.PersistenceSupport;
+
+    public interface IRavenDbRepository<T> : IRavenDbRepositoryWithTypedId<T, int>, IRepository<T>
     {
     }
 }

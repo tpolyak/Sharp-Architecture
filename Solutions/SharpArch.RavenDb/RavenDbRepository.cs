@@ -1,25 +1,17 @@
 namespace SharpArch.RavenDb
 {
-    using System;
-
     using Raven.Client;
 
     using SharpArch.Domain.DomainModel;
     using SharpArch.Domain.PersistenceSupport;
     using SharpArch.RavenDb.Contracts.Repositories;
 
-    public class RavenDbRepository<T> : RavenDbRepositoryWithTypedId<T, string>, IRavenDbRepository<T> where T : EntityWithTypedId<string>
+    public class RavenDbRepository<T> : RavenDbRepositoryWithTypedId<T, int>,
+        IRavenDbRepository<T>,
+        ILinqRepository<T>
     {
-        public RavenDbRepository(IDocumentSession context) : base(context)
+        public RavenDbRepository(IDocumentSession session) : base(session)
         {
-        }
-
-        public virtual IDbContext DbContext
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

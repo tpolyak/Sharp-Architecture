@@ -9,37 +9,47 @@ namespace SharpArch.RavenDb
 
     using SharpArch.Domain.DomainModel;
     using SharpArch.Domain.PersistenceSupport;
+    using SharpArch.Domain.Specifications;
     using SharpArch.RavenDb.Contracts.Repositories;
 
-    public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT> where T : EntityWithTypedId<TIdT>
+    public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT>,
+        ILinqRepositoryWithTypedId<T, TIdT>
     {
-        #region Constants and Fields
+        private readonly IDocumentSession session;
 
-        private readonly IDocumentSession context;
+        private readonly IDbContext context;
 
-        #endregion
-
-        #region Constructors and Destructors
-
-        public RavenDbRepositoryWithTypedId(IDocumentSession context)
+        public RavenDbRepositoryWithTypedId(IDocumentSession session)
         {
-            this.context = context;
+            this.session = session;
+            this.context = new DbContext(session);
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IRavenDbRepositoryWithTypedId<T,TIdT>
-
-        public IEnumerable<T> FindAll(Func<T, bool> where, bool waitForNonStaleResults = false)
+        public IDocumentSession Session
         {
-            return this.context.Query<T>().Customize(q => CustomizeQuery(q, waitForNonStaleResults)).Where(where);
+            get
+            {
+                return this.session;
+            }
         }
 
-        public T FindOne(Func<T, bool> where, bool waitForNonStaleResults = false)
+        public virtual IDbContext DbContext
         {
-            IEnumerable<T> foundList = this.FindAll(where, waitForNonStaleResults);
+            get
+            {
+                return this.context;
+            }
+        }
+
+        public IEnumerable<T> FindAll(Func<T, bool> where)
+        {
+            return this.FindAll().Where(where);
+        }
+
+        public T FindOne(Func<T, bool> where)
+        {
+            IEnumerable<T> foundList = this.FindAll(where);
+
             try
             {
                 return foundList.SingleOrDefault();
@@ -50,75 +60,83 @@ namespace SharpArch.RavenDb
             }
         }
 
-        public T First(Func<T, bool> where, bool waitForNonStaleResults = false)
+        public T First(Func<T, bool> where)
         {
-            return this.FindAll(where, waitForNonStaleResults).First(where);
-        }
-
-        #endregion
-
-        #region IRepositoryWithTypedId<T,TIdT>
-
-        protected IDocumentSession Session
-        {
-            get
-            {
-                return this.context;
-            }
-        }
-
-        public virtual IDbContext DbContext 
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            return this.FindAll(where).First(where);
         }
 
         public void Delete(T entity)
         {
-            this.context.Delete(entity);
-            this.context.SaveChanges();
+            this.session.Delete(entity);
         }
 
         public void Delete(TIdT id)
         {
-            this.context.Advanced.Defer(new DeleteCommandData { Key = id.ToString() });
+            if (id is ValueType)
+            {
+                this.Delete(this.Get(id));
+            }
+            else
+            {
+                this.session.Advanced.Defer(new DeleteCommandData { Key = id.ToString() });
+            }
+        }
+
+        public void Save(T entity)
+        {
+            this.SaveOrUpdate(entity);
+        }
+
+        public void SaveAndEvict(T entity)
+        {
+            this.SaveOrUpdate(entity);
+            this.session.Advanced.Evict(entity);
+        }
+
+        public T FindOne(TIdT id)
+        {
+            return this.Get(id);
+        }
+
+        public T FindOne(ILinqSpecification<T> specification)
+        {
+            return specification.SatisfyingElementsFrom(this.FindAll()).SingleOrDefault();
+        }
+
+        public IQueryable<T> FindAll()
+        {
+            return this.Session.Query<T>();
+        }
+
+        public IQueryable<T> FindAll(ILinqSpecification<T> specification)
+        {
+            return specification.SatisfyingElementsFrom(this.FindAll());
         }
 
         public T Get(TIdT id)
         {
-            return this.context.Load<T>(id.ToString());
+            if (id is ValueType)
+            {
+                return this.session.Load<T>(id as ValueType);
+            }
+
+            return this.session.Load<T>(id.ToString());
         }
 
         public IList<T> GetAll()
         {
-            return this.context.Query<T>().ToList();
+            return this.FindAll().ToList();
         }
 
         public IList<T> GetAll(IEnumerable<TIdT> ids)
         {
-            return this.context.Load<T>(ids.Select(p => p.ToString()));
+            return this.session.Load<T>(ids.Select(p => p.ToString()));
         }
 
         public T SaveOrUpdate(T entity)
         {
-            this.context.Store(entity);
-            this.context.SaveChanges();
-
+            this.session.Store(entity);
             return entity;
-        }
-
-        #endregion
-
-        #endregion
-
-        private static void CustomizeQuery(IDocumentQueryCustomization p, bool waitForNonStaleResults)
-        {
-            if (waitForNonStaleResults)
-            {
-                p.WaitForNonStaleResults();
-            }
         }
     }
 }
