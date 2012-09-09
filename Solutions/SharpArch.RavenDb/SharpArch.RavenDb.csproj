@@ -62,19 +62,6 @@
     <Reference Include="AsyncCtpLibrary">
       <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\AsyncCtpLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Esent.Interop">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Esent.Interop.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\ICSharpCode.NRefactory.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.9.0, Culture=neutral, PublicKeyToken=b32731d11ce58905">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Lucene.Net">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Lucene.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\Packages\Newtonsoft.Json.4.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -87,35 +74,11 @@
     <Reference Include="Raven.Client.Debug">
       <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\Raven.Client.Debug.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Embedded">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Client.Embedded.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Client.Lightweight">
       <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.MvcIntegration">
       <HintPath>..\..\Packages\RavenDB-Client.1.0.616\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Database">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Database.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Http">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Munin">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Munin.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Storage.Esent">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Storage.Esent.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Storage.Managed">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Raven.Storage.Managed.dll</HintPath>
-    </Reference>
-    <Reference Include="Spatial.Net">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\Spatial.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="SpellChecker.Net">
-      <HintPath>..\..\ReferencedAssemblies\RavenDb\SpellChecker.Net.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Transactions" />
