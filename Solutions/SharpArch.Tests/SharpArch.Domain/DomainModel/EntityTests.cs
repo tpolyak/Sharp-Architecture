@@ -517,6 +517,14 @@ namespace Tests.SharpArch.Domain.DomainModel
             Assert.That(object1, Is.Not.EqualTo(object2));
         }
 
+        [Test]
+        public void CanSerializeEntityToJson()
+        {
+            var object1 = new Contact() { EmailAddress = "serialize@this.net" };
+            string result = JsonConvert.SerializeObject(object1);
+            result.ShouldContain("serialize@this.net");
+        }
+
         public class MockEntityObjectBase<T> : EntityWithTypedId<T>
         {
             public string Email { get; set; }
@@ -659,5 +667,11 @@ namespace Tests.SharpArch.Domain.DomainModel
                 return base.GetHashCode();
             }
         }
+
+        private class Contact : Entity
+        {
+            public virtual string EmailAddress { get; set; }
+        }
+
     }
 }
