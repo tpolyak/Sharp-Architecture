@@ -3,7 +3,7 @@ Updating dependencies via nuget
 
 In Visual Studio, open the Package Manager Console, and run:
 
-.. code:: powershell
+::
 
     Update-Package -Safe
 
@@ -16,7 +16,7 @@ files (including the test projects). Luckily this can be done easily
 with nuget, in the Package Manager Console select each project you want
 to add assembly binding redirects to and run:
 
-.. code:: powershell
+::
 
     foreach ($proj in get-project -all) {Add-BindingRedirect}
 
