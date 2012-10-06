@@ -24,4 +24,4 @@ NugetWorkspace
 Packages
 Common/AssemblyVersion.cs
 *.DotSettings.user
-
+Artefacts/Documentation/build/
