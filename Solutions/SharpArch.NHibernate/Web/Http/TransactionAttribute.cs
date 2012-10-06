@@ -1,4 +1,4 @@
-﻿namespace SharpArch.NHibernate.Web.WebApi
+﻿namespace SharpArch.NHibernate.Web.Http
 {
     using System.Data;
     using System.Web.Http.Controllers;

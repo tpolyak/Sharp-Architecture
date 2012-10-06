@@ -128,7 +128,7 @@
     <Compile Include="Wcf\WebServiceHostFactory.cs" />
     <Compile Include="Web\Mvc\TransactionAttribute.cs" />
     <Compile Include="Web\Mvc\WebSessionStorage.cs" />
-    <Compile Include="Web\WebApi\TransactionAttribute.cs" />
+    <Compile Include="Web\Http\TransactionAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
