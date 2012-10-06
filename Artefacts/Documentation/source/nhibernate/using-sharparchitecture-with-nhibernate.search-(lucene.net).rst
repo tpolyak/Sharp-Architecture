@@ -1,8 +1,7 @@
 S#arp Architecture with NHibernate.Search
 =========================================
 
-    ``Note``
-
+.. note::
     *Do* **not** *use this with NHibernate Configuration Cache:*
 
     NHibernateSession.ConfigurationCache = new NHibernateConfigurationFileCache();
@@ -31,7 +30,7 @@ Open up your root Web.Config, add the following right above :
 
 Right below add the following:
 
-.. code:: xml
+::
 
     <nhs-configuration xmlns='urn:nhs-configuration-1.0'>
         <search-factory>
@@ -41,7 +40,7 @@ Right below add the following:
 
 Navigate to your NHibernate.Config, before add:
 
-.. code:: xml
+::
 
         <listener class='NHibernate.Search.Event.FullTextIndexEventListener, NHibernate.Search' type='post-insert'/>
         <listener class='NHibernate.Search.Event.FullTextIndexEventListener, NHibernate.Search' type='post-update'/>
@@ -54,7 +53,7 @@ In "Northwind.Infrastructure" add a repository called
 "ContractRepository.cs" (the example assumes you have an object you want
 to search over called contract):
 
-.. code:: c#
+::
 
     public interface IContractRepository
     {
@@ -66,7 +65,7 @@ Let's add a method to this repository that will create the initial
 index, if an index already exists, it will be deleted. We'll iterate
 through all the Suppliers to accomplish this:
 
-.. code:: c#
+::
 
         public void BuildSearchIndex()
         {
@@ -120,7 +119,7 @@ through all the Suppliers to accomplish this:
 
 Finally, we'll add a method to query the index:
 
-.. code:: c#
+::
 
         private static string GetIndexDirectory()
         {
@@ -132,7 +131,7 @@ Finally, we'll add a method to query the index:
 
 Add Search Controller
 ---------------------
-.. code:: c#
+::
 
 	namespace Northwind.Web.Controllers 
 	{

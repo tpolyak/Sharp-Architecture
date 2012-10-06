@@ -25,7 +25,7 @@ Due to NHibernate, all properties must be marked virtual. We'll only
 have one property for this class, a string titled Name. When you're
 done, your class should look like this:
 
-.. code:: c#
+::
 
     namespace IceCreamYouScreamCorp.Domain
     {
@@ -50,7 +50,7 @@ Express with a database named IceCreamDb. You'll need to figure out your
 own connection string, but once you do, find the
 "connection.connection\_string" tags:
 
-.. code:: xml
+::
 
     <property name="connection.connection_string">Server=localhost\SQLEXPRESS;Initial Catalog=IceCreamDb;Integrated Security=SSPI;</property>
 
@@ -96,7 +96,7 @@ need to talk to your database. As such, let's create a local field,
 ``private readonly INHibernateRepository<Product> productRepository;``
 and inject it into our controller:
 
-.. code:: c#
+::
 
     public ProductsController(INHibernateRepository<Product> productRepository)
     {
@@ -115,7 +115,7 @@ Now we're all setup let's we'll need to do the following things:
 
 Returning all products on the ``Index`` ActionResult:
 
-.. code:: c#
+::
 
     public ActionResult Index()
     {
@@ -125,7 +125,7 @@ Returning all products on the ``Index`` ActionResult:
 
 Return a single product and display it on an editable form:
 
-.. code:: c#
+::
 
         [Transaction]
         [HttpGet]
@@ -137,7 +137,7 @@ Return a single product and display it on an editable form:
 
 Post the result, return the object if it is invalid:
 
-.. code:: c#
+::
 
         [Transaction]
         [ValidateAntiForgeryToken]
@@ -181,7 +181,7 @@ complete, you can run the application to see it in action.
 
 Index.cshtml:
 
-.. code:: html
+::
 
     @using IceCreamYouScreamCorp.Web.Mvc   
     @model IEnumerable<IceCreamYouScreamCorp.Domain.Product>
@@ -225,7 +225,7 @@ Index.cshtml:
 
 CreateOrUpdate.cshtml:
 
-.. code:: html
+::
 
     @model IceCreamYouScreamCorp.Domain.Product
 
