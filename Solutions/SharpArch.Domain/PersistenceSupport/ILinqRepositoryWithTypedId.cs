@@ -32,6 +32,14 @@ namespace SharpArch.Domain.PersistenceSupport
         void Save(T entity);
 
         /// <summary>
+        /// Saves  and evicts the specified object to the repository.
+        /// from the session.
+        /// </summary>
+        /// <typeparam name="T">Type of Entity to Save / Evict</typeparam>
+        /// <param name="entity">Entity to save and evict</param>
+        void SaveAndEvict(T entity);
+
+        /// <summary>
         /// Finds an item by id.
         /// </summary>
         /// <typeparam name="T">Type of entity to find</typeparam>
