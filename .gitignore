@@ -25,6 +25,3 @@ Packages
 Common/AssemblyVersion.cs
 *.DotSettings.user
 Artefacts/Documentation/build/
-_NCrunch*/
-*.*ncrunch*
-*.sln.DotSettings
