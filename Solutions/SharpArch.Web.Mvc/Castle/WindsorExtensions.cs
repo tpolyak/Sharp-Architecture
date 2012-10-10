@@ -26,7 +26,7 @@
                             type.GetInterfaces().Where(
                                 t => t.IsGenericType == false && t.Namespace.StartsWith(interfaceNamespace));
 
-                        if (interfaces.Any())
+                        if (interfaces.Count() > 0)
                         {
                             return new[] { interfaces.ElementAt(0) };
                         }
