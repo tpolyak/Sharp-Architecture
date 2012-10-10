@@ -1,16 +1,15 @@
 namespace SharpArch.NHibernate
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
-
-    using global::NHibernate;
-    using global::NHibernate.Criterion;
 
     using SharpArch.Domain;
     using SharpArch.Domain.DomainModel;
     using SharpArch.Domain.PersistenceSupport;
     using SharpArch.NHibernate.Contracts.Repositories;
+
+    using global::NHibernate;
+    using global::NHibernate.Criterion;
 
     /// <summary>
     ///     Provides a fully loaded DAO which may be created in a few ways including:
@@ -25,7 +24,7 @@ namespace SharpArch.NHibernate
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         public virtual IDbContext DbContext
         {
@@ -41,6 +40,10 @@ namespace SharpArch.NHibernate
             }
         }
 
+        #endregion
+
+        #region Properties
+
         protected virtual ISession Session
         {
             get
@@ -52,9 +55,22 @@ namespace SharpArch.NHibernate
 
         #endregion
 
-        #region Implemented Interfaces
+        #region Public Methods and Operators
 
-        #region INHibernateRepositoryWithTypedId<T,TId>
+        public virtual void Delete(T entity)
+        {
+            this.Session.Delete(entity);
+        }
+
+        public virtual void Delete(TId id)
+        {
+            T entity = this.Get(id);
+
+            if (entity != null)
+            {
+                this.Delete(entity);
+            }
+        }
 
         public virtual void Evict(T entity)
         {
@@ -129,6 +145,17 @@ namespace SharpArch.NHibernate
             return this.Session.Get<T>(id, ConvertFrom(lockMode));
         }
 
+        public virtual T Get(TId id)
+        {
+            return this.Session.Get<T>(id);
+        }
+
+        public virtual IList<T> GetAll()
+        {
+            ICriteria criteria = this.Session.CreateCriteria(typeof(T));
+            return criteria.List<T>();
+        }
+
         public virtual T Load(TId id)
         {
             return this.Session.Load<T>(id);
@@ -145,40 +172,10 @@ namespace SharpArch.NHibernate
             return entity;
         }
 
-        public virtual T Update(T entity)
+        public virtual void SaveAndEvict(T entity)
         {
-            this.Session.Update(entity);
-            return entity;
-        }
-
-        #endregion
-
-        #region IRepositoryWithTypedId<T,TId>
-
-        public virtual void Delete(T entity)
-        {
-            this.Session.Delete(entity);
-        }
-
-        public virtual void Delete(TId id)
-        {
-            T entity = this.Get(id);
-
-            if (entity != null)
-            {
-                this.Delete(entity);
-            }
-        }
-
-        public virtual T Get(TId id)
-        {
-            return this.Session.Get<T>(id);
-        }
-
-        public virtual IList<T> GetAll()
-        {
-            ICriteria criteria = this.Session.CreateCriteria(typeof(T));
-            return criteria.List<T>();
+            this.Session.Save(entity);
+            this.Session.Evict(entity);
         }
 
         /// <summary>
@@ -193,7 +190,11 @@ namespace SharpArch.NHibernate
             return entity;
         }
 
-        #endregion
+        public virtual T Update(T entity)
+        {
+            this.Session.Update(entity);
+            return entity;
+        }
 
         #endregion
 
@@ -208,7 +209,10 @@ namespace SharpArch.NHibernate
         {
             FieldInfo translatedLockMode = typeof(LockMode).GetField(lockMode.ToString(), BindingFlags.Public | BindingFlags.Static);
 
-            Check.Ensure(translatedLockMode != null, "The provided lock mode , '" + lockMode + ",' " + "could not be translated into an NHibernate.LockMode. This is probably because " + "NHibernate was updated and now has different lock modes which are out of synch " + "with the lock modes maintained in the domain layer.");
+            Check.Ensure(
+                translatedLockMode != null,
+                "The provided lock mode , '" + lockMode + ",' " + "could not be translated into an NHibernate.LockMode. This is probably because "
+                + "NHibernate was updated and now has different lock modes which are out of synch " + "with the lock modes maintained in the domain layer.");
 
             return (LockMode)translatedLockMode.GetValue(null);
         }
