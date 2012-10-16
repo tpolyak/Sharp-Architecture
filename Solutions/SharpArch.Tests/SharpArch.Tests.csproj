@@ -179,6 +179,10 @@
       <Project>{D6DDE603-4678-44B9-A2D1-101BF5D12AD7}</Project>
       <Name>SharpArch.Testing.NUnit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Web.Mvc.Castle\SharpArch.Web.Mvc.Castle.csproj">
+      <Project>{5C2EA19A-E547-4E55-B36E-B25CA9EFEF21}</Project>
+      <Name>SharpArch.Web.Mvc.Castle</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpArch.Web.Mvc\SharpArch.Web.Mvc.csproj">
       <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
       <Name>SharpArch.Web.Mvc</Name>
