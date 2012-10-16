@@ -7,13 +7,13 @@ namespace SharpArch.RavenDb
 
     using SharpArch.Domain.PersistenceSupport;
 
-    public class DbContext : IDbContext
+    public class TransactionManager : ITransactionManager
     {
         private readonly IDocumentSession session;
 
         private TransactionScope transaction;
 
-        public DbContext(IDocumentSession session)
+        public TransactionManager(IDocumentSession session)
         {
             this.session = session;
         }
@@ -23,21 +23,16 @@ namespace SharpArch.RavenDb
             return this.transaction ?? (this.transaction = new TransactionScope());
         }
 
-        public void CommitChanges()
-        {
-            this.session.SaveChanges();
-        }
-
         public void CommitTransaction()
         {
+            this.session.SaveChanges();
             this.transaction.Complete();
             this.ClearTransaction();
         }
 
         public void RollbackTransaction()
         {
-            this.transaction.Dispose();
-            this.transaction = null;
+            this.ClearTransaction();
         }
 
         private void ClearTransaction()

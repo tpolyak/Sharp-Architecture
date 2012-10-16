@@ -8,7 +8,7 @@ namespace SharpArch.Domain.PersistenceSupport
         /// Provides a handle to application wide DB activities such as committing any pending changes,
         /// beginning a transaction, rolling back a transaction, etc.
         /// </summary>
-        IDbContext DbContext { get; }
+        ITransactionManager TransactionManager { get; }
 
         /// <summary>
         /// Returns null if a row is not found matching the provided Id.
