@@ -1,6 +1,7 @@
 ﻿namespace SharpArch.Domain.PersistenceSupport
 {
     using System;
+    using System.Data;
 
     /// <summary>
     ///     Note that outside of CommitChanges(), you shouldn't have to invoke this object very often.  
@@ -10,9 +11,7 @@
     public interface IDbContext
     {
         IDisposable BeginTransaction();
-
-        void CommitChanges();
-
+        
         void CommitTransaction();
 
         void RollbackTransaction();
