@@ -4,8 +4,19 @@ namespace SharpArch.Domain.Specifications
     using System.Linq;
     using System.Linq.Expressions;
 
+    /// <summary>
+    ///     Provides extension methods that extend the <see cref="QuerySpecification{T}"/> class.
+    /// </summary>
     public static class QuerySpecificationExtensions
     {
+        /// <summary>
+        ///     Returns a specification that joins both specified specifications together using
+        ///     the AND operator.
+        /// </summary>
+        /// <typeparam name="T">The entity type.</typeparam>
+        /// <param name="specification1">The first specification.</param>
+        /// <param name="specification2">The second specification.</param>
+        /// <returns>A query specification.</returns>
         public static QuerySpecification<T> And<T>(this QuerySpecification<T> specification1, QuerySpecification<T> specification2)
         {
             var adhocSpec1 = new AdHoc<T>(specification1.MatchingCriteria);
@@ -17,6 +28,14 @@ namespace SharpArch.Domain.Specifications
             return new AdHoc<T>(dynamicClause);
         }
 
+        /// <summary>
+        ///     Returns a specification that joins both specified specifications together using
+        ///     the OR operator.
+        /// </summary>
+        /// <typeparam name="T">The entity type.</typeparam>
+        /// <param name="specification1">The first specification.</param>
+        /// <param name="specification2">The second specification.</param>
+        /// <returns>A query specification.</returns>
         public static QuerySpecification<T> Or<T>(this QuerySpecification<T> specification1, QuerySpecification<T> specification2)
         {
             var adhocSpec1 = new AdHoc<T>(specification1.MatchingCriteria);

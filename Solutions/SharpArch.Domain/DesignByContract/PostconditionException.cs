@@ -3,28 +3,31 @@ namespace SharpArch.Domain
     using System;
 
     /// <summary>
-    ///     Exception raised when a postcondition fails.
+    ///     An exception that is raised when an postcondition check fails.
     /// </summary>
     public class PostconditionException : DesignByContractException
     {
         /// <summary>
-        ///     Postcondition Exception.
+        ///     Initializes a new instance of the <see cref="PostconditionException" /> class.
         /// </summary>
         public PostconditionException()
         {
         }
 
         /// <summary>
-        ///     Postcondition Exception.
+        ///     Initializes a new instance of the <see cref="PostconditionException" /> class.
         /// </summary>
+        /// <param name="message">The message.</param>
         public PostconditionException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        ///     Postcondition Exception.
+        ///     Initializes a new instance of the <see cref="PostconditionException" /> class.
         /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="inner">The inner exception.</param>
         public PostconditionException(string message, Exception inner)
             : base(message, inner)
         {
