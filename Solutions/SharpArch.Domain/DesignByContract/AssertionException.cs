@@ -6,28 +6,31 @@ namespace SharpArch.Domain
     #region Exceptions
 
     /// <summary>
-    ///     Exception raised when an assertion fails.
+    ///     An exception that is raised when an assertion check fails.
     /// </summary>
     public class AssertionException : DesignByContractException
     {
         /// <summary>
-        ///     Assertion Exception.
+        ///     Initializes a new instance of the <see cref="AssertionException" /> class.
         /// </summary>
         public AssertionException()
         {
         }
 
         /// <summary>
-        ///     Assertion Exception.
+        ///     Initializes a new instance of the <see cref="AssertionException" /> class.
         /// </summary>
+        /// <param name="message">The message.</param>
         public AssertionException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        ///     Assertion Exception.
+        ///     Initializes a new instance of the <see cref="AssertionException" /> class.
         /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="inner">The inner exception.</param>
         public AssertionException(string message, Exception inner)
             : base(message, inner)
         {
