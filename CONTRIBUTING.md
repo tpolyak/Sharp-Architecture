@@ -29,13 +29,14 @@ Make sure to discuss new features on the [mailing first](http://groups.google.co
 ##Submitting code changes##
 
 - Create [Github account](https://github.com/signup/free)
+- [Setup git](https://help.github.com/articles/set-up-git)
 - [Fork](https://help.github.com/articles/fork-a-repo "Fork") project
 - Clone repostiory `git clone git@github.com:USER/Sharp-Architecture.git`
 - Add upstream repository `git remote add upstream git@github.com:sharparchitecture/Sharp-Architecture.git`
 - Initialize submodules
 
-    git submodule init
-    git submodule update
+        git submodule init
+        git submodule update
     
 - S#arp Architecture uses Git-Flow branching model, read more about it [here](http://nvie.com/posts/a-successful-git-branching-model/ "git-flow") and follow [installation instructions](https://github.com/nvie/gitflow/wiki/Installation)
 - Initialise git-glow `git flow init -d`
