@@ -40,7 +40,9 @@ Make sure to discuss new features on the [mailing first](http://groups.google.co
 - S#arp Architecture uses Git-Flow branching model, read more about it [here](http://nvie.com/posts/a-successful-git-branching-model/ "git-flow") and follow [installation instructions](https://github.com/nvie/gitflow/wiki/Installation)
 - Initialise git-glow `git flow init -d`
 - Create new feature with `git flow feature start MEANINFUL_NAME`, for bug fixes create new branch with `git flow hotfix start VERSION_NUM` where VERSION_NUM is the current release version with the patch version incremented. For more information on versioning strategy, read up on [SemVer](http://semver.org/)
+- Run Build/Build.bat to generate AssemblyInfo files required to build the solution.
 - Make you changes, making sure your coding style and standards adhere to the code standards followed throughout the code, a [StyleCop](http://stylecop.codeplex.com/) rules file exists to highlight style problems.
+- Run Build/BuildAndTest.bat to make sure all tests are still passing
 - Update documentation
 - Commit and push
 - Open [pull request](https://help.github.com/articles/using-pull-requests) with the target branch being develop for features and master for hotfixes.
