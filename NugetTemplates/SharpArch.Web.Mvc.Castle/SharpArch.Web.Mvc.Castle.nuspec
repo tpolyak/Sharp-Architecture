@@ -20,7 +20,6 @@
       <dependency id="MvcContrib.Mvc3.FluentHtml-ci" version="3.0.51.0" />
 	  <dependency id="CommonServiceLocator" version="1.0" />
 	  <dependency id="SharpArch.Domain" version="(1.9.6,3.0.0)" />
-	  <dependency id="Iesi.Collections" version="[3.0,4.0)" />
     </dependencies>
 	<frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
