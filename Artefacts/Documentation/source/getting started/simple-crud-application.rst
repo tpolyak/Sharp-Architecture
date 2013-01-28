@@ -44,6 +44,8 @@ done, your class should look like this:
 Configure NHibernate.config
 ---------------------------
 
+You can skip this step if you are using RavenDB persistance.
+
 Before we go any further, navigate to your Mvc project and find
 NHibernate.config. I'm assuming you're running a local instance of SQL
 Express with a database named IceCreamDb. You'll need to figure out your
@@ -56,6 +58,8 @@ own connection string, but once you do, find the
 
 Prep your database environment
 ------------------------------
+
+You can skip this step if you are using RavenDB persistance.
 
 Before we start we'll need to wire up NHibernate to your database. If
 you have not already done so, create a database. Let's assume you have
@@ -241,8 +245,6 @@ CreateOrUpdate.cshtml:
                 @Html.EditorFor(model => model.Name)
                 @Html.ValidationMessageFor(model => model.Name)
             </div>
-
-            @Html.HiddenFor(model => model.Id)
 
             <p>
                 <input type="submit" value="Save" />

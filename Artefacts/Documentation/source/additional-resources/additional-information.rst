@@ -8,7 +8,6 @@ Blog posts
    Contrib <https://github.com/sharparchitecture/Sharp-Architecture-Contrib>`_
 -  `Sharp Architecture
    Cookbook <https://github.com/sharparchitecture/Sharp-Architecture-Cookbook>`_
--  [[NHibernate Configuration Cache]]
 -  `Using MVCScaffolding with Sharp
    Architecture <http://blog.sharparchitecture.net/post/Integrating-MVCScaffolding-and-SharpArchitecture.aspx>`_
 
