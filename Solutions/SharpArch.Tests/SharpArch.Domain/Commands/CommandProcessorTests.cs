@@ -91,10 +91,9 @@ namespace Tests.SharpArch.Domain.Commands
                 .LifeStyle.Transient);
 
             var testCommand = new TestCommand();
-            var results = commandProcessor.Process<TestCommand, CommandResult<TestCommand>>(testCommand).ToList();
+            var result = commandProcessor.Process<TestCommand, CommandResult<TestCommand>>(testCommand);
 
-            Assert.AreEqual(1, results.Count);
-            Assert.AreEqual(testCommand, results[0].Command);
+            Assert.AreEqual(testCommand, result.Command);
         }
 
         [Test]
