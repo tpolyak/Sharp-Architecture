@@ -8,7 +8,7 @@ namespace SharpArch.Domain.Commands
     using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
-    ///     Processes commands by handling them by means one or more suitable command handlers.
+    ///     Processes commands by handling them by means of a suitable command handler.
     /// </summary>
     public class CommandProcessor : ICommandProcessor
     {
