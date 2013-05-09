@@ -38,6 +38,7 @@
                          $(SolutionsPath)\SharpArch.RavenDb\bin\Release\SharpArch.RavenDb.dll;
                          $(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
                          $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.dll;
+                         $(SolutionsPath)\SharpArch.Web.Http\bin\Release\SharpArch.Web.Http.dll;
                          $(SolutionsPath)\SharpArch.Testing.NUnit\bin\Release\SharpArch.Testing.NUnit.dll;">
       <PackageName>$(DropsPath)\$(SemanticVersion)\$(PackageName).dlls.v$(SemanticVersion).zip</PackageName>
       <WorkingDirectory>$(SolutionsPath)</WorkingDirectory>
@@ -69,6 +70,12 @@
 						   $(SolutionsPath)\SharpArch.Web.Mvc\bin\Release\SharpArch.Web.Mvc.pdb;">
       <PackageName>SharpArch.Web.Mvc.Castle</PackageName>
 	  <NuspecFile>SharpArch.Web.Mvc.Castle.nuspec</NuspecFile>
+    </NugetPackage>
+
+	<NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Http\bin\Release\SharpArch.Web.Http.dll;
+						   $(SolutionsPath)\SharpArch.Web.Http\bin\Release\SharpArch.Web.Http.pdb;">
+      <PackageName>SharpArch.Web.Http.Castle</PackageName>
+	  <NuspecFile>SharpArch.Web.Http.Castle.nuspec</NuspecFile>
     </NugetPackage>
 	
 	<NugetPackage Include="$(SolutionsPath)\SharpArch.Wcf\bin\Release\SharpArch.Wcf.dll;
