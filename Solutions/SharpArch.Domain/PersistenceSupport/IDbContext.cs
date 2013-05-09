@@ -9,9 +9,9 @@
     /// </summary>
     /// <remarks>
     ///     Note that outside of <see cref="T:IDbContext.CommitChanges"/>, you shouldn't have to
-    ///     invoke this object very often. If you're using the
-    ///     <see cref="SharpArch.NHibernate.Web.Mvc.TransactionAttribute" /> on your controller actions,
-    ///     then the transaction opening/committing will be taken care of for you.
+    ///     invoke this object very often. If you're using on of the the <c>TransactionAttribute</c>
+    ///     atrributes provided by SharpArch on your controller actions, then the transaction
+    ///     opening/committing will be taken care of for you.
     /// </remarks>
     public interface IDbContext
     {
