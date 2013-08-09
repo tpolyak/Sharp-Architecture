@@ -112,30 +112,6 @@ namespace Tests.SharpArch.Domain.Commands
             Assert.AreEqual(testCommand, results[0]);
         }
 
-
-        [Test]
-        public void CanHandleMultipleCommands()
-        {
-            container.Register(
-              Component.For<ICommandHandler<TestCommand>>()
-                .UsingFactoryMethod(CreateCommandHandler<TestCommand>)
-                .Named("First handler")
-                .LifeStyle.Transient);
-
-            container.Register(
-              Component.For<ICommandHandler<TestCommand>>()
-                .UsingFactoryMethod(CreateCommandHandler<TestCommand>)
-                .Named("Second handler")
-                .LifeStyle.Transient);
-
-            var testCommand = new TestCommand();
-            commandProcessor.Process(testCommand);
-
-            Assert.AreEqual(2, handledCommands.Count);
-            Assert.AreEqual(testCommand, handledCommands[0]);
-            Assert.AreEqual(testCommand, handledCommands[1]);
-        }
-
         private TestCommandHandler<TCommand> CreateCommandHandler<TCommand>() where TCommand : ICommand
         {
             return new TestCommandHandler<TCommand>(OnHandle);
