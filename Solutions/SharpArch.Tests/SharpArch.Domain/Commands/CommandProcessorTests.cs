@@ -111,6 +111,26 @@ namespace Tests.SharpArch.Domain.Commands
             Assert.AreEqual(1, results.Count);
             Assert.AreEqual(testCommand, results[0]);
         }
+        
+        [Test]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ThrowsIfMultipleCommandHandlersRegisteredForSingleCommand()
+        {
+            container.Register(
+              Component.For<ICommandHandler<TestCommand>>()
+                .UsingFactoryMethod(CreateCommandHandler<TestCommand>)
+                .Named("First handler")
+                .LifeStyle.Transient);
+
+            container.Register(
+              Component.For<ICommandHandler<TestCommand>>()
+                .UsingFactoryMethod(CreateCommandHandler<TestCommand>)
+                .Named("Second handler")
+                .LifeStyle.Transient);
+
+            var testCommand = new TestCommand();
+            commandProcessor.Process(testCommand);
+        }
 
         private TestCommandHandler<TCommand> CreateCommandHandler<TCommand>() where TCommand : ICommand
         {
