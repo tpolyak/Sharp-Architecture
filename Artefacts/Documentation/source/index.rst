@@ -5,8 +5,8 @@
 
 .. image:: _static/sharp_arch.jpg
 
-Documentation
-=============
+S#arp Architecture
+==================
 
 If you're getting into S#arp Architecture for the first time, there's a bit of
 learning and background materials to digest. This is the place to start! Follow the
@@ -17,17 +17,17 @@ General
 -------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    general/overview
+   general/acknowledgment
    general/frequently-asked-questions
    general/architecture
-   general/thanks
    
 Getting started
 ---------------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    getting started/installation
    getting started/simple-crud-application
@@ -35,20 +35,21 @@ Getting started
 Updating
 --------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    updating/nuget
    
 Features
 --------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    nhibernate/nhibernate
+   ravendb/ravendb
 
 Additional resources
 --------------------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    additional-resources/additional-information
