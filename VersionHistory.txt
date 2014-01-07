@@ -1,3 +1,24 @@
+
+========================
+S#arp Architecture 2.1.0
+========================
+
+* #60: Updated dependencies
+
+------
+Castle.Core 3.2.2^
+Castle.Windsor 3.2.1^
+FluentNHibernate 1.4^
+NHibernate 3.3.3.4001^
+RavenDB.Client 2.5.2750^
+Iesi.Collections 3.3.3.4001^
+Newtonsoft.Json 5.0.8^
+Machine.Specifications 0.6.1^
+System.Data.SQLite 1.0.90^
+NUnit 2.6.3^
+Moq 4.2.1312.1622^
+------
+
 ==================================================
 S#arp Architecture 2.1.0RC for Visual Studio 2010
 ==================================================

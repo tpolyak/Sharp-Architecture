@@ -4,6 +4,7 @@ NHibernate
 
 .. toctree::
 
+    transaction.rst
     hilo-generator.rst
     nhibernate-configuration-cache.rst
     multiple-dbs.rst

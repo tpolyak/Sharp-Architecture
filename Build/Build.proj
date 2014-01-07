@@ -3,9 +3,9 @@
 
   <PropertyGroup>
     <VersionMajor>2</VersionMajor>
-	<VersionMinor>2</VersionMinor>
+	<VersionMinor>1</VersionMinor>
 	<VersionPatch>0</VersionPatch>
-	<VersionPreRelease>Alpha</VersionPreRelease>
+	<VersionPreRelease>RC3</VersionPreRelease>
   </PropertyGroup>
 
   <PropertyGroup>
