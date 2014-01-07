@@ -26,6 +26,7 @@ down to the *Presentation Layer*
 Additional occupants
 ^^^^^^^^^^^^^^^^^^^^
 
+-  EventHandlers
 -  CommandHandlers
 -  Commands
 
@@ -40,8 +41,8 @@ application, but as of 2.0 this is no longer the case.
 Additional occupants
 ^^^^^^^^^^^^^^^^^^^^
 
--  ViewModels
--  Query Objects
+-  ViewModels: These can live in the Presentation or in the Tasks project, depending on whether your tasks layer will be returning ViewModels which is not usually the case as ViewModels are tied to a specific view.
+-  Query Objects: These can live in the Presentation or in the Tasks project, depending on whether you need the queries in your tasks layer.
 -  Controllers
 -  Views
 
@@ -49,8 +50,9 @@ Infrastructure
 --------------
 
 The *Infrastructure Layer* setups up third party data sources, along
-with items such as NHibernate maps. Previously, methods on a repository
-would exist here, but are superseded by IQuery.
+with items such as NHibernate maps. You can extend the repository implementation
+with additional methods to perform specific queries, but it is recommended 
+to write your own Query Objects as shown in the `cookbook. <https://github.com/sharparchitecture/Sharp-Architecture-Cookbook/wiki/Using-Query-Objects>`_
 
 Domain
 ------
@@ -65,4 +67,5 @@ Additional occupants
 
 -  Contracts for Tasks
 -  Contracts for IQuery
+-  Events that are emitted by your domain
 

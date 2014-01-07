@@ -1,6 +1,6 @@
-######
-Thanks
-######
+###############
+Acknowledgments
+###############
 
 Sharp Architecture attempts to represent the combined wisdom of many
 software development giants. Included patterns and algorithms reflect
