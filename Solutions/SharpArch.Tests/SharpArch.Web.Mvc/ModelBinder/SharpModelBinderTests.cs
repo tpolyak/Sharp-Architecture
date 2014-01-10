@@ -4,7 +4,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Web.Mvc;
-    
+
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
 
@@ -46,7 +46,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             var bindingContext = new ModelBindingContext
                 {
-                   ModelName = "Employee", ValueProvider = valueProvider, ModelMetadata = modelMetadata 
+                    ModelName = "Employee",
+                    ValueProvider = valueProvider,
+                    ModelMetadata = modelMetadata
                 };
 
             DefaultModelBinder target = new SharpModelBinder();
@@ -83,7 +85,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             var bindingContext = new ModelBindingContext
                 {
-                   ModelName = "Employee", ValueProvider = valueProvider, ModelMetadata = modelMetadata 
+                    ModelName = "Employee",
+                    ValueProvider = valueProvider,
+                    ModelMetadata = modelMetadata
                 };
 
             DefaultModelBinder target = new SharpModelBinder();
@@ -121,7 +125,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             var bindingContext = new ModelBindingContext
                 {
-                   ModelName = "Employee", ValueProvider = valueProvider, ModelMetadata = modelMetadata 
+                    ModelName = "Employee",
+                    ValueProvider = valueProvider,
+                    ModelMetadata = modelMetadata
                 };
 
             DefaultModelBinder target = new SharpModelBinder();
@@ -155,7 +161,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             var bindingContext = new ModelBindingContext
                 {
-                   ModelName = "Employee", ValueProvider = valueProvider, ModelMetadata = modelMetadata 
+                    ModelName = "Employee",
+                    ValueProvider = valueProvider,
+                    ModelMetadata = modelMetadata
                 };
 
             DefaultModelBinder target = new SharpModelBinder();
@@ -187,7 +195,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             var bindingContext = new ModelBindingContext
                 {
-                   ModelName = "Territory", ValueProvider = valueProvider, ModelMetadata = modelMetadata 
+                    ModelName = "Territory",
+                    ValueProvider = valueProvider,
+                    ModelMetadata = modelMetadata
                 };
 
             DefaultModelBinder target = new SharpModelBinder();
@@ -218,7 +228,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             var bindingContext = new ModelBindingContext
                 {
-                   ModelName = "Territory", ValueProvider = valueProvider, ModelMetadata = modelMetadata 
+                    ModelName = "Territory",
+                    ValueProvider = valueProvider,
+                    ModelMetadata = modelMetadata
                 };
 
             DefaultModelBinder target = new SharpModelBinder();
@@ -246,7 +258,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
                     .Instance(mockRepository.Object));
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(windsorContainer));
-            DependencyResolver.SetResolver(new WindsorDependencyResolver(windsorContainer));
+            DependencyResolver.SetResolver((type) => { return ServiceLocator.Current.GetInstance(type); }, (type) => { return ServiceLocator.Current.GetAllInstances(type); });
         }
 
         public class Employee : Entity

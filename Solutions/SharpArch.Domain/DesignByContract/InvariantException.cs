@@ -3,28 +3,31 @@ namespace SharpArch.Domain
     using System;
 
     /// <summary>
-    ///     Exception raised when an invariant fails.
+    ///     An exception that is raised when an invariant check fails.
     /// </summary>
     public class InvariantException : DesignByContractException
     {
         /// <summary>
-        ///     Invariant Exception.
+        ///     Initializes a new instance of the <see cref="InvariantException" /> class.
         /// </summary>
         public InvariantException()
         {
         }
 
         /// <summary>
-        ///     Invariant Exception.
+        ///     Initializes a new instance of the <see cref="InvariantException" /> class.
         /// </summary>
+        /// <param name="message">The message.</param>
         public InvariantException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        ///     Invariant Exception.
+        ///     Initializes a new instance of the <see cref="InvariantException" /> class.
         /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="inner">The inner exception.</param>
         public InvariantException(string message, Exception inner)
             : base(message, inner)
         {
