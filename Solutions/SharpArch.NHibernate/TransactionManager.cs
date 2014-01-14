@@ -6,9 +6,9 @@
     using Domain.PersistenceSupport;
     using global::NHibernate;
 
-    public class DbContext : IDbContext
+    public class TransactionManager : ITransactionManager
     {
-        public DbContext(string factoryKey)
+        public TransactionManager(string factoryKey)
         {
             Check.Require(!string.IsNullOrEmpty(factoryKey), "factoryKey may not be null or empty");
 

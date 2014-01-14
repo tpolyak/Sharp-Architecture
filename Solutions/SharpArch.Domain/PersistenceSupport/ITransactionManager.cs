@@ -1,6 +1,7 @@
 ﻿namespace SharpArch.Domain.PersistenceSupport
 {
     using System;
+    using System.Data;
 
     /// <summary>
     ///     Defines the public members of a class that represents a database context which handles
@@ -13,19 +14,14 @@
     ///     atrributes provided by SharpArch on your controller actions, then the transaction
     ///     opening/committing will be taken care of for you.
     /// </remarks>
-    public interface IDbContext
+    public interface ITransactionManager
     {
         /// <summary>
         ///     Begins the transaction.
         /// </summary>
         /// <returns>The transaction instance.</returns>
         IDisposable BeginTransaction();
-
-        /// <summary>
-        ///     Commits the changes.
-        /// </summary>
-        void CommitChanges();
-
+        
         /// <summary>
         ///     Commits the transaction, saving all changes.
         /// </summary>

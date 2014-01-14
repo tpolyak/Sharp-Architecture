@@ -21,23 +21,23 @@ namespace SharpArch.NHibernate
     {
         #region Constants and Fields
 
-        private IDbContext dbContext;
+        private ITransactionManager transactionManager;
 
         #endregion
 
         #region Properties
 
-        public virtual IDbContext DbContext
+        public virtual ITransactionManager TransactionManager
         {
             get
             {
-                if (this.dbContext == null)
+                if (this.transactionManager == null)
                 {
                     string factoryKey = SessionFactoryKeyHelper.GetKeyFrom(this);
-                    this.dbContext = new DbContext(factoryKey);
+                    this.transactionManager = new TransactionManager(factoryKey);
                 }
 
-                return this.dbContext;
+                return this.transactionManager;
             }
         }
 

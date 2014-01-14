@@ -15,7 +15,7 @@ namespace SharpArch.Domain.PersistenceSupport
         ///     activities such as committing any pending changes, beginning a transaction,
         ///     rolling back a transaction, etc.
         /// </summary>
-        IDbContext DbContext { get; }
+        ITransactionManager TransactionManager { get; }
 
         /// <summary>
         ///     Returns the entity that matches the specified ID.
