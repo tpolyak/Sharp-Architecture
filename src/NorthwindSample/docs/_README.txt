@@ -1,1 +1,0 @@
-Folder containing project documentation; automatically generated or otherwise.
