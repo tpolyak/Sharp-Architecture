@@ -19,10 +19,10 @@
       <dependency id="CommonServiceLocator.WindsorAdapter" version="1.0" />
       <dependency id="Iesi.Collections" version="[4.0.0.0,5.0.0.0)" />
       <dependency id="Newtonsoft.Json" version="[6.0,7.0)" />
-      <dependency id="SharpArch.Domain" version="[2.4.0,3.0.0)" />
+      <dependency id="SharpArch.Domain" version="[3.0.0,4.0.0)" />
       <dependency id="Microsoft.AspNet.Mvc" version="[5.2.2,6.0)" />
-	</dependencies>
-	<frameworkAssemblies>
+    </dependencies>
+    <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Web" targetFramework="net45" />
 	  <frameworkAssembly assemblyName="System.Web.Mvc" targetFramework="net45" />
 	  <frameworkAssembly assemblyName="System.Web.Routing" targetFramework="net45" />

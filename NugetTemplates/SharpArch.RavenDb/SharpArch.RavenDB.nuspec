@@ -14,7 +14,7 @@
     <language>en-US</language>
     <dependencies>
       <dependency id="RavenDB.Client" version="[3.0,4.0)" />
-      <dependency id="SharpArch.Domain" version="[2.4.0,3.0)" />
+      <dependency id="SharpArch.Domain" version="[3.0.0,4.0.0)" />
       <dependency id="Microsoft.AspNet.Mvc" version="[5.2.2,6.0.0)" />
     </dependencies>
   </metadata>
