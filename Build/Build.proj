@@ -2,10 +2,10 @@
 <Project DefaultTargets="PackageArtefacts" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <VersionMajor>2</VersionMajor>
-	<VersionMinor>2</VersionMinor>
+	<VersionMajor>3</VersionMajor>
+	<VersionMinor>0</VersionMinor>
 	<VersionPatch>0</VersionPatch>
-	<VersionPreRelease>RC</VersionPreRelease>
+	<VersionPreRelease></VersionPreRelease>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -14,6 +14,10 @@
     <MSpecSpecificationAssemblies>"$(MSBuildProjectDirectory)\..\Solutions\SharpArch.Specifications\Bin\Release\SharpArch.Specifications.dll"</MSpecSpecificationAssemblies>
   </PropertyGroup>
 
+  <PropertyGroup>
+	<NugetLibFrameworkVersion>net45</NugetLibFrameworkVersion>
+  </PropertyGroup>
+  
   <ItemGroup>
     <AssembliesToTestWithNUnit Include="$(SolutionsPath)\SharpArch.Tests\bin\Release\SharpArch.Tests.dll;" />
   </ItemGroup>
@@ -21,6 +25,7 @@
   <ItemGroup>
     <PackageFiles Include="$(SolutionsPath)\**\*.*"
                        Exclude="$(SolutionsPath)\**\bin\**;
+                                  $(SolutionsPath)\.nuget\**;
                                   $(SolutionsPath)\**\Logs\**;
                                   $(SolutionsPath)\**\obj\**;
                                   $(SolutionsPath)\**\*.suo;
