@@ -5,7 +5,7 @@
 	<VersionMajor>3</VersionMajor>
 	<VersionMinor>0</VersionMinor>
 	<VersionPatch>0</VersionPatch>
-	<VersionPreRelease>RC</VersionPreRelease>
+	<VersionPreRelease></VersionPreRelease>
   </PropertyGroup>
 
   <PropertyGroup>
