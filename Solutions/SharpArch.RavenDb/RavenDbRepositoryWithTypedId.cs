@@ -17,12 +17,12 @@ namespace SharpArch.RavenDb
     {
         private readonly IDocumentSession session;
 
-        private readonly IDbContext context;
+        private readonly ITransactionManager context;
 
         public RavenDbRepositoryWithTypedId(IDocumentSession session)
         {
             this.session = session;
-            this.context = new DbContext(session);
+            this.context = new TransactionManager(session);
         }
 
         public IDocumentSession Session
@@ -33,7 +33,7 @@ namespace SharpArch.RavenDb
             }
         }
 
-        public virtual IDbContext DbContext
+        public virtual ITransactionManager TransactionManager
         {
             get
             {

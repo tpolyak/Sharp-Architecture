@@ -6,10 +6,10 @@
 
     public class InvalidCommand : CommandBase
     {
-        [Required]
+        [Required(ErrorMessage = "The Invalid field is required.")]
         public bool? Invalid { get; set; }
 
-        [Range(100, 199)]
+        [Range(100, 199, ErrorMessage = "The field InvalidInt must be between 100 and 199.")]
         public int InvalidInt { get; set; }
     }
 }

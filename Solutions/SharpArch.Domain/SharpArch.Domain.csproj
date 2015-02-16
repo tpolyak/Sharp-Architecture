@@ -46,6 +46,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\SharpArch.Domain.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -56,6 +57,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\SharpArch.Domain.xml</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -106,7 +108,7 @@
     <Compile Include="DomainModel\ValueObject.cs" />
     <Compile Include="Events\IHandles.cs" />
     <Compile Include="FileCache.cs" />
-    <Compile Include="PersistenceSupport\IDbContext.cs" />
+    <Compile Include="PersistenceSupport\ITransactionManager.cs" />
     <Compile Include="PersistenceSupport\ILinqRepository.cs" />
     <Compile Include="PersistenceSupport\ILinqRepositoryWithTypedId.cs" />
     <Compile Include="PersistenceSupport\IRepository.cs" />

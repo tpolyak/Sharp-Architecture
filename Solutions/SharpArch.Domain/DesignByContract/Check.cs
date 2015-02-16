@@ -6,58 +6,65 @@ namespace SharpArch.Domain
     /// <summary>
     ///    Design by Contract checks developed by http://www.codeproject.com/KB/cs/designbycontract.aspx.
     /// 
-    ///    Each method generates an exception or
-    ///    a trace assertion statement if the contract is broken.
     /// </summary>
     /// <remarks>
-    ///    This example shows how to call the Require method.
-    ///    Assume DBC_CHECK_PRECONDITION is defined.
-    ///    <code>
-    ///        public void Test(int x)
-    ///        {
-    ///        try
-    ///        {
-    ///        Check.Require(x > 1, "x must be > 1");
-    ///        }
-    ///        catch (System.Exception ex)
-    ///        {
-    ///        Console.WriteLine(ex.ToString());
-    ///        }
-    ///        }
-    ///    </code>
-    ///    If you wish to use trace assertion statements, intended for Debug scenarios,
-    ///    rather than exception handling then set 
-    /// 
-    ///    <code>Check.UseAssertions = true</code>
-    /// 
-    ///    You can specify this in your application entry point and maybe make it
-    ///    dependent on conditional compilation flags or configuration file settings, e.g.,
-    ///    <code>
-    ///        #if DBC_USE_ASSERTIONS
-    ///        Check.UseAssertions = true;
-    ///        #endif
-    ///    </code>
-    ///    You can direct output to a Trace listener. For example, you could insert
-    ///    <code>
-    ///        Trace.Listeners.Clear();
-    ///        Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
-    ///    </code>
-    /// 
-    ///    or direct output to a file or the Event Log.
-    /// 
-    ///    (Note: For ASP.NET clients use the Listeners collection
-    ///    of the Debug, not the Trace, object and, for a Release build, only exception-handling
-    ///    is possible.)
+    ///     <para>
+    ///         Each method generates an exception or a trace assertion statement if the contract is
+    ///         broken.
+    ///     </para>
+    ///     <para>
+    ///         This example shows how to call the Require method. Assume DBC_CHECK_PRECONDITION is
+    ///         defined.
+    ///         <code>
+    ///             public void Test(int x)
+    ///             {
+    ///                 try
+    ///                 {
+    ///                     Check.Require(x > 1, "x must be > 1");
+    ///                 }
+    ///                 catch (System.Exception ex)
+    ///                 {
+    ///                     Console.WriteLine(ex.ToString());
+    ///                 }
+    ///             }
+    ///         </code>
+    ///     </para>
+    ///     <para>
+    ///         If you wish to use trace assertion statements, intended for Debug scenarios,
+    ///         rather than exception handling then set 
+    ///         <code>Check.UseAssertions = true</code>
+    ///     </para>
+    ///     <para>
+    ///         You can specify this in your application entry point and maybe make it
+    ///         dependent on conditional compilation flags or configuration file settings, e.g.,
+    ///         <code>
+    ///             #if DBC_USE_ASSERTIONS
+    ///             Check.UseAssertions = true;
+    ///             #endif
+    ///         </code>
+    ///     </para>
+    ///     <para>
+    ///         You can direct output to a Trace listener. For example, you could insert
+    ///         <code>
+    ///             Trace.Listeners.Clear();
+    ///             Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
+    ///         </code>
+    ///         or direct output to a file or the Event Log.
+    ///         Note: For ASP.NET clients use the Listeners collection of the Debug, not the Trace,
+    ///         object and, for a Release build, only exception-handling is possible.
+    ///     </para>
     /// </remarks>
     public static class Check
     {
         private static bool useAssertions;
 
         /// <summary>
-        ///     Set this if you wish to use Trace Assert statements 
-        ///     instead of exception handling. 
-        ///     (The Check class uses exception handling by default.)
+        ///     Gets or sets a value indicating whether to use Trace Assert statements instead of
+        ///     exception handling. 
         /// </summary>
+        /// <remarks>
+        ///     The <see cref="Check"/> class uses exception handling by default.
+        /// </remarks>
         public static bool UseAssertions
         {
             get
@@ -72,7 +79,7 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Is exception handling being used?
+        ///     Gets a value indicating whether exception handling is being used.
         /// </summary>
         private static bool UseExceptions
         {
@@ -83,8 +90,11 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Assertion check.
+        ///     Checks whether the specified precondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
         public static void Assert(bool assertion, string message)
         {
             if (UseExceptions)
@@ -101,8 +111,12 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Assertion check.
+        ///     Checks whether the specified precondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
+        /// <param name="inner">The inner exception to pass in the exception that is thrown in case the assertion fails.</param>
         public static void Assert(bool assertion, string message, Exception inner)
         {
             if (UseExceptions)
@@ -119,8 +133,10 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Assertion check.
+        ///     Checks whether the specified precondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
         public static void Assert(bool assertion)
         {
             if (UseExceptions)
@@ -137,8 +153,11 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Postcondition check.
+        ///     Checks whether the specified postcondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
         public static void Ensure(bool assertion, string message)
         {
             if (UseExceptions)
@@ -155,8 +174,12 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Postcondition check.
+        ///     Checks whether the specified postcondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
+        /// <param name="inner">The inner exception to pass in the exception that is thrown in case the assertion fails.</param>
         public static void Ensure(bool assertion, string message, Exception inner)
         {
             if (UseExceptions)
@@ -173,8 +196,10 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Postcondition check.
+        ///     Checks whether the specified postcondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
         public static void Ensure(bool assertion)
         {
             if (UseExceptions)
@@ -191,8 +216,11 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Invariant check.
+        ///     Checks whether the specified invariant assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
         public static void Invariant(bool assertion, string message)
         {
             if (UseExceptions)
@@ -209,8 +237,12 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Invariant check.
+        ///     Checks whether the specified invariant assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
+        /// <param name="inner">The inner exception to pass in the exception that is thrown in case the assertion fails.</param>
         public static void Invariant(bool assertion, string message, Exception inner)
         {
             if (UseExceptions)
@@ -227,8 +259,10 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Invariant check.
+        ///     Checks whether the specified invariant assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
         public static void Invariant(bool assertion)
         {
             if (UseExceptions)
@@ -245,8 +279,14 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Precondition check - should run regardless of preprocessor directives.
+        ///     Checks whether the specified precondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
+        /// <remarks>
+        ///     This should run regardless of preprocessor directives.
+        /// </remarks>
         public static void Require(bool assertion, string message)
         {
             if (UseExceptions)
@@ -263,8 +303,15 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Precondition check - should run regardless of preprocessor directives.
+        ///     Checks whether the specified precondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise, using a specified message.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
+        /// <param name="inner">The inner exception to pass in the exception that is thrown in case the assertion fails.</param>
+        /// <remarks>
+        ///     This should run regardless of preprocessor directives.
+        /// </remarks>
         public static void Require(bool assertion, string message, Exception inner)
         {
             if (UseExceptions)
@@ -281,8 +328,13 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Precondition check - should run regardless of preprocessor directives.
+        ///     Checks whether the specified precondition assertion expression result is
+        ///     <c>true</c> and throws an exception otherwise.
         /// </summary>
+        /// <param name="assertion">The assertion expression result.</param>
+        /// <remarks>
+        ///     This should run regardless of preprocessor directives.
+        /// </remarks>
         public static void Require(bool assertion)
         {
             if (UseExceptions)

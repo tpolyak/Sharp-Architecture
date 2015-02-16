@@ -91,10 +91,9 @@ namespace Tests.SharpArch.Domain.Commands
                 .LifeStyle.Transient);
 
             var testCommand = new TestCommand();
-            var results = commandProcessor.Process<TestCommand, CommandResult<TestCommand>>(testCommand).ToList();
+            var result = commandProcessor.Process<TestCommand, CommandResult<TestCommand>>(testCommand);
 
-            Assert.AreEqual(1, results.Count);
-            Assert.AreEqual(testCommand, results[0].Command);
+            Assert.AreEqual(testCommand, result.Command);
         }
 
         [Test]
@@ -112,10 +111,10 @@ namespace Tests.SharpArch.Domain.Commands
             Assert.AreEqual(1, results.Count);
             Assert.AreEqual(testCommand, results[0]);
         }
-
-
+        
         [Test]
-        public void CanHandleMultipleCommands()
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void ThrowsIfMultipleCommandHandlersRegisteredForSingleCommand()
         {
             container.Register(
               Component.For<ICommandHandler<TestCommand>>()
@@ -131,10 +130,6 @@ namespace Tests.SharpArch.Domain.Commands
 
             var testCommand = new TestCommand();
             commandProcessor.Process(testCommand);
-
-            Assert.AreEqual(2, handledCommands.Count);
-            Assert.AreEqual(testCommand, handledCommands[0]);
-            Assert.AreEqual(testCommand, handledCommands[1]);
         }
 
         private TestCommandHandler<TCommand> CreateCommandHandler<TCommand>() where TCommand : ICommand
