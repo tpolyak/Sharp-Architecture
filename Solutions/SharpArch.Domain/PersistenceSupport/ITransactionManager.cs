@@ -1,7 +1,6 @@
 ﻿namespace SharpArch.Domain.PersistenceSupport
 {
     using System;
-    using System.Data;
 
     /// <summary>
     ///     Defines the public members of a class that represents a database context which handles
