@@ -99,8 +99,7 @@ namespace SharpArch.Web.Mvc.ModelBinder
             var isSimpleGenericBindableCollection = propertyType.IsGenericType &&
                                                     (propertyType.GetGenericTypeDefinition() == typeof(IList<>) ||
                                                      propertyType.GetGenericTypeDefinition() == typeof(ICollection<>) ||
-                                                     propertyType.GetGenericTypeDefinition() ==
-                                                     typeof(ISet<>) ||
+                                                     propertyType.GetGenericTypeDefinition() == typeof(ISet<>) ||
                                                      propertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
             var isSimpleGenericBindableEntityCollection = isSimpleGenericBindableCollection &&
