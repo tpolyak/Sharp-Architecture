@@ -135,11 +135,10 @@ namespace SharpArch.Domain.DomainModel
         ///     managing the domain signature of entity objects. This ensures that the entity has at
         ///     least one property decorated with the <see cref="DomainSignatureAttribute"/> attribute.
         /// </remarks>
-        protected override IEnumerable<PropertyInfo> GetTypeSpecificSignatureProperties()
+        protected override PropertyInfo[] GetTypeSpecificSignatureProperties()
         {
             return
-                this.GetType().GetProperties().Where(
-                    p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
+                this.GetType().GetProperties().Where(p => Attribute.IsDefined(p, typeof (DomainSignatureAttribute), true)).ToArray();
         }
 
         /// <summary>

@@ -18,7 +18,7 @@
         ///     Returns the properties of the current object that make up the object's signature.
         /// </summary>
         /// <returns>A collection of <see cref="PropertyInfo"/> instances.</returns>
-        IEnumerable<PropertyInfo> GetSignatureProperties();
+        PropertyInfo[] GetSignatureProperties();
 
         /// <summary>
         ///     Returns a value indicating whether the current object is transient.
