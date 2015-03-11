@@ -2,7 +2,7 @@ namespace SharpArch.Domain.PersistenceSupport
 {
     using System.Linq;
 
-    using SharpArch.Domain.Specifications;
+    using Specifications;
 
     /// <summary>
     ///     Defines the public members of a LINQ supported repository.

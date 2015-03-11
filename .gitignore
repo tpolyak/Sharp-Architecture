@@ -1,3 +1,4 @@
+packages/**/*
 Drops
 obj
 bin
@@ -28,3 +29,4 @@ Artefacts/Documentation/build/
 _NCrunch*/
 *.*ncrunch*
 *.sln.DotSettings
+*.user

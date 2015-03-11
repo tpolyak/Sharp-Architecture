@@ -74,7 +74,7 @@
         /// <summary>
         ///     Returns the signature properties that are specific to the type of the current object.
         /// </summary>
-        protected override IEnumerable<PropertyInfo> GetTypeSpecificSignatureProperties()
+        protected override PropertyInfo[] GetTypeSpecificSignatureProperties()
         {
             var invalidlyDecoratedProperties =
                 this.GetType().GetProperties().Where(
