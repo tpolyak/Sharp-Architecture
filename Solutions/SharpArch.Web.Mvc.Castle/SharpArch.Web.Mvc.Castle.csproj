@@ -93,11 +93,16 @@
     <Compile Include="WindsorControllerFactory.cs" />
     <Compile Include="WindsorDependencyResolver.cs" />
     <Compile Include="WindsorExtensions.cs" />
+    <Compile Include="WindsorFilterAttributeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
+      <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
+      <Name>SharpArch.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpArch.Web.Mvc\SharpArch.Web.Mvc.csproj">
       <Project>{BF4E3D18-2EFB-49E3-9D8D-0F9F9BE1094A}</Project>
       <Name>SharpArch.Web.Mvc</Name>

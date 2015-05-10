@@ -8,6 +8,11 @@
 
     public class TransactionManager : ITransactionManager
     {
+        public TransactionManager()
+        {
+            FactoryKey = NHibernateSession.DefaultFactoryKey;
+        }
+
         public TransactionManager(string factoryKey)
         {
             Check.Require(!string.IsNullOrEmpty(factoryKey), "factoryKey may not be null or empty");
