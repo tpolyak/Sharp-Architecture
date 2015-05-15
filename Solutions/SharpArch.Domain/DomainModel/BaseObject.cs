@@ -46,8 +46,8 @@
                 return true;
             }
 
-            return compareTo != null && GetType().Equals(compareTo.GetTypeUnproxied()) &&
-                   HasSameObjectSignatureAs(compareTo);
+            return compareTo != null && this.GetType().Equals(compareTo.GetTypeUnproxied()) &&
+                HasSameObjectSignatureAs(compareTo);
         }
 
         /// <summary>
@@ -66,23 +66,28 @@
         {
             unchecked
             {
-                var signatureProperties = GetSignatureProperties();
+                PropertyInfo[] signatureProperties = this.GetSignatureProperties();
 
                 // If no properties were flagged as being part of the signature of the object,
                 // then simply return the hashcode of the base object as the hashcode.
-                if (signatureProperties.Length == 0) return base.GetHashCode();
+                if (signatureProperties.Length == 0)
+                {
+                    return base.GetHashCode();
+                }
 
                 // It's possible for two objects to return the same hash code based on 
                 // identically valued properties, even if they're of two different types, 
                 // so we include the object's type in the hash calculation
-                var hashCode = GetType().GetHashCode();
+                int hashCode = this.GetType().GetHashCode();
 
                 for (var i = 0; i < signatureProperties.Length; i++)
                 {
-                    var property = signatureProperties[i];
-                    var value = property.GetValue(this, null);
+                    PropertyInfo property = signatureProperties[i];
+                    object value = property.GetValue(this, null);
                     if (value != null)
-                        hashCode = (hashCode*HashMultiplier) ^ value.GetHashCode();
+                    {
+                        hashCode = (hashCode * HashMultiplier) ^ value.GetHashCode();
+                    }
                 }
 
                 return hashCode;
@@ -94,11 +99,12 @@
         /// </summary>
         public virtual PropertyInfo[] GetSignatureProperties()
         {
-            var type = GetTypeUnproxied();
+            Type type = GetTypeUnproxied();
 
             // Since data won't be in cache on first request only, use .GetOrAdd as second attempt to prevent allocation of extra lambda object.
-            var descriptor = signaturePropertiesCache.Find(type) ??
-                signaturePropertiesCache.GetOrAdd(type, () => new TypePropertyDescriptor(type, GetTypeSpecificSignatureProperties()));
+            TypePropertyDescriptor descriptor = signaturePropertiesCache.Find(type) ??
+                signaturePropertiesCache.GetOrAdd(type,
+                    () => new TypePropertyDescriptor(type, GetTypeSpecificSignatureProperties()));
             return descriptor.Properties;
         }
 
@@ -113,7 +119,7 @@
         /// <remarks>You may override this method to provide your own comparison routine.</remarks>
         public virtual bool HasSameObjectSignatureAs(BaseObject compareTo)
         {
-            var signatureProperties = GetSignatureProperties();
+            PropertyInfo[] signatureProperties = this.GetSignatureProperties();
 
             // if there were no signature properties, then simply return the default bahavior of Equals
             if (signatureProperties.Length == 0)
@@ -123,14 +129,20 @@
 
             for (var index = 0; index < signatureProperties.Length; index++)
             {
-                var property = signatureProperties[index];
-                var valueOfThisObject = property.GetValue(this, null);
-                var valueToCompareTo = property.GetValue(compareTo, null);
+                PropertyInfo property = signatureProperties[index];
+                object valueOfThisObject = property.GetValue(this, null);
+                object valueToCompareTo = property.GetValue(compareTo, null);
 
-                if (valueOfThisObject == null && valueToCompareTo == null) continue;
+                if (valueOfThisObject == null && valueToCompareTo == null)
+                {
+                    continue;
+                }
 
                 if ((valueOfThisObject == null ^ valueToCompareTo == null) ||
-                    (!valueOfThisObject.Equals(valueToCompareTo))) return false;
+                    (!valueOfThisObject.Equals(valueToCompareTo)))
+                {
+                    return false;
+                }
             }
 
             // If we've gotten this far and signature properties were found, then we can
@@ -163,7 +175,7 @@
         /// </remarks>
         protected virtual Type GetTypeUnproxied()
         {
-            return GetType();
+            return this.GetType();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace SharpArch.Domain.Reflection
         /// <param name="properties">The injectable properties.</param>
         public TypePropertyDescriptor(Type ownerType, PropertyInfo[] properties)
         {
-            if (ownerType == null) throw new ArgumentNullException("ownerType");
+            Check.Require(ownerType != null, "Owner type information can not be null.");
 
             OwnerType = ownerType;
             if (properties != null && properties.Length > 0)

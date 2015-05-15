@@ -15,18 +15,19 @@
         public TypePropertyDescriptor Find(Type type)
         {
             TypePropertyDescriptor result;
-            cache.TryGetValue(type, out result);
+            this.cache.TryGetValue(type, out result);
             return result;
         }
 
         public TypePropertyDescriptor GetOrAdd(Type type, Func<TypePropertyDescriptor> factory)
         {
-            return cache.GetOrAdd(type, factory());
+            Check.Require(factory != null, "Value factory can not be null.");
+            return this.cache.GetOrAdd(type, factory());
         }
 
         public void Clear()
         {
-            cache.Clear();
+            this.cache.Clear();
         }
     }
 }
