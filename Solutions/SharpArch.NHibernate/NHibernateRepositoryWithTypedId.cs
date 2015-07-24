@@ -1,16 +1,15 @@
 namespace SharpArch.NHibernate
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using Contracts.Repositories;
 
+    using Domain;
+    using Domain.DomainModel;
+    using Domain.PersistenceSupport;
+    
     using global::NHibernate;
     using global::NHibernate.Criterion;
-
-    using SharpArch.Domain;
-    using SharpArch.Domain.DomainModel;
-    using SharpArch.Domain.PersistenceSupport;
-    using SharpArch.NHibernate.Contracts.Repositories;
 
     /// <summary>
     ///     Provides a fully loaded DAO which may be created in a few ways including:
@@ -21,9 +20,19 @@ namespace SharpArch.NHibernate
     {
         #region Constants and Fields
 
-        private ITransactionManager transactionManager;
+        private readonly ITransactionManager transactionManager;
+        private readonly ISession session;
 
         #endregion
+
+        public NHibernateRepositoryWithTypedId(ITransactionManager transactionManager, ISession session)
+        {
+            Check.Require(transactionManager != null, "TransactionManager is required.");
+            Check.Require(session != null, "Session is equired.");
+
+            this.transactionManager = transactionManager;
+            this.session = session;
+        }
 
         #region Properties
 
@@ -31,23 +40,13 @@ namespace SharpArch.NHibernate
         {
             get
             {
-                if (this.transactionManager == null)
-                {
-                    string factoryKey = SessionFactoryKeyHelper.GetKeyFrom(this);
-                    this.transactionManager = new TransactionManager(factoryKey);
-                }
-
                 return this.transactionManager;
             }
         }
 
         protected virtual ISession Session
         {
-            get
-            {
-                string factoryKey = SessionFactoryKeyHelper.GetKeyFrom(this);
-                return NHibernateSession.CurrentFor(factoryKey);
-            }
+            get { return this.session; }
         }
 
         #endregion
@@ -206,6 +205,7 @@ namespace SharpArch.NHibernate
         /// </summary>
         private static LockMode ConvertFrom(Enums.LockMode lockMode)
         {
+            // todo: Consider replacing with switch
             FieldInfo translatedLockMode = typeof(LockMode).GetField(lockMode.ToString(), BindingFlags.Public | BindingFlags.Static);
 
             Check.Ensure(translatedLockMode != null, "The provided lock mode , '" + lockMode + ",' " + "could not be translated into an NHibernate.LockMode. This is probably because " + "NHibernate was updated and now has different lock modes which are out of synch " + "with the lock modes maintained in the domain layer.");

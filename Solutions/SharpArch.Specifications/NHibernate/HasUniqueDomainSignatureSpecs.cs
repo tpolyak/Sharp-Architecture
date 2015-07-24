@@ -16,7 +16,7 @@ namespace SharpArch.Specifications.NHibernate
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
-
+    using global::NHibernate;
     using global::SharpArch.Domain;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.Features.Specifications;
@@ -26,24 +26,42 @@ namespace SharpArch.Specifications.NHibernate
     using Machine.Specifications;
 
     using global::SharpArch.Testing.NUnit.NHibernate;
+    using Moq;
+    using It = Machine.Specifications.It;
 
     public class has_unique_domain_signature_specs
     {
         public abstract class specification_for_has_unique_domain_signature_validator
         {
-            protected static IEntityDuplicateChecker entityDuplicateChecker;
+            protected static ISession session;
+            protected static ValidationContext validationContext;
+            protected static Mock<IServiceProvider> serviceProviderMock;
 
             Establish context = () =>
             {
-                entityDuplicateChecker = new EntityDuplicateChecker();
-                entityDuplicateChecker.AddToServiceLocator();
+                session = RepositoryTestsHelper.InitializeDatabase();
+
+                serviceProviderMock = new Mock<IServiceProvider>();
+                serviceProviderMock.Setup(sp => sp.GetService(typeof (IEntityDuplicateChecker)))
+                    .Returns(new EntityDuplicateChecker(session));
             };
 
-            Cleanup after = ServiceLocatorHelper.Reset;
+            Cleanup after = delegate
+            {
+                ServiceLocatorHelper.Reset();
+                RepositoryTestsHelper.Close(session);
+                session = null;
+            };
+
+
+            protected static ValidationContext ValidationContextFor(object objectToValidate)
+            {
+                return new ValidationContext(objectToValidate, serviceProviderMock.Object, null);
+            }
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_an_entity_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
+        public class when_validating_an_entity_and_a_duplicate_exists : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Contractor duplicateContractor;
             static bool result;
@@ -51,21 +69,22 @@ namespace SharpArch.Specifications.NHibernate
             Establish context = () =>
             {
                 var contractor = new Contractor() { Name = "codai" };
-                NHibernateSession.Current.Save(contractor);
-                RepositoryTestsHelper.FlushSessionAndEvict(contractor);
+                session.Save(contractor);
+                session.FlushAndEvict(contractor);
                 duplicateContractor = new Contractor() { Name = "codai" };
+
             };
 
             Because of = () =>
             {
-                result = duplicateContractor.IsValid();
+                result = duplicateContractor.IsValid(ValidationContextFor(duplicateContractor));
             };
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureWithGuidIdAttribute))]
-        public class when_validating_an_entity_with_a_guid_id_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
+        public class when_validating_an_entity_with_a_guid_id_and_a_duplicate_exists : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static ObjectWithGuidId duplicateObjectWithGuidId;
             static bool result;
@@ -73,18 +92,18 @@ namespace SharpArch.Specifications.NHibernate
             Establish context = () =>
             {
                 var objectWithGuidId = new ObjectWithGuidId { Name = "codai" };
-                NHibernateSession.Current.Save(objectWithGuidId);
-                RepositoryTestsHelper.FlushSessionAndEvict(objectWithGuidId);
+                session.Save(objectWithGuidId);
+                session.FlushAndEvict(objectWithGuidId);
                 duplicateObjectWithGuidId = new ObjectWithGuidId { Name = "codai" };
             };
 
-            Because of = () => result = duplicateObjectWithGuidId.IsValid();
+            Because of = () => result = duplicateObjectWithGuidId.IsValid(ValidationContextFor(duplicateObjectWithGuidId));
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureWithStringIdAttribute))]
-        public class when_validating_an_entity_with_a_string_id_and_a_duplicate_exists : specification_for_has_unique_domain_signature_validator
+        public class when_validating_an_entity_with_a_string_id_and_a_duplicate_exists : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static User duplicateUser;
             static bool result;
@@ -92,18 +111,18 @@ namespace SharpArch.Specifications.NHibernate
             Establish context = () =>
             {
                 var user = new User("user1", "123-12-1234");
-                NHibernateSession.Current.Save(user);
-                RepositoryTestsHelper.FlushSessionAndEvict(user);
+                session.Save(user);
+                session.FlushAndEvict(user);
                 duplicateUser = new User("user2", "123-12-1234");
             };
 
-            Because of = () => result = duplicateUser.IsValid();
+            Because of = () => result = duplicateUser.IsValid(ValidationContextFor(duplicateUser));
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_an_entity_and_the_entity_is_unique : specification_for_has_unique_domain_signature_validator
+        public class when_validating_an_entity_and_the_entity_is_unique : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Contractor contractor;
             static bool result;
@@ -113,13 +132,13 @@ namespace SharpArch.Specifications.NHibernate
                 contractor = new Contractor { Name = "the name" };
             };
 
-            Because of = () => result = contractor.IsValid();
+            Because of = () => result = contractor.IsValid(ValidationContextFor(contractor));
 
             It should_say_the_entity_is_valid = () => result.ShouldBeTrue();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_an_entity_with_the_wrong_validator_type : specification_for_has_unique_domain_signature_validator
+        public class when_validating_an_entity_with_the_wrong_validator_type : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static ObjectWithStringIdAndValidatorForIntId entity;
             static Exception result;
@@ -130,13 +149,13 @@ namespace SharpArch.Specifications.NHibernate
                 entity = new ObjectWithStringIdAndValidatorForIntId { Name = "whatever" };
             };
 
-            Because of = () => result = Catch.Exception(() => entity.IsValid());
+            Because of = () => result = Catch.Exception(() => entity.IsValid(ValidationContextFor(entity)));
 
             It should_throw_a_precondition_exception = () => result.ShouldBeOfExactType(typeof(PreconditionException));
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_a_unique_entity_that_has_another_entity_as_part_of_domain_signature : specification_for_has_unique_domain_signature_validator
+        public class when_validating_a_unique_entity_that_has_another_entity_as_part_of_domain_signature : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Song song;
             static bool result;
@@ -144,18 +163,18 @@ namespace SharpArch.Specifications.NHibernate
             private Establish context = () =>
             {
                 var tigerlillies = new Band() { BandName = "The Tiger Lillies", DateFormed = DateTime.Now };
-                NHibernateSession.Current.Save(tigerlillies);
-                RepositoryTestsHelper.FlushSessionAndEvict(tigerlillies);
+                session.Save(tigerlillies);
+                session.FlushAndEvict(tigerlillies);
                 song = new Song() { Performer = tigerlillies, SongTitle = "Souvenirs" };
             };
 
-            Because of = () => result = song.IsValid();
+            Because of = () => result = song.IsValid(ValidationContextFor(song));
 
             It should_say_the_entity_is_valid = () => result.ShouldBeTrue();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_a_unique_entity_that_has_a_null_value_domain_signature_property : specification_for_has_unique_domain_signature_validator
+        public class when_validating_a_unique_entity_that_has_a_null_value_domain_signature_property : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Song song;
             static bool result;
@@ -165,14 +184,14 @@ namespace SharpArch.Specifications.NHibernate
                 song = new Song() { SongTitle = "Souvenirs" };
             };
 
-            Because of = () => result = song.IsValid();
+            Because of = () => result = song.IsValid(ValidationContextFor(song));
 
             It should_say_the_entity_is_valid = () => result.ShouldBeTrue();
         }
 
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_a_duplicate_entity_that_has_another_entity_as_part_of_domain_signature : specification_for_has_unique_domain_signature_validator
+        public class when_validating_a_duplicate_entity_that_has_another_entity_as_part_of_domain_signature : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Song duplicateSong;
             static bool result;
@@ -180,19 +199,19 @@ namespace SharpArch.Specifications.NHibernate
             private Establish context = () =>
             {
                 var tragicRoundabout = new Band() { BandName = "Tragic Roundabout", DateFormed = DateTime.Now };
-                NHibernateSession.Current.Save(tragicRoundabout);
+                session.Save(tragicRoundabout);
                 var song = new Song() { Performer = tragicRoundabout, SongTitle = "Prince Geek" };
-                NHibernateSession.Current.Save(song);
+                session.Save(song);
                 duplicateSong = new Song() { Performer = tragicRoundabout, SongTitle = "Prince Geek" };
             };
 
-            Because of = () => result = duplicateSong.IsValid();
+            Because of = () => result = duplicateSong.IsValid(ValidationContextFor(duplicateSong));
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_a_duplicate_entity_that_has_a_null_value_domain_signature_property : specification_for_has_unique_domain_signature_validator
+        public class when_validating_a_duplicate_entity_that_has_a_null_value_domain_signature_property : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Song duplicateSong;
             static bool result;
@@ -200,17 +219,17 @@ namespace SharpArch.Specifications.NHibernate
             private Establish context = () =>
             {
                 var song = new Song() { SongTitle = "Souvenirs" };
-                NHibernateSession.Current.Save(song);
+                session.Save(song);
                 duplicateSong = new Song() { SongTitle = "Souvenirs" };
             };
 
-            Because of = () => result = duplicateSong.IsValid();
+            Because of = () => result = duplicateSong.IsValid(ValidationContextFor(duplicateSong));
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_a_duplicate_entity_that_has_a_value_object_domain_signature_property : specification_for_has_unique_domain_signature_validator
+        public class when_validating_a_duplicate_entity_that_has_a_value_object_domain_signature_property : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Customer duplicateCustomer;
             static bool result;
@@ -219,17 +238,17 @@ namespace SharpArch.Specifications.NHibernate
             {
                 var address = new Address() { PostCode = "N15MO", StreetAddress = "98 Baker Street" };
                 var customer = new Customer() { Name = "Sherlock Holmes", Address = address };
-                NHibernateSession.Current.Save(customer);
+                session.Save(customer);
                 duplicateCustomer = new Customer() { Name = "Sherlock Holmes", Address = address};
             };
 
-            Because of = () => result = duplicateCustomer.IsValid();
+            Because of = () => result = duplicateCustomer.IsValid(ValidationContextFor(duplicateCustomer));
 
             It should_say_the_entity_is_invalid = () => result.ShouldBeFalse();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class When_validating_duplicate_entity_that_has_null_value_for_property_of_unique_entity_type : specification_for_has_unique_domain_signature_validator
+        public class When_validating_duplicate_entity_that_has_null_value_for_property_of_unique_entity_type : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Album newAlbum;
             static ICollection<ValidationResult> result;
@@ -237,11 +256,11 @@ namespace SharpArch.Specifications.NHibernate
             private Establish context = () =>
             {
                 var post = new Album() { Title = "Atom Heart Mother" };
-                NHibernateSession.Current.Save(post);
+                session.Save(post);
                 newAlbum = new Album() { Title = "Atom Heart Mother" };
             };
 
-            Because of = () => result = newAlbum.ValidationResults();
+            Because of = () => result = newAlbum.ValidationResults(ValidationContextFor(newAlbum));
 
             It should_say_the_entity_is_invalid = () => result.Any(x => x.ErrorMessage.Contains("Album"));
 
@@ -249,7 +268,7 @@ namespace SharpArch.Specifications.NHibernate
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_a_duplicate_entity_with_a_specified_error_message : specification_for_has_unique_domain_signature_validator
+        public class when_validating_a_duplicate_entity_with_a_specified_error_message : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Band duplicate;
             static ICollection<ValidationResult> result;
@@ -257,18 +276,18 @@ namespace SharpArch.Specifications.NHibernate
             private Establish context = () =>
             {
                 var tigerlillies = new Band() { BandName = "King Prawn", DateFormed = DateTime.Now };
-                NHibernateSession.Current.Save(tigerlillies);
-                RepositoryTestsHelper.FlushSessionAndEvict(tigerlillies);
+                session.Save(tigerlillies);
+                session.FlushAndEvict(tigerlillies);
                 duplicate = new Band() { BandName = "King Prawn", DateFormed = DateTime.Now };
             };
 
-            Because of = () => result = duplicate.ValidationResults();
+            Because of = () => result = duplicate.ValidationResults(ValidationContextFor(duplicate));
 
             It should_return_the_specified_message_as_validation_result = () => result.Any(x => x.ErrorMessage == "Band already exists").ShouldBeTrue();
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]
-        public class when_validating_a_duplicate_entity_with_no_error_message_specified : specification_for_has_unique_domain_signature_validator
+        public class when_validating_a_duplicate_entity_with_no_error_message_specified : has_unique_domain_signature_specs.specification_for_has_unique_domain_signature_validator
         {
             static Contractor duplicate;
             static ICollection<ValidationResult> result;
@@ -276,12 +295,12 @@ namespace SharpArch.Specifications.NHibernate
             private Establish context = () =>
             {
                 var seif = new Contractor() { Name = "Seif Attar"};
-                NHibernateSession.Current.Save(seif);
-                RepositoryTestsHelper.FlushSessionAndEvict(seif);
+                session.Save(seif);
+                session.FlushAndEvict(seif);
                 duplicate = new Contractor() { Name = "Seif Attar"};
             };
 
-            Because of = () => result = duplicate.ValidationResults();
+            Because of = () => result = duplicate.ValidationResults(ValidationContextFor(duplicate));
 
             It should_return_the_default_duplicate_error = () => result.Any(x => x.ErrorMessage == "Provided values matched an existing, duplicate entity").ShouldBeTrue();
         }

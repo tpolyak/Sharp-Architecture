@@ -1,19 +1,23 @@
 namespace SharpArch.NHibernate
 {
-    using System.Collections.Generic;
-
+    using Domain;
     using global::NHibernate;
-
-    using SharpArch.Domain.PersistenceSupport;
 
     public abstract class NHibernateQuery
     {
+        private readonly ISession session;
+
+        protected NHibernateQuery(ISession session)
+        {
+            Check.Require(session != null, "Session is required.");
+            this.session = session;
+        }
+
         protected virtual ISession Session
         {
             get
             {
-                string factoryKey = SessionFactoryKeyHelper.GetKeyFrom(this);
-                return NHibernateSession.CurrentFor(factoryKey);
+                return this.session;
             }
         }
     }

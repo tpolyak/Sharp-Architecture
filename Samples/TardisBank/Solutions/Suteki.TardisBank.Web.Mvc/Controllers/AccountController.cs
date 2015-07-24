@@ -156,12 +156,6 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
         [HttpGet, SharpArch.Web.Mvc.Transaction]
         public ActionResult WithdrawCashForChild(int id)
         {
-            // id is the child's user name
-            if (id == null)
-            {
-                throw new ArgumentNullException("id");
-            }
-
             var parent = this.userService.CurrentUser as Parent;
             var child = this.userService.GetUser(id) as Child;
 

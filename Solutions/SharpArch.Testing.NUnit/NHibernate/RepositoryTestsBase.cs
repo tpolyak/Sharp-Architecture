@@ -1,6 +1,8 @@
 ﻿namespace SharpArch.Testing.NUnit.NHibernate
 {
+    using global::NHibernate;
     using global::NUnit.Framework;
+    using SharpArch.NHibernate;
 
     /// <summary>
     ///     Provides a base class for running unit tests against an in-memory database created
@@ -12,15 +14,33 @@
     /// </summary>
     public abstract class RepositoryTestsBase
     {
+        private ISessionFactory sessionFactory;
+        protected TransactionManager TransactionManager { get; private set; }
+
+        protected ISession Session { get; private set; }
+
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            sessionFactory = RepositoryTestsHelper.InitializeNHibernateSession().BuildSessionFactory();
+        }
+
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
+        {
+            RepositoryTestsHelper.Shutdown(sessionFactory);
+        }
+
         [TearDown]
         public virtual void TearDown()
         {
-            RepositoryTestsHelper.Shutdown();
+            RepositoryTestsHelper.Close(Session);
         }
 
         protected void FlushSessionAndEvict(object instance)
         {
-            RepositoryTestsHelper.FlushSessionAndEvict(instance);
+            Session.FlushAndEvict(instance);
         }
 
         protected abstract void LoadTestData();
@@ -28,8 +48,8 @@
         [SetUp]
         protected virtual void SetUp()
         {
-            RepositoryTestsHelper.InitializeDatabase();
-
+            Session = RepositoryTestsHelper.InitializeDatabase();
+            TransactionManager = new TransactionManager(Session);
             this.LoadTestData();
         }
     }

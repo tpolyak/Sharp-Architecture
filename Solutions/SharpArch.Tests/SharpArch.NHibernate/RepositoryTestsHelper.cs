@@ -6,30 +6,14 @@
     using System.Reflection;
 
     using FluentNHibernate.Automapping;
-
-    using global::NHibernate.Tool.hbm2ddl;
-
     using global::SharpArch.Domain;
-    using global::SharpArch.NHibernate;
     using global::SharpArch.NHibernate.FluentNHibernate;
-
-    using Configuration = global::NHibernate.Cfg.Configuration;
 
     /// <summary>
     ///     Provides helper methods for consolidating duplicated code from test fixture base classes.
     /// </summary>
     public class RepositoryTestsHelper
     {
-        public static void FlushSessionAndEvict(object instance)
-        {
-            // Commits any changes up to this point to the database
-            NHibernateSession.Current.Flush();
-
-            // Evicts the instance from the current session so that it can be loaded during testing;
-            // this gives the test a clean slate, if you will, to work with
-            NHibernateSession.Current.Evict(instance);
-        }
-
         [CLSCompliant(false)]
         public static AutoPersistenceModel GetAutoPersistenceModel(string[] assemblies)
         {
@@ -54,26 +38,6 @@
                 "at the end of each is optional.");
 
             return mappingAssembliesSetting.Split(',');
-        }
-
-        public static void InitializeDatabase()
-        {
-            var cfg = InitializeNHibernateSession();
-            var connection = NHibernateSession.Current.Connection;
-            new SchemaExport(cfg).Execute(false, true, false, connection, null);
-        }
-
-        public static Configuration InitializeNHibernateSession()
-        {
-            var mappingAssemblies = GetMappingAssemblies();
-            var autoPersistenceModel = GetAutoPersistenceModel(mappingAssemblies);
-            return NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoPersistenceModel);
-        }
-
-        public static void Shutdown()
-        {
-            NHibernateSession.CloseAllSessions();
-            NHibernateSession.Reset();
         }
     }
 }

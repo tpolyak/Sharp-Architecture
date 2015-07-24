@@ -25,33 +25,39 @@
     public class MappingIntegrationTests
     {
         private Configuration configuration;
+        private ISessionFactory sessionFactory;
+        private ISession session;
 
         [SetUp]
         public virtual void SetUp()
         {
             string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
-            this.configuration = NHibernateSession.Init(
-                new SimpleSessionStorage(),
-                mappingAssemblies,
-                new AutoPersistenceModelGenerator().Generate(),
-                "../../../../Solutions/Suteki.TardisBank.Web.Mvc/NHibernate.config");
+            this.configuration = new NHibernateSessionFactoryBuilder()
+                .AddMappingAssemblies(mappingAssemblies)
+                .UseAutoPersitenceModel(new AutoPersistenceModelGenerator().Generate())
+                .UseConfigFile("../../../../Solutions/Suteki.TardisBank.Web.Mvc/NHibernate.config")
+                .BuildConfiguration();
+            sessionFactory = configuration.BuildSessionFactory();
+            session = sessionFactory.OpenSession();
         }
 
         [TearDown]
         public virtual void TearDown()
         {
-            NHibernateSession.CloseAllSessions();
-            NHibernateSession.Reset();
+            if (sessionFactory != null)
+            {
+                sessionFactory.Dispose();
+            }
         }
 
         [Test]
         public void CanConfirmDatabaseMatchesMappings()
         {
-            var allClassMetadata = NHibernateSession.GetDefaultSessionFactory().GetAllClassMetadata();
+            var allClassMetadata = sessionFactory.GetAllClassMetadata();
 
             foreach (var entry in allClassMetadata)
             {
-                NHibernateSession.Current.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
+                session.CreateCriteria(entry.Value.GetMappedClass(EntityMode.Poco))
                      .SetMaxResults(0).List();
             }
         }
@@ -62,8 +68,6 @@
         [Test]
         public void CanGenerateDatabaseSchema()
         {
-            var session = NHibernateSession.GetDefaultSessionFactory().OpenSession();
-
             using (TextWriter stringWriter = new StreamWriter("../../../../Database/UnitTestGeneratedSchema.sql"))
             {
                 new SchemaExport(this.configuration).Execute(true, false, false, session.Connection, stringWriter);

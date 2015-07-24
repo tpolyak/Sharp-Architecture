@@ -3,11 +3,10 @@ namespace Suteki.TardisBank.Tasks
     using System;
     using System.Linq;
 
+    using Domain;
+
+    using NHibernate;
     using NHibernate.Linq;
-
-    using SharpArch.NHibernate;
-
-    using Suteki.TardisBank.Domain;
 
     public interface ISchedulerService
     {
@@ -15,9 +14,12 @@ namespace Suteki.TardisBank.Tasks
     }
 
     public class SchedulerService : ISchedulerService
-    {   
-        public SchedulerService()
+    {
+        private ISession session;
+
+        public SchedulerService(ISession session)
         {
+            this.session = session;
         }
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace Suteki.TardisBank.Tasks
         {
             var today = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59);
 
-            var results = NHibernateSession.Current.Query<Child>().
+            var results = this.session.Query<Child>().
                 Where(c => c.Account.PaymentSchedules.Any(p => p.NextRun < today)).Fetch(c => c.Account);
 
             foreach (var child in results.ToList())

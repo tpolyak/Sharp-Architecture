@@ -1,5 +1,6 @@
 ﻿namespace SharpArch.Testing.NUnit.NHibernate
 {
+    using global::NHibernate;
     using global::NUnit.Framework;
 
     /// <summary>
@@ -14,21 +15,23 @@
     /// </summary>
     public abstract class RepositoryBehaviorSpecificationTestsBase : BehaviorSpecificationTestsBase
     {
+        private ISession session;
+
         [TearDown]
         public virtual void TearDown() 
         {
-            RepositoryTestsHelper.Shutdown();
+            RepositoryTestsHelper.Close(session);
         }
 
         protected void FlushSessionAndEvict(object instance) 
         {
-            RepositoryTestsHelper.FlushSessionAndEvict(instance);
+            session.FlushAndEvict(instance);
         }
 
         [SetUp]
         protected override void SetUp() 
         {
-            RepositoryTestsHelper.InitializeDatabase();
+            session = RepositoryTestsHelper.InitializeDatabase();
             base.SetUp();
         }
     }

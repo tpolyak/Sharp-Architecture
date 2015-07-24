@@ -9,7 +9,7 @@
   {
     public string GetKey()
     {
-      return NHibernateSession.DefaultFactoryKey;
+        return NHibernateSessionFactoryBuilder.DefaultConfigurationName;
     }
 
     /// <summary>

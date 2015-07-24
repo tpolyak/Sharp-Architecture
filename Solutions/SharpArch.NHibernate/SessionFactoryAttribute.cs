@@ -1,6 +1,7 @@
 ﻿namespace SharpArch.NHibernate
 {
     using System;
+    using Domain;
 
     /// <summary>
     ///     Provides the ability to decorate repositories with an attribute defining the factory key
@@ -11,11 +12,16 @@
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class SessionFactoryAttribute : Attribute
     {
-        public readonly string FactoryKey;
+        private readonly string factoryKey;
 
         public SessionFactoryAttribute(string factoryKey)
         {
-            this.FactoryKey = factoryKey;
+            this.factoryKey = factoryKey;
+        }
+
+        public string FactoryKey
+        {
+            get { return factoryKey; }
         }
 
         /// <summary>
@@ -25,10 +31,7 @@
         /// </summary>
         public static string GetKeyFrom(object target)
         {
-            if (!NHibernateSession.IsConfiguredForMultipleDatabases())
-            {
-                return NHibernateSession.DefaultFactoryKey;
-            }
+            Check.Require(target != null, "Target is required.");
 
             var objectType = target.GetType();
 
@@ -40,7 +43,7 @@
                 return attribute.FactoryKey;
             }
 
-            return NHibernateSession.DefaultFactoryKey;
+            return NHibernateSessionFactoryBuilder.DefaultConfigurationName;
         }
     }
 }

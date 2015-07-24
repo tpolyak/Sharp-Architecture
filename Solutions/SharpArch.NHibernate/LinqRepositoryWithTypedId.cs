@@ -1,14 +1,18 @@
 namespace SharpArch.NHibernate
 {
     using System.Linq;
-
+    using global::NHibernate;
     using global::NHibernate.Linq;
 
-    using SharpArch.Domain.PersistenceSupport;
-    using SharpArch.Domain.Specifications;
+    using Domain.PersistenceSupport;
+    using Domain.Specifications;
 
     public class LinqRepositoryWithTypedId<T, TId> : NHibernateRepositoryWithTypedId<T, TId>, ILinqRepositoryWithTypedId<T, TId>
     {
+        public LinqRepositoryWithTypedId(ITransactionManager transactionManager, ISession session) : base(transactionManager, session)
+        {
+        }
+
         public override void Delete(T target)
         {
             this.Session.Delete(target);

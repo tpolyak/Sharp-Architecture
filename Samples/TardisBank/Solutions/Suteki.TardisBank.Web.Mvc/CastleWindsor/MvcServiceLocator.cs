@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using Castle.Windsor;
-using Microsoft.Practices.ServiceLocation;
-
-namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
+﻿namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+
+    using Microsoft.Practices.ServiceLocation;
+
     public class MvcServiceLocator: ServiceLocatorImplBase
     {
         /// <summary>

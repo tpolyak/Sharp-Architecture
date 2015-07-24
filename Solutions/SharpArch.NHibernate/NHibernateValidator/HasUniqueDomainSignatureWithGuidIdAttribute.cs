@@ -3,27 +3,22 @@ namespace SharpArch.NHibernate.NHibernateValidator
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    using SharpArch.Domain;
-    using SharpArch.Domain.DomainModel;
-    using SharpArch.Domain.PersistenceSupport;
-
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class HasUniqueDomainSignatureWithGuidIdAttribute : ValidationAttribute
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class HasUniqueDomainSignatureWithGuidIdAttribute : HasUniqueDomainSignatureAttributeBase
     {
-        public HasUniqueDomainSignatureWithGuidIdAttribute()
-            : base("Provided values matched an existing, duplicate entity")
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-        }
-
-        public override bool IsValid(object value)
-        {
-            var entityToValidate = value as IEntityWithTypedId<Guid>;
-            Check.Require(
-                entityToValidate != null,
-                "This validator must be used at the class level of an IDomainWithTypedId<Guid>. The type you provided was " + value.GetType());
-
-            var duplicateChecker = SafeServiceLocator<IEntityDuplicateChecker>.GetService();
-            return !duplicateChecker.DoesDuplicateExistWithTypedIdOf(entityToValidate);
+            return DoValidate<Guid>(value, validationContext);
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public sealed class HasUniqueDomainSignatureWithBigIntIdAttribute : HasUniqueDomainSignatureAttributeBase
+    {
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            return DoValidate<long>(value, validationContext);
+        }
+    }
+
 }
