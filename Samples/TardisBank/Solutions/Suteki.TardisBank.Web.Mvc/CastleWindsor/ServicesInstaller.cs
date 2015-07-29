@@ -4,18 +4,18 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
     using Castle.MicroKernel.SubSystems.Configuration;
     using Castle.Windsor;
 
-    using Suteki.TardisBank.Tasks;
+    using Tasks;
 
     public class TasksInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                AllTypes
+                Classes
                     .FromAssemblyContaining<UserService>()
                     .Where(Component.IsInSameNamespaceAs<UserService>())
                     .WithService.DefaultInterfaces()
-                    .Configure(c => c.LifestyleTransient())
+                    .LifestyleTransient()
                 );
         }
     }

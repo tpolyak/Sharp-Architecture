@@ -10,9 +10,17 @@
 
     using global::NHibernate;
     using global::NHibernate.Criterion;
+    using global::NHibernate.Util;
 
     public class EntityDuplicateChecker : IEntityDuplicateChecker
     {
+        private readonly ISession session;
+
+        public EntityDuplicateChecker(ISession session)
+        {
+            this.session = session;
+        }
+
         private static readonly DateTime UninitializedDatetime = default(DateTime);
 
         /// <summary>
@@ -29,14 +37,21 @@
             // We do NOT want this to flush pending changes as checking for a duplicate should 
             // only compare the object against data that's already in the database
             session.FlushMode = FlushMode.Never;
+            try
+            {
+                var criteria =
+                    session.CreateCriteria(entity.GetType())
+                        .Add(Restrictions.Not(Restrictions.Eq("Id", entity.Id)))
+                        .SetMaxResults(1);
 
-            var criteria =
-                session.CreateCriteria(entity.GetType()).Add(Restrictions.Not(Restrictions.Eq("Id", entity.Id))).SetMaxResults(1);
-
-            AppendSignaturePropertyCriteriaTo(criteria, entity);
-            var doesDuplicateExist = criteria.List().Count > 0;
-            session.FlushMode = previousFlushMode;
-            return doesDuplicateExist;
+                AppendSignaturePropertyCriteriaTo(criteria, entity);
+                var doesDuplicateExist = criteria.List().Any();
+                return doesDuplicateExist;
+            }
+            finally
+            {
+                session.FlushMode = previousFlushMode;    
+            }
         }
 
         private static void AppendEntityCriteriaTo<TId>(
@@ -66,10 +81,11 @@
                     : Restrictions.IsNull(propertyName));
         }
 
-        private static ISession GetSessionFor(object entity)
+        private ISession GetSessionFor(object entity)
         {
-            var factoryKey = SessionFactoryKeyHelper.GetKeyFrom(entity);
-            return NHibernateSession.CurrentFor(factoryKey);
+            //var factoryKey = SessionFactoryKeyHelper.GetKeyFrom(entity);
+            // return NHibernateSession.CurrentFor(factoryKey);
+            return this.session;
         }
 
         private static string GetPropertyName(string parentPropertyName, PropertyInfo signatureProperty)
@@ -84,7 +100,7 @@
                 parentPropertyName += ".";
             }
 
-            return string.Format("{0}{1}", parentPropertyName, signatureProperty.Name);
+            return string.Concat(parentPropertyName, signatureProperty.Name);
         }
 
         private static void AppendDateTimePropertyCriteriaTo(ICriteria criteria, string propertyName, object propertyValue)

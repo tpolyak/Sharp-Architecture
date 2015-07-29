@@ -11,14 +11,19 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                AllTypes.FromAssemblyNamed("Suteki.TardisBank.Web.Mvc")
+                Classes.FromAssemblyNamed("Suteki.TardisBank.Web.Mvc")
                     .BasedOn<NHibernateQuery>()
-                    .WithService.DefaultInterfaces());
+                    .WithService.DefaultInterfaces()
+                    .LifestyleTransient()
+                );
+
 
             container.Register(
-                AllTypes.FromAssemblyNamed("Suteki.TardisBank.Infrastructure")
-                    .BasedOn(typeof(NHibernateQuery))
-                    .WithService.DefaultInterfaces());
+                Classes.FromAssemblyNamed("Suteki.TardisBank.Infrastructure")
+                    .BasedOn(typeof (NHibernateQuery))
+                    .WithService.DefaultInterfaces()
+                    .LifestyleTransient()
+                );
         }
     }
 }

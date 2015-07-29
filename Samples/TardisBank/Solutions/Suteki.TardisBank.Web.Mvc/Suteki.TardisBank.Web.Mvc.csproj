@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -255,6 +256,7 @@
     <Compile Include="CastleWindsor\HandlerInstaller.cs" />
     <Compile Include="CastleWindsor\MvcGooInstaller.cs" />
     <Compile Include="CastleWindsor\MvcServiceLocator.cs" />
+    <Compile Include="CastleWindsor\NHibernateInstaller.cs" />
     <Compile Include="CastleWindsor\QueriesInstaller.cs" />
     <Compile Include="CastleWindsor\RepositoriesInstaller.cs" />
     <Compile Include="CastleWindsor\ServicesInstaller.cs" />

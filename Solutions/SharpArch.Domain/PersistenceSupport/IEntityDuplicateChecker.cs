@@ -1,6 +1,6 @@
 ﻿namespace SharpArch.Domain.PersistenceSupport
 {
-    using SharpArch.Domain.DomainModel;
+    using DomainModel;
 
     /// <summary>
     ///     Defines the public members of a class that checks an entity for duplicates.

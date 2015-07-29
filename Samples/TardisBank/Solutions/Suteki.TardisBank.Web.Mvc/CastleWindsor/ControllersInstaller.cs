@@ -11,11 +11,11 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                AllTypes
+                Classes
                     .FromThisAssembly()
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name))
+                        .Named(c.Implementation.Name))
                 );
         }
     }

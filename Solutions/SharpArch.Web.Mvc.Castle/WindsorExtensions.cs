@@ -58,6 +58,27 @@
             return container;
         }
 
+        /// <summary>
+        /// Add injectable dependencies support to FilterAttributetes.
+        /// </summary>
+        /// <remarks>
+        /// Replaces <see cref="FilterAttributeFilterProvider"/> with 
+        /// </remarks>
+        /// <param name="container">The container.</param>
+        /// <param name="filterProviders">The filter providers.</param>
+        /// <returns></returns>
+        public static IWindsorContainer InstallFilterProvider(this FilterProviderCollection filterProviders, IWindsorContainer container)
+        {
+            var attributeFilterProviders = filterProviders.OfType<FilterAttributeFilterProvider>().ToArray();
+            foreach (var attributeFilterProvider in attributeFilterProviders)
+            {
+                filterProviders.Remove(attributeFilterProvider);
+            }
+            filterProviders.Add(new WindsorFilterAttributeProvider(container, new TypePropertyDescriptorCache()));
+            return container;
+        }
+
+
         public static IWindsorContainer RegisterControllers(this IWindsorContainer container,
             params Assembly[] assemblies)
         {
