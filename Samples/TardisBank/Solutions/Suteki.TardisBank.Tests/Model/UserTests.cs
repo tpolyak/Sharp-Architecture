@@ -19,26 +19,26 @@ namespace Suteki.TardisBank.Tests.Model
         protected override void LoadTestData()
         {
             var mike = new Parent("Mike Hadlow", "mike@yahoo.com", "yyy");
-            NHibernateSession.Current.Save(mike);
+            Session.Save(mike);
 
             var leo = mike.CreateChild("Leo", "leohadlow", "xxx");
             var yuna = mike.CreateChild("Yuna", "yunahadlow", "xxx");
-            NHibernateSession.Current.Save(leo);
-            NHibernateSession.Current.Save(yuna);
+            Session.Save(leo);
+            Session.Save(yuna);
             
             var john = new Parent("John Robinson", "john@gmail.com", "yyy");
-            NHibernateSession.Current.Save(john);
+            Session.Save(john);
 
             var jim = john.CreateChild("Jim", "jimrobinson", "xxx");
-            NHibernateSession.Current.Save(jim);
+            Session.Save(jim);
 
-            NHibernateSession.Current.Flush();
+            Session.Flush();
         }
 
         [Test]
         public void Should_be_able_to_treat_Parents_and_Children_Polymorphically()
         {
-                var users = NHibernateSession.Current.Query<User>().ToArray();
+                var users = Session.Query<User>().ToArray();
 
                 users.Length.ShouldEqual(5);
             

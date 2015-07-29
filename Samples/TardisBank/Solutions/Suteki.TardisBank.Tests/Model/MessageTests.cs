@@ -17,7 +17,7 @@ namespace Suteki.TardisBank.Tests.Model
         protected override void LoadTestData()
         {
             User user = new Parent("Dad", "mike@mike.com", "xxx");
-            NHibernateSession.Current.Save(user);
+            Session.Save(user);
             this.FlushSessionAndEvict(user);
             userId = user.Id;
         }
@@ -25,7 +25,7 @@ namespace Suteki.TardisBank.Tests.Model
         [Test]
         public void Should_be_able_to_add_a_message_to_a_user()
         {
-            var parentRepository = new LinqRepository<Parent>();
+            var parentRepository = new LinqRepository<Parent>(TransactionManager, Session);
             User userToTestWith = parentRepository.Get(userId);
 
             userToTestWith.SendMessage("some message");

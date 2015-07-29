@@ -7,19 +7,19 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
     using SharpArch.Domain.Commands;
     using SharpArch.Domain.Events;
 
-    using Suteki.TardisBank.Tasks.EventHandlers;
+    using Tasks.EventHandlers;
 
     public class HandlersInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                AllTypes.FromAssemblyContaining<SendMessageEmailHandler>()
+                Classes.FromAssemblyContaining<SendMessageEmailHandler>()
                     .BasedOn(typeof(ICommandHandler<>))
                     .WithService.FirstInterface().LifestyleTransient());
 
             container.Register(
-                AllTypes.FromAssemblyContaining<SendMessageEmailHandler>()
+                Classes.FromAssemblyContaining<SendMessageEmailHandler>()
                     .BasedOn(typeof(IHandles<>))
                     .WithService.FirstInterface().LifestyleTransient());
         }

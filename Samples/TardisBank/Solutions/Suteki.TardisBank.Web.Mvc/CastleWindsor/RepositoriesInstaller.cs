@@ -17,7 +17,7 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
             container.Register(Component.For<ITransactionManager>()
                 .ImplementedBy<TransactionManager>().LifestylePerWebRequest());
         }
-
+        
         private static void AddCustomRepositoriesTo(IWindsorContainer container)
         {
             container.Register(
@@ -32,18 +32,21 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
                 Component.For(typeof(INHibernateRepository<>))
                     .ImplementedBy(typeof(NHibernateRepository<>))
                     .Named("nhibernateRepositoryType")
-                    .Forward(typeof(IRepository<>)));
+                    .Forward(typeof(IRepository<>))
+                    .LifestylePerWebRequest());
             
             container.Register(
                 Component.For(typeof(INHibernateRepositoryWithTypedId<,>))
                     .ImplementedBy(typeof(NHibernateRepositoryWithTypedId<,>))
                     .Named("nhibernateRepositoryWithTypedId")
-                    .Forward(typeof(IRepositoryWithTypedId<,>)));
+                    .Forward(typeof(IRepositoryWithTypedId<,>))
+                    .LifestylePerWebRequest());
             
             container.Register(
                 Component.For(typeof(ILinqRepository<>))
                     .ImplementedBy(typeof(LinqRepository<>))
-                    .Named("nhibernateLinqWithTypedId"));
+                    .Named("nhibernateLinqWithTypedId")
+                    .LifestylePerWebRequest());
         }
     }
 }

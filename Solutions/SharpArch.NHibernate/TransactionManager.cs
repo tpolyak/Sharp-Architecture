@@ -8,9 +8,9 @@
 
     public class TransactionManager : ITransactionManager
     {
-        public TransactionManager()
+        public TransactionManager(ISession session)
         {
-            FactoryKey = NHibernateSession.DefaultFactoryKey;
+            Session = session;
         }
 
         public TransactionManager(string factoryKey)
@@ -22,13 +22,7 @@
 
         public string FactoryKey { get; set; }
 
-        private ISession Session
-        {
-            get
-            {
-                return NHibernateSession.CurrentFor(this.FactoryKey);
-            }
-        }
+        public ISession Session { get; private set; }
 
         public IDisposable BeginTransaction()
         {

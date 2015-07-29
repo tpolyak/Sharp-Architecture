@@ -16,7 +16,7 @@ namespace Suteki.TardisBank.Tests.Model
         protected override void LoadTestData()
         {
             var parent = new Parent(name: "Mike Hadlow", userName: string.Format("{0}@yahoo.com", "mike"), password: "yyy");
-            NHibernateSession.Current.Save(parent);
+            Session.Save(parent);
             this.FlushSessionAndEvict(parent);
             parentId = parent.Id;
         }
@@ -24,7 +24,7 @@ namespace Suteki.TardisBank.Tests.Model
         [Test]
         public void Should_be_able_to_create_and_retrieve_Parent()
         {
-            var parent = new LinqRepository<Parent>().Get(parentId);
+            var parent = new LinqRepository<Parent>(TransactionManager, Session).Get(parentId);
             parent.ShouldNotBeNull();
             parent.Name.ShouldEqual("Mike Hadlow");
             parent.UserName.ShouldEqual("mike@yahoo.com");
@@ -34,7 +34,7 @@ namespace Suteki.TardisBank.Tests.Model
         [Test]
         public void Should_be_able_to_add_a_child_to_a_parent()
         {
-            var linqRepository = new LinqRepository<Parent>();
+            var linqRepository = new LinqRepository<Parent>(TransactionManager, Session);
             var savedParent = linqRepository.Get(parentId);
             savedParent.CreateChild("jim", "jim123", "passw0rd1");
             savedParent.CreateChild("jenny", "jenny123", "passw0rd2");

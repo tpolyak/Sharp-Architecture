@@ -3,8 +3,8 @@
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
 
-    using SharpArch.Domain;
-    using SharpArch.Domain.PersistenceSupport;
+    using Domain;
+    using Domain.PersistenceSupport;
 
     /// <summary>
     /// An attribute that implies a transaction.

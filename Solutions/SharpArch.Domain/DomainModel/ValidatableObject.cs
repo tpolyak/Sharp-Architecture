@@ -15,9 +15,9 @@
         ///     Determines whether this instance is valid.
         /// </summary>
         /// <returns><c>true</c> if this instance is valid; otherwise, <c>false</c>.</returns>
-        public virtual bool IsValid()
+        public virtual bool IsValid(ValidationContext validationContext)
         {
-            return this.ValidationResults().Count == 0;
+            return this.ValidationResults(validationContext).Count == 0;
         }
 
         /// <summary>
@@ -25,10 +25,10 @@
         ///     them were deemed invalid.
         /// </summary>
         /// <returns>A collection of validation results.</returns>
-        public virtual ICollection<ValidationResult> ValidationResults()
+        public virtual ICollection<ValidationResult> ValidationResults(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
-            Validator.TryValidateObject(this, new ValidationContext(this, null, null), validationResults, true);
+            Validator.TryValidateObject(this, validationContext, validationResults, true);
             return validationResults;
         }
     }

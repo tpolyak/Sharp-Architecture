@@ -1,5 +1,6 @@
 namespace Tests.SharpArch.Web.Mvc.ModelBinder
 {
+
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -10,15 +11,13 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
     using CommonServiceLocator.WindsorAdapter;
 
-    using Moq;
-
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
-    using global::SharpArch.Web.Mvc.Castle;
     using global::SharpArch.Web.Mvc.ModelBinder;
 
     using Microsoft.Practices.ServiceLocation;
 
+    using Moq;
 
     using NUnit.Framework;
 

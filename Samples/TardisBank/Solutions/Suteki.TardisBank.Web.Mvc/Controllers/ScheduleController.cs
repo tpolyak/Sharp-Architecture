@@ -3,10 +3,10 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
     using System;
     using System.Web.Mvc;
 
-    using Suteki.TardisBank.Domain;
-    using Suteki.TardisBank.Tasks;
-    using Suteki.TardisBank.Web.Mvc.Controllers.ViewModels;
-    using Suteki.TardisBank.Web.Mvc.Utilities;
+    using Domain;
+    using Tasks;
+    using ViewModels;
+    using Utilities;
 
     public class ScheduleController : Controller
     {

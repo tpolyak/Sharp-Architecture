@@ -1,6 +1,9 @@
 ﻿namespace SharpArch.NHibernate
 {
-    using SharpArch.NHibernate.Contracts.Repositories;
+    using global::NHibernate;
+
+    using Domain.PersistenceSupport;
+    using Contracts.Repositories;
 
     /// <summary>
     ///     Since nearly all of the domain objects you create will have a type of int Id, this 
@@ -10,5 +13,8 @@
     /// </summary>
     public class NHibernateRepository<T> : NHibernateRepositoryWithTypedId<T, int>, INHibernateRepository<T>
     {
+        public NHibernateRepository(ITransactionManager transactionManager, ISession session) : base(transactionManager, session)
+        {
+        }
     }
 }

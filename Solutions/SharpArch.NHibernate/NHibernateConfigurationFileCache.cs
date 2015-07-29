@@ -55,7 +55,7 @@
         /// cached <see cref="Configuration"/> is out of date or not.</param>
         /// <returns>If an up to date cached object is available, a <see cref="Configuration"/> 
         /// object, otherwise null.</returns>
-        public Configuration LoadConfiguration(string configKey, string configPath, string[] mappingAssemblies)
+        public Configuration LoadConfiguration(string configKey, string configPath, IEnumerable<string> mappingAssemblies)
         {
             string cachePath = CachedConfigPath(configKey);
             AppendToDependentFilePaths(mappingAssemblies);

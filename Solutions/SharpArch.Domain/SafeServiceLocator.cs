@@ -10,6 +10,7 @@
     ///     you of what the problem is. Perhaps it would be more aptly named "InformativeServiceLocator".
     /// </summary>
     /// <typeparam name="TDependency">The dependency type.</typeparam>
+    [Obsolete("Remove in favour of constructor or property injection.")]
     public static class SafeServiceLocator<TDependency>
     {
         /// <summary>
