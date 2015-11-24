@@ -16,19 +16,22 @@
     using global::SharpArch.NHibernate.NHibernateValidator;
 
     using Microsoft.Practices.ServiceLocation;
-
+    using Moq;
     using NUnit.Framework;
 
     [TestFixture]
     public class HasUniqueObjectSignatureValidatorTests
     {
+        private Mock<IServiceProvider> serviceProviderMock;
+
         [Test]
         public void CanVerifyThatDuplicateExistsDuringValidationProcess()
         {
             var contractor = new Contractor { Name = "Codai" };
-            IEnumerable<ValidationResult> invalidValues = contractor.ValidationResults();
+            var validationContext = ValidationContextFor(contractor);
+            IEnumerable<ValidationResult> invalidValues = contractor.ValidationResults(validationContext);
 
-            Assert.That(contractor.IsValid(), Is.False);
+            Assert.That(contractor.IsValid(validationContext), Is.False);
 
             foreach (var invalidValue in invalidValues)
             {
@@ -40,24 +43,25 @@
         public void CanVerifyThatDuplicateExistsOfEntityWithGuidIdDuringValidationProcess()
         {
             var objectWithGuidId = new ObjectWithGuidId { Name = "codai" };
-            Assert.That(objectWithGuidId.IsValid(), Is.False);
+
+            Assert.That(objectWithGuidId.IsValid(ValidationContextFor(objectWithGuidId)), Is.False);
 
             objectWithGuidId = new ObjectWithGuidId { Name = "whatever" };
-            Assert.That(objectWithGuidId.IsValid(), Is.True);
+            Assert.That(objectWithGuidId.IsValid(ValidationContextFor(objectWithGuidId)), Is.True);
         }
 
         [Test]
         public void CanVerifyThatDuplicateExistsOfEntityWithStringIdDuringValidationProcess()
         {
             var user = new User { SSN = "123-12-1234" };
-            Assert.That(user.IsValid(), Is.False);
+            Assert.That(user.IsValid(ValidationContextFor(user)), Is.False);
         }
 
         [Test]
         public void CanVerifyThatNoDuplicateExistsDuringValidationProcess()
         {
             var contractor = new Contractor { Name = "Some unique name" };
-            Assert.That(contractor.IsValid());
+            Assert.That(contractor.IsValid(ValidationContextFor(contractor)));
         }
 
         public void InitServiceLocatorInitializer()
@@ -78,13 +82,21 @@
         {
             var invalidCombination = new ObjectWithStringIdAndValidatorForIntId { Name = "whatever" };
 
-            Assert.Throws<PreconditionException>(() => invalidCombination.ValidationResults());
+            Assert.Throws<PreconditionException>(() => invalidCombination.ValidationResults(ValidationContextFor(invalidCombination)));
         }
 
         [SetUp]
         public void SetUp()
         {
-            this.InitServiceLocatorInitializer();
+            //this.InitServiceLocatorInitializer();
+            serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock.Setup(sp => sp.GetService(typeof (IEntityDuplicateChecker)))
+                .Returns(new DuplicateCheckerStub());
+        }
+
+        private ValidationContext ValidationContextFor(object instance)
+        {
+            return new ValidationContext(instance, serviceProviderMock.Object, null);
         }
 
         [HasUniqueDomainSignature]

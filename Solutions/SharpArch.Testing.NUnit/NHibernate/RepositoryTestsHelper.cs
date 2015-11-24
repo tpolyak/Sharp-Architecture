@@ -7,10 +7,11 @@
 
     using FluentNHibernate.Automapping;
 
-    using SharpArch.Domain;
+    using Domain;
     using SharpArch.NHibernate;
     using SharpArch.NHibernate.FluentNHibernate;
 
+    using global::NHibernate;
     using global::NHibernate.Tool.hbm2ddl;
 
     using Configuration = global::NHibernate.Cfg.Configuration;
@@ -18,16 +19,17 @@
     /// <summary>
     ///     Provides helper methods for consolidating duplicated code from test fixture base classes.
     /// </summary>
-    public class RepositoryTestsHelper
+    public static class RepositoryTestsHelper
     {
-        public static void FlushSessionAndEvict(object instance)
+
+        public static void FlushAndEvict(this ISession session, object instance)
         {
             // Commits any changes up to this point to the database
-            NHibernateSession.Current.Flush();
+            session.Flush();
 
             // Evicts the instance from the current session so that it can be loaded during testing;
             // this gives the test a clean slate, if you will, to work with
-            NHibernateSession.Current.Evict(instance);
+            session.Evict(instance);
         }
 
         [CLSCompliant(false)]
@@ -56,24 +58,41 @@
             return mappingAssembliesSetting.Split(',');
         }
 
-        public static void InitializeDatabase()
+        public static ISession InitializeDatabase()
         {
             var cfg = InitializeNHibernateSession();
-            var connection = NHibernateSession.Current.Connection;
+            var session = cfg.BuildSessionFactory().OpenSession();
+            var connection = session.Connection;
             new SchemaExport(cfg).Execute(false, true, false, connection, null);
+
+            return session;
         }
 
         public static Configuration InitializeNHibernateSession()
         {
             var mappingAssemblies = GetMappingAssemblies();
             var autoPersistenceModel = GetAutoPersistenceModel(mappingAssemblies);
-            return NHibernateSession.Init(new SimpleSessionStorage(), mappingAssemblies, autoPersistenceModel);
+            
+            return new NHibernateSessionFactoryBuilder()
+                .AddMappingAssemblies(mappingAssemblies)
+                .UseAutoPersitenceModel(autoPersistenceModel)
+                .BuildConfiguration();
         }
 
-        public static void Shutdown()
+        public static void Close(ISession session)
         {
-            NHibernateSession.CloseAllSessions();
-            NHibernateSession.Reset();
+            if (session != null)
+            {
+                session.Dispose();
+            }
+        }
+
+        public static void Shutdown(ISessionFactory sessionFactory)
+        {
+            if (sessionFactory != null)
+            {
+                sessionFactory.Dispose();
+            }
         }
     }
 }

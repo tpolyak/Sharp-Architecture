@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="PackageArtefacts" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SolutionName>Suteki.TardisBank</SolutionName>
+    <SolutionsPath>$(MSBuildProjectDirectory)\..\Solutions</SolutionsPath>
+    <BuildPath>$(MSBuildProjectDirectory)\..\..\..\BuildSystem</BuildPath>
+    <WebAppPath>$(SolutionsPath)\$(SolutionName).Web.Mvc</WebAppPath>
+    <!-- SolutionRoot>$(BuildPath)\..\Samples\TardisBank</SolutionRoot -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageFiles Include="$(WebAppPath)\**\*.*"
+                  Exclude="$(WebAppPath)\**\bin\**;
+                            $(WebAppPath)\**\Logs\**;
+                            $(WebAppPath)\**\obj\**;">
+      <PackageName>$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).Source.v$(GlobalBuildVersionNumber).zip</PackageName>
+      <WorkingDirectory>$(WebAppPath)</WorkingDirectory>
+      <Flatten>False</Flatten>
+    </PackageFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TemplifyTokens Include="Suteki.TardisBank=Suteki.TardisBank" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TemplifyPath>$(SolutionsPath)</TemplifyPath>
+    <TemplifyPackageName>Sharp Architecture Template</TemplifyPackageName>
+    <TemplifyPackageAuthor>Sharp Architecture Development Team</TemplifyPackageAuthor>
+    <TemplifyPackageVersion>$(GlobalBuildVersionNumber)</TemplifyPackageVersion>
+    <TemplifyPackageRepositoryPath>$(DropsPath)\$(GlobalBuildVersionNumber)</TemplifyPackageRepositoryPath>
+  </PropertyGroup>
+
+  <Import Project="$(BuildPath)\BuildSystem.proj" />
+
+  <Target Name="Build"
+        DependsOnTargets="CleanSolution;
+                            UpdateAssemblyVersion;
+                            BuildSolutions;" />
+
+  <Target Name="PackageArtefacts"
+          DependsOnTargets="Build;
+                            Package;
+                            Templify;
+                            BuildSuccess" />
+
+  <Target Name="PathTest">
+    <Message Text="$(WebAppPath)" />
+  </Target>
+
+
+</Project>

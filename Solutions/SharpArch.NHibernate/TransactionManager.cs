@@ -8,6 +8,11 @@
 
     public class TransactionManager : ITransactionManager
     {
+        public TransactionManager(ISession session)
+        {
+            Session = session;
+        }
+
         public TransactionManager(string factoryKey)
         {
             Check.Require(!string.IsNullOrEmpty(factoryKey), "factoryKey may not be null or empty");
@@ -17,13 +22,7 @@
 
         public string FactoryKey { get; set; }
 
-        private ISession Session
-        {
-            get
-            {
-                return NHibernateSession.CurrentFor(this.FactoryKey);
-            }
-        }
+        public ISession Session { get; private set; }
 
         public IDisposable BeginTransaction()
         {

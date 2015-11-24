@@ -1,0 +1,173 @@
+﻿body
+{
+    background-color: #F2F2F0;
+    color: #333;
+    font: 100% Arial;
+}
+
+#header
+{
+    background-color: #2580a2;
+    background-image: url(Images/title_background.png);
+    color: #fff;
+    height: 145px;
+}
+#header a
+{
+    color: #ccc;
+    font-weight:bold;
+    text-decoration:none;
+}
+#header a:hover
+{
+    color: #fff
+}
+#header h1
+{
+    font-size: 32pt;
+}
+
+#login_status
+{
+    text-align:right;
+}
+
+#content a
+{
+    color: #ccc;
+    background-color: #333;
+    padding: 7px;
+    margin: 7px;
+    text-decoration:none;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#content a:hover
+{
+    color: #fff;
+}
+
+#content a.text_link
+{
+    color: #333;
+    padding: 0px;
+    text-decoration:underline;
+    background-color:transparent;
+}
+
+#content a:hover.text_link
+{
+    color: #333;
+}
+
+#content a.warning
+{
+    background-color: #b00;
+}
+
+div.rightline
+{
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+}
+
+#footer
+{
+    background: #333;
+    color: #ccc;
+    font-size: 10px;
+}
+
+#footer a
+{
+    color: #ccc;
+}
+
+/* Table */
+th
+{
+    text-align:left;
+    padding:5px 5px 5px 5px;
+}
+td
+{
+    padding: 10px 5px;
+}
+td.money
+{
+    text-align: right;
+}
+
+/* Form */
+input
+{
+    font: 100% Arial;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border-style: inset;
+    border-width: 2px;
+}
+
+input[type=submit]
+{
+    color: #ccc;
+    background-color: #333;
+    padding: 7px;
+    text-decoration:none;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border-style: none;
+    border-width: 0;
+}
+
+input[type=submit]:hover
+{
+    color: #fff;
+    cursor: pointer;
+}
+
+select
+{
+    font: 100% Arial;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border-style: inset;
+    border-width: 2px;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+p {
+    display: block;
+    padding-bottom: 8px;
+    padding-top: 8px;
+}

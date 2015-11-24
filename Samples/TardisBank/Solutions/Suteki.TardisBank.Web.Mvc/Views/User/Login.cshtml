@@ -1,0 +1,30 @@
+﻿@model Suteki.TardisBank.Web.Mvc.Controllers.ViewModels.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+<h2>Log In</h2>
+<p>@Html.ValidationSummary()</p>
+<div class="grid_8">
+    @{ Html.BeginForm(); }
+    <table>
+        <tr>
+            <td><label for="Name">User Name (Email for Parents)</label></td>
+            <td>@Html.TextBoxFor(x => x.Name)</td>
+        </tr>
+        <tr>
+            <td><label for="Password">Your Password</label></td>
+            <td>@Html.PasswordFor(x => x.Password)</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Log In" /></td>
+        </tr>
+    </table>
+    @{ Html.EndForm(); }
+</div>
+<div class="grid_3">
+    <p>Forgotten your password? Just click this link...</p>
+    @Html.ActionLink("I've forgotten my password", "Forgot", "Password")
+</div>
+

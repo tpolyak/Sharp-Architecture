@@ -8,7 +8,7 @@ namespace SharpArch.Web.Mvc.ModelBinder
     using System.Reflection;
     using System.Web.Mvc;
 
-    using SharpArch.Domain.DomainModel;
+    using Domain.DomainModel;
 
     public class SharpModelBinder : DefaultModelBinder
     {
@@ -74,7 +74,7 @@ namespace SharpArch.Web.Mvc.ModelBinder
             {
                 SetIdProperty(bindingContext, propertyDescriptor, value);
             }
-            else if (value as IEnumerable != null &&
+            else if (value is IEnumerable &&
                      IsSimpleGenericBindableEntityCollection(propertyDescriptor.PropertyType))
             {
                 SetEntityCollectionProperty(bindingContext, propertyDescriptor, value);
