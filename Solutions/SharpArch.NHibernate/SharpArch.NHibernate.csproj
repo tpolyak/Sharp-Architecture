@@ -77,17 +77,17 @@
     </Compile>
     <Compile Include="Contracts\Repositories\INHibernateRepository.cs" />
     <Compile Include="Contracts\Repositories\INHibernateRepositoryWithTypeId.cs" />
+    <Compile Include="DefaultSessionFactoryKeyProvider.cs" />
+    <Compile Include="ISessionFactoryKeyProvider.cs" />
     <Compile Include="NHibernateSessionFactoryBuilder.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureAttributeBase.cs" />
     <Compile Include="NullNHibernateConfigurationCache.cs" />
     <Compile Include="TransactionManager.cs" />
-    <Compile Include="DefaultSessionFactoryKeyProvider.cs" />
     <Compile Include="EntityDuplicateChecker.cs" />
     <Compile Include="FluentNHibernate\GeneratorHelper.cs" />
     <Compile Include="FluentNHibernate\IAutoPersistenceModelGenerator.cs" />
     <Compile Include="FluentNHibernate\IMapGenerator.cs" />
     <Compile Include="INHibernateConfigurationCache.cs" />
-    <Compile Include="ISessionFactoryKeyProvider.cs" />
     <Compile Include="LinqRepository.cs" />
     <Compile Include="LinqRepositoryWithTypedId.cs" />
     <Compile Include="NHibernateConfigurationFileCache.cs" />

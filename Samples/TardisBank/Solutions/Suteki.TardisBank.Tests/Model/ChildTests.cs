@@ -12,8 +12,9 @@ namespace Suteki.TardisBank.Tests.Model
     [TestFixture]
     public class ChildTests : RepositoryTestsBase
     {
-        private int childId;
-        private int parentId;
+        int childId;
+        int parentId;
+
         protected override void LoadTestData()
         {
             var parent = new Parent("Mike Hadlow", "mike@yahoo.com", "yyy");
@@ -25,18 +26,7 @@ namespace Suteki.TardisBank.Tests.Model
             Session.Save(child);
             FlushSessionAndEvict(child);
             FlushSessionAndEvict(parent);
-            this.childId = child.Id;
-        }
-
-        [Test]
-        public void Should_be_able_to_create_and_retrieve_a_child()
-        {
-            var child = new LinqRepository<Child>(TransactionManager, Session).Get(childId);
-                child.Name.ShouldEqual("Leo");
-                child.UserName.ShouldEqual("leohadlow");
-                child.ParentId.ShouldEqual(parentId);
-                child.Password.ShouldEqual("xxx");
-                child.Account.ShouldNotBeNull();
+            childId = child.Id;
         }
 
         [Test]
@@ -44,7 +34,7 @@ namespace Suteki.TardisBank.Tests.Model
         {
             var childRepository = new LinqRepository<Child>(TransactionManager, Session);
             var childToTestOn = childRepository.Get(childId);
-            childToTestOn.Account.AddPaymentSchedule(DateTime.UtcNow, Interval.Week, 10, "Weekly pocket money");    
+            childToTestOn.Account.AddPaymentSchedule(DateTime.UtcNow, Interval.Week, 10, "Weekly pocket money");
             FlushSessionAndEvict(childToTestOn);
 
             var child = childRepository.Get(childId);
@@ -62,6 +52,18 @@ namespace Suteki.TardisBank.Tests.Model
             var child = childRepository.Get(childId);
             child.Account.Transactions[0].Id.ShouldBeGreaterThan(0);
         }
+
+        [Test]
+        public void Should_be_able_to_create_and_retrieve_a_child()
+        {
+            var child = new LinqRepository<Child>(TransactionManager, Session).Get(childId);
+            child.Name.ShouldEqual("Leo");
+            child.UserName.ShouldEqual("leohadlow");
+            child.ParentId.ShouldEqual(parentId);
+            child.Password.ShouldEqual("xxx");
+            child.Account.ShouldNotBeNull();
+        }
     }
 }
+
 // ReSharper restore InconsistentNaming

@@ -3,16 +3,12 @@ namespace Suteki.TardisBank.Domain
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using SharpArch.Domain.Events;
-
-    using Suteki.TardisBank.Domain.Events;
+    using Events;
+    using MediatR;
+    using SharpArch.Domain;
 
     public class Parent : User
     {
-        public virtual IList<Child> Children { get; protected set; }
-        public virtual string ActivationKey { get; protected set; }
-
         public Parent(string name, string userName, string password) : base(name, userName, password)
         {
             this.Children = new List<Child>();
@@ -21,18 +17,22 @@ namespace Suteki.TardisBank.Domain
         protected Parent()
         {
         }
+
+        public virtual IList<Child> Children { get; protected set; }
+        public virtual string ActivationKey { get; protected set; }
         // should be called when parent is first created.
-        public virtual Parent Initialise()
+        public virtual Parent Initialise(IMediator mediator)
         {
+            Check.Assert(mediator != null, "mediator is null");
             this.ActivationKey = Guid.NewGuid().ToString();
-            DomainEvents.Raise(new NewParentCreatedEvent(this));
+            mediator.Publish(new NewParentCreatedEvent(this));
             return this;
         }
 
         public virtual Child CreateChild(string name, string userName, string password)
         {
             var child = new Child(name, userName, password, this.Id);
-            
+
             this.Children.Add(child);
             return child;
         }
@@ -69,7 +69,7 @@ namespace Suteki.TardisBank.Domain
 
         public virtual void RemoveChild(int childId)
         {
-            var childToRemove = this.Children.SingleOrDefault(x => x.Id == childId);
+            Child childToRemove = this.Children.SingleOrDefault(x => x.Id == childId);
             if (childToRemove != null)
             {
                 this.Children.Remove(childToRemove);

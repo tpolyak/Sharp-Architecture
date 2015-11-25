@@ -3,6 +3,7 @@ Drops
 obj
 bin
 debug
+.vs
 _Resharper.*
 _ReSharper.*
 *.csproj.user

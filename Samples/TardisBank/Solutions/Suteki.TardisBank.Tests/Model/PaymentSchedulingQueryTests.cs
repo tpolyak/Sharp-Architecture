@@ -3,16 +3,12 @@
 namespace Suteki.TardisBank.Tests.Model
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
-
     using Domain;
-
     using NHibernate.Linq;
-
     using NUnit.Framework;
-
     using SharpArch.Testing.NUnit.NHibernate;
-
     using Tasks;
 
     [TestFixture]
@@ -20,7 +16,7 @@ namespace Suteki.TardisBank.Tests.Model
     {
         Parent parent;
 
-        private DateTime someDate;
+        DateTime someDate;
 
         protected override void LoadTestData()
         {
@@ -35,6 +31,13 @@ namespace Suteki.TardisBank.Tests.Model
             Session.Flush();
         }
 
+        Child CreateChildWithSchedule(string name, decimal amount, DateTime startDate)
+        {
+            Child child = parent.CreateChild(name, name, "xxx");
+            child.Account.AddPaymentSchedule(startDate, Interval.Week, amount, "Pocket Money");
+            return child;
+        }
+
         [Test]
         public void Should_be_able_to_query_all_pending_scheduled_payments()
         {
@@ -44,7 +47,7 @@ namespace Suteki.TardisBank.Tests.Model
 
             // check results
 
-            var results = Session.Query<Child>().ToList();
+            List<Child> results = Session.Query<Child>().ToList();
 
             results.Count().ShouldEqual(5);
 
@@ -56,15 +59,8 @@ namespace Suteki.TardisBank.Tests.Model
 
             results.Single(x => x.Name == "one").Account.Transactions.Count.ShouldEqual(1);
             results.Single(x => x.Name == "one").Account.Transactions[0].Amount.ShouldEqual(1M);
-
-        }
-
-        Child CreateChildWithSchedule(string name, decimal amount, DateTime startDate)
-        {
-            var child = parent.CreateChild(name, name, "xxx");
-            child.Account.AddPaymentSchedule(startDate, Interval.Week, amount, "Pocket Money");
-            return child;
         }
     }
 }
+
 // ReSharper restore InconsistentNaming

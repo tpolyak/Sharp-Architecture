@@ -2,14 +2,15 @@ namespace Suteki.TardisBank.Domain
 {
     using System;
     using System.Runtime.Serialization;
+    using MediatR;
 
     public class Child : User
     {
         public Child(string name, string userName, string password, int parentId) : base(name, userName, password)
         {
-            this.ParentId = parentId;
-            this.Account = new Account();
-            this.IsActive = true;
+            ParentId = parentId;
+            Account = new Account();
+            IsActive = true;
         }
 
         protected Child()
@@ -21,18 +22,18 @@ namespace Suteki.TardisBank.Domain
 
         public virtual void ReceivePayment(decimal amount, string description)
         {
-            this.Account.AddTransaction(description, amount);
+            Account.AddTransaction(description, amount);
         }
 
-        public virtual void WithdrawCashFromParent(Parent parent, decimal amount, string description)
+        public virtual void WithdrawCashFromParent(Parent parent, decimal amount, string description, IMediator mediator)
         {
             var insufficientFundsMessage = string.Format(
                 "You can not withdraw {0} because you only have {1} in your account",
                 amount.ToString("c"),
-                this.Account.Balance.ToString("c"));
+                Account.Balance.ToString("c"));
 
-            this.WithdrawInternal(parent, amount, description, insufficientFundsMessage);
-            parent.SendMessage(string.Format("{0} would like to withdraw {1}", this.Name, amount.ToString("c")));
+            WithdrawInternal(parent, amount, description, insufficientFundsMessage);
+            parent.SendMessage(string.Format("{0} would like to withdraw {1}", Name, amount.ToString("c")), mediator);
         }
 
         public virtual void AcceptCashFromParent(Parent parent, decimal amount, string description)
@@ -40,10 +41,10 @@ namespace Suteki.TardisBank.Domain
             var insufficientFundsMessage = string.Format(
                 "You can not withdraw {0} because {1}'s account only has {2}",
                 amount.ToString("c"),
-                this.Name,
-                this.Account.Balance.ToString("c"));
+                Name,
+                Account.Balance.ToString("c"));
 
-            this.WithdrawInternal(parent, amount, description, insufficientFundsMessage);
+            WithdrawInternal(parent, amount, description, insufficientFundsMessage);
         }
 
         void WithdrawInternal(Parent parent, decimal amount, string description, string insufficientFundsMessage)
@@ -62,12 +63,12 @@ namespace Suteki.TardisBank.Domain
                 throw new CashWithdrawException("Not Your Parent");
             }
 
-            if (amount > this.Account.Balance)
+            if (amount > Account.Balance)
             {
                 throw new CashWithdrawException(insufficientFundsMessage);
             }
 
-            this.Account.AddTransaction(description, -amount);
+            Account.AddTransaction(description, -amount);
         }
     }
 

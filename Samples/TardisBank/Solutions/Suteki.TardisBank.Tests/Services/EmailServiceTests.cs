@@ -1,17 +1,16 @@
 // ReSharper disable InconsistentNaming
-using NUnit.Framework;
 
-// see this blog post for sending emails by gmail/google apps
+ // see this blog post for sending emails by gmail/google apps
 // http://mikehadlow.blogspot.com/2010/08/how-to-send-email-via-gmail-using-net.html
+
 namespace Suteki.TardisBank.Tests.Services
 {
     using global::Suteki.TardisBank.Tasks;
+    using NUnit.Framework;
 
     [TestFixture]
     public class EmailServiceTests
     {
-        IEmailService emailService;
-
         [SetUp]
         public void SetUp()
         {
@@ -28,6 +27,8 @@ namespace Suteki.TardisBank.Tests.Services
             emailService = new EmailService(configuration);
         }
 
+        IEmailService emailService;
+
         [Test, Explicit("You should setup the configuration above. This test really does send an email!")]
         public void Should_be_able_to_send_an_email()
         {
@@ -39,4 +40,5 @@ namespace Suteki.TardisBank.Tests.Services
         }
     }
 }
+
 // ReSharper restore InconsistentNaming
