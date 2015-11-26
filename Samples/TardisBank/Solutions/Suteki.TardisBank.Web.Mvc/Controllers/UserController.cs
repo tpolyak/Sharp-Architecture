@@ -2,7 +2,8 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 {
     using System;
     using System.Web.Mvc;
-
+    using MediatR;
+    using SharpArch.Web.Mvc;
     using Suteki.TardisBank.Domain;
     using Suteki.TardisBank.Tasks;
     using Suteki.TardisBank.Web.Mvc.Controllers.ViewModels;
@@ -10,29 +11,32 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 
     public class UserController : Controller
     {
-        readonly IUserService userService;
+        readonly TardisConfiguration configuration;
         readonly IFormsAuthenticationService formsAuthenticationService;
-        private readonly TardisConfiguration configuration;
+        readonly IMediator mediator;
+        readonly IUserService userService;
 
-        public UserController(IUserService userService, IFormsAuthenticationService formsAuthenticationService, TardisConfiguration configuration)
+        public UserController(IUserService userService, IFormsAuthenticationService formsAuthenticationService,
+            TardisConfiguration configuration, IMediator mediator)
         {
             this.userService = userService;
             this.formsAuthenticationService = formsAuthenticationService;
             this.configuration = configuration;
+            this.mediator = mediator;
         }
 
         [ChildActionOnly]
         public ActionResult Index()
         {
-            var user = this.userService.CurrentUser;
+            var user = userService.CurrentUser;
             var userName = user == null ? "Hello Stranger!" : user.UserName;
-            return this.View("Index", new UserViewModel { UserName = userName, IsLoggedIn = user != null });
+            return View("Index", new UserViewModel {UserName = userName, IsLoggedIn = user != null});
         }
 
         [HttpGet]
         public ActionResult Register()
         {
-            return this.View("Register", GetRegistrationViewModel());
+            return View("Register", GetRegistrationViewModel());
         }
 
         static RegistrationViewModel GetRegistrationViewModel()
@@ -45,13 +49,13 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
             };
         }
 
-        [HttpPost, SharpArch.Web.Mvc.Transaction]
+        [HttpPost, Transaction]
         public ActionResult Register(RegistrationViewModel registrationViewModel)
         {
-            return this.RegisterInternal(registrationViewModel, "Sorry, that email address has already been registered.",
-                createUser: (pwd) => new Parent(registrationViewModel.Name, registrationViewModel.Email, pwd).Initialise(),
-                confirmAction: () => this.RedirectToAction("Confirm"),
-                invalidModelStateAction: () => this.View("Register", registrationViewModel)
+            return RegisterInternal(registrationViewModel, "Sorry, that email address has already been registered.",
+                pwd =>
+                    new Parent(registrationViewModel.Name, registrationViewModel.Email, pwd).Initialise(mediator),
+                () => RedirectToAction("Confirm"), () => View("Register", registrationViewModel)
                 );
         }
 
@@ -59,7 +63,7 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
             RegistrationViewModel registrationViewModel,
             string usernameTakenMessage,
             Func<string, User> createUser,
-            Func<ActionResult> confirmAction, 
+            Func<ActionResult> confirmAction,
             Func<ActionResult> invalidModelStateAction,
             Action<User> afterUserCreated = null)
         {
@@ -80,28 +84,28 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
                 throw new ArgumentNullException("invalidModelStateAction");
             }
 
-            if (this.ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var conflictedUser = this.userService.GetUserByUserName(registrationViewModel.Email);
+                var conflictedUser = userService.GetUserByUserName(registrationViewModel.Email);
                 if (conflictedUser != null)
                 {
-                    this.ModelState.AddModelError("Email", usernameTakenMessage);
+                    ModelState.AddModelError("Email", usernameTakenMessage);
                     return invalidModelStateAction();
                 }
 
-                var hashedPassword = this.formsAuthenticationService.HashAndSalt(
+                var hashedPassword = formsAuthenticationService.HashAndSalt(
                     registrationViewModel.Email,
                     registrationViewModel.Password);
 
                 var user = createUser(hashedPassword);
 
-                if (string.IsNullOrWhiteSpace(this.configuration.EmailSmtpServer))
+                if (string.IsNullOrWhiteSpace(configuration.EmailSmtpServer))
                 {
                     // if no smtp server configured, just activate user as no email is sent out.
                     user.Activate();
                 }
 
-                this.userService.SaveUser(user);
+                userService.SaveUser(user);
 
                 if (afterUserCreated != null)
                 {
@@ -116,20 +120,20 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
         [HttpGet]
         public ActionResult Confirm()
         {
-            return this.View("Confirm");
+            return View("Confirm");
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult Activate(string id)
         {
             // id is the activation key
-            var user = this.userService.GetUserByActivationKey(id);
+            var user = userService.GetUserByActivationKey(id);
             if (user == null)
             {
-                return this.View("ActivationFailed");
+                return View("ActivationFailed");
             }
             user.Activate();
-            return this.View("ActivateConfirm");
+            return View("ActivateConfirm");
         }
 
         [HttpGet]
@@ -140,10 +144,10 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
                 Name = "",
                 Password = ""
             };
-            return this.View("Login", loginViewModel);
+            return View("Login", loginViewModel);
         }
 
-        [HttpPost, SharpArch.Web.Mvc.Transaction]
+        [HttpPost, Transaction]
         public ActionResult Login(LoginViewModel loginViewModel)
         {
             if (loginViewModel == null)
@@ -151,104 +155,100 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
                 throw new ArgumentNullException("loginViewModel");
             }
 
-            if (this.ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var user = this.userService.GetUserByUserName(loginViewModel.Name);
+                var user = userService.GetUserByUserName(loginViewModel.Name);
                 if (user != null)
                 {
                     if (!user.IsActive)
                     {
-                        this.ModelState.AddModelError(
-                            "Name", "Please activate your account first by clicking on the link in your " + 
-                            "activation email.");
-                        return this.View("Login", loginViewModel);
+                        ModelState.AddModelError(
+                            "Name", "Please activate your account first by clicking on the link in your " +
+                                "activation email.");
+                        return View("Login", loginViewModel);
                     }
 
-                    var hashedPassword = this.formsAuthenticationService.HashAndSalt(
+                    var hashedPassword = formsAuthenticationService.HashAndSalt(
                         loginViewModel.Name,
                         loginViewModel.Password);
 
-                    if(hashedPassword == user.Password)
+                    if (hashedPassword == user.Password)
                     {
-                        this.formsAuthenticationService.SetAuthCookie(user.UserName, false);
+                        formsAuthenticationService.SetAuthCookie(user.UserName, false);
                         if (user is Child)
                         {
-                            return this.RedirectToAction("ChildView", "Account");
+                            return RedirectToAction("ChildView", "Account");
                         }
-                        else
-                        {
-                            return this.RedirectToAction("Index", "Child");
-                        }
+                        return RedirectToAction("Index", "Child");
                     }
-                    this.ModelState.AddModelError("Password", "Invalid Password");
+                    ModelState.AddModelError("Password", "Invalid Password");
                 }
                 else
                 {
-                    this.ModelState.AddModelError("Name", "Invalid Name");
+                    ModelState.AddModelError("Name", "Invalid Name");
                 }
             }
 
-            return this.View("Login", loginViewModel);
+            return View("Login", loginViewModel);
         }
 
         [HttpGet]
         public ActionResult Logout()
         {
-            this.formsAuthenticationService.SignOut();
-            return this.RedirectToAction("Index", "Home");
+            formsAuthenticationService.SignOut();
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult AddChild()
         {
-            var parent = this.userService.CurrentUser as Parent;
+            var parent = userService.CurrentUser as Parent;
             if (parent == null)
             {
                 //throw new TardisBankException("You must be a parent in order to register a Child");
                 return StatusCode.NotFound;
             }
 
-            return this.View("AddChild", GetRegistrationViewModel());
+            return View("AddChild", GetRegistrationViewModel());
         }
 
-        [HttpPost, SharpArch.Web.Mvc.Transaction]
+        [HttpPost, Transaction]
         public ActionResult AddChild(RegistrationViewModel registrationViewModel)
         {
-            var parent = this.userService.CurrentUser as Parent;
-            if(parent == null)
+            var parent = userService.CurrentUser as Parent;
+            if (parent == null)
             {
                 //throw new TardisBankException("You must be a parent in order to register a Child");
                 return StatusCode.NotFound;
             }
 
-            return this.RegisterInternal(registrationViewModel, "Sorry, that user name has already been taken",
-                createUser: (pwd) => parent.CreateChild(registrationViewModel.Name, registrationViewModel.Email, pwd),
-                confirmAction: () => this.RedirectToAction("Index", "Child"),
-                invalidModelStateAction: () => this.View("AddChild", registrationViewModel)
+            return RegisterInternal(registrationViewModel, "Sorry, that user name has already been taken",
+                pwd => parent.CreateChild(registrationViewModel.Name, registrationViewModel.Email, pwd),
+                () => RedirectToAction("Index", "Child"), () => View("AddChild", registrationViewModel)
                 );
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult Messages()
         {
-            var user = this.userService.CurrentUser;
+            var user = userService.CurrentUser;
             if (user == null)
             {
                 return StatusCode.NotFound;
             }
-            return this.View("Messages", user);
+            return View("Messages", user);
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult ReadMessage(int id)
         {
-            var user = this.userService.CurrentUser;
+            var user = userService.CurrentUser;
             if (user == null)
             {
                 return StatusCode.NotFound;
             }
             user.ReadMessage(id);
-            return this.RedirectToAction("Messages");
+            return RedirectToAction("Messages");
         }
     }
 }

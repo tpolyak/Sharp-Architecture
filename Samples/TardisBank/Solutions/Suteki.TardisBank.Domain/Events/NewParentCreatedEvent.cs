@@ -1,10 +1,9 @@
 namespace Suteki.TardisBank.Domain.Events
 {
     using System;
+    using MediatR;
 
-    using SharpArch.Domain.Events;
-
-    public class NewParentCreatedEvent : IDomainEvent
+    public class NewParentCreatedEvent : INotification
     {
         public NewParentCreatedEvent(Parent parent)
         {
@@ -12,7 +11,7 @@ namespace Suteki.TardisBank.Domain.Events
             {
                 throw new ArgumentNullException("parent");
             }
-            this.Parent = parent;
+            Parent = parent;
         }
 
         public Parent Parent { get; private set; }

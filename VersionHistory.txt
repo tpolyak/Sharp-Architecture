@@ -2,8 +2,11 @@
 S#arp vNext
 ========================
 
+* #124 BREAKING: removed Command/Query infrastructure;
+
 Updated dependencies
 ------
+
 CommonServiceLocator 1.3^
 Newtonsoft.Json 6.0.8^
 FluentNHibernate 2.0.1^

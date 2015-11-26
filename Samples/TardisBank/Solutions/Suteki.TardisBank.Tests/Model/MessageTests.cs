@@ -2,17 +2,24 @@
 
 namespace Suteki.TardisBank.Tests.Model
 {
+    using Domain;
+    using MediatR;
+    using Moq;
+    using NUnit.Framework;
     using SharpArch.NHibernate;
     using SharpArch.Testing.NUnit.NHibernate;
-
-    using NUnit.Framework;
-
-    using global::Suteki.TardisBank.Domain;
 
     [TestFixture]
     public class MessageTests : RepositoryTestsBase
     {
-        private int userId;
+        protected override void SetUp()
+        {
+            this.mediator = new Mock<IMediator>();
+            base.SetUp();
+        }
+
+        int userId;
+        Mock<IMediator> mediator;
 
         protected override void LoadTestData()
         {
@@ -28,14 +35,15 @@ namespace Suteki.TardisBank.Tests.Model
             var parentRepository = new LinqRepository<Parent>(TransactionManager, Session);
             User userToTestWith = parentRepository.Get(userId);
 
-            userToTestWith.SendMessage("some message");
+            userToTestWith.SendMessage("some message", this.mediator.Object);
 
             FlushSessionAndEvict(userToTestWith);
 
 
-            var parent = parentRepository.Get(userId);
+            Parent parent = parentRepository.Get(userId);
             parent.Messages.Count.ShouldEqual(1);
         }
     }
 }
+
 // ReSharper restore InconsistentNaming

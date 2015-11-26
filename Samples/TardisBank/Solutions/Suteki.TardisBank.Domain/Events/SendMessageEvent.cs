@@ -1,14 +1,10 @@
 namespace Suteki.TardisBank.Domain.Events
 {
     using System;
+    using MediatR;
 
-    using SharpArch.Domain.Events;
-
-    public class SendMessageEvent : IDomainEvent
+    public class SendMessageEvent : INotification
     {
-        public User User { get; private set; }
-        public string Message { get; private set; }
-
         public SendMessageEvent(User user, string message)
         {
             if (user == null)
@@ -20,8 +16,11 @@ namespace Suteki.TardisBank.Domain.Events
                 throw new ArgumentNullException("message");
             }
 
-            this.User = user;
-            this.Message = message;
+            User = user;
+            Message = message;
         }
+
+        public User User { get; private set; }
+        public string Message { get; private set; }
     }
 }

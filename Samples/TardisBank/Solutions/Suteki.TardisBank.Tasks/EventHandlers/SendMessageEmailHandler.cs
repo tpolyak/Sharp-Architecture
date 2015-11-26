@@ -1,13 +1,11 @@
 namespace Suteki.TardisBank.Tasks.EventHandlers
 {
     using System;
-
-    using SharpArch.Domain.Events;
-
+    using MediatR;
     using Suteki.TardisBank.Domain;
     using Suteki.TardisBank.Domain.Events;
 
-    public class SendMessageEmailHandler : IHandles<SendMessageEvent>
+    public class SendMessageEmailHandler : INotificationHandler<SendMessageEvent>
     {
         readonly IEmailService emailService;
 
@@ -33,7 +31,7 @@ namespace Suteki.TardisBank.Tasks.EventHandlers
             const string subject = "Message from Tardis Bank";
             var body = sendMessageEvent.Message;
 
-            this.emailService.SendEmail(toAddress, subject, body);
+            emailService.SendEmail(toAddress, subject, body);
         }
     }
 }

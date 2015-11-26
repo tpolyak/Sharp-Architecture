@@ -3,9 +3,9 @@ namespace Suteki.TardisBank.Domain
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    using MediatR;
+    using SharpArch.Domain;
     using SharpArch.Domain.DomainModel;
-    using SharpArch.Domain.Events;
 
     using Suteki.TardisBank.Domain.Events;
 
@@ -32,12 +32,13 @@ namespace Suteki.TardisBank.Domain
             this.IsActive = false;
         }
 
-        public virtual void SendMessage(string text)
+        public virtual void SendMessage(string text, IMediator mediator)
         {
+            Check.Assert(mediator != null, "mediator is null");
             this.Messages.Add(new Message(DateTime.Now.Date, text, this));
             this.RemoveOldMessages();
 
-            DomainEvents.Raise(new SendMessageEvent(this, text));
+            mediator.Publish(new SendMessageEvent(this, text));
         }
 
         void RemoveOldMessages()

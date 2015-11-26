@@ -9,7 +9,7 @@
     ///     communicate with the database.  This allows you to declare different repositories to 
     ///     communicate with different databases.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class SessionFactoryAttribute : Attribute
     {
         private readonly string factoryKey;
@@ -31,6 +31,7 @@
         /// </summary>
         public static string GetKeyFrom(object target)
         {
+            // todo: cache sessionKey value
             Check.Require(target != null, "Target is required.");
 
             var objectType = target.GetType();

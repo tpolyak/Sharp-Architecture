@@ -84,19 +84,11 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Commands\CommandBase.cs" />
-    <Compile Include="Commands\CommandHandlerNotFoundException.cs" />
-    <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\ICommandHandler.cs" />
-    <Compile Include="Commands\ICommandProcessor.cs" />
     <Compile Include="DesignByContract\Check.cs" />
     <Compile Include="DesignByContract\DesignByContractException.cs" />
     <Compile Include="DesignByContract\InvariantException.cs" />
     <Compile Include="DesignByContract\PostconditionException.cs" />
     <Compile Include="DesignByContract\PreconditionException.cs" />
-    <Compile Include="Events\DomainEvents.cs" />
-    <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="DomainModel\BaseObject.cs" />
     <Compile Include="DesignByContract\AssertionException.cs" />
     <Compile Include="DomainModel\BaseObjectEqualityComparer.cs" />
@@ -107,7 +99,6 @@
     <Compile Include="DomainModel\IHasAssignedId.cs" />
     <Compile Include="DomainModel\ValidatableObject.cs" />
     <Compile Include="DomainModel\ValueObject.cs" />
-    <Compile Include="Events\IHandles.cs" />
     <Compile Include="FileCache.cs" />
     <Compile Include="PersistenceSupport\ITransactionManager.cs" />
     <Compile Include="PersistenceSupport\ILinqRepository.cs" />

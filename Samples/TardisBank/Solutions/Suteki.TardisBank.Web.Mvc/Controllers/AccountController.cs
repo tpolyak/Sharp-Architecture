@@ -2,7 +2,8 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 {
     using System;
     using System.Web.Mvc;
-
+    using MediatR;
+    using SharpArch.Web.Mvc;
     using Suteki.TardisBank.Domain;
     using Suteki.TardisBank.Tasks;
     using Suteki.TardisBank.Web.Mvc.Controllers.ViewModels;
@@ -10,28 +11,33 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 
     public class AccountController : Controller
     {
+        readonly IMediator mediator;
         readonly IUserService userService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IMediator mediator)
         {
             this.userService = userService;
+            this.mediator = mediator;
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult MakePayment(int id)
         {
             // id is the child's user name
-            if (id == null)
+            if (id == 0)
             {
                 throw new ArgumentNullException("id");
             }
 
-            var parent = this.userService.CurrentUser as Parent;
-            var child = this.userService.GetUser(id) as Child;
+            var parent = userService.CurrentUser as Parent;
+            var child = userService.GetUser(id) as Child;
 
-            if (this.userService.AreNullOrNotRelated(parent, child)) return StatusCode.NotFound;
+            if (userService.AreNullOrNotRelated(parent, child))
+            {
+                return StatusCode.NotFound;
+            }
 
-            return this.View("MakePayment", new MakePaymentViewModel
+            return View("MakePayment", new MakePaymentViewModel
             {
                 ChildId = child.Id,
                 ChildName = child.Name,
@@ -40,10 +46,13 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
             });
         }
 
-        [HttpPost, SharpArch.Web.Mvc.Transaction]
+        [HttpPost, Transaction]
         public ActionResult MakePayment(MakePaymentViewModel makePaymentViewModel)
         {
-            if (!this.ModelState.IsValid) return this.View("MakePayment", makePaymentViewModel);
+            if (!ModelState.IsValid)
+            {
+                return View("MakePayment", makePaymentViewModel);
+            }
             if (makePaymentViewModel == null)
             {
                 throw new ArgumentNullException("makePaymentViewModel");
@@ -51,70 +60,79 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 
             if (makePaymentViewModel.Amount == 0M)
             {
-                this.ModelState.AddModelError("Amount", "A payment of zero? That's not nice.");
-                return this.View("MakePayment", makePaymentViewModel);
+                ModelState.AddModelError("Amount", "A payment of zero? That's not nice.");
+                return View("MakePayment", makePaymentViewModel);
             }
 
-            var parent = this.userService.CurrentUser as Parent;
-            var child = this.userService.GetUser(makePaymentViewModel.ChildId) as Child;
+            var parent = userService.CurrentUser as Parent;
+            var child = userService.GetUser(makePaymentViewModel.ChildId) as Child;
 
-            if (this.userService.AreNullOrNotRelated(parent, child)) return StatusCode.NotFound;
+            if (userService.AreNullOrNotRelated(parent, child))
+            {
+                return StatusCode.NotFound;
+            }
 
             parent.MakePaymentTo(child, makePaymentViewModel.Amount, makePaymentViewModel.Description);
 
-            return this.View("PaymentConfirmation", makePaymentViewModel);
+            return View("PaymentConfirmation", makePaymentViewModel);
         }
 
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult ParentView(int id)
         {
-            var parent = this.userService.CurrentUser as Parent;
-            var child = this.userService.GetUser(id) as Child;
+            var parent = userService.CurrentUser as Parent;
+            var child = userService.GetUser(id) as Child;
 
-            if (this.userService.AreNullOrNotRelated(parent, child)) return StatusCode.NotFound;
+            if (userService.AreNullOrNotRelated(parent, child))
+            {
+                return StatusCode.NotFound;
+            }
 
-            return this.View("Summary", new AccountSummaryViewModel
+            return View("Summary", new AccountSummaryViewModel
             {
                 Parent = parent,
                 Child = child
             });
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult ChildView()
         {
-            var child = this.userService.CurrentUser as Child;
+            var child = userService.CurrentUser as Child;
             if (child == null)
             {
                 return StatusCode.NotFound;
             }
-            return this.View("Summary", new AccountSummaryViewModel
+            return View("Summary", new AccountSummaryViewModel
             {
                 Child = child
             });
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult WithdrawCash()
         {
-            var child = this.userService.CurrentUser as Child;
+            var child = userService.CurrentUser as Child;
             if (child == null)
             {
                 return StatusCode.NotFound;
             }
 
-            return this.View("WithdrawCash", new WithdrawCashViewModel
+            return View("WithdrawCash", new WithdrawCashViewModel
             {
                 Amount = 0M,
                 Description = ""
             });
         }
 
-        [HttpPost, SharpArch.Web.Mvc.Transaction]
+        [HttpPost, Transaction]
         public ActionResult WithdrawCash(WithdrawCashViewModel withdrawCashViewModel)
         {
-            if (!this.ModelState.IsValid) return this.View("WithdrawCash", withdrawCashViewModel);
+            if (!ModelState.IsValid)
+            {
+                return View("WithdrawCash", withdrawCashViewModel);
+            }
             if (withdrawCashViewModel == null)
             {
                 throw new ArgumentNullException("withdrawCashViewModel");
@@ -122,16 +140,16 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 
             if (withdrawCashViewModel.Amount == 0M)
             {
-                this.ModelState.AddModelError("Amount", "There's no point in asking for zero cash.");
-                return this.View("WithdrawCash", withdrawCashViewModel);
+                ModelState.AddModelError("Amount", "There's no point in asking for zero cash.");
+                return View("WithdrawCash", withdrawCashViewModel);
             }
 
-            var child = this.userService.CurrentUser as Child;
+            var child = userService.CurrentUser as Child;
             if (child == null)
             {
                 return StatusCode.NotFound;
             }
-            var parent = this.userService.GetUser(child.ParentId) as Parent;
+            var parent = userService.GetUser(child.ParentId) as Parent;
             if (parent == null)
             {
                 throw new TardisBankException("Parent with id '{0}' not found", child.ParentId);
@@ -140,28 +158,31 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
             try
             {
                 child.WithdrawCashFromParent(
-                    parent, 
-                    withdrawCashViewModel.Amount, 
-                    withdrawCashViewModel.Description);
+                    parent,
+                    withdrawCashViewModel.Amount,
+                    withdrawCashViewModel.Description, mediator);
             }
             catch (CashWithdrawException cashWithdrawException)
             {
-                this.ModelState.AddModelError("Amount", cashWithdrawException.Message);
-                return this.View("WithdrawCash", withdrawCashViewModel);
+                ModelState.AddModelError("Amount", cashWithdrawException.Message);
+                return View("WithdrawCash", withdrawCashViewModel);
             }
 
-            return this.View("WithdrawCashConfirm", withdrawCashViewModel);
+            return View("WithdrawCashConfirm", withdrawCashViewModel);
         }
 
-        [HttpGet, SharpArch.Web.Mvc.Transaction]
+        [HttpGet, Transaction]
         public ActionResult WithdrawCashForChild(int id)
         {
-            var parent = this.userService.CurrentUser as Parent;
-            var child = this.userService.GetUser(id) as Child;
+            var parent = userService.CurrentUser as Parent;
+            var child = userService.GetUser(id) as Child;
 
-            if (this.userService.AreNullOrNotRelated(parent, child)) return StatusCode.NotFound;
+            if (userService.AreNullOrNotRelated(parent, child))
+            {
+                return StatusCode.NotFound;
+            }
 
-            return this.View(new WithdrawCashForChildViewModel
+            return View(new WithdrawCashForChildViewModel
             {
                 ChildId = child.Id,
                 ChildName = child.Name,
@@ -170,10 +191,13 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
             });
         }
 
-        [HttpPost, SharpArch.Web.Mvc.Transaction]
+        [HttpPost, Transaction]
         public ActionResult WithdrawCashForChild(WithdrawCashForChildViewModel withdrawCashForChildViewModel)
         {
-            if (!this.ModelState.IsValid) return this.View(withdrawCashForChildViewModel);
+            if (!ModelState.IsValid)
+            {
+                return View(withdrawCashForChildViewModel);
+            }
             if (withdrawCashForChildViewModel == null)
             {
                 throw new ArgumentNullException("withdrawCashForChildViewModel");
@@ -181,13 +205,16 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 
             if (withdrawCashForChildViewModel.Amount == 0M)
             {
-                this.ModelState.AddModelError("Amount", "0.00 is not a valid amount.");
-                return this.View(withdrawCashForChildViewModel);
+                ModelState.AddModelError("Amount", "0.00 is not a valid amount.");
+                return View(withdrawCashForChildViewModel);
             }
 
-            var child = this.userService.GetUser(withdrawCashForChildViewModel.ChildId) as Child;
-            var parent = this.userService.CurrentUser as Parent;
-            if (this.userService.AreNullOrNotRelated(parent, child)) return StatusCode.NotFound;
+            var child = userService.GetUser(withdrawCashForChildViewModel.ChildId) as Child;
+            var parent = userService.CurrentUser as Parent;
+            if (userService.AreNullOrNotRelated(parent, child))
+            {
+                return StatusCode.NotFound;
+            }
 
             try
             {
@@ -198,11 +225,11 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
             }
             catch (CashWithdrawException cashWithdrawException)
             {
-                this.ModelState.AddModelError("Amount", cashWithdrawException.Message);
-                return this.View(withdrawCashForChildViewModel);
+                ModelState.AddModelError("Amount", cashWithdrawException.Message);
+                return View(withdrawCashForChildViewModel);
             }
 
-            return this.View("WithdrawCashForChildConfirm", withdrawCashForChildViewModel);            
+            return View("WithdrawCashForChildConfirm", withdrawCashForChildViewModel);
         }
     }
 }

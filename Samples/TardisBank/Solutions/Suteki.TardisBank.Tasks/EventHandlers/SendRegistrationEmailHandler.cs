@@ -1,14 +1,15 @@
 namespace Suteki.TardisBank.Tasks.EventHandlers
 {
     using System;
-
-    using SharpArch.Domain.Events;
-
+    using MediatR;
     using Suteki.TardisBank.Domain;
     using Suteki.TardisBank.Domain.Events;
 
-    public class SendRegistrationEmailHandler : IHandles<NewParentCreatedEvent>
+    public class SendRegistrationEmailHandler : INotificationHandler<NewParentCreatedEvent>
     {
+        const string emailBodyTemplate =
+            @"Please click here to activate your account: {0} (or copy and Paste this URL into your browser)";
+
         readonly IEmailService emailService;
 
         public SendRegistrationEmailHandler(IEmailService emailService)
@@ -32,10 +33,7 @@ namespace Suteki.TardisBank.Tasks.EventHandlers
             var url = "http://tardisbank.com/User/Activate/" + newParentCreatedEvent.Parent.ActivationKey;
             var body = string.Format(emailBodyTemplate, url);
 
-            this.emailService.SendEmail(toAddress, subject, body);
+            emailService.SendEmail(toAddress, subject, body);
         }
-
-        const string emailBodyTemplate = 
-@"Please click here to activate your account: {0} (or copy and Paste this URL into your browser)";
     }
 }
