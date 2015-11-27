@@ -8,7 +8,7 @@ namespace SharpArch.Domain.PersistenceSupport
     /// </summary>
     /// <typeparam name="T">The entity type.</typeparam>
     /// <typeparam name="TId">The type of the entity ID.</typeparam>
-    public interface IRepositoryWithTypedId<T, TId>
+    public interface IRepositoryWithTypedId<T, in TId>
     {
         /// <summary>
         ///     Returns the database context, which provides a handle to application wide DB
@@ -31,6 +31,12 @@ namespace SharpArch.Domain.PersistenceSupport
         IList<T> GetAll();
 
         /// <summary>
+        /// For entities that have assigned Id's, you must explicitly call Save to add a new one.
+        /// See http://www.hibernate.org/hib_docs/nhibernate/html_single/#mapping-declaration-id-assigned.
+        /// </summary>
+        T Save(T entity);
+
+        /// <summary>
         ///     Saves or updates the specified entity.
         /// </summary>
         /// <remarks>
@@ -45,6 +51,18 @@ namespace SharpArch.Domain.PersistenceSupport
         ///     </para>
         /// </remarks>
         T SaveOrUpdate(T entity);
+
+
+        /// <summary>
+        /// Dissasociates the entity with the ORM so that changes made to it are not automatically 
+        /// saved to the database.
+        /// </summary>
+        /// <remarks>
+        /// In NHibernate this removes the entity from current session cache.
+        /// More details may be found at http://www.hibernate.org/hib_docs/nhibernate/html_single/#performance-sessioncache.
+        /// </remarks>
+        void Evict(T entity);
+
 
         /// <summary>
         ///     Deletes the specified entity.

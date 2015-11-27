@@ -1,7 +1,8 @@
+using System;
+
 namespace SharpArch.NHibernate
 {
     using System.Collections.Generic;
-    using System.Reflection;
     using Contracts.Repositories;
 
     using Domain;
@@ -13,7 +14,7 @@ namespace SharpArch.NHibernate
 
     /// <summary>
     ///     Provides a fully loaded DAO which may be created in a few ways including:
-    ///     * Direct instantiation; e.g., new GenericDao<Customer, string>
+    ///     * Direct instantiation; e.g., new GenericDao&lt;Customer, string&gt;
     ///     * Spring configuration; e.g., <object id = "CustomerDao" type = "SharpArch.Data.NHibernateSupport.GenericDao&lt;CustomerAlias, string>, SharpArch.Data" autowire = "byName" />
     /// </summary>
     public class NHibernateRepositoryWithTypedId<T, TId> : INHibernateRepositoryWithTypedId<T, TId>
@@ -144,6 +145,7 @@ namespace SharpArch.NHibernate
             return entity;
         }
 
+        
         public virtual T Update(T entity)
         {
             this.Session.Update(entity);
@@ -198,6 +200,7 @@ namespace SharpArch.NHibernate
 
         #region Methods
 
+
         /// <summary>
         ///     Translates a domain layer lock mode into an NHibernate lock mode via reflection.  This is 
         ///     provided to facilitate developing the domain layer without a direct dependency on the 
@@ -205,12 +208,24 @@ namespace SharpArch.NHibernate
         /// </summary>
         private static LockMode ConvertFrom(Enums.LockMode lockMode)
         {
-            // todo: Consider replacing with switch
-            FieldInfo translatedLockMode = typeof(LockMode).GetField(lockMode.ToString(), BindingFlags.Public | BindingFlags.Static);
-
-            Check.Ensure(translatedLockMode != null, "The provided lock mode , '" + lockMode + ",' " + "could not be translated into an NHibernate.LockMode. This is probably because " + "NHibernate was updated and now has different lock modes which are out of synch " + "with the lock modes maintained in the domain layer.");
-
-            return (LockMode)translatedLockMode.GetValue(null);
+            switch (lockMode)
+            {
+                case Enums.LockMode.None:
+                    return LockMode.None;
+                case Enums.LockMode.Read:
+                    return LockMode.Read;
+                case Enums.LockMode.Upgrade:
+                    return LockMode.Upgrade;
+                case Enums.LockMode.UpgradeNoWait:
+                    return LockMode.UpgradeNoWait;
+                case Enums.LockMode.Write:
+                    return LockMode.Write;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(lockMode), lockMode,
+                        "The provided lock mode , '" + lockMode + ",' could not be translated into an NHibernate.LockMode. " +
+                        "This is probably because NHibernate was updated and now has different lock modes which are out of synch " +
+                        "with the lock modes maintained in the domain layer.");
+            }
         }
 
         #endregion

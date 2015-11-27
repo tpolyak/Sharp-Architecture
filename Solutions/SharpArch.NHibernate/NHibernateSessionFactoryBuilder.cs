@@ -36,6 +36,7 @@
         private IPersistenceConfigurer persistenceConfigurer;
         private IDictionary<string, string> properties;
         private bool useDataAnnotationValidators;
+        Action<Configuration> exposeConfiguration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NHibernateSessionFactoryBuilder"/> class.
@@ -58,6 +59,18 @@
         }
 
 
+        /// <summary>
+        /// Builds NHibernate configuration.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Any changes made to configuration object <b>will not be persisted</b> in configuration cache.
+        /// This can be usefull to make dynamic changes to configuration or in case changes cannot be serialized (e.g. event listeners are not marked with <see cref="SerializableAttribute"/>.
+        /// </para>
+        /// <para>
+        /// To make persistent changes use <seealso cref="ExposeConfiguration"/>.
+        /// </para>
+        /// </remarks>
         public Configuration BuildConfiguration()
         {
             var configuration = configurationCache.LoadConfiguration(DefaultConfigurationName, configFile, mappingAssemblies);
@@ -69,6 +82,26 @@
                 configurationCache.SaveConfiguration(DefaultConfigurationName, configuration);
             }
             return configuration;
+        }
+
+        /// <summary>
+        /// Allows to alter configuration before creating NHibernate configuration.
+        /// </summary>
+        /// <remarks>
+        /// Changes to configuration will be persisted in configuration cache, if it is enabled.
+        /// In case changes must not be persisted in cache, they must be applied after <seealso cref="BuildConfiguration"/>.
+        /// </remarks>
+        public NHibernateSessionFactoryBuilder ExposeConfiguration(Action<Configuration> config)
+        {
+            Check.Require(config != null, "Please provide callback.");
+            this.exposeConfiguration = config;
+
+            return this;
+        }
+
+        private bool ShouldExposeConfiguration()
+        {
+            return exposeConfiguration != null;
         }
 
         public NHibernateSessionFactoryBuilder UseConfigurationCache(INHibernateConfigurationCache configurationCache)
@@ -146,18 +179,24 @@
                 }
             });
 
-            if (this.useDataAnnotationValidators)
+            if (this.useDataAnnotationValidators || ShouldExposeConfiguration())
             {
-                fluentConfig.ExposeConfiguration(
-                    e =>
-                    {
-                        e.EventListeners.PreInsertEventListeners = InsertFirst(e.EventListeners.PreInsertEventListeners,
-                            new DataAnnotationsEventListener());
-                        e.EventListeners.PreUpdateEventListeners = InsertFirst(e.EventListeners.PreUpdateEventListeners,
-                            new DataAnnotationsEventListener());
-                    });
+                fluentConfig.ExposeConfiguration(AddValidatorsAndExposeConfiguration);
             }
             return fluentConfig.BuildConfiguration();
+        }
+
+        void AddValidatorsAndExposeConfiguration(Configuration e)
+        {
+            if (useDataAnnotationValidators)
+            {
+                e.EventListeners.PreInsertEventListeners = InsertFirst(e.EventListeners.PreInsertEventListeners, new DataAnnotationsEventListener());
+                e.EventListeners.PreUpdateEventListeners = InsertFirst(e.EventListeners.PreUpdateEventListeners, new DataAnnotationsEventListener());
+            }
+            if (ShouldExposeConfiguration())
+            {
+                exposeConfiguration(e);
+            }
         }
 
         /// <summary>

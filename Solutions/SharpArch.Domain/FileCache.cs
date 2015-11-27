@@ -27,8 +27,7 @@
             {
                 using (var file = File.Open(path, FileMode.Open))
                 {
-                    var bf = new BinaryFormatter();
-                    return bf.Deserialize(file) as T;
+                    return Load<T>(file);
                 }
             }
             catch
@@ -45,6 +44,12 @@
         /// <param name="obj">Object to serialize and store in a file.</param>
         /// <param name="path">Full path of file to store the serialized data.</param>
         /// <exception cref="ArgumentNullException">Thrown if obj or path parameters are null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="path" /> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <see cref="F:System.IO.Path.InvalidPathChars" />. </exception>
+        /// <exception cref="PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length. For example, on Windows-based platforms, paths must be less than 248 characters, and file names must be less than 260 characters. </exception>
+        /// <exception cref="NotSupportedException"><paramref name="path" /> is in an invalid format. </exception>
+        /// <exception cref="DirectoryNotFoundException">The specified path is invalid, (for example, it is on an unmapped drive). </exception>
+        /// <exception cref="IOException">An I/O error occurred while opening the file. </exception>
+        /// <exception cref="UnauthorizedAccessException"><paramref name="path" /> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <paramref name="path" /> specified a directory.-or- The caller does not have the required permission. -or-<paramref name="mode" /> is <see cref="F:System.IO.FileMode.Create" /> and the specified file is a hidden file.</exception>
         public static void StoreInCache<T>(T obj, string path) where T : class
         {
             if (obj == null)
@@ -59,8 +64,20 @@
 
             using (var file = File.Open(path, FileMode.Create))
             {
-                new BinaryFormatter().Serialize(file, obj);
+                Save(file, obj);
             }
         }
+
+        internal static void Save<T>(Stream file, T obj) where T : class
+        {
+            new BinaryFormatter().Serialize(file, obj);
+        }
+
+        internal static T Load<T>(Stream file) where T : class
+        {
+            return new BinaryFormatter().Deserialize(file) as T;
+        }
+
+
     }
 }

@@ -11,20 +11,8 @@ namespace SharpArch.Domain.PersistenceSupport
     ///     Defines a LINQ implementation of the Repository Pattern that takes in a Specification to
     ///     define the items that should be returned.
     /// </remarks>
-    public interface ILinqRepositoryWithTypedId<T, TId>: IRepositoryWithTypedId<T, TId>
+    public interface ILinqRepositoryWithTypedId<T, in TId>: IRepositoryWithTypedId<T, TId>
     {
-        /// <summary>
-        ///     Saves the specified object to the repository
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        void Save(T entity);
-
-        /// <summary>
-        ///     Saves the specified object to the repository and evicts it from the session.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        void SaveAndEvict(T entity);
-
         /// <summary>
         ///     Finds an item by ID.
         /// </summary>

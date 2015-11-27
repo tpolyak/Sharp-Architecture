@@ -38,29 +38,5 @@ namespace SharpArch.NHibernate
             return specification.SatisfyingElementsFrom(this.Session.Query<T>()).SingleOrDefault();
         }
 
-        public new void Save(T entity)
-        {
-            try
-            {
-                this.Session.Save(entity);
-            }
-            catch
-            {
-                if (this.Session.IsOpen)
-                {
-                    this.Session.Close();
-                }
-
-                throw;
-            }
-
-            this.Session.Flush();
-        }
-
-        public void SaveAndEvict(T entity)
-        {
-            this.Save(entity);
-            this.Session.Evict(entity);
-        }
     }
 }

@@ -82,14 +82,13 @@ namespace SharpArch.RavenDb
             }
         }
 
-        public void Save(T entity)
+        public T Save(T entity)
         {
-            this.SaveOrUpdate(entity);
+            return this.SaveOrUpdate(entity);
         }
 
-        public void SaveAndEvict(T entity)
+        public void Evict(T entity)
         {
-            this.SaveOrUpdate(entity);
             this.session.Advanced.Evict(entity);
         }
 
