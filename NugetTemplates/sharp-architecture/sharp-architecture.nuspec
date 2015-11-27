@@ -14,7 +14,7 @@
     <language>en-US</language>
     <dependencies>
       <dependency id="SharpArch.Domain" version="[4.0.0,5.0.0)" />
-      <dependency id="SharpArch.NHibernate" version="[4.0.0,5.0.0)" />
+      <dependency id="SharpArch.NHibernate" version="[4.0.4.4000,5.0.0)" />
       <dependency id="SharpArch.Web.Mvc.Castle" version="[4.0.0,5.0.0)" />
     </dependencies>
   </metadata>

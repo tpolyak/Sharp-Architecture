@@ -1,4 +1,7 @@
-﻿namespace Tests.SharpArch.NHibernate
+﻿using FluentAssertions;
+using SharpArch.Testing.NUnit;
+
+namespace Tests.SharpArch.NHibernate
 {
     using System;
     using System.IO;
@@ -84,5 +87,34 @@
                         .BuildConfiguration();
                 });
         }
+
+        [Test]
+        public void WhenUsingDataAnnotationValidators_ShouldKeepRegisteredPreInsertEventListeners()
+        {
+
+            var configFile = "sqlite-nhibernate-config.xml";
+
+            var configuration = new NHibernateSessionFactoryBuilder()
+                .UseConfigFile(configFile)
+                .UseDataAnnotationValidators(true)
+                .BuildConfiguration();
+
+            configuration.EventListeners.PreInsertEventListeners.Should().Contain(l => l is PreInsertListener);
+        }
+
+        [Test]
+        public void WhenUsingDataAnnotationValidators_ShouldKeepRegisteredPreUpdateEventListeners()
+        {
+
+            var configFile = "sqlite-nhibernate-config.xml";
+
+            var configuration = new NHibernateSessionFactoryBuilder()
+                .UseConfigFile(configFile)
+                .UseDataAnnotationValidators(true)
+                .BuildConfiguration();
+
+            configuration.EventListeners.PreUpdateEventListeners.Should().Contain(l => l is PreUpdateListener);
+        }
+
     }
 }
