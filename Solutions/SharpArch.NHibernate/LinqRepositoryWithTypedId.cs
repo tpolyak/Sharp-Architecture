@@ -13,11 +13,6 @@ namespace SharpArch.NHibernate
         {
         }
 
-        public override void Delete(T target)
-        {
-            this.Session.Delete(target);
-        }
-
         public IQueryable<T> FindAll()
         {
             return this.Session.Query<T>();
