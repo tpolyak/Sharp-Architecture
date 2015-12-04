@@ -5,6 +5,7 @@ S#arp vNext
 Breaking changes:
  * target platform is .NET 4.5;
  * #124 BREAKING: removed Command/Query infrastructure;
+ * Now uses C# 6.0 syntax;
 
 
 Fixes:

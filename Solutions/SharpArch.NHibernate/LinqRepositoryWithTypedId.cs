@@ -13,11 +13,6 @@ namespace SharpArch.NHibernate
         {
         }
 
-        public override void Delete(T target)
-        {
-            this.Session.Delete(target);
-        }
-
         public IQueryable<T> FindAll()
         {
             return this.Session.Query<T>();
@@ -38,29 +33,5 @@ namespace SharpArch.NHibernate
             return specification.SatisfyingElementsFrom(this.Session.Query<T>()).SingleOrDefault();
         }
 
-        public new void Save(T entity)
-        {
-            try
-            {
-                this.Session.Save(entity);
-            }
-            catch
-            {
-                if (this.Session.IsOpen)
-                {
-                    this.Session.Close();
-                }
-
-                throw;
-            }
-
-            this.Session.Flush();
-        }
-
-        public void SaveAndEvict(T entity)
-        {
-            this.Save(entity);
-            this.Session.Evict(entity);
-        }
     }
 }
