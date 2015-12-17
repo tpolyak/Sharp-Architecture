@@ -231,7 +231,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             Assert.AreEqual(territoryName, result.Name);
         }
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void SetUp()
         {
             var mockRepository = new Mock<IRepositoryWithTypedId<Employee, int>>();

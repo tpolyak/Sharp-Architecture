@@ -44,27 +44,24 @@ namespace Tests.SharpArch.Domain.Commands
         }
 
         [Test]
-        [ExpectedException(typeof(ValidationException))]
         public void ThrowsIfCommandIsInvalid()
         {
             var testCommand = new InvalidCommand();
-            commandProcessor.Process(testCommand);
+            Assert.Throws<ValidationException>(() => commandProcessor.Process(testCommand));
         }
 
         [Test]
-        [ExpectedException(typeof(ValidationException))]
         public void ThrowsIfCommandIsInvalidButNotRequired()
         {
           var testCommand = new InvalidCommand { Invalid = true };
-          commandProcessor.Process(testCommand);
+            Assert.Throws<ValidationException>(() => commandProcessor.Process(testCommand));
         }
 
         [Test]
-        [ExpectedException(typeof(CommandHandlerNotFoundException))]
         public void ThrowsIfCommandHandlerNotFound()
         {
             var testCommand = new TestCommand();
-            commandProcessor.Process(testCommand);
+            Assert.Throws<CommandHandlerNotFoundException>(() => commandProcessor.Process(testCommand));
         }
 
         [Test]

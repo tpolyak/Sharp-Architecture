@@ -1,5 +1,19 @@
 ========================
-S#arp vNext
+S#arp Architecture 3.1
+========================
+
+Upgrade dependencies #129
+Newtonsoft.Json 7.0.1^
+NHibernate 4.0.4.4000^
+ASP.NET MVC 5.2.3^
+NUnit 3.0.1^
+RavenDb.Client 3.0.30000^
+FluentNHibernate 2.0.3.0^
+------
+
+
+========================
+S#arp architecture 3.0
 ========================
 
 Updated dependencies
