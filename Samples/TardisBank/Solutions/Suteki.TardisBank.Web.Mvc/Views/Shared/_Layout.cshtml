@@ -7,11 +7,8 @@
     @Styles.Render("~/Content/css")
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    @Scripts.Render("~/bundles/jquery")
-    
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jqueryui")
-    <title>@ViewBag.Title</title>    
+    <title>@ViewBag.Title</title>
 </head>
 
 <body>
@@ -43,5 +40,9 @@
         </div><!--/mainContent-->
 
     </div><!--/page-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+
+
 </body>
 </html>

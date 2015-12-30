@@ -17,6 +17,11 @@ namespace Suteki.TardisBank.Web.Mvc.Utilities
             get { return CurrentHttpContext.User.Identity.IsAuthenticated; }
         }
 
+        public bool UserIsInRole(string role)
+        {
+            return CurrentHttpContext.User.IsInRole(role);
+        }
+
         static HttpContext CurrentHttpContext
         {
             get

@@ -75,5 +75,10 @@ namespace Suteki.TardisBank.Domain
                 this.Children.Remove(childToRemove);
             }
         }
+
+        public override string[] GetRoles()
+        {
+            return new[] { UserRoles.Parent };
+        }
     }
 }

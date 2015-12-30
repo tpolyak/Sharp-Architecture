@@ -39,8 +39,10 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
                     .UsingFactoryMethod(k => k.Resolve<ISessionFactory>().OpenSession())
                     .LifestylePerWebRequest()
                     .Named(NHibernateSessionFactoryBuilder.DefaultConfigurationName + ".session")
-                    .OnDestroy(s => Debug.WriteLine("Destroy session {0:x}", s.GetHashCode()))
-                    .OnCreate(s => Debug.WriteLine("Created session {0:x}", s.GetHashCode()))
+#if DEBUG
+                    .OnDestroy(s => Debug.WriteLine("Destroy session {0}", s.GetSessionImplementation().Timestamp))
+                    .OnCreate(s => Debug.WriteLine("Created session {0}", s.GetSessionImplementation().Timestamp))
+#endif
                 );
 
             container.Register(

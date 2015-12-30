@@ -75,13 +75,16 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\SharpArch.Web.Mvc.Castle\WindsorPropertyInjectionExtensions.cs">
+      <Link>WindsorPropertyInjectionExtensions.cs</Link>
+    </Compile>
     <Compile Include="ControllerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindsorControllerExtensions.cs" />
+    <Compile Include="WindsorHttpConfigurationExtensions.cs" />
+    <Compile Include="WindsorHttpExtensions.cs" />
     <Compile Include="WindsorDependencyResolver.cs" />
     <Compile Include="WindsorFilterProvider.cs" />
     <Compile Include="WindsorHttpControllerActivator.cs" />
-    <Compile Include="WindsorPropertyInjectionKernelExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

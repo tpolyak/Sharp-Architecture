@@ -1,6 +1,19 @@
 ========================
 S#arp vNext
 ========================
+BREAKING CHANGES:
+
+SharpArch.Web.Http.Castle
+ * WindsorControllerExtensions renamed to WindsorHttpExtensions;
+ * WindsorPropertyInjectionKernelExtensions replaced with internal SharpArch.Castle.Extensions.WindsorPropertyInjectionExtensions 
+   (shared with SharpArch.Web.Mvc);
+
+SharpArch.Web.Mvc
+ * WindsorExtensions renamed to WindsorMvcExtensions;
+
+
+No more NHibernateSession
+
 
 Breaking changes:
  * target platform is .NET 4.5;

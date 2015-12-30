@@ -1,173 +1,182 @@
-﻿body
-{
+﻿body {
     background-color: #F2F2F0;
     color: #333;
     font: 100% Arial;
 }
 
-#header
-{
+#header {
     background-color: #2580a2;
     background-image: url(Images/title_background.png);
     color: #fff;
     height: 145px;
 }
-#header a
-{
+
+#header a {
     color: #ccc;
-    font-weight:bold;
-    text-decoration:none;
-}
-#header a:hover
-{
-    color: #fff
-}
-#header h1
-{
-    font-size: 32pt;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-#login_status
-{
-    text-align:right;
-}
+#header a:hover { color: #fff }
 
-#content a
-{
-    color: #ccc;
-    background-color: #333;
-    padding: 7px;
-    margin: 7px;
-    text-decoration:none;
+#header h1 { font-size: 32pt; }
+
+#login_status { text-align: right; }
+
+#content a {
     -moz-border-radius: 5px;
+    background-color: #333;
     border-radius: 5px;
+    color: #ccc;
+    margin: 7px;
+    padding: 7px;
+    text-decoration: none;
 }
 
-#content a:hover
-{
-    color: #fff;
-}
+#content a:hover { color: #fff; }
 
-#content a.text_link
-{
+#content a.text_link {
+    background-color: transparent;
     color: #333;
     padding: 0px;
-    text-decoration:underline;
-    background-color:transparent;
+    text-decoration: underline;
 }
 
-#content a:hover.text_link
-{
-    color: #333;
-}
+#content a:hover.text_link { color: #333; }
 
-#content a.warning
-{
-    background-color: #b00;
-}
+#content a.warning { background-color: #b00; }
 
-div.rightline
-{
+div.rightline {
     border-right: 1px solid #ccc;
     padding-right: 10px;
 }
 
-#footer
-{
+#footer {
     background: #333;
     color: #ccc;
     font-size: 10px;
 }
 
-#footer a
-{
-    color: #ccc;
-}
+#footer a { color: #ccc; }
 
 /* Table */
-th
-{
-    text-align:left;
-    padding:5px 5px 5px 5px;
-}
-td
-{
-    padding: 10px 5px;
-}
-td.money
-{
-    text-align: right;
+
+th {
+    padding: 5px 5px 5px 5px;
+    text-align: left;
 }
 
+td { padding: 10px 5px; }
+
+td.money { text-align: right; }
+
 /* Form */
-input
-{
-    font: 100% Arial;
+
+input {
     -moz-border-radius: 5px;
     border-radius: 5px;
     border-style: inset;
     border-width: 2px;
+    font: 100% Arial;
 }
 
-input[type=submit]
-{
-    color: #ccc;
-    background-color: #333;
-    padding: 7px;
-    text-decoration:none;
+input[type=submit] {
     -moz-border-radius: 5px;
+    background-color: #333;
     border-radius: 5px;
     border-style: none;
     border-width: 0;
+    color: #ccc;
+    padding: 7px;
+    text-decoration: none;
 }
 
-input[type=submit]:hover
-{
+input[type=submit]:hover {
     color: #fff;
     cursor: pointer;
 }
 
-select
-{
-    font: 100% Arial;
+select {
     -moz-border-radius: 5px;
     border-radius: 5px;
     border-style: inset;
     border-width: 2px;
+    font: 100% Arial;
 }
 
+
+.announcement-container {
+    height: 250px;
+    overflow-y: scroll;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+ul.announcement-list { list-style: outside none none; }
+
+ul.announcement-list li {
+    margin-left: 0;
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.announcement-details {
+    height: 200px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    overflow: scroll;
+}
 
 /* Styles for validation helpers
 -----------------------------------------------------------*/
-.field-validation-error
-{
-    color: #ff0000;
+
+textarea:required,
+input:required {
+    background: hsl(180, 50%, 90%);
+    border: 1px solid #999;
 }
 
-.field-validation-valid
-{
-    display: none;
+textarea:valid,
+input:not([type=submit]):valid,
+input:not([type=submit]):in-range {
+    background: hsl(120, 50%, 90%);
+    border-color: hsl(120, 50%, 50%);
 }
 
-.input-validation-error
-{
-    border: 1px solid #ff0000;
+textarea:invalid,
+input:invalid,
+input:out-of-range {
+    background: hsl(0, 50%, 90%);
+    border-color: hsl(0, 50%, 50%);
+}
+
+.field-validation-error { color: #ff0000; }
+
+.field-validation-valid { display: none; }
+
+.input-validation-error {
     background-color: #ffeeee;
+    border: 1px solid #ff0000;
 }
 
-.validation-summary-errors
-{
-    font-weight: bold;
+.validation-summary-errors {
     color: #ff0000;
+    font-weight: bold;
 }
 
-.validation-summary-valid
-{
-    display: none;
-}
+.validation-summary-valid { display: none; }
 
 p {
     display: block;
     padding-bottom: 8px;
     padding-top: 8px;
+}
+
+/* NEWS editor */
+#publishedAnnouncements a.delete-link {
+    color: red;
+    background-color: #F2F2F0;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    padding: 0;
 }

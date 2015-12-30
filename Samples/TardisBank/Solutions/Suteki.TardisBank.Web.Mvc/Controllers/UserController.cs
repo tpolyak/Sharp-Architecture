@@ -30,7 +30,7 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
         {
             var user = userService.CurrentUser;
             var userName = user == null ? "Hello Stranger!" : user.UserName;
-            return View("Index", new UserViewModel {UserName = userName, IsLoggedIn = user != null});
+            return this.PartialView("Index", new UserViewModel { UserName = userName, IsLoggedIn = user != null });
         }
 
         [HttpGet]
@@ -150,11 +150,6 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
         [HttpPost, Transaction]
         public ActionResult Login(LoginViewModel loginViewModel)
         {
-            if (loginViewModel == null)
-            {
-                throw new ArgumentNullException("loginViewModel");
-            }
-
             if (ModelState.IsValid)
             {
                 var user = userService.GetUserByUserName(loginViewModel.Name);
@@ -174,7 +169,7 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
 
                     if (hashedPassword == user.Password)
                     {
-                        formsAuthenticationService.SetAuthCookie(user.UserName, false);
+                        formsAuthenticationService.SetAuthCookie(user.UserName, GetRoles(user), false);
                         if (user is Child)
                         {
                             return RedirectToAction("ChildView", "Account");
@@ -190,6 +185,11 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
             }
 
             return View("Login", loginViewModel);
+        }
+
+        string[] GetRoles(User user)
+        {
+            return user.GetRoles();
         }
 
         [HttpGet]

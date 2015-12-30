@@ -4,5 +4,7 @@ namespace Suteki.TardisBank.Tasks
     {
         string UserName { get; }
         bool UserIsAuthenticated { get; }
+
+        bool UserIsInRole(string role);
     }
 }

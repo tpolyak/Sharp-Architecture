@@ -14,9 +14,9 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
         }
 
         [ChildActionOnly]
-        public ViewResult Index()
+        public PartialViewResult Index()
         {
-            return this.View(this.configuration);
+            return this.PartialView(this.configuration);
         }
     }
 }

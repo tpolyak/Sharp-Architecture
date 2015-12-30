@@ -93,8 +93,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindsorControllerFactory.cs" />
     <Compile Include="WindsorDependencyResolver.cs" />
-    <Compile Include="WindsorExtensions.cs" />
+    <Compile Include="WindsorMvcExtensions.cs" />
     <Compile Include="WindsorFilterAttributeProvider.cs" />
+    <Compile Include="WindsorPropertyInjectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

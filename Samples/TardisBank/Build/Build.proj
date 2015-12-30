@@ -11,9 +11,9 @@
 
   <ItemGroup>
     <PackageFiles Include="$(WebAppPath)\**\*.*"
-                  Exclude="$(WebAppPath)\**\bin\**;
-                            $(WebAppPath)\**\Logs\**;
-                            $(WebAppPath)\**\obj\**;">
+                   Exclude="$(WebAppPath)\**\bin\**;
+                    $(WebAppPath)\**\Logs\**;
+                    $(WebAppPath)\**\obj\**;">
       <PackageName>$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).Source.v$(GlobalBuildVersionNumber).zip</PackageName>
       <WorkingDirectory>$(WebAppPath)</WorkingDirectory>
       <Flatten>False</Flatten>
@@ -23,6 +23,11 @@
   <ItemGroup>
     <TemplifyTokens Include="Suteki.TardisBank=Suteki.TardisBank" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AssembliesToTestWithNUnit Include="$(SolutionsPath)\Suteki.TardisBank.Tests\bin\Release\Suteki.TardisBank.Tests.dll;" />
+  </ItemGroup>
+
 
   <PropertyGroup>
     <TemplifyPath>$(SolutionsPath)</TemplifyPath>
@@ -36,18 +41,17 @@
 
   <Target Name="Build"
         DependsOnTargets="CleanSolution;
-                            UpdateAssemblyVersion;
-                            BuildSolutions;" />
+            UpdateAssemblyVersion;
+            BuildSolutions;" />
 
   <Target Name="PackageArtefacts"
           DependsOnTargets="Build;
-                            Package;
-                            Templify;
-                            BuildSuccess" />
-
-  <Target Name="PathTest">
-    <Message Text="$(WebAppPath)" />
-  </Target>
-
+            Package;
+            Templify;
+            BuildSuccess" />
+  
+<Target Name="RunTests"
+          DependsOnTargets="Build;
+            RunNUnitTests" />
 
 </Project>
