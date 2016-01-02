@@ -2,14 +2,17 @@
 {
     using System;
     using System.Reflection;
+    using System.Security.Principal;
     using System.Web;
     using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
+    using System.Web.Security;
     using Castle.Windsor;
     using Castle.Windsor.Installer;
     using log4net.Config;
+    using SharpArch.Domain.Reflection;
     using SharpArch.Web.Mvc.Castle;
     using SharpArch.Web.Mvc.ModelBinder;
 
@@ -23,6 +26,9 @@
     /// </remarks>
     public class MvcApplication : HttpApplication
     {
+        private TypePropertyDescriptorCache propertyDescriptorCache;
+        private IWindsorContainer container;
+
         protected void Application_Error(object sender, EventArgs e)
         {
             // Useful for debugging
@@ -34,18 +40,33 @@
         {
             XmlConfigurator.Configure();
 
+            AutoMapper.Mapper.Initialize(c =>
+            {
+                c.AddProfile<ModelMappingProfile>();
+            });
+
+
+            // Container
+            propertyDescriptorCache = new TypePropertyDescriptorCache();
+            container = InitializeConianer();
+
+            // MVC
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
 
             ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
-
-            InitializeServiceLocator();
+            FilterProviders.Providers.InstallFilterProvider(container, propertyDescriptorCache);
+            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
             AreaRegistration.RegisterAllAreas();
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            // WepAPI
+            GlobalConfiguration.Configure(cfg => WebApiConfig.Register(cfg, container, propertyDescriptorCache));
+
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
         }
 
         /// <summary>
@@ -53,15 +74,34 @@
         ///     WindsorController to the container.  Also associate the Controller
         ///     with the WindsorContainer ControllerFactory.
         /// </summary>
-        protected virtual void InitializeServiceLocator()
+        protected IWindsorContainer InitializeConianer()
         {
-            IWindsorContainer container = new WindsorContainer();
-            container.Install(FromAssembly.This());
-            FilterProviders.Providers.InstallFilterProvider(container);
+            IWindsorContainer c = new WindsorContainer();
+            c.Install(FromAssembly.This());
+            return c;
 
-            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
         }
 
 
+        protected void Application_AuthenticateRequest(Object sender,
+        EventArgs e)
+        {
+            if (HttpContext.Current.User != null)
+            {
+                if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    FormsIdentity id = HttpContext.Current.User.Identity as FormsIdentity;
+                    if (id != null)
+                    {
+                        var ticket = id.Ticket;
+
+                        // Get the stored user-data, in this case, our roles
+                        string userData = ticket.UserData;
+                        string[] roles = userData.Split(',');
+                        HttpContext.Current.User = new GenericPrincipal(id, roles);
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,17 +1,17 @@
 ﻿namespace Suteki.TardisBank.Infrastructure.NHibernateMaps.Conventions
 {
-    #region Using Directives
-
     using FluentNHibernate.Conventions;
+    using FluentNHibernate.Conventions.Instances;
+    using Humanizer;
 
-    using inflector_extension;
-    #endregion
-
+    /// <summary>
+    /// Pluralize table name.
+    /// </summary>
     public class TableNameConvention : IClassConvention
     {
-        public void Apply(FluentNHibernate.Conventions.Instances.IClassInstance instance)
+        public void Apply(IClassInstance instance)
         {
-            instance.Table(instance.EntityType.Name.InflectTo().Pluralized);
+            instance.Table(instance.EntityType.Name.Pluralize());
         }
     }
 }

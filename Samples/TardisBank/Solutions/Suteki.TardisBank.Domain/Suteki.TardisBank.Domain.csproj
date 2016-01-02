@@ -93,6 +93,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Account.cs" />
+    <Compile Include="Announcement.cs" />
+    <Compile Include="CashWithdrawException.cs" />
     <Compile Include="Child.cs" />
     <Compile Include="Events\NewParentCreatedEvent.cs" />
     <Compile Include="Events\SendMessageEvent.cs" />

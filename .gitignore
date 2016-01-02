@@ -29,5 +29,5 @@ Common/AssemblyVersion.cs
 Artefacts/Documentation/build/
 _NCrunch*/
 *.*ncrunch*
-*.sln.DotSettings
 *.user
+.vs

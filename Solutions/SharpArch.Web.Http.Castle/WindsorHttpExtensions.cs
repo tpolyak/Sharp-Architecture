@@ -3,6 +3,11 @@
     using System;
     using System.Linq;
     using System.Reflection;
+    using System.Web.Http;
+    using System.Web.Http.Controllers;
+    using System.Web.Http.Dispatcher;
+    using System.Web.Http.Filters;
+    using Domain.Reflection;
     using global::Castle.Core;
     using global::Castle.MicroKernel.Registration;
     using global::Castle.Windsor;
@@ -11,7 +16,7 @@
     /// <summary>
     /// Contains Castle Windsor related HTTP controller extension methods.
     /// </summary>
-    public static class WindsorControllerExtensions
+    public static class WindsorHttpExtensions
     {
         /// <summary>
         /// Registers the specified HTTP controllers.
@@ -24,17 +29,17 @@
             Check.Require(container != null);
             Check.Require(controllerTypes != null);
 
-            foreach (Type type in controllerTypes.Where(n => ControllerExtensions.IsHttpController(n)))
+            foreach (Type type in controllerTypes.Where(ControllerExtensions.IsHttpController))
             {
                 container.Register(
-                    Component.For(type).Named(type.FullName.ToLower()).LifeStyle.Is(LifestyleType.Transient));
+                    Component.For(type).Named(type.FullName).LifeStyle.Is(LifestyleType.Transient));
             }
 
             return container;
         }
 
         /// <summary>
-        /// Registers the HTTP controllers that are found in the specified assemblies.
+        /// Registers the HTTP controllers from specified assemblies.
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="assemblies">The assemblies.</param>
@@ -51,5 +56,6 @@
 
             return container;
         }
+
     }
 }

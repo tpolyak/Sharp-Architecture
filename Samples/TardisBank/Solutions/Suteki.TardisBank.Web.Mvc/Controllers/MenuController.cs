@@ -15,13 +15,13 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
         }
 
         [ChildActionOnly]
-        public ViewResult Index()
+        public PartialViewResult Index()
         {
             var user = this.userService.CurrentUser;
 
-            if (user == null) return this.View("GuestMenu");
-            if (user is Parent) return this.View("ParentMenu", user as Parent);
-            if (user is Child) return this.View("ChildMenu", user as Child);
+            if (user == null) return this.PartialView("GuestMenu");
+            if (user is Parent) return this.PartialView("ParentMenu", user as Parent);
+            if (user is Child) return this.PartialView("ChildMenu", user as Child);
 
             throw new TardisBankException("Unknown User type");
         }

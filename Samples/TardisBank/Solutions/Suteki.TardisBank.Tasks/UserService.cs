@@ -100,9 +100,7 @@ namespace Suteki.TardisBank.Tasks
 
         public void DeleteUser(int userId)
         {
-            var user = this.userRepository.FindOne(userId);
-
-            this.userRepository.Delete(user);
+            this.userRepository.Delete(userId);
         }
     }
 }

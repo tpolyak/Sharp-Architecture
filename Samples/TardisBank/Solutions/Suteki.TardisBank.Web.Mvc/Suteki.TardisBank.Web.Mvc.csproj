@@ -47,109 +47,25 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\..\Packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\..\..\Packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="DotNetOpenAuth.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\..\..\Packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="DotNetOpenAuth.Core.UI, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.Core.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.InfoCard, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.InfoCard.4.3.4.13329\lib\net45-full\DotNetOpenAuth.InfoCard.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.InfoCard.UI, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.InfoCard.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.InfoCard.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Common, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth.Common.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth.Consumer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.ServiceProvider, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth.ServiceProvider.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.ServiceProvider.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth2, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth2.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth2.AuthorizationServer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth2.AuthorizationServer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.AuthorizationServer.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth2.Client, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth2.Client.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth2.Client.UI, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth2.Client.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.Client.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth2.ClientAuthorization, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth2.ClientAuthorization.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.ClientAuthorization.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth2.ResourceServer, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OAuth2.ResourceServer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.ResourceServer.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenId.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.Provider, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenId.Provider.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.Provider.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.Provider.UI, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenId.Provider.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.Provider.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty.UI, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenId.RelyingParty.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.UI, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenId.Core.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenIdInfoCard.UI, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenIdInfoCard.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenIdInfoCard.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenIdOAuth, Version=4.3.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\DotNetOpenAuth.OpenIdOAuth.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenIdOAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentNHibernate, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\..\..\Packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\..\..\Packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -175,24 +91,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\..\..\Packages\NHibernate.4.0.4.4000\lib\net40\NHibernate.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -255,9 +163,12 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\MappingConfiguration.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="CastleWindsor\ControllersInstaller.cs" />
+    <Compile Include="Controllers\AnnouncementsController.cs" />
+    <Compile Include="CastleWindsor\HttpControllersInstaller.cs" />
+    <Compile Include="CastleWindsor\MvcControllersInstaller.cs" />
     <Compile Include="CastleWindsor\HandlerInstaller.cs" />
     <Compile Include="CastleWindsor\MediatorInstaller.cs" />
     <Compile Include="CastleWindsor\MvcGooInstaller.cs" />
@@ -273,7 +184,7 @@
     <Compile Include="Controllers\ChildController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
-    <Compile Include="Controllers\OpenidController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\PasswordController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\ScheduleRunnerController.cs" />
@@ -292,6 +203,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AnnouncementModel.cs" />
+    <Compile Include="Models\News\NewsListModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Current.cs" />
     <Compile Include="Utilities\DateFormatter.cs" />
@@ -300,6 +213,7 @@
     <Compile Include="Utilities\StatusCode.cs" />
     <Compile Include="Utilities\StringExtensions.cs" />
     <Compile Include="Utilities\UserLocaleModule.cs" />
+    <Compile Include="WebApi\ValidateModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404Error.htm" />
@@ -308,6 +222,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\hover.gif" />
     <Content Include="Content\images\meandleo.jpg" />
     <Content Include="Content\images\meandleo.png" />
@@ -376,6 +292,7 @@
     <Content Include="Content\themes\cupertino\jquery-ui.cupertino.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="favicon.png" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GenericError.htm" />
     <Content Include="Global.asax" />
@@ -389,7 +306,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="Scripts\app\common.js" />
+    <Content Include="Scripts\app\news.view.js" />
+    <Content Include="Scripts\app\news.edit.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
@@ -401,6 +326,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsrender.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
@@ -408,7 +334,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -454,10 +382,11 @@
     <Content Include="Views\User\Messages.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -471,6 +400,14 @@
     <ProjectReference Include="..\..\..\..\Solutions\SharpArch.NHibernate\SharpArch.NHibernate.csproj">
       <Project>{0bd77f13-8df6-4c16-9508-33aa4cf0677a}</Project>
       <Name>SharpArch.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Solutions\SharpArch.Web.Http.Castle\SharpArch.Web.Http.Castle.csproj">
+      <Project>{eb01cd4d-cfb9-4924-8388-078d59543d58}</Project>
+      <Name>SharpArch.Web.Http.Castle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Solutions\SharpArch.Web.Http\SharpArch.Web.Http.csproj">
+      <Project>{35ec85f7-5d2e-4fe0-842a-807598fb6d1f}</Project>
+      <Name>SharpArch.Web.Http</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\Solutions\SharpArch.Web.Mvc.Castle\SharpArch.Web.Mvc.Castle.csproj">
       <Project>{5c2ea19a-e547-4e55-b36e-b25ca9efef21}</Project>
@@ -527,11 +464,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <Import Project="..\..\..\..\Packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\..\..\Packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\..\..\..\Packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\..\..\..\Packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

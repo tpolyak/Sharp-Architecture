@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+@{
+    Layout = "";
+}
 
 <html lang="en"
       xmlns:og="http://opengraphprotocol.org/schema/"
@@ -9,7 +12,6 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/bootstrap")
 
     <link rel="shortcut icon" href="@Url.Content("~/Content/Images/TardisBankLogo_16.png")">
 
@@ -44,6 +46,9 @@
     </div>
     <div class="clear"></div>
 
+    <div id="messageArea" class="container_12">
+    </div>
+
     <div class="container_12" id="content">
 
         <br />
@@ -67,18 +72,26 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
 
 
-    <script type="text/javascript">
-        window.fbAsyncInit = function () {
-            FB.init({ appId: '176890825659044', status: true, cookie: true, xfbml: true });
-        };
-        (function () {
-            var e = document.createElement('script'); e.async = true;
-            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-            document.getElementById('fb-root').appendChild(e);
-        }());
-    </script>
 
+
+<script type="text/javascript">
+    $(function() {
+        app.common.nav.setRootUrl('@Url.Action("Index", "Home")');
+    });
+    
+    window.fbAsyncInit = function () {
+        FB.init({ appId: '176890825659044', status: true, cookie: true, xfbml: true });
+    };
+    (function () {
+        var e = document.createElement('script'); e.async = true;
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        document.getElementById('fb-root').appendChild(e);
+    }());
+</script>
+
+    @RenderSection("scripts", required: false)
 </body>
 </html>
