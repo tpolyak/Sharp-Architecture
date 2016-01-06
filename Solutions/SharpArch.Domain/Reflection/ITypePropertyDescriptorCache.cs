@@ -24,7 +24,7 @@ namespace SharpArch.Domain.Reflection
         /// <param name="type">The type.</param>
         /// <param name="factory">The factory to create descriptor.</param>
         /// <returns></returns>
-        TypePropertyDescriptor GetOrAdd(Type type, Func<TypePropertyDescriptor> factory);
+        TypePropertyDescriptor GetOrAdd(Type type, Func<Type, TypePropertyDescriptor> factory);
 
         /// <summary>
         ///     Clears the cache.

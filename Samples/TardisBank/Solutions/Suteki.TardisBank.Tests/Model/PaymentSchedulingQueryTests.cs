@@ -6,6 +6,7 @@ namespace Suteki.TardisBank.Tests.Model
     using System.Collections.Generic;
     using System.Linq;
     using Domain;
+    using FluentAssertions;
     using NHibernate.Linq;
     using NUnit.Framework;
     using SharpArch.Testing.NUnit.NHibernate;
@@ -49,16 +50,16 @@ namespace Suteki.TardisBank.Tests.Model
 
             List<Child> results = Session.Query<Child>().ToList();
 
-            results.Count().ShouldEqual(5);
+            results.Count().Should().Be(5);
 
-            results.Single(x => x.Name == "one").Account.PaymentSchedules[0].NextRun.ShouldEqual(someDate.AddDays(5));
-            results.Single(x => x.Name == "two").Account.PaymentSchedules[0].NextRun.ShouldEqual(someDate.AddDays(6));
-            results.Single(x => x.Name == "three").Account.PaymentSchedules[0].NextRun.ShouldEqual(someDate.AddDays(7));
-            results.Single(x => x.Name == "four").Account.PaymentSchedules[0].NextRun.ShouldEqual(someDate.AddDays(1));
-            results.Single(x => x.Name == "five").Account.PaymentSchedules[0].NextRun.ShouldEqual(someDate.AddDays(2));
+            results.Single(x => x.Name == "one").Account.PaymentSchedules[0].NextRun.Should().Be(someDate.AddDays(5));
+            results.Single(x => x.Name == "two").Account.PaymentSchedules[0].NextRun.Should().Be(someDate.AddDays(6));
+            results.Single(x => x.Name == "three").Account.PaymentSchedules[0].NextRun.Should().Be(someDate.AddDays(7));
+            results.Single(x => x.Name == "four").Account.PaymentSchedules[0].NextRun.Should().Be(someDate.AddDays(1));
+            results.Single(x => x.Name == "five").Account.PaymentSchedules[0].NextRun.Should().Be(someDate.AddDays(2));
 
-            results.Single(x => x.Name == "one").Account.Transactions.Count.ShouldEqual(1);
-            results.Single(x => x.Name == "one").Account.Transactions[0].Amount.ShouldEqual(1M);
+            results.Single(x => x.Name == "one").Account.Transactions.Count.Should().Be(1);
+            results.Single(x => x.Name == "one").Account.Transactions[0].Amount.Should().Be(1M);
         }
     }
 }

@@ -49,7 +49,11 @@
         /// <exception cref="NotSupportedException"><paramref name="path" /> is in an invalid format. </exception>
         /// <exception cref="DirectoryNotFoundException">The specified path is invalid, (for example, it is on an unmapped drive). </exception>
         /// <exception cref="IOException">An I/O error occurred while opening the file. </exception>
-        /// <exception cref="UnauthorizedAccessException"><paramref name="path" /> specified a file that is read-only.-or- This operation is not supported on the current platform.-or- <paramref name="path" /> specified a directory.-or- The caller does not have the required permission. -or-<paramref name="mode" /> is <see cref="F:System.IO.FileMode.Create" /> and the specified file is a hidden file.</exception>
+        /// <exception cref="UnauthorizedAccessException"><paramref name="path" /> specified a file that is read-only.
+        /// -or- This operation is not supported on the current platform.
+        /// -or- <paramref name="path" /> specified a directory.
+        /// -or- The caller does not have the required permission. 
+        /// -or specified file is a hidden file.</exception>
         public static void StoreInCache<T>(T obj, string path) where T : class
         {
             if (obj == null)

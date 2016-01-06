@@ -13,7 +13,12 @@ namespace Tests.SharpArch.NHibernate
     [TestFixture]
     public class NHibernateSessionFactoryBuilderTests
     {
-        const string DefaultConfigFile = "sqlite-nhibernate-config.xml";
+
+        private string GetConfigFullName()
+        {
+            const string DefaultConfigFile = "sqlite-nhibernate-config.xml";
+            return Path.Combine(TestContext.CurrentContext.TestDirectory, DefaultConfigFile);
+        }
 
         [Test]
         public void CanExposeConfiguration()
@@ -22,7 +27,7 @@ namespace Tests.SharpArch.NHibernate
             Action<Configuration> configure = c => { exposeCalled = true; };
 
             new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .ExposeConfiguration(configure)
                 .BuildConfiguration();
 
@@ -35,13 +40,13 @@ namespace Tests.SharpArch.NHibernate
             var cache = new InMemoryCache();
 
             new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .ExposeConfiguration(c=>c.SetProperty("connection.connection_string", "updated-connection"))
                 .UseConfigurationCache(cache)
                 .BuildConfiguration();
 
             var config = new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .UseConfigurationCache(cache)
                 .BuildConfiguration();
 
@@ -54,7 +59,7 @@ namespace Tests.SharpArch.NHibernate
         public void CanInitializeWithConfigFile()
         {
             var configuration = new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .BuildConfiguration();
 
             Assert.That(configuration, Is.Not.Null);
@@ -67,7 +72,7 @@ namespace Tests.SharpArch.NHibernate
         {
             var configuration = new NHibernateSessionFactoryBuilder()
                 .UseConfigurationCache(new NHibernateConfigurationFileCache(new[] {"SharpArch.NHibernate"}))
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .BuildConfiguration();
 
             Assert.That(configuration, Is.Not.Null);
@@ -83,7 +88,7 @@ namespace Tests.SharpArch.NHibernate
 
             var configuration = new NHibernateSessionFactoryBuilder()
                 .UsePersistenceConfigurer(persistenceConfigurer)
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .BuildConfiguration();
 
             Assert.That(configuration, Is.Not.Null);
@@ -113,7 +118,7 @@ namespace Tests.SharpArch.NHibernate
                     new NHibernateSessionFactoryBuilder()
                         // Random Guid value as dependency file to cause the exception
                         .UseConfigurationCache(new NHibernateConfigurationFileCache(new[] {Guid.NewGuid().ToString()}))
-                        .UseConfigFile(DefaultConfigFile)
+                        .UseConfigFile(GetConfigFullName())
                         .BuildConfiguration();
                 });
         }
@@ -122,7 +127,7 @@ namespace Tests.SharpArch.NHibernate
         public void WhenUsingDataAnnotationValidators_ShouldKeepRegisteredPreInsertEventListeners()
         {
             var configuration = new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .UseDataAnnotationValidators(true)
                 .BuildConfiguration();
 
@@ -133,7 +138,7 @@ namespace Tests.SharpArch.NHibernate
         public void WhenUsingDataAnnotationValidators_ShouldKeepRegisteredPreUpdateEventListeners()
         {
             var configuration = new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(DefaultConfigFile)
+                .UseConfigFile(GetConfigFullName())
                 .UseDataAnnotationValidators(true)
                 .BuildConfiguration();
 

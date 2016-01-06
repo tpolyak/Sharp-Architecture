@@ -1,9 +1,11 @@
 namespace Suteki.TardisBank.Tests.Model
 {
     using Domain;
+    using FluentAssertions;
     using MediatR;
     using Moq;
     using NUnit.Framework;
+    using SharpArch.Testing.NUnit;
 
     [TestFixture]
     public class UserActivationTests
@@ -20,7 +22,7 @@ namespace Suteki.TardisBank.Tests.Model
         public void Child_should_be_active_when_created()
         {
             User child = new Parent("Dad", "Mike@mike.com", "xxx").CreateChild("Leo", "leoahdlow", "bbb");
-            child.IsActive.ShouldBeTrue();
+            child.IsActive.Should().BeTrue();
         }
 
         [Test]
@@ -38,7 +40,7 @@ namespace Suteki.TardisBank.Tests.Model
         public void ParentShouldNotBeActiveWhenCreated()
         {
             User parent = new Parent("Dad", "mike@mike.com", "xxx");
-            parent.IsActive.ShouldBeFalse();
+            parent.IsActive.Should().BeFalse();
         }
     }
 }

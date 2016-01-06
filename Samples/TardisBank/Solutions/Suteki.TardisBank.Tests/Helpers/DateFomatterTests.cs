@@ -3,7 +3,9 @@ using NUnit.Framework;
 
 namespace Suteki.TardisBank.Tests.Helpers
 {
+    using FluentAssertions;
     using global::Suteki.TardisBank.Web.Mvc.Utilities;
+    using SharpArch.Testing.NUnit;
 
     [TestFixture]
     public class DateFomatterTests 
@@ -11,11 +13,11 @@ namespace Suteki.TardisBank.Tests.Helpers
         [Test]
         public void Should_return_the_correct_date_format()
         {
-            GetJQueryDateFormatFor("en-GB").ShouldEqual("dd/mm/yy");
-            GetJQueryDateFormatFor("en-US").ShouldEqual("m/d/yy");
-            GetJQueryDateFormatFor("fr").ShouldEqual("dd/mm/yy");
-            GetJQueryDateFormatFor("de-CH").ShouldEqual("dd.mm.yy");
-            GetJQueryDateFormatFor("de").ShouldEqual("dd.mm.yy");
+            GetJQueryDateFormatFor("en-GB").Should().Be("dd/mm/yy");
+            GetJQueryDateFormatFor("en-US").Should().Be("m/d/yy");
+            GetJQueryDateFormatFor("fr").Should().Be("dd/mm/yy");
+            GetJQueryDateFormatFor("de-CH").Should().Be("dd.mm.yy");
+            GetJQueryDateFormatFor("de").Should().Be("dd.mm.yy");
         }
 
         static string GetJQueryDateFormatFor(string language)

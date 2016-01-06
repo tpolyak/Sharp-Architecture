@@ -6,7 +6,7 @@
     using SharpArch.Domain.DomainModel;
 
     /// <summary>
-    ///     For better data integrity, it is imperitive that the <see cref = "Entity.Id" />
+    ///     For better data integrity, it is imperitive that the <see cref = "EntityWithTypedId{T}.Id" />
     ///     property is read-only and set only by the ORM.  With that said, some unit tests need 
     ///     Id set to a particular value; therefore, this utility enables that ability.  This class should 
     ///     never be used outside of the testing project; instead, implement <see cref = "IHasAssignedId{IdT}" /> to 

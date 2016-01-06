@@ -3,6 +3,7 @@
 namespace Suteki.TardisBank.Tests.Model
 {
     using Domain;
+    using FluentAssertions;
     using MediatR;
     using Moq;
     using NUnit.Framework;
@@ -41,7 +42,7 @@ namespace Suteki.TardisBank.Tests.Model
 
 
             Parent parent = parentRepository.Get(userId);
-            parent.Messages.Count.ShouldEqual(1);
+            parent.Messages.Count.Should().Be(1);
         }
     }
 }

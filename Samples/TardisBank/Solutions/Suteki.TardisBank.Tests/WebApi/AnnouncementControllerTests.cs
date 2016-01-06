@@ -18,14 +18,18 @@
         Web.Mvc.Controllers.AnnouncementsController announcementsController;
         Mock<UrlHelper> urlHelper;
 
+        [OneTimeSetUp]
+        public void InitializeMappings()
+        {
+            Mapper.Initialize(c => c.AddProfile<Web.Mvc.ModelMappingProfile>());            
+        }
+
         protected override void LoadTestData()
         {
             this.announcementsController = new Web.Mvc.Controllers.AnnouncementsController(
                 new LinqRepository<Announcement>(new TransactionManager(Session), Session));
             urlHelper = new Mock<UrlHelper>();
             announcementsController.Url = urlHelper.Object;
-
-            Mapper.Initialize(c => c.AddProfile<Web.Mvc.ModelMappingProfile>());
         }
 
         void AddAnnouncements()

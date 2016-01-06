@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections;
-
+    using System.Diagnostics.CodeAnalysis;
     using global::NUnit.Framework;
 
     public delegate void MethodThatThrows();
@@ -12,6 +12,8 @@
     ///     these extensions provide a number of fluent methods to test objects.  These are optional methods which 
     ///     may be used in addition to, or in lieu of, NUnit.Framework.SyntaxHelpers.
     /// </summary>
+    [Obsolete("Will not be supported in the future. Consider FluentAssertions (http://www.fluentassertions.com/) instead.")]
+    [ExcludeFromCodeCoverage]
     public static class SyntaxHelpers
     {
         public static void ShouldBeEmpty(this ICollection collection)

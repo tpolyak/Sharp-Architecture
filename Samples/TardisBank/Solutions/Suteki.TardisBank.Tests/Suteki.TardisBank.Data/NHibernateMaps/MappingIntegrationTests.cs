@@ -1,5 +1,6 @@
 ﻿namespace Suteki.TardisBank.Tests.Suteki.TardisBank.Data.NHibernateMaps
 {
+    using System;
     using System.IO;
 
     using NHibernate;
@@ -31,12 +32,12 @@
         [SetUp]
         public virtual void SetUp()
         {
-            string[] mappingAssemblies = RepositoryTestsHelper.GetMappingAssemblies();
+            string[] mappingAssemblies = TestDatabaseInitializer.GetMappingAssemblies(TestContext.CurrentContext.TestDirectory);
+            var nhibernateConfigPath = new Uri(CalculatePath("../../../../Solutions/Suteki.TardisBank.Web.Mvc/NHibernate.config")).LocalPath;
             this.configuration = new NHibernateSessionFactoryBuilder()
                 .AddMappingAssemblies(mappingAssemblies)
                 .UseAutoPersitenceModel(new AutoPersistenceModelGenerator().Generate())
-                // todo: Use test context with NUnit 3
-                .UseConfigFile("../../../../Solutions/Suteki.TardisBank.Web.Mvc/NHibernate.config")
+                .UseConfigFile(nhibernateConfigPath)
                 .BuildConfiguration();
             sessionFactory = configuration.BuildSessionFactory();
             session = sessionFactory.OpenSession();
@@ -69,8 +70,7 @@
         [Test]
         public void CanGenerateDatabaseSchema()
         {
-            // todo: Use test context with NUnit 3
-            using (TextWriter stringWriter = new StreamWriter("../../../../Database/UnitTestGeneratedSchema.sql"))
+            using (TextWriter stringWriter = new StreamWriter(CalculatePath("../../../../Database/UnitTestGeneratedSchema.sql")))
             {
                 new SchemaExport(this.configuration).Execute(true, false, false, session.Connection, stringWriter);
             }
@@ -85,6 +85,16 @@
         public void CanCreateDatabase()
         {
             new SchemaExport(this.configuration).Execute(false, true, false);
+        }
+
+        /// <summary>
+        /// Calculates path based on test assembly folder
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        private static string CalculatePath(string path)
+        {
+            return Path.Combine(TestContext.CurrentContext.TestDirectory, path);
         }
     }
 }

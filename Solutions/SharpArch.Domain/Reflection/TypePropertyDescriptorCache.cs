@@ -19,10 +19,10 @@
             return result;
         }
 
-        public TypePropertyDescriptor GetOrAdd(Type type, Func<TypePropertyDescriptor> factory)
+        public TypePropertyDescriptor GetOrAdd(Type type, Func<Type, TypePropertyDescriptor> factory)
         {
             Check.Require(factory != null, "Value factory can not be null.");
-            return this.cache.GetOrAdd(type, factory());
+            return this.cache.GetOrAdd(type, factory);
         }
 
         public void Clear()

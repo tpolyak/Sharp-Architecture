@@ -1,5 +1,6 @@
 ﻿namespace Tests.SharpArch.Domain.Reflection
 {
+    using System;
     using FluentAssertions;
     using global::SharpArch.Domain.Reflection;
     using NUnit.Framework;
@@ -13,12 +14,12 @@
             _cache = new TypePropertyDescriptorCache();
         }
 
-        private TypePropertyDescriptorCache _cache;
+        TypePropertyDescriptorCache _cache;
 
         [Test]
         public void Clear_Should_ClearTheCache()
         {
-            _cache.GetOrAdd(GetType(), () => new TypePropertyDescriptor(GetType(), null));
+            _cache.GetOrAdd(GetType(), t => new TypePropertyDescriptor(t, null));
             _cache.Clear();
             _cache.Find(GetType()).Should().BeNull();
         }
@@ -32,9 +33,9 @@
         [Test]
         public void GetOrAdd_Should_AddMissingItemToCache()
         {
-            var type = GetType();
+            Type type = GetType();
             var descriptor = new TypePropertyDescriptor(type, null);
-            _cache.GetOrAdd(type, () => descriptor).Should().BeSameAs(descriptor);
+            _cache.GetOrAdd(type, t => descriptor).Should().BeSameAs(descriptor);
         }
     }
 }

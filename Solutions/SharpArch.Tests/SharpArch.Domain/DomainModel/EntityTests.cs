@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace Tests.SharpArch.Domain.DomainModel
 {
+    using FluentAssertions;
     using global::SharpArch.Domain.DomainModel;
 
     using NUnit.Framework;
@@ -522,7 +523,7 @@ namespace Tests.SharpArch.Domain.DomainModel
         {
             var object1 = new Contact() { EmailAddress = "serialize@this.net" };
             string result = JsonConvert.SerializeObject(object1);
-            result.ShouldContain("serialize@this.net");
+            result.Should().Contain("serialize@this.net");
         }
 
         public class MockEntityObjectBase<T> : EntityWithTypedId<T>

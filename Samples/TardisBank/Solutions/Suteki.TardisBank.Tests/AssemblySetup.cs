@@ -1,15 +1,16 @@
 ﻿namespace Suteki.TardisBank.Tests
 {
+    using log4net.Config;
     using NUnit.Framework;
 
     [SetUpFixture]
     public class AssemblySetup
     {
-         [SetUp]
+        [OneTimeSetUp]
         public void RunBeforeAllTests()
-         {
-             log4net.Config.XmlConfigurator.Configure();
-             ServiceLocatorInitializer.Init();
-         }
+        {
+            XmlConfigurator.Configure();
+            ServiceLocatorInitializer.Init();
+        }
     }
 }

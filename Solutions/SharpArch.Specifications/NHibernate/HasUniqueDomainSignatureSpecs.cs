@@ -33,13 +33,16 @@ namespace SharpArch.Specifications.NHibernate
     {
         public abstract class specification_for_has_unique_domain_signature_validator
         {
+            protected static TestDatabaseInitializer dbInitializer;
             protected static ISession session;
             protected static ValidationContext validationContext;
             protected static Mock<IServiceProvider> serviceProviderMock;
 
             Establish context = () =>
             {
-                session = RepositoryTestsHelper.InitializeDatabase();
+
+                dbInitializer = dbInitializer ?? new TestDatabaseInitializer(Environment.CurrentDirectory);
+                session = dbInitializer.InitializeSession();
 
                 serviceProviderMock = new Mock<IServiceProvider>();
                 serviceProviderMock.Setup(sp => sp.GetService(typeof (IEntityDuplicateChecker)))
@@ -49,7 +52,7 @@ namespace SharpArch.Specifications.NHibernate
             Cleanup after = delegate
             {
                 ServiceLocatorHelper.Reset();
-                RepositoryTestsHelper.Close(session);
+                session?.Dispose();
                 session = null;
             };
 

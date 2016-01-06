@@ -38,7 +38,7 @@
         {
             return announcementRepository.FindAll().Cacheable()
                 .OrderByDescending(a => a.Date)
-                .Project().To<AnnouncementSummary>();
+                .ProjectTo<AnnouncementSummary>();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@
             return announcementRepository.FindAll().Cacheable()
                 .OrderByDescending(a => a.Date)
                 .Take(10)
-                .Project().To<AnnouncementSummary>();
+                .ProjectTo<AnnouncementSummary>();
         }
     }
 }
