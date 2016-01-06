@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace Suteki.TardisBank.Tests.Container
 {
+    using System.Web.Http;
     using global::Suteki.TardisBank.Web.Mvc.CastleWindsor;
     using global::Suteki.TardisBank.Web.Mvc.Controllers;
 
@@ -20,7 +21,7 @@ namespace Suteki.TardisBank.Tests.Container
         public void SetUp()
         {
             types = type.Assembly.GetExportedTypes();
-            container = new WindsorContainer().Install(new ControllersInstaller());
+            container = new WindsorContainer().Install(new MvcControllersInstaller());
         }
 
         private IWindsorContainer container;
@@ -45,16 +46,21 @@ namespace Suteki.TardisBank.Tests.Container
         public void Controllers_have_Controller_name_suffix()
         {
             var controllers = ControllerHandlers().Select(h => h.ComponentModel.Implementation).ToSet();
-            var namedControllers = types.Where(t => t.Name.EndsWith("Controller")).ToSet();
+            var namedControllers = types.Where(t => t.Name.EndsWith("Controller") && IsMvcController(t)).ToSet();
 
             controllers.SymmetricExceptWith(namedControllers);
 
             Assert.IsEmpty(controllers.ToArray());
         }
 
+        static bool IsMvcController(Type t)
+        {
+            return typeof(ApiController).IsAssignableFrom(t) == false;
+        }
+
 
         [Test]
-        public void Controllers_implement_IController()
+        public void MvcControllers_implement_IController()
         {
             var controllers = ControllerHandlers().Select(h => h.ComponentModel.Implementation).ToSet();
             var typedControllers = types.Where(t => t.Is<IController>()).ToSet();
@@ -65,10 +71,10 @@ namespace Suteki.TardisBank.Tests.Container
         }
 
         [Test]
-        public void Controllers_live_in_controllers_namespace()
+        public void MvcControllers_live_in_controllers_namespace()
         {
             var controllers = ControllerHandlers().Select(h => h.ComponentModel.Implementation).ToSet();
-            var typesInControllersNamespace = types.Where(t => t.Namespace == type.Namespace).ToSet();
+            var typesInControllersNamespace = types.Where(t => t.Namespace == type.Namespace && IsMvcController(t)).ToSet();
 
             controllers.SymmetricExceptWith(typesInControllersNamespace);
 
@@ -76,10 +82,10 @@ namespace Suteki.TardisBank.Tests.Container
         }
 
         [Test]
-        public void Controllers_use_impl_name_as_id()
+        public void Controllers_use_full_impl_name_as_id()
         {
             var improperlyNamedControllers = ControllerHandlers()
-                .Where(h => h.ComponentModel.Implementation.Name != h.ComponentModel.Name);
+                .Where(h => h.ComponentModel.Implementation.FullName != h.ComponentModel.Name);
 
             Assert.IsEmpty(improperlyNamedControllers.ToArray());
         }

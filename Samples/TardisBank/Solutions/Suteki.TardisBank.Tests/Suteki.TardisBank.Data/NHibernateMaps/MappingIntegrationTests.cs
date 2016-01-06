@@ -35,6 +35,7 @@
             this.configuration = new NHibernateSessionFactoryBuilder()
                 .AddMappingAssemblies(mappingAssemblies)
                 .UseAutoPersitenceModel(new AutoPersistenceModelGenerator().Generate())
+                // todo: Use test context with NUnit 3
                 .UseConfigFile("../../../../Solutions/Suteki.TardisBank.Web.Mvc/NHibernate.config")
                 .BuildConfiguration();
             sessionFactory = configuration.BuildSessionFactory();
@@ -68,6 +69,7 @@
         [Test]
         public void CanGenerateDatabaseSchema()
         {
+            // todo: Use test context with NUnit 3
             using (TextWriter stringWriter = new StreamWriter("../../../../Database/UnitTestGeneratedSchema.sql"))
             {
                 new SchemaExport(this.configuration).Execute(true, false, false, session.Connection, stringWriter);

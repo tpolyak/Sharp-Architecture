@@ -36,7 +36,7 @@
         {
             Check.Require(controllerDescriptor != null);
 
-            string name = controllerDescriptor.ControllerType.FullName.ToLowerInvariant();
+            string name = controllerDescriptor.ControllerType.FullName;
 
             return this.container.Kernel.Resolve<IHttpController>(name);
         }

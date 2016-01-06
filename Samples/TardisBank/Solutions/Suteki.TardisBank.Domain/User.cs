@@ -9,6 +9,21 @@ namespace Suteki.TardisBank.Domain
 
     using Suteki.TardisBank.Domain.Events;
 
+    /// <summary>
+    /// User role constants.
+    /// </summary>
+    public static class UserRoles
+    {
+        /// <summary>
+        /// User is child.
+        /// </summary>
+        public const string Child = "Child";
+        /// <summary>
+        /// User is parent.
+        /// </summary>
+        public const string Parent = "Parent";
+    }
+
     public abstract class User : Entity
     {
         public const int MaxMessages = 20;
@@ -67,6 +82,15 @@ namespace Suteki.TardisBank.Domain
         public virtual void ResetPassword(string newPassword)
         {
             this.Password = newPassword;
+        }
+
+        /// <summary>
+        /// Returns user roles.
+        /// </summary>
+        /// <returns></returns>
+        public virtual string[] GetRoles()
+        {
+            return new string[0];
         }
     }
 }

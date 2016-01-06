@@ -6,6 +6,7 @@
     using System.Web.Mvc;
     using Domain.Reflection;
     using global::Castle.Windsor;
+    using SharpArch.Castle.Extensions;
 
     /// <summary>
     ///     Filter provider which performs property dependency injection.
