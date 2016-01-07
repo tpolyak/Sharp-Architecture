@@ -1,30 +1,30 @@
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK76553502C8A05760]') AND parent_object_id = OBJECT_ID('Messages'))
-alter table Messages  drop constraint FK76553502C8A05760
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK_Messages_For_Users]') AND parent_object_id = OBJECT_ID('Messages'))
+alter table Messages  drop constraint FK_Messages_For_Users
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK90F02A4EDF10CD7C]') AND parent_object_id = OBJECT_ID('PaymentSchedules'))
-alter table PaymentSchedules  drop constraint FK90F02A4EDF10CD7C
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK_PaymentSchedules_For_Accounts]') AND parent_object_id = OBJECT_ID('PaymentSchedules'))
+alter table PaymentSchedules  drop constraint FK_PaymentSchedules_For_Accounts
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK2045D237DF10CD7C]') AND parent_object_id = OBJECT_ID('Transactions'))
-alter table Transactions  drop constraint FK2045D237DF10CD7C
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK_Transactions_For_Accounts]') AND parent_object_id = OBJECT_ID('Transactions'))
+alter table Transactions  drop constraint FK_Transactions_For_Accounts
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK436E2330C8A05760]') AND parent_object_id = OBJECT_ID('Child'))
-alter table Child  drop constraint FK436E2330C8A05760
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK_Children_Join_Users]') AND parent_object_id = OBJECT_ID('Children'))
+alter table Children  drop constraint FK_Children_Join_Users
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK436E2330DF10CD7C]') AND parent_object_id = OBJECT_ID('Child'))
-alter table Child  drop constraint FK436E2330DF10CD7C
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK_Children_Ref_Accounts]') AND parent_object_id = OBJECT_ID('Children'))
+alter table Children  drop constraint FK_Children_Ref_Accounts
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK436E23304ED31B26]') AND parent_object_id = OBJECT_ID('Child'))
-alter table Child  drop constraint FK436E23304ED31B26
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK_Childrens_For_Parents]') AND parent_object_id = OBJECT_ID('Children'))
+alter table Children  drop constraint FK_Childrens_For_Parents
 
 
-    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK8359A792C8A05760]') AND parent_object_id = OBJECT_ID('Parent'))
-alter table Parent  drop constraint FK8359A792C8A05760
+    if exists (select 1 from sys.objects where object_id = OBJECT_ID(N'[FK_Parents_Join_Users]') AND parent_object_id = OBJECT_ID('Parents'))
+alter table Parents  drop constraint FK_Parents_Join_Users
 
 
     if exists (select * from dbo.sysobjects where id = object_id(N'Accounts') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Accounts
@@ -39,9 +39,9 @@ alter table Parent  drop constraint FK8359A792C8A05760
 
     if exists (select * from dbo.sysobjects where id = object_id(N'Users') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Users
 
-    if exists (select * from dbo.sysobjects where id = object_id(N'Child') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Child
+    if exists (select * from dbo.sysobjects where id = object_id(N'Children') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Children
 
-    if exists (select * from dbo.sysobjects where id = object_id(N'Parent') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Parent
+    if exists (select * from dbo.sysobjects where id = object_id(N'Parents') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table Parents
 
     if exists (select * from dbo.sysobjects where id = object_id(N'hibernate_unique_key') and OBJECTPROPERTY(id, N'IsUserTable') = 1) drop table hibernate_unique_key
 
@@ -97,51 +97,51 @@ alter table Parent  drop constraint FK8359A792C8A05760
        primary key (UserId)
     )
 
-    create table Child (
+    create table Children (
         UserId INT not null,
        ParentId INT null,
        AccountId INT null,
        primary key (UserId)
     )
 
-    create table Parent (
+    create table Parents (
         UserId INT not null,
        ActivationKey NVARCHAR(255) null,
        primary key (UserId)
     )
 
     alter table Messages 
-        add constraint FK76553502C8A05760 
+        add constraint FK_Messages_For_Users 
         foreign key (UserId) 
         references Users
 
     alter table PaymentSchedules 
-        add constraint FK90F02A4EDF10CD7C 
+        add constraint FK_PaymentSchedules_For_Accounts 
         foreign key (AccountId) 
         references Accounts
 
     alter table Transactions 
-        add constraint FK2045D237DF10CD7C 
+        add constraint FK_Transactions_For_Accounts 
         foreign key (AccountId) 
         references Accounts
 
-    alter table Child 
-        add constraint FK436E2330C8A05760 
+    alter table Children 
+        add constraint FK_Children_Join_Users 
         foreign key (UserId) 
         references Users
 
-    alter table Child 
-        add constraint FK436E2330DF10CD7C 
+    alter table Children 
+        add constraint FK_Children_Ref_Accounts 
         foreign key (AccountId) 
         references Accounts
 
-    alter table Child 
-        add constraint FK436E23304ED31B26 
+    alter table Children 
+        add constraint FK_Childrens_For_Parents 
         foreign key (ParentId) 
-        references Parent
+        references Parents
 
-    alter table Parent 
-        add constraint FK8359A792C8A05760 
+    alter table Parents 
+        add constraint FK_Parents_Join_Users 
         foreign key (UserId) 
         references Users
 

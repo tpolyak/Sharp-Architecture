@@ -2,11 +2,18 @@
 <Project DefaultTargets="PackageArtefacts" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
+    <VersionMajor>4</VersionMajor>
+    <VersionMinor>0</VersionMinor>
+    <VersionPatch>0</VersionPatch>
+    <VersionPreRelease>Beta</VersionPreRelease>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <SolutionName>Suteki.TardisBank</SolutionName>
     <SolutionsPath>$(MSBuildProjectDirectory)\..\Solutions</SolutionsPath>
     <BuildPath>$(MSBuildProjectDirectory)\..\..\..\BuildSystem</BuildPath>
     <WebAppPath>$(SolutionsPath)\$(SolutionName).Web.Mvc</WebAppPath>
-    <!-- SolutionRoot>$(BuildPath)\..\Samples\TardisBank</SolutionRoot -->
+    <UseNUnit3>true</UseNUnit3>
   </PropertyGroup>
 
   <ItemGroup>

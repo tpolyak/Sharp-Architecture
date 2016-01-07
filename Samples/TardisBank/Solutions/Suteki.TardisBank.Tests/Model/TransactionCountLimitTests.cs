@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Suteki.TardisBank.Tests.Model
 {
+    using FluentAssertions;
     using global::Suteki.TardisBank.Domain;
 
     [TestFixture]
@@ -25,26 +26,26 @@ namespace Suteki.TardisBank.Tests.Model
                 child.ReceivePayment(1M, "payment" + i);
             }
 
-            child.Account.Balance.ShouldEqual(100M);
-            child.Account.Transactions.Count.ShouldEqual(Account.MaxTransactions);
+            child.Account.Balance.Should().Be(100M);
+            child.Account.Transactions.Count.Should().Be(Account.MaxTransactions);
 
             child.ReceivePayment(2M, "payment_new");
 
-            child.Account.Balance.ShouldEqual(102M);
-            child.Account.Transactions.Count.ShouldEqual(Account.MaxTransactions);
-            child.Account.OldTransactionsBalance.ShouldEqual(1M);
+            child.Account.Balance.Should().Be(102M);
+            child.Account.Transactions.Count.Should().Be(Account.MaxTransactions);
+            child.Account.OldTransactionsBalance.Should().Be(1M);
 
-            child.Account.Transactions.First().Description.ShouldEqual("payment1");
-            child.Account.Transactions.Last().Description.ShouldEqual("payment_new");
+            child.Account.Transactions.First().Description.Should().Be("payment1");
+            child.Account.Transactions.Last().Description.Should().Be("payment_new");
 
             child.ReceivePayment(3.55M, "payment_new2");
 
-            child.Account.Balance.ShouldEqual(105.55M);
-            child.Account.Transactions.Count.ShouldEqual(Account.MaxTransactions);
-            child.Account.OldTransactionsBalance.ShouldEqual(2M);
+            child.Account.Balance.Should().Be(105.55M);
+            child.Account.Transactions.Count.Should().Be(Account.MaxTransactions);
+            child.Account.OldTransactionsBalance.Should().Be(2M);
 
-            child.Account.Transactions.First().Description.ShouldEqual("payment2");
-            child.Account.Transactions.Last().Description.ShouldEqual("payment_new2");
+            child.Account.Transactions.First().Description.Should().Be("payment2");
+            child.Account.Transactions.Last().Description.Should().Be("payment_new2");
         }
     }
 }

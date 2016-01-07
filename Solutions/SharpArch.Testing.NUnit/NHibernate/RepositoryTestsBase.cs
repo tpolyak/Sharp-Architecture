@@ -1,5 +1,6 @@
 ﻿namespace SharpArch.Testing.NUnit.NHibernate
 {
+    using System.Diagnostics;
     using global::NHibernate;
     using global::NUnit.Framework;
     using SharpArch.NHibernate;
@@ -14,28 +15,31 @@
     /// </summary>
     public abstract class RepositoryTestsBase
     {
-        private ISessionFactory sessionFactory;
         protected TransactionManager TransactionManager { get; private set; }
 
         protected ISession Session { get; private set; }
 
+        TestDatabaseInitializer dbInitializer;
 
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
-            sessionFactory = RepositoryTestsHelper.InitializeNHibernateSession().BuildSessionFactory();
+            dbInitializer = new TestDatabaseInitializer(TestContext.CurrentContext.TestDirectory);
+            dbInitializer.GetSessionFactory();
         }
 
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
-            RepositoryTestsHelper.Shutdown(sessionFactory);
+            dbInitializer?.Dispose();
+            dbInitializer = null;
         }
 
         [TearDown]
         public virtual void TearDown()
         {
-            RepositoryTestsHelper.Close(Session);
+            TestDatabaseInitializer.Close(Session);
         }
 
         protected void FlushSessionAndEvict(object instance)
@@ -48,7 +52,7 @@
         [SetUp]
         protected virtual void SetUp()
         {
-            Session = RepositoryTestsHelper.InitializeDatabase();
+            Session = dbInitializer.InitializeSession();
             TransactionManager = new TransactionManager(Session);
             this.LoadTestData();
         }

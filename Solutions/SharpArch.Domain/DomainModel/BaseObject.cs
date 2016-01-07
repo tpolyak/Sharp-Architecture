@@ -104,7 +104,7 @@
             // Since data won't be in cache on first request only, use .GetOrAdd as second attempt to prevent allocation of extra lambda object.
             TypePropertyDescriptor descriptor = signaturePropertiesCache.Find(type) ??
                 signaturePropertiesCache.GetOrAdd(type,
-                    () => new TypePropertyDescriptor(type, GetTypeSpecificSignatureProperties()));
+                    t => new TypePropertyDescriptor(t, GetTypeSpecificSignatureProperties()));
             return descriptor.Properties;
         }
 

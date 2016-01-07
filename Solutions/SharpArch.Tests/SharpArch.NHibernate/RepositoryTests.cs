@@ -1,12 +1,11 @@
 namespace Tests.SharpArch.NHibernate
 {
+    using FluentAssertions;
     using global::NHibernate;
-    using NUnit.Framework;
-
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.NHibernate;
-    using global::SharpArch.Testing.NUnit;
     using Moq;
+    using NUnit.Framework;
 
     [TestFixture]
     public class RepositoryTests
@@ -14,18 +13,16 @@ namespace Tests.SharpArch.NHibernate
         [Test]
         public void CanCastConcreteLinqRepositoryToInterfaceILinqRepository()
         {
-            Mock<ISession> session = new Mock<ISession>();
-            Mock<ITransactionManager> transactionManager = new Mock<ITransactionManager>();
+            var session = new Mock<ISession>();
+            var transactionManager = new Mock<ITransactionManager>();
+            var concreteRepository = new LinqRepository<MyEntity>(transactionManager.Object, session.Object);
 
-            LinqRepository<MyEntity> concreteRepository = new LinqRepository<MyEntity>(transactionManager.Object, session.Object);
-
-            ILinqRepository<MyEntity> castRepository = concreteRepository as ILinqRepository<MyEntity>;
-            castRepository.ShouldNotBeNull();
+            concreteRepository.Should().BeAssignableTo<ILinqRepository<MyEntity>>();
         }
     }
 
     public class MyEntity
     {
-        private string Name { get; set; }
+        string Name { get; set; }
     }
 }

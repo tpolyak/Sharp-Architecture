@@ -14,28 +14,29 @@
     ///     As the preferred mechanism is for in-memory unit testsing, this class is provided mainly
     ///     for backward compatibility.
     /// </summary>
+    /// <remarks>
+    ///     This class expects database structure to be present and up-to-date. It will not run schema export on it.
+    /// </remarks>
     public abstract class DatabaseRepositoryTestsBase
     {
         protected ISession Session { get; private set; }
-        private ISessionFactory sessionFactory;
+        TestDatabaseInitializer initializer;
 
-        [TestFixtureSetUp]
-        public void TestFixtureSetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
-            var configuration = RepositoryTestsHelper.InitializeNHibernateSession();
-            configuration = UpdateConfiguration(configuration);
-            sessionFactory = configuration.BuildSessionFactory();
+            initializer = new TestDatabaseInitializer(TestContext.CurrentContext.TestDirectory);
+            UpdateConfiguration(initializer.GetConfiguration());
         }
 
-        protected virtual Configuration UpdateConfiguration(Configuration configuration)
+        protected virtual void UpdateConfiguration(Configuration configuration)
         {
-            return configuration;
         }
 
         [SetUp]
         public virtual void SetUp()
         {
-            Session = sessionFactory.OpenSession();
+            Session = initializer.GetSessionFactory().OpenSession();
             Session.BeginTransaction();
         }
 
@@ -44,19 +45,18 @@
         {
             if (Session != null)
             {
-                Session.Transaction.Rollback();
+                if (Session.Transaction.IsActive)
+                    Session.Transaction.Rollback();
                 Session.Dispose();
                 Session = null;
             }
         }
 
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
-            if (sessionFactory != null)
-            {
-                sessionFactory.Dispose();
-            }
+            initializer?.Dispose();
+            initializer = null;
         }
     }
 }

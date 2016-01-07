@@ -4,6 +4,7 @@ namespace Suteki.TardisBank.Tests.Model
 {
     using System.Linq;
     using Domain;
+    using FluentAssertions;
     using NHibernate.Linq;
     using NUnit.Framework;
     using SharpArch.Testing.NUnit.NHibernate;
@@ -35,13 +36,13 @@ namespace Suteki.TardisBank.Tests.Model
         {
             User[] users = Session.Query<User>().ToArray();
 
-            users.Length.ShouldEqual(5);
+            users.Length.Should().Be(5);
 
-            users[0].GetType().Name.ShouldEqual("Parent");
-            users[1].GetType().Name.ShouldEqual("Child");
-            users[2].GetType().Name.ShouldEqual("Child");
-            users[3].GetType().Name.ShouldEqual("Parent");
-            users[4].GetType().Name.ShouldEqual("Child");
+            users[0].GetType().Name.Should().Be("Parent");
+            users[1].GetType().Name.Should().Be("Child");
+            users[2].GetType().Name.Should().Be("Child");
+            users[3].GetType().Name.Should().Be("Parent");
+            users[4].GetType().Name.Should().Be("Child");
         }
     }
 }

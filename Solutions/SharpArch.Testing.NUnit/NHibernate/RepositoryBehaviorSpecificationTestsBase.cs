@@ -16,11 +16,12 @@
     public abstract class RepositoryBehaviorSpecificationTestsBase : BehaviorSpecificationTestsBase
     {
         private ISession session;
+        TestDatabaseInitializer dbInitializer;
 
         [TearDown]
         public virtual void TearDown() 
         {
-            RepositoryTestsHelper.Close(session);
+            TestDatabaseInitializer.Close(session);
         }
 
         protected void FlushSessionAndEvict(object instance) 
@@ -31,8 +32,14 @@
         [SetUp]
         protected override void SetUp() 
         {
-            session = RepositoryTestsHelper.InitializeDatabase();
+            session = dbInitializer.InitializeSession();
             base.SetUp();
+        }
+
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            dbInitializer = new TestDatabaseInitializer(TestContext.CurrentContext.TestDirectory);
         }
     }
 }

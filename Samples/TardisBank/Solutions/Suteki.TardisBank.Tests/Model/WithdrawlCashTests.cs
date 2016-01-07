@@ -1,6 +1,8 @@
 namespace Suteki.TardisBank.Tests.Model
 {
+    using System;
     using Domain;
+    using FluentAssertions;
     using MediatR;
     using Moq;
     using NUnit.Framework;
@@ -30,10 +32,11 @@ namespace Suteki.TardisBank.Tests.Model
         Parent somebodyElsesParent;
         Mock<IMediator> mediator;
 
-        [Test, ExpectedException(typeof (CashWithdrawException), ExpectedMessage = "Not Your Parent")]
+        [Test]
         public void Child_shold_not_be_able_to_withdraw_from_some_other_parent()
         {
-            child.WithdrawCashFromParent(somebodyElsesParent, 2.30M, "for toys", mediator.Object);
+            Action withdraw = () => child.WithdrawCashFromParent(somebodyElsesParent, 2.30M, "for toys", mediator.Object);
+            withdraw.ShouldThrow<CashWithdrawException>().WithMessage("Not Your Parent");
         }
 
 
@@ -43,21 +46,22 @@ namespace Suteki.TardisBank.Tests.Model
         {
             child.WithdrawCashFromParent(parent, 2.30M, "For Toys", mediator.Object);
 
-            child.Account.Balance.ShouldEqual(7.70M);
-            child.Account.Transactions[1].Amount.ShouldEqual(-2.30M);
-            child.Account.Transactions[1].Description.ShouldEqual("For Toys");
+            child.Account.Balance.Should().Be(7.70M);
+            child.Account.Transactions[1].Amount.Should().Be(-2.30M);
+            child.Account.Transactions[1].Description.Should().Be("For Toys");
 
-            parent.Messages.Count.ShouldEqual(1);
-            parent.Messages[0].Text.ShouldEqual("Leo would like to withdraw \u00A32.30");
+            parent.Messages.Count.Should().Be(1);
+            parent.Messages[0].Text.Should().Be("Leo would like to withdraw \u00A32.30");
         }
 
 
-        [Test, ExpectedException(typeof (CashWithdrawException),
-            ExpectedMessage = "You can not withdraw \u00A312.11 because you only have \u00A310.00 in your account")]
+        [Test]
         [SetCulture("en-GB")]
         public void Child_should_not_be_able_to_withdraw_more_than_their_balance()
         {
-            child.WithdrawCashFromParent(parent, 12.11M, "For Toys", mediator.Object);
+            Action withdraw = () => child.WithdrawCashFromParent(parent, 12.11M, "For Toys", mediator.Object);
+            withdraw.ShouldThrow<CashWithdrawException>()
+                .WithMessage("You can not withdraw \u00A312.11 because you only have \u00A310.00 in your account");
         }
 
 

@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Suteki.TardisBank.Tests.Model
 {
+    using FluentAssertions;
     using global::Suteki.TardisBank.Domain;
 
     [TestFixture]
@@ -28,12 +29,12 @@ namespace Suteki.TardisBank.Tests.Model
         {
             child.Account.AddPaymentSchedule(startDate, interval, amount, description);
 
-            child.Account.PaymentSchedules.Count.ShouldEqual(1);
-            child.Account.PaymentSchedules[0].NextRun.ShouldEqual(startDate);
-            child.Account.PaymentSchedules[0].Interval.ShouldEqual(interval);
-            child.Account.PaymentSchedules[0].Amount.ShouldEqual(amount);
-            child.Account.PaymentSchedules[0].Description.ShouldEqual(description);
-            child.Account.PaymentSchedules[0].Id.ShouldEqual(0);
+            child.Account.PaymentSchedules.Count.Should().Be(1);
+            child.Account.PaymentSchedules[0].NextRun.Should().Be(startDate);
+            child.Account.PaymentSchedules[0].Interval.Should().Be(interval);
+            child.Account.PaymentSchedules[0].Amount.Should().Be(amount);
+            child.Account.PaymentSchedules[0].Description.Should().Be(description);
+            child.Account.PaymentSchedules[0].Id.Should().Be(0);
         }
 
         [Test]
@@ -43,14 +44,14 @@ namespace Suteki.TardisBank.Tests.Model
 
             child.Account.TriggerScheduledPayments(startDate);
 
-            child.Account.Transactions.Count.ShouldEqual(1);
-            child.Account.Transactions[0].Amount.ShouldEqual(amount);
-            child.Account.Transactions[0].Description.ShouldEqual(description);
-            child.Account.Transactions[0].Date.ShouldEqual(DateTime.Now.Date);
+            child.Account.Transactions.Count.Should().Be(1);
+            child.Account.Transactions[0].Amount.Should().Be(amount);
+            child.Account.Transactions[0].Description.Should().Be(description);
+            child.Account.Transactions[0].Date.Should().Be(DateTime.Now.Date);
 
             var oneWeek = new TimeSpan(7, 0, 0, 0);
             var expecteNextRun = startDate + oneWeek;
-            child.Account.PaymentSchedules[0].NextRun.ShouldEqual(expecteNextRun);
+            child.Account.PaymentSchedules[0].NextRun.Should().Be(expecteNextRun);
         }
 
         [Test]
@@ -59,8 +60,8 @@ namespace Suteki.TardisBank.Tests.Model
             child.Account.AddPaymentSchedule(startDate, interval, amount, description);
             child.Account.TriggerScheduledPayments(startDate.AddMinutes(-1));
 
-            child.Account.Transactions.Count.ShouldEqual(0);
-            child.Account.PaymentSchedules[0].NextRun.ShouldEqual(startDate);
+            child.Account.Transactions.Count.Should().Be(0);
+            child.Account.PaymentSchedules[0].NextRun.Should().Be(startDate);
         }
 
         [Test]
@@ -71,7 +72,7 @@ namespace Suteki.TardisBank.Tests.Model
             var id = child.Account.PaymentSchedules[0].Id;
             child.Account.RemovePaymentSchedule(id);
 
-            child.Account.PaymentSchedules.Count.ShouldEqual(0);
+            child.Account.PaymentSchedules.Count.Should().Be(0);
         }
     }
 }

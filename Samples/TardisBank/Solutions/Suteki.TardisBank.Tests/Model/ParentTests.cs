@@ -3,8 +3,10 @@
 namespace Suteki.TardisBank.Tests.Model
 {
     using Domain;
+    using FluentAssertions;
     using NUnit.Framework;
     using SharpArch.NHibernate;
+    using SharpArch.Testing.NUnit;
     using SharpArch.Testing.NUnit.NHibernate;
 
     [TestFixture]
@@ -32,21 +34,21 @@ namespace Suteki.TardisBank.Tests.Model
 
 
             Parent parent = linqRepository.Get(parentId);
-            parent.Children.Count.ShouldEqual(3);
+            parent.Children.Count.Should().Be(3);
 
-            parent.Children[0].Name.ShouldEqual("jim");
-            parent.Children[1].Name.ShouldEqual("jenny");
-            parent.Children[2].Name.ShouldEqual("jez");
+            parent.Children[0].Name.Should().Be("jim");
+            parent.Children[1].Name.Should().Be("jenny");
+            parent.Children[2].Name.Should().Be("jez");
         }
 
         [Test]
         public void Should_be_able_to_create_and_retrieve_Parent()
         {
             Parent parent = new LinqRepository<Parent>(TransactionManager, Session).Get(parentId);
-            parent.ShouldNotBeNull();
-            parent.Name.ShouldEqual("Mike Hadlow");
-            parent.UserName.ShouldEqual("mike@yahoo.com");
-            parent.Children.ShouldNotBeNull();
+            parent.Should().NotBeNull();
+            parent.Name.Should().Be("Mike Hadlow");
+            parent.UserName.Should().Be("mike@yahoo.com");
+            parent.Children.Should().NotBeNull();
         }
     }
 }

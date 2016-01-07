@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Suteki.TardisBank.Tests.Model
 {
+    using FluentAssertions;
     using global::Suteki.TardisBank.Domain;
 
     [TestFixture]
@@ -30,17 +31,18 @@ namespace Suteki.TardisBank.Tests.Model
         {
             parent.MakePaymentTo(child, 2.30M);
 
-            child.Account.Transactions.Count.ShouldEqual(1);
-            child.Account.Transactions[0].Amount.ShouldEqual(2.30M);
-            child.Account.Transactions[0].Description.ShouldEqual("Payment from Mike Hadlow");
-            child.Account.Transactions[0].Date.ShouldEqual(DateTime.Now.Date);
-            child.Account.Balance.ShouldEqual(2.30M);
+            child.Account.Transactions.Count.Should().Be(1);
+            child.Account.Transactions[0].Amount.Should().Be(2.30M);
+            child.Account.Transactions[0].Description.Should().Be("Payment from Mike Hadlow");
+            child.Account.Transactions[0].Date.Should().Be(DateTime.Now.Date);
+            child.Account.Balance.Should().Be(2.30M);
         }
 
-        [Test, ExpectedException(typeof(TardisBankException), ExpectedMessage = "Jim is not a child of Mike Hadlow")]
+        [Test]
         public void Should_not_be_able_to_make_a_payment_to_somebody_elses_child()
         {
-            parent.MakePaymentTo(somebodyElsesChild, 4.50M);
+            Action makePayment = () => parent.MakePaymentTo(somebodyElsesChild, 4.50M);
+            makePayment.ShouldThrow<TardisBankException>().WithMessage("Jim is not a child of Mike Hadlow");
         }
     }
 }

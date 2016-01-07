@@ -4,6 +4,7 @@ namespace Suteki.TardisBank.Tests.Model
 {
     using System;
     using Domain;
+    using FluentAssertions;
     using NUnit.Framework;
     using SharpArch.NHibernate;
     using SharpArch.Testing.NUnit;
@@ -38,7 +39,7 @@ namespace Suteki.TardisBank.Tests.Model
             FlushSessionAndEvict(childToTestOn);
 
             var child = childRepository.Get(childId);
-            child.Account.PaymentSchedules[0].Id.ShouldBeGreaterThan(0);
+            child.Account.PaymentSchedules[0].Id.Should().BePositive("schedule was not persisted");
         }
 
         [Test]
@@ -50,18 +51,18 @@ namespace Suteki.TardisBank.Tests.Model
             FlushSessionAndEvict(childToTestOn);
 
             var child = childRepository.Get(childId);
-            child.Account.Transactions[0].Id.ShouldBeGreaterThan(0);
+            child.Account.Transactions[0].Id.Should().BePositive();
         }
 
         [Test]
         public void Should_be_able_to_create_and_retrieve_a_child()
         {
             var child = new LinqRepository<Child>(TransactionManager, Session).Get(childId);
-            child.Name.ShouldEqual("Leo");
-            child.UserName.ShouldEqual("leohadlow");
-            child.ParentId.ShouldEqual(parentId);
-            child.Password.ShouldEqual("xxx");
-            child.Account.ShouldNotBeNull();
+            child.Name.Should().Be("Leo");
+            child.UserName.Should().Be("leohadlow");
+            child.ParentId.Should().Be(parentId);
+            child.Password.Should().Be("xxx");
+            child.Account.Should().NotBeNull();
         }
     }
 }

@@ -2,6 +2,7 @@ namespace Suteki.TardisBank.Tests.Model
 {
     using System.Linq;
     using Domain;
+    using FluentAssertions;
     using MediatR;
     using Moq;
     using NUnit.Framework;
@@ -34,17 +35,17 @@ namespace Suteki.TardisBank.Tests.Model
                 user.SendMessage("Message" + i, mediator.Object);
             }
 
-            user.Messages.Count.ShouldEqual(User.MaxMessages);
+            user.Messages.Count.Should().Be(User.MaxMessages);
 
             user.SendMessage("New", mediator.Object);
-            user.Messages.Count.ShouldEqual(User.MaxMessages);
-            user.Messages.First().Text.ShouldEqual("Message1");
-            user.Messages.Last().Text.ShouldEqual("New");
+            user.Messages.Count.Should().Be(User.MaxMessages);
+            user.Messages.First().Text.Should().Be("Message1");
+            user.Messages.Last().Text.Should().Be("New");
 
             user.SendMessage("New2", mediator.Object);
-            user.Messages.Count.ShouldEqual(User.MaxMessages);
-            user.Messages.First().Text.ShouldEqual("Message2");
-            user.Messages.Last().Text.ShouldEqual("New2");
+            user.Messages.Count.Should().Be(User.MaxMessages);
+            user.Messages.First().Text.Should().Be("Message2");
+            user.Messages.Last().Text.Should().Be("New2");
         }
     }
 }
