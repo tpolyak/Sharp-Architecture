@@ -38,7 +38,7 @@ namespace SharpArch.Castle.Extensions
 
             // Cache miss expected only once per given type, so call Find() first to prevent extra closure allocation in GetOrAdd.
             TypePropertyDescriptor info = cache != null
-                ? cache.Find(type) ?? cache.GetOrAdd(type, t => GetInjectableProperties(t, kernel))
+                ? cache.Find(type) ?? GetOrAdd(kernel, cache, type)
                 : GetInjectableProperties(type, kernel);
 
 
@@ -73,6 +73,11 @@ namespace SharpArch.Castle.Extensions
                     throw new ComponentActivatorException(message, ex, null);
                 }
             }
+        }
+
+        static TypePropertyDescriptor GetOrAdd(IKernel kernel, ITypePropertyDescriptorCache cache, Type type)
+        {
+            return cache.GetOrAdd(type, t => GetInjectableProperties(t, kernel));
         }
 
         static TypePropertyDescriptor GetInjectableProperties(Type type, IKernel kernel)
