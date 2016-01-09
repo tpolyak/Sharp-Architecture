@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name="container">Windsor container.</param>
         /// <param name="typePropertyDescriptorCache"></param>
-        /// <exception cref="ArgumentNullException">Container is null.</exception>
+        /// <exception cref="ArgumentNullException">Container is <c>null</c>.</exception>
         public WindsorFilterAttributeProvider(IWindsorContainer container, ITypePropertyDescriptorCache typePropertyDescriptorCache) : base(false)
         {
             if (container == null) throw new ArgumentNullException("container");
@@ -32,6 +32,13 @@
             this.typePropertyDescriptorCache = typePropertyDescriptorCache;
         }
 
+        /// <summary>
+        /// Aggregates the filters from all of the filter providers into one collection.
+        /// </summary>
+        /// <returns>
+        /// The collection filters from all of the filter providers.
+        /// </returns>
+        /// <param name="controllerContext">The controller context.</param><param name="actionDescriptor">The action descriptor.</param>
         public override IEnumerable<Filter> GetFilters(ControllerContext controllerContext,
             ActionDescriptor actionDescriptor)
         {

@@ -79,13 +79,12 @@
     <Compile Include="..\SharpArch.Web.Mvc.Castle\WindsorPropertyInjectionExtensions.cs">
       <Link>WindsorPropertyInjectionExtensions.cs</Link>
     </Compile>
-    <Compile Include="ControllerExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindsorDependencyScope.cs" />
     <Compile Include="WindsorHttpConfigurationExtensions.cs" />
     <Compile Include="WindsorHttpExtensions.cs" />
     <Compile Include="WindsorDependencyResolver.cs" />
-    <Compile Include="WindsorFilterProvider.cs" />
-    <Compile Include="WindsorHttpControllerActivator.cs" />
+    <Compile Include="WindsorHttpFilterProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -94,6 +93,10 @@
     <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj">
       <Project>{E12E99BB-8732-441F-B3A6-861F0CE23D3D}</Project>
       <Name>SharpArch.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpArch.Web.Http\SharpArch.Web.Http.csproj">
+      <Project>{35ec85f7-5d2e-4fe0-842a-807598fb6d1f}</Project>
+      <Name>SharpArch.Web.Http</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

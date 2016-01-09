@@ -1,6 +1,7 @@
 ﻿namespace Suteki.TardisBank.Web.Mvc.Controllers
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Http;
     using AutoMapper;
@@ -28,6 +29,7 @@
         public AnnouncementsController(ILinqRepository<Announcement> announcementRepository)
         {
             this.announcementRepository = announcementRepository;
+            Debug.WriteLine("Created Announcements controller {0:x}", GetHashCode());
         }
 
         /// <summary>
@@ -88,6 +90,12 @@
                 .OrderByDescending(a => a.Date)
                 .Take(10)
                 .ProjectTo<AnnouncementSummary>();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            Debug.WriteLine("Disposing AnnouncementController {0:x}", GetHashCode());
+            base.Dispose(disposing);
         }
     }
 }

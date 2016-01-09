@@ -10,7 +10,7 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.RegisterControllers(typeof(HomeController).Assembly);
+            container.RegisterMvcControllers(typeof(HomeController).Assembly);
         }
     }
 }

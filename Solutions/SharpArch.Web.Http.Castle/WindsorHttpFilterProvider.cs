@@ -19,7 +19,7 @@ namespace SharpArch.Web.Http.Castle
     /// <summary>
     ///     A Castle Windsor filter provider that supports property injection.
     /// </summary>
-    public class WindsorFilterProvider : IFilterProvider
+    public class WindsorHttpFilterProvider : IFilterProvider
     {
         /// <summary>
         ///     The container
@@ -29,11 +29,11 @@ namespace SharpArch.Web.Http.Castle
         private readonly ITypePropertyDescriptorCache typePropertyDescriptorCache;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="WindsorFilterProvider" /> class.
+        ///     Initializes a new instance of the <see cref="WindsorHttpFilterProvider" /> class.
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="typePropertyDescriptorCache">Property descriptor cache.</param>
-        public WindsorFilterProvider(IWindsorContainer container,
+        public WindsorHttpFilterProvider(IWindsorContainer container,
             ITypePropertyDescriptorCache typePropertyDescriptorCache)
         {
             Check.Require(container != null);
@@ -79,8 +79,9 @@ namespace SharpArch.Web.Http.Castle
 
             for (int i = 0; i < filters.Count; i++)
             {
+                // ReSharper disable once ConvertClosureToMethodGroup
                 this.container.Kernel.InjectProperties(filters[i].Instance, typePropertyDescriptorCache,
-                    ValidateFilterDependency);
+                    (info, model) => ValidateFilterDependency(info, model));
             }
 
             return filters;
@@ -91,7 +92,7 @@ namespace SharpArch.Web.Http.Castle
             if (dependencyRegistration.LifestyleType != LifestyleType.Singleton)
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
-                    "Dependency '{0}' with lifestyle {1} can not be injected into property {2}. Since  WebAPI Filters are singletons, either use service location or make dependency a Singletone.",
+                    "Dependency '{0}' with lifestyle {1} can not be injected into property {2}. Since  WebAPI Filters are singletons, either use service location or make dependency a Singleton.",
                     propertyInfo.PropertyType.FullName, dependencyRegistration.LifestyleType, propertyInfo.Name
                     ))
                 {
