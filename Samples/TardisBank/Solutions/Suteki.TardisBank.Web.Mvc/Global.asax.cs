@@ -26,8 +26,9 @@
     /// </remarks>
     public class MvcApplication : HttpApplication
     {
-        private TypePropertyDescriptorCache propertyDescriptorCache;
+        private TypePropertyDescriptorCache injectablePropertiesCache;
         private IWindsorContainer container;
+        private static readonly char Separator = ',';
 
         protected void Application_Error(object sender, EventArgs e)
         {
@@ -36,6 +37,9 @@
             var reflectionTypeLoadException = ex as ReflectionTypeLoadException;
         }
 
+        /// <summary>
+        ///     Application startup.
+        /// </summary>
         protected void Application_Start()
         {
             XmlConfigurator.Configure();
@@ -47,21 +51,21 @@
 
 
             // Container
-            propertyDescriptorCache = new TypePropertyDescriptorCache();
-            container = InitializeConianer();
+            injectablePropertiesCache = new TypePropertyDescriptorCache();
+            container = InitializeContainer();
 
             // MVC
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
 
             ModelBinders.Binders.DefaultBinder = new SharpModelBinder();
-            FilterProviders.Providers.InstallFilterProvider(container, propertyDescriptorCache);
+            FilterProviders.Providers.InstallMvcFilterProvider(container, injectablePropertiesCache);
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container));
 
             AreaRegistration.RegisterAllAreas();
 
-            // WepAPI
-            GlobalConfiguration.Configure(cfg => WebApiConfig.Register(cfg, container, propertyDescriptorCache));
+            // WebAPI
+            GlobalConfiguration.Configure(cfg => WebApiConfig.Register(cfg, container, injectablePropertiesCache));
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -71,10 +75,10 @@
 
         /// <summary>
         ///     Instantiate the container and add all Controllers that derive from
-        ///     WindsorController to the container.  Also associate the Controller
+        ///     WindsorController to the container. Also associate the Controller
         ///     with the WindsorContainer ControllerFactory.
         /// </summary>
-        protected IWindsorContainer InitializeConianer()
+        protected IWindsorContainer InitializeContainer()
         {
             IWindsorContainer c = new WindsorContainer();
             c.Install(FromAssembly.This());
@@ -83,24 +87,25 @@
         }
 
 
-        protected void Application_AuthenticateRequest(Object sender,
-        EventArgs e)
+        /// <summary>
+        ///     Loads user roles from authentication ticket.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Application_AuthenticateRequest(object sender, EventArgs e)
         {
-            if (HttpContext.Current.User != null)
-            {
-                if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    FormsIdentity id = HttpContext.Current.User.Identity as FormsIdentity;
-                    if (id != null)
-                    {
-                        var ticket = id.Ticket;
+            if (HttpContext.Current.User == null) return;
+            if (!HttpContext.Current.User.Identity.IsAuthenticated) return;
 
-                        // Get the stored user-data, in this case, our roles
-                        string userData = ticket.UserData;
-                        string[] roles = userData.Split(',');
-                        HttpContext.Current.User = new GenericPrincipal(id, roles);
-                    }
-                }
+            FormsIdentity id = HttpContext.Current.User.Identity as FormsIdentity;
+            if (id != null)
+            {
+                var ticket = id.Ticket;
+
+                // Get the stored user-data, in this case, our roles
+                string userData = ticket.UserData;
+                string[] roles = userData.Split(Separator);
+                HttpContext.Current.User = new GenericPrincipal(id, roles);
             }
         }
     }

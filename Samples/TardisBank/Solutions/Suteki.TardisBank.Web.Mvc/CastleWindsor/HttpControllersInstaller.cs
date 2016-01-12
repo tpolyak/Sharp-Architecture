@@ -10,7 +10,7 @@
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.RegisterControllers(typeof (AnnouncementsController).Assembly);
+            container.RegisterHttpControllers(typeof (AnnouncementsController).Assembly);
         }
     }
 }

@@ -9,3 +9,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyProduct("SharpArch.Web.Http.Castle")]
 [assembly: Guid("36596ce7-2ca5-4b78-9b97-7c0e20d35c70")]
+
+[assembly: InternalsVisibleTo("SharpArch.Tests")]

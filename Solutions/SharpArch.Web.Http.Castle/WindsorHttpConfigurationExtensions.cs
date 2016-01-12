@@ -4,7 +4,6 @@
     using System.Web.Http;
     using System.Web.Http.Controllers;
     using System.Web.Http.Dependencies;
-    using System.Web.Http.Dispatcher;
     using System.Web.Http.Filters;
     using Domain;
     using Domain.Reflection;
@@ -22,7 +21,7 @@
         /// <param name="container">Windsor container, <see cref="IWindsorContainer" /> </param>
         /// <param name="propertyDescriptorCache">Injectable property cache</param>
         /// <returns>Windsor container</returns>
-        public static void InstallFilterProvider(this ServicesContainer services,
+        public static void InstallHttpFilterProvider(this ServicesContainer services,
             IWindsorContainer container, ITypePropertyDescriptorCache propertyDescriptorCache)
         {
             Check.Require(services != null);
@@ -35,20 +34,9 @@
                 services.Remove(typeof (IFilterProvider), filterProvider);
             }
 
-            services.Add(typeof (IFilterProvider), new WindsorFilterProvider(container, propertyDescriptorCache));
+            services.Add(typeof (IFilterProvider), new WindsorHttpFilterProvider(container, propertyDescriptorCache));
         }
 
-        /// <summary>
-        ///     Resolve controllers from Windsor container.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="container"></param>
-        /// <returns></returns>
-        public static void InstallControllerActivator(this ServicesContainer services,
-            IWindsorContainer container)
-        {
-            services.Replace(typeof (IHttpControllerActivator), new WindsorHttpControllerActivator(container));
-        }
 
         /// <summary>
         ///     Configures Web API runtime to use Castle Windsor Container
@@ -64,15 +52,10 @@
         ///         </item>
         ///         <item>
         ///             <description>
-        ///                 Add injectable properties support to ActionFilters, <see cref="WindsorFilterProvider" />
+        ///                 Add property injection support for ActionFilters, <see cref="WindsorHttpFilterProvider" />
         ///             </description>
         ///         </item>
         ///     </list>
-        ///     <item>
-        ///         <description>
-        ///             Install Windsor controller activator, <see cref="WindsorHttpControllerActivator" />
-        ///         </description>
-        ///     </item>
         /// </remarks>
         /// <returns>
         ///     <see cref="HttpConfiguration" />
@@ -81,9 +64,7 @@
             ITypePropertyDescriptorCache injectablePropertyCache)
         {
             configuration.DependencyResolver = new WindsorDependencyResolver(container);
-            configuration.Services.InstallFilterProvider(container, injectablePropertyCache);
-            configuration.Services.InstallControllerActivator(container);
-
+            configuration.Services.InstallHttpFilterProvider(container, injectablePropertyCache);
             return configuration;
         }
     }

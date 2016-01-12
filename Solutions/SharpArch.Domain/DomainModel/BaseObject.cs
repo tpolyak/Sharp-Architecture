@@ -102,10 +102,14 @@
             Type type = GetTypeUnproxied();
 
             // Since data won't be in cache on first request only, use .GetOrAdd as second attempt to prevent allocation of extra lambda object.
-            TypePropertyDescriptor descriptor = signaturePropertiesCache.Find(type) ??
-                signaturePropertiesCache.GetOrAdd(type,
-                    t => new TypePropertyDescriptor(t, GetTypeSpecificSignatureProperties()));
+            TypePropertyDescriptor descriptor = signaturePropertiesCache.Find(type) ?? GetOrAdd(type);
             return descriptor.Properties;
+        }
+
+        TypePropertyDescriptor GetOrAdd(Type type)
+        {
+            return signaturePropertiesCache.GetOrAdd(type,
+                t => new TypePropertyDescriptor(t, GetTypeSpecificSignatureProperties()));
         }
 
         /// <summary>

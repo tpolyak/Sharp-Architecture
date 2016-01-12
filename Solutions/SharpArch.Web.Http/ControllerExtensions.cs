@@ -13,11 +13,11 @@
         /// </summary>
         /// <param name="type">The type to check.</param>
         /// <returns><c>true</c>, if the type is a HTTP controller; <c>false</c>, otherwise.</returns>
-        public static bool IsHttpController(Type type)
+        public static bool IsHttpController(this Type type)
         {
             return type != null
-                   && type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase)
                    && !type.IsAbstract
+                   && type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase)
                    && typeof(IHttpController).IsAssignableFrom(type);
         }
     }

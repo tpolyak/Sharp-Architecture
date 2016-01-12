@@ -2,20 +2,19 @@ namespace SharpArch.Web.Http.Castle
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Http.Dependencies;
-    using global::Castle.Windsor;
     using SharpArch.Domain;
+    using global::Castle.Windsor;
 
     /// <summary>
-    /// Resolves HTTP dependencies using Castle Windsor.
+    ///     Resolves HTTP dependencies using Castle Windsor.
     /// </summary>
     public class WindsorDependencyResolver : IDependencyResolver
     {
-        private readonly IWindsorContainer container;
+        readonly IWindsorContainer container;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindsorDependencyResolver" /> class.
+        ///     Initializes a new instance of the <see cref="WindsorDependencyResolver" /> class.
         /// </summary>
         /// <param name="container">The container.</param>
         public WindsorDependencyResolver(IWindsorContainer container)
@@ -26,50 +25,40 @@ namespace SharpArch.Web.Http.Castle
         }
 
         /// <summary>
-        /// Begins the scope.
+        ///     Begins the scope.
         /// </summary>
         /// <returns>A scope.</returns>
         public IDependencyScope BeginScope()
         {
-            return this;
+            return new WindsorDependencyScope(container);
         }
 
         /// <summary>
-        /// Gets the service for the specified type.
+        ///     Gets the service for the specified type.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns>A service.</returns>
         public object GetService(Type serviceType)
         {
-            if (!this.container.Kernel.HasComponent(serviceType))
-            {
-                return null;
-            }
-
-            return this.container.Resolve(serviceType);
+            return WindsorDependencyScope.TryResolveService(this.container, serviceType);
         }
 
         /// <summary>
-        /// Gets all services for the specified type.
+        ///     Gets all services for the specified type.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns>A collection of services.</returns>
         public IEnumerable<object> GetServices(Type serviceType)
         {
-            if (!this.container.Kernel.HasComponent(serviceType))
-            {
-                return new object[0];
-            }
-
-            return this.container.ResolveAll(serviceType).Cast<object>();
+            return WindsorDependencyScope.TryResolveServices(this.container, serviceType);
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting
-        /// unmanaged resources.
+        ///     Disposes the container.
         /// </summary>
         public void Dispose()
         {
+            this.container.Dispose();
         }
     }
 }

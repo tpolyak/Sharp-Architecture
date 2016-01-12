@@ -3,11 +3,6 @@
     using System;
     using System.Linq;
     using System.Reflection;
-    using System.Web.Http;
-    using System.Web.Http.Controllers;
-    using System.Web.Http.Dispatcher;
-    using System.Web.Http.Filters;
-    using Domain.Reflection;
     using global::Castle.Core;
     using global::Castle.MicroKernel.Registration;
     using global::Castle.Windsor;
@@ -19,39 +14,39 @@
     public static class WindsorHttpExtensions
     {
         /// <summary>
-        /// Registers the specified HTTP controllers.
+        /// Registers the specified WebAPI controllers.
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="controllerTypes">The controller types.</param>
         /// <returns>A container.</returns>
-        public static IWindsorContainer RegisterControllers(this IWindsorContainer container, params Type[] controllerTypes)
+        public static IWindsorContainer RegisterHttpControllers(this IWindsorContainer container, params Type[] controllerTypes)
         {
             Check.Require(container != null);
             Check.Require(controllerTypes != null);
 
-            foreach (Type type in controllerTypes.Where(ControllerExtensions.IsHttpController))
+            foreach (Type type in controllerTypes.Where(type => type.IsHttpController()))
             {
                 container.Register(
-                    Component.For(type).Named(type.FullName).LifeStyle.Is(LifestyleType.Transient));
+                    Component.For(type).Named(type.FullName).LifeStyle.Is(LifestyleType.Scoped));
             }
 
             return container;
         }
 
         /// <summary>
-        /// Registers the HTTP controllers from specified assemblies.
+        /// Registers the WebAPI controllers from specified assemblies.
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="assemblies">The assemblies.</param>
         /// <returns>A container.</returns>
-        public static IWindsorContainer RegisterControllers(this IWindsorContainer container, params Assembly[] assemblies)
+        public static IWindsorContainer RegisterHttpControllers(this IWindsorContainer container, params Assembly[] assemblies)
         {
             Check.Require(container != null);
             Check.Require(assemblies != null);
 
             foreach (Assembly assembly in assemblies)
             {
-                RegisterControllers(container, assembly.GetExportedTypes());
+                RegisterHttpControllers(container, assembly.GetExportedTypes());
             }
 
             return container;

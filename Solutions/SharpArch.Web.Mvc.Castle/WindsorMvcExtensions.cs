@@ -35,9 +35,9 @@
         /// <typeparam name="T">Controller</typeparam>
         /// <param name="container">Windsor container.</param>
         /// <returns>Windsor container</returns>
-        public static IWindsorContainer RegisterController<T>(this IWindsorContainer container) where T : IController
+        public static IWindsorContainer RegisterMvcController<T>(this IWindsorContainer container) where T : IController
         {
-            container.RegisterControllers(typeof (T));
+            container.RegisterMvcControllers(typeof (T));
             return container;
         }
 
@@ -47,7 +47,7 @@
         /// <param name="container">Windsor container</param>
         /// <param name="controllerTypes">Controller types</param>
         /// <returns>Windsor container</returns>
-        public static IWindsorContainer RegisterControllers(this IWindsorContainer container,
+        public static IWindsorContainer RegisterMvcControllers(this IWindsorContainer container,
             params Type[] controllerTypes)
         {
             foreach (var type in controllerTypes)
@@ -72,7 +72,7 @@
         /// <param name="propertyDescriptorCache"></param>
         /// <param name="filterProviders">The filter providers.</param>
         /// <returns>Windsor container</returns>
-        public static IWindsorContainer InstallFilterProvider(this FilterProviderCollection filterProviders,
+        public static IWindsorContainer InstallMvcFilterProvider(this FilterProviderCollection filterProviders,
             IWindsorContainer container, TypePropertyDescriptorCache propertyDescriptorCache)
         {
             var attributeFilterProviders = filterProviders.OfType<FilterAttributeFilterProvider>().ToArray();
@@ -90,12 +90,12 @@
         /// <param name="container">Windsor container</param>
         /// <param name="assemblies">Assemblies to scan</param>
         /// <returns>Windsor container</returns>
-        public static IWindsorContainer RegisterControllers(this IWindsorContainer container,
+        public static IWindsorContainer RegisterMvcControllers(this IWindsorContainer container,
             params Assembly[] assemblies)
         {
             foreach (var assembly in assemblies)
             {
-                container.RegisterControllers(assembly.GetExportedTypes());
+                container.RegisterMvcControllers(assembly.GetExportedTypes());
             }
             return container;
         }
