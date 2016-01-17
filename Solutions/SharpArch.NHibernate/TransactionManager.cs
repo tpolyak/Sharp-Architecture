@@ -1,51 +1,62 @@
 ﻿namespace SharpArch.NHibernate
 {
     using System;
-
-    using Domain;
-    using Domain.PersistenceSupport;
+    using System.Data;
     using global::NHibernate;
+    using SharpArch.Domain.PersistenceSupport;
 
+    /// <summary>
+    ///     Transaction manager for NHibernate.
+    /// </summary>
     public class TransactionManager : ITransactionManager
     {
+        /// <summary>
+        ///     Creates instance of transaction manager.
+        /// </summary>
+        /// <param name="session"></param>
         public TransactionManager(ISession session)
         {
             Session = session;
         }
 
-        public TransactionManager(string factoryKey)
+
+        /// <summary>
+        ///     NHibernate session.
+        /// </summary>
+        public ISession Session { get; }
+
+        /// <summary>
+        ///     Begins the transaction.
+        /// </summary>
+        /// <param name="isolationLevel">Transaction isolation level, see <see cref="IsolationLevel" /> for details.</param>
+        /// <returns>The transaction instance.</returns>
+        public IDisposable BeginTransaction(IsolationLevel isolationLevel)
         {
-            Check.Require(!string.IsNullOrEmpty(factoryKey), "factoryKey may not be null or empty");
-
-            this.FactoryKey = factoryKey;
-        }
-
-        public string FactoryKey { get; set; }
-
-        public ISession Session { get; private set; }
-
-        public IDisposable BeginTransaction()
-        {
-            return this.Session.BeginTransaction();
+            return this.Session.BeginTransaction(isolationLevel);
         }
 
         /// <summary>
-        ///     This isn't specific to any one DAO and flushes everything that has been 
-        ///     changed since the last commit.
+        ///     Commits the transaction, saving all changes.
         /// </summary>
-        public void CommitChanges()
-        {
-            this.Session.Flush();
-        }
-
         public void CommitTransaction()
         {
             this.Session.Transaction.Commit();
         }
 
+        /// <summary>
+        ///     Rolls the transaction back, discarding any changes.
+        /// </summary>
         public void RollbackTransaction()
         {
             this.Session.Transaction.Rollback();
+        }
+
+        /// <summary>
+        ///     This isn't specific to any one DAO and flushes everything that has been changed since the last commit.
+        /// </summary>
+        public void CommitChanges()
+        {
+            this.Session.Flush();
         }
     }
 }

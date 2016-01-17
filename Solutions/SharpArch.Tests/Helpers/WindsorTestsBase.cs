@@ -4,10 +4,9 @@
 namespace Tests.Helpers
 {
     using Castle.Windsor;
-    using NHibernate.Event;
     using NUnit.Framework;
 
-    public abstract class WindsorTestsBase
+    internal abstract class WindsorTestsBase
     {
         protected WindsorContainer Container { get; private set; }
 

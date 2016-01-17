@@ -1,6 +1,7 @@
 ﻿namespace SharpArch.Domain.PersistenceSupport
 {
     using System;
+    using System.Data;
 
     /// <summary>
     ///     Defines the public members of a class that represents a database context which handles
@@ -18,8 +19,9 @@
         /// <summary>
         ///     Begins the transaction.
         /// </summary>
+        /// <param name="isolationLevel">Transaction isolation level, see <see cref="IsolationLevel"/> for details. </param>
         /// <returns>The transaction instance.</returns>
-        IDisposable BeginTransaction();
+        IDisposable BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
         
         /// <summary>
         ///     Commits the transaction, saving all changes.

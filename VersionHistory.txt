@@ -1,40 +1,43 @@
 ========================
-S#arp vNext
+S#arp 4.0
 ========================
-BREAKING CHANGES:
-
+ 
 SharpArch.Web.Http.Castle
- * WindsorControllerExtensions renamed to WindsorHttpExtensions;
- * WindsorPropertyInjectionKernelExtensions replaced with internal SharpArch.Castle.Extensions.WindsorPropertyInjectionExtensions 
-   (shared with SharpArch.Web.Mvc);
+ * [BREAKING] WindsorControllerExtensions renamed to WindsorHttpExtensions.
+ * [BREAKING] WindsorPropertyInjectionKernelExtensions replaced with internal SharpArch.Castle.Extensions.WindsorPropertyInjectionExtensions 
+   (shared with SharpArch.Web.Mvc).
 
 SharpArch.Web.Mvc
- * WindsorExtensions renamed to WindsorMvcExtensions;
+ * [BREAKING] WindsorExtensions renamed to WindsorMvcExtensions.
+ * [BREAKING] TransactionAttribute will commit Transaction in OnActionExecuted, not in OnResultExecuted().
+   Recommended approach to access database in Controller, not View.
 
 
 SharpArch.Testing.NUnit
- * RepositoryTestsHelper refactored to TestDatabaseInitializer;
-
-No more NHibernateSession
+ * RepositoryTestsHelper refactored to TestDatabaseInitializer.
 
 
-Breaking changes:
- * target platform is .NET 4.5;
- * #124 BREAKING: removed Command/Query infrastructure;
- * Now uses C# 6.0 syntax;
+BREAKING CHANGES:
+ * target platform is .NET 4.5.
+ * #124 BREAKING: removed Command/Query infrastructure.
+ * Now uses C# 6.0 syntax.
+ * NHibernateSession replaced with ISession constructor injection.
 
+ 
+FIXES:
+ * #54 - NHibernate event listeners registered through xml gets removed.
 
-Fixes:
- * #54 - NHibernate event listeners registered through xml gets removed;
+ 
+NEW FEATURES:
+ * ASP.NET MVC Filter property injection with Castle.
+ * WebAPI Filter property injection (for singleton dependencies only).
 
-New features:
- * ASP.NET MVC Filter property injection with Castle;
-
-Changes:
+ 
+SAMPLES:
  * Samples are now part of main repository;
 
 
-Updated dependencies
+UPDATED DEPENDENCIES
 ------
 CommonServiceLocator 1.3^
 Newtonsoft.Json 8.0.1^
