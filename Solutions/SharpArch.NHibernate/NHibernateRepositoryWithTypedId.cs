@@ -29,7 +29,7 @@ namespace SharpArch.NHibernate
         public NHibernateRepositoryWithTypedId(ITransactionManager transactionManager, ISession session)
         {
             Check.Require(transactionManager != null, "TransactionManager is required.");
-            Check.Require(session != null, "Session is equired.");
+            Check.Require(session != null, "Session is required.");
 
             this.transactionManager = transactionManager;
             this.session = session;

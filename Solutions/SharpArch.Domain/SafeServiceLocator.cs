@@ -1,7 +1,7 @@
 ﻿namespace SharpArch.Domain
 {
     using System;
-
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
@@ -11,6 +11,7 @@
     /// </summary>
     /// <typeparam name="TDependency">The dependency type.</typeparam>
     [Obsolete("Remove in favour of constructor or property injection.")]
+    [ExcludeFromCodeCoverage]
     public static class SafeServiceLocator<TDependency>
     {
         /// <summary>

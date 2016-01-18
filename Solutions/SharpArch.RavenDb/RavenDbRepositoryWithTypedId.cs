@@ -10,10 +10,11 @@ namespace SharpArch.RavenDb
     using SharpArch.RavenDb.Contracts.Repositories;
 
     /// <summary>
-    /// RavenDB repository.
+    /// RavenDB repository base class.
+    /// Implements repository for given entity type.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TIdT">The type of the identifier t.</typeparam>
+    /// <typeparam name="T">Entity type</typeparam>
+    /// <typeparam name="TIdT">Primary Key type.</typeparam>
     /// <seealso cref="SharpArch.RavenDb.Contracts.Repositories.IRavenDbRepositoryWithTypedId{T, TIdT}" />
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.ILinqRepositoryWithTypedId{T, TIdT}" />
     public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT>,
@@ -42,7 +43,7 @@ namespace SharpArch.RavenDb
         }
 
         /// <summary>
-        /// Finds an item by a specification
+        /// Finds an item by a specification.
         /// </summary>
         /// <param name="specification">The specification.</param>
         /// <returns>

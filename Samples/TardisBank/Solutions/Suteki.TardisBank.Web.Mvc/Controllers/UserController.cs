@@ -26,11 +26,11 @@ namespace Suteki.TardisBank.Web.Mvc.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult Index()
+        public ActionResult DisplayGreeting()
         {
             var user = userService.CurrentUser;
             var userName = user == null ? "Hello Stranger!" : user.UserName;
-            return this.PartialView("Index", new UserViewModel { UserName = userName, IsLoggedIn = user != null });
+            return this.PartialView("DisplayGreeting", new UserViewModel { UserName = userName, IsLoggedIn = user != null });
         }
 
         [HttpGet]

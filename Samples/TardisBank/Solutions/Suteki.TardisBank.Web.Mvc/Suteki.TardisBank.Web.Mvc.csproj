@@ -381,7 +381,7 @@
     <Content Include="Views\User\ActivationFailed.cshtml" />
     <Content Include="Views\User\AddChild.cshtml" />
     <Content Include="Views\User\Confirm.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\DisplayGreeting.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Messages.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
