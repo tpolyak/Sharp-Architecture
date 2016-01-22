@@ -181,6 +181,7 @@
     <Compile Include="Helpers\MockedTestsBase.cs" />
     <Compile Include="Helpers\WindsorTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharpArch.Castle\WindsorPropertyInjectionTests.cs" />
     <Compile Include="SharpArch.Domain\DataAnnotationsValidator\HasUniqueEntitySignatureValidatorTests.cs" />
     <Compile Include="SharpArch.Domain\DesignByContractTests.cs" />
     <Compile Include="SharpArch.Domain\DomainModel\BaseObjectEqualityComparerTests.cs" />
@@ -191,7 +192,7 @@
     <Compile Include="SharpArch.NHibernate\PreInsertListener.cs" />
     <Compile Include="SharpArch.NHibernate\RepositoryTests.cs" />
     <Compile Include="SharpArch.NHibernate\SafeServiceLocatorTests.cs" />
-    <Compile Include="SharpArch.Web.Http.Castle\ITestService.cs" />
+    <Compile Include="Helpers\ITestService.cs" />
     <Compile Include="SharpArch.Web.Http.Castle\WindsorDependencyResolver_MissingServicesResolutionTests.cs" />
     <Compile Include="SharpArch.Web.Http.Castle\WindsorDependencyResolver_RegisteredServicesResolutionTests.cs" />
     <Compile Include="SharpArch.Web.Http.Castle\WindsorHttpControllerRegistrationTests.cs" />
