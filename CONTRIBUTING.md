@@ -6,7 +6,7 @@ Make sure to set AutoCRLF=true in your Git tool before cloning this repository. 
 
 ##Documentation##
 
-Documentation can be viewed on [docs.sharparchitecture.net](http://docs.sharparchitecture.net/) and gets generated from RST from the files in /Doc folder.
+Documentation can be viewed on [sharp-architecture.readthedocs.org](http://sharp-architecture.readthedocs.org/) and gets generated from RST from the files in /Doc folder.
 
 > An RST web editor can be found [here](http://rst.ninjs.org/)
 

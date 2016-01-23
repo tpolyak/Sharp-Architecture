@@ -21,8 +21,6 @@ Related Projects
 Blog posts
 ----------
 
--  `Using MVCScaffolding with Sharp
-   Architecture <http://blog.sharparchitecture.net/post/Integrating-MVCScaffolding-and-SharpArchitecture.aspx>`_
 -  `Enhanced Query Objects With S#arp Architecture <http://yellowfeather.co.uk/blog/2011/03/21/enhanced-query-objects-with-sharp-architecture/>`_
 
 Multimedia
