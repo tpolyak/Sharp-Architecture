@@ -8,7 +8,7 @@ Deploy Sharp Architecture with Templify
 
 Download and install `Templify <http://opensource.endjin.com/templify/>`_. Make sure to install the
 latest Sharp Architecture package by going to the Sharp Architecture
-`Downloads <http://sharparchitecture.net/downloads.htm>`_ page and downloading the Templify zip required, currently there are templates for NHibernate and RavenDB.
+`Downloads <http://sharparchitecture.github.io/downloads.htm>`_ page and downloading the Templify zip required, currently there are templates for NHibernate and RavenDB.
 
 Extract the contents and run the \*.cmd file to install the package.
 
