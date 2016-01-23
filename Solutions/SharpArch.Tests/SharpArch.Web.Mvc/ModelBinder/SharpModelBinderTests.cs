@@ -1,3 +1,9 @@
+// ReSharper disable InternalMembersMustHaveComments
+// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable HeapView.ClosureAllocation
+// ReSharper disable HeapView.DelegateAllocation
+// ReSharper disable HeapView.ObjectAllocation
 namespace Tests.SharpArch.Web.Mvc.ModelBinder
 {
 
@@ -6,11 +12,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
     using System.Collections.Specialized;
     using System.Web.Mvc;
 
-    using Castle.MicroKernel.Registration;
-    using Castle.Windsor;
-
     using CommonServiceLocator.WindsorAdapter;
-
+    using global::Castle.MicroKernel.Registration;
+    using global::Castle.Windsor;
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.Web.Mvc.ModelBinder;
@@ -22,7 +26,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
     using NUnit.Framework;
 
     [TestFixture]
-    public class SharpModelBinderTests
+    internal class SharpModelBinderTests
     {
         [Test]
         public void CanBindModelWithCollection()
@@ -32,30 +36,30 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             // Arrange
             var formCollection = new NameValueCollection
-                {
-                    { "Employee.Id", id.ToString() }, 
-                    { "Employee.Name", employeeName }, 
-                    { "Employee.Reports", "3" }, 
-                    { "Employee.Reports", "4" }, 
-                    { "Employee.Manager", "12" }
-                };
+            {
+                {"Employee.Id", id.ToString()},
+                {"Employee.Name", employeeName},
+                {"Employee.Reports", "3"},
+                {"Employee.Reports", "4"},
+                {"Employee.Manager", "12"}
+            };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
             var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
-                {
-                    ModelName = "Employee",
-                    ValueProvider = valueProvider,
-                    ModelMetadata = modelMetadata
-                };
+            {
+                ModelName = "Employee",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
 
             DefaultModelBinder target = new SharpModelBinder();
 
             var controllerContext = new ControllerContext();
 
             // Act
-            var result = (Employee)target.BindModel(controllerContext, bindingContext);
+            var result = (Employee) target.BindModel(controllerContext, bindingContext);
 
             // Assert
             Assert.AreEqual(id, result.Id);
@@ -71,30 +75,30 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             // Arrange
             var formCollection = new NameValueCollection
-                {
-                    { "Employee.Id", id.ToString() }, 
-                    { "Employee.Name", employeeName }, 
-                    { "Employee.Reports[0].Name", "Michael" }, 
-                    { "Employee.Reports[1].Name", "Alec" }, 
-                    { "Employee.Manager", "12" }
-                };
+            {
+                {"Employee.Id", id.ToString()},
+                {"Employee.Name", employeeName},
+                {"Employee.Reports[0].Name", "Michael"},
+                {"Employee.Reports[1].Name", "Alec"},
+                {"Employee.Manager", "12"}
+            };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
             var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
-                {
-                    ModelName = "Employee",
-                    ValueProvider = valueProvider,
-                    ModelMetadata = modelMetadata
-                };
+            {
+                ModelName = "Employee",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
 
             DefaultModelBinder target = new SharpModelBinder();
 
             var controllerContext = new ControllerContext();
 
             // Act
-            var result = (Employee)target.BindModel(controllerContext, bindingContext);
+            var result = (Employee) target.BindModel(controllerContext, bindingContext);
 
             // Assert
             Assert.AreEqual(id, result.Id);
@@ -112,29 +116,29 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             // Arrange
             var formCollection = new NameValueCollection
-                {
-                    { "Employee.Id", id.ToString() }, 
-                    { "Employee.Name", employeeName }, 
-                    { "Employee.Manager.Name", managerName }, 
-                    { "Employee.Manager.Manager.Name", managerManagerName }
-                };
+            {
+                {"Employee.Id", id.ToString()},
+                {"Employee.Name", employeeName},
+                {"Employee.Manager.Name", managerName},
+                {"Employee.Manager.Manager.Name", managerManagerName}
+            };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
             var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
-                {
-                    ModelName = "Employee",
-                    ValueProvider = valueProvider,
-                    ModelMetadata = modelMetadata
-                };
+            {
+                ModelName = "Employee",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
 
             DefaultModelBinder target = new SharpModelBinder();
 
             var controllerContext = new ControllerContext();
 
             // Act
-            var result = (Employee)target.BindModel(controllerContext, bindingContext);
+            var result = (Employee) target.BindModel(controllerContext, bindingContext);
 
             // Assert
             Assert.AreEqual(id, result.Id);
@@ -151,26 +155,27 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             // Arrange
             var formCollection = new NameValueCollection
-                {
-                   { "Employee.Id", id.ToString() }, { "Employee.Name", employeeName }, 
-                };
+            {
+                {"Employee.Id", id.ToString()},
+                {"Employee.Name", employeeName},
+            };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
             var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
-                {
-                    ModelName = "Employee",
-                    ValueProvider = valueProvider,
-                    ModelMetadata = modelMetadata
-                };
+            {
+                ModelName = "Employee",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
 
             DefaultModelBinder target = new SharpModelBinder();
 
             var controllerContext = new ControllerContext();
 
             // Act
-            var result = (Employee)target.BindModel(controllerContext, bindingContext);
+            var result = (Employee) target.BindModel(controllerContext, bindingContext);
 
             // Assert
             Assert.AreEqual(id, result.Id);
@@ -185,26 +190,27 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             // Arrange
             var formCollection = new NameValueCollection
-                {
-                   { "Territory.Id", id.ToString() }, { "Territory.Name", territoryName }, 
-                };
+            {
+                {"Territory.Id", id.ToString()},
+                {"Territory.Name", territoryName},
+            };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
             var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
 
             var bindingContext = new ModelBindingContext
-                {
-                    ModelName = "Territory",
-                    ValueProvider = valueProvider,
-                    ModelMetadata = modelMetadata
-                };
+            {
+                ModelName = "Territory",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
 
             DefaultModelBinder target = new SharpModelBinder();
 
             var controllerContext = new ControllerContext();
 
             // Act
-            var result = (Territory)target.BindModel(controllerContext, bindingContext);
+            var result = (Territory) target.BindModel(controllerContext, bindingContext);
 
             // Assert
             Assert.AreEqual(id, result.Id);
@@ -218,26 +224,27 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
 
             // Arrange
             var formCollection = new NameValueCollection
-                {
-                   { "Territory.Id", string.Empty }, { "Territory.Name", territoryName }, 
-                };
+            {
+                {"Territory.Id", string.Empty},
+                {"Territory.Name", territoryName},
+            };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
             var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
 
             var bindingContext = new ModelBindingContext
-                {
-                    ModelName = "Territory",
-                    ValueProvider = valueProvider,
-                    ModelMetadata = modelMetadata
-                };
+            {
+                ModelName = "Territory",
+                ValueProvider = valueProvider,
+                ModelMetadata = modelMetadata
+            };
 
             DefaultModelBinder target = new SharpModelBinder();
 
             var controllerContext = new ControllerContext();
 
             // Act
-            var result = (Territory)target.BindModel(controllerContext, bindingContext);
+            var result = (Territory) target.BindModel(controllerContext, bindingContext);
 
             // Assert
             Assert.AreEqual(territoryName, result.Name);
@@ -256,11 +263,14 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
                     .For<IRepositoryWithTypedId<Employee, int>>()
                     .Instance(mockRepository.Object));
 
-            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(windsorContainer));
-            DependencyResolver.SetResolver((type) => { return ServiceLocator.Current.GetInstance(type); }, (type) => { return ServiceLocator.Current.GetAllInstances(type); });
+            WindsorServiceLocator windsorServiceLocator = new WindsorServiceLocator(windsorContainer);
+
+            ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);
+            DependencyResolver.SetResolver(type => ServiceLocator.Current.GetInstance(type),
+                type => ServiceLocator.Current.GetAllInstances(type));
         }
 
-        public class Employee : Entity
+        internal class Employee : Entity
         {
             public Employee()
             {
@@ -279,9 +289,10 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             public IList<Employee> Reports { get; protected set; }
         }
 
-        public class Territory : EntityWithTypedId<Guid>
+        internal class Territory : EntityWithTypedId<Guid>
         {
             public string Name { get; set; }
         }
     }
+
 }

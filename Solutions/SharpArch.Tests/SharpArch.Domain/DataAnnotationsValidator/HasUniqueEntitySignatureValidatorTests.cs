@@ -1,15 +1,19 @@
-﻿namespace Tests.SharpArch.Domain.DataAnnotationsValidator
+﻿// ReSharper disable InternalMembersMustHaveComments
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable HeapView.ClosureAllocation
+// ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.DelegateAllocation
+namespace Tests.SharpArch.Domain.DataAnnotationsValidator
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics;
 
-    using Castle.MicroKernel.Registration;
-    using Castle.Windsor;
 
     using CommonServiceLocator.WindsorAdapter;
-
+    using global::Castle.MicroKernel.Registration;
+    using global::Castle.Windsor;
     using global::SharpArch.Domain;
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
@@ -20,7 +24,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class HasUniqueObjectSignatureValidatorTests
+    internal class HasUniqueObjectSignatureValidatorTests
     {
         private Mock<IServiceProvider> serviceProviderMock;
 
@@ -74,7 +78,8 @@
                     .ImplementedBy(typeof(DuplicateCheckerStub))
                     .Named("duplicateChecker"));
 
-            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(container));
+            IServiceLocator windsorServiceLocator = new WindsorServiceLocator(container);
+            ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);
         }
 
         [Test]

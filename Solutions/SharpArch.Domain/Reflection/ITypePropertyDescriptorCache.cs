@@ -30,5 +30,10 @@ namespace SharpArch.Domain.Reflection
         ///     Clears the cache.
         /// </summary>
         void Clear();
+
+        /// <summary>
+        /// Returns number of entries in the cache.
+        /// </summary>
+        int Count { get; }
     }
 }

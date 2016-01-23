@@ -6,6 +6,7 @@ namespace SharpArch.Web.Http.Castle
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
     using System.Web.Http;
     using System.Web.Http.Controllers;
@@ -54,7 +55,15 @@ namespace SharpArch.Web.Http.Castle
             Check.Require(configuration != null);
             Check.Require(actionDescriptor != null);
 
-            List<FilterInfo> filters = new List<FilterInfo>();
+            var controllerFilters = actionDescriptor.ControllerDescriptor.GetFilters();
+            var actionFilters = actionDescriptor.GetFilters();
+            int totalFilterCount = configuration.Filters.Count + controllerFilters.Count + actionFilters.Count;
+
+            if (totalFilterCount == 0)
+               return Enumerable.Empty<FilterInfo>();
+
+
+            List<FilterInfo> filters = new List<FilterInfo>(totalFilterCount);
 
             // Add global filters
             if (configuration.Filters.Count > 0)
@@ -63,14 +72,12 @@ namespace SharpArch.Web.Http.Castle
             }
 
             // Add controller filters
-            var controllerFilters = actionDescriptor.ControllerDescriptor.GetFilters();
             for (int i = 0; i < controllerFilters.Count; i++)
             {
                 filters.Add(new FilterInfo(controllerFilters[i], FilterScope.Controller));
             }
 
             // Add action filters
-            var actionFilters = actionDescriptor.GetFilters();
             for (int i = 0; i < actionFilters.Count; i++)
             {
                 filters.Add(new FilterInfo(actionFilters[i], FilterScope.Action));
@@ -91,10 +98,8 @@ namespace SharpArch.Web.Http.Castle
         {
             if (dependencyRegistration.LifestyleType != LifestyleType.Singleton)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
-                    "Dependency '{0}' with lifestyle {1} can not be injected into property {2}. Since  WebAPI Filters are singletons, either use service location or make dependency a Singleton.",
-                    propertyInfo.PropertyType.FullName, dependencyRegistration.LifestyleType, propertyInfo.Name
-                    ))
+                throw new InvalidOperationException(
+                    $"Dependency '{propertyInfo.PropertyType.FullName}' with lifestyle {dependencyRegistration.LifestyleType} can not be injected into property {propertyInfo.Name}. Since  WebAPI Filters are singletons, either use service location or make dependency a Singleton.")
                 {
                     Data =
                     {

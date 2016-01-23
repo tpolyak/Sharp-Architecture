@@ -1,4 +1,10 @@
-﻿namespace Tests.SharpArch.Domain.Reflection
+﻿// ReSharper disable InternalMembersMustHaveComments
+// ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable HeapView.ClosureAllocation
+// ReSharper disable HeapView.DelegateAllocation
+
+namespace Tests.SharpArch.Domain.Reflection
 {
     using System;
     using FluentAssertions;
@@ -6,7 +12,7 @@
     using NUnit.Framework;
 
     [TestFixture]
-    public class TypePropertyDescriptorCacheTests
+    internal class TypePropertyDescriptorCacheTests
     {
         [SetUp]
         public void SetUp()
@@ -27,7 +33,7 @@
         [Test]
         public void Find_Should_ReturnNullForMissingDescriptor()
         {
-            _cache.Find(typeof (TypePropertyDescriptorCache)).Should().BeNull();
+            _cache.Find(typeof(TypePropertyDescriptorCache)).Should().BeNull();
         }
 
         [Test]
