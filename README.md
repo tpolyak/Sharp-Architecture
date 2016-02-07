@@ -1,6 +1,6 @@
-[![Master branch build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p/branch/master?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture/branch/master)
+Master branch build status: [![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p/branch/master?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture/branch/master)
 
-[![Develop branch build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p/branch/develop?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture/branch/develop)
+Last build status: [![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture)
 
 --------------------------------------------
 Templify
