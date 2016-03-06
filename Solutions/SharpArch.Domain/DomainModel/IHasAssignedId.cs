@@ -1,9 +1,12 @@
 ﻿namespace SharpArch.Domain.DomainModel
 {
+    using JetBrains.Annotations;
+
     /// <summary>
     ///     Defines the public members of a class that supports setting an assigned ID of an object.
     /// </summary>
     /// <typeparam name="TId">The type of the ID.</typeparam>
+    [PublicAPI]
     public interface IHasAssignedId<in TId>
     {
         /// <summary>

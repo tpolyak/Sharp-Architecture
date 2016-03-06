@@ -4,11 +4,15 @@
     using System.Collections.Generic;
 
     using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics.CodeAnalysis;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Serves as the base class for objects that are validatable.
     /// </summary>
     [Serializable]
+    [PublicAPI]
+    [SuppressMessage("ReSharper", "VirtualMemberNeverOverriden.Global", Justification = "Public API")]
     public abstract class ValidatableObject : BaseObject
     {
         /// <summary>

@@ -1,3 +1,4 @@
+// ReSharper disable CheckNamespace
 namespace SharpArch.Domain
 {
     using System;
@@ -5,6 +6,7 @@ namespace SharpArch.Domain
     /// <summary>
     ///     An exception that is raised when an postcondition check fails.
     /// </summary>
+    [Serializable]
     public class PostconditionException : DesignByContractException
     {
         /// <summary>

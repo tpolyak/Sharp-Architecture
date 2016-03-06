@@ -1,3 +1,4 @@
+// ReSharper disable CheckNamespace
 namespace SharpArch.Domain
 {
     using System;
@@ -8,6 +9,7 @@ namespace SharpArch.Domain
     /// <summary>
     ///     An exception that is raised when an assertion check fails.
     /// </summary>
+    [Serializable]
     public class AssertionException : DesignByContractException
     {
         /// <summary>

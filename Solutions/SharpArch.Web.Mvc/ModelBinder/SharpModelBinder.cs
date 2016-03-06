@@ -9,7 +9,9 @@ namespace SharpArch.Web.Mvc.ModelBinder
     using System.Web.Mvc;
 
     using Domain.DomainModel;
+    using JetBrains.Annotations;
 
+    [PublicAPI]
     public class SharpModelBinder : DefaultModelBinder
     {
         private const string IdPropertyName = "Id";
@@ -64,6 +66,13 @@ namespace SharpArch.Web.Mvc.ModelBinder
             return base.OnModelUpdating(controllerContext, bindingContext);
         }
 
+        /// <summary>
+        /// Sets the specified property by using the specified controller context, binding context, and property value.
+        /// </summary>
+        /// <param name="controllerContext">The context within which the controller operates. The context information includes the controller, HTTP content, request context, and route data.</param>
+        /// <param name="bindingContext">The context within which the model is bound. The context includes information such as the model object, model name, model type, property filter, and value provider.</param>
+        /// <param name="propertyDescriptor">Describes a property to be set. The descriptor provides information such as the component type, property type, and property value. It also provides methods to get or set the property value.</param>
+        /// <param name="value">The value to set for the property.</param>
         protected override void SetProperty(
             ControllerContext controllerContext, 
             ModelBindingContext bindingContext, 
@@ -109,7 +118,7 @@ namespace SharpArch.Web.Mvc.ModelBinder
         }
 
         /// <summary>
-        ///     If the property being bound is a simple, generic collection of entiy objects, then use
+        ///     If the property being bound is a simple, generic collection of entity objects, then use
         ///     reflection to get past the protected visibility of the collection property, if necessary.
         /// </summary>
         private static void SetEntityCollectionProperty(
@@ -120,6 +129,7 @@ namespace SharpArch.Web.Mvc.ModelBinder
             {
                 var entityCollectionType = entityCollection.GetType();
 
+                // ReSharper disable once PossibleNullReferenceException
                 foreach (var entity in value as IEnumerable)
                 {
                     entityCollectionType.InvokeMember(

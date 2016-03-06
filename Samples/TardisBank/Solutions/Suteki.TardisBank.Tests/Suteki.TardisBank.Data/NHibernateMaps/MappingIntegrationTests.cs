@@ -36,7 +36,7 @@
             var nhibernateConfigPath = new Uri(CalculatePath("../../../../Solutions/Suteki.TardisBank.Web.Mvc/NHibernate.config")).LocalPath;
             this.configuration = new NHibernateSessionFactoryBuilder()
                 .AddMappingAssemblies(mappingAssemblies)
-                .UseAutoPersitenceModel(new AutoPersistenceModelGenerator().Generate())
+                .UseAutoPersistenceModel(new AutoPersistenceModelGenerator().Generate())
                 .UseConfigFile(nhibernateConfigPath)
                 .BuildConfiguration();
             sessionFactory = configuration.BuildSessionFactory();

@@ -1,24 +1,31 @@
 namespace SharpArch.NHibernate
 {
-    using Domain;
+    using System;
     using global::NHibernate;
+    using JetBrains.Annotations;
 
+    /// <summary>
+    /// Base class for NHibernate query objects.
+    /// </summary>
+    [PublicAPI]
     public abstract class NHibernateQuery
     {
-        private readonly ISession session;
-
-        protected NHibernateQuery(ISession session)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NHibernateQuery"/> class.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <exception cref="System.ArgumentNullException"><paramref name="session"/> is <c>null</c>.</exception>
+        protected NHibernateQuery([NotNull] ISession session)
         {
-            Check.Require(session != null, "Session is required.");
-            this.session = session;
+            if (session == null) throw new ArgumentNullException(nameof(session));
+
+            this.Session = session;
         }
 
-        protected virtual ISession Session
-        {
-            get
-            {
-                return this.session;
-            }
-        }
+        /// <summary>
+        /// NHibernate <see cref="ISession"/>.
+        /// </summary>
+        [NotNull]
+        protected virtual ISession Session { get; }
     }
 }

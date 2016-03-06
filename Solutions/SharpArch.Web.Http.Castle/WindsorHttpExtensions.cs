@@ -6,11 +6,12 @@
     using global::Castle.Core;
     using global::Castle.MicroKernel.Registration;
     using global::Castle.Windsor;
-    using SharpArch.Domain;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Contains Castle Windsor related HTTP controller extension methods.
     /// </summary>
+    [PublicAPI]
     public static class WindsorHttpExtensions
     {
         /// <summary>
@@ -18,11 +19,14 @@
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="controllerTypes">The controller types.</param>
-        /// <returns>A container.</returns>
-        public static IWindsorContainer RegisterHttpControllers(this IWindsorContainer container, params Type[] controllerTypes)
+        /// <returns>
+        /// A container.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        [NotNull]
+        public static IWindsorContainer RegisterHttpControllers([NotNull] this IWindsorContainer container, params Type[] controllerTypes)
         {
-            Check.Require(container != null);
-            Check.Require(controllerTypes != null);
+            if (container == null) throw new ArgumentNullException(nameof(container));
 
             foreach (Type type in controllerTypes.Where(type => type.IsHttpController()))
             {
@@ -38,11 +42,14 @@
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="assemblies">The assemblies.</param>
-        /// <returns>A container.</returns>
-        public static IWindsorContainer RegisterHttpControllers(this IWindsorContainer container, params Assembly[] assemblies)
+        /// <returns>
+        /// A container.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        [NotNull]
+        public static IWindsorContainer RegisterHttpControllers([NotNull] this IWindsorContainer container, params Assembly[] assemblies)
         {
-            Check.Require(container != null);
-            Check.Require(assemblies != null);
+            if (container == null) throw new ArgumentNullException(nameof(container));
 
             foreach (Assembly assembly in assemblies)
             {

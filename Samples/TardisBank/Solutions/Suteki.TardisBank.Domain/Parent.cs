@@ -5,7 +5,6 @@ namespace Suteki.TardisBank.Domain
     using System.Linq;
     using Events;
     using MediatR;
-    using SharpArch.Domain;
 
     public class Parent : User
     {
@@ -23,7 +22,8 @@ namespace Suteki.TardisBank.Domain
         // should be called when parent is first created.
         public virtual Parent Initialise(IMediator mediator)
         {
-            Check.Assert(mediator != null, "mediator is null");
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
+
             this.ActivationKey = Guid.NewGuid().ToString();
             mediator.Publish(new NewParentCreatedEvent(this));
             return this;

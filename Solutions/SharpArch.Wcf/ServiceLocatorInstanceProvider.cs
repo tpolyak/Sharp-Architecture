@@ -4,13 +4,19 @@ namespace SharpArch.Wcf
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Dispatcher;
-
+    using JetBrains.Annotations;
     using Microsoft.Practices.ServiceLocation;
 
+    [PublicAPI]
+    [Obsolete("Avoid using Service Locator as it may be removed in the next version.")]
     public class ServiceLocatorInstanceProvider : IInstanceProvider
     {
         private readonly Type serviceType;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceLocatorInstanceProvider"/> class.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
         public ServiceLocatorInstanceProvider(Type serviceType)
         {
             this.serviceType = serviceType;

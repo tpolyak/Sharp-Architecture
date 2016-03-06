@@ -1,6 +1,8 @@
 ﻿// ReSharper disable InternalMembersMustHaveComments
 // ReSharper disable HeapView.ObjectAllocation
 // ReSharper disable HeapView.DelegateAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+
 namespace Tests.SharpArch.Web.Mvc
 {
     using System;
@@ -72,7 +74,7 @@ namespace Tests.SharpArch.Web.Mvc
 
             this.fakeController = new FakeController
             {
-                ViewData = new ViewDataDictionary(new Model { Required = "y" })
+                ViewData = new ViewDataDictionary(new Model {Required = "y"})
             };
 
             this.filterContext = Mockery.Create<ActionExecutedContext>();
@@ -97,6 +99,17 @@ namespace Tests.SharpArch.Web.Mvc
         private void Act()
         {
             this.transactionAttribute.OnActionExecuted(this.filterContext.Object);
+        }
+
+        [Test]
+        public void Should_CommitTransaction_if_ErrorWasHandled()
+        {
+            this.filterContext.SetupGet(c => c.Exception).Returns(new Exception());
+            this.filterContext.Object.ExceptionHandled = true;
+
+            Act();
+
+            this.transactionManagerMock.Verify(tm => tm.CommitTransaction());
         }
 
         [Test]
@@ -149,17 +162,6 @@ namespace Tests.SharpArch.Web.Mvc
             Act();
 
             this.transactionManagerMock.Verify(tm => tm.RollbackTransaction());
-        }
-
-        [Test]
-        public void Should_CommitTransaction_if_ErrorWasHandled()
-        {
-            this.filterContext.SetupGet(c => c.Exception).Returns(new Exception());
-            this.filterContext.Object.ExceptionHandled = true;
-
-            Act();
-
-            this.transactionManagerMock.Verify(tm => tm.CommitTransaction());
         }
     }
 }

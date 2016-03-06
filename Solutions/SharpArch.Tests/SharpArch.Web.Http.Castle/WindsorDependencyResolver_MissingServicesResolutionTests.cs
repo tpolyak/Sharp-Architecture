@@ -1,5 +1,6 @@
 ﻿// ReSharper disable InternalMembersMustHaveComments
 // ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
 namespace Tests.SharpArch.Web.Http.Castle
 {
     using FluentAssertions;

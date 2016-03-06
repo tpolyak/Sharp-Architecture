@@ -4,30 +4,70 @@
 // ReSharper disable HeapView.ClosureAllocation
 // ReSharper disable HeapView.DelegateAllocation
 // ReSharper disable HeapView.ObjectAllocation
+
 namespace Tests.SharpArch.Web.Mvc.ModelBinder
 {
-
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Web.Mvc;
-
     using CommonServiceLocator.WindsorAdapter;
     using global::Castle.MicroKernel.Registration;
     using global::Castle.Windsor;
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.Web.Mvc.ModelBinder;
-
     using Microsoft.Practices.ServiceLocation;
-
     using Moq;
-
     using NUnit.Framework;
 
     [TestFixture]
     internal class SharpModelBinderTests
     {
+        [OneTimeSetUp]
+        public void SetUp()
+        {
+            var mockRepository = new Mock<IRepositoryWithTypedId<Employee, int>>();
+            var windsorContainer = new WindsorContainer();
+
+            mockRepository.Setup(r => r.Get(It.IsAny<int>())).Returns((int newId) => new Employee(newId));
+
+            windsorContainer.Register(
+                Component
+                    .For<IRepositoryWithTypedId<Employee, int>>()
+                    .Instance(mockRepository.Object));
+
+            var windsorServiceLocator = new WindsorServiceLocator(windsorContainer);
+
+            ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);
+            DependencyResolver.SetResolver(type => ServiceLocator.Current.GetInstance(type),
+                type => ServiceLocator.Current.GetAllInstances(type));
+        }
+
+        internal class Employee : Entity
+        {
+            public Employee()
+            {
+                this.Reports = new List<Employee>();
+            }
+
+            public Employee(int id)
+            {
+                this.Id = id;
+            }
+
+            public Employee Manager { get; set; }
+
+            public string Name { get; set; }
+
+            public IList<Employee> Reports { get; protected set; }
+        }
+
+        internal class Territory : EntityWithTypedId<Guid>
+        {
+            public string Name { get; set; }
+        }
+
         [Test]
         public void CanBindModelWithCollection()
         {
@@ -45,7 +85,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
+            ModelMetadata modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
             {
@@ -84,7 +124,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
+            ModelMetadata modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
             {
@@ -124,7 +164,7 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
+            ModelMetadata modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
             {
@@ -157,11 +197,11 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             var formCollection = new NameValueCollection
             {
                 {"Employee.Id", id.ToString()},
-                {"Employee.Name", employeeName},
+                {"Employee.Name", employeeName}
             };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
+            ModelMetadata modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Employee));
 
             var bindingContext = new ModelBindingContext
             {
@@ -192,11 +232,11 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             var formCollection = new NameValueCollection
             {
                 {"Territory.Id", id.ToString()},
-                {"Territory.Name", territoryName},
+                {"Territory.Name", territoryName}
             };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
+            ModelMetadata modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
 
             var bindingContext = new ModelBindingContext
             {
@@ -226,11 +266,11 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             var formCollection = new NameValueCollection
             {
                 {"Territory.Id", string.Empty},
-                {"Territory.Name", territoryName},
+                {"Territory.Name", territoryName}
             };
 
             var valueProvider = new NameValueCollectionValueProvider(formCollection, null);
-            var modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
+            ModelMetadata modelMetadata = ModelMetadataProviders.Current.GetMetadataForType(null, typeof(Territory));
 
             var bindingContext = new ModelBindingContext
             {
@@ -249,50 +289,5 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
             // Assert
             Assert.AreEqual(territoryName, result.Name);
         }
-
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            var mockRepository = new Mock<IRepositoryWithTypedId<Employee, int>>();
-            var windsorContainer = new WindsorContainer();
-
-            mockRepository.Setup(r => r.Get(It.IsAny<int>())).Returns((int newId) => new Employee(newId));
-
-            windsorContainer.Register(
-                Component
-                    .For<IRepositoryWithTypedId<Employee, int>>()
-                    .Instance(mockRepository.Object));
-
-            WindsorServiceLocator windsorServiceLocator = new WindsorServiceLocator(windsorContainer);
-
-            ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);
-            DependencyResolver.SetResolver(type => ServiceLocator.Current.GetInstance(type),
-                type => ServiceLocator.Current.GetAllInstances(type));
-        }
-
-        internal class Employee : Entity
-        {
-            public Employee()
-            {
-                this.Reports = new List<Employee>();
-            }
-
-            public Employee(int id)
-            {
-                this.Id = id;
-            }
-
-            public Employee Manager { get; set; }
-
-            public string Name { get; set; }
-
-            public IList<Employee> Reports { get; protected set; }
-        }
-
-        internal class Territory : EntityWithTypedId<Guid>
-        {
-            public string Name { get; set; }
-        }
     }
-
 }

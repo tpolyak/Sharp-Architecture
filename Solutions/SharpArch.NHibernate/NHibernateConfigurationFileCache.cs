@@ -7,7 +7,7 @@
     using System.Reflection;
 
     using global::NHibernate.Cfg;
-
+    using JetBrains.Annotations;
     using SharpArch.Domain;
 
     /// <summary>
@@ -17,6 +17,7 @@
     /// <remarks>Seralizing a <see cref="Configuration"/> object requires that all components
     /// that make up the Configuration object be Serializable.  This includes any custom NHibernate 
     /// user types implementing <see cref="NHibernate.UserTypes.IUserType"/>.</remarks>
+    [PublicAPI]
     public class NHibernateConfigurationFileCache : INHibernateConfigurationCache
     {
         /// <summary>

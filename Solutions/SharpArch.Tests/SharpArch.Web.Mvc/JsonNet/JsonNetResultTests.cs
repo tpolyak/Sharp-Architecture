@@ -1,20 +1,20 @@
+// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable InternalMembersMustHaveComments
+
 namespace Tests.SharpArch.Web.Mvc.JsonNet
 {
     using System.Text;
-
+    using global::SharpArch.Web.Mvc.JsonNet;
     using NUnit.Framework;
 
-    using global::SharpArch.Web.Mvc.JsonNet;
-
     [TestFixture]
-    public class JsonNetResultTests
+    internal class JsonNetResultTests
     {
         [Test]
         public void CanCreateJsonNetResultUsingOverloadedConstructors()
         {
-            JsonNetResult result;
-
-            result = new JsonNetResult();
+            var result = new JsonNetResult();
             Assert.That(result.SerializerSettings, Is.Not.Null);
 
             // This is the most typical scenario

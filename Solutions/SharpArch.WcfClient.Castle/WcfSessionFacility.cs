@@ -6,6 +6,7 @@
     using global::Castle.Core;
     using global::Castle.Core.Configuration;
     using global::Castle.MicroKernel;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     This facility may be registered within your web application to automatically look for and close
@@ -13,15 +14,25 @@
     ///     if any appropriate exceptions are encountered.  See documentation for setting up and using this
     ///     Castle facility.
     /// </summary>
+    [PublicAPI]
     public class WcfSessionFacility : IFacility
     {
+        /// <summary>
+        /// The manage WCF sessions key
+        /// </summary>
         public const string ManageWcfSessionsKey = "ManageWcfSessions";
 
+        /// <summary>
+        /// Initializes the facility.
+        /// </summary>
         public void Init(IKernel kernel, IConfiguration facilityConfig)
         {
             kernel.ComponentDestroyed += KernelComponentDestroyed;
         }
-
+        
+        /// <summary>
+        /// Terminates the facility.
+        /// </summary>
         public void Terminate()
         {
         }

@@ -3,44 +3,61 @@
     using System;
     using System.Linq;
     using System.Reflection;
-
-    using Domain;
     using Domain.DomainModel;
     using Domain.PersistenceSupport;
 
     using global::NHibernate;
     using global::NHibernate.Criterion;
     using global::NHibernate.Util;
+    using JetBrains.Annotations;
 
+    /// <summary>
+    /// Checks if entity with the same domain signature already exists in the database.
+    /// </summary>
+    /// <seealso cref="SharpArch.Domain.PersistenceSupport.IEntityDuplicateChecker" />
+    /// <seealso cref="DomainSignatureAttribute"/>.
+    [PublicAPI]
     public class EntityDuplicateChecker : IEntityDuplicateChecker
     {
         private readonly ISession session;
 
-        public EntityDuplicateChecker(ISession session)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityDuplicateChecker"/> class.
+        /// </summary>
+        /// <param name="session">The session.</param>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public EntityDuplicateChecker([NotNull] ISession session)
         {
+            if (session == null) throw new ArgumentNullException(nameof(session));
             this.session = session;
         }
 
-        private static readonly DateTime UninitializedDatetime = default(DateTime);
+        private static readonly DateTime uninitializedDatetime = default(DateTime);
 
         /// <summary>
-        ///     Provides a behavior specific repository for checking if a duplicate exists of an existing entity.
+        /// Provides a behavior specific repository for checking if a duplicate exists of an existing entity.
         /// </summary>
+        /// <typeparam name="TId">Entity Id type.</typeparam>
+        /// <param name="entity">The entity.</param>
+        /// <returns>
+        ///   <c>true</c> if a duplicate exists, <c>false</c> otherwise.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">entity is null. </exception>
         public bool DoesDuplicateExistWithTypedIdOf<TId>(IEntityWithTypedId<TId> entity)
         {
-            Check.Require(entity != null, "Entity may not be null when checking for duplicates");
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
 
-            var session = GetSessionFor(entity);
+            var sessionForEntity = GetSessionFor(entity);
 
-            var previousFlushMode = session.FlushMode;
+            var previousFlushMode = sessionForEntity.FlushMode;
 
             // We do NOT want this to flush pending changes as checking for a duplicate should 
             // only compare the object against data that's already in the database
-            session.FlushMode = FlushMode.Never;
+            sessionForEntity.FlushMode = FlushMode.Never;
             try
             {
                 var criteria =
-                    session.CreateCriteria(entity.GetType())
+                    sessionForEntity.CreateCriteria(entity.GetType())
                         .Add(Restrictions.Not(Restrictions.Eq("Id", entity.Id)))
                         .SetMaxResults(1);
 
@@ -50,7 +67,7 @@
             }
             finally
             {
-                session.FlushMode = previousFlushMode;    
+                sessionForEntity.FlushMode = previousFlushMode;    
             }
         }
 
@@ -81,10 +98,9 @@
                     : Restrictions.IsNull(propertyName));
         }
 
+        [NotNull]
         private ISession GetSessionFor(object entity)
         {
-            //var factoryKey = SessionFactoryKeyHelper.GetKeyFrom(entity);
-            // return NHibernateSession.CurrentFor(factoryKey);
             return this.session;
         }
 
@@ -106,7 +122,7 @@
         private static void AppendDateTimePropertyCriteriaTo(ICriteria criteria, string propertyName, object propertyValue)
         {
             criteria.Add(
-                (DateTime)propertyValue > UninitializedDatetime
+                (DateTime)propertyValue > uninitializedDatetime
                     ? Restrictions.Eq(propertyName, propertyValue)
                     : Restrictions.IsNull(propertyName));
         }

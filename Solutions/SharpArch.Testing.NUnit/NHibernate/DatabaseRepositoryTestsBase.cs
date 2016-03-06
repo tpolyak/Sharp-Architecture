@@ -3,6 +3,7 @@
     using global::NHibernate;
     using global::NHibernate.Cfg;
     using global::NUnit.Framework;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Initiates a transaction before each test is run and rolls back the transaction after
@@ -17,11 +18,20 @@
     /// <remarks>
     ///     This class expects database structure to be present and up-to-date. It will not run schema export on it.
     /// </remarks>
+    [PublicAPI]
     public abstract class DatabaseRepositoryTestsBase
     {
+        /// <summary>
+        /// Returns current NHibernate session.
+        /// </summary>
         protected ISession Session { get; private set; }
+
         TestDatabaseInitializer initializer;
 
+
+        /// <summary>
+        /// Creates NHibernate <see cref="ISessionFactory"/>.
+        /// </summary>
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
@@ -29,10 +39,17 @@
             UpdateConfiguration(initializer.GetConfiguration());
         }
 
-        protected virtual void UpdateConfiguration(Configuration configuration)
+        /// <summary>
+        /// Can be used to override Session Factory settings.
+        /// </summary>
+        /// <param name="configuration"></param>
+        protected virtual void UpdateConfiguration([NotNull] Configuration configuration)
         {
         }
 
+        /// <summary>
+        /// Creates new <see cref="ISession"/>.
+        /// </summary>
         [SetUp]
         public virtual void SetUp()
         {
@@ -40,6 +57,10 @@
             Session.BeginTransaction();
         }
 
+
+        /// <summary>
+        /// Rollbacks active transaction and closes <see cref="ISession"/>.
+        /// </summary>
         [TearDown]
         public virtual void TearDown()
         {
@@ -52,6 +73,9 @@
             }
         }
 
+        /// <summary>
+        /// Disposes <see cref="ISessionFactory"/>.
+        /// </summary>
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {

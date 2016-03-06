@@ -20,6 +20,7 @@ namespace SharpArch.Specifications.SharpArch.Domain
 
     using Rhino.Mocks;
 
+    [Obsolete("Remove in the next version.")]
     public class design_by_contract_specs
     {
         public class specification_for_design_by_contract

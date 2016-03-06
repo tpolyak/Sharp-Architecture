@@ -2,6 +2,7 @@
 // ReSharper disable HeapView.ObjectAllocation
 // ReSharper disable HeapView.DelegateAllocation
 // ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Tests.SharpArch.Web.Http
 {

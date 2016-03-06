@@ -6,6 +6,7 @@
     using System.Web.Mvc;
     using Domain.Reflection;
     using global::Castle.Windsor;
+    using JetBrains.Annotations;
     using SharpArch.Castle.Extensions;
 
     /// <summary>
@@ -14,6 +15,7 @@
     /// <remarks>
     ///     Based on http://thirteendaysaweek.com/2012/09/17/dependency-injection-with-asp-net-mvc-action-filters/
     /// </remarks>
+    [PublicAPI]
     public class WindsorFilterAttributeProvider : FilterAttributeFilterProvider
     {
         private readonly IWindsorContainer container;
@@ -25,9 +27,10 @@
         /// <param name="container">Windsor container.</param>
         /// <param name="typePropertyDescriptorCache"></param>
         /// <exception cref="ArgumentNullException">Container is <c>null</c>.</exception>
-        public WindsorFilterAttributeProvider(IWindsorContainer container, ITypePropertyDescriptorCache typePropertyDescriptorCache) : base(false)
+        public WindsorFilterAttributeProvider([NotNull] IWindsorContainer container,
+            [CanBeNull] ITypePropertyDescriptorCache typePropertyDescriptorCache) : base(false)
         {
-            if (container == null) throw new ArgumentNullException("container");
+            if (container == null) throw new ArgumentNullException(nameof(container));
             this.container = container;
             this.typePropertyDescriptorCache = typePropertyDescriptorCache;
         }
@@ -43,6 +46,8 @@
             ActionDescriptor actionDescriptor)
         {
             var filters = base.GetFilters(controllerContext, actionDescriptor).ToArray();
+
+            // ReSharper disable once ForCanBeConvertedToForeach
             for (var i = 0; i < filters.Length; i++)
             {
                 container.Kernel.InjectProperties(filters[i].Instance, typePropertyDescriptorCache);

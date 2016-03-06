@@ -1,3 +1,4 @@
+// ReSharper disable CheckNamespace
 namespace SharpArch.Domain
 {
     using System;
@@ -9,6 +10,7 @@ namespace SharpArch.Domain
     ///     Catch this exception type if you wish to differentiate between 
     ///     any design by contract exception and other runtime exceptions.
     /// </remarks>
+    [Serializable]
     public class DesignByContractException : ApplicationException
     {
         /// <summary>

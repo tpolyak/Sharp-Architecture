@@ -49,7 +49,8 @@ namespace Suteki.TardisBank.Domain
 
         public virtual void SendMessage(string text, IMediator mediator)
         {
-            Check.Assert(mediator != null, "mediator is null");
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
+
             this.Messages.Add(new Message(DateTime.Now.Date, text, this));
             this.RemoveOldMessages();
 

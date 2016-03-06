@@ -4,6 +4,7 @@ namespace SharpArch.Web.Mvc.ModelBinder
     using System.Web.Mvc;
 
     using Domain.PersistenceSupport;
+    using JetBrains.Annotations;
 
     internal class GenericRepositoryFactory
     {
@@ -14,8 +15,11 @@ namespace SharpArch.Web.Mvc.ModelBinder
         /// <param name="idType">Type of the identifier.</param>
         /// <returns>Repository instance.</returns>
         /// <exception cref="InvalidOperationException">If repository can not be resolved by <see cref="DependencyResolver"/>.</exception>
-        public static object CreateEntityRepositoryFor(Type entityType, Type idType)
+        public static object CreateEntityRepositoryFor([NotNull] Type entityType, [NotNull] Type idType)
         {
+            if (entityType == null) throw new ArgumentNullException(nameof(entityType));
+            if (idType == null) throw new ArgumentNullException(nameof(idType));
+
             var genericRepositoryType = typeof (IRepositoryWithTypedId<,>);
             var concreteRepositoryType = genericRepositoryType.MakeGenericType(entityType, idType);
 

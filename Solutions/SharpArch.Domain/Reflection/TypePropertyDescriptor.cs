@@ -2,35 +2,41 @@ namespace SharpArch.Domain.Reflection
 {
     using System;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Contains injectable properties per type.
     /// </summary>
     [Serializable]
+    [PublicAPI]
     public class TypePropertyDescriptor : IEquatable<TypePropertyDescriptor>
     {
-        private static readonly PropertyInfo[] EmptyArray = new PropertyInfo[0];
+        private static readonly PropertyInfo[] emptyArray = new PropertyInfo[0];
+        private readonly Type ownerType;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="TypePropertyDescriptor" /> class.
+        /// Initializes a new instance of the <see cref="TypePropertyDescriptor" /> class.
         /// </summary>
         /// <param name="ownerType">Type of the object.</param>
         /// <param name="properties">The injectable properties.</param>
-        public TypePropertyDescriptor(Type ownerType, PropertyInfo[] properties)
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public TypePropertyDescriptor([NotNull]Type ownerType, [CanBeNull] PropertyInfo[] properties)
         {
-            Check.Require(ownerType != null, "Owner type information can not be null.");
+            if (ownerType == null) throw new ArgumentNullException(nameof(ownerType));
 
-            OwnerType = ownerType;
+            this.ownerType = ownerType;
             if (properties != null && properties.Length > 0)
                 Properties = properties;
             else
-                Properties = EmptyArray;
+                Properties = emptyArray;
         }
 
         /// <summary>
         ///     Owner type. 
         /// </summary>
-        public Type OwnerType { get; private set; }
+        [NotNull]
+        // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
+        public Type OwnerType => this.ownerType;
 
         /// <summary>
         ///     Gets the injectable properties.
@@ -38,6 +44,7 @@ namespace SharpArch.Domain.Reflection
         /// <value>
         ///     The injectable properties.
         /// </value>
+        [NotNull]
         public PropertyInfo[] Properties { get; private set; }
 
         /// <summary>
@@ -51,13 +58,27 @@ namespace SharpArch.Domain.Reflection
             return Properties.Length > 0;
         }
 
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <param name="other">An object to compare with this object.</param>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+        /// </returns>
         public bool Equals(TypePropertyDescriptor other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return OwnerType.Equals(other.OwnerType);
+            return OwnerType == other.OwnerType;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -66,11 +87,23 @@ namespace SharpArch.Domain.Reflection
             return other != null && Equals(other);
         }
 
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// </returns>
         public override int GetHashCode()
         {
             return OwnerType.GetHashCode();
         }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             return string.Concat("Type: ", OwnerType.AssemblyQualifiedName, "Properties: ", Properties.Length);

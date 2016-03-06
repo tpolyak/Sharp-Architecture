@@ -1,10 +1,13 @@
 namespace SharpArch.Domain.Specifications
 {
+    using JetBrains.Annotations;
+
     /// <summary>
     ///     Defines the behaviour of a specification which is used to select specified items from a
     ///     collection
     /// </summary>
     /// <typeparam name="T">The type that the specification is applied to.</typeparam>
+    [PublicAPI]
     public interface ISpecification<T>
     {
         /// <summary>

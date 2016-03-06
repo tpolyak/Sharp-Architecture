@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+    using JetBrains.Annotations;
     using Reflection;
 
     /// <summary>
@@ -14,6 +15,7 @@
     ///     an in depth and conclusive resolution.
     /// </remarks>
     [Serializable]
+    [PublicAPI]
     public abstract class BaseObject
     {
         /// <summary>
@@ -72,6 +74,7 @@
                 // then simply return the hashcode of the base object as the hashcode.
                 if (signatureProperties.Length == 0)
                 {
+                    // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
                     return base.GetHashCode();
                 }
 
@@ -125,12 +128,16 @@
         {
             PropertyInfo[] signatureProperties = this.GetSignatureProperties();
 
-            // if there were no signature properties, then simply return the default bahavior of Equals
+            // if there were no signature properties, then simply return the default behavior of Equals
             if (signatureProperties.Length == 0)
             {
+                // ReSharper disable once BaseObjectEqualsIsObjectEquals
                 return base.Equals(compareTo);
             }
 
+            // use for loop instead of foreach/LINQ for performance reasons.
+            // ReSharper disable once ForCanBeConvertedToForeach
+            // ReSharper disable once LoopCanBeConvertedToQuery
             for (var index = 0; index < signatureProperties.Length; index++)
             {
                 PropertyInfo property = signatureProperties[index];
@@ -158,6 +165,7 @@
         ///     Enforces the template method pattern to have child objects determine which specific
         ///     properties should and should not be included in the object signature comparison.
         /// </summary>
+        [NotNull]
         protected abstract PropertyInfo[] GetTypeSpecificSignatureProperties();
 
         /// <summary>

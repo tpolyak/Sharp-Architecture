@@ -2,15 +2,16 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using Domain;
     using global::FluentNHibernate.Automapping;
     using global::FluentNHibernate.Cfg;
     using global::FluentNHibernate.Cfg.Db;
     using global::NHibernate;
     using global::NHibernate.Cfg;
+    using JetBrains.Annotations;
     using NHibernateValidator;
 
     /// <summary>
@@ -19,13 +20,17 @@
     /// <remarks>
     ///     Transient object, session factory must be redistered as singletone in DI Container.
     /// </remarks>
+    [PublicAPI]
     public class NHibernateSessionFactoryBuilder
     {
         /// <summary>
         /// Default configuration file name.
         /// </summary>
-        public const string DefaultNHibernateConfigFileName = "Hibernate.cfg.xml";
+        public const string DefaultNHibernateConfigFileName = @"Hibernate.cfg.xml";
 
+        /// <summary>
+        /// Default NHibernate session factory key.
+        /// </summary>
         public static readonly string DefaultConfigurationName = "nhibernate.current_session";
 
         private INHibernateConfigurationCache configurationCache;
@@ -52,6 +57,7 @@
         /// Creates the session factory.
         /// </summary>
         /// <returns> NHibernate session factory <see cref="ISessionFactory"/>.</returns>
+        [NotNull]
         public ISessionFactory BuildSessionFactory()
         {
             var configuration = BuildConfiguration();
@@ -65,12 +71,13 @@
         /// <remarks>
         /// <para>
         /// Any changes made to configuration object <b>will not be persisted</b> in configuration cache.
-        /// This can be usefull to make dynamic changes to configuration or in case changes cannot be serialized (e.g. event listeners are not marked with <see cref="SerializableAttribute"/>.
+        /// This can be useful to make dynamic changes to configuration or in case changes cannot be serialized (e.g. event listeners are not marked with <see cref="SerializableAttribute"/>.
         /// </para>
         /// <para>
         /// To make persistent changes use <seealso cref="ExposeConfiguration"/>.
         /// </para>
         /// </remarks>
+        [NotNull]
         public Configuration BuildConfiguration()
         {
             var configuration = configurationCache.LoadConfiguration(DefaultConfigurationName, configFile, mappingAssemblies);
@@ -91,11 +98,12 @@
         /// Changes to configuration will be persisted in configuration cache, if it is enabled.
         /// In case changes must not be persisted in cache, they must be applied after <seealso cref="BuildConfiguration"/>.
         /// </remarks>
-        public NHibernateSessionFactoryBuilder ExposeConfiguration(Action<Configuration> config)
+        [NotNull]
+        public NHibernateSessionFactoryBuilder ExposeConfiguration([NotNull] Action<Configuration> config)
         {
-            Check.Require(config != null, "Please provide callback.");
-            this.exposeConfiguration = config;
+            if (config == null) throw new ArgumentNullException(nameof(config));
 
+            this.exposeConfiguration = config;
             return this;
         }
 
@@ -104,53 +112,120 @@
             return exposeConfiguration != null;
         }
 
-        public NHibernateSessionFactoryBuilder UseConfigurationCache(INHibernateConfigurationCache configurationCache)
+        /// <summary>
+        /// Allows to cache compiled NHibernate configuration.
+        /// </summary>
+        /// <param name="configurationCache">The configuration cache, see <see cref="INHibernateConfigurationCache"/>. </param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">Please provide configuration cache instance.</exception>
+        [NotNull]
+        public NHibernateSessionFactoryBuilder UseConfigurationCache(
+            [NotNull] INHibernateConfigurationCache configurationCache)
         {
-            Check.Require(configurationCache != null, "Please provide configuration cache instance.");
+            if (configurationCache == null) throw new ArgumentNullException(nameof(configurationCache), "Please provide configuration cache instance.");
             this.configurationCache = configurationCache;
             return this;
         }
 
-        public NHibernateSessionFactoryBuilder AddMappingAssemblies(IEnumerable<string> mappingAssemblies)
+        /// <summary>
+        /// Allows to specify additional assemblies containing FluentNHibernate mappings.
+        /// </summary>
+        /// <param name="mappingAssemblies">The mapping assemblies.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">Mapping assemblies are not specified.</exception>
+        [NotNull]
+        public NHibernateSessionFactoryBuilder AddMappingAssemblies([NotNull] IEnumerable<string> mappingAssemblies)
         {
-            Check.Require(mappingAssemblies != null, "Please specify mapping assemblies.");
+            if (mappingAssemblies == null) throw new ArgumentNullException(nameof(mappingAssemblies), "Mapping assemblies are not specified.");
+
             this.mappingAssemblies.AddRange(mappingAssemblies);
             return this;
         }
 
-        public NHibernateSessionFactoryBuilder UseAutoPersitenceModel(AutoPersistenceModel autoPersistenceModel)
+        /// <summary>
+        /// Allows to specify FluentNhibernate auto-persistence model to use..
+        /// </summary>
+        /// <param name="autoPersistenceModel">The automatic persistence model.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        [NotNull]
+        public NHibernateSessionFactoryBuilder UseAutoPersistenceModel(
+            [NotNull] AutoPersistenceModel autoPersistenceModel)
         {
-            Check.Require(autoPersistenceModel != null);
+            if (autoPersistenceModel == null) throw new ArgumentNullException(nameof(autoPersistenceModel));
+            
             this.autoPersistenceModel = autoPersistenceModel;
             return this;
         }
 
-        public NHibernateSessionFactoryBuilder UseProperties(IDictionary<string, string> properties)
+        /// <summary>
+        /// Allows to specify additional NHibernate properties, see http://nhibernate.info/doc/nhibernate-reference/session-configuration.html.
+        /// </summary>
+        /// <param name="properties">The properties.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException"><paramref name="properties"/> is <c>null</c>.</exception>
+        [NotNull]
+        public NHibernateSessionFactoryBuilder UseProperties([NotNull] IDictionary<string, string> properties)
         {
-            Check.Require(properties != null);
-            this.properties = properties;
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
 
+            this.properties = properties;
             return this;
         }
 
 
+        /// <summary>
+        /// Allows to use Data Annotations and <see cref="Validator"/> to validate entities before insert/update.
+        /// </summary>
+        /// <remarks>
+        /// See https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations%28v=vs.110%29.aspx for details about Data Annotations.
+        /// </remarks>
+        /// <seealso cref="DataAnnotationsEventListener"/>.
+        [NotNull]
         public NHibernateSessionFactoryBuilder UseDataAnnotationValidators(bool addDataAnnotatonValidators)
         {
             this.useDataAnnotationValidators = addDataAnnotatonValidators;
             return this;
         }
 
+
+        /// <summary>
+        /// Allows to specify nhibernate configuration file.
+        /// </summary>
+        /// <remarks>
+        /// See http://nhibernate.info/doc/nhibernate-reference/session-configuration.html#configuration-xmlconfig for more details
+        /// </remarks>
+        /// <exception cref="System.ArgumentException">NHibernate config was not specified.</exception>
+        [NotNull]
         public NHibernateSessionFactoryBuilder UseConfigFile(string nhibernateConfigFile)
         {
-            Check.Require(!string.IsNullOrEmpty(nhibernateConfigFile), "NHibernate config file must be specified");
+            if (string.IsNullOrWhiteSpace(nhibernateConfigFile))
+                throw new ArgumentException("NHibernate config was not specified.", nameof(nhibernateConfigFile));
+            
             configFile = nhibernateConfigFile;
 
             return this;
         }
 
-        public NHibernateSessionFactoryBuilder UsePersistenceConfigurer(IPersistenceConfigurer persistenceConfigurer)
+        /// <summary>
+        /// Allows to specify custom configuration using <see cref="IPersistenceConfigurer"/>.
+        /// </summary>
+        /// <param name="persistenceConfigurer">The persistence configurer.</param>
+        /// <example>
+        /// <code>
+        /// var persistenceConfigurer =
+        ///   SQLiteConfiguration.Standard.ConnectionString(c => c.Is("Data Source=:memory:;Version=3;New=True;"));
+        /// var configuration = new NHibernateSessionFactoryBuilder()
+        ///   .UsePersistenceConfigurer(persistenceConfigurer);
+        /// </code>
+        /// </example>
+        /// <exception cref="System.ArgumentNullException"><paramref name="persistenceConfigurer"/> is <c>null</c>.</exception>
+        [NotNull]
+        public NHibernateSessionFactoryBuilder UsePersistenceConfigurer(
+            [NotNull] IPersistenceConfigurer persistenceConfigurer)
         {
-            Check.Require(persistenceConfigurer != null);
+            if (persistenceConfigurer == null) throw new ArgumentNullException(nameof(persistenceConfigurer));
+            
             this.persistenceConfigurer = persistenceConfigurer;
             return this;
         }
@@ -186,7 +261,7 @@
             return fluentConfig.BuildConfiguration();
         }
 
-        void AddValidatorsAndExposeConfiguration(Configuration e)
+        private void AddValidatorsAndExposeConfiguration(Configuration e)
         {
             if (useDataAnnotationValidators)
             {
@@ -200,7 +275,7 @@
         }
 
         /// <summary>
-        ///     Loads configuration from properties dictionary and from external file if avaiable.
+        ///     Loads configuration from properties dictionary and from external file if available.
         /// </summary>
         /// <returns></returns>
         private Configuration LoadExternalConfiguration()

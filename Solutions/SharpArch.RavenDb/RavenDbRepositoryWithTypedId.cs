@@ -3,6 +3,7 @@ namespace SharpArch.RavenDb
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
     using Raven.Abstractions.Commands;
     using Raven.Client;
     using SharpArch.Domain.PersistenceSupport;
@@ -17,6 +18,7 @@ namespace SharpArch.RavenDb
     /// <typeparam name="TIdT">Primary Key type.</typeparam>
     /// <seealso cref="SharpArch.RavenDb.Contracts.Repositories.IRavenDbRepositoryWithTypedId{T, TIdT}" />
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.ILinqRepositoryWithTypedId{T, TIdT}" />
+    [PublicAPI]
     public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT>,
         ILinqRepositoryWithTypedId<T, TIdT>
     {

@@ -1,17 +1,19 @@
 ﻿namespace SharpArch.Web.Http.Castle
 {
+    using System;
     using System.Linq;
     using System.Web.Http;
     using System.Web.Http.Controllers;
     using System.Web.Http.Dependencies;
     using System.Web.Http.Filters;
-    using Domain;
     using Domain.Reflection;
     using global::Castle.Windsor;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Castle Windsor configuration for WebAPI.
     /// </summary>
+    [PublicAPI]
     public static class WindsorHttpConfigurationExtensions
     {
         /// <summary>
@@ -21,12 +23,11 @@
         /// <param name="container">Windsor container, <see cref="IWindsorContainer" /> </param>
         /// <param name="propertyDescriptorCache">Injectable property cache</param>
         /// <returns>Windsor container</returns>
-        public static void InstallHttpFilterProvider(this ServicesContainer services,
-            IWindsorContainer container, ITypePropertyDescriptorCache propertyDescriptorCache)
+        public static void InstallHttpFilterProvider([NotNull] this ServicesContainer services,
+            [NotNull] IWindsorContainer container, ITypePropertyDescriptorCache propertyDescriptorCache)
         {
-            Check.Require(services != null);
-            Check.Require(container != null);
-            Check.Require(propertyDescriptorCache != null);
+            if (services == null) throw new ArgumentNullException(nameof(services));
+            if (container == null) throw new ArgumentNullException(nameof(container));
 
             var providers = services.GetFilterProviders().Where(i => i is ActionDescriptorFilterProvider).ToArray();
             foreach (var filterProvider in providers)

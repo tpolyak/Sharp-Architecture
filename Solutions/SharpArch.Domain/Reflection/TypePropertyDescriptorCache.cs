@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Concurrent;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Property descriptors cache.
     /// </summary>
     /// <remarks>Implementation is thread-safe.</remarks>
+    [PublicAPI]
     public class TypePropertyDescriptorCache : ITypePropertyDescriptorCache
     {
         private readonly ConcurrentDictionary<Type, TypePropertyDescriptor> cache =
@@ -19,6 +21,7 @@
         /// <returns>
         ///     <see cref="TypePropertyDescriptor" /> or <c>null</c> if does not exists.
         /// </returns>
+        [MustUseReturnValue]
         public TypePropertyDescriptor Find(Type type)
         {
             TypePropertyDescriptor result;
@@ -32,9 +35,12 @@
         /// <param name="type">The type.</param>
         /// <param name="factory">The factory to create descriptor.</param>
         /// <returns></returns>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> or <paramref name="factory"/> is <see langword="null" />.</exception>
         public TypePropertyDescriptor GetOrAdd(Type type, Func<Type, TypePropertyDescriptor> factory)
         {
-            Check.Require(factory != null, "Value factory can not be null.");
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            if (factory == null) throw new ArgumentNullException(nameof(factory));
+
             return this.cache.GetOrAdd(type, factory);
         }
 

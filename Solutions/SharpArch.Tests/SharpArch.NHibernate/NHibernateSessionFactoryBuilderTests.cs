@@ -1,23 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using FluentAssertions;
-using FluentNHibernate.Cfg.Db;
-using NHibernate.Cfg;
-using NUnit.Framework;
-using SharpArch.Domain;
-using SharpArch.NHibernate;
+﻿// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable InternalMembersMustHaveComments
+// ReSharper disable HeapView.DelegateAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable HeapView.ClosureAllocation
 
+// ReSharper disable HeapView.ObjectAllocation
 namespace Tests.SharpArch.NHibernate
 {
-    [TestFixture]
-    public class NHibernateSessionFactoryBuilderTests
-    {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using FluentAssertions;
+    using FluentNHibernate.Cfg.Db;
+    using global::NHibernate.Cfg;
+    using global::SharpArch.Domain;
+    using global::SharpArch.NHibernate;
+    using NUnit.Framework;
 
-        private string GetConfigFullName()
+    [TestFixture]
+    internal class NHibernateSessionFactoryBuilderTests
+    {
+        private static string GetConfigFullName()
         {
-            const string DefaultConfigFile = "sqlite-nhibernate-config.xml";
-            return Path.Combine(TestContext.CurrentContext.TestDirectory, DefaultConfigFile);
+            const string defaultConfigFile = "sqlite-nhibernate-config.xml";
+            return Path.Combine(TestContext.CurrentContext.TestDirectory, defaultConfigFile);
         }
 
         [Test]
@@ -34,31 +40,11 @@ namespace Tests.SharpArch.NHibernate
             exposeCalled.Should().BeTrue();
         }
 
-        [Test]
-        public void ShouldPersistExposedConfigurationChanges()
-        {
-            var cache = new InMemoryCache();
-
-            new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(GetConfigFullName())
-                .ExposeConfiguration(c=>c.SetProperty("connection.connection_string", "updated-connection"))
-                .UseConfigurationCache(cache)
-                .BuildConfiguration();
-
-            var config = new NHibernateSessionFactoryBuilder()
-                .UseConfigFile(GetConfigFullName())
-                .UseConfigurationCache(cache)
-                .BuildConfiguration();
-
-            config.Properties["connection.connection_string"].Should().Be("updated-connection");
-        }
-
-
 
         [Test]
         public void CanInitializeWithConfigFile()
         {
-            var configuration = new NHibernateSessionFactoryBuilder()
+            Configuration configuration = new NHibernateSessionFactoryBuilder()
                 .UseConfigFile(GetConfigFullName())
                 .BuildConfiguration();
 
@@ -70,7 +56,7 @@ namespace Tests.SharpArch.NHibernate
         [Test]
         public void CanInitializeWithConfigFileAndConfigurationFileCache()
         {
-            var configuration = new NHibernateSessionFactoryBuilder()
+            Configuration configuration = new NHibernateSessionFactoryBuilder()
                 .UseConfigurationCache(new NHibernateConfigurationFileCache(new[] {"SharpArch.NHibernate"}))
                 .UseConfigFile(GetConfigFullName())
                 .BuildConfiguration();
@@ -83,10 +69,10 @@ namespace Tests.SharpArch.NHibernate
         [Test]
         public void CanInitializeWithPersistenceConfigurerAndConfigFile()
         {
-            var persistenceConfigurer =
+            SQLiteConfiguration persistenceConfigurer =
                 SQLiteConfiguration.Standard.ConnectionString(c => c.Is("Data Source=:memory:;Version=3;New=True;"));
 
-            var configuration = new NHibernateSessionFactoryBuilder()
+            Configuration configuration = new NHibernateSessionFactoryBuilder()
                 .UsePersistenceConfigurer(persistenceConfigurer)
                 .UseConfigFile(GetConfigFullName())
                 .BuildConfiguration();
@@ -98,10 +84,10 @@ namespace Tests.SharpArch.NHibernate
         [Test]
         public void CanInitializeWithPersistenceConfigurerAndNoConfigFile()
         {
-            var persistenceConfigurer =
+            SQLiteConfiguration persistenceConfigurer =
                 SQLiteConfiguration.Standard.ConnectionString(c => c.Is("Data Source=:memory:;Version=3;New=True;"));
 
-            var configuration = new NHibernateSessionFactoryBuilder()
+            Configuration configuration = new NHibernateSessionFactoryBuilder()
                 .UsePersistenceConfigurer(persistenceConfigurer)
                 .BuildConfiguration();
 
@@ -124,9 +110,28 @@ namespace Tests.SharpArch.NHibernate
         }
 
         [Test]
+        public void ShouldPersistExposedConfigurationChanges()
+        {
+            var cache = new InMemoryCache();
+
+            new NHibernateSessionFactoryBuilder()
+                .UseConfigFile(GetConfigFullName())
+                .ExposeConfiguration(c => c.SetProperty("connection.connection_string", "updated-connection"))
+                .UseConfigurationCache(cache)
+                .BuildConfiguration();
+
+            Configuration config = new NHibernateSessionFactoryBuilder()
+                .UseConfigFile(GetConfigFullName())
+                .UseConfigurationCache(cache)
+                .BuildConfiguration();
+
+            config.Properties["connection.connection_string"].Should().Be("updated-connection");
+        }
+
+        [Test]
         public void WhenUsingDataAnnotationValidators_ShouldKeepRegisteredPreInsertEventListeners()
         {
-            var configuration = new NHibernateSessionFactoryBuilder()
+            Configuration configuration = new NHibernateSessionFactoryBuilder()
                 .UseConfigFile(GetConfigFullName())
                 .UseDataAnnotationValidators(true)
                 .BuildConfiguration();
@@ -137,7 +142,7 @@ namespace Tests.SharpArch.NHibernate
         [Test]
         public void WhenUsingDataAnnotationValidators_ShouldKeepRegisteredPreUpdateEventListeners()
         {
-            var configuration = new NHibernateSessionFactoryBuilder()
+            Configuration configuration = new NHibernateSessionFactoryBuilder()
                 .UseConfigFile(GetConfigFullName())
                 .UseDataAnnotationValidators(true)
                 .BuildConfiguration();
@@ -156,7 +161,8 @@ namespace Tests.SharpArch.NHibernate
             memoryStream = new MemoryStream();
         }
 
-        public Configuration LoadConfiguration(string configKey, string configPath, IEnumerable<string> mappingAssemblies)
+        public Configuration LoadConfiguration(string configKey, string configPath,
+            IEnumerable<string> mappingAssemblies)
         {
             if (memoryStream.Length == 0)
                 return null;

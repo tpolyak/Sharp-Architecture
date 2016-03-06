@@ -12,13 +12,19 @@ build:
   project: Build\build.proj
   parallel: true
   verbosity: normal
+before_build:
+- cmd: nuget restore Solutions/SharpArch.sln
 build_script:
-  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,Package,PackageNuget'
+  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,Package,FindDuplicates,InspectCode,PackageNuget'
 artifacts:
 - path: Drops/**/*.nupkg
   name: Nugets
 - path: Drops/**/*.zip
   name: Binaries 
+- path: Drops/Duplicates/CodeDuplicatesReport.html
+  name: CodeDuplicates
+- path: Drops/Inspections/CodeInspectionsReport.html
+  name: CodeInspections
 test_script:
 - cmd: >-
     cd Solutions\SharpArch.Tests\bin\Release

@@ -1,9 +1,10 @@
-﻿namespace SharpArch.Features.Specifications
+﻿// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable HeapView.ObjectAllocation
+namespace SharpArch.Specifications
 {
     #region Using Directives
 
     using Microsoft.Practices.ServiceLocation;
-
     using Rhino.Mocks;
 
     #endregion

@@ -1,9 +1,10 @@
 namespace SharpArch.Web.Mvc
 {
+    using System;
     using System.Data;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
-    using SharpArch.Domain;
+    using JetBrains.Annotations;
     using SharpArch.Domain.PersistenceSupport;
 
     /// <summary>
@@ -20,6 +21,8 @@ namespace SharpArch.Web.Mvc
     ///     Transaction will be rolled back if there was unhandled exeption in action or model vaildation was failed and
     ///     <see cref="RollbackOnModelValidationError" /> is <c>true</c>.
     /// </remarks>
+    [PublicAPI]
+    [BaseTypeRequired(typeof(IController))]
     public sealed class TransactionAttribute : ActionFilterAttribute
     {
         /// <summary>
@@ -72,9 +75,9 @@ namespace SharpArch.Web.Mvc
         /// <param name="filterContext"></param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            Check.Require(this.TransactionManager != null,
-                "TransactionManager was null, make sure implementation of TransactionManager is registered in the IoC container.");
-
+            if (TransactionManager == null)
+                throw new InvalidOperationException(
+                    "TransactionManager was null, make sure implementation of TransactionManager is registered in the IoC container.");
             if (filterContext.IsChildAction)
             {
                 return;

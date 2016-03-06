@@ -1,6 +1,7 @@
 ﻿namespace SharpArch.Domain.DomainModel
 {
     using System;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Provides a base class for your objects which will be persisted to the database.
@@ -13,6 +14,7 @@
     ///     than int, such as string, then use <see cref="EntityWithTypedId{IdT}" /> instead.
     /// </remarks>
     [Serializable]
+    [PublicAPI]
     public abstract class Entity : EntityWithTypedId<int>
     {
     }

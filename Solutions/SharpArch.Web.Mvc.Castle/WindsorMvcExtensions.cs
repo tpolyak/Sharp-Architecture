@@ -8,7 +8,12 @@
     using global::Castle.Core;
     using global::Castle.MicroKernel.Registration;
     using global::Castle.Windsor;
+    using JetBrains.Annotations;
 
+    /// <summary>
+    /// ASP.NET MVC extensions for Castle Windsor.
+    /// </summary>
+    [PublicAPI]
     public static class WindsorMvcExtensions
     {
         /// <summary>
@@ -16,14 +21,13 @@
         ///     <see cref="ServiceDescriptor" /> which is not generic and which
         ///     is found in the specified namespace.
         /// </summary>
-        public static BasedOnDescriptor FirstNonGenericCoreInterface(
-            this ServiceDescriptor descriptor, string interfaceNamespace)
+        [CanBeNull]
+        public static BasedOnDescriptor FirstNonGenericCoreInterface([NotNull] this ServiceDescriptor descriptor, string interfaceNamespace)
         {
-            return descriptor.Select(
-                delegate(Type type, Type[] baseType)
+            if (descriptor == null) throw new ArgumentNullException(nameof(descriptor));
+            return descriptor.Select((type, baseType) =>
                 {
-                    var intf =
-                        type.GetInterfaces()
+                    var intf = type.GetInterfaces()
                             .FirstOrDefault(t => t.IsGenericType == false && t.Namespace.StartsWith(interfaceNamespace));
                     return intf != null ? new[] {intf} : null;
                 });
@@ -35,6 +39,7 @@
         /// <typeparam name="T">Controller</typeparam>
         /// <param name="container">Windsor container.</param>
         /// <returns>Windsor container</returns>
+        [NotNull]
         public static IWindsorContainer RegisterMvcController<T>(this IWindsorContainer container) where T : IController
         {
             container.RegisterMvcControllers(typeof (T));
@@ -47,9 +52,11 @@
         /// <param name="container">Windsor container</param>
         /// <param name="controllerTypes">Controller types</param>
         /// <returns>Windsor container</returns>
-        public static IWindsorContainer RegisterMvcControllers(this IWindsorContainer container,
+        [NotNull]
+        public static IWindsorContainer RegisterMvcControllers([NotNull] this IWindsorContainer container,
             params Type[] controllerTypes)
         {
+            if (container == null) throw new ArgumentNullException(nameof(container));
             foreach (var type in controllerTypes)
             {
                 if (ControllerExtensions.IsController(type))
@@ -72,9 +79,13 @@
         /// <param name="propertyDescriptorCache"></param>
         /// <param name="filterProviders">The filter providers.</param>
         /// <returns>Windsor container</returns>
-        public static IWindsorContainer InstallMvcFilterProvider(this FilterProviderCollection filterProviders,
-            IWindsorContainer container, TypePropertyDescriptorCache propertyDescriptorCache)
+        [NotNull]
+        public static IWindsorContainer InstallMvcFilterProvider(
+            [NotNull] this FilterProviderCollection filterProviders, [NotNull] IWindsorContainer container,
+            [CanBeNull] TypePropertyDescriptorCache propertyDescriptorCache)
         {
+            if (filterProviders == null) throw new ArgumentNullException(nameof(filterProviders));
+            if (container == null) throw new ArgumentNullException(nameof(container));
             var attributeFilterProviders = filterProviders.OfType<FilterAttributeFilterProvider>().ToArray();
             foreach (var attributeFilterProvider in attributeFilterProviders)
             {
@@ -90,6 +101,7 @@
         /// <param name="container">Windsor container</param>
         /// <param name="assemblies">Assemblies to scan</param>
         /// <returns>Windsor container</returns>
+        [NotNull]
         public static IWindsorContainer RegisterMvcControllers(this IWindsorContainer container,
             params Assembly[] assemblies)
         {

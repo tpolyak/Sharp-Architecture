@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using JetBrains.Annotations;
     using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
@@ -12,12 +13,15 @@
     /// <typeparam name="TDependency">The dependency type.</typeparam>
     [Obsolete("Remove in favour of constructor or property injection.")]
     [ExcludeFromCodeCoverage]
+    [PublicAPI]
     public static class SafeServiceLocator<TDependency>
     {
         /// <summary>
         ///     Returns the service.
         /// </summary>
         /// <returns>A service.</returns>
+        /// <exception cref="NullReferenceException">ServiceLocator was not initialized.</exception>
+        /// <exception cref="ActivationException">Requested service is not registered or cannot be instantiated.</exception>
         public static TDependency GetService()
         {
             TDependency service;
@@ -29,7 +33,7 @@
             catch (NullReferenceException ex)
             {
                 throw new NullReferenceException(
-                    "ServiceLocator has not been initialized; " + "I was trying to retrieve " + typeof(TDependency),
+                    "ServiceLocator has not been initialized; I was trying to retrieve " + typeof(TDependency),
                     ex);
             }
             catch (ActivationException ex)

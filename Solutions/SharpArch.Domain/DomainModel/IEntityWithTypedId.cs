@@ -1,13 +1,14 @@
 ﻿namespace SharpArch.Domain.DomainModel
 {
-    using System.Collections.Generic;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     This serves as a base interface for <see cref="EntityWithTypedId{TId}" /> and 
     ///     <see cref="Entity" />. It also provides a simple means to develop your own base entity.
     /// </summary>
-    public interface IEntityWithTypedId<TId>
+    [PublicAPI]
+    public interface IEntityWithTypedId<out TId>
     {
         /// <summary>
         ///     Gets the ID which uniquely identifies the entity instance within its type's bounds.

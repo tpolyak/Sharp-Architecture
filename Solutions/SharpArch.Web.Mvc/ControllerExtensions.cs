@@ -6,7 +6,12 @@ namespace SharpArch.Web.Mvc
 {
     using System;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
+    /// <summary>
+    /// ASP.NET MVC controller extensions.
+    /// </summary>
+    [PublicAPI]
     public class ControllerExtensions
     {
         /// <summary>
@@ -14,7 +19,7 @@ namespace SharpArch.Web.Mvc
         /// </summary>
         /// <param name="type">Type to check</param>
         /// <returns>True if type is a controller, otherwise false</returns>
-        public static bool IsController(Type type)
+        public static bool IsController([CanBeNull] Type type)
         {
             return type != null
                    && type.Name.EndsWith("Controller", StringComparison.OrdinalIgnoreCase)

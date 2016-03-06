@@ -1,6 +1,7 @@
 namespace SharpArch.Domain.Specifications
 {
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Defines a contract for the behaviour of a LINQ Specification design pattern.
@@ -14,6 +15,7 @@ namespace SharpArch.Domain.Specifications
         /// </summary>
         /// <param name="candidates">The candidates.</param>
         /// <returns>A list of satisfying elements.</returns>
-        IQueryable<T> SatisfyingElementsFrom(IQueryable<T> candidates);
+        [NotNull]
+        IQueryable<T> SatisfyingElementsFrom([NotNull] IQueryable<T> candidates);
     }
 }

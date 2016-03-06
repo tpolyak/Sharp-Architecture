@@ -1,6 +1,8 @@
 ﻿namespace SharpArch.Domain.DomainModel
 {
+    using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Provides a comparer for supporting LINQ methods such as Intersect, Union and Distinct.
@@ -16,6 +18,7 @@
     ///         use IEqualityComparer's GetHashCode() method.
     ///     </para>
     /// </remarks>
+    [PublicAPI]
     public class BaseObjectEqualityComparer<T> : IEqualityComparer<T>
         where T : BaseObject
     {
@@ -25,7 +28,7 @@
         /// <param name="firstObject">The first object.</param>
         /// <param name="secondObject">The second object.</param>
         /// <returns><c>true</c> if the objects are equal, <c>false</c> otherwise.</returns>
-        public bool Equals(T firstObject, T secondObject)
+        public bool Equals([CanBeNull] T firstObject, [CanBeNull] T secondObject)
         {
             // While SQL would return false for the following condition, returning true when 
             // comparing two null values is consistent with the C# language
@@ -42,13 +45,15 @@
             return firstObject.Equals(secondObject);
         }
 
-        /// <summary>
-        ///     Returns a hash code for the specified object.
-        /// </summary>
+        /// <summary>Returns a hash code for the specified object.</summary>
         /// <param name="obj">The object.</param>
-        /// <returns>A hash code for the object, suitable for use in hashing algorithms and data structures like a hash table.</returns>
-        public int GetHashCode(T obj)
+        /// <exception cref="System.ArgumentNullException"><paramref name="obj"/> is null.</exception>
+        /// <returns>
+        /// A hash code for the object, suitable for use in hashing algorithms and data structures like a hash table.
+        /// </returns>
+        public int GetHashCode([NotNull] T obj)
         {
+            if (obj == null) throw new ArgumentNullException(nameof(obj));
             return obj.GetHashCode();
         }
     }

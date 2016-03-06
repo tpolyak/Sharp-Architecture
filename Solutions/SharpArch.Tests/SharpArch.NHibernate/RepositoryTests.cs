@@ -1,3 +1,7 @@
+// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable HeapView.ObjectAllocation
+// ReSharper disable HeapView.ObjectAllocation.Evident
+
 namespace Tests.SharpArch.NHibernate
 {
     using FluentAssertions;

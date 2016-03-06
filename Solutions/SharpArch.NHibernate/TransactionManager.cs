@@ -3,19 +3,22 @@
     using System;
     using System.Data;
     using global::NHibernate;
+    using JetBrains.Annotations;
     using SharpArch.Domain.PersistenceSupport;
 
     /// <summary>
     ///     Transaction manager for NHibernate.
     /// </summary>
+    [PublicAPI]
     public class TransactionManager : ITransactionManager
     {
         /// <summary>
         ///     Creates instance of transaction manager.
         /// </summary>
         /// <param name="session"></param>
-        public TransactionManager(ISession session)
+        public TransactionManager([NotNull] ISession session)
         {
+            if (session == null) throw new ArgumentNullException(nameof(session));
             Session = session;
         }
 
@@ -23,6 +26,7 @@
         /// <summary>
         ///     NHibernate session.
         /// </summary>
+        [NotNull]
         public ISession Session { get; }
 
         /// <summary>

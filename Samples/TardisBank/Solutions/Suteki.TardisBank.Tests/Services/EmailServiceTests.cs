@@ -3,6 +3,7 @@
  // see this blog post for sending emails by gmail/google apps
 // http://mikehadlow.blogspot.com/2010/08/how-to-send-email-via-gmail-using-net.html
 
+// ReSharper disable PublicMembersMustHaveComments
 namespace Suteki.TardisBank.Tests.Services
 {
     using global::Suteki.TardisBank.Tasks;

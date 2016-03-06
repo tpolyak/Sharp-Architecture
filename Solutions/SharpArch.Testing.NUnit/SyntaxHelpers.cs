@@ -1,4 +1,6 @@
-﻿namespace SharpArch.Testing.NUnit
+﻿// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable UnusedMember.Global
+namespace SharpArch.Testing.NUnit
 {
     using System;
     using System.Collections;
@@ -8,7 +10,7 @@
     public delegate void MethodThatThrows();
 
     /// <summary>
-    ///     Traken from http://code.google.com/p/codecampserver/source/browse/trunk/src/UnitTests/SpecExtensions.cs, 
+    ///     Taken from http://code.google.com/p/codecampserver/source/browse/trunk/src/UnitTests/SpecExtensions.cs, 
     ///     these extensions provide a number of fluent methods to test objects.  These are optional methods which 
     ///     may be used in addition to, or in lieu of, NUnit.Framework.SyntaxHelpers.
     /// </summary>

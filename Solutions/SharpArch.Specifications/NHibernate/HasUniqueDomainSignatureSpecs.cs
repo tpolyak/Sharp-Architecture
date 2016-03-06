@@ -19,7 +19,6 @@ namespace SharpArch.Specifications.NHibernate
     using global::NHibernate;
     using global::SharpArch.Domain;
     using global::SharpArch.Domain.PersistenceSupport;
-    using global::SharpArch.Features.Specifications;
     using global::SharpArch.NHibernate;
     using global::SharpArch.NHibernate.NHibernateValidator;
 
@@ -148,13 +147,12 @@ namespace SharpArch.Specifications.NHibernate
 
             Establish context = () =>
             {
-                Check.UseAssertions = false;
                 entity = new ObjectWithStringIdAndValidatorForIntId { Name = "whatever" };
             };
 
             Because of = () => result = Catch.Exception(() => entity.IsValid(ValidationContextFor(entity)));
 
-            It should_throw_a_precondition_exception = () => result.ShouldBeOfExactType(typeof(PreconditionException));
+            It should_throw_an_invalid_operation_exception = () => result.ShouldBeOfExactType(typeof(InvalidOperationException));
         }
 
         [Subject(typeof(HasUniqueDomainSignatureAttribute))]

@@ -1,10 +1,13 @@
-﻿using System;
-using NHibernate.Event;
+﻿// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable InternalMembersMustHaveComments
 
 namespace Tests.SharpArch.NHibernate
 {
+    using System;
+    using global::NHibernate.Event;
+
     [Serializable]
-    public class PreInsertListener : IPreInsertEventListener
+    internal class PreInsertListener : IPreInsertEventListener
     {
         public bool OnPreInsert(PreInsertEvent @event)
         {

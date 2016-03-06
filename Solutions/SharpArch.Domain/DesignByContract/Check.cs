@@ -1,7 +1,10 @@
+// ReSharper disable CheckNamespace
 namespace SharpArch.Domain
 {
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///    Design by Contract checks developed by http://www.codeproject.com/KB/cs/designbycontract.aspx.
@@ -54,6 +57,8 @@ namespace SharpArch.Domain
     ///         object and, for a Release build, only exception-handling is possible.
     ///     </para>
     /// </remarks>
+    [Obsolete("Will be removed in the next version. Consider using ReSharper or CodeContracts.")]
+    [ExcludeFromCodeCoverage]
     public static class Check
     {
         private static bool useAssertions;
@@ -158,6 +163,8 @@ namespace SharpArch.Domain
         /// </summary>
         /// <param name="assertion">The assertion expression result.</param>
         /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
+        /// <exception cref="PostconditionException">If assertion is false.</exception>
+        [ContractAnnotation("assertion:false => stop")]
         public static void Ensure(bool assertion, string message)
         {
             if (UseExceptions)
@@ -284,9 +291,11 @@ namespace SharpArch.Domain
         /// </summary>
         /// <param name="assertion">The assertion expression result.</param>
         /// <param name="message">The message to use when throwing an exception in case the assertion fails.</param>
+        /// <exception cref="PreconditionException">Assertion is false.</exception>
         /// <remarks>
         ///     This should run regardless of preprocessor directives.
         /// </remarks>
+        [ContractAnnotation("assertion:false => stop")]
         public static void Require(bool assertion, string message)
         {
             if (UseExceptions)
@@ -328,13 +337,15 @@ namespace SharpArch.Domain
         }
 
         /// <summary>
-        ///     Checks whether the specified precondition assertion expression result is
-        ///     <c>true</c> and throws an exception otherwise.
+        /// Checks whether the specified precondition assertion expression result is
+        /// <c>true</c> and throws an exception otherwise.
         /// </summary>
         /// <param name="assertion">The assertion expression result.</param>
+        /// <exception cref="PreconditionException">Precondition failed.</exception>
         /// <remarks>
-        ///     This should run regardless of preprocessor directives.
+        /// This should run regardless of preprocessor directives.
         /// </remarks>
+        [ContractAnnotation("false => stop")]
         public static void Require(bool assertion)
         {
             if (UseExceptions)

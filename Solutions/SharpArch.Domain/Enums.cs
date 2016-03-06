@@ -1,9 +1,12 @@
 ﻿namespace SharpArch.Domain
 {
+    using JetBrains.Annotations;
+
     /// <summary>
     ///     Contains global enumerations.
     /// </summary>
-    public class Enums
+    [PublicAPI]
+    public static class Enums
     {
         /// <summary>
         ///     Provides an NHibernate.LockMode facade so as to avoid a direct dependency on the NHibernate DLL.

@@ -11,6 +11,7 @@ namespace SharpArch.Castle.Extensions
     using global::Castle.Core;
     using global::Castle.MicroKernel;
     using global::Castle.MicroKernel.ComponentActivator;
+    using JetBrains.Annotations;
     using SharpArch.Domain.Reflection;
 
     /// <summary>
@@ -31,7 +32,8 @@ namespace SharpArch.Castle.Extensions
         /// </param>
         /// <exception cref="ComponentActivatorException"></exception>
         /// <exception cref="ArgumentNullException"><paramref name="target" /> is <see langword="null" />.</exception>
-        public static void InjectProperties(this IKernel kernel, object target, ITypePropertyDescriptorCache cache,
+        public static void InjectProperties([NotNull] this IKernel kernel, [NotNull] object target,
+            [CanBeNull] ITypePropertyDescriptorCache cache,
             Action<PropertyInfo, ComponentModel> validatePropertyRegistration = null)
         {
             if (kernel == null)
@@ -45,6 +47,7 @@ namespace SharpArch.Castle.Extensions
             if (!info.HasProperties())
                 return;
 
+            // ReSharper disable once ForCanBeConvertedToForeach
             for (var i = 0; i < info.Properties.Length; i++)
             {
                 PropertyInfo injectableProperty = info.Properties[i];
@@ -75,7 +78,7 @@ namespace SharpArch.Castle.Extensions
         /// <param name="kernel">Windsor kernel.</param>
         /// <param name="target">The target object to cleanup injectable properties.</param>
         /// <param name="cache">Injectable property descriptor cache.</param>
-        public static void CleanupInjectableProperties(this IKernel kernel, object target,
+        public static void CleanupInjectableProperties([NotNull] this IKernel kernel, [NotNull] object target,
             ITypePropertyDescriptorCache cache)
         {
             if (kernel == null)
@@ -90,6 +93,7 @@ namespace SharpArch.Castle.Extensions
             if (!info.HasProperties())
                 return;
 
+            // ReSharper disable once ForCanBeConvertedToForeach
             for (var i = 0; i < info.Properties.Length; i++)
             {
                 info.Properties[i].SetValue(target, null, null);
@@ -98,7 +102,7 @@ namespace SharpArch.Castle.Extensions
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static TypePropertyDescriptor GetInjectableProperties(IKernel kernel, ITypePropertyDescriptorCache cache,
+        private static TypePropertyDescriptor GetInjectableProperties(IKernel kernel, ITypePropertyDescriptorCache cache,
             Action<PropertyInfo, ComponentModel> validatePropertyRegistration, Type type)
         {
             // Cache miss expected only once per given type, so call Find() first to prevent extra closure allocation in GetOrAdd.
@@ -108,13 +112,13 @@ namespace SharpArch.Castle.Extensions
             return info;
         }
 
-        static TypePropertyDescriptor GetOrAdd(IKernel kernel, ITypePropertyDescriptorCache cache, Type type,
+        private static TypePropertyDescriptor GetOrAdd(IKernel kernel, ITypePropertyDescriptorCache cache, Type type,
             Action<PropertyInfo, ComponentModel> validatePropertyRegistration)
         {
             return cache.GetOrAdd(type, t => GetInjectableProperties(t, kernel, validatePropertyRegistration));
         }
 
-        static TypePropertyDescriptor GetInjectableProperties(Type type, IKernel kernel,
+        private static TypePropertyDescriptor GetInjectableProperties(Type type, IKernel kernel,
             Action<PropertyInfo, ComponentModel> validatePropertyRegistration)
         {
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);

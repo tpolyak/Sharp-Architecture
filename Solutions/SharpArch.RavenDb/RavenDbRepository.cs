@@ -1,5 +1,6 @@
 namespace SharpArch.RavenDb
 {
+    using JetBrains.Annotations;
     using Raven.Client;
     using SharpArch.Domain.PersistenceSupport;
     using SharpArch.RavenDb.Contracts.Repositories;
@@ -12,6 +13,7 @@ namespace SharpArch.RavenDb
     /// <seealso cref="int" />
     /// <seealso cref="SharpArch.RavenDb.Contracts.Repositories.IRavenDbRepository{T}" />
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.ILinqRepository{T}" />
+    [PublicAPI]
     public class RavenDbRepository<T> : RavenDbRepositoryWithTypedId<T, int>,
         IRavenDbRepository<T>,
         ILinqRepository<T>

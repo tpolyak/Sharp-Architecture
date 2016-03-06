@@ -3,10 +3,12 @@ namespace SharpArch.Domain.Specifications
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Provides extension methods that extend the <see cref="QuerySpecification{T}"/> class.
     /// </summary>
+    [PublicAPI]
     public static class QuerySpecificationExtensions
     {
         /// <summary>
@@ -22,7 +24,7 @@ namespace SharpArch.Domain.Specifications
             var adhocSpec1 = new AdHoc<T>(specification1.MatchingCriteria);
             var adhocSpec2 = new AdHoc<T>(specification2.MatchingCriteria);
 
-            InvocationExpression invokedExpr = Expression.Invoke(adhocSpec2.MatchingCriteria, adhocSpec1.MatchingCriteria.Parameters.Cast<Expression>());
+            InvocationExpression invokedExpr = Expression.Invoke(adhocSpec2.MatchingCriteria, adhocSpec1.MatchingCriteria.Parameters);
             Expression<Func<T, bool>> dynamicClause = Expression.Lambda<Func<T, bool>>(Expression.AndAlso(adhocSpec1.MatchingCriteria.Body, invokedExpr), adhocSpec1.MatchingCriteria.Parameters);
 
             return new AdHoc<T>(dynamicClause);

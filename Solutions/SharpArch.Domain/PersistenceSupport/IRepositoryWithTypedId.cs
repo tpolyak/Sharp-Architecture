@@ -1,6 +1,7 @@
 namespace SharpArch.Domain.PersistenceSupport
 {
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     Defines the public members of a class that implements the repository pattern for entities
@@ -8,6 +9,7 @@ namespace SharpArch.Domain.PersistenceSupport
     /// </summary>
     /// <typeparam name="T">The entity type.</typeparam>
     /// <typeparam name="TId">The type of the entity ID.</typeparam>
+    [PublicAPI]
     public interface IRepositoryWithTypedId<T, in TId>
     {
         /// <summary>
@@ -15,6 +17,7 @@ namespace SharpArch.Domain.PersistenceSupport
         ///     activities such as committing any pending changes, beginning a transaction,
         ///     rolling back a transaction, etc.
         /// </summary>
+        [NotNull]
         ITransactionManager TransactionManager { get; }
 
         /// <summary>
@@ -23,18 +26,24 @@ namespace SharpArch.Domain.PersistenceSupport
         /// <remarks>
         ///     An entity or <c>null</c> if a row is not found matching the provided ID.
         /// </remarks>
+        [CanBeNull]
         T Get(TId id);
 
         /// <summary>
         ///     Returns all of the items of a given type.
         /// </summary>
+        [NotNull]
         IList<T> GetAll();
 
         /// <summary>
         /// For entities that have assigned Id's, you must explicitly call Save to add a new one.
         /// See http://www.hibernate.org/hib_docs/nhibernate/html_single/#mapping-declaration-id-assigned.
         /// </summary>
-        T Save(T entity);
+        /// <returns>
+        /// Saved entity instance.
+        /// </returns>
+        [NotNull]
+        T Save([NotNull] T entity);
 
         /// <summary>
         ///     Saves or updates the specified entity.
@@ -50,7 +59,11 @@ namespace SharpArch.Domain.PersistenceSupport
         ///         http://www.hibernate.org/hib_docs/nhibernate/html_single/#manipulatingdata-updating-detached
         ///     </para>
         /// </remarks>
-        T SaveOrUpdate(T entity);
+        /// <returns>
+        /// Entity instance.
+        /// </returns>
+        [NotNull]
+        T SaveOrUpdate([NotNull] T entity);
 
 
         /// <summary>
@@ -61,13 +74,13 @@ namespace SharpArch.Domain.PersistenceSupport
         /// In NHibernate this removes the entity from current session cache.
         /// More details may be found at http://www.hibernate.org/hib_docs/nhibernate/html_single/#performance-sessioncache.
         /// </remarks>
-        void Evict(T entity);
+        void Evict([NotNull] T entity);
 
 
         /// <summary>
         ///     Deletes the specified entity.
         /// </summary>
-        void Delete(T entity);
+        void Delete([NotNull] T entity);
 
         /// <summary>
         ///     Deletes the entity that matches the provided ID.

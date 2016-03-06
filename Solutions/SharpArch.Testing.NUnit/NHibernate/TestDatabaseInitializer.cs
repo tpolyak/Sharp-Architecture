@@ -8,19 +8,18 @@
     using System.Reflection;
 
     using FluentNHibernate.Automapping;
-
-    using Domain;
     using SharpArch.NHibernate;
     using SharpArch.NHibernate.FluentNHibernate;
 
     using global::NHibernate;
     using global::NHibernate.Tool.hbm2ddl;
-
+    using JetBrains.Annotations;
     using Configuration = global::NHibernate.Cfg.Configuration;
 
     /// <summary>
     ///     Performs NHibernate and database initialization.
     /// </summary>
+    [PublicAPI]
     public class TestDatabaseInitializer: IDisposable
     {
         readonly string basePath;
@@ -41,15 +40,16 @@
         /// <summary>
         /// Generates auto-persistence model.
         /// </summary>
-        /// <param name="assemblies">List of assemblies to look for auto-persistense model generators.</param>
+        /// <param name="assemblies">List of assemblies to look for auto-persistence model generators.</param>
         /// <returns><see cref="AutoPersistenceModel"/></returns>
         /// <remarks>
         /// This method will load and scan assemblies for <see cref="IAutoPersistenceModelGenerator"/>.
         /// Only first generated model is returned.
         /// </remarks>
         [CLSCompliant(false)]
-        public static AutoPersistenceModel GenerateAutoPersistenceModel(string[] assemblies)
+        public static AutoPersistenceModel GenerateAutoPersistenceModel([NotNull] string[] assemblies)
         {
+            if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
             return (from asmName in assemblies
                     select TryLoadAssembly(asmName)
                     into asm 
@@ -74,15 +74,16 @@
         /// Returns list of assemblies containing NHibernate mappings.
         /// </summary>
         /// <param name="basePath">Base path to prepend assembly names.</param>
+        [NotNull]
         public static string[] GetMappingAssemblies(string basePath)
         {
             var mappingAssembliesSetting = ConfigurationManager.AppSettings["nhibernate.mapping.assembly"];
 
-            Check.Require(
-                !string.IsNullOrWhiteSpace(mappingAssembliesSetting),
-                "Please add an AppSetting to your app.config for 'nhibernate.mapping.assembly.' This setting " +
-                "takes a comma delimited list of assemblies containing NHibernate mapping files. Including '.dll' " +
-                "at the end of each is optional.");
+            if (string.IsNullOrWhiteSpace(mappingAssembliesSetting))
+                throw new InvalidOperationException(
+                    "Please add an AppSetting to your app.config for 'nhibernate.mapping.assembly.' This setting " +
+                        "takes a comma delimited list of assemblies containing NHibernate mapping files. Including '.dll' " +
+                        "at the end of each is optional.");
 
             var assemblies =
                 mappingAssembliesSetting.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
@@ -100,6 +101,7 @@
         /// Returns NHibernate <see cref="Configuration"/>.
         /// Configuration instance is cached, all subsequent calls will return the same instance.
         /// </summary>
+        [NotNull]
         public Configuration GetConfiguration()
         {
             if (this.configuration != null)
@@ -110,7 +112,7 @@
 
             var builder = new NHibernateSessionFactoryBuilder()
                 .AddMappingAssemblies(mappingAssemblies)
-                .UseAutoPersitenceModel(autoPersistenceModel);
+                .UseAutoPersistenceModel(autoPersistenceModel);
 
             var defaultConfigFilePath = Path.Combine(basePath, NHibernateSessionFactoryBuilder.DefaultNHibernateConfigFileName);
             if (File.Exists(defaultConfigFilePath))
@@ -129,6 +131,7 @@
         /// Returns NHibernate <see cref="ISessionFactory"/>.
         /// Session factory instance is cached, all subsequent calls to GetSessionFactory() will return the same instance. 
         /// </summary>
+        [NotNull]
         public ISessionFactory GetSessionFactory()
         {
             if (sessionFactory != null)
@@ -142,6 +145,7 @@
         /// Creates new NHibernate session and initializes database structure.
         /// </summary>
         /// <returns>NHibernate Session</returns>
+        [NotNull]
         public ISession InitializeSession()
         {
             var session = GetSessionFactory().OpenSession();
@@ -155,7 +159,7 @@
         /// Closes the specified session.
         /// </summary>
         /// <param name="session">The session.</param>
-        public static void Close(ISession session)
+        public static void Close([CanBeNull] ISession session)
         {
             session?.Dispose();
         }
@@ -167,7 +171,7 @@
         /// <remarks>
         /// Dispose <see cref="TestDatabaseInitializer"/> will destroy Session Factory associated with this instance.
         /// </remarks>
-        public static void Shutdown(ISessionFactory sessionFactory)
+        public static void Shutdown([CanBeNull] ISessionFactory sessionFactory)
         {
             sessionFactory?.Dispose();
         }
@@ -197,6 +201,10 @@
             return assemblyName;
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Method disposes SessionFactory.
+        /// </summary>
         public void Dispose()
         {
             Shutdown(sessionFactory);

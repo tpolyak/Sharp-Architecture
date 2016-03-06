@@ -8,7 +8,7 @@ namespace SharpArch.Web.Http.Castle
     using System.Web.Http.Dependencies;
     using global::Castle.MicroKernel.Lifestyle;
     using global::Castle.Windsor;
-    using SharpArch.Domain;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Dependency scope for Windsor container.
@@ -22,9 +22,10 @@ namespace SharpArch.Web.Http.Castle
         /// <summary>
         /// </summary>
         /// <param name="container">Windsor container.</param>
-        public WindsorDependencyScope(IWindsorContainer container)
+        public WindsorDependencyScope([NotNull] IWindsorContainer container)
         {
-            Check.Require(container != null);
+            if (container == null) throw new ArgumentNullException(nameof(container));
+
             this.container = container;
             this.scope = container.BeginScope();
         }

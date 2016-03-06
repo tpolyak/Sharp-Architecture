@@ -2,6 +2,7 @@ namespace SharpArch.RavenDb.Contracts.Repositories
 {
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using Raven.Client;
     using SharpArch.Domain.PersistenceSupport;
 
@@ -12,6 +13,7 @@ namespace SharpArch.RavenDb.Contracts.Repositories
     /// <typeparam name="TIdT">The type of the identifier t.</typeparam>
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.IRepositoryWithTypedId{T, TIdT}" />
     /// Todo: Consider replacing lambda with expression tree.
+    [PublicAPI]
     public interface IRavenDbRepositoryWithTypedId<T, in TIdT> : IRepositoryWithTypedId<T, TIdT>
     {
         /// <summary>
@@ -35,7 +37,7 @@ namespace SharpArch.RavenDb.Contracts.Repositories
         T FindOne(Func<T, bool> where);
 
         /// <summary>
-        ///     Finds the first document satisfying fiven criteria.
+        ///     Finds the first document satisfying given criteria.
         /// </summary>
         /// <param name="where">The Criteria.</param>
         /// <returns>The document.</returns>

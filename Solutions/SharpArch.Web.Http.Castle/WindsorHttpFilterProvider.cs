@@ -5,21 +5,21 @@ namespace SharpArch.Web.Http.Castle
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Web.Http;
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
-    using Domain;
     using Domain.Reflection;
     using global::Castle.Core;
     using global::Castle.Windsor;
+    using JetBrains.Annotations;
     using SharpArch.Castle.Extensions;
 
     /// <summary>
     ///     A Castle Windsor filter provider that supports property injection.
     /// </summary>
+    [PublicAPI]
     public class WindsorHttpFilterProvider : IFilterProvider
     {
         /// <summary>
@@ -34,11 +34,12 @@ namespace SharpArch.Web.Http.Castle
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="typePropertyDescriptorCache">Property descriptor cache.</param>
-        public WindsorHttpFilterProvider(IWindsorContainer container,
-            ITypePropertyDescriptorCache typePropertyDescriptorCache)
+        public WindsorHttpFilterProvider([NotNull] IWindsorContainer container,
+            [NotNull] ITypePropertyDescriptorCache typePropertyDescriptorCache)
         {
-            Check.Require(container != null);
-            Check.Require(typePropertyDescriptorCache != null);
+            if (container == null) throw new ArgumentNullException(nameof(container));
+            if (typePropertyDescriptorCache == null)
+                throw new ArgumentNullException(nameof(typePropertyDescriptorCache));
 
             this.container = container;
             this.typePropertyDescriptorCache = typePropertyDescriptorCache;
@@ -50,10 +51,12 @@ namespace SharpArch.Web.Http.Castle
         /// <param name="configuration">The HTTP configuration.</param>
         /// <param name="actionDescriptor">The action descriptor.</param>
         /// <returns>An enumeration of filters.</returns>
-        public IEnumerable<FilterInfo> GetFilters(HttpConfiguration configuration, HttpActionDescriptor actionDescriptor)
+        [NotNull]
+        public IEnumerable<FilterInfo> GetFilters([NotNull] HttpConfiguration configuration,
+            [NotNull] HttpActionDescriptor actionDescriptor)
         {
-            Check.Require(configuration != null);
-            Check.Require(actionDescriptor != null);
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+            if (actionDescriptor == null) throw new ArgumentNullException(nameof(actionDescriptor));
 
             var controllerFilters = actionDescriptor.ControllerDescriptor.GetFilters();
             var actionFilters = actionDescriptor.GetFilters();

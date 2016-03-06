@@ -3,6 +3,7 @@ namespace SharpArch.RavenDb
     using System;
     using System.Runtime.CompilerServices;
     using System.Transactions;
+    using JetBrains.Annotations;
     using Raven.Client;
     using SharpArch.Domain.PersistenceSupport;
     using IsolationLevel = System.Data.IsolationLevel;
@@ -14,6 +15,7 @@ namespace SharpArch.RavenDb
     ///     This implementation is based on <see cref="TransactionScope"/>.
     /// </remarks>
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.ITransactionManager" />
+    [PublicAPI]
     public class TransactionManager : ITransactionManager
     {
         private readonly IDocumentSession session;
@@ -24,12 +26,10 @@ namespace SharpArch.RavenDb
         ///     Initializes a new instance of the <see cref="TransactionManager" /> class.
         /// </summary>
         /// <param name="session">The document session.</param>
-        public TransactionManager(IDocumentSession session)
+        public TransactionManager([NotNull] IDocumentSession session)
         {
             if (session == null)
-            {
                 throw new ArgumentNullException(nameof(session));
-            }
 
             this.session = session;
         }

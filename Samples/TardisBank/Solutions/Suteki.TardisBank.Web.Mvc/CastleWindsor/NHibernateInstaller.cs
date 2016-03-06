@@ -15,8 +15,8 @@ namespace Suteki.TardisBank.Web.Mvc.CastleWindsor
         ISessionFactory CreateSessionFactory(IKernel kernel)
         {
             ISessionFactory sessionFactory = new NHibernateSessionFactoryBuilder()
-                .AddMappingAssemblies(new[] { HostingEnvironment.MapPath("~/bin/Suteki.TardisBank.Infrastructure.dll") })
-                .UseAutoPersitenceModel(new AutoPersistenceModelGenerator().Generate())
+                .AddMappingAssemblies(new[] { HostingEnvironment.MapPath(@"~/bin/Suteki.TardisBank.Infrastructure.dll") })
+                .UseAutoPersistenceModel(new AutoPersistenceModelGenerator().Generate())
                 .UseConfigFile(HostingEnvironment.MapPath("~/NHibernate.config"))
                 .UseConfigurationCache(new NHibernateConfigurationFileCache())
                 .BuildSessionFactory();
