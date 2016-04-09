@@ -3,10 +3,13 @@ clone_depth: 3
 clone_folder: c:\work\sharp-arch
 install:
 - cmd: git submodule update --init --recursive
-build:
-  project: Build\build.proj
-  parallel: true
-  verbosity: normal
+build_script:
+  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,Package,PackageNuget'
+artifacts:
+- path: Drops/**/*.nupkg
+  name: Nugets
+- path: Drops/**/*.zip
+  name: Binaries 
 test_script:
 - cmd: >-
     cd Solutions\SharpArch.Tests\bin\Release
@@ -16,3 +19,9 @@ test_script:
     cd ..\..\..\SharpArch.Specifications\bin\Release
 
     mspec-clr4.exe SharpArch.Specifications.dll
+deploy:
+- provider: NuGet
+  api_key:
+    secure: QzSLSnRAnpTRqWWhDzHNkHJP6RCd5pwWMv0myf88h0OCk0TTPJdhflsDql3kAlip
+  on:
+    branch: master
