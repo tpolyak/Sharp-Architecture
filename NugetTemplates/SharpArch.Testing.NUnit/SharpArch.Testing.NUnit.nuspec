@@ -6,19 +6,19 @@
     <authors>Sharp Architecture Dev Team</authors>
     <owners>Sharp Architecture Dev Team</owners>
     <licenseUrl>https://github.com/sharparchitecture/Sharp-Architecture/blob/master/License.txt</licenseUrl>
-	<iconUrl>https://github.com/sharparchitecture/Sharp-Architecture/raw/master/Artefacts/Documentation/Logo_100x100.png</iconUrl>
+    <iconUrl>https://github.com/sharparchitecture/Sharp-Architecture/raw/master/Artefacts/Documentation/Logo_100x100.png</iconUrl>
     <projectUrl>http://sharparchitecture.github.io/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provides base classes to help with testing applications written with Sharp Architecture and extension methods that improve the syntax of NUnit assertions.</description>
     <summary>Architectural foundation for building maintainable applications with Domain Driven Design patterns and practices</summary>
     <language>en-US</language>
-    <dependencies>      
+    <dependencies>
       <dependency id="SharpArch.Domain" version="[4.0.0,5.0.0)" />
       <dependency id="SharpArch.NHibernate" version="[4.0.0,5.0.0)" />
       <dependency id="NUnit" version="[3.2.0,4.0.0)" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.ServiceModel" targetFramework="net45" />
-    </frameworkAssemblies>  
+    </frameworkAssemblies>
   </metadata>
 </package>

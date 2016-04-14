@@ -6,7 +6,7 @@
     <authors>Sharp Architecture Dev Team</authors>
     <owners>Sharp Architecture Dev Team</owners>
     <licenseUrl>https://github.com/sharparchitecture/Sharp-Architecture/blob/master/License.txt</licenseUrl>
-	<iconUrl>https://github.com/sharparchitecture/Sharp-Architecture/raw/master/Artefacts/Documentation/Logo_100x100.png</iconUrl>
+    <iconUrl>https://github.com/sharparchitecture/Sharp-Architecture/raw/master/Artefacts/Documentation/Logo_100x100.png</iconUrl>
     <projectUrl>http://sharparchitecture.github.io/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provides MVC ModelBinder using Sharp Architecture's IRepository implementation registered with the IoC Container, a Castle Windsor MVC controller factory and Json.Net ActionResult</description>
@@ -22,8 +22,8 @@
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Web" targetFramework="net45" />
-	  <frameworkAssembly assemblyName="System.Web.Routing" targetFramework="net45" />
-	  <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net45" />
-	</frameworkAssemblies>  
+      <frameworkAssembly assemblyName="System.Web.Routing" targetFramework="net45" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net45" />
+    </frameworkAssemblies>
   </metadata>
 </package>
