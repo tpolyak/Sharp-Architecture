@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
     <VersionMajor>4</VersionMajor>
@@ -108,16 +108,6 @@
       <NuspecFile>SharpArch.WcfClient.Castle.nuspec</NuspecFile>
     </NugetPackage>
 
-    <NugetPackage Include="$(SolutionRoot)\License.txt;">
-      <PackageName>SharpArch.Wcf.NHibernate</PackageName>
-      <NuspecFile>SharpArch.Wcf.NHibernate.nuspec</NuspecFile>
-    </NugetPackage>
-
-    <NugetPackage Include="$(SolutionRoot)\License.txt;">
-      <PackageName>SharpArch.Wcf.RavenDB</PackageName>
-      <NuspecFile>SharpArch.Wcf.RavenDB.nuspec</NuspecFile>
-    </NugetPackage>
-
     <NugetPackage Include="$(SolutionsPath)\SharpArch.Web.Http\bin\Release\SharpArch.Web.Http.dll;
                            $(SolutionsPath)\SharpArch.Web.Http\bin\Release\SharpArch.Web.Http.xml;
                            $(SolutionsPath)\SharpArch.Web.Http\bin\Release\SharpArch.Web.Http.pdb;">
@@ -145,11 +135,6 @@
                            $(SolutionsPath)\SharpArch.Web.Mvc.Castle\bin\Release\SharpArch.Web.Mvc.Castle.pdb;">
       <PackageName>SharpArch.Web.Mvc.Castle</PackageName>
       <NuspecFile>SharpArch.Web.Mvc.Castle.nuspec</NuspecFile>
-    </NugetPackage>
-
-    <NugetPackage Include="$(SolutionRoot)\License.txt;">
-      <PackageName>SharpArch.Web.RavenDB</PackageName>
-      <NuspecFile>SharpArch.Web.RavenDB.nuspec</NuspecFile>
     </NugetPackage>
 
   </ItemGroup>
