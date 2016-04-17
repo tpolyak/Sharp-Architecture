@@ -1,6 +1,16 @@
 Multiple Databases
 ==================
 
+Version 4.0
+-----------
+
+Due to refactoring of NHibernate session management S#arch v4.0 does not support multiple databases. 
+This feature will be added in 4.1.
+
+
+Version 3
+---------
+
 To add support for an additional database to your project:
 
 Create an NHibernateForOtherDb.config file which contains the connection

@@ -19,12 +19,12 @@ Building S#arp Architecture
 --------------------------------------------
 
 Perform the following command in GitBash:
-
+```Shell
 $ git clone git@github.com:sharparchitecture/Sharp-Architecture.git
 $ git submodule init
 $ git submodule update
-
-Now you should have the latest development branch of SA 2.0 and submodules.
+```
+Now you should have the latest development branch of S#arp Architecture and submodules.
 
 Now go to /Build and run the Build.cmd or BuildAndPackage.cmd files to build S#arp Architecture
 
@@ -32,7 +32,7 @@ Now go to /Build and run the Build.cmd or BuildAndPackage.cmd files to build S#a
 Documentation and Assemblies
 --------------------------------------------
 
-* /Artefacts/Documentation/:  Contains a link to comprehensive, online documentation at http://wiki.sharparchitecture.net/, and a diagram of what a S#arp Architecture project looks like.
+* /Artefacts/Documentation/:  Contains a link to comprehensive, online documentation at http://sharp-architecture.readthedocs.org/, and a diagram of what a S#arp Architecture project looks like.
 
 * /Drops/<Version Number>/:  Holds released SharpArch assemblies - it does not include the third party library's that are needed by S#arp Architecture. You must run the BuildAndPackage.cmd file first.
 
