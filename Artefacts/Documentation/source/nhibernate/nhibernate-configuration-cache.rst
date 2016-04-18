@@ -7,8 +7,8 @@ NHibernate configuration data can reduce initial startup time by storing
 the configuration to a file and avoiding the validation checks that run
 when a configuration is created from scratch.
 
-SharpArch provides interface :csharp:`INHibernateConfigurationCache` 
-and :csharp:`NHibernateConfigurationFileCache` class which caches configuration
+SharpArch provides interface INHibernateConfigurationCache
+and NHibernateConfigurationFileCache class which caches configuration
 in a file under system TEMP folder.
 
 This new feature is based on an article by Oren Eini (aka Ayende Rahien) Building a Desktop
@@ -18,19 +18,20 @@ Drieenhuizen who provided a lot of this code.
 Cache Setup
 -----------
 
-To use the configuration cache provide cache implementation to UseConfigurationCache() method 
+To use the configuration cache provide cache implementation to UseConfigurationCache() method
 of the NHibernateSessionFactoryBuilder class:
 
 For example:
-..code-block:: csharp
 
-            ISessionFactory sessionFactory = new NHibernateSessionFactoryBuilder()
-                .AddMappingAssemblies(new[] { HostingEnvironment.MapPath(@"~/bin/Suteki.TardisBank.Infrastructure.dll") })
-                .UseAutoPersistenceModel(new AutoPersistenceModelGenerator().Generate())
-                .UseConfigFile(HostingEnvironment.MapPath("~/NHibernate.config"))
-                .UseConfigurationCache(new NHibernateConfigurationFileCache())
-                .BuildSessionFactory();
-				
+.. code-block:: C#
+
+    ISessionFactory sessionFactory = new NHibernateSessionFactoryBuilder()
+      .AddMappingAssemblies(new[] { HostingEnvironment.MapPath(@"~/bin/Suteki.TardisBank.Infrastructure.dll") })
+      .UseAutoPersistenceModel(new AutoPersistenceModelGenerator().Generate())
+      .UseConfigFile(HostingEnvironment.MapPath("~/NHibernate.config"))
+      .UseConfigurationCache(new NHibernateConfigurationFileCache())
+      .BuildSessionFactory();
+
 
 Details
 -------
@@ -41,19 +42,22 @@ Details
 
 Interface that defines two methods for loading and saving the configuration cache.
 
-..code-block:: csharp
-    NHibernate.Cfg.Configuration LoadConfiguration([NotNull] string configKey, string configPath, [NotNull] IEnumerable<string> mappingAssemblies);
+.. code-block:: C#
+
+    NHibernate.Cfg.Configuration LoadConfiguration([NotNull] string configKey, string configPath, 
+	  [NotNull] IEnumerable<string> mappingAssemblies);
+	
     void SaveConfiguration([NotNull] string configKey, [NotNull] NHibernate.Cfg.Configuration config);
 
 
-These methods are used by the NHibernateSession.AddConfiguration method to load and save a configuration object to and from a cache file. 
+These methods are used by the NHibernateSession.AddConfiguration method to load and save a configuration object to and from a cache file.
 This interface allows others to implement their own file caching mechanism if necessary.
 
 ::
 
     NHibernateConfigurationFileCache
 
-This class implements the interface and does the work of caching the configuration. 
+This class implements the interface and does the work of caching the configuration.
 Several methods are virtual so they can be overridden in a derived class, as may be necessary to store the cache file in a
 different location or to have different logic to invalidate the cache.
 
@@ -64,8 +68,9 @@ that of the cached configuration, then the cached file is discarded and
 a new configuration is created from scratch. This configuration is then
 serialized and saved to a file.
 
-Note: NHibernate's XML config file and the mapping assemblies (ex: "Northwind.Data.dll") 
+Note: NHibernate's XML config file and the mapping assemblies (ex: "Northwind.Data.dll")
 are automatically included when testing if the cached configuration is current.
+
 
 FileCache
 ---------

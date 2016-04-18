@@ -30,7 +30,7 @@ Open up your root Web.Config, add the following right above :
 
 Right below add the following:
 
-::
+.. code-block:: xml
 
     <nhs-configuration xmlns='urn:nhs-configuration-1.0'>
         <search-factory>
@@ -40,7 +40,7 @@ Right below add the following:
 
 Navigate to your NHibernate.Config, before add:
 
-::
+.. code-block:: xml
 
         <listener class='NHibernate.Search.Event.FullTextIndexEventListener, NHibernate.Search' type='post-insert'/>
         <listener class='NHibernate.Search.Event.FullTextIndexEventListener, NHibernate.Search' type='post-update'/>
@@ -53,7 +53,7 @@ In "Northwind.Infrastructure" add a repository called
 "ContractRepository.cs" (the example assumes you have an object you want
 to search over called contract):
 
-::
+.. code-block:: C#
 
     public interface IContractRepository
     {
@@ -65,7 +65,7 @@ Let's add a method to this repository that will create the initial
 index, if an index already exists, it will be deleted. We'll iterate
 through all the Suppliers to accomplish this:
 
-::
+.. code-block:: C#
 
         public void BuildSearchIndex()
         {
@@ -119,7 +119,7 @@ through all the Suppliers to accomplish this:
 
 Finally, we'll add a method to query the index:
 
-::
+.. code-block:: C#
 
         private static string GetIndexDirectory()
         {
@@ -131,7 +131,8 @@ Finally, we'll add a method to query the index:
 
 Add Search Controller
 ---------------------
-::
+
+.. code-block:: C#
 
 	namespace Northwind.Web.Controllers 
 	{

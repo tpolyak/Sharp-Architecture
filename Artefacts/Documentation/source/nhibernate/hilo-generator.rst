@@ -12,7 +12,7 @@ Using HiLo Id generation
 ------------------------
 In your Infrastructure project, under NHibernateMaps:
 
-::
+.. code-block:: C#
 
     public class PrimaryKeyConvention : IIdConvention
     {
@@ -26,7 +26,7 @@ In your Infrastructure project, under NHibernateMaps:
 
 Create the following table:
 
-::
+.. code-block:: sql
 
     CREATE TABLE [dbo].[hibernate_unique_key](
            [next_hi] [int] NOT NULL
