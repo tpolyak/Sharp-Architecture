@@ -13,7 +13,7 @@ Install following packages:
 * `SharpArch.Web.Mvc <https://www.nuget.org/packages/SharpArch.Web.Mvc/>`_
 * `SharpArch.Web.Mvc.Castle <https://www.nuget.org/packages/SharpArch.Web.Mvc.Castle/>`_ if Castle.Windsor is your container of choice.
 
-See TradisBank.Web.Mvc/CastleWindsor/ and TradisBank.Web.Mvc/Global.asax.cs for more details on how configure and initialize IoC and S.
+See TradisBank.Web.Mvc/CastleWindsor/ and TradisBank.Web.Mvc/Global.asax.cs for more details on how configure and initialize IoC.
 
 
 **ASP.NET WebAPI**

@@ -23,6 +23,9 @@ combining the results with, say, a local NHibernate database, would
 occur in the *Tasks Layer*. The resulting viewModel or DTO would be sent
 down to the *Presentation Layer*
 
+
+Starting with version 4 Sharp Architecture does not contains support for Tasks. Use `MediatR <https://github.com/jbogard/MediatR>`_ or similiar library instead.
+
 Additional occupants
 ^^^^^^^^^^^^^^^^^^^^
 

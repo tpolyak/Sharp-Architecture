@@ -14,8 +14,8 @@ This feature will be added in 4.1.
 
 Version 3
 ---------
-
 To add support for an additional database to your project:
+
 
 Create an NHibernateForOtherDb.config file which contains the connection
 string to the new database
