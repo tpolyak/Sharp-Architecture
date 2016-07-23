@@ -67,19 +67,22 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\..\Packages\JetBrains.Annotations.10.1.4\lib\net20\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=10.1.5.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\Packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -161,9 +164,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\..\Packages\JetBrains.ReSharper.CommandLineTools.10.0.20151218.134438\build\JetBrains.ReSharper.CommandLineTools.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\Packages\JetBrains.ReSharper.CommandLineTools.10.0.20151218.134438\build\JetBrains.ReSharper.CommandLineTools.Targets'))" />
+    <Error Condition="!Exists('..\..\Packages\JetBrains.ReSharper.CommandLineTools.2016.1.20160504.105828\build\JetBrains.ReSharper.CommandLineTools.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\Packages\JetBrains.ReSharper.CommandLineTools.2016.1.20160504.105828\build\JetBrains.ReSharper.CommandLineTools.Targets'))" />
   </Target>
-  <Import Project="..\..\Packages\JetBrains.ReSharper.CommandLineTools.10.0.20151218.134438\build\JetBrains.ReSharper.CommandLineTools.Targets" Condition="Exists('..\..\Packages\JetBrains.ReSharper.CommandLineTools.10.0.20151218.134438\build\JetBrains.ReSharper.CommandLineTools.Targets')" />
+  <Import Project="..\..\Packages\JetBrains.ReSharper.CommandLineTools.2016.1.20160504.105828\build\JetBrains.ReSharper.CommandLineTools.Targets" Condition="Exists('..\..\Packages\JetBrains.ReSharper.CommandLineTools.2016.1.20160504.105828\build\JetBrains.ReSharper.CommandLineTools.Targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
