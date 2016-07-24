@@ -69,9 +69,6 @@
       <HintPath>..\..\Packages\JetBrains.Annotations.10.1.5\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\Packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -93,13 +90,7 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DesignByContract\Check.cs" />
-    <Compile Include="DesignByContract\DesignByContractException.cs" />
-    <Compile Include="DesignByContract\InvariantException.cs" />
-    <Compile Include="DesignByContract\PostconditionException.cs" />
-    <Compile Include="DesignByContract\PreconditionException.cs" />
     <Compile Include="DomainModel\BaseObject.cs" />
-    <Compile Include="DesignByContract\AssertionException.cs" />
     <Compile Include="DomainModel\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModel\DomainSignatureAttribute.cs" />
     <Compile Include="DomainModel\Entity.cs" />
@@ -121,7 +112,6 @@
     <Compile Include="Reflection\ITypePropertyDescriptorCache.cs" />
     <Compile Include="Reflection\TypePropertyDescriptor.cs" />
     <Compile Include="Reflection\TypePropertyDescriptorCache.cs" />
-    <Compile Include="SafeServiceLocator.cs" />
     <Compile Include="Specifications\AdHoc.cs" />
     <Compile Include="Specifications\ILinqSpecification.cs" />
     <Compile Include="Specifications\ISpecification.cs" />

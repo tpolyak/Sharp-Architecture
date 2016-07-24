@@ -50,7 +50,6 @@ namespace SharpArch.Specifications.NHibernate
 
             Cleanup after = delegate
             {
-                ServiceLocatorHelper.Reset();
                 session?.Dispose();
                 session = null;
             };

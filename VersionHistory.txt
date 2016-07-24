@@ -19,9 +19,10 @@ SharpArch.Testing.NUnit
 
 BREAKING CHANGES:
  * target platform is .NET 4.5.
- * #124 BREAKING: removed Command/Query infrastructure.
+ * #124 removed Command/Query infrastructure.
  * Now uses C# 6.0 syntax.
  * NHibernateSession replaced with ISession constructor injection.
+ * #145 Removed Design by Contract, TestSyntaxHelpers and CommonServiceLocator code and deoendencies.
 
  
 FIXES:

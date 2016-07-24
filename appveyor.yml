@@ -1,5 +1,4 @@
 version: 4.0.0-beta-{build}
-clone_depth: 3
 clone_folder: c:\work\sharp-arch
 
 pull_requests:
@@ -47,4 +46,7 @@ deploy:
     api_key:
       secure: QzSLSnRAnpTRqWWhDzHNkHJP6RCd5pwWMv0myf88h0OCk0TTPJdhflsDql3kAlip
     on:
-      branch: master
+      branch: 
+        - master
+        - develop
+

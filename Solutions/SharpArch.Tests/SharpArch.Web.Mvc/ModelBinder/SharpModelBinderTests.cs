@@ -11,13 +11,12 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Web.Mvc;
-    using CommonServiceLocator.WindsorAdapter;
     using global::Castle.MicroKernel.Registration;
     using global::Castle.Windsor;
     using global::SharpArch.Domain.DomainModel;
     using global::SharpArch.Domain.PersistenceSupport;
+    using global::SharpArch.Web.Mvc.Castle;
     using global::SharpArch.Web.Mvc.ModelBinder;
-    using Microsoft.Practices.ServiceLocation;
     using Moq;
     using NUnit.Framework;
 
@@ -37,11 +36,9 @@ namespace Tests.SharpArch.Web.Mvc.ModelBinder
                     .For<IRepositoryWithTypedId<Employee, int>>()
                     .Instance(mockRepository.Object));
 
-            var windsorServiceLocator = new WindsorServiceLocator(windsorContainer);
 
-            ServiceLocator.SetLocatorProvider(() => windsorServiceLocator);
-            DependencyResolver.SetResolver(type => ServiceLocator.Current.GetInstance(type),
-                type => ServiceLocator.Current.GetAllInstances(type));
+            var dependencyResolver = new WindsorDependencyResolver(windsorContainer);
+            DependencyResolver.SetResolver(dependencyResolver);
         }
 
         internal class Employee : Entity

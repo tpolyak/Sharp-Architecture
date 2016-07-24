@@ -6,7 +6,7 @@
 
     public class ModelMappingProfile: AutoMapper.Profile
     {
-        protected override void Configure()
+        public ModelMappingProfile()
         {
             CreateMap<Announcement, AnnouncementSummary>();
 
@@ -14,6 +14,7 @@
                 .ReverseMap()
                 .ForMember(d => d.Id, opt => opt.Ignore())
                 .ForMember(d => d.LastModifiedUtc, opt => opt.ResolveUsing((AnnouncementModel a) => DateTime.UtcNow));
+
         }
     }
 }
