@@ -89,7 +89,6 @@
     </Compile>
     <Compile Include="Contracts\Repositories\INHibernateRepository.cs" />
     <Compile Include="Contracts\Repositories\INHibernateRepositoryWithTypeId.cs" />
-    <Compile Include="DefaultSessionFactoryKeyProvider.cs" />
     <Compile Include="ISessionFactoryKeyProvider.cs" />
     <Compile Include="NHibernateSessionFactoryBuilder.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureAttributeBase.cs" />
@@ -110,7 +109,6 @@
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithGuidIdAttribute.cs" />
     <Compile Include="NHibernateQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionFactoryAttribute.cs" />
     <Compile Include="NHibernateValidator\HasUniqueDomainSignatureWithStringIdAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
