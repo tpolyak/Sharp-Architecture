@@ -2,13 +2,6 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <VersionMajor>4</VersionMajor>
-    <VersionMinor>0</VersionMinor>
-    <VersionPatch>0</VersionPatch>
-    <VersionPreRelease>Beta</VersionPreRelease>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <RunMSpecTests>True</RunMSpecTests>
     <MSpecRunner>mspec-clr4.exe</MSpecRunner>
     <MSpecSpecificationAssemblies>"$(MSBuildProjectDirectory)\..\Solutions\SharpArch.Specifications\Bin\Release\SharpArch.Specifications.dll"</MSpecSpecificationAssemblies>
