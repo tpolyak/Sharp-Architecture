@@ -1,4 +1,4 @@
-version: 4.0.0-beta-{build}
+version: .{build}
 clone_folder: c:\work\sharp-arch
 
 pull_requests:
@@ -51,4 +51,5 @@ deploy:
       branch: 
         - master
         - develop
-
+        - /releases.*/
+        - /hotfixes.*/
