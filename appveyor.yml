@@ -18,7 +18,7 @@ install:
 
 before_build:
   - cmd: nuget restore Solutions/SharpArch.sln
-  - ps: gitversion /l console /output buildserver /ensureAssemblyInfo .\Common\AssemblyVersion.cs
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo .\Common\AssemblyVersion.cs /ensureAssemblyInfo
 
 build_script:
   - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,Package,FindDuplicates,InspectCode,PackageNuget'
