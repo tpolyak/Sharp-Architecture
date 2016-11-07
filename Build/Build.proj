@@ -158,28 +158,34 @@
     </CodeInspectionsReportTemplate>
   </ItemGroup>
 
+  
   <Import Project="$(MSBuildProjectDirectory)\..\Packages\Alphacloud.MSBuild.Xslt.$(XsltTransformVersion)\tools\Alphacloud.MSBuild.Xslt.targets" />
 
+  
   <Target Name="Build"
-        DependsOnTargets="CleanSolution;
-                          UpdateAssemblyVersion;
-                          BuildSolutions;" />
+	DependsOnTargets="CleanSolution;
+		EnsureAssemblyVersion;
+		BuildSolutions;" 
+		/>
 
+		
   <Target Name="RunTests"
-          DependsOnTargets="Build;
-                            RunNUnitTests;" />
+	DependsOnTargets="Build;
+		RunNUnitTests;" />
 
+		
   <Target Name="RunSpecs"
       DependsOnTargets="RunMSpecSpecifications;" />
 
 
   <Target Name="PackageArtefacts"
-          DependsOnTargets="Build;
-                            RunTests;
-                            RunSpecs;
-                            Package;
-                            PackageNuget;
-                            BuildSuccess" />
+	DependsOnTargets="Build;
+		RunTests;
+		RunSpecs;
+		Package;
+		PackageNuget;
+		BuildSuccess" 
+		/>
 
   <Target Name="FindDuplicates">
     <MakeDir Directories="$(DuplicatesReportPath)" ContinueOnError="true" />
