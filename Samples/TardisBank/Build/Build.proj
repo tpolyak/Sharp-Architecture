@@ -2,17 +2,11 @@
 <Project DefaultTargets="PackageArtefacts" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <VersionMajor>4</VersionMajor>
-    <VersionMinor>0</VersionMinor>
-    <VersionPatch>0</VersionPatch>
-    <VersionPreRelease>Beta</VersionPreRelease>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <SolutionName>Suteki.TardisBank</SolutionName>
     <SolutionsPath>$(MSBuildProjectDirectory)\..\Solutions</SolutionsPath>
     <BuildPath>$(MSBuildProjectDirectory)\..\..\..\BuildSystem</BuildPath>
     <WebAppPath>$(SolutionsPath)\$(SolutionName).Web.Mvc</WebAppPath>
+    <AssemblyVersionFile>$(MSBuildProjectDirectory)\..\Common\AssemblyVersion.cs</AssemblyVersionFile>
     <UseNUnit3>true</UseNUnit3>
   </PropertyGroup>
 
@@ -27,9 +21,6 @@
     </PackageFiles>
   </ItemGroup>
 
-  <ItemGroup>
-    <TemplifyTokens Include="Suteki.TardisBank=Suteki.TardisBank" />
-  </ItemGroup>
 
   <ItemGroup>
     <AssembliesToTestWithNUnit Include="$(SolutionsPath)\Suteki.TardisBank.Tests\bin\Release\Suteki.TardisBank.Tests.dll;" />
@@ -48,13 +39,12 @@
 
   <Target Name="Build"
         DependsOnTargets="CleanSolution;
-            UpdateAssemblyVersion;
+            EnsureAssemblyVersion;
             BuildSolutions;" />
 
   <Target Name="PackageArtefacts"
           DependsOnTargets="Build;
             Package;
-            Templify;
             BuildSuccess" />
   
 <Target Name="RunTests"
