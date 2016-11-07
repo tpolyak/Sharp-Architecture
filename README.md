@@ -1,22 +1,20 @@
-Master branch build status: [![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p/branch/master?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture/branch/master)
+# S#arp Architecture
 
-Last build status: [![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture)
+||Stable|Pre-release|
+|:--:|:--:|:--:|
+|Build|[![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p/branch/master?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture/branch/master)|[![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture)
+|NuGet|[![NuGet](https://img.shields.io/nuget/v/Sharp-Architecture.svg)](Release)|[![NuGet](https://img.shields.io/nuget/vpre/Sharp-Architecture.svg)](PreRelease)|
 
---------------------------------------------
-Templify
---------------------------------------------
+
+## Templify
 
 We no longer support the use of the Visual Studio templates for installation of S#arp Architecture. With version 2.0, we have dropped support for Visual Studio 2008 altogether. To learn how to get a S#arp Architecture solution up and running, please go to http://blog.sharparchitecture.net/post/Using-Templify-to-create-a-new-Sarp-Architecture-solution.aspx
 
---------------------------------------------
-Downloads
---------------------------------------------
+## Downloads
 
 Downloads can always be found here: https://github.com/sharparchitecture/Sharp-Architecture/downloads
 
---------------------------------------------
-Building S#arp Architecture
---------------------------------------------
+## Building S#arp Architecture
 
 Perform the following command in GitBash:
 ```Shell
@@ -28,17 +26,16 @@ Now you should have the latest development branch of S#arp Architecture and subm
 
 Now go to /Build and run the Build.cmd or BuildAndPackage.cmd files to build S#arp Architecture
 
---------------------------------------------
-Documentation and Assemblies
---------------------------------------------
+
+## Documentation and Assemblies
+
 
 * /Artefacts/Documentation/:  Contains a link to comprehensive, online documentation at http://sharp-architecture.readthedocs.org/, and a diagram of what a S#arp Architecture project looks like.
 
 * /Drops/<Version Number>/:  Holds released SharpArch assemblies - it does not include the third party library's that are needed by S#arp Architecture. You must run the BuildAndPackage.cmd file first.
 
---------------------------------------------
-How's this release organized?
---------------------------------------------
+
+## How's this release organized?
 
 * /Artefacts/:  Contains various artefacts for the project.
 
@@ -47,8 +44,6 @@ How's this release organized?
 * /Common/: Contains files shared among the projects.
 
 * /NugetTemplates/: Contains templates used for generating S#arp Architecture nuget packages.
-
-* /ReferencedAssemblies/:  Contains all of the required 3rd party assemblies. 
 
 * /Packages/: Contains the NuGet packages that S#arp Architecture depends on.
 
