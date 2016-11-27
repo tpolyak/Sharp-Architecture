@@ -6,9 +6,12 @@
 |NuGet|[![NuGet](https://img.shields.io/nuget/v/Sharp-Architecture.svg)](Release)|[![NuGet](https://img.shields.io/nuget/vpre/Sharp-Architecture.svg)](PreRelease)|
 
 
-## Templify
+## Templify / Visual Studio templates
 
-We no longer support the use of the Visual Studio templates for installation of S#arp Architecture. With version 2.0, we have dropped support for Visual Studio 2008 altogether. To learn how to get a S#arp Architecture solution up and running, please go to http://blog.sharparchitecture.net/post/Using-Templify-to-create-a-new-Sarp-Architecture-solution.aspx
+Starting with version 4 solution templates are not maintained anymore. Main reason for this is a variaty of projects can be build based on S#Aarp Architecture. 
+As usual, pull requests are welcome.
+
+To learn how to get a S#arp Architecture solution up and running, please check the samples https://github.com/sharparchitecture/Sharp-Architecture/tree/develop/Samples.
 
 ## Downloads
 
@@ -24,7 +27,8 @@ $ git submodule update
 ```
 Now you should have the latest development branch of S#arp Architecture and submodules.
 
-Now go to /Build and run the Build.cmd or BuildAndPackage.cmd files to build S#arp Architecture
+Now go to /Build and run the Build.cmd or BuildAndPackage.cmd files to build S#arp Architecture. The desktop build uses version *0.1.0* by default. Build server uses GitVersion[https://github.com/GitTools/GitVersion] 
+to generate Semantic Version.
 
 
 ## Documentation and Assemblies
