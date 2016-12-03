@@ -41,6 +41,8 @@ namespace Suteki.TardisBank.Web.Mvc.Utilities
         public string HashAndSalt(string userName, string password)
         {
             var saltedPassword = userName + password;
+            // hint: Use secure password hashing algorithms in real apps. 
+            // E.g. https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/consumer-apis/password-hashing
             return FormsAuthentication.HashPasswordForStoringInConfigFile(saltedPassword, "SHA1");
         }
     }

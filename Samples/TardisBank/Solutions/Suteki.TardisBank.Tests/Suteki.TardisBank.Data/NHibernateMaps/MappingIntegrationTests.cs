@@ -22,8 +22,9 @@
     /// which needs to be added to your database.
     /// </summary>
     [TestFixture]
-    [Category("DB Tests")]
-    public class MappingIntegrationTests
+    [Category("DatabaseTests")]
+    [Category("IntegrationTests")]
+    class MappingIntegrationTests
     {
         private Configuration configuration;
         private ISessionFactory sessionFactory;
@@ -46,10 +47,7 @@
         [TearDown]
         public virtual void TearDown()
         {
-            if (sessionFactory != null)
-            {
-                sessionFactory.Dispose();
-            }
+            sessionFactory?.Dispose();
         }
 
         [Test]
