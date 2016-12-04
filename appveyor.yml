@@ -21,7 +21,7 @@ before_build:
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo .\Common\AssemblyVersion.cs /ensureAssemblyInfo
 
 build_script:
-  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,Package,FindDuplicates,InspectCode,PackageNuget'
+  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,BuildSamples;Package,FindDuplicates,InspectCode,PackageNuget'
   
 artifacts:
   - path: Drops/**/*.nupkg

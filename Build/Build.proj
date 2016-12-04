@@ -136,6 +136,7 @@
     <SolutionName>SharpArch</SolutionName>
     <SolutionsPath>$(MSBuildProjectDirectory)\..\Solutions</SolutionsPath>
     <BuildPath>$(MSBuildProjectDirectory)\..\BuildSystem</BuildPath>
+    <SamplesPath>$(MSBuildProjectDirectory)\..\Samples</SamplesPath>
   </PropertyGroup>
 
   <Import Project="$(BuildPath)\BuildSystem.proj" />
@@ -173,6 +174,13 @@
 	DependsOnTargets="Build;
 		RunNUnitTests;" />
 
+
+  <Target Name="BuildSamples">
+    <MSBuild Projects="$(SamplesPath)\TardisBank\Build\Build.Proj" Targets="RunTests" 
+      Properties="CreateHardLinksForCopyLocalIfPossible=true;
+        NUnit3TestsFilter=&quot;cat != DatabaseTests&quot;
+        "/>
+  </Target>
 		
   <Target Name="RunSpecs"
       DependsOnTargets="RunMSpecSpecifications;" />
