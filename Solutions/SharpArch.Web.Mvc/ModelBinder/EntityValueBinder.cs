@@ -4,7 +4,7 @@ namespace SharpArch.Web.Mvc.ModelBinder
     using System.Linq;
     using System.Web.Mvc;
 
-    using SharpArch.Domain.DomainModel;
+    using Domain.DomainModel;
 
     internal class EntityValueBinder : SharpModelBinder
     {

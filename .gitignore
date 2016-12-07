@@ -3,6 +3,7 @@ Drops
 obj
 bin
 debug
+.vs
 _Resharper.*
 _ReSharper.*
 *.csproj.user
@@ -28,4 +29,6 @@ Common/AssemblyVersion.cs
 Artefacts/Documentation/build/
 _NCrunch*/
 *.*ncrunch*
-*.sln.DotSettings
+*.user
+.vs
+/ReleaseNotes.md

@@ -1,0 +1,28 @@
+﻿@model Suteki.TardisBank.Domain.User
+
+@{
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+<h2>Your Messages</h2>
+@if(Model.Messages.Count == 0) {
+<p>You have no messages</p>
+} else {
+<table>
+
+@foreach(var message in Model.Messages.Reverse()) {
+    <tr class="@(message.HasBeenRead ? "read" : "unread")">
+        <td>@message.Date.ToShortDateString()</td>
+        <td>@message.Text</td>
+        @if(message.HasBeenRead) {
+        <td><strong>Done</strong></td>
+        } else {
+        <td>@Html.ActionLink("OK", "ReadMessage", new { id = @message.Id })</td>
+        }
+    </tr>
+}
+
+</table>
+<p>(Note: we only keep the last @Suteki.TardisBank.Domain.User.MaxMessages messages)</p>
+}
+

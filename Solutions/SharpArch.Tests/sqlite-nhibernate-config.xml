@@ -2,6 +2,7 @@
 
 <hibernate-configuration xmlns="urn:nhibernate-configuration-2.2">
   <session-factory>
+
     <property name="dialect">
       NHibernate.Dialect.SQLiteDialect
     </property>
@@ -9,9 +10,17 @@
       NHibernate.Driver.SQLite20Driver
     </property>
     <property name="connection.connection_string">
-      Data Source=db.dat;Version=3;New=True;
+      Data Source=:memory:;Version=3;New=True;
     </property>
     <property name="connection.release_mode">on_close</property>
     <property name="show_sql">true</property>
+
+    <event type="pre-insert">
+      <listener class="Tests.SharpArch.NHibernate.PreInsertListener, SharpArch.Tests" />
+    </event>
+    <event type="pre-update">
+      <listener class="Tests.SharpArch.NHibernate.PreUpdateListener, SharpArch.Tests" />
+    </event>
+
   </session-factory>
 </hibernate-configuration>

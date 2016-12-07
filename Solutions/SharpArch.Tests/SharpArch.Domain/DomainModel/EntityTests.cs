@@ -1,19 +1,71 @@
-using System.IO;
-
-using Newtonsoft.Json;
+// ReSharper disable PublicMembersMustHaveComments
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Local
+// ReSharper disable UnusedMember.Local
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable HeapView.BoxingAllocation
+// ReSharper disable InternalMembersMustHaveComments
 
 namespace Tests.SharpArch.Domain.DomainModel
 {
+    using System.IO;
+    using FluentAssertions;
     using global::SharpArch.Domain.DomainModel;
-
+    using global::SharpArch.Testing.NUnit.Helpers;
+    using Newtonsoft.Json;
     using NUnit.Framework;
 
-    using global::SharpArch.Testing.NUnit;
-    using global::SharpArch.Testing.NUnit.Helpers;
-
     [TestFixture]
-    public class EntityTests
+    internal class EntityTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            this._obj = new MockEntityObjectWithDefaultId
+            {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = @"testus...@mail.com"
+            };
+            this._sameObj = new MockEntityObjectWithDefaultId
+            {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = @"testus...@mail.com"
+            };
+            this._diffObj = new MockEntityObjectWithDefaultId
+            {
+                FirstName = "FName2",
+                LastName = "LName2",
+                Email = @"testuse...@mail.com"
+            };
+            this._objWithId = new MockEntityObjectWithSetId
+            {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = @"testus...@mail.com"
+            };
+            this._sameObjWithId = new MockEntityObjectWithSetId
+            {
+                FirstName = "FName1",
+                LastName = "LName1",
+                Email = @"testus...@mail.com"
+            };
+            this._diffObjWithId = new MockEntityObjectWithSetId
+            {
+                FirstName = "FName2",
+                LastName = "LName2",
+                Email = @"testuse...@mail.com"
+            };
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this._obj = null;
+            this._sameObj = null;
+            this._diffObj = null;
+        }
+
         private MockEntityObjectWithDefaultId _diffObj;
 
         private MockEntityObjectWithSetId _diffObjWithId;
@@ -25,6 +77,158 @@ namespace Tests.SharpArch.Domain.DomainModel
         private MockEntityObjectWithDefaultId _sameObj;
 
         private MockEntityObjectWithSetId _sameObjWithId;
+
+        public class MockEntityObjectBase<T> : EntityWithTypedId<T>
+        {
+            public string Email { get; set; }
+
+            [DomainSignature]
+            public string FirstName { get; set; }
+
+            [DomainSignature]
+            public string LastName { get; set; }
+        }
+
+        public class ObjectWithOneDomainSignatureProperty : Entity
+        {
+            [DomainSignature]
+            public int Age { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        private class AddressBeingDomainSignatureComparable : Entity
+        {
+            [DomainSignature]
+            public string Address1 { get; set; }
+
+            public string Address2 { get; set; }
+
+            [DomainSignature]
+            public int ZipCode { get; set; }
+        }
+
+        private class InheritedObjectWithExtraDomainSignatureProperty : ObjectWithOneDomainSignatureProperty
+        {
+            public string Address { get; set; }
+
+            [DomainSignature]
+            public bool IsLiving { get; set; }
+        }
+
+        private class MockEntityObjectBase : MockEntityObjectBase<int>
+        {
+        }
+
+        private class MockEntityObjectWithDefaultId : MockEntityObjectBase, IHasAssignedId<int>
+        {
+            public void SetAssignedIdTo(int assignedId)
+            {
+                this.Id = assignedId;
+            }
+        }
+
+        private class MockEntityObjectWithSetId : MockEntityObjectBase<string>, IHasAssignedId<string>
+        {
+            public void SetAssignedIdTo(string assignedId)
+            {
+                this.Id = assignedId;
+            }
+        }
+
+        private class Object1 : Entity
+        {
+        }
+
+        private class Object2 : Entity
+        {
+        }
+
+        private class ObjectWithAllDomainSignatureProperty : Entity
+        {
+            [DomainSignature]
+            public int Age { get; set; }
+
+            [DomainSignature]
+            public string Name { get; set; }
+        }
+
+        private class ObjectWithAssignedId : EntityWithTypedId<string>, IHasAssignedId<string>
+        {
+            [DomainSignature]
+            public string Name { get; set; }
+
+            public void SetAssignedIdTo(string assignedId)
+            {
+                this.Id = assignedId;
+            }
+        }
+
+        private class ObjectWithComplexProperties : Entity
+        {
+            [DomainSignature]
+            public AddressBeingDomainSignatureComparable Address { get; set; }
+
+            [DomainSignature]
+            public string Name { get; set; }
+
+            [DomainSignature]
+            public PhoneBeingNotDomainObject Phone { get; set; }
+        }
+
+        private class ObjectWithIdenticalTypedProperties : Entity
+        {
+            [DomainSignature]
+            public string Address { get; set; }
+
+            [DomainSignature]
+            public string Name { get; set; }
+        }
+
+        private class ObjectWithIntId : Entity
+        {
+            [DomainSignature]
+            public string Name { get; set; }
+        }
+
+        /// <summary>
+        ///     This is a nonsense object; i.e., it doesn't make sense to have
+        ///     an entity without a domain signature.
+        /// </summary>
+        private class ObjectWithNoDomainSignatureProperties : Entity
+        {
+            public int Age { get; set; }
+
+            public string Name { get; set; }
+        }
+
+        private class PhoneBeingNotDomainObject
+        {
+            public string Extension { get; set; }
+
+            public string PhoneNumber { get; set; }
+        }
+
+        private class PhoneBeingNotDomainObjectButWithOverriddenEquals : PhoneBeingNotDomainObject
+        {
+            public override bool Equals(object obj)
+            {
+                var compareTo = obj as PhoneBeingNotDomainObject;
+
+                return compareTo != null && this.PhoneNumber.Equals(compareTo.PhoneNumber);
+            }
+
+            public override int GetHashCode()
+            {
+                // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
+                return base.GetHashCode();
+            }
+        }
+
+        private class Contact : Entity
+        {
+            public virtual string EmailAddress { get; set; }
+        }
 
         [Test]
         public void CanCompareDomainObjectsWithAllPropertiesBeingPartOfDomainSignature()
@@ -69,38 +273,10 @@ namespace Tests.SharpArch.Domain.DomainModel
         }
 
         [Test]
-        public void CanCompareEntitiesWithAssignedIds()
+        public void CanCompareEntities()
         {
-            var object1 = new ObjectWithAssignedId { Name = "Acme" };
-            var object2 = new ObjectWithAssignedId { Name = "Anvil" };
-
-            Assert.That(object1, Is.Not.EqualTo(null));
-            Assert.That(object1, Is.Not.EqualTo(object2));
-
-            object1.SetAssignedIdTo("AAAAA");
-            object2.SetAssignedIdTo("AAAAA");
-
-            // Even though the "business value signatures" are different, the persistent Ids 
-            // were the same.  Call me crazy, but I put that much trust into persisted Ids.
-            Assert.That(object1, Is.EqualTo(object2));
-
-            var object3 = new ObjectWithAssignedId { Name = "Acme" };
-
-            // Since object1 has an Id but object3 doesn't, they won't be equal
-            // even though their signatures are the same
-            Assert.That(object1, Is.Not.EqualTo(object3));
-
-            var object4 = new ObjectWithAssignedId { Name = "Acme" };
-
-            // object3 and object4 are both transient and share the same signature
-            Assert.That(object3, Is.EqualTo(object4));
-        }
-
-        [Test]
-        public void CanCompareEntitys()
-        {
-            var object1 = new ObjectWithIntId { Name = "Acme" };
-            var object2 = new ObjectWithIntId { Name = "Anvil" };
+            var object1 = new ObjectWithIntId {Name = "Acme"};
+            var object2 = new ObjectWithIntId {Name = "Anvil"};
 
             Assert.That(object1, Is.Not.EqualTo(null));
             Assert.That(object1, Is.Not.EqualTo(object2));
@@ -113,13 +289,41 @@ namespace Tests.SharpArch.Domain.DomainModel
             Assert.That(object1, Is.EqualTo(object2));
             Assert.That(object1.GetHashCode(), Is.EqualTo(object2.GetHashCode()));
 
-            var object3 = new ObjectWithIntId { Name = "Acme" };
+            var object3 = new ObjectWithIntId {Name = "Acme"};
 
             // Since object1 has an Id but object3 doesn't, they won't be equal
             // even though their signatures are the same
             Assert.That(object1, Is.Not.EqualTo(object3));
 
-            var object4 = new ObjectWithIntId { Name = "Acme" };
+            var object4 = new ObjectWithIntId {Name = "Acme"};
+
+            // object3 and object4 are both transient and share the same signature
+            Assert.That(object3, Is.EqualTo(object4));
+        }
+
+        [Test]
+        public void CanCompareEntitiesWithAssignedIds()
+        {
+            var object1 = new ObjectWithAssignedId {Name = "Acme"};
+            var object2 = new ObjectWithAssignedId {Name = "Anvil"};
+
+            Assert.That(object1, Is.Not.EqualTo(null));
+            Assert.That(object1, Is.Not.EqualTo(object2));
+
+            object1.SetAssignedIdTo("AAAAA");
+            object2.SetAssignedIdTo("AAAAA");
+
+            // Even though the "business value signatures" are different, the persistent Ids 
+            // were the same.  Call me crazy, but I put that much trust into persisted Ids.
+            Assert.That(object1, Is.EqualTo(object2));
+
+            var object3 = new ObjectWithAssignedId {Name = "Acme"};
+
+            // Since object1 has an Id but object3 doesn't, they won't be equal
+            // even though their signatures are the same
+            Assert.That(object1, Is.Not.EqualTo(object3));
+
+            var object4 = new ObjectWithAssignedId {Name = "Acme"};
 
             // object3 and object4 are both transient and share the same signature
             Assert.That(object3, Is.EqualTo(object4));
@@ -154,41 +358,43 @@ namespace Tests.SharpArch.Domain.DomainModel
 
             Assert.AreEqual(object1, object2);
 
-            object1.Address = new AddressBeingDomainSignatureComparble
-                {
-                   Address1 = "123 Smith Ln.", Address2 = "Suite 201", ZipCode = 12345 
-                };
+            object1.Address = new AddressBeingDomainSignatureComparable
+            {
+                Address1 = "123 Smith Ln.",
+                Address2 = "Suite 201",
+                ZipCode = 12345
+            };
             Assert.AreNotEqual(object1, object2);
 
             // Set the address of the 2nd to be different to the address of the first
-            object2.Address = new AddressBeingDomainSignatureComparble
-                {
-                    Address1 = "123 Smith Ln.", 
+            object2.Address = new AddressBeingDomainSignatureComparable
+            {
+                Address1 = "123 Smith Ln.",
 
-                    // Address2 isn't marked as being part of the domain signature; 
-                    // therefore, it WON'T be used in the equality comparison
-                    Address2 = "Suite 402", 
-                    ZipCode = 98765
-                };
+                // Address2 isn't marked as being part of the domain signature; 
+                // therefore, it WON'T be used in the equality comparison
+                Address2 = "Suite 402",
+                ZipCode = 98765
+            };
             Assert.AreNotEqual(object1, object2);
 
             // Set the address of the 2nd to be the same as the first
             object2.Address.ZipCode = 12345;
             Assert.AreEqual(object1, object2);
 
-            object1.Phone = new PhoneBeingNotDomainObject { PhoneNumber = "(555) 555-5555" };
+            object1.Phone = new PhoneBeingNotDomainObject {PhoneNumber = "(555) 555-5555"};
             Assert.AreNotEqual(object1, object2);
 
             // IMPORTANT: Note that even though the phone number below has the same value as the 
             // phone number on object1, they're not domain signature comparable; therefore, the
             // "out of the box" equality will be used which shows them as being different objects.
-            object2.Phone = new PhoneBeingNotDomainObject { PhoneNumber = "(555) 555-5555" };
+            object2.Phone = new PhoneBeingNotDomainObject {PhoneNumber = "(555) 555-5555"};
             Assert.AreNotEqual(object1, object2);
 
             // Observe as we replace the object1.Phone with an object that isn't domain-signature
             // comparable, but DOES have an overridden Equals which will return true if the phone
             // number properties are equal.
-            object1.Phone = new PhoneBeingNotDomainObjectButWithOverriddenEquals { PhoneNumber = "(555) 555-5555" };
+            object1.Phone = new PhoneBeingNotDomainObjectButWithOverriddenEquals {PhoneNumber = "(555) 555-5555"};
             Assert.AreEqual(object1, object2);
         }
 
@@ -210,6 +416,14 @@ namespace Tests.SharpArch.Domain.DomainModel
             EntityIdSetter.SetIdOf(object2Type, 1);
 
             Assert.That(object1Type, Is.Not.EqualTo(object2Type));
+        }
+
+        [Test]
+        public void CanSerializeEntityToJson()
+        {
+            var object1 = new Contact {EmailAddress = "serialize@this.net"};
+            string result = JsonConvert.SerializeObject(object1);
+            result.Should().Contain("serialize@this.net");
         }
 
         [Test]
@@ -271,11 +485,11 @@ namespace Tests.SharpArch.Domain.DomainModel
         [Test]
         public void Entity_with_domain_signature_preserves_hashcode_when_transitioning_from_transient_to_persistent()
         {
-            var sut = new ObjectWithOneDomainSignatureProperty { Age = 1 };
+            var sut = new ObjectWithOneDomainSignatureProperty {Age = 1};
 
             Assert.That(sut.IsTransient());
 
-            var hashcodeWhenTransient = sut.GetHashCode();
+            int hashcodeWhenTransient = sut.GetHashCode();
 
             sut.SetIdTo(1);
 
@@ -291,43 +505,12 @@ namespace Tests.SharpArch.Domain.DomainModel
 
             Assert.That(sut.IsTransient());
 
-            var hashcodeWhenTransient = sut.GetHashCode();
+            int hashcodeWhenTransient = sut.GetHashCode();
 
             sut.SetIdTo(1);
 
             Assert.That(sut.IsTransient(), Is.False);
             Assert.That(sut.GetHashCode(), Is.EqualTo(hashcodeWhenTransient));
-        }
-
-        [Test]
-        public void KeepsConsistentHashThroughLifetimeOfPersistentObject()
-        {
-            var object1 = new ObjectWithOneDomainSignatureProperty();
-            EntityIdSetter.SetIdOf(object1, 1);
-            var initialHash = object1.GetHashCode();
-
-            object1.Age = 13;
-            object1.Name = "Foo";
-
-            Assert.AreEqual(initialHash, object1.GetHashCode());
-
-            object1.Age = 14;
-            Assert.AreEqual(initialHash, object1.GetHashCode());
-        }
-
-        [Test]
-        public void KeepsConsistentHashThroughLifetimeOfTransientObject()
-        {
-            var object1 = new ObjectWithOneDomainSignatureProperty();
-            var initialHash = object1.GetHashCode();
-
-            object1.Age = 13;
-            object1.Name = "Foo";
-
-            Assert.AreEqual(initialHash, object1.GetHashCode());
-
-            object1.Age = 14;
-            Assert.AreEqual(initialHash, object1.GetHashCode());
         }
 
         [Test]
@@ -348,60 +531,56 @@ namespace Tests.SharpArch.Domain.DomainModel
             }
 
             using (var stringReader = new StringReader(jsonString))
-            using (var jsonReader = new JsonTextReader(stringReader))
             {
-                var deserialized = jsonSerializer.Deserialize<ObjectWithOneDomainSignatureProperty>(jsonReader);
-                Assert.IsNotNull(deserialized);
-                Assert.AreEqual(999, deserialized.Id);
-                Assert.AreEqual(13, deserialized.Age);
-                Assert.AreEqual("Foo", deserialized.Name);
+                using (var jsonReader = new JsonTextReader(stringReader))
+                {
+                    var deserialized = jsonSerializer.Deserialize<ObjectWithOneDomainSignatureProperty>(jsonReader);
+                    Assert.IsNotNull(deserialized);
+                    Assert.AreEqual(999, deserialized.Id);
+                    Assert.AreEqual(13, deserialized.Age);
+                    Assert.AreEqual("Foo", deserialized.Name);
+                }
             }
         }
 
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void KeepsConsistentHashThroughLifetimeOfPersistentObject()
         {
-            this._obj = new MockEntityObjectWithDefaultId
-                {
-                   FirstName = "FName1", LastName = "LName1", Email = "testus...@mail.com" 
-                };
-            this._sameObj = new MockEntityObjectWithDefaultId
-                {
-                   FirstName = "FName1", LastName = "LName1", Email = "testus...@mail.com" 
-                };
-            this._diffObj = new MockEntityObjectWithDefaultId
-                {
-                   FirstName = "FName2", LastName = "LName2", Email = "testuse...@mail.com" 
-                };
-            this._objWithId = new MockEntityObjectWithSetId
-                {
-                   FirstName = "FName1", LastName = "LName1", Email = "testus...@mail.com" 
-                };
-            this._sameObjWithId = new MockEntityObjectWithSetId
-                {
-                   FirstName = "FName1", LastName = "LName1", Email = "testus...@mail.com" 
-                };
-            this._diffObjWithId = new MockEntityObjectWithSetId
-                {
-                   FirstName = "FName2", LastName = "LName2", Email = "testuse...@mail.com" 
-                };
+            var object1 = new ObjectWithOneDomainSignatureProperty();
+            EntityIdSetter.SetIdOf(object1, 1);
+            int initialHash = object1.GetHashCode();
+
+            object1.Age = 13;
+            object1.Name = "Foo";
+
+            Assert.AreEqual(initialHash, object1.GetHashCode());
+
+            object1.Age = 14;
+            Assert.AreEqual(initialHash, object1.GetHashCode());
         }
 
-        [TearDown]
-        public void Teardown()
+        [Test]
+        public void KeepsConsistentHashThroughLifetimeOfTransientObject()
         {
-            this._obj = null;
-            this._sameObj = null;
-            this._diffObj = null;
+            var object1 = new ObjectWithOneDomainSignatureProperty();
+            int initialHash = object1.GetHashCode();
+
+            object1.Age = 13;
+            object1.Name = "Foo";
+
+            Assert.AreEqual(initialHash, object1.GetHashCode());
+
+            object1.Age = 14;
+            Assert.AreEqual(initialHash, object1.GetHashCode());
         }
 
         [Test]
         public void
             Transient_entity_with_domain_signature_preserves_hashcode_temporarily_when_its_domain_signature_changes()
         {
-            var sut = new ObjectWithOneDomainSignatureProperty { Age = 1 };
+            var sut = new ObjectWithOneDomainSignatureProperty {Age = 1};
 
-            var initialHashcode = sut.GetHashCode();
+            int initialHashcode = sut.GetHashCode();
 
             sut.Age = 2;
 
@@ -411,7 +590,7 @@ namespace Tests.SharpArch.Domain.DomainModel
         [Test]
         public void Transient_entity_with_domain_signature_should_return_consistent_hashcode()
         {
-            var sut = new ObjectWithOneDomainSignatureProperty { Age = 1 };
+            var sut = new ObjectWithOneDomainSignatureProperty {Age = 1};
 
             Assert.That(sut.GetHashCode(), Is.EqualTo(sut.GetHashCode()));
         }
@@ -427,8 +606,8 @@ namespace Tests.SharpArch.Domain.DomainModel
         [Test]
         public void Two_persistent_entities_with_different_domain_signature_and_equal_ids_generate_equal_hashcodes()
         {
-            var sut1 = new ObjectWithOneDomainSignatureProperty { Age = 1 }.SetIdTo(1);
-            var sut2 = new ObjectWithOneDomainSignatureProperty { Age = 2 }.SetIdTo(1);
+            IEntityWithTypedId<int> sut1 = new ObjectWithOneDomainSignatureProperty {Age = 1}.SetIdTo(1);
+            IEntityWithTypedId<int> sut2 = new ObjectWithOneDomainSignatureProperty {Age = 2}.SetIdTo(1);
 
             Assert.That(sut1.GetHashCode(), Is.EqualTo(sut2.GetHashCode()));
         }
@@ -436,8 +615,8 @@ namespace Tests.SharpArch.Domain.DomainModel
         [Test]
         public void Two_persistent_entities_with_equal_domain_signature_and_different_ids_generate_different_hashcodes()
         {
-            var sut1 = new ObjectWithOneDomainSignatureProperty { Age = 1 }.SetIdTo(1);
-            var sut2 = new ObjectWithOneDomainSignatureProperty { Age = 1 }.SetIdTo(2);
+            IEntityWithTypedId<int> sut1 = new ObjectWithOneDomainSignatureProperty {Age = 1}.SetIdTo(1);
+            IEntityWithTypedId<int> sut2 = new ObjectWithOneDomainSignatureProperty {Age = 1}.SetIdTo(2);
 
             Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
         }
@@ -446,8 +625,8 @@ namespace Tests.SharpArch.Domain.DomainModel
         public void Two_persistent_entities_with_no_signature_properties_and_different_ids_generate_different_hashcodes(
             )
         {
-            var sut1 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
-            var sut2 = new ObjectWithNoDomainSignatureProperties().SetIdTo(2);
+            IEntityWithTypedId<int> sut1 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
+            IEntityWithTypedId<int> sut2 = new ObjectWithNoDomainSignatureProperties().SetIdTo(2);
 
             Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
         }
@@ -455,8 +634,8 @@ namespace Tests.SharpArch.Domain.DomainModel
         [Test]
         public void Two_persistent_entities_with_no_signature_properties_and_equal_ids_generate_equal_hashcodes()
         {
-            var sut1 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
-            var sut2 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
+            IEntityWithTypedId<int> sut1 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
+            IEntityWithTypedId<int> sut2 = new ObjectWithNoDomainSignatureProperties().SetIdTo(1);
 
             Assert.That(sut1.GetHashCode(), Is.EqualTo(sut2.GetHashCode()));
         }
@@ -464,10 +643,19 @@ namespace Tests.SharpArch.Domain.DomainModel
         [Test]
         public void Two_transient_entities_with_different_values_of_domain_signature_generate_different_hashcodes()
         {
-            var sut1 = new ObjectWithOneDomainSignatureProperty { Age = 1 };
-            var sut2 = new ObjectWithOneDomainSignatureProperty { Age = 2 };
+            var sut1 = new ObjectWithOneDomainSignatureProperty {Age = 1};
+            var sut2 = new ObjectWithOneDomainSignatureProperty {Age = 2};
 
             Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
+        }
+
+        [Test]
+        public void Two_transient_entities_with_equal_values_of_domain_signature_generate_equal_hashcodes()
+        {
+            var sut1 = new ObjectWithOneDomainSignatureProperty {Age = 1};
+            var sut2 = new ObjectWithOneDomainSignatureProperty {Age = 1};
+
+            Assert.That(sut1.GetHashCode(), Is.EqualTo(sut2.GetHashCode()));
         }
 
         [Test]
@@ -477,15 +665,6 @@ namespace Tests.SharpArch.Domain.DomainModel
             var sut2 = new ObjectWithNoDomainSignatureProperties();
 
             Assert.That(sut1.GetHashCode(), Is.Not.EqualTo(sut2.GetHashCode()));
-        }
-
-        [Test]
-        public void Two_transient_entitites_with_equal_values_of_domain_signature_generate_equal_hashcodes()
-        {
-            var sut1 = new ObjectWithOneDomainSignatureProperty { Age = 1 };
-            var sut2 = new ObjectWithOneDomainSignatureProperty { Age = 1 };
-
-            Assert.That(sut1.GetHashCode(), Is.EqualTo(sut2.GetHashCode()));
         }
 
         [Test]
@@ -507,171 +686,14 @@ namespace Tests.SharpArch.Domain.DomainModel
             Assert.That(object1, Is.Not.EqualTo(object2));
 
             object1.Address = null;
-            object1.Name = "Supercalifragilisticexpialidocious";
+            object1.Name = @"Supercalifragilisticexpialidocious";
             object2.Address = null;
-            object2.Name = "Supercalifragilisticexpialidocious";
+            object2.Name = @"Supercalifragilisticexpialidocious";
             Assert.That(object1, Is.EqualTo(object2));
 
-            object1.Name = "Supercalifragilisticexpialidocious";
-            object2.Name = "Supercalifragilisticexpialidociouz";
+            object1.Name = @"Supercalifragilisticexpialidocious";
+            object2.Name = @"Supercalifragilisticexpialidociouz";
             Assert.That(object1, Is.Not.EqualTo(object2));
         }
-
-        [Test]
-        public void CanSerializeEntityToJson()
-        {
-            var object1 = new Contact() { EmailAddress = "serialize@this.net" };
-            string result = JsonConvert.SerializeObject(object1);
-            result.ShouldContain("serialize@this.net");
-        }
-
-        public class MockEntityObjectBase<T> : EntityWithTypedId<T>
-        {
-            public string Email { get; set; }
-
-            [DomainSignature]
-            public string FirstName { get; set; }
-
-            [DomainSignature]
-            public string LastName { get; set; }
-        }
-
-        public class ObjectWithOneDomainSignatureProperty : Entity
-        {
-            [DomainSignature]
-            public int Age { get; set; }
-
-            public string Name { get; set; }
-        }
-
-        private class AddressBeingDomainSignatureComparble : Entity
-        {
-            [DomainSignature]
-            public string Address1 { get; set; }
-
-            public string Address2 { get; set; }
-
-            [DomainSignature]
-            public int ZipCode { get; set; }
-        }
-
-        private class InheritedObjectWithExtraDomainSignatureProperty : ObjectWithOneDomainSignatureProperty
-        {
-            public string Address { get; set; }
-
-            [DomainSignature]
-            public bool IsLiving { get; set; }
-        }
-
-        private class MockEntityObjectBase : MockEntityObjectBase<int>
-        {
-        }
-
-        private class MockEntityObjectWithDefaultId : MockEntityObjectBase, IHasAssignedId<int>
-        {
-            public void SetAssignedIdTo(int assignedId)
-            {
-                this.Id = assignedId;
-            }
-        }
-
-        private class MockEntityObjectWithSetId : MockEntityObjectBase<string>, IHasAssignedId<string>
-        {
-            public void SetAssignedIdTo(string assignedId)
-            {
-                this.Id = assignedId;
-            }
-        }
-
-        private class Object1 : Entity
-        {
-        }
-
-        private class Object2 : Entity
-        {
-        }
-
-        private class ObjectWithAllDomainSignatureProperty : Entity
-        {
-            [DomainSignature]
-            public int Age { get; set; }
-            [DomainSignature]
-            public string Name { get; set; }
-        }
-
-        private class ObjectWithAssignedId : EntityWithTypedId<string>, IHasAssignedId<string>
-        {
-            [DomainSignature]
-            public string Name { get; set; }
-
-            public void SetAssignedIdTo(string assignedId)
-            {
-                this.Id = assignedId;
-            }
-        }
-
-        private class ObjectWithComplexProperties : Entity
-        {
-            [DomainSignature]
-            public AddressBeingDomainSignatureComparble Address { get; set; }
-            [DomainSignature]
-            public string Name { get; set; }
-
-            [DomainSignature]
-            public PhoneBeingNotDomainObject Phone { get; set; }
-        }
-
-        private class ObjectWithIdenticalTypedProperties : Entity
-        {
-            [DomainSignature]
-            public string Address { get; set; }
-            [DomainSignature]
-            public string Name { get; set; }
-        }
-
-        private class ObjectWithIntId : Entity
-        {
-            [DomainSignature]
-            public string Name { get; set; }
-        }
-
-        /// <summary>
-        ///     This is a nonsense object; i.e., it doesn't make sense to have 
-        ///     an entity without a domain signature.
-        /// </summary>
-        private class ObjectWithNoDomainSignatureProperties : Entity
-        {
-            public int Age { get; set; }
-
-            public string Name { get; set; }
-        }
-
-        private class PhoneBeingNotDomainObject
-        {
-            public string Extension { get; set; }
-
-            public string PhoneNumber { get; set; }
-        }
-
-        private class PhoneBeingNotDomainObjectButWithOverriddenEquals : PhoneBeingNotDomainObject
-        {
-            public override bool Equals(object obj)
-            {
-                var compareTo = obj as PhoneBeingNotDomainObject;
-
-                return compareTo != null && this.PhoneNumber.Equals(compareTo.PhoneNumber);
-            }
-
-            public override int GetHashCode()
-            {
-                return base.GetHashCode();
-            }
-        }
-
-        private class Contact : Entity
-        {
-            public virtual string EmailAddress { get; set; }
-        }
-
     }
 }

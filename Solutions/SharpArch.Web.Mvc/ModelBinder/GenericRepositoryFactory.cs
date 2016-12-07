@@ -1,36 +1,31 @@
 namespace SharpArch.Web.Mvc.ModelBinder
 {
     using System;
+    using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
-    using SharpArch.Domain.PersistenceSupport;
+    using Domain.PersistenceSupport;
+    using JetBrains.Annotations;
 
     internal class GenericRepositoryFactory
     {
-        public static object CreateEntityRepositoryFor(Type entityType, Type idType)
+        /// <summary>
+        /// Resolve repository for given entity type.
+        /// </summary>
+        /// <param name="entityType">Type of the entity.</param>
+        /// <param name="idType">Type of the identifier.</param>
+        /// <returns>Repository instance.</returns>
+        /// <exception cref="InvalidOperationException">If repository can not be resolved by <see cref="DependencyResolver"/>.</exception>
+        public static object CreateEntityRepositoryFor([NotNull] Type entityType, [NotNull] Type idType)
         {
-            var genericRepositoryType = typeof(IRepositoryWithTypedId<,>);
-            var concreteRepositoryType = genericRepositoryType.MakeGenericType(new[] { entityType, idType });
+            if (entityType == null) throw new ArgumentNullException(nameof(entityType));
+            if (idType == null) throw new ArgumentNullException(nameof(idType));
 
-            object repository;
+            var genericRepositoryType = typeof (IRepositoryWithTypedId<,>);
+            var concreteRepositoryType = genericRepositoryType.MakeGenericType(entityType, idType);
 
-            try
-            {
-                repository = ServiceLocator.Current.GetService(concreteRepositoryType);
-            }
-            catch (NullReferenceException)
-            {
-                throw new NullReferenceException(
-                    "ServiceLocator has not been initialized; " + "I was trying to retrieve " + concreteRepositoryType);
-            }
-            catch (ActivationException)
-            {
-                throw new ActivationException(
-                    "The needed dependency of type " + concreteRepositoryType.Name +
-                    " could not be located with the ServiceLocator. You'll need to register it with " +
-                    "the Common Service Locator (CSL) via your IoC's CSL adapter.");
-            }
+            var repository = DependencyResolver.Current.GetService(concreteRepositoryType);
+            if (repository == null)
+                throw new InvalidOperationException("Can not resolve " + concreteRepositoryType);
 
             return repository;
         }

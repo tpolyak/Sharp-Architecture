@@ -1,7 +1,21 @@
 Multiple Databases
 ==================
 
+Version 4
+-----------
+
+.. note::
+
+  Due to refactoring of NHibernate session management S#arch v4.0 does not support multiple databases. 
+
+
+This feature will be added in 4.1.
+
+
+Version 3
+---------
 To add support for an additional database to your project:
+
 
 Create an NHibernateForOtherDb.config file which contains the connection
 string to the new database
@@ -16,12 +30,12 @@ database as well; accordingly, I'd recommend making it a globally
 accessible string to make it easier to refere to in various locations.
 E.g.,
 
-::
+.. code-block: C#
 
-     NHibernateSession.AddConfiguration(Northwind.Infrastructure.DataGlobals.OTHER_DB_FACTORY_KEY, 
-          new string[] { Server.MapPath("~/bin/Northwind.Data.dll") }, 
-          new AutoPersistenceModelGenerator().Generate(),
-          Server.MapPath("~/NHibernateForOtherDb.config"), null, null, null);
+    NHibernateSession.AddConfiguration(Northwind.Infrastructure.DataGlobals.OTHER_DB_FACTORY_KEY, 
+      new string[] { Server.MapPath("~/bin/Northwind.Data.dll") }, 
+      new AutoPersistenceModelGenerator().Generate(),
+      Server.MapPath("~/NHibernateForOtherDb.config"), null, null, null);
 
     // In DataGlobals.cs:
     public const string OTHER_DB_FACTORY_KEY = "nhibernate.other_db";
@@ -29,7 +43,7 @@ E.g.,
 Create an Entity class which you intend to be tied to the new database;
 e.g.,
 
-::
+.. code-block: C#
 
     public class Village : Entity
     {
@@ -43,7 +57,7 @@ implementation with the factory session key, you need to have the
 explicit interface to then have the associated concrete implementation;
 e.g.,
 
-::
+.. code-block: C#
 
     using SharpArch.Core.PersistenceSupport;
 
@@ -55,7 +69,7 @@ e.g.,
 Within YourProject.Data, add a new repository implementation for the
 repository interface just defined; e.g.,
 
-::
+.. code-block: C#
 
     using Northwind.Core.DataInterfaces;
     using SharpArch.Data.NHibernate;
@@ -72,7 +86,7 @@ Within YourProject.Web.Mvc.Controllers, add a new controller which will
 use the repository (or which will accept an application service which
 then uses the repository); e.g.,
 
-::
+.. code-block: C#
 
     using System.Web.Mvc;
     using SharpArch.Web.NHibernate;

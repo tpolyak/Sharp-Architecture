@@ -1,15 +1,38 @@
-version: 3.2.0.{build}
-clone_depth: 3
+version: .{build}
 clone_folder: c:\work\sharp-arch
+
+pull_requests:
+  do_not_increment_build_number: true
+  
+nuget:
+  disable_publish_on_pr: true
+  
+os: Visual Studio 2015
+
+cache:
+  - Packages -> Solutions\**\packages.config
+  
 install:
-- cmd: git submodule update --init --recursive
+  - cmd: git submodule update --init --recursive
+  - ps: choco install GitVersion.Portable -y
+
+before_build:
+  - cmd: nuget restore Solutions/SharpArch.sln
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo .\Common\AssemblyVersion.cs /ensureAssemblyInfo
+
 build_script:
-  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,Package,PackageNuget'
+  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,BuildSamples;Package,FindDuplicates,InspectCode,PackageNuget'
+  
 artifacts:
-- path: Drops/**/*.nupkg
-  name: Nugets
-- path: Drops/**/*.zip
-  name: Binaries 
+  - path: Drops/**/*.nupkg
+    name: Nugets
+  - path: Drops/**/*.zip
+    name: Binaries 
+  - path: Drops/Duplicates/CodeDuplicatesReport.html
+    name: CodeDuplicates
+  - path: Drops/Inspections/CodeInspectionsReport.html
+    name: CodeInspections
+
 test_script:
 - cmd: >-
     cd Solutions\SharpArch.Tests\bin\Release
@@ -19,9 +42,14 @@ test_script:
     cd ..\..\..\SharpArch.Specifications\bin\Release
 
     mspec-clr4.exe SharpArch.Specifications.dll
+    
 deploy:
-- provider: NuGet
-  api_key:
-    secure: QzSLSnRAnpTRqWWhDzHNkHJP6RCd5pwWMv0myf88h0OCk0TTPJdhflsDql3kAlip
-  on:
-    branch: master
+  - provider: NuGet
+    api_key:
+      secure: QzSLSnRAnpTRqWWhDzHNkHJP6RCd5pwWMv0myf88h0OCk0TTPJdhflsDql3kAlip
+    on:
+      branch: 
+        - master
+        - develop
+        - /releases.*/
+        - /hotfixes.*/

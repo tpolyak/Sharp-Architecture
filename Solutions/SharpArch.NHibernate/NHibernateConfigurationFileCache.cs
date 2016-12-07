@@ -7,7 +7,7 @@
     using System.Reflection;
 
     using global::NHibernate.Cfg;
-
+    using JetBrains.Annotations;
     using SharpArch.Domain;
 
     /// <summary>
@@ -17,6 +17,7 @@
     /// <remarks>Seralizing a <see cref="Configuration"/> object requires that all components
     /// that make up the Configuration object be Serializable.  This includes any custom NHibernate 
     /// user types implementing <see cref="NHibernate.UserTypes.IUserType"/>.</remarks>
+    [PublicAPI]
     public class NHibernateConfigurationFileCache : INHibernateConfigurationCache
     {
         /// <summary>
@@ -53,9 +54,10 @@
         /// <param name="configKey">Key value to provide a unique name to the cached <see cref="Configuration"/>.</param>
         /// <param name="configPath">NHibernate configuration xml file.  This is used to determine if the 
         /// cached <see cref="Configuration"/> is out of date or not.</param>
+        /// <param name="mappingAssemblies">Assemblies containing NHibernate mappings.</param>
         /// <returns>If an up to date cached object is available, a <see cref="Configuration"/> 
         /// object, otherwise null.</returns>
-        public Configuration LoadConfiguration(string configKey, string configPath, string[] mappingAssemblies)
+        public Configuration LoadConfiguration(string configKey, string configPath, IEnumerable<string> mappingAssemblies)
         {
             string cachePath = CachedConfigPath(configKey);
             AppendToDependentFilePaths(mappingAssemblies);
@@ -139,7 +141,7 @@
         /// <summary>
         /// Append the given file path to the dependentFilePaths list.
         /// </summary>
-        /// <param name="paths">File path.</param>
+        /// <param name="path">File path.</param>
         private void AppendToDependentFilePaths(string path)
         {
             this.dependentFilePaths.Add(FindFile(path));
@@ -148,7 +150,7 @@
         /// <summary>
         /// Append the given list of file paths to the dependentFilePaths list.
         /// </summary>
-        /// <param name="paths"><see cref="IEnumerable{string}"/> list of file paths.</param>
+        /// <param name="paths"><see cref="IEnumerable{T}"/> list of file paths.</param>
         private void AppendToDependentFilePaths(IEnumerable<string> paths)
         {
             foreach (string path in paths)
@@ -184,7 +186,7 @@
                 return codePath;
             }
 
-            string dllPath = (path.IndexOf(".dll") == -1) ? path.Trim() + ".dll" : path.Trim();
+            string dllPath = (path.IndexOf(".dll", StringComparison.InvariantCultureIgnoreCase) == -1) ? path.Trim() + ".dll" : path.Trim();
             if (File.Exists(dllPath))
             {
                 return dllPath;

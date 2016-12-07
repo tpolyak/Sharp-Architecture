@@ -1,2 +1,3 @@
-%windir%\Microsoft.NET\Framework\v4.0.30319\msbuild Build.proj /t:PackageArtefacts /p:IsDesktopBuild=true
+call RestorePackages.cmd
+"%ProgramFiles(x86)%\MSBuild\14.0\Bin\msbuild.exe" Build.proj /t:PackageArtefacts /p:IsDesktopBuild=true
 pause

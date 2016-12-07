@@ -14,10 +14,14 @@ namespace SharpArch.Specifications.NHibernate.Mappings
     #endregion
 
     /// <summary>
-    /// Generates the automapping for the domain assembly
+    /// Generates the auto-mapping for the domain assembly.
     /// </summary>
     public class AutoPersistenceModelGenerator : IAutoPersistenceModelGenerator
     {
+        /// <summary>
+        /// Generates persistence model.
+        /// </summary>
+        /// <returns></returns>
         public AutoPersistenceModel Generate()
         {
             var mappings = AutoMap.AssemblyOf<AutoPersistenceModelGenerator>(new AutomappingConfiguration());

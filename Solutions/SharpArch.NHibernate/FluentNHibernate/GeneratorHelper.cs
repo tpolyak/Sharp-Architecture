@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     ///     An optional helper class used to view the mapping file generated from a fluent nhibernate class mapper
@@ -11,6 +12,7 @@
     /// <remarks>
     ///     This is not necessary for Fluent Nhibernate to function properly.
     /// </remarks>
+    [PublicAPI]
     public class GeneratorHelper
     {
         private const string GeneratorInterface = "IMapGenerator";

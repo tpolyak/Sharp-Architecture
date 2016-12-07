@@ -1,6 +1,9 @@
 ﻿namespace SharpArch.Testing.NUnit.NHibernate
 {
+    using global::NHibernate;
     using global::NUnit.Framework;
+    using JetBrains.Annotations;
+    using SharpArch.NHibernate;
 
     /// <summary>
     ///     Provides a base class for running unit tests against an in-memory database created
@@ -10,26 +13,73 @@
     ///     If you'd prefer a more behavior driven approach to testing against the in-memory database,
     ///     use <see cref = "RepositoryBehaviorSpecificationTestsBase" /> instead.
     /// </summary>
+    [PublicAPI]
     public abstract class RepositoryTestsBase
     {
+        /// <summary>
+        /// Transaction manager.
+        /// </summary>
+        protected TransactionManager TransactionManager { get; private set; }
+
+        /// <summary>
+        /// NHibernate session
+        /// </summary>
+        protected ISession Session { get; private set; }
+
+        TestDatabaseInitializer dbInitializer;
+
+
+        /// <summary>
+        /// Initializes NHibernate <see cref="ISessionFactory"/> (fixture setup).
+        /// </summary>
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            dbInitializer = new TestDatabaseInitializer(TestContext.CurrentContext.TestDirectory);
+            dbInitializer.GetSessionFactory();
+        }
+
+        /// <summary>
+        /// Called when [time tear down].
+        /// </summary>
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            dbInitializer?.Dispose();
+            dbInitializer = null;
+        }
+
+        /// <summary>
+        /// Closes NHibernate session.
+        /// </summary>
         [TearDown]
         public virtual void TearDown()
         {
-            RepositoryTestsHelper.Shutdown();
+            TestDatabaseInitializer.Close(Session);
         }
 
+        /// <summary>
+        /// Flushes the session and evicts entity from it.
+        /// </summary>
+        /// <param name="instance">The entity instance.</param>
         protected void FlushSessionAndEvict(object instance)
         {
-            RepositoryTestsHelper.FlushSessionAndEvict(instance);
+            Session.FlushAndEvict(instance);
         }
 
+        /// <summary>
+        /// Initializes database before each test run.
+        /// </summary>
         protected abstract void LoadTestData();
 
+        /// <summary>
+        /// Initializes session and database before test run.
+        /// </summary>
         [SetUp]
         protected virtual void SetUp()
         {
-            RepositoryTestsHelper.InitializeDatabase();
-
+            Session = dbInitializer.InitializeSession();
+            TransactionManager = new TransactionManager(Session);
             this.LoadTestData();
         }
     }
