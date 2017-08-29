@@ -14,7 +14,7 @@ cache:
   
 install:
   - cmd: git submodule update --init --recursive
-  - ps: choco install GitVersion.Portable -y
+  - ps: choco install nuget.commandline GitVersion.Portable opencover resharper-clt.portable nunit.portable -y --no-progress
 
 before_build:
   - cmd: nuget restore Solutions/SharpArch.sln
