@@ -17,7 +17,7 @@
       <dependency id="Castle.Core" version="[3.3.3,4.0)" />
       <dependency id="Castle.Windsor" version="[3.3.0,4.0)" />
       <dependency id="Iesi.Collections" version="[4.0.1.4000,5.0.0.0)" />
-      <dependency id="Newtonsoft.Json" version="[9.0.1,10.0.0)" />
+      <dependency id="Newtonsoft.Json" version="[9.0.1,12.0)" />
       <dependency id="SharpArch.Domain" version="[$(SemanticVersion),$(NextMajorRelease))" />
       <dependency id="Microsoft.AspNet.Mvc" version="[5.2.3,6.0.0)" />
     </dependencies>
