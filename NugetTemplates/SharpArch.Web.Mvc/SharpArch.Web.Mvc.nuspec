@@ -14,7 +14,7 @@
     <language>en-US</language>
     <releaseNotes>https://github.com/sharparchitecture/Sharp-Architecture/releases/tag/4.0.0</releaseNotes>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="[9.0.1,10.0.0)" />
+      <dependency id="Newtonsoft.Json" version="[9.0.1,12.0)" />
       <dependency id="SharpArch.Domain" version="[$(SemanticVersion),$(NextMajorRelease))" />
       <dependency id="Microsoft.AspNet.Mvc" version="[5.2.3,6.0.0)" />
     </dependencies>
