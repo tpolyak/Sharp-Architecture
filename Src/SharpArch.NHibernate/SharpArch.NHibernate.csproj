@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Compile Include="..\Common\AssemblyVersion.cs" Link="AssemblyVersion.cs" />
+    <Compile Include="..\Common\CommonAssemblyInfo.cs" Link="CommonAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Pack">
+    <Description>Provides NHibernate persistance support for a Sharp Architecture application, providing NHibernate session managment and initialisation, and implementations of core SharpArch data access interfaces.</Description>
+    <PackageTags>$(PackageTags);nhibernate;persistance</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="2.1.2" />
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
+    <PackageReference Include="NHibernate" Version="5.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj" />
+    <ProjectReference Include="..\SharpArch.Infrastructure\SharpArch.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentNHibernate" Version="2.1.2" />
+    <PackageReference Include="Humanizer.Core" Version="2.5.16" />
+    <PackageReference Include="Iesi.Collections" Version="4.0.4" />
+    <PackageReference Include="JetBrains.Annotations" Version="2018.2.1" />
+    <PackageReference Include="NHibernate" Version="5.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Src\SharpArch.Domain\SharpArch.Domain.csproj" />
+    <ProjectReference Include="..\..\..\..\Src\SharpArch.NHibernate\SharpArch.NHibernate.csproj" />
+    <ProjectReference Include="..\Suteki.TardisBank.Domain\Suteki.TardisBank.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

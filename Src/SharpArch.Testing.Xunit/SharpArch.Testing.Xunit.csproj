@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Compile Include="..\Common\AssemblyVersion.cs" Link="AssemblyVersion.cs" />
+    <Compile Include="..\Common\CommonAssemblyInfo.cs" Link="CommonAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Pack">
+    <Description>Provides base classes to help with testing applications written with Sharp Architecture using xUnit.</Description>
+    <PackageTags>$(PackageTags);testing;xunit</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Label="Common references">
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
+    <PackageReference Include="xunit.core" Version="2.4.1" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <!-- override xunit setting -->
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+</Project>

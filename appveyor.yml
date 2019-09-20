@@ -3,53 +3,68 @@ clone_folder: c:\work\sharp-arch
 
 pull_requests:
   do_not_increment_build_number: true
-  
+
 nuget:
   disable_publish_on_pr: true
-  
-os: Visual Studio 2015
+
+image:
+  - Visual Studio 2019
+
+services:
+  - mssql2017
+
+
+environment:
+  coveralls_repo_token:
+    secure: FgZlD1O2ilcGB6nF7cIgNcF6f8wWJk//ish6EG800QfuMd0y3BQWUXkl9u7TB4yG
+  appveyor_cache_entry_zip_args: -t7z -m0=lzma -mx=5 -ms=on
+  CAKE_PATH_TOOLS: c:\tmp\cake\tools\
+  CAKE_SETTINGS_SKIPVERIFICATION: true
+  CAKE_SETTINGS_SKIPPACKAGEVERSIONCHECK: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  GITHUB_USER:
+    secure: Qxe33R53rrB5/Rc2Vf9oRkSaB9h0XL1ugKwrqJo2eSU=
+  GITHUB_PASSWORD:
+    secure: pHWfnPX0taxUzXTHaLImDJpVrG0tc4mv0xX59KZ7ct8=
 
 cache:
-  - Packages -> Solutions\**\packages.config
-  
-install:
-  - cmd: git submodule update --init --recursive
-  - ps: choco install nuget.commandline GitVersion.Portable opencover resharper-clt.portable nunit.portable -y --no-progress
+#  - c:\work\sharp-arch\tmp\ResharperCaches
+#  - c:\work\sharp-arch\tmp\DupFinderCaches
+  - c:\tmp\cake\tools -> appveor.yml
 
-before_build:
-  - cmd: nuget restore Solutions/SharpArch.sln
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo .\Common\AssemblyVersion.cs /ensureAssemblyInfo
+install:
+  - ps: ./dotnet-install.ps1  -Version 2.2.100 -InstallDir "C:\Program Files\dotnet"
+  - ps: ./mssql-setup.ps1
 
 build_script:
-  - cmd: '"%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe" Build\Build.proj /t:Build,BuildSamples;Package,FindDuplicates,InspectCode,PackageNuget'
-  
+  - ps: ./build.ps1
+
+test: off
+
 artifacts:
-  - path: Drops/**/*.nupkg
+  - path: Drops/Packages/*.*nupkg
     name: Nugets
-  - path: Drops/**/*.zip
-    name: Binaries 
-  - path: Drops/Duplicates/CodeDuplicatesReport.html
-    name: CodeDuplicates
-  - path: Drops/Inspections/CodeInspectionsReport.html
-    name: CodeInspections
+#  - path: Drops/Inspections/CodeDuplicates.html
+#    name: CodeDuplicates
+#  - path: Drops/Inspections/CodeInspections.html
+#    name: CodeInspections
 
-test_script:
-- cmd: >-
-    cd Solutions\SharpArch.Tests\bin\Release
-
-    nunit3-console SharpArch.Tests.dll --result=myresults.xml;format=AppVeyor --dispose-runners --nocolor
-
-    cd ..\..\..\SharpArch.Specifications\bin\Release
-
-    mspec-clr4.exe SharpArch.Specifications.dll
-    
 deploy:
   - provider: NuGet
+    name: Pre-release
     api_key:
-      secure: QzSLSnRAnpTRqWWhDzHNkHJP6RCd5pwWMv0myf88h0OCk0TTPJdhflsDql3kAlip
+      secure: F8fjiNU1lblIU8Jjw5Mt0TDr9zpZW7p/zi/COlHaFqZdPGkrui0Sshq5MMMHc9uU
     on:
-      branch: 
-        - master
+      branch:
         - develop
+        - /release\/v.*/
         - /releases.*/
         - /hotfixes.*/
+
+  - provider: NuGet
+    name: Tagged release
+    api_key:
+      secure: F8fjiNU1lblIU8Jjw5Mt0TDr9zpZW7p/zi/COlHaFqZdPGkrui0Sshq5MMMHc9uU
+    on:
+      appveyor_repo_tag: true

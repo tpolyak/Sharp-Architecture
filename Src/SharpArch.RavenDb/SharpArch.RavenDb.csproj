@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <Compile Include="..\Common\AssemblyVersion.cs" Link="AssemblyVersion.cs" />
+    <Compile Include="..\Common\CommonAssemblyInfo.cs" Link="CommonAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Pack">
+    <Description>Provides RavenDB persistance support for a Sharp Architecture application, providing implementations of core SharpArch data access interfaces.</Description>
+    <PackageTags>$(PackageTags);raven-db;persistance</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
+    <PackageReference Include="RavenDb.Client" Version="4.0.5" />
+  </ItemGroup>
+   
+  <ItemGroup>
+    <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj" />
+  </ItemGroup>
+
+
+</Project>
