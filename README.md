@@ -4,7 +4,7 @@
 | | Stable | Develop |
 |:--:|:--:|:--:|
 | Build | [![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p/branch/master?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture/branch/master) | [![Build status](https://ci.appveyor.com/api/projects/status/q90e3hg7g3wgf79p?svg=true)](https://ci.appveyor.com/project/sharparchitecture/sharp-architecture) |
-| NuGet | [![NuGet](https://img.shields.io/nuget/v/Sharp-Architecture.svg)](https://www.nuget.org/packages?q=SharpArch)|[![NuGet](https://img.shields.io/nuget/vpre/Sharp-Architecture.svg)](https://www.nuget.org/packages?q=SharpArch) |
+| NuGet | [![NuGet](https://img.shields.io/nuget/v/SharpArch.Domain.svg)](https://www.nuget.org/packages?q=SharpArch)|[![NuGet](https://img.shields.io/nuget/vpre/SharpArch.Domain.svg)](https://www.nuget.org/packages?q=SharpArch) |
 | Coverage | [![Coverage Status](https://coveralls.io/repos/github/sharparchitecture/Sharp-Architecture/badge.svg?branch=master)](https://coveralls.io/github/sharparchitecture/Sharp-Architecture?branch=master) | [![Coverage Status](https://coveralls.io/repos/github/sharparchitecture/Sharp-Architecture/badge.svg?branch=develop)](https://coveralls.io/github/sharparchitecture/Sharp-Architecture?branch=develop) |
 
 

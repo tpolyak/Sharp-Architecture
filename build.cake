@@ -316,7 +316,7 @@ Task("CreateNugetPackages")
           if (isTagged) {
             var releaseNotes = $"https://github.com/{repoOwner}/{repoName}/releases/tag/{milestone}";
             Information("Updating ReleaseNotes Link: {0}", releaseNotes);
-            XmlPoke($"{srcDir}/Directory.Build.props",
+            XmlPoke("./Directory.Build.props",
               "/Project/PropertyGroup[@Label=\"Package\"]/PackageReleaseNotes",
               releaseNotes
             );
