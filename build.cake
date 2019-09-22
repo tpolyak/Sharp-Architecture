@@ -120,15 +120,17 @@ Task("UpdateAppVeyorBuildNumber")
     .Does(() =>
     {
         AppVeyor.UpdateBuildVersion(buildVersion);
-
     });
 
 
 Task("Restore")
-    .Does(() =>
-    {
-        DotNetCoreRestore(srcDir);
-    });
+    .DoesForEach(GetFiles(solutionFile).Union(GetFiles($"{samplesDir}/**/*.sln")),
+        (sln) => {
+            Information("Running in {0}", sln.GetDirectory().FullPath);
+            DotNetCoreRestore(sln.GetDirectory().FullPath);
+        }
+    );
+
 
 Task("InspectCode")
     .Does(() => {
@@ -199,7 +201,7 @@ Task("RunXunitTests")
 
         // run open cover for debug build configuration
         OpenCover(
-            tool => tool.DotNetCoreTool(projectPath.ToString(),
+            tool => tool.DotNetCoreTool(projectPath.FullPath,
                 "test",
                 buildProcessArgs("Debug")
             ),
@@ -237,6 +239,7 @@ Task("GenerateCoverageReport")
 
 Task("RunUnitTests")
     .IsDependentOn("BuildLibrary")
+    .IsDependentOn("BuildSamples")
     .IsDependentOn("CleanPreviousTestResults")
     .IsDependentOn("RunXunitTests")
     .IsDependentOn("GenerateCoverageReport")
@@ -244,7 +247,6 @@ Task("RunUnitTests")
     {
         Information("Done Test");
     });
-
 
 
 Task("BuildLibrary")
@@ -261,7 +263,7 @@ Task("BuildLibrary")
                 Configuration = "Debug",
             });
         }
-        Information("Running {0} build for code coverage", buildConfig);
+        Information("Running {0} build", buildConfig);
         DotNetCoreBuild(srcDir, new DotNetCoreBuildSettings {
             NoRestore = true,
             Configuration = buildConfig,
@@ -270,10 +272,35 @@ Task("BuildLibrary")
 
 
 
+
+Task("BuildSamples")
+    .IsDependentOn("SetVersion")
+    .IsDependentOn("UpdateAppVeyorBuildNumber")
+    .IsDependentOn("Restore")
+    .DoesForEach(GetFiles($"{samplesDir}/**/*.sln"), 
+        (solutionFile) => {
+            var slnPath = solutionFile.GetDirectory().FullPath;
+            var sln = solutionFile.GetFilenameWithoutExtension();
+            if (isReleaseBuild) {
+                Information("Running {0} {1} build for code coverage", sln, "Debug");
+                // need Debug build for code coverage
+                DotNetCoreBuild(slnPath, new DotNetCoreBuildSettings {
+                    NoRestore = true,
+                    Configuration = "Debug",
+                });
+            }
+            Information("Running {0} {1} build in {2}", sln, buildConfig, slnPath);
+            DotNetCoreBuild(slnPath, new DotNetCoreBuildSettings {
+                NoRestore = true,
+                Configuration = buildConfig,
+            });
+        });
+
+
+
 Task("CreateNugetPackages")
     .Does(() => {
         Action<string> buildPackage = (string projectName) => {
-          //var projectFileName = $"{srcDir}/{projectName}/{projectName}.csproj";
           var projectFileName=projectName;
           Information("Pack {0}", projectFileName);
 
@@ -319,6 +346,7 @@ Task("CloseMilestone")
 Task("Default")
     .IsDependentOn("UpdateAppVeyorBuildNumber")
     .IsDependentOn("BuildLibrary")
+    .IsDependentOn("BuildSamples")
     .IsDependentOn("RunUnitTests")
 //    .IsDependentOn("InspectCode")
     .IsDependentOn("CreateNugetPackages")

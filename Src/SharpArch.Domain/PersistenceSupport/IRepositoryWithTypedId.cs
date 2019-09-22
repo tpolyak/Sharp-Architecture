@@ -11,6 +11,7 @@ namespace SharpArch.Domain.PersistenceSupport
     /// <typeparam name="TId">The type of the entity ID.</typeparam>
     [PublicAPI]
     public interface IRepositoryWithTypedId<T, in TId>
+        where T: class
     {
         /// <summary>
         ///     Returns the database context, which provides a handle to application wide DB

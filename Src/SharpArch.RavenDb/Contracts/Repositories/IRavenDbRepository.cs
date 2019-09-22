@@ -10,6 +10,7 @@ namespace SharpArch.RavenDb.Contracts.Repositories
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.IRepository{T}" />
     [PublicAPI]
     public interface IRavenDbRepository<T> : IRavenDbRepositoryWithTypedId<T, int>, IRepository<T>
+        where T : class
     {
     }
 }

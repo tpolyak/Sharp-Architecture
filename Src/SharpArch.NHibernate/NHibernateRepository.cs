@@ -12,6 +12,7 @@
     /// </summary>
     [PublicAPI]
     public class NHibernateRepository<T> : NHibernateRepositoryWithTypedId<T, int>, INHibernateRepository<T>
+        where T : class
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="NHibernateRepository{T}" /> class.

@@ -13,6 +13,7 @@ namespace SharpArch.Domain.PersistenceSupport
     /// </remarks>
     [PublicAPI]
     public interface ILinqRepositoryWithTypedId<T, in TId> : IRepositoryWithTypedId<T, TId>
+        where T: class
     {
         /// <summary>
         ///     Finds an item by ID.

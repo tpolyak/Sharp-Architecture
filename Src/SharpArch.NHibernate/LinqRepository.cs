@@ -12,6 +12,7 @@
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.ILinqRepository{T}" />
     [PublicAPI]
     public class LinqRepository<T> : LinqRepositoryWithTypedId<T, int>, ILinqRepository<T>
+        where T : class
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="LinqRepository{T}" /> class.

@@ -15,6 +15,7 @@ namespace SharpArch.NHibernate.Contracts.Repositories
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.IRepositoryWithTypedId{T, TId}" />
     [PublicAPI]
     public interface INHibernateRepositoryWithTypedId<T, in TId> : IRepositoryWithTypedId<T, TId>
+        where T: class
     {
         /// <summary>
         ///     Looks for zero or more instances using the properties provided.

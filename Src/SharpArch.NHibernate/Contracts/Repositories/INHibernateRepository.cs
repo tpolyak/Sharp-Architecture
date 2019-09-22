@@ -12,5 +12,6 @@ namespace SharpArch.NHibernate.Contracts.Repositories
     /// </summary>
     [PublicAPI]
     public interface INHibernateRepository<T> : INHibernateRepositoryWithTypedId<T, int>, IRepository<T>
+        where T : class
     { }
 }

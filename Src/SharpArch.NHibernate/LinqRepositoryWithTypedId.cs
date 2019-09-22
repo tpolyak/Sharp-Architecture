@@ -15,6 +15,7 @@ namespace SharpArch.NHibernate
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.ILinqRepositoryWithTypedId{T, TId}" />
     [PublicAPI]
     public class LinqRepositoryWithTypedId<T, TId> : NHibernateRepositoryWithTypedId<T, TId>, ILinqRepositoryWithTypedId<T, TId>
+        where T : class
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="LinqRepositoryWithTypedId{T, TId}" /> class.

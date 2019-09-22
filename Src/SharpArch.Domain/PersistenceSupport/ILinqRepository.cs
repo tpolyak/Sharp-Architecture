@@ -8,5 +8,6 @@
     /// <typeparam name="T">The entity type.</typeparam>
     [PublicAPI]
     public interface ILinqRepository<T> : ILinqRepositoryWithTypedId<T, int>
+        where T : class
     { }
 }

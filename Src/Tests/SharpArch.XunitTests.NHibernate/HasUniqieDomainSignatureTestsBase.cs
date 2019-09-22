@@ -2,37 +2,19 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Reflection;
-    using Domain;
     using global::SharpArch.Domain.PersistenceSupport;
     using global::SharpArch.NHibernate;
-    using global::SharpArch.Testing.NHibernate;
     using global::SharpArch.Testing.Xunit.NHibernate;
-    using Mappings;
     using Moq;
 
 
-    public class DomainSignatureDbSetup : TestDatabaseSetup
-    {
-        public DomainSignatureDbSetup()
-            : base(Assembly.GetExecutingAssembly().CodeBase,
-                new[]
-                {
-                    typeof(ObjectWithGuidId).Assembly,
-                    typeof(TestsPersistenceModelGenerator).Assembly
-                })
-        {
-        }
-    }
-
-
-    public abstract class HasUniqueDomainSignatureTestsBase : TransientDatabaseTests<DomainSignatureDbSetup>
+    public abstract class HasUniqueDomainSignatureTestsBase : TransientDatabaseTests<NHibernateTestsSetup>
     {
         protected Mock<IServiceProvider> ServiceProviderMock;
         protected ValidationContext ValidationContext;
 
         public HasUniqueDomainSignatureTestsBase()
-            : base(new DomainSignatureDbSetup())
+            : base(new NHibernateTestsSetup())
         {
             ServiceProviderMock = new Mock<IServiceProvider>();
             ServiceProviderMock.Setup(sp => sp.GetService(typeof(IEntityDuplicateChecker)))

@@ -23,7 +23,7 @@ namespace SharpArch.NHibernate
     [PublicAPI]
     public class NHibernateRepositoryWithTypedId<T, TId> : INHibernateRepositoryWithTypedId<T, TId>,
         IAsyncNHibernateRepositoryWithTypedId<T, TId>
-
+        where T: class
     {
         /// <summary>
         ///     Gets NHibernate session.
@@ -156,8 +156,8 @@ namespace SharpArch.NHibernate
         /// <inheritdoc />
         public async Task<T> SaveAsync(T entity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var res = await Session.SaveAsync(entity, cancellationToken).ConfigureAwait(false);
-            return (T) res;
+            await Session.SaveAsync(entity, cancellationToken).ConfigureAwait(false);
+            return entity;
         }
 
         /// <inheritdoc />

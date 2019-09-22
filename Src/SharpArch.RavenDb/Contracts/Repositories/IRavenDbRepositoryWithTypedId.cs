@@ -15,6 +15,7 @@ namespace SharpArch.RavenDb.Contracts.Repositories
     /// Todo: Consider replacing lambda with expression tree.
     [PublicAPI]
     public interface IRavenDbRepositoryWithTypedId<T, in TIdT> : IRepositoryWithTypedId<T, TIdT>
+        where T: class
     {
         /// <summary>
         ///     RavenDB Document Session.

@@ -21,6 +21,7 @@ namespace SharpArch.RavenDb
     [PublicAPI]
     public class RavenDbRepositoryWithTypedId<T, TIdT> : IRavenDbRepositoryWithTypedId<T, TIdT>,
         ILinqRepositoryWithTypedId<T, TIdT>
+        where T: class
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RavenDbRepositoryWithTypedId{T, TIdT}"/> class.

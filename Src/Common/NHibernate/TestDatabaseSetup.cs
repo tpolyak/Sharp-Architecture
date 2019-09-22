@@ -38,7 +38,8 @@
         public TestDatabaseSetup([NotNull] string basePath, [NotNull] Assembly[] mappingAssemblies)
         {
             _basePath = basePath ?? throw new ArgumentNullException(nameof(basePath));
-            _mappingAssemblies = mappingAssemblies ?? throw new ArgumentNullException(nameof(mappingAssemblies));
+            if (mappingAssemblies == null) throw new ArgumentNullException(nameof(mappingAssemblies));
+            _mappingAssemblies = mappingAssemblies.Distinct().ToArray();
         }
 
 
