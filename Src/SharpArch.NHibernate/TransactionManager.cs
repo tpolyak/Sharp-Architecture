@@ -4,7 +4,6 @@
     using System.Data;
     using System.Threading;
     using System.Threading.Tasks;
-    using Domain.PersistenceSupport;
     using global::NHibernate;
     using JetBrains.Annotations;
 
@@ -13,12 +12,8 @@
     ///     Transaction manager for NHibernate.
     /// </summary>
     [PublicAPI]
-    public class TransactionManager : INHibernateTransactionManager, ISupportsTransactionStatus
+    public class TransactionManager : INHibernateTransactionManager
     {
-        /// <inheritdoc />
-        [NotNull]
-        public ISession Session { get; }
-
         /// <summary>
         ///     Creates instance of transaction manager.
         /// </summary>
@@ -29,24 +24,22 @@
         }
 
         /// <inheritdoc />
-        public Task CommitTransactionAsync(CancellationToken cancellationToken) => Session.Transaction.CommitAsync(cancellationToken);
+        public ISession Session { get; }
 
         /// <inheritdoc />
-        public Task RollbackTransactionAsync(CancellationToken cancellationToken) => Session.Transaction.RollbackAsync(cancellationToken);
+        public Task CommitTransactionAsync(CancellationToken cancellationToken)
+            => Session.Transaction.CommitAsync(cancellationToken);
 
         /// <inheritdoc />
-        public IDisposable BeginTransaction(IsolationLevel isolationLevel) => Session.BeginTransaction(isolationLevel);
+        public Task RollbackTransactionAsync(CancellationToken cancellationToken)
+            => Session.Transaction.RollbackAsync(cancellationToken);
 
         /// <inheritdoc />
-        public void CommitTransaction() => Session.Transaction.Commit();
+        public IDisposable BeginTransaction(IsolationLevel isolationLevel)
+            => Session.BeginTransaction(isolationLevel);
 
         /// <inheritdoc />
-        public void RollbackTransaction() => Session.Transaction.Rollback();
-
-        /// <inheritdoc />
-        public void FlushChanges() => Session.Flush();
-
-        /// <inheritdoc />
-        public bool IsActive => Session.Transaction.IsActive;
+        public Task FlushChangesAsync(CancellationToken cancellationToken)
+            => Session.FlushAsync(cancellationToken);
     }
 }
