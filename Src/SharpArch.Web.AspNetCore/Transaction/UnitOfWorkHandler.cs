@@ -6,6 +6,10 @@ using SharpArch.Domain.PersistenceSupport;
 
 namespace SharpArch.AspNetCore.Transaction
 {
+    using Infrastructure.Logging;
+    using Microsoft.AspNetCore.Http;
+
+
     /// <summary>
     ///     Wraps controller actions marked with <see cref="TransactionAttribute" /> into transaction.
     /// </summary>
@@ -15,10 +19,12 @@ namespace SharpArch.AspNetCore.Transaction
     [PublicAPI]
     public class UnitOfWorkHandler : ApplyTransactionFilterBase
     {
+        static readonly ILog Log = LogProvider.For<UnitOfWorkHandler>();
+
         /// <summary>
         ///     HttpContext key for Transaction Manger.
         /// </summary>
-        private const string TransactionManagerKey = "SharpArch.AspNetCore.UnitOfWork.TransactionManager";
+        const string TransactionManagerKey = "SharpArch.AspNetCore.UnitOfWork.TransactionManager";
 
         /// <inheritdoc />
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -33,6 +39,9 @@ namespace SharpArch.AspNetCore.Transaction
         }
 
         /// <inheritdoc />
+        /// <exception cref="T:System.InvalidOperationException">ITransactionManger was not found in HttpContext.
+        /// In can happen if third-party overwritten <see cref="HttpContext.Items"/>.
+        /// </exception>
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             var transactionAttribute = GetTransactionAttribute(context);
@@ -42,6 +51,15 @@ namespace SharpArch.AspNetCore.Transaction
                 if (transactionManager == null)
                     throw new InvalidOperationException(nameof(ITransactionManager) +
                         " was not found in HttpContext. Please contact SharpArch dev team.");
+
+                if (transactionManager is ISupportsTransactionStatus tranStatus)
+                {
+                    if (!tranStatus.IsActive)
+                    {
+                        Log.Debug("Transaction is already closed");
+                        return;
+                    }
+                }
 
                 if (context.Exception != null || transactionAttribute.RollbackOnModelValidationError && context.ModelState.IsValid == false)
                     transactionManager.RollbackTransaction();

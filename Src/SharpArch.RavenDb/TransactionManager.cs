@@ -16,7 +16,7 @@ namespace SharpArch.RavenDb
     /// </remarks>
     /// <seealso cref="SharpArch.Domain.PersistenceSupport.ITransactionManager" />
     [PublicAPI]
-    public class TransactionManager : ITransactionManager
+    public class TransactionManager : ITransactionManager, ISupportsTransactionStatus
     {
         [NotNull] readonly IDocumentSession _session;
 
@@ -98,5 +98,8 @@ namespace SharpArch.RavenDb
             _transaction?.Dispose();
             _transaction = null;
         }
+
+        /// <inheritdoc />
+        public bool IsActive => _transaction != null;
     }
 }

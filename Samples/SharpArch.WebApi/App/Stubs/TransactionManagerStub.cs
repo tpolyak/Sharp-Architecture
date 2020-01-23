@@ -7,7 +7,7 @@ using SharpArch.Domain.PersistenceSupport;
 
 namespace SharpArch.WebApi.Stubs
 {
-    public class TransactionManagerStub : ITransactionManager, IDisposable
+    public class TransactionManagerStub : ITransactionManager, IDisposable, ISupportsTransactionStatus
     {
         public const string TransactionIsolationLevel = "x-transaction-isolation-level";
         public const string TransactionState = "x-transaction-result";
@@ -74,5 +74,8 @@ namespace SharpArch.WebApi.Stubs
         {
             _transaction?.Dispose();
         }
+
+        /// <inheritdoc />
+        public bool IsActive => true;
     }
 }
