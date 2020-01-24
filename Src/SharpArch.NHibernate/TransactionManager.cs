@@ -4,6 +4,7 @@
     using System.Data;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.PersistenceSupport;
     using global::NHibernate;
     using JetBrains.Annotations;
 
@@ -12,7 +13,7 @@
     ///     Transaction manager for NHibernate.
     /// </summary>
     [PublicAPI]
-    public class TransactionManager : INHibernateTransactionManager
+    public class TransactionManager : INHibernateTransactionManager, ISupportsTransactionStatus
     {
         /// <inheritdoc />
         [NotNull]
@@ -44,5 +45,8 @@
 
         /// <inheritdoc />
         public void FlushChanges() => Session.Flush();
+
+        /// <inheritdoc />
+        public bool IsActive => Session.Transaction.IsActive;
     }
 }
