@@ -16,6 +16,10 @@ NEW FEATURES:
 IMPROVEMENTS:
 * More control over NHibernate configuration.
 
+NEW FEATURES:
+* SharpArch.NHibernate.DependencyInjection package;
+* ASP.NET 3 / NetStandard2.1 support;
+
 
 ========================
 S#arp 5.0
