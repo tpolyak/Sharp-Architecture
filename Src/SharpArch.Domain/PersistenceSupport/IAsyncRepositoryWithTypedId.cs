@@ -1,5 +1,6 @@
 ﻿namespace SharpArch.Domain.PersistenceSupport
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -30,12 +31,14 @@
         ///     An entity or <c>null</c> if a row is not found matching the provided ID.
         /// </remarks>
         [NotNull]
+        [ItemCanBeNull]
         Task<T> GetAsync(TId id, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         ///     Returns all of the items of a given type.
         /// </summary>
         [NotNull]
+        [ItemNotNull]
         Task<IList<T>> GetAllAsync(CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -45,7 +48,9 @@
         /// <returns>
         ///     Saved entity instance.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="entity"/> is <c>null</c>.</exception>
         [NotNull]
+        [ItemNotNull]
         Task<T> SaveAsync([NotNull] T entity, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -65,26 +70,30 @@
         /// <returns>
         ///     Entity instance.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="entity"/> is <c>null</c>.</exception>
         [NotNull]
+        [ItemNotNull]
         Task<T> SaveOrUpdateAsync([NotNull] T entity, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Dissasociates the entity with the ORM so that changes made to it are not automatically
+        ///     Disassociates the entity with the ORM so that changes made to it are not automatically
         ///     saved to the database.
         /// </summary>
         /// <remarks>
         ///     In NHibernate this removes the entity from current session cache.
         ///     More details may be found at http://www.hibernate.org/hib_docs/nhibernate/html_single/#performance-sessioncache.
         /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="entity"/> is <c>null</c>.</exception>
         Task EvictAsync([NotNull] T entity, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         ///     Deletes the specified entity.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="entity"/> is <c>null</c>.</exception>
         Task DeleteAsync([NotNull] T entity, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
-        ///     Deletes the entity that matches the provided ID.
+        ///     Deletes the entity that matches the provided Id.
         /// </summary>
         Task DeleteAsync(TId id, CancellationToken cancellationToken = default(CancellationToken));
     }

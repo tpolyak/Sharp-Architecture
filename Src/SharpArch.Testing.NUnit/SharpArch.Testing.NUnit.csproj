@@ -10,11 +10,16 @@
     <Description>Provides base classes to help with testing applications written with Sharp Architecture and NHibernate. 
  This is legacy package, for future development xUnit is recommended.</Description>
     <PackageTags>$(PackageTags);testing;nunit</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="..\..\Artefacts\Documentation\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
   <ItemGroup Label="Common references">
-    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="NUnit" Version="3.12.0" />
   </ItemGroup>
 

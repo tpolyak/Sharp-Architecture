@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using global::FluentNHibernate.Automapping;
     using global::FluentNHibernate.Cfg;
@@ -28,24 +27,25 @@
         /// <summary>
         ///     Default configuration file name.
         /// </summary>
-        public const string DefaultNHibernateConfigFileName = @"Hibernate.cfg.xml";
+        public const string DefaultNHibernateConfigFileName = @"hibernate.cfg.xml";
 
         /// <summary>
         ///     Default NHibernate session factory key.
         /// </summary>
         public static readonly string DefaultConfigurationName = "nhibernate.current_session";
 
-        private readonly List<Assembly> _mappingAssemblies;
-        private List<string> _additionalDependencies;
+        readonly List<Assembly> _mappingAssemblies;
+        List<string> _additionalDependencies;
 
-        private AutoPersistenceModel _autoPersistenceModel;
-        private string _configFile;
+        AutoPersistenceModel _autoPersistenceModel;
+        string _configFile;
 
-        private INHibernateConfigurationCache _configurationCache;
-        private Action<Configuration> _exposeConfiguration;
-        private IPersistenceConfigurer _persistenceConfigurer;
-        private IDictionary<string, string> _properties;
-        private bool _useDataAnnotationValidators;
+        INHibernateConfigurationCache _configurationCache;
+        Action<Configuration> _exposeConfiguration;
+        IPersistenceConfigurer _persistenceConfigurer;
+        IDictionary<string, string> _properties;
+        bool _useDataAnnotationValidators;
+        Action<CacheSettingsBuilder> _cacheSettingsBuilder;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NHibernateSessionFactoryBuilder" /> class.
@@ -127,7 +127,7 @@
             return this;
         }
 
-        private bool ShouldExposeConfiguration()
+        bool ShouldExposeConfiguration()
         {
             return _exposeConfiguration != null;
         }
@@ -200,12 +200,19 @@
         ///     http://nhibernate.info/doc/nhibernate-reference/session-configuration.html.
         /// </summary>
         /// <param name="properties">The properties.</param>
-        /// <returns></returns>
+        /// <returns>Builder instance.</returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="properties" /> is <c>null</c>.</exception>
         [NotNull]
-        public NHibernateSessionFactoryBuilder UseProperties([NotNull] IDictionary<string, string> properties)
+        public NHibernateSessionFactoryBuilder UseProperties([NotNull] IEnumerable<KeyValuePair<string, string>> properties)
         {
-            _properties = properties ?? throw new ArgumentNullException(nameof(properties));
+            if (properties == null) throw new ArgumentNullException(nameof(properties));
+
+            if (_properties == null)
+                _properties = new Dictionary<string, string>(64);
+            foreach (var pair in properties)
+            {
+                _properties[pair.Key] = pair.Value;
+            }
             return this;
         }
 
@@ -216,12 +223,11 @@
         ///     See https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations%28v=vs.110%29.aspx for details
         ///     about Data Annotations.
         /// </remarks>
-        /// <seealso cref="DataAnnotationsEventListener" />
-        /// .
+        /// <seealso cref="DataAnnotationsEventListener" />.
         [NotNull]
-        public NHibernateSessionFactoryBuilder UseDataAnnotationValidators(bool addDataAnnotatonValidators)
+        public NHibernateSessionFactoryBuilder UseDataAnnotationValidators(bool addDataAnnotationValidators)
         {
-            _useDataAnnotationValidators = addDataAnnotatonValidators;
+            _useDataAnnotationValidators = addDataAnnotationValidators;
             return this;
         }
 
@@ -241,6 +247,17 @@
 
             _configFile = nhibernateConfigFile;
 
+            return this;
+        }
+
+        /// <summary>
+        /// Allows to configure second-level cache.
+        /// </summary>
+        /// <param name="cacheSettingsBuilder">Cache settings configuration. Use <c>null</c> to clear previous setting.</param>
+        [NotNull]
+        public NHibernateSessionFactoryBuilder UseCache([CanBeNull] Action<CacheSettingsBuilder> cacheSettingsBuilder)
+        {
+            _cacheSettingsBuilder = cacheSettingsBuilder;
             return this;
         }
 
@@ -265,12 +282,17 @@
             return this;
         }
 
-        private Configuration ApplyCustomSettings(Configuration cfg)
+        Configuration ApplyCustomSettings(Configuration cfg)
         {
             var fluentConfig = Fluently.Configure(cfg);
             if (_persistenceConfigurer != null)
             {
                 fluentConfig.Database(_persistenceConfigurer);
+            }
+
+            if (_cacheSettingsBuilder != null)
+            {
+                fluentConfig.Cache(_cacheSettingsBuilder);
             }
 
             fluentConfig.Mappings(m =>
@@ -295,12 +317,13 @@
             return fluentConfig.BuildConfiguration();
         }
 
-        private void AddValidatorsAndExposeConfiguration(Configuration e)
+        void AddValidatorsAndExposeConfiguration(Configuration e)
         {
             if (_useDataAnnotationValidators)
             {
-                e.EventListeners.PreInsertEventListeners = InsertFirst(e.EventListeners.PreInsertEventListeners, new DataAnnotationsEventListener());
-                e.EventListeners.PreUpdateEventListeners = InsertFirst(e.EventListeners.PreUpdateEventListeners, new DataAnnotationsEventListener());
+                var dataAnnotationsEventListener = new DataAnnotationsEventListener();
+                e.EventListeners.PreInsertEventListeners = InsertFirst(e.EventListeners.PreInsertEventListeners, dataAnnotationsEventListener);
+                e.EventListeners.PreUpdateEventListeners = InsertFirst(e.EventListeners.PreUpdateEventListeners, dataAnnotationsEventListener);
             }
 
             if (ShouldExposeConfiguration())
@@ -313,15 +336,15 @@
         ///     Loads configuration from properties dictionary and from external file if available.
         /// </summary>
         /// <returns></returns>
-        private Configuration LoadExternalConfiguration()
+        Configuration LoadExternalConfiguration()
         {
             var cfg = new Configuration();
-            if (_properties != null && _properties.Any())
+            if (_properties != null && _properties.Count > 0)
             {
                 cfg.AddProperties(_properties);
             }
 
-            if (!string.IsNullOrEmpty(_configFile))
+            if (!string.IsNullOrEmpty(_configFile) && !string.Equals(_configFile, DefaultConfigurationName, StringComparison.OrdinalIgnoreCase))
             {
                 return cfg.Configure(_configFile);
             }
@@ -334,7 +357,7 @@
             return cfg;
         }
 
-        private static T[] InsertFirst<T>(T[] array, T item)
+        static T[] InsertFirst<T>(T[] array, T item)
         {
             if (array == null)
             {
@@ -346,7 +369,7 @@
             return items.ToArray();
         }
 
-        private static string MakeLoadReadyAssemblyName(string assemblyName)
+        static string MakeLoadReadyAssemblyName(string assemblyName)
         {
             return assemblyName.IndexOf(".dll", StringComparison.OrdinalIgnoreCase) == -1
                 ? assemblyName.Trim() + ".dll"
