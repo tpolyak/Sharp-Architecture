@@ -41,8 +41,12 @@ build_script:
 test: off
 
 artifacts:
-  - path: Drops/Packages/*.*nupkg
-    name: Nugets
+  - path: Drops/Packages/*.nupkg
+    name: NuGet packages
+
+  - path: Drops/Packages/*.snupkg
+    name: NuGet symbol packages
+    type: NuGetPackage
 #  - path: Drops/Inspections/CodeDuplicates.html
 #    name: CodeDuplicates
 #  - path: Drops/Inspections/CodeInspections.html
