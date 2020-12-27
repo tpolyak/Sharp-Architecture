@@ -23,10 +23,8 @@ environment:
   CAKE_SETTINGS_SKIPPACKAGEVERSIONCHECK: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
-  GITHUB_USER:
-    secure: Qxe33R53rrB5/Rc2Vf9oRkSaB9h0XL1ugKwrqJo2eSU=
-  GITHUB_PASSWORD:
-    secure: pHWfnPX0taxUzXTHaLImDJpVrG0tc4mv0xX59KZ7ct8=
+  GITHUB_TOKEN:
+    secure: SakrMxbclSjNzFQxv8sA35OhulfvNm9VqHBEOgQrebPaF/Bv7AmZRsT8/YEfSQED
 
 cache:
 #  - c:\work\sharp-arch\tmp\ResharperCaches

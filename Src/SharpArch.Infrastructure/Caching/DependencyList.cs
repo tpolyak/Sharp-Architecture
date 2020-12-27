@@ -126,7 +126,11 @@
         public static string GetAssemblyCodeBasePath([NotNull] Assembly assembly)
         {
             if (assembly == null) throw new ArgumentNullException(nameof(assembly));
+#if NET5_0
+            var uri = new UriBuilder(assembly.Location);
+#else            
             var uri = new UriBuilder(assembly.CodeBase);
+#endif            
             var uriPath = Uri.UnescapeDataString(uri.Path);
             return Path.GetDirectoryName(uriPath);
         }
