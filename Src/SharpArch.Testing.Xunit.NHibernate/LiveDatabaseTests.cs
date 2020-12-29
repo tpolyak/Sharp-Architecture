@@ -50,8 +50,9 @@
         public virtual void Dispose()
         {
             if (Session != null) {
-                if (Session.Transaction.IsActive)
-                    Session.Transaction.Rollback();
+                var currentTransaction = Session.GetCurrentTransaction();
+                if (currentTransaction != null && currentTransaction.IsActive)
+                    currentTransaction.Rollback();
                 Session.Dispose();
                 Session = null;
             }

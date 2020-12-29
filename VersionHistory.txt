@@ -1,4 +1,15 @@
 ========================
+S#arp 6.1
+========================
+NEW FEATURES:
+* .NET 5 support.
+
+IMPROVEMENTS:
+* Debug information now published as a symbol package to reduce build time and space used.
+* Use tokens instead of credentials in build script.
+
+
+========================
 S#arp 6.0
 ========================
 
@@ -15,6 +26,10 @@ NEW FEATURES:
 
 IMPROVEMENTS:
 * More control over NHibernate configuration.
+
+NEW FEATURES:
+* SharpArch.NHibernate.DependencyInjection package;
+* ASP.NET 3 / NetStandard2.1 support;
 
 
 ========================

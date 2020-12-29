@@ -1,17 +1,17 @@
 // ADDINS
-#addin nuget:?package=Cake.Coveralls&version=0.10.0
-#addin nuget:?package=Cake.FileHelpers&version=3.2.1
+#addin nuget:?package=Cake.Coveralls&version=0.10.2
+#addin nuget:?package=Cake.FileHelpers&version=3.3.0
 #addin nuget:?package=Cake.Incubator&version=5.1.0
-#addin nuget:?package=Cake.Issues&version=0.7.1
+#addin nuget:?package=Cake.Issues&version=0.9.1
 #addin nuget:?package=Cake.AppVeyor&version=4.0.0
 #addin nuget:?package=Cake.ReSharperReports&version=0.11.1
 
 // TOOLS
-#tool nuget:?package=GitReleaseManager&version=0.8.0
-#tool nuget:?package=GitVersion.CommandLine&version=5.0.1
+#tool nuget:?package=GitReleaseManager&version=0.11.0
+#tool nuget:?package=GitVersion.CommandLine&version=5.5.1
 #tool nuget:?package=coveralls.io&version=1.4.2
 #tool nuget:?package=OpenCover&version=4.7.922
-#tool nuget:?package=ReportGenerator&version=4.2.17
+#tool nuget:?package=ReportGenerator&version=4.8.1
 //#tool nuget:?package=JetBrains.ReSharper.CommandLineTools&version=2018.3.4
 
 // ARGUMENTS
@@ -72,18 +72,7 @@ var solutionFile = srcDir + "/SharpArch.sln";
 var samplesDir = "./Samples";
 var coverageFilter="+[SharpArch*]* -[SharpArch.Tests*]* -[SharpArch.Xunit*]* -[SharpArch.Infrastructure]SharpArch.Infrastructure.Logging.*";
 
-Credentials githubCredentials = null;
-
-public class Credentials {
-    public string UserName { get; set; }
-    public string Password { get; set; }
-
-    public Credentials(string userName, string password) {
-        UserName = userName;
-        Password = password;
-    }
-}
-
+string githubToken = null;
 
 // SETUP / TEARDOWN
 
@@ -92,10 +81,7 @@ Setup((context) =>
     Information("Building version {0} (tagged: {1}, local: {2}, release branch: {3})...", nugetVersion, isTagged, local, isReleaseBranch);
     CreateDirectory(artifactsDir);
     CleanDirectory(artifactsDir);
-    githubCredentials = new Credentials(
-      context.EnvironmentVariable("GITHUB_USER"),
-      context.EnvironmentVariable("GITHUB_PASSWORD")
-    );
+    githubToken = context.EnvironmentVariable("GITHUB_TOKEN");
 });
 
 Teardown((context) =>
@@ -169,7 +155,7 @@ Task("InspectCode")
 
 
 Task("RunXunitTests")
-    .DoesForEach(GetFiles(solutionFile).Union(GetFiles($"{samplesDir}/**/*.sln")), 
+    .DoesForEach(GetFiles(solutionFile).Union(GetFiles($"{samplesDir}/**/*.sln")),
     (testProj) => {
         var projectPath = testProj.GetDirectory();
         var projectFilename = testProj.GetFilenameWithoutExtension();
@@ -260,7 +246,7 @@ Task("Build")
     .IsDependentOn("SetVersion")
     .IsDependentOn("UpdateAppVeyorBuildNumber")
     .IsDependentOn("Restore")
-    .DoesForEach(GetFiles($"{srcDir}/**/*.sln").Union(GetFiles($"{samplesDir}/**/*.sln")), 
+    .DoesForEach(GetFiles($"{srcDir}/**/*.sln").Union(GetFiles($"{samplesDir}/**/*.sln")),
         (solutionFile) => {
             var slnPath = solutionFile.GetDirectory().FullPath;
             var sln = solutionFile.GetFilenameWithoutExtension();
@@ -313,7 +299,7 @@ Task("CreateNugetPackages")
 Task("CreateRelease")
     .WithCriteria(() => isRepository && isReleaseBranch && !isPullRequest)
     .Does(() => {
-        GitReleaseManagerCreate(githubCredentials.UserName, githubCredentials.Password, repoOwner, repoName,
+        GitReleaseManagerCreate(githubToken, repoOwner, repoName,
             new GitReleaseManagerCreateSettings {
               Milestone = milestone,
               TargetCommitish = "master"
@@ -324,7 +310,7 @@ Task("CreateRelease")
 Task("CloseMilestone")
     .WithCriteria(() => isRepository && isTagged && !isPullRequest)
     .Does(() => {
-        GitReleaseManagerClose(githubCredentials.UserName, githubCredentials.Password, repoOwner, repoName, milestone);
+        GitReleaseManagerClose(githubToken, repoOwner, repoName, milestone);
     });
 
 

@@ -1,4 +1,4 @@
-﻿namespace SharpArch.Domain.PersistenceSupport
+namespace SharpArch.Domain.PersistenceSupport
 {
     using JetBrains.Annotations;
 

@@ -15,6 +15,8 @@
     [PublicAPI]
     public class TransactionManager : INHibernateTransactionManager, ISupportsTransactionStatus
     {
+        private static readonly string NoTransactionAvailable = "No transaction is currently active.";
+
         /// <summary>
         ///     Creates instance of transaction manager.
         /// </summary>
@@ -27,13 +29,19 @@
         /// <inheritdoc />
         public ISession Session { get; }
 
+        /// <summary>
+        ///     Returns current transaction or <c>null</c> if no transaction was open.
+        /// </summary>
+        protected ITransaction GetTransaction()
+            => Session.GetCurrentTransaction();
+
         /// <inheritdoc />
         public Task CommitTransactionAsync(CancellationToken cancellationToken)
-            => Session.Transaction.CommitAsync(cancellationToken);
+            => GetTransaction()?.CommitAsync(cancellationToken) ?? throw new InvalidOperationException(NoTransactionAvailable);
 
         /// <inheritdoc />
         public Task RollbackTransactionAsync(CancellationToken cancellationToken)
-            => Session.Transaction.RollbackAsync(cancellationToken);
+            => GetTransaction()?.RollbackAsync(cancellationToken) ?? throw new InvalidOperationException(NoTransactionAvailable);
 
         /// <inheritdoc />
         public IDisposable BeginTransaction(IsolationLevel isolationLevel)
@@ -44,6 +52,6 @@
             => Session.FlushAsync(cancellationToken);
 
         /// <inheritdoc />
-        public bool IsActive => Session.Transaction.IsActive;
+        public bool IsActive => GetTransaction()?.IsActive ?? false;
     }
 }
