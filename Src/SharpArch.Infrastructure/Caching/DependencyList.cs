@@ -19,7 +19,7 @@
 
         private readonly IFileSystem _fileSystem;
         private string _basePath;
-        
+
         public static DependencyList WithPathPrefix([NotNull] string basePath, IFileSystem fileSystem = null)
         {
             if (string.IsNullOrEmpty(basePath)) throw new ArgumentException("Value cannot be null or empty.", nameof(basePath));
@@ -126,13 +126,15 @@
         public static string GetAssemblyCodeBasePath([NotNull] Assembly assembly)
         {
             if (assembly == null) throw new ArgumentNullException(nameof(assembly));
+
+            string path = null;
 #if NET5_0
-            var uri = new UriBuilder(assembly.Location);
-#else            
+            path = assembly.Location;
+#else
             var uri = new UriBuilder(assembly.CodeBase);
-#endif            
-            var uriPath = Uri.UnescapeDataString(uri.Path);
-            return Path.GetDirectoryName(uriPath);
+            path = Uri.UnescapeDataString(uri.Path);
+#endif
+            return Path.GetDirectoryName(path);
         }
 
         /// <summary>
@@ -157,8 +159,8 @@
             if (_fileSystem.FileExists(codePath)) return codePath;
 
             // try with .dll extension added
-            var dllPath = path.IndexOf(".dll", StringComparison.InvariantCultureIgnoreCase) == -1 
-                ? path + ".dll" 
+            var dllPath = path.IndexOf(".dll", StringComparison.InvariantCultureIgnoreCase) == -1
+                ? path + ".dll"
                 : path;
             if (_fileSystem.FileExists(dllPath)) return dllPath;
 
