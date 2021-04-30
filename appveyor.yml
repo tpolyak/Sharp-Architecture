@@ -34,9 +34,10 @@ cache:
 install:
   - ps: ./dotnet-install.ps1  -Version 2.2.100 -InstallDir "C:\Program Files\dotnet"
   - ps: ./mssql-setup.ps1
+  - ps: dotnet tool install Cake.Tool --version 1.1.0 --global
 
 build_script:
-  - ps: ./build.ps1 -Verbosity Verbose
+  - ps: dotnet cake
 
 test: off
 
