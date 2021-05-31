@@ -2,6 +2,9 @@
 vNext
 ========================
 
+S#arp 7.0.0
+========================
+
 BREAKING:
 * Removed EntityWithTypedId<> replaced with Entity<>, removed old entity class. Fix: replace `Entity` with `Entity<int>`.
 * Renamed IAsyncRepository to IRepository.
