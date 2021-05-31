@@ -5,6 +5,7 @@ namespace SharpArch.NHibernate.Contracts.Repositories
     using System.Threading;
     using System.Threading.Tasks;
     using Domain;
+    using Domain.DomainModel;
     using Domain.PersistenceSupport;
     using global::NHibernate;
     using JetBrains.Annotations;
@@ -13,11 +14,13 @@ namespace SharpArch.NHibernate.Contracts.Repositories
     /// <summary>
     ///     NHibernate-specific asynchronous repository extensions.
     /// </summary>
-    /// <typeparam name="T">Entity type/</typeparam>
+    /// <typeparam name="TEntity">Entity type/</typeparam>
     /// <typeparam name="TId">Entity identifier type.</typeparam>
-    /// <seealso cref="SharpArch.Domain.PersistenceSupport.IAsyncRepositoryWithTypedId{T, TId}" />
+    /// <seealso cref="IRepository{TEntity,TId}" />
     [PublicAPI]
-    public interface IAsyncNHibernateRepositoryWithTypedId<T, in TId> : IAsyncRepositoryWithTypedId<T, TId>
+    public interface INHibernateRepository<TEntity, in TId> : IRepository<TEntity, TId>
+        where TEntity : class, IEntity<TId>
+        where TId : IEquatable<TId>
     {
         /// <summary>
         ///     Looks for zero or more instances using the properties provided.
@@ -29,7 +32,7 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <exception cref="ArgumentNullException"><paramref name="propertyValuePairs" /> is <see langword="null" /></exception>
         /// <exception cref="ArgumentException">No properties specified.</exception>
-        Task<IList<T>> FindAllAsync(
+        Task<IList<TEntity>> FindAllAsync(
             IReadOnlyDictionary<string, object> propertyValuePairs,
             int? maxResults = null,
             CancellationToken cancellationToken = default);
@@ -41,8 +44,8 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         /// <param name="propertiesToExclude">Names of properties to exclude from search criteria.</param>
         /// <param name="maxResults">Maximum number of entities to return, if <see langword="null" /> return all data.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        Task<IList<T>> FindAllAsync(
-            T exampleInstance, string[] propertiesToExclude,
+        Task<IList<TEntity>> FindAllAsync(
+            TEntity exampleInstance, string[] propertiesToExclude,
             int? maxResults = null,
             CancellationToken cancellationToken = default);
 
@@ -50,8 +53,7 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         ///     Looks for a single instance using the example provided.
         /// </summary>
         /// <exception cref="NonUniqueResultException" />
-        [ItemCanBeNull]
-        Task<T> FindOneAsync(T exampleInstance, CancellationToken cancellationToken, params string[] propertiesToExclude);
+        Task<TEntity?> FindOneAsync(TEntity exampleInstance, CancellationToken cancellationToken, params string[] propertiesToExclude);
 
         /// <summary>
         ///     Looks for a single instance using the property/values provided.
@@ -59,9 +61,7 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         /// <exception cref="NonUniqueResultException" />
         /// <param name="propertyValuePairs">Property name/value pairs to use as search criteria.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        [ItemCanBeNull]
-        Task<T> FindOneAsync(
-            IReadOnlyDictionary<string, object> propertyValuePairs, CancellationToken cancellationToken = default);
+        Task<TEntity?> FindOneAsync(IReadOnlyDictionary<string, object> propertyValuePairs, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Returns null if a row is not found matching the provided Id.
@@ -69,16 +69,14 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         /// <param name="id">Entity identifier.</param>
         /// <param name="lockMode">Row Lock mode.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        [ItemCanBeNull]
-        Task<T> GetAsync(TId id, Enums.LockMode lockMode, CancellationToken cancellationToken = default);
+        Task<TEntity?> GetAsync(TId id, Enums.LockMode lockMode, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Return the persistent instance of the given entity class with the given identifier.
         /// </summary>
         /// <param name="id">Entity identifier.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        [ItemNotNull]
-        Task<T> LoadAsync(TId id, CancellationToken cancellationToken = default);
+        Task<TEntity> LoadAsync(TId id, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Return the persistent instance of the given entity class with the given identifier, obtaining the specified lock
@@ -87,8 +85,7 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         /// <param name="id">Entity identifier.</param>
         /// <param name="lockMode">Row Lock mode.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        [ItemNotNull]
-        Task<T> LoadAsync(TId id, Enums.LockMode lockMode, CancellationToken cancellationToken = default);
+        Task<TEntity> LoadAsync(TId id, Enums.LockMode lockMode, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     Copy the state of the given object onto the persistent object with the same
@@ -106,8 +103,7 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         /// <param name="entity">a detached instance with state to be copied </param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>An updated persistent instance.</returns>
-        [ItemNotNull]
-        Task<T> MergeAsync([NotNull] T entity, CancellationToken cancellationToken = default);
+        Task<TEntity> MergeAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///     For entities that have assigned Id's, you should explicitly call Update to update an existing one.
@@ -118,7 +114,6 @@ namespace SharpArch.NHibernate.Contracts.Repositories
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Entity instance.</returns>
         /// <exception cref="ArgumentNullException"> <paramref name="entity" /> is <c>null</c>.</exception>
-        [ItemNotNull]
-        Task<T> UpdateAsync([NotNull] T entity, CancellationToken cancellationToken = default);
+        Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
     }
 }

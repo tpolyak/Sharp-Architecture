@@ -10,7 +10,6 @@
     using global::FluentNHibernate.Cfg.Db;
     using global::NHibernate;
     using global::NHibernate.Cfg;
-    using Infrastructure.Caching;
     using JetBrains.Annotations;
     using NHibernateValidator;
 
@@ -35,33 +34,28 @@
         public static readonly string DefaultConfigurationName = "nhibernate.current_session";
 
         readonly List<Assembly> _mappingAssemblies;
-        List<string> _additionalDependencies;
 
-        AutoPersistenceModel _autoPersistenceModel;
-        string _configFile;
+        AutoPersistenceModel? _autoPersistenceModel;
+        string? _configFile;
 
-        INHibernateConfigurationCache _configurationCache;
-        Action<Configuration> _exposeConfiguration;
-        IPersistenceConfigurer _persistenceConfigurer;
-        IDictionary<string, string> _properties;
+        Action<Configuration>? _exposeConfiguration;
+        IPersistenceConfigurer? _persistenceConfigurer;
+        IDictionary<string, string>? _properties;
         bool _useDataAnnotationValidators;
-        Action<CacheSettingsBuilder> _cacheSettingsBuilder;
+        Action<CacheSettingsBuilder>? _cacheSettingsBuilder;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="NHibernateSessionFactoryBuilder" /> class.
         /// </summary>
         public NHibernateSessionFactoryBuilder()
         {
-            _configurationCache = NullNHibernateConfigurationCache.Null;
             _mappingAssemblies = new List<Assembly>(8);
-            _additionalDependencies = new List<string>(8);
         }
 
         /// <summary>
         ///     Creates the session factory.
         /// </summary>
         /// <returns> NHibernate session factory <see cref="ISessionFactory" />.</returns>
-        [NotNull]
         public ISessionFactory BuildSessionFactory()
         {
             var configuration = BuildConfiguration();
@@ -71,44 +65,11 @@
         /// <summary>
         ///     Builds NHibernate configuration.
         /// </summary>
-        /// <param name="basePath">
-        ///     Base directory to use for loading additional files.
-        ///     If <c>null</c> base folder of the current assembly is used.
-        /// </param>
-        /// <remarks>
-        ///     <para>
-        ///         Any changes made to configuration object after this point <b>will not be persisted</b> in configuration cache.
-        ///         This can be useful to make dynamic changes to configuration or in case changes cannot be serialized
-        ///         (e.g. event listeners are not marked with <see cref="System.SerializableAttribute" />.
-        ///     </para>
-        ///     <para>
-        ///         To make persistent changes use <seealso cref="ExposeConfiguration" />.
-        ///     </para>
-        /// </remarks>
         /// <exception cref="InvalidOperationException">No dependencies were specified</exception>
-        [NotNull]
-        public Configuration BuildConfiguration(string basePath = null)
+        public Configuration BuildConfiguration()
         {
-            var dependencyList = basePath == null
-                ? DependencyList.WithBasePathOfAssembly(Assembly.GetExecutingAssembly())
-                : DependencyList.WithPathPrefix(basePath);
-            dependencyList
-                .AddAssemblies(_mappingAssemblies);
-
-            if (!string.IsNullOrEmpty(_configFile)) dependencyList.AddFile(_configFile);
-            dependencyList.AddFiles(_additionalDependencies);
-
-            var timestamp = dependencyList.GetLastModificationTime();
-            if (timestamp == null) throw new InvalidOperationException("No dependencies were specified");
-
-            var configuration = _configurationCache.TryLoad(timestamp.Value);
-
-            if (configuration == null)
-            {
-                configuration = LoadExternalConfiguration();
-                configuration = ApplyCustomSettings(configuration);
-                _configurationCache.Save(configuration, timestamp.Value);
-            }
+            var configuration = LoadExternalConfiguration();
+            configuration = ApplyCustomSettings(configuration);
 
             return configuration;
         }
@@ -120,8 +81,7 @@
         ///     Changes to configuration will be persisted in configuration cache, if it is enabled.
         ///     In case changes must not be persisted in cache, they must be applied after <seealso cref="BuildConfiguration" />.
         /// </remarks>
-        [NotNull]
-        public NHibernateSessionFactoryBuilder ExposeConfiguration([NotNull] Action<Configuration> config)
+        public NHibernateSessionFactoryBuilder ExposeConfiguration(Action<Configuration> config)
         {
             _exposeConfiguration = config ?? throw new ArgumentNullException(nameof(config));
             return this;
@@ -132,20 +92,6 @@
             return _exposeConfiguration != null;
         }
 
-        /// <summary>
-        ///     Allows to cache compiled NHibernate configuration.
-        /// </summary>
-        /// <param name="configurationCache">The configuration cache, see <see cref="INHibernateConfigurationCache" />. </param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">Please provide configuration cache instance.</exception>
-        [NotNull]
-        public NHibernateSessionFactoryBuilder UseConfigurationCache(
-            [NotNull] INHibernateConfigurationCache configurationCache)
-        {
-            _configurationCache = configurationCache ??
-                throw new ArgumentNullException(nameof(configurationCache), "Please provide configuration cache instance.");
-            return this;
-        }
 
         /// <summary>
         ///     Allows to specify additional assemblies containing FluentNHibernate mappings.
@@ -153,8 +99,8 @@
         /// <param name="mappingAssemblies">The mapping assemblies.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException">Mapping assemblies are not specified.</exception>
-        [NotNull]
-        public NHibernateSessionFactoryBuilder AddMappingAssemblies([NotNull] IEnumerable<Assembly> mappingAssemblies)
+        
+        public NHibernateSessionFactoryBuilder AddMappingAssemblies(IEnumerable<Assembly> mappingAssemblies)
         {
             if (mappingAssemblies == null) throw new ArgumentNullException(nameof(mappingAssemblies), "Mapping assemblies are not specified.");
 
@@ -162,24 +108,6 @@
             return this;
         }
 
-        /// <summary>
-        ///     Add generic file dependency.
-        ///     Used with session cache to add dependency which is not used to configure session
-        ///     (e.g. application configuration, shared library, etc...)
-        /// </summary>
-        /// <param name="fileName">File name</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException">File name cannot be empty</exception>
-        public NHibernateSessionFactoryBuilder WithFileDependency([NotNull] string fileName)
-        {
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                throw new ArgumentException("File name cannot be empty", nameof(fileName));
-            }
-
-            _additionalDependencies.Add(fileName);
-            return this;
-        }
 
         /// <summary>
         ///     Allows to specify FluentNhibernate auto-persistence model to use..
@@ -187,9 +115,9 @@
         /// <param name="autoPersistenceModel">The automatic persistence model.</param>
         /// <returns></returns>
         /// <exception cref="System.ArgumentNullException"></exception>
-        [NotNull]
+        
         public NHibernateSessionFactoryBuilder UseAutoPersistenceModel(
-            [NotNull] AutoPersistenceModel autoPersistenceModel)
+            AutoPersistenceModel autoPersistenceModel)
         {
             _autoPersistenceModel = autoPersistenceModel ?? throw new ArgumentNullException(nameof(autoPersistenceModel));
             return this;
@@ -202,8 +130,8 @@
         /// <param name="properties">The properties.</param>
         /// <returns>Builder instance.</returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="properties" /> is <c>null</c>.</exception>
-        [NotNull]
-        public NHibernateSessionFactoryBuilder UseProperties([NotNull] IEnumerable<KeyValuePair<string, string>> properties)
+        
+        public NHibernateSessionFactoryBuilder UseProperties(IEnumerable<KeyValuePair<string, string>> properties)
         {
             if (properties == null) throw new ArgumentNullException(nameof(properties));
 
@@ -224,7 +152,7 @@
         ///     about Data Annotations.
         /// </remarks>
         /// <seealso cref="DataAnnotationsEventListener" />.
-        [NotNull]
+        
         public NHibernateSessionFactoryBuilder UseDataAnnotationValidators(bool addDataAnnotationValidators)
         {
             _useDataAnnotationValidators = addDataAnnotationValidators;
@@ -239,7 +167,7 @@
         ///     details
         /// </remarks>
         /// <exception cref="System.ArgumentException">NHibernate config was not specified.</exception>
-        [NotNull]
+        
         public NHibernateSessionFactoryBuilder UseConfigFile(string nhibernateConfigFile)
         {
             if (string.IsNullOrWhiteSpace(nhibernateConfigFile))
@@ -254,8 +182,8 @@
         /// Allows to configure second-level cache.
         /// </summary>
         /// <param name="cacheSettingsBuilder">Cache settings configuration. Use <c>null</c> to clear previous setting.</param>
-        [NotNull]
-        public NHibernateSessionFactoryBuilder UseCache([CanBeNull] Action<CacheSettingsBuilder> cacheSettingsBuilder)
+        
+        public NHibernateSessionFactoryBuilder UseCache(Action<CacheSettingsBuilder>? cacheSettingsBuilder)
         {
             _cacheSettingsBuilder = cacheSettingsBuilder;
             return this;
@@ -274,9 +202,9 @@
         /// </code>
         /// </example>
         /// <exception cref="System.ArgumentNullException"><paramref name="persistenceConfigurer" /> is <c>null</c>.</exception>
-        [NotNull]
+        
         public NHibernateSessionFactoryBuilder UsePersistenceConfigurer(
-            [NotNull] IPersistenceConfigurer persistenceConfigurer)
+            IPersistenceConfigurer persistenceConfigurer)
         {
             _persistenceConfigurer = persistenceConfigurer ?? throw new ArgumentNullException(nameof(persistenceConfigurer));
             return this;
@@ -328,7 +256,7 @@
 
             if (ShouldExposeConfiguration())
             {
-                _exposeConfiguration(e);
+                _exposeConfiguration!(e);
             }
         }
 

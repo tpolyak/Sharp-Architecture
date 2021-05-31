@@ -13,7 +13,7 @@ namespace Tests.SharpArch.Domain.DomainModel
     {
         class ConcreteBaseObject : BaseObject
         {
-            public string Name { get; set; }
+            public string Name { get; set; } = null!;
 
             protected override PropertyInfo[] GetTypeSpecificSignatureProperties()
             {
@@ -22,22 +22,22 @@ namespace Tests.SharpArch.Domain.DomainModel
         }
 
 
-        class ConcreteEntityWithDomainSignatureProperties : Entity
+        class ConcreteEntityWithDomainSignatureProperties : Entity<int>
         {
             [DomainSignature]
-            public string Name { get; set; }
+            public string Name { get; set; } = null!;
         }
 
 
-        class ConcreteEntityWithNoDomainSignatureProperties : Entity
+        class ConcreteEntityWithNoDomainSignatureProperties : Entity<int>
         {
-            public string Name { get; set; }
+            public string Name { get; set; } = null!;
         }
 
 
         class ConcreteValueObject : ValueObject
         {
-            public string Name { get; set; }
+            public string Name { get; set; } = null!;
         }
 
 
@@ -92,7 +92,7 @@ namespace Tests.SharpArch.Domain.DomainModel
         [Fact]
         public void CanCompareEntitiesWithDomainSignatureProperties()
         {
-            var comparer = new BaseObjectEqualityComparer<Entity>();
+            var comparer = new BaseObjectEqualityComparer<Entity<int>>();
 
             var obj1 = new ConcreteEntityWithDomainSignatureProperties {Name = "Whatever"};
             var obj2 = new ConcreteEntityWithDomainSignatureProperties {Name = "Whatever"};

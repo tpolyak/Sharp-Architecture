@@ -1,5 +1,6 @@
 ﻿namespace Tests.SharpArch.NHibernate
 {
+    using System.Threading;
     using System.Threading.Tasks;
     using Domain;
     using FluentAssertions;
@@ -10,18 +11,17 @@
 
     public class NHibernateRepositoryTests : TransientDatabaseTests<NHibernateTestsSetup>
     {
-        readonly NHibernateRepository<Contractor> _repo;
+        readonly NHibernateRepository<Contractor, int> _repo;
 
         /// <inheritdoc />
         public NHibernateRepositoryTests(NHibernateTestsSetup setup): base(setup)
         {
-            _repo = new NHibernateRepository<Contractor>(TransactionManager);
+            _repo = new NHibernateRepository<Contractor, int>(TransactionManager);
         }
 
         /// <inheritdoc />
-        protected override void LoadTestData()
-        {
-        }
+        protected override Task LoadTestData(CancellationToken cancellationToken)
+            => Task.CompletedTask;
 
         [Fact]
         public async Task CanSaveAsync()

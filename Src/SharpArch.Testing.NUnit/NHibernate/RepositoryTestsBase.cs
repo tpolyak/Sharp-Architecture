@@ -5,6 +5,7 @@
     using global::NUnit.Framework;
     using JetBrains.Annotations;
     using SharpArch.NHibernate;
+    using SharpArch.NHibernate.Impl;
     using Testing.NHibernate;
 
 
@@ -20,19 +21,19 @@
         /// <summary>
         ///     Transaction manager.
         /// </summary>
-        protected TransactionManager TransactionManager { get; private set; }
+        protected TransactionManager TransactionManager { get; private set; } = null!;
 
         /// <summary>
         ///     Database initializer.
         /// </summary>
-        protected TestDatabaseSetup DbInitializer { get; private set; }
+        protected TestDatabaseSetup DbInitializer { get; private set; } = null!;
 
         /// <summary>
         ///     Current NHibernate session.
         /// </summary>
         protected ISession Session => TransactionManager.Session;
 
-        private RepositoryTestsBase()
+        RepositoryTestsBase()
         {
         }
 
@@ -40,7 +41,7 @@
         /// Initializes database tests fixture.
         /// </summary>
         /// <param name="dbInitializer">Database initializer instance.</param>
-        protected RepositoryTestsBase([NotNull] TestDatabaseSetup dbInitializer)
+        protected RepositoryTestsBase(TestDatabaseSetup dbInitializer)
         {
             DbInitializer = dbInitializer ?? throw new ArgumentNullException(nameof(dbInitializer));
             DbInitializer.GetSessionFactory();
@@ -53,7 +54,7 @@
         public void OneTimeTearDown()
         {
             DbInitializer?.Dispose();
-            DbInitializer = null;
+            DbInitializer = null!;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@
         /// </summary>
         /// <param name="instance">The entity instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="instance" /> is <see langword="null" /></exception>
-        protected void FlushSessionAndEvict([NotNull] object instance)
+        protected void FlushSessionAndEvict(object instance)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
             Session.FlushAndEvict(instance);
@@ -81,7 +82,7 @@
         /// </summary>
         /// <param name="instance">The entity instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="instance" /> is <see langword="null" /></exception>
-        protected void SaveAndEvict([NotNull] object instance)
+        protected void SaveAndEvict(object instance)
         {
             if (instance == null) throw new ArgumentNullException(nameof(instance));
             Session.Save(instance);

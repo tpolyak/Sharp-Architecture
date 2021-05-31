@@ -14,20 +14,20 @@ namespace Suteki.TardisBank.Tasks
     {
         readonly IHttpContextService _context;
 
-        readonly ILinqRepository<Parent> _parentRepository;
+        readonly ILinqRepository<Parent, int> _parentRepository;
 
-        readonly ILinqRepository<User> _userRepository;
+        readonly ILinqRepository<User, int> _userRepository;
 
-        public UserService(IHttpContextService context, ILinqRepository<Parent> parentRepository, ILinqRepository<User> userRepository)
+        public UserService(IHttpContextService context, ILinqRepository<Parent, int> parentRepository, ILinqRepository<User, int> userRepository)
         {
             _context = context;
             _parentRepository = parentRepository;
             _userRepository = userRepository;
         }
 
-        public Task<User> GetCurrentUser(CancellationToken cancellationToken)
+        public Task<User?> GetCurrentUser(CancellationToken cancellationToken)
         {
-            if (!_context.UserIsAuthenticated) return Task.FromResult<User>(null);
+            if (!_context.UserIsAuthenticated) return Task.FromResult<User?>(null);
 
             return GetUserByUserName(_context.UserName, cancellationToken);
         }
@@ -37,17 +37,17 @@ namespace Suteki.TardisBank.Tasks
             return _userRepository.FindOneAsync(userId, cancellationToken);
         }
 
-        public Task<User> GetUserByUserName(string userName, CancellationToken cancellationToken)
+        public Task<User?> GetUserByUserName(string userName, CancellationToken cancellationToken)
         {
             if (userName == null)
             {
                 throw new ArgumentNullException(nameof(userName));
             }
 
-            return _userRepository.FindAll().Where(u => u.UserName == userName).FirstOrDefaultAsync(cancellationToken);
+            return _userRepository.FindAll().Where(u => u.UserName == userName).FirstOrDefaultAsync(cancellationToken)!;
         }
 
-        public async Task<User> GetUserByActivationKey(string activationKey, CancellationToken cancellationToken)
+        public async Task<User?> GetUserByActivationKey(string activationKey, CancellationToken cancellationToken)
         {
             if (activationKey == null)
             {

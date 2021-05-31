@@ -15,9 +15,10 @@ namespace Suteki.TardisBank.WebApi
     using SharpArch.Domain.PersistenceSupport;
     using SharpArch.NHibernate;
     using SharpArch.NHibernate.Extensions.DependencyInjection;
+    using SharpArch.NHibernate.Impl;
     using SharpArch.Web.AspNetCore.Transaction;
 
-#if NETCOREAPP2_1 || NETCOREAPP2_2
+#if NETCOREAPP2_1
     using System.Globalization;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
@@ -62,8 +63,6 @@ namespace Suteki.TardisBank.WebApi
                 .AddJsonFormatters()
 #if NETCOREAPP2_1
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-#elif NETCOREAPP2_2
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
 #endif
                 ;
 #endif
@@ -110,11 +109,11 @@ namespace Suteki.TardisBank.WebApi
                 .SingleInstance();
 
             builder.RegisterAssemblyTypes(typeof(AccountMap).Assembly)
-                .AsClosedTypesOf(typeof(IAsyncRepositoryWithTypedId<,>))
+                .AsClosedTypesOf(typeof(IRepository<,>))
 #if DEBUG
                 .Where(t =>
                 {
-                    var x = t.IsClosedTypeOf(typeof(IAsyncRepositoryWithTypedId<,>));
+                    var x = t.IsClosedTypeOf(typeof(IRepository<,>));
                     _logger.Information("{type}, register: {register}", t, x);
                     return x;
                 })
@@ -122,16 +121,10 @@ namespace Suteki.TardisBank.WebApi
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(NHibernateRepositoryWithTypedId<,>))
+            builder.RegisterGeneric(typeof(NHibernateRepository<,>))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(NHibernateRepository<>))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(LinqRepositoryWithTypedId<,>))
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(LinqRepository<>))
+            builder.RegisterGeneric(typeof(LinqRepository<,>))
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
         }

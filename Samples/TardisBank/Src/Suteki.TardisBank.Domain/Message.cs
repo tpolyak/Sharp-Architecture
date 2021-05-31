@@ -4,7 +4,7 @@ namespace Suteki.TardisBank.Domain
 
     using SharpArch.Domain.DomainModel;
 
-    public class Message : Entity
+    public class Message : Entity<int>
     {
         public Message(DateTime date, string text, User user)
         {
@@ -24,9 +24,9 @@ namespace Suteki.TardisBank.Domain
         }
 
         public virtual DateTime Date { get; protected set; }
-        public virtual string Text { get; protected set; }
+        public virtual string? Text { get; protected set; }
 
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = null!;
 
         public virtual bool HasBeenRead { get; protected set; }
     }

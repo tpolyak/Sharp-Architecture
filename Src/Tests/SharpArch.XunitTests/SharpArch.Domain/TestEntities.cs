@@ -8,34 +8,34 @@ namespace Tests.SharpArch.Domain
 
 
     [HasUniqueDomainSignature]
-    public class Contractor : Entity
+    public class Contractor : Entity<int>
     {
         [DomainSignature]
-        public virtual string Name { get; set; }
+        public virtual string Name { get; set; } = null!;
     }
 
 
     [HasUniqueDomainSignature]
-    public class ObjectWithGuidId : EntityWithTypedId<Guid>
+    public class ObjectWithGuidId : Entity<Guid>
     {
         [DomainSignature]
-        public virtual string Name { get; set; }
+        public virtual string Name { get; set; } = null!;
     }
 
 
     [HasUniqueDomainSignature]
-    internal class ObjectWithStringIdAndValidatorForIntId : EntityWithTypedId<string>
+    internal class ObjectWithStringIdAndValidatorForIntId : Entity<string>
     {
         [DomainSignature]
-        public virtual string Name { get; set; }
+        public virtual string Name { get; set; } = null!;
     }
 
 
     [HasUniqueDomainSignature]
-    public class User : EntityWithTypedId<string>
+    public class User : Entity<string>
     {
         [DomainSignature]
-        public virtual string Ssn { get; set; }
+        public virtual string Ssn { get; set; } = null!;
 
         public User(string id, string ssn)
         {
@@ -49,32 +49,20 @@ namespace Tests.SharpArch.Domain
     }
 
 
-    internal class EntityWithNoDomainSignatureProperties : EntityWithTypedId<int>
+    internal class EntityWithNoDomainSignatureProperties : Entity<int>
     {
-        public virtual string Property1 { get; set; }
+        public virtual string Property1 { get; set; } = null!;
 
         public virtual int Property2 { get; set; }
     }
 
 
-    internal class EntityWithAllPropertiesPartOfDomainSignature : EntityWithTypedId<int>
+    internal class EntityWithAllPropertiesPartOfDomainSignature : Entity<int>
     {
         [DomainSignature]
-        public virtual string Property1 { get; set; }
+        public virtual string Property1 { get; set; } = null!;
 
         [DomainSignature]
-        public virtual int Property2 { get; set; }
-
-        [DomainSignature]
-        public virtual bool Property3 { get; set; }
-    }
-
-
-    internal class EntityWithSomePropertiesPartOfDomainSignature : EntityWithTypedId<int>
-    {
-        [DomainSignature]
-        public virtual string Property1 { get; set; }
-
         public virtual int Property2 { get; set; }
 
         [DomainSignature]
@@ -82,10 +70,22 @@ namespace Tests.SharpArch.Domain
     }
 
 
-    internal class EntityWithAnotherEntityAsPartOfDomainSignature : EntityWithTypedId<int>
+    internal class EntityWithSomePropertiesPartOfDomainSignature : Entity<int>
     {
         [DomainSignature]
-        public virtual string Property1 { get; set; }
+        public virtual string Property1 { get; set; } = null!;
+
+        public virtual int Property2 { get; set; }
+
+        [DomainSignature]
+        public virtual bool Property3 { get; set; }
+    }
+
+
+    internal class EntityWithAnotherEntityAsPartOfDomainSignature : Entity<int>
+    {
+        [DomainSignature]
+        public virtual string Property1 { get; set; } = null!;
 
         [DomainSignature]
         public virtual EntityWithAllPropertiesPartOfDomainSignature Property2 { get; set; }
@@ -98,53 +98,53 @@ namespace Tests.SharpArch.Domain
 
 
     [HasUniqueDomainSignature]
-    public class Song : Entity
+    public class Song : Entity<int>
     {
         [DomainSignature]
-        public virtual string SongTitle { get; set; }
+        public virtual string? SongTitle { get; set; }
 
         [DomainSignature]
-        public virtual Band Performer { get; set; }
+        public virtual Band? Performer { get; set; }
     }
 
 
     [HasUniqueDomainSignature(ErrorMessage = "Band already exists")]
-    public class Band : Entity
+    public class Band : Entity<int>
     {
         [DomainSignature]
         [Required]
-        public virtual string BandName { get; set; }
+        public virtual string BandName { get; set; } = null!;
 
         public virtual DateTime DateFormed { get; set; }
     }
 
 
     [HasUniqueDomainSignature(ErrorMessage = "Album already exists")]
-    public class Album : Entity
+    public class Album : Entity<int>
     {
         [DomainSignature]
         [Required]
-        public virtual string Title { get; set; }
+        public virtual string Title { get; set; } = null!;
 
-        public virtual Band Author { get; set; }
+        public virtual Band? Author { get; set; }
     }
 
 
     public class Address : ValueObject
     {
-        public virtual string StreetAddress { get; set; }
+        public virtual string? StreetAddress { get; set; }
 
-        public virtual string PostCode { get; set; }
+        public virtual string? PostCode { get; set; }
     }
 
 
     [HasUniqueDomainSignature]
-    public class Customer : Entity
+    public class Customer : Entity<int>
     {
         [DomainSignature]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
 
         [DomainSignature]
-        public virtual Address Address { get; set; }
+        public virtual Address? Address { get; set; }
     }
 }

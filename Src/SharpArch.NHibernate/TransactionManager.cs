@@ -1,4 +1,4 @@
-﻿namespace SharpArch.NHibernate
+﻿namespace SharpArch.NHibernate.Impl
 {
     using System;
     using System.Data;
@@ -21,7 +21,7 @@
         ///     Creates instance of transaction manager.
         /// </summary>
         /// <param name="session"></param>
-        public TransactionManager([NotNull] ISession session)
+        public TransactionManager(ISession session)
         {
             Session = session ?? throw new ArgumentNullException(nameof(session));
         }

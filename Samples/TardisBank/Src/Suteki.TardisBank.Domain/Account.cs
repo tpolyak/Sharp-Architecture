@@ -6,7 +6,7 @@ namespace Suteki.TardisBank.Domain
 
     using SharpArch.Domain.DomainModel;
 
-    public class Account : Entity
+    public class Account : Entity<int>
     {
         public const int MaxTransactions = 100;
         public virtual decimal OldTransactionsBalance { get; protected set; }
@@ -27,7 +27,7 @@ namespace Suteki.TardisBank.Domain
 
         public virtual IList<PaymentSchedule> PaymentSchedules { get; protected set; }
 
-        public virtual void AddTransaction(string description, decimal amount)
+        public virtual void AddTransaction(string? description, decimal amount)
         {
             this.Transactions.Add(new Transaction(description, amount, this));
 

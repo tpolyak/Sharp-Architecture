@@ -1,6 +1,7 @@
 ﻿namespace SharpArch.Domain.DomainModel
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using JetBrains.Annotations;
 
@@ -17,10 +18,9 @@
         /// <returns>Entity identifier or null for transient entities.</returns>
         /// <remarks>
         ///     Calling this method may result in boxing for entities with value type identifier.
-        ///     Use <see cref="IEntityWithTypedId{TId}" /> where possible.
+        ///     Use <see cref="IEntity{TId}" /> where possible.
         /// </remarks>
-        [CanBeNull]
-        object GetId();
+        object? GetId();
 
         /// <summary>
         ///     Returns the properties of the current object that make up the object's signature.
@@ -57,4 +57,22 @@
         /// </remarks>
         Type GetTypeUnproxied();
     }
+
+    /// <summary>
+    ///     This serves as a base interface for <see cref="Entity{TId}" />.
+    /// It also provides a simple means to develop your own base entity.
+    /// </summary>
+    [PublicAPI]
+    public interface IEntity<out TId>
+        where TId : IEquatable<TId>
+    {
+        /// <summary>
+        ///     Gets the ID which uniquely identifies the entity instance within its type's bounds.
+        /// </summary>
+#if NULLABLE_REFERENCE_TYPES
+        [AllowNull] [MaybeNull]
+#endif
+        TId Id { get; }
+    }
+
 }

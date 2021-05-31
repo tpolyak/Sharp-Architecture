@@ -1,6 +1,7 @@
 ﻿namespace SharpArch.Testing.NHibernate
 {
     using System;
+    using System.Data.Common;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -9,7 +10,7 @@
     using global::NHibernate;
     using global::NHibernate.Cfg;
     using global::NHibernate.Tool.hbm2ddl;
-    using Infrastructure.Caching;
+    using Infrastructure;
     using JetBrains.Annotations;
     using SharpArch.NHibernate;
     using SharpArch.NHibernate.FluentNHibernate;
@@ -27,8 +28,8 @@
     {
         readonly string _basePath;
         readonly Assembly[] _mappingAssemblies;
-        Configuration _configuration;
-        ISessionFactory _sessionFactory;
+        Configuration? _configuration;
+        ISessionFactory? _sessionFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="TestDatabaseSetup" /> class.
@@ -41,7 +42,7 @@
         ///     <paramref name="basePath" /> or <paramref name="mappingAssemblies" /> is
         ///     <c>null</c>.
         /// </exception>
-        public TestDatabaseSetup([NotNull] string basePath, [NotNull] Assembly[] mappingAssemblies)
+        public TestDatabaseSetup(string basePath, Assembly[] mappingAssemblies)
         {
             _basePath = basePath ?? throw new ArgumentNullException(nameof(basePath));
             if (mappingAssemblies == null) throw new ArgumentNullException(nameof(mappingAssemblies));
@@ -60,11 +61,27 @@
         ///     <paramref name="baseAssembly" /> or <paramref name="mappingAssemblies" /> is
         ///     <c>null</c>.
         /// </exception>
-        public TestDatabaseSetup([NotNull] Assembly baseAssembly, [NotNull] Assembly[] mappingAssemblies)
-            : this(DependencyList.GetAssemblyCodeBasePath(baseAssembly),
+        public TestDatabaseSetup(Assembly baseAssembly, Assembly[] mappingAssemblies)
+            : this(CodeBaseLocator.GetAssemblyCodeBasePath(baseAssembly),
                 mappingAssemblies)
         {
         }
+
+        /// <summary>
+        ///     Allows to apply custom configuration to new ISession.
+        /// </summary>
+        /// <remarks>
+        ///     Callback is executed by default implementation of <see cref="ConfigureSession" /> from <see cref="InitializeSession" />.
+        /// </remarks>
+        public Action<ISessionBuilder>? SessionConfigurator { get; set; }
+
+        /// <summary>
+        ///     Allows to apply custom configuration to new ISession.
+        /// </summary>
+        /// <remarks>
+        ///     Callback is executed by default implementation of <see cref="ConfigureSession" /> from <see cref="InitializeSession" />.
+        /// </remarks>
+        public Action<IStatelessSessionBuilder>? StatelessSessionConfigurator { get; set; }
 
         /// <summary>
         ///     Disposes SessionFactory.
@@ -93,7 +110,8 @@
         ///     allowed.
         /// </exception>
         /// <exception cref="TargetInvocationException">Unable to instantiate AutoPersistenceModelGenerator.</exception>
-        public static AutoPersistenceModel GenerateAutoPersistenceModel([NotNull] Assembly[] assemblies)
+        
+        public static AutoPersistenceModel GenerateAutoPersistenceModel(Assembly[] assemblies)
         {
             if (assemblies == null) throw new ArgumentNullException(nameof(assemblies));
             var persistenceGeneratorTypes = assemblies.SelectMany(a =>
@@ -119,7 +137,7 @@
                         ["Assemblies"] = assemblies
                     }
                 };
-            var generator = (IAutoPersistenceModelGenerator) Activator.CreateInstance(persistenceGeneratorTypes[0]);
+            var generator = (IAutoPersistenceModelGenerator) Activator.CreateInstance(persistenceGeneratorTypes[0])!;
             return generator.Generate();
         }
 
@@ -127,7 +145,7 @@
         ///     Returns NHibernate <see cref="Configuration" />.
         ///     Configuration instance is cached, all subsequent calls will return the same instance.
         /// </summary>
-        [NotNull]
+        
         public Configuration GetConfiguration()
         {
             if (_configuration != null) return _configuration;
@@ -163,39 +181,74 @@
         }
 
         /// <summary>
+        ///     Configures <see cref="ISession" /> before usage.
+        /// </summary>
+        /// <param name="sessionBuilder">Session builder.</param>
+        protected virtual ISessionBuilder ConfigureSession(ISessionBuilder sessionBuilder)
+        {
+            if (sessionBuilder == null) throw new ArgumentNullException(nameof(sessionBuilder));
+            SessionConfigurator?.Invoke(sessionBuilder);
+            return sessionBuilder;
+        }
+
+        /// <summary>
+        ///     Configures <see cref="IStatelessSession" /> before usage.
+        /// </summary>
+        /// <param name="statelessSessionBuilder">Session builder.</param>
+        protected virtual IStatelessSessionBuilder ConfigureStatelessSession(IStatelessSessionBuilder statelessSessionBuilder)
+        {
+            if (statelessSessionBuilder == null) throw new ArgumentNullException(nameof(statelessSessionBuilder));
+            StatelessSessionConfigurator?.Invoke(statelessSessionBuilder);
+            return statelessSessionBuilder;
+        }
+
+        /// <summary>
         ///     Returns NHibernate <see cref="ISessionFactory" />.
         ///     Session factory instance is cached, all subsequent calls to GetSessionFactory() will return the same instance.
         /// </summary>
-        [NotNull]
         public ISessionFactory GetSessionFactory()
         {
             if (_sessionFactory != null) return _sessionFactory;
             _sessionFactory = GetConfiguration().BuildSessionFactory();
-            return _sessionFactory;
+            return _sessionFactory!;
         }
 
         /// <summary>
         ///     Creates new NHibernate session and initializes database structure.
         /// </summary>
         /// <returns>NHibernate Session</returns>
-        [NotNull]
         public ISession InitializeSession()
         {
-            var session = GetSessionFactory().OpenSession();
+            var sessionBuilder = GetSessionFactory().WithOptions();
+            var session = ConfigureSession(sessionBuilder).OpenSession();
             var connection = session.Connection;
             new SchemaExport(_configuration).Execute(false, true, false, connection, null);
-
             return session;
+        }
+
+        /// <summary>
+        ///     Creates new NHibernate stateless session.
+        /// </summary>
+        /// <remarks>
+        ///     When testing using transient database, database structure should be created once per test.
+        ///     If stateless session is required, it should be created using connection opened by regular session, <see cref="InitializeSession" />.
+        /// </remarks>
+        /// <returns>NHibernate Session</returns>
+        public IStatelessSession CreateStatelessSessionForConnection(DbConnection connection)
+        {
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            var sessionBuilder = GetSessionFactory().WithStatelessOptions();
+            sessionBuilder.Connection(connection);
+            var statelessSession = ConfigureStatelessSession(sessionBuilder).OpenStatelessSession();
+            return statelessSession;
         }
 
         /// <summary>
         ///     Closes the specified session.
         /// </summary>
         /// <param name="session">The session.</param>
-        public static void Close([CanBeNull] ISession session)
-        {
-            session?.Dispose();
-        }
+        public static void Close(ISession? session)
+            => session?.Dispose();
 
         /// <summary>
         ///     Shutdowns the specified session factory.
@@ -204,33 +257,7 @@
         /// <remarks>
         ///     Dispose <see cref="TestDatabaseSetup" /> will destroy Session Factory associated with this instance.
         /// </remarks>
-        public static void Shutdown([CanBeNull] ISessionFactory sessionFactory)
-        {
-            sessionFactory?.Dispose();
-        }
-
-        /// <summary>
-        ///     Loads the assembly.
-        /// </summary>
-        /// <param name="assemblyPath"></param>
-        /// <returns></returns>
-        static Assembly TryLoadAssembly(string assemblyPath)
-        {
-            return Assembly.LoadFrom(assemblyPath);
-        }
-
-        /// <summary>
-        ///     Adds dll extension to assembly name if required.
-        /// </summary>
-        /// <param name="assemblyName">Name of the assembly.</param>
-        /// <returns></returns>
-        static string EnsureDllExtension(string assemblyName)
-        {
-            assemblyName = assemblyName.Trim();
-            const string dllExtension = ".dll";
-            if (!assemblyName.EndsWith(dllExtension, StringComparison.OrdinalIgnoreCase)) assemblyName = string.Concat(assemblyName, dllExtension);
-
-            return assemblyName;
-        }
+        public static void Shutdown(ISessionFactory? sessionFactory)
+            => sessionFactory?.Dispose();
     }
 }
