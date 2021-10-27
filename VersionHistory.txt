@@ -11,7 +11,6 @@ BREAKING:
 
 NEW FEATURES:
 * Add .NET 6 preview support
-  * [.NET 6] Temporary disable logging analyzers - https://github.com/NuGet/Home/issues/6279, https://github.com/dotnet/sdk/issues/18148.
 
 BUILD:
 * Move common dependencies and attributes to Directory.Build.props.
