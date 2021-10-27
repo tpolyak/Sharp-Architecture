@@ -19,9 +19,8 @@ issue-labels-include:
   - duplicate
   - enhancement
   - feature
+  - performance
   - sample
-  - question
-  - wontfix
 
 issue-labels-exclude:
   - 0 - Backlog
@@ -36,6 +35,7 @@ issue-labels-exclude:
   - ready
   - wontfix
   - pull-request
+  - core
 
 issue-labels-alias:
   - name: breaking-change
@@ -65,3 +65,6 @@ issue-labels-alias:
   - name: documentation
     header: Documentation updated
     plural: Documentation updates
+  - name: performance
+    header: Performance improvement
+    plural: Performance improvements
