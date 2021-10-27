@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <Compile Include="..\Common\AssemblyVersion.cs" Link="AssemblyVersion.cs" />
-    <Compile Include="..\Common\CommonAssemblyInfo.cs" Link="CommonAssemblyInfo.cs" />
     <Compile Include="..\Common\NHibernate\TestDatabaseSetup.cs" Link="NHibernate\TestDatabaseSetup.cs" />
   </ItemGroup>
 
@@ -18,12 +17,10 @@
   </ItemGroup>
 
   <ItemGroup Label="Common references">
-    <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Include="NUnit" Version="3.13.1" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
   </ItemGroup>
 
-  <ItemGroup Label="Common project references">
+  <ItemGroup Label="Project references">
     <ProjectReference Include="..\SharpArch.Domain\SharpArch.Domain.csproj" />
     <ProjectReference Include="..\SharpArch.Testing\SharpArch.Testing.csproj" />
     <ProjectReference Include="..\SharpArch.NHibernate\SharpArch.NHibernate.csproj" />

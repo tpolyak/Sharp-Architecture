@@ -1,11 +1,14 @@
 ﻿namespace SharpArch.Testing.NUnit.NHibernate
 {
     using System;
+#if NULLABLE_REFERENCE_TYPES
+    using System.Diagnostics.CodeAnalysis;
+#endif
     using global::NHibernate;
     using global::NUnit.Framework;
     using JetBrains.Annotations;
     using SharpArch.NHibernate;
-    using SharpArch.NHibernate.Impl;
+    using SharpArch.NHibernate.FluentNHibernate;
     using Testing.NHibernate;
 
 
@@ -26,6 +29,9 @@
         /// <summary>
         ///     Database initializer.
         /// </summary>
+#if NULLABLE_REFERENCE_TYPES
+        [MaybeNull]
+#endif
         protected TestDatabaseSetup DbInitializer { get; private set; } = null!;
 
         /// <summary>
@@ -53,7 +59,11 @@
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
+#if NULLABLE_REFERENCE_TYPES
             DbInitializer?.Dispose();
+#else
+            DbInitializer.Dispose();
+#endif
             DbInitializer = null!;
         }
 
@@ -100,7 +110,11 @@
         [SetUp]
         protected virtual void SetUp()
         {
+#if NULLABLE_REFERENCE_TYPES
+            TransactionManager = new TransactionManager(DbInitializer!.InitializeSession());
+#else
             TransactionManager = new TransactionManager(DbInitializer.InitializeSession());
+#endif
             LoadTestData();
         }
     }

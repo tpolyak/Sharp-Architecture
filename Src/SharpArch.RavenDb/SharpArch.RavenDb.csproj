@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <Compile Include="..\Common\AssemblyVersion.cs" Link="AssemblyVersion.cs" />
-    <Compile Include="..\Common\CommonAssemblyInfo.cs" Link="CommonAssemblyInfo.cs" />
   </ItemGroup>
 
   <PropertyGroup Label="Pack">
@@ -16,9 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.1.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Include="RavenDb.Client" Version="5.1.5" />
+    <PackageReference Include="RavenDb.Client" Version="5.2.3" />
   </ItemGroup>
    
   <ItemGroup>

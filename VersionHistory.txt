@@ -2,7 +2,28 @@
 vNext
 ========================
 
-S#arp 7.0.0
+8.0.0
+========================
+BREAKING:
+* Drop NetCoreApp 2.1 support.
+* NHibernate test setup will not search and execute IAutoPersistenceModelGenerator.
+*
+
+NEW FEATURES:
+* Add .NET 6 preview support
+
+BUILD:
+* Move common dependencies and attributes to Directory.Build.props.
+* Tests are executed on both Linux and Windows now.
+
+BUGS:
+* TestDatabaseSetup failure on Linux.
+
+PERFORMANCE:
+* Improved performance of ApplyTransactionFilterBase.GetTransactionAttribute.
+
+
+7.0.0
 ========================
 
 BREAKING:

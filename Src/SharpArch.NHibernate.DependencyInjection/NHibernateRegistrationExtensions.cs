@@ -3,7 +3,6 @@
     using System;
     using Domain.PersistenceSupport;
     using global::NHibernate;
-    using Impl;
     using Infrastructure.Logging;
     using JetBrains.Annotations;
     using Microsoft.Extensions.DependencyInjection;
@@ -56,7 +55,6 @@
             services.AddSingleton(sp =>
             {
                 var logger = GetLogger(sp);
-
                 logger.Debug?.Log("Building session factory...");
 
                 var sfBuilder = configureSessionFactory(sp);

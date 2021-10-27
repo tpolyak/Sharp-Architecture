@@ -1,12 +1,8 @@
 ﻿namespace TransactionAttribute.WebApi
 {
 
-#if NETCOREAPP3_1 || NET5_0
     using Microsoft.Extensions.Hosting;
     using Microsoft.AspNetCore.Hosting;
-#else
-    using Microsoft.AspNetCore.Hosting;
-#endif
     using System;
     using System.IO;
     using Autofac.Extensions.DependencyInjection;
