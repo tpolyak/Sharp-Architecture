@@ -19,7 +19,7 @@ environment:
 install:
   - ps: dotnet --info
   - ps: ./mssql-setup.ps1
-  - ps: ./dotnet-install.ps1 -Version 7.0.100-preview.4.22252.9 -InstallDir "C:\Program Files\dotnet"
+  - ps: ./dotnet-install.ps1 -Version 7.0.100-preview.5.22307.18 -InstallDir "C:\Program Files\dotnet"
   - ps: dotnet new tool-manifest
   - ps: dotnet tool install Cake.Tool --version 1.3.0
 
@@ -43,7 +43,7 @@ for:
 
   install:
     - sh: dotnet --info
-    - sh: sudo ./dotnet-install.sh -Version 7.0.100-preview.4.22252.9 -InstallDir /usr/share/dotnet/
+    - sh: sudo ./dotnet-install.sh -Version 7.0.100-preview.5.22307.18 -InstallDir /usr/share/dotnet/
     - sh: touch ./Src/Common/AssemblyVersion.cs
     - sh: dotnet new tool-manifest
 
