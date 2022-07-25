@@ -1,3 +1,560 @@
+========================
+vNext
+========================
+
+8.0.1
+========================
+* .NET 6 support (upgrade from RC to release)
+ 
+
+8.0.0
+========================
+BREAKING:
+* Drop NetCoreApp 2.1 support.
+* NHibernate test setup will not search and execute IAutoPersistenceModelGenerator.
+*
+
+NEW FEATURES:
+* Add .NET 6 preview support
+
+BUILD:
+* Move common dependencies and attributes to Directory.Build.props.
+* Tests are executed on both Linux and Windows now.
+
+BUGS:
+* TestDatabaseSetup failure on Linux.
+
+PERFORMANCE:
+* Improved performance of ApplyTransactionFilterBase.GetTransactionAttribute.
+
+
+7.0.0
+========================
+
+BREAKING:
+* Removed EntityWithTypedId<> replaced with Entity<>, removed old entity class. Fix: replace `Entity` with `Entity<int>`.
+* Renamed IAsyncRepository to IRepository.
+* Added IEquatable<TId> constraint on IEntity<TId>.
+* IRavenDbRepository.FindAllAsync now returns Task<TEntity[]>, not Task<IEnumerable<TEntity>>.
+* Removed IRavenDbRepository.Session.
+
+IMPROVEMENTS:
+* TransactionAttribute now implements Equitable<>
+
+S#arp 6.1.1
+========================
+
+FIXES:
+ * #245: Exception in DependencyList on .NET 5/Linux
+
+========================
+S#arp 6.1
+========================
+NEW FEATURES:
+* .NET 5 support.
+
+IMPROVEMENTS:
+* Debug information now published as a symbol package to reduce build time and space used.
+* Use tokens instead of credentials in build script.
+
+
+========================
+S#arp 6.0
+========================
+
+BREAKING CHANGES:
+* Removed HasUniqueDomainSignatureWithGuidIdAttribute.
+* Removed HasUniqueDomainSignatureWithStringIdAttribute.
+* Added IEquatable<TId> constraint on IEntityWithTypedId<TId>.
+* Removed synchronous methods from repositories.
+
+NEW FEATURES:
+* SharpArch.NHibernate.DependencyInjection package.
+* Asynchronous Transaction Manager.
+* ASP.NET Core 3 / NetStandard2.1 support.
+
+IMPROVEMENTS:
+* More control over NHibernate configuration.
+
+NEW FEATURES:
+* SharpArch.NHibernate.DependencyInjection package;
+* ASP.NET 3 / NetStandard2.1 support;
+
+
+========================
+S#arp 5.0
+========================
+
+BREAKING CHANGES:
+* NetStandard2.0 support.
+* Dropped Castle.Windsor integration for ASP.NET.
+* New package SharpArch.Testing extracted from SharpArch.Testing.NUnit.
+* SharpArch.NHibernate: NHibernateRepository.FindAll() now accepts IReadOnlyDictionary<> instead of IDictionary<>.
+* SharpArch.Testing.NUnit renamed to SharpArch.Testing.NUnit.NHibernate:
+  * ISession.FlushAndEvict moved to SharpArch.NHibernate;
+* Removed class SharpArch.Domain.FileCache;
+  * Binary serialization does not work for Type objects, see https://github.com/dotnet/corefx/issues/23213 - using FluentNHibernate for serialization
+  * TODO: introduce ISessionCache to support file and distributed caches (e.g. Redis)
+
+NEW MODULES
+* SharpArch.Testing.Xunit.NHibernate - xUnit test helper for NHibernate;
+  * TransitentDatabaseTests (RepositoryTestsBase) - base class for tests on transient database (in-memory SQLite database which is created
+    and initialized for every test);
+  * LiveDatabaseTests (DatabaseRepositoryTests) - run tests using shared database, every test runs in separate transaction, which is rolled back
+    after test execution completes.
+
+========================
+S#arp 4.0
+========================
+
+SharpArch.Web.Http.Castle
+ * [BREAKING] WindsorControllerExtensions renamed to WindsorHttpExtensions.
+ * [BREAKING] WindsorPropertyInjectionKernelExtensions replaced with internal SharpArch.Castle.Extensions.WindsorPropertyInjectionExtensions
+   (shared with SharpArch.Web.Mvc).
+
+SharpArch.Web.Mvc
+ * [BREAKING] WindsorExtensions renamed to WindsorMvcExtensions.
+ * [BREAKING] TransactionAttribute will commit Transaction in OnActionExecuted, not in OnResultExecuted().
+   Recommended approach to access database in Controller, not View.
+
+
+SharpArch.Testing.NUnit
+ * RepositoryTestsHelper refactored to TestDatabaseInitializer.
+
+BREAKING CHANGES:
+ * target platform changed to .NET 4.5.
+ * #124 removed Command/Query infrastructure
+ * Now uses C# 6.0 syntax.
+ * NHibernateSession replaced with ISession constructor injection.
+ * #145 Removed Design by Contract, TestSyntaxHelpers and CommonServiceLocator code and deoendencies.
+
+
+FIXES:
+ * #54 - NHibernate event listeners registered through xml gets removed.
+
+
+NEW FEATURES:
+ * ASP.NET MVC Filter property injection with Castle.
+ * WebAPI Filter property injection (for singleton dependencies only).
+
+
+SAMPLES:
+ * Samples are now part of main repository;
+
+
+INTERNALS:
+ * Builds moved to Appveyour;
+ * Use GitVersion (https://github.com/GitTools/GitVersion) to maintain SemVer;
+
+
+
+========================
+S#arp Architecture 2.1.0
+========================
+
+* #60: Updated dependencies
+
+------
+Castle.Core 3.2.2^
+Castle.Windsor 3.2.1^
+FluentNHibernate 1.4^
+NHibernate 3.3.3.4001^
+RavenDB.Client 2.5.2750^
+Iesi.Collections 3.3.3.4001^
+Newtonsoft.Json 5.0.8^
+Machine.Specifications 0.6.1^
+System.Data.SQLite 1.0.90^
+NUnit 2.6.3^
+Moq 4.2.1312.1622^
+------
+
+==================================================
+S#arp Architecture 2.1.0RC for Visual Studio 2010
+==================================================
+
+* #40: RavenDb support completed
+* #44: Add IRepository.Delete(id)
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
++ Castle.Core 3.1.0^
++ Castle.Windsor 3.1.0^
++ FluentNHibernate 1.3.0.733^
++ NHibernate 3.3.2.4000^
++ NewtonSoft.Json 4.5.11^
++ RavenDB.Client 2.0.2230+
++ NUnit 2.6.2^
+-------
+
+
+==================================================
+S#arp Architecture 2.0.3 for Visual Studio 2010
+==================================================
+
+Issues:
+* #42: Show the expected/requested TResult in the exception message (Thanks Joel Purra @joelpurra).
+* #41: Decorated the attribute classes with the AttributeUsageAttribute, to restrict usage of the attributes to their intended targets. (Thanks Sandor Drieënhuizen @sandord)
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
++ NHibernate 3.3^
++ FluentNHibernate 1.3.0.727
+
+-------
+
+
+==================================================
+S#arp Architecture 2.0.0 for Visual Studio 2010
+==================================================
+
+Changes:
+* Update solution structure and namespaces changed.
+	(SharpArch.Core => SharpArch.Domain)
+	(SharpArch.Data => SharpArch.Infrastructure)
+	(SharpArch.Web  => SharpArch.Web.Mvc)
+* Improved NuGet packaging.
+* CQRS with ICommandHandler, IHandles and DomainEvents and NHibernateQuery abstract class
+* Add ILinqRepository<> and query Specifications with implementation SharpArch.NHibernate.LinqRepository<>
+* NHibernate runs DataAnnotations validation before persisting.
+* EntityIdSetter and RepositoryTestsHelper moved to SharpArch.Testing.NUnit (Thanks Shatel)
+* Remove ILMerging, seperate SharpArch packages for different features.
+* Changes in the handling of NHibernateSessionFactory keys to allow for multi tenancy.
+
+Issues:
+* #36: HasUniqueDomainSignature overrides specified error message.
+* #35: ModelBinder does not bind child entities
+* #14: EntityDuplicateChecker does not check ValueObject properties with DomainSignature attribute
+* #26: Allow the Id field of a form model to be nullable (Thanks @ZekeLv)
+* #15: Explicit cast to Entity made on PreUpdate NHibernate listener
+* #31: Explicit cast to Entity made on PreInsert NHibernate listener (Thanks @MartinHornagold)
+
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
++ CastleWindsor 3.0^
++ NHibernate 3.2^
++ FluentNHibernate 1.3^
++ NewtonSoft.Json 4.0^
+
+-------
+
+==================================================
+S#arp Architecture 1.6.0 for Visual Studio 2008 and Visual Studio 2010
+==================================================
+
+New and exciting in this release:
+* Added Configuration Caching for NHibernate (thanks Dan - SonOfMofo)
+* Fluent NHibernate upgraded to 1.1.0.635. (thanks Seif)
+* Added jquery.Validate.js and MicrosoftMvcJQueryValidation.js to generated web project and added references to them in master page. (thanks Igor)
+* Generated CRUD forms enable client side validation. (thanks Igor)
+* Updated factory assembly qualifier .svc file for Northwind sample Wcf.Web
+* Updated invalid config sections in web.config for 2008 and 2010 templates
+* Added NHibernateValidatorClientProvider and NHibernateValidatorProvider (thanks Igor)
+* Added Parameter to rollback transaction when ModelState is invalid (thanks Inventti)
+* Updated model binder to deal correctly with binding empty string to GUID Id types
+* Updated the WcfSessionStorage class to automatically fall back to either a default (SimpleSessionStorage) or a session storage implementation of choice
+  whenever OperationContext.Current is null. This enables usage of NHibernate sessions in WCF host applications outside of WCF Operation methods without hassle.
+  whenever OperationContext.Current is null. This enables usage of NHibernate sessions in WCF host applications outside of WCF Operation methods without hassle.
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies)
++ FluentNhibernate.dll v1.1.0.635
+- FluentNHibernate.dll v1.0.0.636
+
+-------
+
+Required Upgrade Steps and Changes:
+
+Upgrading to S#arp Architecture 1.6 from 1.5.2 RTM requires the following steps:
+
+#) SharpArch:  Add the SharpArch.dll to your projects /lib and /tools/lib folders.
+
+#) SharpArch:  Add the FluentNHibernate.dll from the /bin to your /lib and /tools/lib folders.
+
+#) SharpArch:  Update the references in your project as needed
+
+==================================================
+S#arp Architecture 1.5.2 for Visual Studio 2008 and Visual Studio 2010
+==================================================
+
+New and exciting in this release:
+* Merged the SharpArch.* assemblies into a single assembly (SharpArch.dll)
+* Updated both VS 2008 and 2010 templates to reflect the use of the merged assembly
+* Updated SharpArch.build with custom script that allows the merging of the assemblies. Copys new merged assembly in to the root /bin folder.
+* Updated VS 2010 template to account for changes in T4 Toolbox. It is no longer neccessary to build the CrudScaffolding projects prior to their use. (thanks Igor)
+* Updated CRUD scaffolding (both normal and enterprise) to use Html.LabelFor, Html.TextBoxFor, and Html.ValidationMessageFor crud templates. (thanks Igor)
+* Updated Northwind sample to use merged assembly
+* Fixed issues with BuildUrlFromExpressionForAreas (thanks Dan)
+* Fixed issue with NHibernateSession.Init - it was possible to encounter a NullReferenceException. (thanks Dan)
+* Added new Build bat file. ClickToBuildAndMerge.bat will build the solution and then merge the assemblies into one.
+* Added Moq back to bin
+* Updated the VS templates to reflect the proper tools reference in the cs.proj files. VS 2008 is now 3.5 and VS 2010 is now 4.0.
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
++ SharpArch.dll
+- SharpArch.*.dll
+
+-------
+
+Required Upgrade Steps and Changes:
+
+Upgrading to S#arp Architecture 1.5.2 from 1.5 RTM requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects).  For reference, each of the following steps is prefixed with the dependency that that the upgrade step is associated with:
+
+#) SharpArch:  Remove the SharpArch.*.dll from your projects /lib and /tools folders.
+
+#) SharpArch:  Add the SharpArch.dll to your projects /lib and /tools folders.
+
+#) SharpArch:  Remove the references to SharpArch.*.dll from all of your projects.
+
+#) SharpArch:  Add reference to SharpArch.dll to the projects that need references to any SharpArch.*.dll
+
+
+==================================================
+S#arp Architecture 1.5 for Visual Studio 2008 and Visual Studio 2010
+==================================================
+
+New and exciting in this release:
+* Compatible with ASP.NET MVC 2.0 RTM
+* Compatible with both Visual Studio 2008 and 2010 (Separate Templates)
+* Upgraded dependencies including NHibernate 2.1.2.4, Fluent NHibernate 1.0.0.636, Castle.Core 1.2, Castle Windsor 2.1. See complete list below
+* Added Enterprise CRUD scaffolding (thanks Billy)
+* Updated CRUD scaffolding (both normal and enterprise) to make use of MVC Areas
+* Updated Northwind sample to MVC 2 and updated assemblies.
+* New SharpModelBinder.cs (thanks Michael Aird)
+* Updated target platform to x86 from Any so that the SQL lite tests will pass
+* Upgraded jQuery to 1.4.2
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
+^ ASP.NET MVC 2.0
+^ ASP.NET MVC 2.0 Futures
+^ Castle Windsor 2.1
+^ Fluent NHibernate 1.0.0.636 built against NHibernate 2.1.2
+^ jQuery 1.4.2
+* Json.NET 3.5 Beta 4
+* log4net 1.2.10.0
+* Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
+^ MvcContrib 2.0.36.0
+^ NHibernate 2.1.2.4000
+^ NHibernate.Linq 1.1.0.1001
+^ NHibernate.Validator 1.2.0.3001
+^ NUnit 2.5.0.9122 (Installer in /tools)
+^ Rhino.Mocks 3.6.0.0
+* System.Data.SQLite.DLL 1.0.60.0
+* T4 Toolbox 10.3 (Installer in /tools)
+
+-------
+
+Required Upgrade Steps and Changes:
+
+#) T4 Toolbox: Uninstall your current version and install the latest found in the /tools directory.
+
+#) Grab the latest dependencies from /bin and copy them to YourProject/lib and YourProject/tools/lib.  To make it easy to figure out which DLLs go into which folder, create a new project with the included VS Project Template and copy the DLLs out of the lib folders, respectively.
+
+#) Follow the instructions at http://www.asp.net/learn/whitepapers/aspnet-mvc2-upgrade-notes/ (skip steps 7 and 8) for upgrading your web project to an MVC 2 application.
+
+
+Upgrading to S#arp Architecture 1.5 RTM from 1.0 RTM requires a few steps to accommodate upgraded dependencies (steps also reflected in the Northwind sample project and VS generated projects).  For reference, each of the following steps is prefixed with the dependency that that the upgrade step is associated with:
+
+#) ASP.NET MVC:  If you have any previous versions of ASP.NET MVC 2 installed, you must uninstall them and optionally may install ASP.NET MVC 2.0
+
+#) T4 Toolbox:  Uninstall any previous version of T4 Toolbox and install T4 Toolbox 10.3 (installer found in /tools)
+
+#) T4 Toolbox:  Replace your version of CrudScaffolding with updated version from http://github.com/codai/Sharp-Architecture/tree/master/src/NorthwindSample/tools/CrudScaffolding/
+
+#) Enterprise Crud Scaffolding:  Create a new project from the updated templates and add the CrudScaffoldingForEnterpriseApps project located at /<New Project Name>/Tools/CrudScaffoldingForEnterpriseApp to your project. You will then need to create a folder named "schema" under the /db folder.
+
+#) SharpArch:  To easily update all the assembly references in your existing project, create a new project using the S#arp Architecture VS project template and copy the assemblies from /lib and /tools/lib to your project's respective folders (You could also copy them from the trunk's /bin folder, but using a generated project is simpler.)
+
+#) SharpArch:  Within YourProject.Web/Global.asax.cs, add AreaRegistration.RegisterAllAreas(); just above RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
+
+#) Castle:  Within YourProject.Tests/App.config, configure assemly redirects to reflect the following:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.0"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+
+#) Castle:  Within YourProject.Web/Web.config, configure assemly redirects to reflect the following:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.1.0.0"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+#) Areas:  	If you currently use areas, you will need to add an AreaRegistration file. The naming convention is <Area Name>AreaRegistration. To see an example file please go here:
+			http://github.com/codai/Sharp-Architecture/tree/master/src/NorthwindSample/app/Northwind.Web.Controllers/Organization/OrganizationAreaRegistration.cs
+
+			You will need to convert your YourProject.Web.Controllers/RouteRegistrar.cs to use normal MVC 2 Map Routes. If my existing file looks as such:
+
+			using System.Web.Mvc;
+			using System.Web.Routing;
+			using SharpArch.Web.Areas;
+
+			namespace MyProject.Web.Controllers
+			{
+				public class RouteRegistrar
+				{
+					public static void RegisterRoutesTo(RouteCollection routes)
+					{
+						routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+						routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+						routes.IgnoreRoute("{*xsd}", new { xsd = @"(.*/)?.xsd(/.*)?" });
+						routes.IgnoreRoute("{*css}", new { css = @"(.*/)?.css(/.*)?" });
+
+						routes.CreateArea("Administration/Scaffolding", "MyProject.Web.Controllers.Administration.Scaffolding",
+							routes.MapRoute(null, "Administration/Scaffolding/{controller}/{action}/{id}", new { action = "Index", id = "" })
+						);
+
+						routes.CreateArea("Administration", "MyProject.Web.Controllers.Administration",
+							routes.MapRoute(null, "Administration/FacilityOperations/{action}/{id}", new{ controller = "FacilityOperations", action = "Index", id = ""}),
+							routes.MapRoute(null, "Administration/{controller}/{action}/{id}", new { controller = "Administration", action = "Index", id = "" })
+						);
+
+						//Root Area
+						routes.CreateArea("Default", "MyProject.Web.Controllers",
+							routes.MapRoute(null, "Fax/Refax/{faxNumber}/{id}/{message}", new { controller="Fax", action="Refax", faxNumber = "", id = "", message = "" }),
+							routes.MapRoute("ScheduleGrid", "Schedule/Show/{encId}/{departmentId}", new { controller = "Schedule", action = "Show", encId="", departmentId="" }),
+							routes.MapRoute("SchedulePopUp", "Schedule/PopUp/{encId}/{departmentId}", new { controller = "Schedule", action = "PopUp", encId = "", departmentId = "" }),
+							routes.MapRoute(null, "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = "" })
+						);
+					}
+				}
+			}
+
+			It would look like this after my conversion:
+
+			using System.Web.Mvc;
+			using System.Web.Routing;
+			using SharpArch.Web.Areas;
+
+			namespace MyProject.Web.Controllers
+			{
+				public class RouteRegistrar
+				{
+					public static void RegisterRoutesTo(RouteCollection routes)
+					{
+						routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+						routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
+						routes.IgnoreRoute("{*xsd}", new { xsd = @"(.*/)?.xsd(/.*)?" });
+						routes.IgnoreRoute("{*css}", new { css = @"(.*/)?.css(/.*)?" });
+
+
+						routes.MapRoute(null, "Fax/Refax/{faxNumber}/{id}/{message}", new { controller="Fax", action="Refax", faxNumber = "", id = UrlParameter.Optional, message = "" });
+						routes.MapRoute("ScheduleGrid", "Schedule/Show/{encId}/{departmentId}", new { controller = "Schedule", action = "Show", encId=UrlParameter.Optional, departmentId=UrlParameter.Optional });
+						routes.MapRoute("SchedulePopUp", "Schedule/PopUp/{encId}/{departmentId}", new { controller = "Schedule", action = "PopUp", encId = UrlParameter.Optional, departmentId = UrlParameter.Optional });
+						routes.MapRoute(null, "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+					}
+				}
+			}
+
+-------
+
+Change Log
+
+Due to the amount of changes that occured with the conversion to MVC 2, an accurate record was not kept. This upgrade should be considered as volatile when upgrading a previous version. In most cases, there will be no issues,
+while others with large customized projects could encounter issues.
+
+==================================================
+S#arp Architecture 1.0 Q3 2009 for Visual Studio 2008
+==================================================
+
+New and exciting in this release:
+* Upgraded dependencies including NHibernate 2.1.1 GA, Fluent NHibernate 1.0 and NHibernate LINQ 1.0
+* New Many-to-Many convention added to VS project template (thanks John Ledger!)
+* New DB schema generation (as a unit test) added to VS project template (thanks indomitablehef!)
+* VS generated project now uses the HiLo algorithm for identity generation
+* S#arp Architecture is now HornGet compatible (http://preview.tinyurl.com/ydoolwh)
+* S#arp Architecture has moved to GitHub (http://github.com/codai/Sharp-Architecture)
+* The wiki documentation has gotten much more complete (http://wiki.sharparchitecture.net)
+* A contrib project, led by Tom Cabanski, is well underway (http://wiki.sharparchitecture.net/SharpArchContrib.ashx)
+* WCF support within S#arp Architecture has been deprecated...it's moving to Sharp Contrib
+
+-------
+
+Assembly Dependencies ("^" notes upgraded dependencies):
+* ASP.NET MVC 1.0
+* ASP.NET MVC 1.0 Futures
+^ Castle Windsor 2.0
+^ Fluent NHibernate 1.0.0.594 built with NHibernate 2.1.1 GA
+* jQuery 1.3.2
+^ Json.NET 3.5 Release 5
+* log4net 1.2.10.0
+* Microsoft.Practices.ServiceLocation 1.0 (aka, "Common Service Locator")
+^ MvcContrib 1.0.0.9
+^ NHibernate 2.1.1 GA
+^ NHibernate.Linq 1.0.0.4000 (rev 1101) built with NHibernate 2.1.1 GA
+^ NHibernate.Validator 1.2.0.2003 (rev 1101) built with NHibernate 2.1.1 GA
+^ NUnit NUnit-2.5.2.9222.msi (Installer in /tools)
+^ Rhino.Mocks 3.6
+* System.Data.SQLite.DLL 1.0.60.0
+* T4 Toolbox 9.5.20.1 (Installer in /tools - not upgraded to latest available)
+
+-------
+
+Required Upgrade Steps and Changes:
+
+#) Grab the latest dependencies from /bin and copy them to YourProject/lib and YourProject/tools/lib.  To make it easy to figure out which DLLs go into which folder, create a new project with the included VS Project Template and copy the DLLs out of the lib folders, respectively.
+
+#) Fluent NHibernate: Some breaking changes were introduced with the latest Fluent NHibernate.  With many kudos to Tom Cabanski, he has written three blog posts describing upgrade steps from 1.0 RTM and changes made to the code:
+	1) http://tomcabanski.spaces.live.com/blog/cns!E0D3617496209F45!124.entry
+	2) http://tomcabanski.spaces.live.com/blog/cns!E0D3617496209F45!125.entry
+	3) http://tomcabanski.spaces.live.com/blog/cns!E0D3617496209F45!166.entry
+
+#) NUnit: Install NUnit 2.5.2 using the installer found in /tools (optionally uninstalling previous versions)
+
+#) Castle: Within YourProject.Tests/App.config, you may drop the following assembly redirect if it exists:
+
+    <runtime>
+        <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+            <dependentAssembly>
+                <assemblyIdentity name="Castle.Windsor" publicKeyToken="407dd0808d44fbdc" culture="neutral"/>
+                <bindingRedirect oldVersion="0.0.0.0-65535.65535.65535.65535" newVersion="2.0.0.0"/>
+            </dependentAssembly>
+        </assemblyBinding>
+    </runtime>
+
+-------
+
+Change Log
+
+SharpArch.Core:
+* /PersistenceSupport/IDbContext.cs:  Modified BeginTransaction to return an IDisposable for use with the "using" statment. (Issue 17)
+
+SharpArch.Data:
+* /NHibernate/DbContext.cs:  Now returns the ITransaction as IDisposable for use with "using" statements. (Issue 17)
+* /NHibernate/NHibernateSession.cs:
+	- Modified ConfigureNHibernate() to allow configuration of NHibernate without a config file; allows you to use FNH exclusively. (Patch from Kyle)
+	- GetSessionFactoryFor() now returns null if the supplied factory key was not found; this would previously blow up.
+
+SharpArch.Tests:
+* /SharpArch.Data/NHibernateSessionTests.cs:  Added this set of tests to demonstrate how to initialize NHibernate with and without a config file.
+
+SharpArch.VsSharpArchTemplate
+* Added MvcContrib.FluentHtml to YourProject.Web along with namespace inclusion in its web.config
+* Removed WCF assemblies from VS generated project (these are moving to the Contrib project)
+* /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/PrimaryKeyConvention.cs:  Changed default Id generation to use the HiLo algorithm.  Requires a hibernate_unique_key table with a next_hi int column. (Issue 5)
+* /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/Conventions/ForeignKeyConvention.cs, HasManyToManyConvention.cs, ManyToManyTableNameConvention.cs:  Added classes to support Many-to-Many convention.
+* /SharpArchApplicationTemplate/SharpArchProject.Data/NHibernateMaps/AutoPersistenceModelGenerator.cs:  Modified GetConventions() to account for new Many-to-Many convention.
+* /SharpArchApplicationTemplate/SharpArchProject.Tests/SharpArchProject.Data/NHibernateMaps/MappingIntegrationTests.cs:  Added CanGenerateDatabaseSchema() test to output database schema SQL to console.
+
+SharpArch.Web:
+* /ModelBinder/EntityCollectionValueProviderResult.cs: Fixed problem with GUID Ids. (Issue 12)
+
 ----------------------------------------------
 ----------------------------------------------
 S#arp Architecture 1.0 RTM
@@ -72,7 +629,7 @@ Upgrading to S#arp Architecture 1.0 RTM from RC 2 requires a few steps to accomm
 #) NHibernate:  Within YourProject.Tests.YourProject.Data.NHibernateMaps.MappingIntegrationTests.cs, modify CanConfirmDatabaseMatchesMappings() to reflect the following:
     [Test]
     public void CanConfirmDatabaseMatchesMappings() {
-        IDictionary<string, IClassMetadata> allClassMetadata = 
+        IDictionary<string, IClassMetadata> allClassMetadata =
             NHibernateSession.SessionFactory.GetAllClassMetadata();
 
         foreach (KeyValuePair<string, IClassMetadata> entry in allClassMetadata) {
@@ -255,7 +812,7 @@ Upgrading to S#arp Architecture RC 2 from Beta (steps also reflected in the Nort
 	container.RegisterControllersByArea(typeof(HomeController).Assembly);
    to:
 	container.RegisterControllers(typeof(HomeController).Assembly);
-#) Within YourProject.Web/Global.asax.cs, modify the Init() to reflect the locking mechanism shown within 
+#) Within YourProject.Web/Global.asax.cs, modify the Init() to reflect the locking mechanism shown within
 #) Within YourProject.Tests/App.config, update the nunit assembly redirect to go to version 2.4.8.0
 #) Change calls to EntityIdSetter<>.SetIdOf() to EntityIdSetter.SetIdOf<>()
 #) Update your Site.master to provide an overwritable title and to account for a known bug in MVC RC 1, described at http://haacked.com/archive/2009/01/27/controls-collection-cannot-be-modified-issue-with-asp.net-mvc-rc1.aspx
@@ -294,7 +851,7 @@ CrudScaffolding Generator:
 	- Dropped GenerateGeneralCodeBehindAndDesignerForViewPage() and all calls to it
 	- Dropped all calls to GeneralCodeBehindTemplate and GeneralDesignerTemplate
 * Added /EntityScaffoldingDetails.tt to have a more expressive and complete means of generating entities
-* Replaced all use of namespaceHierarchy, domainObjectName, properties, and artifactsToGenerate with instance of entityScaffoldingDetails; e.g., 
+* Replaced all use of namespaceHierarchy, domainObjectName, properties, and artifactsToGenerate with instance of entityScaffoldingDetails; e.g.,
 	- Replaced parameter set "domainObjectName, properties, namespaceHierarchy" with "entityScaffoldingDetails"
 	- Replaced "domainObjectName" with "entityScaffoldingDetails.EntityName"
 	- Replaced "namespaceHierarchy" with "entityScaffoldingDetails.NamespaceHierarchy"
@@ -429,19 +986,19 @@ Northwind Solution
 * Modified solution structure to reflect the following
    /MyProject - Contains MyProject.sln
       /app - Contains the core project layers.
-         /MyProject.Core 
-         /MyProject.Data 
+         /MyProject.Core
+         /MyProject.Data
          /MyProject.Web
-         /MyProject.Web.Controllers 
-      /lib - Contains the solution items for the deployable application. 
-      /db - Contains database schema information; e.g., the result of scaffolding and/or NHibernate's schema export. 
-      /docs - Project documents. 
-      /logs - Output location for log files. 
-      /tests 
-         /MyProject.Tests 
-      /tools 
-         /build - Empty folder for housing build related stuff. 
-         /lib - Contains the solution items for the tests project and all other non-deployable assemblies. 
+         /MyProject.Web.Controllers
+      /lib - Contains the solution items for the deployable application.
+      /db - Contains database schema information; e.g., the result of scaffolding and/or NHibernate's schema export.
+      /docs - Project documents.
+      /logs - Output location for log files.
+      /tests
+         /MyProject.Tests
+      /tools
+         /build - Empty folder for housing build related stuff.
+         /lib - Contains the solution items for the tests project and all other non-deployable assemblies.
          /CrudScaffolding - Customizable CRUD, scaffolding generation code.
 * Modified solution to accommodate controller/view "areas"; the change were numerous and should be reviewed within the patch associated with http://code.google.com/p/sharp-architecture/issues/detail?id=27
 * Moved all employee related artifacts (controller, domain, views, etc.) under a namespace of "Organization" to show how areas are used
@@ -486,7 +1043,7 @@ Northwind.Web
 * Added a reference to Microsoft.Practices.ServiceLocation.dll
 * Default.aspx.cs:  Modified RewritePath to pass in false for the rebasePath parameter
 * Global.asax.cs: Added CommonServiceLocator support and removed implementation of IContainerAccessor (use CSL instead)
-* Northwind.Web.csproj:  Removed "{603c0e0b-db56-11dc- 
+* Northwind.Web.csproj:  Removed "{603c0e0b-db56-11dc-
 be95-000d561079b0};" from top to remove dependency on ASP.NET MVC being installed
 * web.config:  Changed relative path to log4net output file to reflect new solution structure; e.g., <file value="../../logs/Northwind.Web.log"/>
 * /CastleWindsor/CastleExtensions.cs:  Added extension to find interfaces for custom repositories
@@ -522,7 +1079,7 @@ Assembly Dependencies:
 
 -------
 
-Changes to /src:  
+Changes to /src:
 
 ** Search for "BREAKING CHANGE" below to find each of the breaking changes **
 

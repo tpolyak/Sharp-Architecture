@@ -1,0 +1,50 @@
+﻿@using Suteki.TardisBank.Web.Mvc
+@model Suteki.TardisBank.Web.Mvc.Models.News.NewsListModel
+
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+@if (Model.IsParent)
+{
+    <p>
+        @Html.ActionLink("Click here to edit news list", "Edit", "News")
+    </p>
+}
+
+<h2>Latest news</h2>
+
+<div class="row announcement-container">
+    <ul id="news" class="announcement-list"></ul>
+</div>
+
+<hr/>
+
+<div id="announcementDetails" class="row announcement-details">
+</div>
+
+@section scripts
+{
+    <script id="announcementContentTemplate" type="text/x-jsrender">
+        <h4>{{:~asLocalDate(date)}}: {{:title}}</h4>
+        <div class="row">
+            {{:content}}
+        </div>
+    </script>
+
+    <script id="announcementLinkTemplate" type="text/x-jsrender">
+        <li><a href='#' data-recId="{{:id}}">{{:~asLocalDate(date)}}: {{:title}}</a></li>
+    </script>
+
+    @Scripts.Render(BundleConfig.NewsScript)
+
+    <script type="text/javascript">
+
+        $(function() {
+            app.news.view.init('@Url.Action("Index", "Home")');
+            app.news.view.loadAnnouncements('@Url.Action("Get", "Announcements")');
+        });
+
+    </script>
+}
