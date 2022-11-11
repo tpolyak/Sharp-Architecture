@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tests.SharpArch.NHibernate</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SharpArch.XunitTests\SharpArch.Domain\TestEntities.cs" Link="TestEntities.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.116" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lib\SharpArch.Domain\SharpArch.Domain.csproj" />
+    <ProjectReference Include="..\..\Lib\SharpArch.NHibernate\SharpArch.NHibernate.csproj" />
+    <ProjectReference Include="..\..\Lib\SharpArch.Testing.NUnit\SharpArch.Testing.NUnit.csproj" />
+    <ProjectReference Include="..\..\Lib\SharpArch.Testing\SharpArch.Testing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="hibernate.cfg.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="sqlite-nhibernate-config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
