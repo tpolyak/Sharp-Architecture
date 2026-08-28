@@ -1,0 +1,11 @@
+﻿@model Suteki.TardisBank.Domain.Parent
+
+<ul id="menu">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li>@Html.ActionLink("News", "Index", "News")</li>
+    <li>@Html.ActionLink("My Messages (" + Model.Messages.Count(x => !x.HasBeenRead) + ")", "Messages", "User")</li>
+    <li>@Html.ActionLink("Children (" + Model.Children.Count + ")", "Index", "Child")</li>
+    <li>@Html.ActionLink("My Account", "Index", "Admin")</li>
+    <li>@Html.ActionLink("About", "About", "Home")</li>
+</ul>
+

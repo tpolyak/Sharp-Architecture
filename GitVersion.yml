@@ -1,0 +1,11 @@
+# assembly-file-versioning-scheme: MajorMinorPatch
+branches:
+  release:
+    mode: ContinuousDeployment
+    label: rc
+  develop:
+    mode: ContinuousDeployment
+    label: alpha
+ignore:
+  sha: []
+

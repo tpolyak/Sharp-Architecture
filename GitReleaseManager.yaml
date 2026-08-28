@@ -1,0 +1,70 @@
+create:
+  include-footer: true
+  footer-heading: Where to get it
+  footer-content: You can download this release from [GitHub](https://github.com/sharparchitecture/Sharp-Architecture/releases/{milestone})
+  footer-includes-milestone: true
+  milestone-replace-text: '{milestone}'
+# export:
+#   include-created-date-in-title: true | false
+#   created-date-string-format: MMMM dd, yyyy
+#   perform-regex-removal: true | false
+#   regex-text: '### Where to get it(\r\n)*You can .*\)'
+#   multiline-regex: true | false
+issue-labels-include:
+  - breaking-change
+  - bug
+  - build
+  - dependencies
+  - documentation
+  - duplicate
+  - enhancement
+  - feature
+  - performance
+  - sample
+
+issue-labels-exclude:
+  - 0 - Backlog
+  - 1 - Ready
+  - 2 - In Progress
+  - 3 - Done
+  - blocked
+  - invalid
+  - help-wanted
+  - no-response
+  - question
+  - ready
+  - wontfix
+  - pull-request
+  - core
+
+issue-labels-alias:
+  - name: breaking-change
+    header: Breaking Change
+    plural: Breaking Changes
+  - name: bug
+    header: Bug fixed
+    plural: Bugs fixed
+  - name: dependencies
+    header: Dependency upgraded
+    plural: Dependencies upgraded
+  - name: documentation
+    header:  Documentation
+    plural:  Documentation
+  - name: duplicate
+    header: Duplicate issue closed
+    plural: Duplicate issues closed
+  - name: enhancement
+    header: Enhancement
+    plural: Enhancements
+  - name: feature
+    header: New feature
+    plural: New features
+  - name: sample
+    header: Sample
+    plural: Samples
+  - name: documentation
+    header: Documentation updated
+    plural: Documentation updates
+  - name: performance
+    header: Performance improvement
+    plural: Performance improvements

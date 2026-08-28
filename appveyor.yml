@@ -1,0 +1,109 @@
+version: .{build}
+
+pull_requests:
+  do_not_increment_build_number: true
+
+nuget:
+  disable_publish_on_pr: true
+
+image:
+  - Ubuntu2404
+  - Visual Studio 2026
+
+environment:
+  CAKE_SETTINGS_SKIPVERIFICATION: true
+  CAKE_SETTINGS_SKIPPACKAGEVERSIONCHECK: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_TERMINAL_LOGGER: false
+  DOTNET_NOLOGO: true
+
+test: off
+
+matrix:
+  fast_finish: true
+
+for:
+
+ # Linux build
+-
+  matrix:
+    only:
+      - image: Ubuntu2404
+
+  clone_folder: ~/work/sharp-arch
+
+  install:
+    - sh: dotnet --info
+    - sh: touch ./Src/Common/AssemblyVersion.cs
+    - sh: dotnet new tool-manifest
+
+  build_script:
+    - sh: cd Src
+    - sh: dotnet build -c Release --tl:off
+    - sh: dotnet test --no-build --tl:off -c Release --filter "Category!=IntegrationTests&Category!=Functional" --test-adapter-path . --logger AppVeyor --verbosity quiet
+
+
+# Windows build
+-
+  matrix:
+    only:
+      - image: Visual Studio 2026
+
+  clone_folder: c:\work\sharp-arch
+
+  cache:
+    - c:\tmp\cake\tools -> build\*.cake, appveyor.yml
+
+  services:
+    - mssql2025
+
+  install:
+    - ps: dotnet --info
+    - ps: ./mssql-setup.ps1
+    - ps: dotnet tool install Cake.Tool --version 6.1.0 --global
+    - ps: New-Item -ItemType Directory -Force -Path C:\tools | Out-Null
+    - ps: Invoke-WebRequest -Uri "https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-windows.exe" -OutFile "C:\tools\coveralls-windows.exe"
+
+  build_script:
+      - ps: dotnet cake
+
+  environment:
+    COVERALLS_REPO_TOKEN:
+      secure: Yf2HHc4ObFerbXits621royUrbahaAPNsUHdvJVnl7y1tTG/chj5wXKDnk0V71aP
+    COVERALLS_REPORTER_EXE: C:\tools\coveralls-windows.exe
+    APPVEYOR_CACHE_ENTRY_ZIP_ARGS: -t7z -m0=lzma -mx=5 -ms=on
+    CAKE_PATHS_TOOLS: c:\tmp\cake\tools\
+    GITHUB_TOKEN:
+      secure: 21bpvob1W59q2H3tgdQ4c6pkZVzTTZTTWUNkkLJ/1bo2xY4K160RtHw08cBRsQOd
+
+  artifacts:
+    - path: artifacts/packages/*.nupkg
+      name: NuGet packages
+
+    - path: artifacts/packages/*.snupkg
+      name: NuGet symbol packages
+      type: NuGetPackage
+  #  - path: Drops/Inspections/CodeDuplicates.html
+  #    name: CodeDuplicates
+  #  - path: Drops/Inspections/CodeInspections.html
+  #    name: CodeInspections
+
+  deploy:
+    - provider: NuGet
+      name: Pre-release
+      api_key:
+        secure: fonSxFXVP3eX/9p8wKOSaQkUxeoqU3j2zpFbj9ZKVNgVwNPAQ4cYWR4s+ZVN0AlI
+      on:
+        branch:
+          - develop
+          - /release\/v.*/
+          - /releases?\/.*/
+          - /hotfix(?:es)?\/.*/
+
+    - provider: NuGet
+      name: Tagged release
+      api_key:
+        secure: fonSxFXVP3eX/9p8wKOSaQkUxeoqU3j2zpFbj9ZKVNgVwNPAQ4cYWR4s+ZVN0AlI
+      on:
+        appveyor_repo_tag: true
