@@ -1,1 +1,0 @@
-Folder containing build related assets.  None are provided with the Northwind project, but you'll likely have some associated with your own project.

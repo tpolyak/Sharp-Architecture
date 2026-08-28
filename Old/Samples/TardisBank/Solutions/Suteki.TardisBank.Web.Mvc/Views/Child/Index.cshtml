@@ -1,0 +1,27 @@
+﻿@model Suteki.TardisBank.Domain.Parent
+
+@{
+    Layout = "~/Views/Shared/SiteLayout.cshtml";
+}
+
+<h2>Your Childrens' Accounts</h2>
+
+@if(Model.Children.Count == 0){
+<p>Please click on the button below to create accounts for your children.</p>
+} else {
+<p>This is list of your childrens' accounts. To view the account, click 'View Account'.</p>
+}
+<hr />
+<table>
+@foreach(var child in Model.Children) {
+    <tr>
+        <td><strong>@child.Name</strong></td>
+        <td>@Html.ActionLink("View Account", "ParentView", "Account", new { id = child.Id }, null)</td>
+        <td>@Html.ActionLink("Delete", "DeleteChild", "Child", new { id = child.Id }, new { @class = "warning" })</td>
+    </tr>
+}
+</table>
+<br />
+<p>
+    @Html.ActionLink("Add A Child", "AddChild", "User")
+</p>

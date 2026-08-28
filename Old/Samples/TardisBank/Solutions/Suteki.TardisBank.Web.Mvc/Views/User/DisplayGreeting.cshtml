@@ -1,0 +1,8 @@
+﻿@model Suteki.TardisBank.Web.Mvc.Controllers.ViewModels.UserViewModel
+
+<span>@Model.UserName&nbsp;</span> 
+@if(Model.IsLoggedIn) {
+    @Html.ActionLink("Logout", "Logout")
+} else {
+    @Html.ActionLink("Login", "Login")
+}

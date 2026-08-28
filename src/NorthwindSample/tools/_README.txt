@@ -1,1 +1,0 @@
-Folder containing build artifacts, non-deployable dependencies, third party tools and code generators.

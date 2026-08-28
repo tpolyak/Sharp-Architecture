@@ -1,0 +1,11 @@
+namespace {{namespace}}
+{
+    using System;
+
+    /// <summary>
+    ///     {{name}} description.
+    /// </summary>
+    public interface {{name}}
+    {
+    }
+}

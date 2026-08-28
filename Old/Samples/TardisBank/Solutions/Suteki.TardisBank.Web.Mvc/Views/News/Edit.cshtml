@@ -1,0 +1,50 @@
+﻿@using Suteki.TardisBank.Web.Mvc
+@model dynamic
+
+@{
+    ViewBag.Title = "Edit news";
+}
+<h2>Edit news</h2>
+
+<fieldset>
+    <legend>Add Annoouncement</legend>
+    <div class="editor-label">Title</div>
+    <div class="editor-field">
+        <input type="text" id="announcementTitle" required="" />
+    </div>
+
+    <div class="editor-label">Contents</div>
+    <div class="editor-field">
+        <textarea id="announcementContent" required="" cols="60"></textarea> 
+    </div>
+</fieldset>
+
+<button id="addAnnouncement">Add new</button>
+<button id="deleteAnnouncement">Delete</button>
+<hr />
+<p id="status"></p>
+
+<h2>Published announcements</h2>
+<ul id="publishedAnnouncements">
+</ul>
+
+
+@section scripts
+{
+<script id="announcementLinkTemplate" type="text/x-jsrender">
+    <li>{{:~asLocalDate(date)}}: {{:title}} <a href="#" data-recId="{{:id}}" class="delete-link"><i class="fa fa-trash" title="Delete"></i></a></li>
+</script>
+
+    @Scripts.Render(BundleConfig.NewsScript)
+
+    <script type="text/javascript">
+
+        $(function () {
+            app.news.edit.init();
+            app.news.edit.loadAnnouncements();
+        });
+
+    </script>
+
+
+}
